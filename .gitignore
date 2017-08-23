@@ -19,3 +19,26 @@
 .byebug_history
 /public/packs
 /node_modules
+
+# Configuration files
+config/app_config.yml
+config/database.yml
+config/application.yml
+
+# RubyMine project files
+.idea
+
+# Textmate project files
+/*.tmproj
+
+Thumbs.db
+ehthumbs.db
+
+# Dev Machines
+.DS_Store
+*/.DS_Store
+
+# Ignore uploads
+/public/uploads/
+
+
