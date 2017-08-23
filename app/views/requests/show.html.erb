@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Project name:</strong>
+  <%= @request.project_name %>
+</p>
+
+<p>
+  <strong>Deadline:</strong>
+  <%= @request.deadline %>
+</p>
+
+<p>
+  <strong>Country:</strong>
+  <%= @request.country %>
+</p>
+
+<p>
+  <strong>City:</strong>
+  <%= @request.city %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @request.description %>
+</p>
+
+<p>
+  <strong>Budget:</strong>
+  <%= @request.budget %>
+</p>
+
+<%= link_to 'Edit', edit_request_path(@request) %> |
+<%= link_to 'Back', requests_path %>
