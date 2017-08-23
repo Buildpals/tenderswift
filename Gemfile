@@ -35,8 +35,14 @@ gem 'jbuilder', '~> 2.5'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
+# Jquery
+gem 'jquery-rails'
+
 # Use Bootstrap 4
 gem 'bootstrap', '~> 4.0.0.beta'
+
+# FontAwesom
+gem "font-awesome-rails"
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

@@ -1,37 +1,39 @@
-<p id="notice"><%= notice %></p>
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 ml-md-auto mr-md-auto">
+      <p id="notice"><%= notice %></p>
 
-<h1>Requests</h1>
+      <div class="card">
+        <h4 class="card-header text-center">
+          My Requests
+        </h4>
+        <div class="list-group list-group-flush">
+          <% @requests.each do |request| %>
+              <%= link_to request, class: 'list-group-item list-group-item-action flex-column align-items-start' do %>
+                  <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">
+                      <%= request.project_name %>
+                    </h5>
+                    <small class="text-muted">
+                      <% if request.deadline.past? %>
+                          <span class="badge badge-pill badge-success"><%= request.time_left_to_deadline %></span>
+                      <% else %>
+                          <span class="badge badge-pill badge-warning"><%= request.time_left_to_deadline %></span>
+                    <% end %>
+                    </small>
+                  </div>
+                  <small class="text-muted">
+                    <%= request.city %>,
+                    <%= request.country %>
+                  </small>
+              <% end %>
+          <% end %>
+        </div>
+        <div class="card-body text-center">
+          <%= link_to 'New Request', new_request_path,  class: 'card-link' %>
+        </div>
+      </div>
 
-<table>
-  <thead>
-    <tr>
-      <th>Project name</th>
-      <th>Deadline</th>
-      <th>Country</th>
-      <th>City</th>
-      <th>Description</th>
-      <th>Budget</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @requests.each do |request| %>
-      <tr>
-        <td><%= request.project_name %></td>
-        <td><%= request.deadline %></td>
-        <td><%= request.country %></td>
-        <td><%= request.city %></td>
-        <td><%= request.description %></td>
-        <td><%= request.budget %></td>
-        <td><%= link_to 'Show', request %></td>
-        <td><%= link_to 'Edit', edit_request_path(request) %></td>
-        <td><%= link_to 'Destroy', request, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<br>
-
-<%= link_to 'New Request', new_request_path %>
+    </div>
+  </div>
+</div>
