@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  resources :items
+  resources :sections
+  resources :pages
   resources :boqs
   resources :participants
   resources :requests

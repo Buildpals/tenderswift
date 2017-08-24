@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170824083740) do
+ActiveRecord::Schema.define(version: 20170824090725) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,6 +21,26 @@ ActiveRecord::Schema.define(version: 20170824083740) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["request_id"], name: "index_boqs_on_request_id"
+  end
+
+  create_table "items", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.string "rate"
+    t.string "quantity"
+    t.string "amount"
+    t.bigint "section_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["section_id"], name: "index_items_on_section_id"
+  end
+
+  create_table "pages", force: :cascade do |t|
+    t.string "name"
+    t.bigint "boq_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["boq_id"], name: "index_pages_on_boq_id"
   end
 
   create_table "participants", force: :cascade do |t|
@@ -46,6 +66,14 @@ ActiveRecord::Schema.define(version: 20170824083740) do
     t.string "budget"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "sections", force: :cascade do |t|
+    t.string "name"
+    t.bigint "page_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["page_id"], name: "index_sections_on_page_id"
   end
 
 end
