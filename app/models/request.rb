@@ -1,5 +1,7 @@
 class Request < ApplicationRecord
 
+    has_one :excel
+
     has_and_belongs_to_many :participants, join_table: :participants_requests
 
     validates :project_name, presence: true
