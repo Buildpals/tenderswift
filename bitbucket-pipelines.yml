@@ -12,6 +12,7 @@ pipelines:
           - bundler
         script: # Modify the commands below to build your repository.
           - bundle install
+          - bundle exec rspec -f -d
 
 definitions:
   caches:
