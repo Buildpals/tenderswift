@@ -10,4 +10,16 @@ RSpec.describe Request, type: :model do
       expect(request.boq).not_to be(nil)
     end
   end
+
+
+  describe "Reading Excel" do
+    it "forces number of excel sheets to equal the number of pages in boq" do
+      #pending "add forces number of excel sheets to equal the number of pages in boq #{__FILE__}"
+      #file = Creek::Book.new excel.document, remote: true
+      #no_of_worksheets = file.sheets.lenght
+      #boq = Request.read_excel()
+    end
+  end
+
+
 end
