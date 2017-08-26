@@ -1,0 +1,52 @@
+<li class="list-group-item flex-column align-items-start">
+  <div class="row">
+    <div class="form-group col-sm-6">
+      <label for="name">Project Name</label>
+      <input type="text" class="form-control" id="name"
+             placeholder="e.g. Construction of 2 story building"
+             v-model="request.name">
+      <p class="text-muted">
+        Example: Purchases of office supplies; Construction of sawmill;
+        Railroad engineering works;
+      </p>
+    </div>
+    <div class="form-group col-sm-6">
+      <div class="row">
+        <div class="col-sm-6">
+          <label for="deadline_date">Deadline</label>
+          <input type="date" class="form-control" id="deadline_date"
+                 v-model="request.deadline_date">
+        </div>
+        <div class="col-sm-6">
+          <label for="deadline_time">&nbsp;</label>
+          <input type="time" class="form-control" id="deadline_time"
+                 v-model="request.deadline_time">
+        </div>
+        <div class="col-sm-12">
+          <p class="text-muted">
+            Deadline for suppliers to submit their bids.
+            Timezone: Accra, Africa (UTC+00:00)
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group col-sm-6">
+      <label for="country">Country</label>
+      <input type="text" class="form-control" id="country"
+             v-model="request.country">
+    </div>
+
+    <div class="form-group col-sm-6">
+      <label for="city">City</label>
+      <input type="text" class="form-control" id="city"
+             v-model="request.city">
+    </div>
+
+    <div class="form-group col-sm-12">
+      <label for="description">Description</label>
+      <textarea id="description" class="form-control" rows="8"
+                v-model="request.description"></textarea>
+    </div>
+  </div>
+</li>

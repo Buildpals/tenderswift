@@ -1,6 +1,22 @@
-<h1>Editing Request</h1>
+<div class="container" id="app">
 
-<%= render 'form', request: @request %>
+  <div class="row">
+    <div class="col-md">
+      <nav class="nav">
+        <%= link_to 'Show', @request, class:'nav-link' %> |
+        <%= link_to 'Back', requests_path, class:'nav-link' %>
+      </nav>
+    </div>
+  </div>
 
-<%= link_to 'Show', @request %> |
-<%= link_to 'Back', requests_path %>
+  <div class="row">
+    <div class="col-md-8 ml-md-auto mr-md-auto">
+
+      <p id="notice"><%= notice %></p>
+
+      <%= render 'form', request: @request, title: 'Editing Request' %>
+
+    </div>
+  </div>
+
+</div>

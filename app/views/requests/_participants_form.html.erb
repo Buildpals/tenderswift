@@ -1,0 +1,49 @@
+<li class="list-group-item flex-column align-items-start">
+  <div class="d-flex w-100 justify-content-between">
+    <h5 class="mb-1">
+      Enter contacts of the participants
+    </h5>
+    <small class="text-muted">Saved</small>
+  </div>
+  <br>
+  <div class="form-row">
+    <div class="col-sm-5">
+      <input type="email" class="form-control" id="email" placeholder="email"
+             v-model="request.newParticipant.email">
+    </div>
+    <div class="col-sm-4">
+      <input type="phone" class="form-control" id="phone_number" placeholder="phone number"
+             v-model="request.newParticipant.phoneNumber">
+    </div>
+    <div class="col-sm-2">
+      <button class="btn btn-light" type="button"
+              v-on:click="addParticipant(request, request.newParticipant)">Add participant
+      </button>
+    </div>
+  </div>
+  <!--<br>-->
+  <!--<div class="d-flex w-100 justify-content-between">-->
+    <!--<h5 class="mb-1">-->
+      <!--Participants-->
+    <!--</h5>-->
+    <!--<small class="text-muted">Saved</small>-->
+  <!--</div>-->
+</li>
+<!--<li class="list-group-item flex-column align-items-start">-->
+  <!--<div class="d-flex w-100 justify-content-between">-->
+    <!--<h5 class="mb-1">-->
+      <!--Participants-->
+    <!--</h5>-->
+    <!--<small class="text-muted">Saved</small>-->
+  <!--</div>-->
+<!--</li>-->
+<li class="list-group-item flex-column align-items-start" v-for="participant in request.participants">
+  <i class="fa fa-close fa-fw" aria-hidden="true"></i>&nbsp;
+  ohara.invent@gmail.com
+  -
+  0500011505
+</li>
+<li class="list-group-item flex-column align-items-start">
+  <a href="#" class="card-link">Delete All</a>
+</li>
+

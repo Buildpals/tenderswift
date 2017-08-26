@@ -1,47 +1,32 @@
 <%= form_with(model: request, local: true) do |form| %>
-  <% if request.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(request.errors.count, "error") %> prohibited this request from being saved:</h2>
+    <div class="card">
+      <h4 class="card-header text-center">
+        <%= title %>
+      </h4>
 
-      <ul>
-      <% request.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
+      <% if request.errors.any? %>
+          <div id="error_explanation">
+            <h2><%= pluralize(request.errors.count, "error") %> prohibited this request from being saved:</h2>
+
+            <ul>
+              <% request.errors.full_messages.each do |message| %>
+                  <li><%= message %></li>
+              <% end %>
+            </ul>
+          </div>
       <% end %>
+
+      <ul class="list-group list-group-flush">
+        <%= render 'general_information_form' %>
+        <%= render 'documents_form' %>
+        <%= render 'bill_of_quantities_form' %>
+        <%= render 'questionnaire_form' %>
+        <%= render 'participants_form' %>
       </ul>
+      <div class="card-body d-flex justify-content-end">
+        <a href="#" class="card-link btn btn-primary">Save</a>
+      </div>
     </div>
-  <% end %>
 
-  <div class="field">
-    <%= form.label :project_name %>
-    <%= form.text_field :project_name, id: :request_project_name %>
-  </div>
-
-  <div class="field">
-    <%= form.label :deadline %>
-    <%= form.datetime_select :deadline, id: :request_deadline %>
-  </div>
-
-  <div class="field">
-    <%= form.label :country %>
-    <%= form.text_field :country, id: :request_country %>
-  </div>
-
-  <div class="field">
-    <%= form.label :city %>
-    <%= form.text_field :city, id: :request_city %>
-  </div>
-
-  <div class="field">
-    <%= form.label :description %>
-    <%= form.text_field :description, id: :request_description %>
-  </div>
-
-  <div class="field">
-    <%= form.label :budget %>
-    <%= form.text_field :budget, id: :request_budget %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit %>
-  </div>
 <% end %>
+

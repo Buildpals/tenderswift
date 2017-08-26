@@ -1,0 +1,88 @@
+<div class="message-board mb-4">
+  <ul class="nav nav-tabs" id="messageBoardTabs" role="tablist">
+    <li class="nav-item">
+      <a class="nav-link active" href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Messages</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#change_logs" aria-controls="change_logs" role="tab" data-toggle="tab">Change Logs</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#access_logs" aria-controls="access_logs" role="tab" data-toggle="tab">Access Logs</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#all" aria-controls="all" role="tab" data-toggle="tab">All</a>
+    </li>
+  </ul>
+  <div class="tab-content pt-3" id="messageBoardContents">
+    <div class="tab-pane fade show active" role="tabpanel" id="messages" aria-labelledby="home-tab">
+      <div class="row">
+        <div class="col-md-12 text-center">
+          <button class="btn btn-sm btn-light">POST NEW MESSAGE</button>
+        </div>
+      </div>
+
+      <br>
+
+      <message v-for="message in filteredMessages(request.messages, 'correspondence')"
+               v-bind:message="message" key="message.id"></message>
+    </div>
+    <div class="tab-pane fade" role="tabpanel" id="change_logs" aria-labelledby="home-tab">
+      <message v-for="message in filteredMessages(request.messages, 'correspondence')"
+               v-bind:message="message" key="message.id"></message>
+    </div>
+    <div class="tab-pane fade" role="tabpanel" id="access_logs" aria-labelledby="home-tab">
+      <message v-for="message in filteredMessages(request.messages, 'correspondence')"
+               v-bind:message="message" key="message.id"></message>
+    </div>
+    <div class="tab-pane fade" role="tabpanel" id="all" aria-labelledby="home-tab">
+      <message v-for="message in filteredMessages(request.messages, 'correspondence')"
+               v-bind:message="message" key="message.id"></message>
+    </div>
+  </div>
+</div>
+
+
+<script type="text/x-template" id="message-template">
+  <div class="panel panel-primary message" v-bind:class="{ 'panel-danger': message.to === 'all' }">
+    <div class="panel-heading" style="padding: 5px;">
+      <h4 class="panel-title" v-if="message.to === 'me'">
+        <span class="fa fa-arrow-left"></span>
+        {{message.from}}
+        <small class="float-right">
+          <span class="fa fa-time"></span>
+          Aug 14, 2017 08:28
+        </small>
+      </h4>
+      <h4 class="panel-title" v-else-if="message.to === 'all'">
+        <span class="fa fa-bullhorn"></span>
+        All contractors
+        <small class="float-right">
+          <span class="fa fa-time"></span>
+          Aug 14, 2017 08:28
+        </small>
+      </h4>
+      <h4 class="panel-title" v-else>
+        <span class="fa fa-arrow-left"></span>
+        {{message.to}}
+        <small class="float-right">
+          <span class="fa fa-time"></span>
+          Aug 14, 2017 08:28
+        </small>
+      </h4>
+    </div>
+    <div class="panel-body">
+      <p>{{message.content}}</p>
+      <div class="controls float-right" v-if="message.to == 'me'">
+        <button class="btn btn-xs btn-light">Mark as unread</button>
+        <button class="btn btn-xs btn-light">
+          <span class="fa fa-share-alt"></span>
+          reply
+        </button>
+      </div>
+    </div>
+  </div>
+
+  </div>
+  </div>
+  </div>
+</script>

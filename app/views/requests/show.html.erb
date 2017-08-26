@@ -1,34 +1,15 @@
-<p id="notice"><%= notice %></p>
+<div class="container">
+  <div class="row">
+    <div class="col-md-8 mx-auto">
 
-<p>
-  <strong>Project name:</strong>
-  <%= @request.project_name %>
-</p>
+      <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Deadline:</strong>
-  <%= @request.deadline %>
-</p>
+      <%= render 'request_status_summary' %>
 
-<p>
-  <strong>Country:</strong>
-  <%= @request.country %>
-</p>
+      <%= render 'request_status_detail' %>
 
-<p>
-  <strong>City:</strong>
-  <%= @request.city %>
-</p>
+      <%= render 'message_board' %>
 
-<p>
-  <strong>Description:</strong>
-  <%= @request.description %>
-</p>
-
-<p>
-  <strong>Budget:</strong>
-  <%= @request.budget %>
-</p>
-
-<%= link_to 'Edit', edit_request_path(@request) %> |
-<%= link_to 'Back', requests_path %>
+    </div>
+  </div>
+</div>

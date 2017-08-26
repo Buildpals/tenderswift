@@ -1,0 +1,31 @@
+<dl class="row">
+
+  <dt class="col-sm-3">Published</dt>
+  <dd class="col-sm-9 mb-4">
+    Aug 15, 2017 09:19
+    <small>(UTC+00:00)</small>
+  </dd>
+
+  <dt class="col-sm-3">Due date</dt>
+  <dd class="col-sm-9 mb-4">Aug 25, 2017 20:00
+    <small>(UTC+00:00)</small>
+  </dd>
+
+  <dt class="col-sm-3 text-truncate">Description</dt>
+  <dd class="col-sm-9 mb-4">
+    <%= @request.description %>
+  </dd>
+
+  <dt class="col-sm-3 text-truncate">Expected budget</dt>
+  <dd class="col-sm-9 mb-4">
+    <input type="text" class="form-control" v-model="request.expected_budget">
+  </dd>
+
+  <dt class="col-sm-3 text-truncate">Buyer comments</dt>
+  <dd class="col-sm-9 mb-4">
+    <textarea class="form-control" name="comments" id="comments" rows="10"
+              v-model="request.buyer_comments">
+    </textarea>
+  </dd>
+
+</dl>
