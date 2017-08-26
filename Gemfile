@@ -36,6 +36,7 @@ gem 'carrierwave', '~> 1.0'
 
 gem 'cloudinary'
 
+gem 'creek'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 

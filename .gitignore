@@ -41,4 +41,8 @@ ehthumbs.db
 # Ignore uploads
 /public/uploads/
 
+# Documentations
+.yardoc/
+/doc/*
+
 
