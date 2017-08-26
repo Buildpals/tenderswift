@@ -1,14 +1,22 @@
-<div class="container">
+<div class="container" id="app">
   <div class="row">
-    <div class="col-md-8 mx-auto">
+    <div class="col-lg-8 mx-auto">
 
       <p id="notice"><%= notice %></p>
 
-      <%= render 'request_status_summary' %>
+      <% if @request.submitted? %>
 
-      <%= render 'request_status_detail' %>
+          <%= render 'request_status_summary' %>
 
-      <%= render 'message_board' %>
+          <%= render 'request_status_detail' %>
+
+          <%= render 'message_board' %>
+
+      <% else %>
+
+          <%= render 'form', request: @request, title: 'Editing Request' %>
+
+      <% end %>
 
     </div>
   </div>

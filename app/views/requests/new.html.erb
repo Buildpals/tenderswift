@@ -1,21 +1,23 @@
 <div class="container" id="app">
 
-  <div class="row">
-    <div class="col-md">
-      <nav class="nav">
-        <%= link_to 'Back', requests_path, class:'nav-link' %>
-      </nav>
+  <app>
+    <div class="row">
+      <div class="col-md">
+        <nav class="nav">
+          <%= link_to 'Back', requests_path, class:'nav-link' %>
+        </nav>
+      </div>
     </div>
-  </div>
 
-  <div class="row">
-    <div class="col-md-8 ml-md-auto mr-md-auto">
+    <div class="row">
+      <div class="col-md-8 ml-md-auto mr-md-auto">
 
-      <p id="notice"><%= notice %></p>
+        <p id="notice"><%= notice %></p>
 
-      <%= render 'form', request: @request, title: 'New Request' %>
+        <%= render 'form', request: @request, title: 'New Request' %>
 
+      </div>
     </div>
-  </div>
+  </app>
 
 </div>

@@ -21,12 +21,18 @@
         <%= render 'documents_form' %>
         <%= render 'bill_of_quantities_form' %>
         <%= render 'questionnaire_form' %>
-        <%= render 'participants_form' %>
+        <!--<%= render 'participants_form' %>-->
       </ul>
-      <div class="card-body d-flex justify-content-end">
-        <a href="#" class="card-link btn btn-primary">Save</a>
+      <div class="card-body d-flex w-100 justify-content-between">
+        <a href="#" class="card-link btn btn-lg btn-block btn-light">Preview</a>
+        <a href="#" class="card-link btn btn-lg btn-block btn-light">Save</a>
+        <a href="#" class="card-link btn btn-lg btn-block btn-success">Submit</a>
       </div>
     </div>
 
 <% end %>
 
+
+
+<pre class="mb-4">{{ request }}</pre>
+<pre class="mb-4">{{ error }}</pre>

@@ -14,7 +14,8 @@ class RequestsController < ApplicationController
 
   # GET /requests/new
   def new
-    @request = Request.new
+    @request = Request.create(project_name: '[Untitled request]')
+    redirect_to @request
   end
 
   # GET /requests/1/edit

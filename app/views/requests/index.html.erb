@@ -15,11 +15,13 @@
                       <%= request.project_name %>
                     </h5>
                     <small class="text-muted">
+                      <% if request.deadline %>
                       <% if request.deadline.past? %>
                           <span class="badge badge-pill badge-success"><%= request.time_left_to_deadline %></span>
                       <% else %>
                           <span class="badge badge-pill badge-warning"><%= request.time_left_to_deadline %></span>
-                    <% end %>
+                      <% end %>
+                      <% end %>
                     </small>
                   </div>
                   <small class="text-muted">
