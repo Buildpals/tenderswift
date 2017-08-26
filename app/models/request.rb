@@ -31,7 +31,7 @@ class Request < ApplicationRecord
     # An instace of BOQ
     #
 
-    def read_excel(excel, request)
+    def self.read_excel(excel, request)
       file = Creek::Book.new excel.document, remote: true
       worksheets = file.sheets
       boq = Boq.new(request.name)
