@@ -1,7 +1,6 @@
 $(document).on("turbolinks:load", function () {
     if ($(".requests.show").length === 0) return;
 
-
     Vue.component('message', {
         template: '#message-template',
         props: [ 'message' ]
@@ -149,12 +148,16 @@ $(document).on("turbolinks:load", function () {
         },
         mounted: function () {
             var self = this;
+            var requestId = $('#app').data('request_id');
             $.ajax({
-                url: '/requests/2.json',
+                url: '/requests/'+ requestId + '.json',
                 method: 'GET',
                 success: function (data) {
                     console.log(data);
                     self.request = data;
+                    var textarea = $('textarea#description');
+                    autosize(textarea);
+                    autosize.update(textarea);
                 },
                 error: function (error) {
                     console.log(error);

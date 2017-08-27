@@ -3,7 +3,7 @@ class Request < ApplicationRecord
 
     has_one :excel, dependent: :destroy
 
-    has_one :boq, dependent: :destroy, autosave: truehas_and_belongs_to_many :participants, join_table: :participants_requests, dependent: :destroy
+    has_one :boq, dependent: :destroy, autosave: true
 
     has_and_belongs_to_many :participants, join_table: :participants_requests, dependent: :destroy
 
