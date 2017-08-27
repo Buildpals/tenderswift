@@ -1,10 +1,12 @@
-<li class="list-group-item flex-column align-items-start">
+<div class="card-body">
+  <!--<h4 class="card-title">Project Name</h4>-->
+  <!--<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
   <div class="row">
     <div class="form-group col-sm-6">
       <label for="name">Project Name</label>
       <input type="text" class="form-control" id="name"
              placeholder="e.g. Construction of 2 story building"
-             v-model="request.project_name">
+             v-model="request.project_name" v-on:blur="saveRequest(request)">
       <p class="text-muted">
         Example: Purchases of office supplies; Construction of sawmill;
         Railroad engineering works;
@@ -12,15 +14,10 @@
     </div>
     <div class="form-group col-sm-6">
       <div class="row">
-        <div class="col-sm-6">
+        <div class="col-sm-12">
           <label for="deadline_date">Deadline</label>
-          <input type="date" class="form-control" id="deadline_date"
-                 v-model="request.deadline_date">
-        </div>
-        <div class="col-sm-6">
-          <label for="deadline_time">&nbsp;</label>
-          <input type="time" class="form-control" id="deadline_time"
-                 v-model="request.deadline_time">
+          <input type="datetime-local" class="form-control" id="deadline_date"
+                 v-model="request.deadline" v-on:blur="saveRequest(request)">
         </div>
         <div class="col-sm-12">
           <p class="text-muted">
@@ -34,19 +31,19 @@
     <div class="form-group col-sm-6">
       <label for="country">Country</label>
       <input type="text" class="form-control" id="country"
-             v-model="request.country">
+             v-model="request.country" v-on:blur="saveRequest(request)">
     </div>
 
     <div class="form-group col-sm-6">
       <label for="city">City</label>
       <input type="text" class="form-control" id="city"
-             v-model="request.city">
+             v-model="request.city" v-on:blur="saveRequest(request)">
     </div>
 
     <div class="form-group col-sm-12">
       <label for="description">Description</label>
       <textarea id="description" class="form-control" rows="3"
-                v-model="request.description"></textarea>
+                v-model="request.description" v-on:blur="saveRequest(request)"></textarea>
     </div>
   </div>
-</li>
+</div>

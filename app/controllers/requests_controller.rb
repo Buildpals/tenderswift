@@ -14,7 +14,7 @@ class RequestsController < ApplicationController
 
   # GET /requests/new
   def new
-    @request = Request.create(project_name: '[Untitled request]')
+    @request = Request.create(project_name: '[Untitled request]', deadline: Time.current + 7.days)
     redirect_to @request
   end
 
@@ -63,13 +63,14 @@ class RequestsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_request
-      @request = Request.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def request_params
-      params.require(:request).permit(:project_name, :deadline, :country, :city, :description, :budget)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_request
+    @request = Request.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def request_params
+    params.require(:request).permit(:project_name, :deadline, :country, :city, :description, :budget)
+  end
 end

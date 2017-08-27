@@ -11,14 +11,6 @@ class Request < ApplicationRecord
 
     validates :deadline, presence: true
 
-    validates :country, presence: true
-
-    validates :city, presence: true
-
-    validates :description, presence: true
-
-    validates :budget, presence: true
-
   def time_left_to_deadline
     if deadline.past?
       'ended'
