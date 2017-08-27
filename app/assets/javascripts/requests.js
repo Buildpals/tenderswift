@@ -6,13 +6,14 @@ $(document).on("turbolinks:load", function () {
         props: ['message']
     });
 
-    var vm = new Vue({
+    window.app = new Vue({
         components: {
             message: 'message'
         },
         el: '#app',
         data: {
             request: {},
+            newParticipant: {},
             error: {},
             showSavingSpinner: false
         },
@@ -24,7 +25,7 @@ $(document).on("turbolinks:load", function () {
                 method: 'GET',
                 success: function (data) {
                     console.log(data);
-                    self.request = data;
+                    self.request = { data };
                     var textarea = $('textarea#description');
                     autosize(textarea);
                     autosize.update(textarea);
@@ -36,38 +37,40 @@ $(document).on("turbolinks:load", function () {
             });
         },
         methods: {
-            saveRequest: function (request) {
-                console.log("Saving request", request);
-                console.log(self.showSavingSpinner);
-                self.showSavingSpinner = true;
-
-                $.ajax({
-                    url: "/requests/" + request.id + ".json",
-                    method: 'PUT',
-                    data: {
-                        authenticity_token: window._token,
-                        request: request
-                    },
-                    success: function (data) {
-                        console.log("Request updated", data);
-                        self.showSavingSpinner = false;
-                    },
-                    error: function (error) {
-                        console.error(error);
-                        self.error = error;
-                        self.showSavingSpinner = false;
-                    }
-                });
-            },
-            filteredMessages: function (messages, filterVariable) {
-                return messages;
+            saveRequest: function () {
+                console.log("Saving request...");
+                $('#spinner').show();
+                $("#request-form").trigger('submit.rails');
             },
             addParticipant: function (request, participant) {
-                if (!participant.email && !participant.phoneNumber) return;
+                if (!participant.email && !participant.phone_number) return;
+
                 console.log("Adding participant", participant);
-                request.participants.unshift({email: participant.email, phoneNumber: participant.phoneNumber});
-                request.newParticipant.email = "";
-                request.newParticipant.phoneNumber = "";
+                $('#spinner').show();
+
+                $.ajax({
+                    url: '/participants.json',
+                    method: 'POST',
+                    data: {
+                        participant: {
+                            email: participant.email,
+                            phone_number: participant.phone_number,
+                            request_id: request.id
+                        }
+                    },
+                    success: function (data) {
+                        console.log(data);
+
+                        request.participants.unshift(data);
+
+                        participant.email = "";
+                        participant.phone_number = "";
+                    },
+                    error: function (error) {
+                        console.log(error);
+                        self.error = error;
+                    }
+                });
             },
             removeParticipant: function (participants, participant) {
                 console.log("Removing participant", participant);
@@ -75,95 +78,6 @@ $(document).on("turbolinks:load", function () {
                 if (index > -1) {
                     participants.splice(index, 1);
                 }
-            },
-
-            addPage: function (billOfQuantities) {
-                console.log("Adding new page");
-                var emptyPage = {
-                    title: 'Sheet1',
-                    sections: [
-                        {
-                            sectionName: 'Section1',
-                            items: [
-                                {item: "", description: "", unit: "", quantity: "", edit: true}
-                            ]
-                        }
-                    ]
-                };
-                billOfQuantities.pages.push(emptyPage);
-                billOfQuantities.newPage = "";
-            },
-            removePage: function (billOfQuantities, page) {
-                var goAhead = confirm("Do you really want to delete this entire page?");
-                if (goAhead != true) return;
-
-                console.log("Removing page", page);
-                var index = billOfQuantities.pages.indexOf(page);
-                if (index > -1) {
-                    billOfQuantities.pages.splice(index, 1);
-                }
-            },
-
-            addSection: function (page) {
-                if (!page.newSection) return;
-                console.log("Adding new section");
-                var emptySection = {
-                    sectionName: page.newSection,
-                    items: [
-                        {item: "", description: "", unit: "", quantity: "", edit: true}
-                    ]
-                };
-                page.sections.push(emptySection);
-                page.newSection = "";
-            },
-            removeSection: function (page, section) {
-                var goAhead = confirm("Do you really want to delete this entire section?");
-                if (goAhead != true) return;
-
-                console.log("Removing section", section);
-                var index = page.sections.indexOf(section);
-                if (index > -1) {
-                    page.sections.splice(index, 1);
-                }
-            },
-
-            addItem: function (section) {
-                console.log("Adding new item");
-                var emptyItem = {item: "", description: "", unit: "", quantity: "", edit: true};
-                section.items.push(emptyItem);
-            },
-            removeItem: function (section, item) {
-                console.log("Removing item", item);
-                var index = section.items.indexOf(item);
-                if (index > -1) {
-                    section.items.splice(index, 1);
-                }
-            },
-
-            deleteBillOfQuantities: function (billOfQuantities) {
-                var goAhead = confirm("Do you really want to delete the entire bill of quantities?");
-                if (goAhead != true) return;
-
-                console.log("Deleting bill of quantities", billOfQuantities);
-                billOfQuantities = null;
-            },
-
-            toggleEdit: function (ev, item) {
-                console.log("toggling")
-                // item.$set('edit', !item.edit);
-                item.edit = !item.edit;
-
-                // Focus input field
-                if (item.edit) {
-                    Vue.nextTick(function () {
-                        console.log(ev);
-                        ev.$refs.itemId.focus()
-                    })
-                }
-            },
-            saveEdit: function (ev, number) {
-                //save your changes
-                this.toggleEdit(ev, number);
             }
         },
         filters: {

@@ -5,32 +5,28 @@
 <div class="card-body">
   <div class="form-row">
     <div class="col-sm-5">
-      <input type="email" class="form-control" id="email" placeholder="email">
+      <input type="email" class="form-control" id="email" placeholder="email"
+             v-model="newParticipant.email">
     </div>
     <div class="col-sm-4">
-      <input type="phone" class="form-control" id="phone_number" placeholder="phone number">
+      <input type="phone" class="form-control" id="phone_number" placeholder="phone number"
+             v-model="newParticipant.phone_number">
     </div>
     <div class="col-sm-2">
       <button class="btn btn-light" type="button"
-              v-on:click="addParticipant(request, request.newParticipant)">Add participant
+              v-on:click="addParticipant(request, newParticipant)">Add participant
       </button>
     </div>
   </div>
 </div>
 
 
-<ul class="list-group list-group-flush">
-  <li class="list-group-item d-flex w-100 justify-content-between">
-    ohara.invent@gmail.com - 0500011505
-    <button class="btn btn-sm btn-light">Replace</button>
-  </li>
-  <li class="list-group-item d-flex w-100 justify-content-between">
-    peter@buildpals.com - 0560011505
-    <button class="btn btn-sm btn-light">Replace</button>
-  </li>
-  <li class="list-group-item d-flex w-100 justify-content-between">
-    kwaku@buildpals.com - 0500611505
-    <button class="btn btn-sm btn-light">Replace</button>
+<ul class="list-group list-group-flush" v-for="(participant, index) in request.participants">
+  <li class="list-group-item d-flex w-100 justify-content-between align-middle">
+    {{ participant.email }} - {{ participant.phone_number }}
+    <button class="btn btn-sm btn-light"
+            v-on:click="removeParticipant(participants, participant)">Delete
+    </button>
   </li>
 </ul>
 

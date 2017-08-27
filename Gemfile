@@ -45,7 +45,7 @@ gem 'jquery-rails'
 # Use Bootstrap 4
 gem 'bootstrap', '~> 4.0.0.beta'
 
-# FontAwesom
+# FontAwesome
 gem "font-awesome-rails"
 
 group :development, :test do

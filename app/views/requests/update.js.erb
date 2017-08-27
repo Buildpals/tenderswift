@@ -1,0 +1,17 @@
+$('#spinner').hide();
+console.log("Request updated");
+$('#notice-area').append(
+    '<div class="alert alert-success alert-dismissible fade show" role="alert">\n' +
+    '  <button type="button" class="close" data-dismiss="alert" aria-label="Close">\n' +
+    '    <span aria-hidden="true">&times;</span>\n' +
+    '  </button>\n' +
+    '  Your changes have been saved!\n' +
+    '</div>'
+);
+
+setTimeout( function(){
+    $(".alert").alert('close')
+}, 1500 );
+
+
+console.log("Project name", request);
