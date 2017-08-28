@@ -1,34 +1,44 @@
-<p id="notice"><%= notice %></p>
+<div class="container" id="app">
+  <div class="row">
 
-<p>
-  <strong>Project name:</strong>
-  <%= @request.project_name %>
-</p>
+    <div class="col-lg-11 mx-auto" id="notice-area" style="height: 80px;">
+      <p id="notice"><%= notice %></p>
+    </div>
 
-<p>
-  <strong>Deadline:</strong>
-  <%= @request.deadline %>
-</p>
+    <% if @request.submitted? %>
 
-<p>
-  <strong>Country:</strong>
-  <%= @request.country %>
-</p>
+        <div class="col-lg-8 ml-auto">
 
-<p>
-  <strong>City:</strong>
-  <%= @request.city %>
-</p>
+          <%= render 'request_status_summary' %>
 
-<p>
-  <strong>Description:</strong>
-  <%= @request.description %>
-</p>
+          <%= render 'request_status_detail' %>
 
-<p>
-  <strong>Budget:</strong>
-  <%= @request.budget %>
-</p>
+          <% render 'message_board' %>
 
-<%= link_to 'Edit', edit_request_path(@request) %> |
-<%= link_to 'Back', requests_path %>
+        </div>
+
+        <div class="col-lg-3 mr-auto">
+          <%= link_to 'Back',  requests_path, class: 'btn btn-block btn-large btn-light btn-raised' %>
+        </div>
+
+    <% else %>
+
+        <div class="col-lg-8 ml-auto">
+          <%= render 'form', request: @request, title: 'Create Request' %>
+        </div>
+
+        <div class="col-lg-3 mr-auto">
+          <%= link_to 'Back',  requests_path, class: 'btn btn-block btn-large btn-light btn-raised' %>
+          <button class="btn btn-block btn-large btn-light btn-raised">Copy</button>
+          <%= link_to 'Delete', @request, method: :delete, data: { confirm: 'Are you sure?' },
+              class: 'btn btn-block btn-large btn-light btn-raised' %>
+        </div>
+
+    <% end %>
+  </div>
+
+  <div id="spinner" v-show="showSavingSpinner">
+    <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+    <span class="sr-only">Saving...</span>
+  </div>
+</div>

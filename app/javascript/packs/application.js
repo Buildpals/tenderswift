@@ -7,4 +7,15 @@
 // To reference this file, add <%= javascript_pack_tag 'application' %> to the appropriate
 // layout file, like app/views/layouts/application.html.erb
 
-console.log('Hello World from Webpacker')
+import Vue from 'vue'
+import App from './app.vue'
+
+document.addEventListener('DOMContentLoaded', () => {
+    var selector = document.body.appendChild(document.querySelector('#app'));
+    const app = new Vue(App).$mount(selector);
+
+    console.log(app)
+})
+
+
+

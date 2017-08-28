@@ -39,7 +39,7 @@ RSpec.describe RequestsController, type: :controller do
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
   # RequestsController. Be sure to keep this updated too.
-  let(:valid_session) { {} }
+  let(:valid_session) {{}}
 
   describe "GET #index" do
     it "returns a success response" do
@@ -58,9 +58,9 @@ RSpec.describe RequestsController, type: :controller do
   end
 
   describe "GET #new" do
-    it "returns a success response" do
+    it "redirects_to(@request)" do
       get :new, params: {}, session: valid_session
-      expect(response).to be_success
+      expect(response).to redirect_to(assigns(:request))
     end
   end
 

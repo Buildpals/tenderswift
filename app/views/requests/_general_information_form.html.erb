@@ -1,0 +1,47 @@
+<div class="card-body" xmlns:v-on="http://www.w3.org/1999/xhtml">
+  <div class="row">
+    <div class="form-group col-sm-6">
+      <%= form.label :project_name %>
+      <%= form.text_field :project_name, id: :request_project_name,
+                          class: 'form-control form-control-sm',
+                          'v-model': 'requestForTender.project_name', 'v-on:change': 'saveRequestForTender' %>
+      <p class="text-muted">
+        Example: Purchases of office supplies; Construction of sawmill;
+        Railroad engineering works;
+      </p>
+    </div>
+    <div class="form-group col-sm-6">
+      <%= form.label :deadline %>
+      <br>
+      <%= form.datetime_select :deadline, id: :request_deadline,
+                               class: 'form-control form-control-sm',
+                               'v-model': 'requestForTender.deadline', 'v-on:change': 'saveRequestForTender' %>
+      <p class="text-muted">
+        Deadline for suppliers to submit their bids.
+        Timezone: Accra, Africa (UTC+00:00)
+      </p>
+    </div>
+
+    <div class="form-group col-sm-6">
+      <%= form.label :country %>
+      <%= form.text_field :country, id: :request_country,
+                          class: 'form-control form-control-sm',
+                          'v-model': 'requestForTender.country', 'v-on:change': 'saveRequestForTender' %>
+    </div>
+
+    <div class="form-group col-sm-6">
+      <%= form.label :city %>
+      <%= form.text_field :city, id: :request_city,
+                          class: 'form-control form-control-sm',
+                          'v-model': 'requestForTender.city', 'v-on:change': 'saveRequestForTender' %>
+    </div>
+
+    <div class="form-group col-sm-12">
+      <label for="description">Description</label>
+      <%= form.label :description %>
+      <%= form.text_area :description, id: :request_description, rows: 3,
+                          class: 'form-control form-control-sm',
+                         'v-model': 'requestForTender.description', 'v-on:change': 'saveRequestForTender' %>
+    </div>
+  </div>
+</div>

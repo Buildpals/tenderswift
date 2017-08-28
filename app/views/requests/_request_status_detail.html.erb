@@ -1,0 +1,35 @@
+<div class="card mb-4">
+  <div class="card-header">
+    <ul class="nav nav-tabs card-header-tabs" role="tablist">
+      <li role="presentation" class="nav-item">
+        <a href="#bids" class="nav-link active" aria-controls="home" role="tab" data-toggle="tab">Bids</a>
+      </li>
+      <li role="presentation" class="nav-item">
+        <a href="#contractors" class="nav-link" aria-controls="profile" role="tab" data-toggle="tab">Contractors</a>
+      </li>
+      <li role="presentation" class="nav-item">
+        <a href="#request_details" class="nav-link" aria-controls="messages" role="tab" data-toggle="tab">Request Details</a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="card-body">
+    <div class="tab-content">
+      <div role="tabpanel" class="tab-pane active" id="bids">
+
+        <%= render 'bids' %>
+
+      </div>
+      <div role="tabpanel" class="tab-pane" id="contractors">
+
+        <%= render 'participating_contractors' %>
+
+      </div>
+      <div role="tabpanel" class="tab-pane" id="request_details">
+
+        <%= render 'request_information' %>
+
+      </div>
+    </div>
+  </div>
+</div>

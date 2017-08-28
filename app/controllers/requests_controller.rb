@@ -4,7 +4,7 @@ class RequestsController < ApplicationController
   # GET /requests
   # GET /requests.json
   def index
-    @requests = Request.all
+    @requests = Request.order(created_at: :desc)
   end
 
   # GET /requests/1
@@ -14,7 +14,8 @@ class RequestsController < ApplicationController
 
   # GET /requests/new
   def new
-    @request = Request.new
+    @request = Request.create(project_name: '[Untitled request]', deadline: Time.current + 7.days)
+    redirect_to @request
   end
 
   # GET /requests/1/edit
@@ -43,6 +44,7 @@ class RequestsController < ApplicationController
     respond_to do |format|
       if @request.update(request_params)
         format.html { redirect_to @request, notice: 'Request was successfully updated.' }
+        # format.js
         format.json { render :show, status: :ok, location: @request }
       else
         format.html { render :edit }
@@ -62,13 +64,24 @@ class RequestsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_request
-      @request = Request.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def request_params
-      params.require(:request).permit(:project_name, :deadline, :country, :city, :description, :budget)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_request
+    @request = Request.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def request_params
+    params.require(:request).permit(:project_name,
+                                    :deadline,
+                                    :country,
+                                    :city,
+                                    :description,
+                                    :budget,
+                                    :submitted,
+                                    participants_attributes: [:id,
+                                                              :email,
+                                                              :phone_number,
+                                                              :_destroy])
+  end
 end
