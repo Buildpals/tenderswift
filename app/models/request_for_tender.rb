@@ -8,9 +8,6 @@ class RequestForTender < ApplicationRecord
 
   has_one :boq, dependent: :destroy, autosave: true
 
-  has_and_belongs_to_many :participants,
-                          join_table: :participants_requests,
-                          dependent: :destroy
   accepts_nested_attributes_for :participants,
                                 allow_destroy: true,
                                 reject_if: :all_blank
