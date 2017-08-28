@@ -105,6 +105,9 @@ $(document).on("turbolinks:load", function () {
                 self.saveRequestForTender().done(function () {
                     console.log("Submitted requestForTender");
                 });
+            },
+            moment: function() {
+                return moment();
             }
         },
         filters: {
@@ -112,6 +115,9 @@ $(document).on("turbolinks:load", function () {
                 if (!value) return '';
                 value = value.toString();
                 return value.charAt(0).toUpperCase() + value.slice(1)
+            },
+            moment: function (date) {
+                return moment(date).format('MMM D, YYYY h:mm a');
             }
         }
     });

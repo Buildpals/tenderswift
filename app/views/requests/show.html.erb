@@ -7,16 +7,18 @@
 
     <% if @request.submitted? %>
 
-        <div class="col-lg-8">
-
-          <p id="notice"><%= notice %></p>
+        <div class="col-lg-8 ml-auto">
 
           <%= render 'request_status_summary' %>
 
           <%= render 'request_status_detail' %>
 
-          <%= render 'message_board' %>
+          <% render 'message_board' %>
 
+        </div>
+
+        <div class="col-lg-3 mr-auto">
+          <%= link_to 'Back',  requests_path, class: 'btn btn-block btn-large btn-light btn-raised' %>
         </div>
 
     <% else %>
@@ -26,11 +28,10 @@
         </div>
 
         <div class="col-lg-3 mr-auto">
-
-          <%= link_to 'Back',  requests_path, class: 'btn btn-block btn-large btn-light' %>
-          <button class="btn btn-block btn-large btn-light">Copy</button>
+          <%= link_to 'Back',  requests_path, class: 'btn btn-block btn-large btn-light btn-raised' %>
+          <button class="btn btn-block btn-large btn-light btn-raised">Copy</button>
           <%= link_to 'Delete', @request, method: :delete, data: { confirm: 'Are you sure?' },
-              class: 'btn btn-block btn-large btn-light' %>
+              class: 'btn btn-block btn-large btn-light btn-raised' %>
         </div>
 
     <% end %>

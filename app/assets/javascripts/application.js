@@ -17,6 +17,7 @@
 //= require popper
 //= require bootstrap-sprockets
 //= require autosize
+//= require moment
 //= require vue
 //= require request
 //= require_tree .
