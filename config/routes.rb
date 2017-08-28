@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :filled_items
   root to: 'welcome#index'
 
   resources :items
