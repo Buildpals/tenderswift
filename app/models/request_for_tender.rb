@@ -54,7 +54,7 @@ class RequestForTender < ApplicationRecord
                     sheet.sections << section
                     puts "Section is #{row.values[0]}"
                   else
-                    item = Item.new(name: row.values[0], description: row.values[1], quantity: row.values[2], rate: row.values[3])
+                    item = Item.new(name: row.values[0], description: row.values[1], quantity: row.values[2], unit: row.values[3])
                     section.items << item
                     puts "item is #{row.values[0]} name is #{row.values[1]}, quantity is #{row.values[2]} and unit is #{row.values[3]}"
                   end
