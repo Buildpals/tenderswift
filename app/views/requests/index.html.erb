@@ -1,0 +1,41 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 ml-md-auto mr-md-auto">
+      <p id="notice"><%= notice %></p>
+
+      <div class="card">
+        <h4 class="card-header text-center">
+          My Requests
+        </h4>
+        <div class="list-group list-group-flush">
+          <% @requests.each do |request| %>
+              <%= link_to request, class: 'list-group-item list-group-item-action flex-column align-items-start' do %>
+                  <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">
+                      <%= request.project_name %>
+                    </h5>
+                    <small class="text-muted">
+                      <% if request.deadline %>
+                      <% if request.deadline.past? %>
+                          <span class="badge badge-pill badge-success"><%= request.time_left_to_deadline %></span>
+                      <% else %>
+                          <span class="badge badge-pill badge-warning"><%= request.time_left_to_deadline %></span>
+                      <% end %>
+                      <% end %>
+                    </small>
+                  </div>
+                  <small class="text-muted">
+                    <%= request.city %>,
+                    <%= request.country %>
+                  </small>
+              <% end %>
+          <% end %>
+        </div>
+        <div class="card-body text-center">
+          <%= link_to 'New Request', new_request_path,  class: 'card-link' %>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

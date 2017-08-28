@@ -1,0 +1,31 @@
+<dl class="row">
+
+  <dt class="col-sm-3">Published</dt>
+  <dd class="col-sm-9 mb-4">
+    {{ requestForTender.created_at | moment }}
+    <small class="text-muted">(UTC+00:00)</small>
+  </dd>
+
+  <dt class="col-sm-3">Due date</dt>
+  <dd class="col-sm-9 mb-4">
+    {{ requestForTender.deadline | moment }}
+    <small class="text-muted">(UTC+00:00)</small>
+  </dd>
+
+  <dt class="col-sm-3 text-truncate">Description</dt>
+  <dd class="col-sm-9 mb-4">
+    {{ requestForTender.description }}
+  </dd>
+
+  <dt class="col-sm-3 text-truncate">Expected budget</dt>
+  <dd class="col-sm-9 mb-4">
+    <input type="text" class="form-control" v-model="requestForTender.budget">
+  </dd>
+
+  <dt class="col-sm-3 text-truncate">Buyer comments</dt>
+  <dd class="col-sm-9 mb-4">
+    <textarea class="form-control" name="comments" id="comments" rows="10">
+    </textarea>
+  </dd>
+
+</dl>

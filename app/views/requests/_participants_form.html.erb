@@ -1,0 +1,33 @@
+<div class="card-header">
+  Tender Participants
+</div>
+
+<div class="card-body">
+  <div class="form-row">
+    <div class="col-sm-5">
+      <input type="email" class="form-control" id="email" placeholder="email"
+             v-model="newParticipant.email">
+    </div>
+    <div class="col-sm-4">
+      <input type="phone" class="form-control" id="phone_number" placeholder="phone number"
+             v-model="newParticipant.phone_number">
+    </div>
+    <div class="col-sm-2">
+      <button class="btn btn-light" type="button"
+              v-on:click="addParticipant(newParticipant)">Add participant
+      </button>
+    </div>
+  </div>
+</div>
+
+
+<ul class="list-group list-group-flush" v-for="(participant, index) in requestForTender.participants">
+  <li class="list-group-item d-flex w-100 justify-content-between align-middle">
+    {{ participant.email }} - {{ participant.phone_number }}
+    <button class="btn btn-sm btn-light"
+            v-on:click="removeParticipant(participant)">Delete
+    </button>
+  </li>
+</ul>
+
+

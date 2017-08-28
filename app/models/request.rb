@@ -1,0 +1,28 @@
+class Request < ApplicationRecord
+  include ActionView::Helpers::DateHelper
+
+  has_one :excel, dependent: :destroy
+
+  has_one :boq, dependent: :destroy, autosave: true
+
+  has_and_belongs_to_many :participants,
+                          join_table: :participants_requests,
+                          dependent: :destroy
+  accepts_nested_attributes_for :participants,
+                                allow_destroy: true,
+                                reject_if: :all_blank
+
+  validates :project_name, presence: true
+
+  validates :deadline, presence: true
+
+  def time_left_to_deadline
+    if deadline.past?
+      'ended'
+    else
+      time_left = distance_of_time_in_words(Time.current, deadline)
+      "#{time_left} left"
+    end
+  end
+
+end
