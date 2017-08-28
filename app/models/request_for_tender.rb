@@ -1,4 +1,7 @@
-class Request < ApplicationRecord
+class RequestForTender < ApplicationRecord
+
+  #self.table_name = "requests"
+
   include ActionView::Helpers::DateHelper
 
   has_one :excel, dependent: :destroy

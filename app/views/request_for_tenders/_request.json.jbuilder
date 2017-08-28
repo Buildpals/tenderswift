@@ -11,4 +11,4 @@ json.extract! request,
               :updated_at,
               :participants
 
-json.url request_url(request, format: :json)
+json.url request_for_tender_url(request, format: :json)

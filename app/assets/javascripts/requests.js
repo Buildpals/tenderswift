@@ -5,7 +5,7 @@
 // }
 
 $(document).on("turbolinks:load", function () {
-    if ($(".requests.show").length === 0) return;
+    if ($(".request_for_tenders.show").length === 0) return;
 
     Vue.component('message', {
         template: '#message-template',
@@ -46,7 +46,7 @@ $(document).on("turbolinks:load", function () {
                     url: window.location.href + '.json',
                     method: 'PUT',
                     data: {
-                        request: self.requestForTender
+                        request_for_tender: self.requestForTender
                     }})
                     .done(function (data) {
                         console.log("Saved requestForTender");

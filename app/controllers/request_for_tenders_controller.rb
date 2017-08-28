@@ -1,10 +1,10 @@
-class RequestsController < ApplicationController
+class RequestForTendersController < ApplicationController
   before_action :set_request, only: [:show, :edit, :update, :destroy]
 
   # GET /requests
   # GET /requests.json
   def index
-    @requests = Request.order(created_at: :desc)
+    @requests = RequestForTender.order(created_at: :desc)
   end
 
   # GET /requests/1
@@ -14,7 +14,7 @@ class RequestsController < ApplicationController
 
   # GET /requests/new
   def new
-    @request = Request.create(project_name: '[Untitled request]', deadline: Time.current + 7.days)
+    @request = RequestForTender.create(project_name: '[Untitled request]', deadline: Time.current + 7.days)
     redirect_to @request
   end
 
@@ -25,7 +25,7 @@ class RequestsController < ApplicationController
   # POST /requests
   # POST /requests.json
   def create
-    @request = Request.new(request_params)
+    @request = RequestForTender.new(request_params)
 
     respond_to do |format|
       if @request.save
@@ -67,21 +67,21 @@ class RequestsController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_request
-    @request = Request.find(params[:id])
+    @request = RequestForTender.find(params[:id])
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def request_params
-    params.require(:request).permit(:project_name,
-                                    :deadline,
-                                    :country,
-                                    :city,
-                                    :description,
-                                    :budget,
-                                    :submitted,
-                                    participants_attributes: [:id,
-                                                              :email,
-                                                              :phone_number,
-                                                              :_destroy])
+    params.require(:request_for_tender).permit(:project_name,
+                                               :deadline,
+                                               :country,
+                                               :city,
+                                               :description,
+                                               :budget,
+                                               :submitted,
+                                               participants_attributes: [:id,
+                                                                        :email,
+                                                                        :phone_number,
+                                                                        :_destroy])
   end
 end
