@@ -42,3 +42,8 @@ ehthumbs.db
 /public/uploads/
 
 
+# Documentations
+.yardoc/
+/doc/*
+
+
