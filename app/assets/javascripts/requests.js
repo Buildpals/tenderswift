@@ -1,8 +1,8 @@
-function initAutosize() {
-    var textarea = $('textarea#description');
-    autosize(textarea);
-    autosize.update(textarea);
-}
+// function initAutosize() {
+//     var textarea = $('textarea#description');
+//     autosize(textarea);
+//     autosize.update(textarea);
+// }
 
 $(document).on("turbolinks:load", function () {
     if ($(".requests.show").length === 0) return;
@@ -29,7 +29,7 @@ $(document).on("turbolinks:load", function () {
                 method: 'GET',
                 success: function (data) {
                     self.requestForTender = data;
-                    initAutosize();
+                    // initAutosize();
                 },
                 error: function (error) {
                     console.error(error);

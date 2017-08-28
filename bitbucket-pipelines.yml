@@ -4,19 +4,17 @@
 # -----
 # You can specify a custom docker image from Docker Hub as your build environment.
 image: ruby:2.4.0
-clone:           # the 'clone' section
-  depth: full       # the depth, in this case the clone will contain all the commits
-
 
 pipelines:
-  default:
-    - step:
-        caches:
-          - bundler
-        script: # Modify the commands below to build your repository.
-          - bundle install
-          - rails db:migrate
-          - rspec
+  branches:
+   develop:
+    default:
+      - step:
+          caches:
+            - bundler
+          script: # Modify the commands below to build your repository.
+            - bundle install
+            - bundle exec rspec
 
 definitions:
   caches:

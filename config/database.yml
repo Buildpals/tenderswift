@@ -81,5 +81,3 @@ test:
 production:
   <<: *default
   database: ds02_server_production
-  username: ds02_server
-  password: <%= ENV['DS02_SERVER_DATABASE_PASSWORD'] %>
