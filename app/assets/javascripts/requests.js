@@ -1,3 +1,9 @@
+function initAutosize() {
+    var textarea = $('textarea#description');
+    autosize(textarea);
+    autosize.update(textarea);
+}
+
 $(document).on("turbolinks:load", function () {
     if ($(".requests.show").length === 0) return;
 
@@ -12,72 +18,93 @@ $(document).on("turbolinks:load", function () {
         },
         el: '#app',
         data: {
-            request: {},
+            requestForTender: {},
             newParticipant: {},
-            error: {},
             showSavingSpinner: false
         },
         mounted: function () {
             var self = this;
-            var requestId = $('#app').data('request_id');
             $.ajax({
-                url: '/requests/' + requestId + '.json',
+                url: window.location.href + '.json',
                 method: 'GET',
                 success: function (data) {
-                    console.log(data);
-                    self.request = { data };
-                    var textarea = $('textarea#description');
-                    autosize(textarea);
-                    autosize.update(textarea);
+                    self.requestForTender = data;
+                    initAutosize();
                 },
                 error: function (error) {
-                    console.log(error);
-                    self.error = error;
+                    console.error(error);
                 }
             });
         },
         methods: {
-            saveRequest: function () {
-                console.log("Saving request...");
-                $('#spinner').show();
-                $("#request-form").trigger('submit.rails');
-            },
-            addParticipant: function (request, participant) {
-                if (!participant.email && !participant.phone_number) return;
-
-                console.log("Adding participant", participant);
+            saveRequestForTender: function () {
+                var self = this;
+                console.log("Saving requestForTender...");
                 $('#spinner').show();
 
-                $.ajax({
-                    url: '/participants.json',
-                    method: 'POST',
+                return $.ajax({
+                    url: window.location.href + '.json',
+                    method: 'PUT',
                     data: {
-                        participant: {
-                            email: participant.email,
-                            phone_number: participant.phone_number,
-                            request_id: request.id
-                        }
-                    },
-                    success: function (data) {
+                        request: self.requestForTender
+                    }})
+                    .done(function (data) {
+                        console.log("Saved requestForTender");
+                        $('#spinner').hide();
                         console.log(data);
+                        self.requestForTender = data;
+                    }).fail(function (error) {
+                        $('#spinner').hide();
+                        console.error(error);
+                    });
+            },
+            addParticipant: function (participant) {
+                if (!participant.email && !participant.phone_number) return;
+                var self = this;
 
-                        request.participants.unshift(data);
+                console.log("Adding participant...", participant);
 
-                        participant.email = "";
-                        participant.phone_number = "";
-                    },
-                    error: function (error) {
-                        console.log(error);
-                        self.error = error;
+                self.requestForTender.participants_attributes = [
+                    {
+                        email: participant.email,
+                        phone_number: participant.phone_number,
                     }
+                ];
+
+                self.saveRequestForTender().done(function () {
+                    console.log("Added participant", participant);
+                    participant.email = "";
+                    participant.phone_number = "";
                 });
             },
-            removeParticipant: function (participants, participant) {
-                console.log("Removing participant", participant);
-                var index = participants.indexOf(participant);
-                if (index > -1) {
-                    participants.splice(index, 1);
-                }
+            removeParticipant: function (participant) {
+                var self = this;
+
+                console.log("Removing participant...", participant);
+
+                self.requestForTender.participants_attributes = [
+                    {
+                        id: participant.id,
+                        email: participant.email,
+                        phone_number: participant.phone_number,
+                        _destroy: true
+                    }
+                ];
+
+                self.saveRequestForTender().done(function () {
+                    console.log("Removed participant")
+                });
+            },
+            submitRequestForTender: function () {
+                var self = this;
+
+                console.log("Submitting requestForTender...");
+
+                self.requestForTender.submitted = true;
+
+                self.saveRequestForTender().done(function () {
+                    console.log("Submitted requestForTender");
+                });
             }
         },
         filters: {

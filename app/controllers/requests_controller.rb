@@ -10,7 +10,6 @@ class RequestsController < ApplicationController
   # GET /requests/1
   # GET /requests/1.json
   def show
-    1.times { @request.participants.build } if @request.participants.length == 0
   end
 
   # GET /requests/new
@@ -45,7 +44,7 @@ class RequestsController < ApplicationController
     respond_to do |format|
       if @request.update(request_params)
         format.html { redirect_to @request, notice: 'Request was successfully updated.' }
-        format.js
+        # format.js
         format.json { render :show, status: :ok, location: @request }
       else
         format.html { render :edit }
@@ -79,6 +78,7 @@ class RequestsController < ApplicationController
                                     :city,
                                     :description,
                                     :budget,
+                                    :submitted,
                                     participants_attributes: [:id,
                                                               :email,
                                                               :phone_number,
