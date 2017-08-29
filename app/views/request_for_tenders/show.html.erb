@@ -11,9 +11,9 @@
 
           <%= render 'request_status_summary' %>
 
-          <%= render 'request_status_detail' %>
+          <% render 'request_status_detail' %>
 
-          <%= render 'message_board' %>
+          <% render 'message_board' %>
 
         </div>
 
@@ -24,7 +24,7 @@
     <% else %>
 
         <div class="col-lg-8 ml-auto">
-          <%= render 'form', request: @request, title: 'Create Request' %>
+          <%= render 'form', request: @request, title: 'Creating Request' %>
         </div>
 
         <div class="col-lg-3 mr-auto">

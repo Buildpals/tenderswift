@@ -4,7 +4,7 @@ class RequestForTendersController < ApplicationController
   # GET /requests
   # GET /requests.json
   def index
-    @requests = RequestForTender.order(created_at: :desc)
+    @requests = RequestForTender.order(updated_at: :desc)
   end
 
   # GET /requests/1
@@ -14,7 +14,8 @@ class RequestForTendersController < ApplicationController
 
   # GET /requests/new
   def new
-    @request = RequestForTender.create(project_name: '[Untitled request]', deadline: Time.current + 7.days)
+    @request = RequestForTender.create(project_name: '[Untitled request]',
+                                       deadline: Time.current + 7.days)
     redirect_to @request
   end
 
@@ -43,14 +44,24 @@ class RequestForTendersController < ApplicationController
   def update
     respond_to do |format|
       if @request.update(request_params)
+        byebug
+        send_request_out(@request) if params[:send_emails_out] == 'true'
+
         format.html { redirect_to @request, notice: 'Request was successfully updated.' }
-        # format.js
         format.json { render :show, status: :ok, location: @request }
       else
         format.html { render :edit }
         format.json { render json: @request.errors, status: :unprocessable_entity }
       end
     end
+  end
+
+  def send_request_out(request)
+    request.participants.each do |participant|
+      # Tell the ParticipantMailer to send a request_for_tender email after save
+      ParticipantMailer.request_for_tender_email(participant).deliver_later
+    end
+    request.update(submitted: true)
   end
 
   # DELETE /requests/1
@@ -78,7 +89,7 @@ class RequestForTendersController < ApplicationController
                                                :city,
                                                :description,
                                                :budget,
-                                               :submitted,
+                                               :send_emails_out,
                                                participants_attributes: [:id,
                                                                         :email,
                                                                         :phone_number,

@@ -88,4 +88,22 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+
+  # ActionMailer Configuration
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.raise_delivery_errors = true
+
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+      address: 'smtp.zoho.com',
+      port: '465',
+      domain: 'buildpals.com',
+      user_name: 'kwaku@buildpals.com',
+      password: 'playoffs2',
+      authentication: :plain,
+      enable_starttls_auto: true,
+      tls: true
+  }
+
+  config.action_mailer.default_url_options = { host: 'http://buildpals-development.herokuapp.com/' }
 end

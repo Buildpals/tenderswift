@@ -3,24 +3,42 @@
     <div class="col-md-6 ml-md-auto mr-md-auto">
       <p id="notice"><%= notice %></p>
 
-      <div class="card">
-        <h4 class="card-header text-center">
-          My Requests
-        </h4>
+      <small class="ml-4 mb-2">New Requests</small>
+      <div class="card mb-4">
         <div class="list-group list-group-flush">
-          <% @requests.each do |request| %>
+          <% @requests.not_submitted.each do |request| %>
+              <%= link_to request, class: 'list-group-item list-group-item-action flex-column align-items-start' do %>
+                  <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">
+                      <%= request.project_name %>
+                    </h5>
+                  </div>
+                  <small class="text-muted">
+                    <%= request.city %>,
+                    <%= request.country %>
+                  </small>
+              <% end %>
+          <% end %>
+        </div>
+      </div>
+
+
+      <small class="ml-4 mb-2">Submitted Requests</small>
+      <div class="card">
+        <div class="list-group list-group-flush">
+          <% @requests.submitted.each do |request| %>
               <%= link_to request, class: 'list-group-item list-group-item-action flex-column align-items-start' do %>
                   <div class="d-flex w-100 justify-content-between">
                     <h5 class="mb-1">
                       <%= request.project_name %>
                     </h5>
                     <small class="text-muted">
-                      <% if request.deadline %>
-                      <% if request.deadline.past? %>
-                          <span class="badge badge-pill badge-success"><%= request.time_left_to_deadline %></span>
+                      <% if !request.submitted? %>
+                          <span class="badge badge-pill badge-secondary"><%= request.status %></span>
+                      <% elsif request.deadline.past? %>
+                          <span class="badge badge-pill badge-success"><%= request.status %></span>
                       <% else %>
-                          <span class="badge badge-pill badge-warning"><%= request.time_left_to_deadline %></span>
-                      <% end %>
+                          <span class="badge badge-pill badge-warning"><%= request.status %></span>
                       <% end %>
                     </small>
                   </div>
@@ -31,10 +49,8 @@
               <% end %>
           <% end %>
         </div>
-        <div class="card-body text-center">
-          <%= link_to 'New Request', new_request_for_tender_path,  class: 'card-link' %>
-        </div>
       </div>
+
 
     </div>
   </div>

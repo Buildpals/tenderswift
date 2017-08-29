@@ -2,6 +2,9 @@ class RequestForTender < ApplicationRecord
 
   include ActionView::Helpers::DateHelper
 
+  scope :submitted, -> { where(submitted: true) }
+  scope :not_submitted, -> { where(submitted: false) }
+
   has_one :excel, dependent: :destroy
 
   has_one :boq, dependent: :destroy, autosave: true
@@ -16,12 +19,16 @@ class RequestForTender < ApplicationRecord
 
   validates :deadline, presence: true
 
-  def time_left_to_deadline
-    if deadline.past?
-      'ended'
+  def status
+    if !submitted?
+      return "not submitted"
     else
-      time_left = distance_of_time_in_words(Time.current, deadline)
-      "#{time_left} left"
+      if deadline.past?
+        'ended'
+      else
+        time_left = distance_of_time_in_words(Time.current, deadline)
+        "#{time_left} left"
+      end
     end
   end
 

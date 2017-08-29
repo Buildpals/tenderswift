@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170829105330) do
+ActiveRecord::Schema.define(version: 20170829191502) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -78,6 +78,8 @@ ActiveRecord::Schema.define(version: 20170829105330) do
     t.boolean "removed"
     t.text "comment"
     t.bigint "request_for_tender_id"
+    t.string "auth_token"
+    t.index ["auth_token"], name: "index_participants_on_auth_token", unique: true
     t.index ["request_for_tender_id"], name: "index_participants_on_request_for_tender_id"
   end
 
@@ -97,7 +99,7 @@ ActiveRecord::Schema.define(version: 20170829105330) do
     t.string "budget"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "submitted"
+    t.boolean "submitted", default: false
   end
 
   create_table "sections", force: :cascade do |t|

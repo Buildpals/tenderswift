@@ -23,11 +23,11 @@
       <% render 'questionnaire_form' %>
       <%= render 'participants_form' %>
       <div class="card-body d-flex w-100 justify-content-between mt-3">
-        <button type="button" class="card-link btn btn-lg btn-block btn-light">Preview</button>
+        <!--<button type="button" class="card-link btn btn-lg btn-block btn-light">Preview</button>-->
         <button type="button" class="card-link btn btn-lg btn-block btn-light"
                 v-on:click="saveRequestForTender">Save</button>
         <button type="button" class="card-link btn btn-lg btn-block btn-success"
-                v-on:click="submitRequestForTender">Submit</button>
+                v-on:click="submitRequestForTender" v-if="!requestForTender.submitted">Send Request Out</button>
       </div>
     </div>
 

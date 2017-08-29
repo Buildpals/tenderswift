@@ -20,6 +20,7 @@ $(document).on("turbolinks:load", function () {
         data: {
             requestForTender: {},
             newParticipant: {},
+            send_emails_out: false,
             showSavingSpinner: false
         },
         mounted: function () {
@@ -46,7 +47,8 @@ $(document).on("turbolinks:load", function () {
                     url: window.location.href + '.json',
                     method: 'PUT',
                     data: {
-                        request_for_tender: self.requestForTender
+                        request_for_tender: self.requestForTender,
+                        send_emails_out: self.send_emails_out
                     }})
                     .done(function (data) {
                         console.log("Saved requestForTender");
@@ -100,7 +102,7 @@ $(document).on("turbolinks:load", function () {
 
                 console.log("Submitting requestForTender...");
 
-                self.requestForTender.submitted = true;
+                self.send_emails_out = true;
 
                 self.saveRequestForTender().done(function () {
                     console.log("Submitted requestForTender");
