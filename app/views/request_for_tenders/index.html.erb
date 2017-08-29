@@ -3,7 +3,9 @@
     <div class="col-md-6 ml-md-auto mr-md-auto">
       <p id="notice"><%= notice %></p>
 
-      <small class="ml-4 mb-2">New Requests</small>
+      <div class="ml-4 mb-2">
+        <small>New Requests</small>
+      </div>
       <div class="card mb-4">
         <div class="list-group list-group-flush">
           <% @requests.not_submitted.each do |request| %>
@@ -23,7 +25,9 @@
       </div>
 
 
-      <small class="ml-4 mb-2">Submitted Requests</small>
+      <div class="ml-4 mb-2">
+        <small>Submitted Requests</small>
+      </div>
       <div class="card">
         <div class="list-group list-group-flush">
           <% @requests.submitted.each do |request| %>
