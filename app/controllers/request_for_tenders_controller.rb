@@ -58,7 +58,7 @@ class RequestForTendersController < ApplicationController
   def destroy
     @request.destroy
     respond_to do |format|
-      format.html { redirect_to requests_url, notice: 'Request was successfully destroyed.' }
+      format.html { redirect_to request_for_tenders_url, notice: 'Request was successfully destroyed.' }
       format.json { head :no_content }
     end
   end

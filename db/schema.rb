@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170828150603) do
+ActiveRecord::Schema.define(version: 20170829105330) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -77,6 +77,8 @@ ActiveRecord::Schema.define(version: 20170828150603) do
     t.text "declination_reason"
     t.boolean "removed"
     t.text "comment"
+    t.bigint "request_for_tender_id"
+    t.index ["request_for_tender_id"], name: "index_participants_on_request_for_tender_id"
   end
 
   create_table "participants_requests", id: false, force: :cascade do |t|

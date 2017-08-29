@@ -4,6 +4,8 @@
 <div class="card-body">
   <div class="row">
     <div class="col-sm-5 text-center">
+    <%= form.label 'Upload Bill of Quantity'%>
+    <%= form.file_field :excel  %>
       <a href='/bill_of_quantities' class='btn btn-sm btn-primary my-5'>
         Create Bill Of Quantities
       </a>
