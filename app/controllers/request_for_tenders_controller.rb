@@ -10,13 +10,16 @@ class RequestForTendersController < ApplicationController
   # GET /requests/1
   # GET /requests/1.json
   def show
+    # unless @request.submitted?
+    #   redirect_to edit_request_for_tender_path @request
+    # end
   end
 
   # GET /requests/new
   def new
     @request = RequestForTender.create(project_name: '[Untitled request]',
                                        deadline: Time.current + 7.days)
-    redirect_to @request
+    redirect_to edit_request_for_tender_path @request
   end
 
   # GET /requests/1/edit
@@ -30,11 +33,11 @@ class RequestForTendersController < ApplicationController
 
     respond_to do |format|
       if @request.save
-        format.html { redirect_to @request, notice: 'Request was successfully created.' }
-        format.json { render :show, status: :created, location: @request }
+        format.html {redirect_to @request, notice: 'Request was successfully created.'}
+        format.json {render :show, status: :created, location: @request}
       else
-        format.html { render :new }
-        format.json { render json: @request.errors, status: :unprocessable_entity }
+        format.html {render :new}
+        format.json {render json: @request.errors, status: :unprocessable_entity}
       end
     end
   end
@@ -46,11 +49,11 @@ class RequestForTendersController < ApplicationController
       if @request.update(request_params)
         send_request_out(@request) if params[:send_emails_out] == 'true'
 
-        format.html { redirect_to @request, notice: 'Request was successfully updated.' }
-        format.json { render :show, status: :ok, location: @request }
+        format.html {redirect_to @request, notice: 'Request was successfully updated.'}
+        format.json {render :show, status: :ok, location: @request}
       else
-        format.html { render :edit }
-        format.json { render json: @request.errors, status: :unprocessable_entity }
+        format.html {render :edit}
+        format.json {render json: @request.errors, status: :unprocessable_entity}
       end
     end
   end
@@ -68,8 +71,8 @@ class RequestForTendersController < ApplicationController
   def destroy
     @request.destroy
     respond_to do |format|
-      format.html { redirect_to request_for_tenders_url, notice: 'Request was successfully destroyed.' }
-      format.json { head :no_content }
+      format.html {redirect_to request_for_tenders_url, notice: 'Request was successfully destroyed.'}
+      format.json {head :no_content}
     end
   end
 
@@ -90,8 +93,8 @@ class RequestForTendersController < ApplicationController
                                                :budget,
                                                :send_emails_out,
                                                participants_attributes: [:id,
-                                                                        :email,
-                                                                        :phone_number,
-                                                                        :_destroy])
+                                                                         :email,
+                                                                         :phone_number,
+                                                                         :_destroy])
   end
 end

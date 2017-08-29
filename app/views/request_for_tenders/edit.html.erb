@@ -1,24 +1,25 @@
 <div class="container" id="app">
 
   <div class="row">
-    <div class="col-md">
-      <nav class="nav">
-        <%= link_to 'Show', @request, class:'nav-link' %> |
-        <%= link_to 'Back', requests_path, class:'nav-link' %>
-      </nav>
-    </div>
-  </div>
 
-  <div class="row">
-    <div class="col-md-8 ml-md-auto mr-md-auto">
-
+    <div class="col-lg-11 mx-auto" id="notice-area" style="height: 40px;">
       <p id="notice"><%= notice %></p>
+    </div>
 
-      <pre class="mb-4">{{ data }}</pre>
-
+    <div class="col-lg-8 ml-auto mb-4">
       <%= render 'form', request: @request, title: 'Editing Request' %>
+    </div>
 
+    <div class="col-lg-3 mr-auto">
+      <%= link_to 'Back',  :back, class: 'btn btn-block btn-large btn-light btn-raised' %>
+      <button class="btn btn-block btn-large btn-light btn-raised">Copy</button>
+      <%= link_to 'Delete', @request, method: :delete, data: { confirm: 'Are you sure?' },
+                  class: 'btn btn-block btn-large btn-light btn-raised' %>
     </div>
   </div>
 
 </div>
+
+<%= javascript_tag do %>
+    var requestForTenderUrl = '<%= request_for_tender_path(@request) %>' + '.json';
+<% end %>

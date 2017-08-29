@@ -5,40 +5,20 @@
       <p id="notice"><%= notice %></p>
     </div>
 
-    <% if @request.submitted? %>
+    <div class="col-lg-8 ml-auto">
 
-        <div class="col-lg-8 ml-auto">
+      <%= render 'request_status_summary' %>
 
-          <%= render 'request_status_summary' %>
+      <%= render 'request_status_detail' %>
 
-          <% render 'request_status_detail' %>
+      <% render 'message_board' %>
 
-          <% render 'message_board' %>
+    </div>
 
-        </div>
+    <div class="col-lg-3 mr-auto">
+      <%= link_to 'Back',  request_for_tenders_path, class: 'btn btn-block btn-large btn-light btn-raised' %>
+    </div>
 
-        <div class="col-lg-3 mr-auto">
-          <%= link_to 'Back',  request_for_tenders_path, class: 'btn btn-block btn-large btn-light btn-raised' %>
-        </div>
-
-    <% else %>
-
-        <div class="col-lg-8 ml-auto mb-4">
-          <%= render 'form', request: @request, title: 'Creating Request' %>
-        </div>
-
-        <div class="col-lg-3 mr-auto">
-          <%= link_to 'Back',  request_for_tenders_path, class: 'btn btn-block btn-large btn-light btn-raised' %>
-          <button class="btn btn-block btn-large btn-light btn-raised">Copy</button>
-          <%= link_to 'Delete', @request, method: :delete, data: { confirm: 'Are you sure?' },
-              class: 'btn btn-block btn-large btn-light btn-raised' %>
-        </div>
-
-    <% end %>
   </div>
 
-  <div id="spinner" v-show="showSavingSpinner">
-    <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
-    <span class="sr-only">Saving...</span>
-  </div>
 </div>

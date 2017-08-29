@@ -1,11 +1,5 @@
-// function initAutosize() {
-//     var textarea = $('textarea#description');
-//     autosize(textarea);
-//     autosize.update(textarea);
-// }
-
 $(document).on("turbolinks:load", function () {
-    if ($(".request_for_tenders.show").length === 0) return;
+    if ($(".request_for_tenders.new, .request_for_tenders.edit ").length === 0) return;
 
     Vue.component('message', {
         template: '#message-template',
@@ -26,7 +20,7 @@ $(document).on("turbolinks:load", function () {
         mounted: function () {
             var self = this;
             $.ajax({
-                url: window.location.href + '.json',
+                url: requestForTenderUrl,
                 method: 'GET',
                 success: function (data) {
                     self.requestForTender = data;
@@ -44,7 +38,7 @@ $(document).on("turbolinks:load", function () {
                 $('#spinner').show();
 
                 return $.ajax({
-                    url: window.location.href + '.json',
+                    url: requestForTenderUrl,
                     method: 'PUT',
                     data: {
                         request_for_tender: self.requestForTender,
