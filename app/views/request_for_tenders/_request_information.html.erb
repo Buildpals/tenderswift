@@ -2,30 +2,27 @@
 
   <dt class="col-sm-3">Published</dt>
   <dd class="col-sm-9 mb-4">
-    {{ requestForTender.created_at | moment }}
-    <small class="text-muted">(UTC+00:00)</small>
+    <%= @request.created_at.to_formatted_s(:long) %>
+    <span class="text-muted ml-3">(UTC+00:00)</span>
   </dd>
 
   <dt class="col-sm-3">Due date</dt>
   <dd class="col-sm-9 mb-4">
-    {{ requestForTender.deadline | moment }}
-    <small class="text-muted">(UTC+00:00)</small>
+    <%= @request.deadline.to_formatted_s(:long) %>
+    <span class="text-muted ml-3">(UTC+00:00)</span>
   </dd>
 
   <dt class="col-sm-3 text-truncate">Description</dt>
   <dd class="col-sm-9 mb-4">
-    {{ requestForTender.description }}
+    <%= @request.description %>
   </dd>
 
   <dt class="col-sm-3 text-truncate">Expected budget</dt>
   <dd class="col-sm-9 mb-4">
-    <input type="text" class="form-control" v-model="requestForTender.budget">
-  </dd>
-
-  <dt class="col-sm-3 text-truncate">Buyer comments</dt>
-  <dd class="col-sm-9 mb-4">
-    <textarea class="form-control" name="comments" id="comments" rows="10">
-    </textarea>
+    <%= form_with(model: @request, id: 'request-form', class: 'form-inline') do |form| %>
+        <%= form.text_field :budget, class: 'form-control form-control-sm mr-2' %>
+        <%= form.submit 'Save budget', class: 'btn btn-sm btn-primary' %>
+    <% end %>
   </dd>
 
 </dl>
