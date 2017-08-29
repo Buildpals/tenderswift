@@ -1,14 +1,135 @@
-<p id="notice"><%= notice %></p>
+<div class="container-fluid bg-secondary p-2">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 mx-auto d-flex w-100 justify-content-between">
+        <a href="" class="btn btn-lg btn-success">MAKE BID</a>
 
-<p>
-  <strong>Email:</strong>
-  <%= @participant.email %>
-</p>
+        <%= form_with(model: @participant, local: true) do |form| %>
+            <%= form.text_field :interest, id: :interest, value: true, type: 'hidden' %>
 
-<p>
-  <strong>Phone number:</strong>
-  <%= @participant.phone_number %>
-</p>
+            <%= form.submit 'I DO NOT WANT TO PARTICIPATE', class: 'btn btn-lg btn-light' %>
 
-<%= link_to 'Edit', edit_participant_path(@participant) %> |
-<%= link_to 'Back', participants_path %>
+        <% end %>
+
+        <!--<a href="" class="btn btn-lg btn-light">ASK A QUESTION</a>-->
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container" id="app">
+  <div class="row">
+
+    <div class="col-lg-8 mx-auto">
+      <div class="alert alert-success alert-dismissible fade show mt-1" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        Click on <strong>Make Bid</strong> to start composing your bid.
+        Need help? Click <a href="">here</a> for a video
+      </div>
+    </div>
+
+    <p id="notice"><%= notice %></p>
+
+    <div class="col-lg-8 mx-auto">
+
+      <div class="card mb-4">
+        <div class="card-body">
+          <h4 class="card-title"><%= @participant.project_name %></h4>
+          <p>
+            <%= @participant.project_location %>
+          </p>
+
+          <small>
+            <p class="mb-1">
+              <strong>Project Owner:</strong>
+              Hirael Construction Ltd
+            </p>
+          </small>
+
+          <small>
+            <strong>Contact Person:</strong>
+            Peter O'Hara Adu (+233500011505)
+          </small>
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">
+            <div class="row">
+              <div class="col-lg-4">
+                <strong>Time left</strong>
+              </div>
+              <div class="col-lg-8">
+                <strong>End date</strong>
+              </div>
+              <div class="col-lg-4">
+                <%= @participant.time_left %>
+              </div>
+              <div class="col-lg-8">
+                <%= @participant.project_deadline.to_formatted_s(:long) %>
+                <span class="ml-3">(UTC+00:00)</span>
+              </div>
+
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="card mb-4">
+
+        <div class="card-header">
+          Project Description
+        </div>
+        <div class="card-body">
+          <p class="mb-1">
+            <%= @participant.project_description %>
+          </p>
+        </div>
+
+
+        <!--<div class="card-header">-->
+          <!--Documents-->
+        <!--</div>-->
+        <!--<ul class="list-group list-group-flush">-->
+          <!--<li class="list-group-item d-flex w-100 justify-content-between">-->
+            <!--Project of Construction of Communication Tower.pdf-->
+            <!--<a href="" class="btn btn-sm btn-light">View</a>-->
+          <!--</li>-->
+          <!--<li class="list-group-item d-flex w-100 justify-content-between">-->
+            <!--Specification of Materials.pdf-->
+            <!--<a href="" class="btn btn-sm btn-light">View</a>-->
+          <!--</li>-->
+          <!--<li class="list-group-item d-flex w-100 justify-content-between">-->
+            <!--Network Plans.pdf-->
+            <!--<a href="" class="btn btn-sm btn-light">View</a>-->
+          <!--</li>-->
+        <!--</ul>-->
+        <!---->
+        <!---->
+        <!--<div class="card-header">-->
+          <!--Bill of Quantities-->
+        <!--</div>-->
+        <!--<div class="card-body">-->
+          <!--<p class="mb-1">-->
+            <!--<%= @participant.project_description %>-->
+          <!--</p>-->
+        <!--</div>-->
+        <!---->
+        <!---->
+        <!--<div class="card-header">-->
+          <!--Other Requirements-->
+        <!--</div>-->
+        <!--<div class="card-body">-->
+          <!--<p class="mb-1">-->
+            <!--<%= @participant.project_description %>-->
+          <!--</p>-->
+        <!--</div>-->
+
+      </div>
+
+
+    </div>
+
+  </div>
+
+</div>

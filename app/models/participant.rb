@@ -1,4 +1,7 @@
 class Participant < ApplicationRecord
+
+  include ActionView::Helpers::DateHelper
+
   has_secure_token :auth_token
 
   has_many :filled_items
@@ -23,7 +26,15 @@ class Participant < ApplicationRecord
     request_for_tender.deadline
   end
 
+  def project_location
+    "#{request_for_tender.city}, #{request_for_tender.country}"
+  end
+
   def project_description
     request_for_tender.description
+  end
+
+  def time_left
+    distance_of_time_in_words(Time.current, project_deadline)
   end
 end
