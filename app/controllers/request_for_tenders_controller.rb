@@ -44,7 +44,6 @@ class RequestForTendersController < ApplicationController
   def update
     respond_to do |format|
       if @request.update(request_params)
-        byebug
         send_request_out(@request) if params[:send_emails_out] == 'true'
 
         format.html { redirect_to @request, notice: 'Request was successfully updated.' }
