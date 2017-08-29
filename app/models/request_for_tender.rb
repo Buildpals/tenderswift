@@ -26,10 +26,13 @@ class RequestForTender < ApplicationRecord
       if deadline.past?
         'ended'
       else
-        time_left = distance_of_time_in_words(Time.current, deadline)
         "#{time_left} left"
       end
     end
+  end
+
+  def time_left
+    distance_of_time_in_words(Time.current, deadline)
   end
 
   def self.read_excel(excel, request, remote = true)
