@@ -106,6 +106,7 @@ $(document).on("turbolinks:load", function () {
 
                 self.saveRequestForTender().done(function () {
                     console.log("Submitted requestForTender");
+                    window.location.reload(true);
                 });
             },
             moment: function() {
