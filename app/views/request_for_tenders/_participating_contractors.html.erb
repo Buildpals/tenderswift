@@ -9,110 +9,49 @@
 <div class="card-body">
   <h4 class="card-title text-danger">
     Bid Made
-    <small><span class="badge badge-pill badge-danger">3</span></small>
+    <small>
+      <span class="badge badge-pill badge-danger">
+        <%= @request.participants.bid_made.count %>
+    </span>
+    </small>
   </h4>
 
   <ul class="list-group">
-    <li class="list-group-item">
-      <div class="row">
-        <div class="col-md-5">
-          Morgan Supply Star Ltd.
-          <br>
+    <% @request.participants.bid_made.each do |participant| %>
+        <li class="list-group-item">
+          <div class="row">
+            <div class="col-md-5">
+              Morgan Supply Star Ltd.
+              <br>
 
-          <small>
-            <span class="fa fa-user"></span>
-            Morgan Cooper
-          </small>
-        </div>
-        <div class="col-md-4">
-          Aug 14, 2017 07:29
-        </div>
-        <div class="col-md-2">
-          <div class="dropdown">
-            <button class="btn btn-sm btn-light dropdown-toggle" type="button" id="bid_actions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Actions
-            </button>
-            <div class="dropdown-menu" aria-labelledby="bid_actions">
-              <button class="dropdown-item" type="button">View bid</button>
-              <button class="dropdown-item" type="button">Enter bid manually</button>
-              <button class="dropdown-item" type="button">Remove</button>
+              <small>
+                <span class="fa fa-user"></span>
+                Morgan Cooper
+              </small>
+            </div>
+            <div class="col-md-4">
+              Aug 14, 2017 07:29
+            </div>
+            <div class="col-md-2">
+              <div class="dropdown">
+                <button class="btn btn-sm btn-light dropdown-toggle" type="button" id="bid_actions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Actions
+                </button>
+                <div class="dropdown-menu" aria-labelledby="bid_actions">
+                  <button class="dropdown-item" type="button">View bid</button>
+                  <button class="dropdown-item" type="button">Enter bid manually</button>
+                  <button class="dropdown-item" type="button">Remove</button>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-1">
+              <button class="btn btn-sm btn-light">
+                <i class="fa fa-envelope"></i>
+              </button>
             </div>
           </div>
-        </div>
-        <div class="col-md-1">
-          <button class="btn btn-sm btn-light">
-            <i class="fa fa-envelope"></i>
-          </button>
-        </div>
-      </div>
-    </li>
-    <li class="list-group-item">
-      <div class="row">
-        <div class="col-md-5">
-          Riverside Ltd.
-          <br>
-
-          <small>
-            <span class="fa fa-user"></span>
-            Nina Trevor
-          </small>
-        </div>
-        <div class="col-md-4">
-          Aug 14, 2017 07:26
-        </div>
-        <div class="col-md-2">
-          <div class="dropdown">
-            <button class="btn btn-sm btn-light dropdown-toggle" type="button" id="bid_actions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Actions
-            </button>
-            <div class="dropdown-menu" aria-labelledby="bid_actions">
-              <button class="dropdown-item" type="button">View bid</button>
-              <button class="dropdown-item" type="button">Enter bid manually</button>
-              <button class="dropdown-item" type="button">Remove</button>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-1">
-          <button class="btn btn-sm btn-light">
-            <i class="fa fa-envelope"></i>
-          </button>
-        </div>
-      </div>
-    </li>
-    <li class="list-group-item">
-      <div class="row">
-        <div class="col-md-5">
-          SunLite Inc.
-          <br>
-
-          <small>
-            <span class="fa fa-user"></span>
-            Larry King
-          </small>
-        </div>
-        <div class="col-md-4">
-          Aug 14, 2017 08:10
-        </div>
-        <div class="col-md-2">
-          <div class="dropdown">
-            <button class="btn btn-sm btn-light dropdown-toggle" type="button" id="bid_actions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Actions
-            </button>
-            <div class="dropdown-menu" aria-labelledby="bid_actions">
-              <button class="dropdown-item" type="button">View bid</button>
-              <button class="dropdown-item" type="button">Enter bid manually</button>
-              <button class="dropdown-item" type="button">Remove</button>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-1">
-          <button class="btn btn-sm btn-light">
-            <span class="fa fa-envelope"></span>
-          </button>
-        </div>
-      </div>
-    </li>
-
+        </li>
+    <% end %>
   </ul>
 </div>
 
@@ -120,43 +59,49 @@
 <div class="card-body">
   <h4 class="card-title text-danger">
     Not Read
-    <small><span class="badge badge-pill badge-danger">1</span></small>
+    <small>
+      <span class="badge badge-pill badge-danger">
+        <%= @request.participants.not_read.count %>
+      </span>
+    </small>
   </h4>
 
   <ul class="list-group">
-    <li class="list-group-item">
-      <div class="row">
-        <div class="col-md-5">
-          Basic Solutions Ltd.
-          <br>
+    <% @request.participants.not_read.each do |participant| %>
+        <li class="list-group-item">
+          <div class="row">
+            <div class="col-md-5">
+              Basic Solutions Ltd.
+              <br>
 
-          <small>
-            <span class="fa fa-user"></span>
+              <small>
+                <span class="fa fa-user"></span>
 
-          </small>
-        </div>
-        <div class="col-md-4">
+              </small>
+            </div>
+            <div class="col-md-4">
 
-        </div>
-        <div class="col-md-2">
-          <div class="dropdown">
-            <button class="btn btn-sm btn-light dropdown-toggle" type="button" id="bid_actions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Actions
-            </button>
-            <div class="dropdown-menu" aria-labelledby="bid_actions">
-              <button class="dropdown-item" type="button">Change email</button>
-              <button class="dropdown-item" type="button">Enter bid manually</button>
-              <button class="dropdown-item" type="button">Remove</button>
+            </div>
+            <div class="col-md-2">
+              <div class="dropdown">
+                <button class="btn btn-sm btn-light dropdown-toggle" type="button" id="bid_actions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Actions
+                </button>
+                <div class="dropdown-menu" aria-labelledby="bid_actions">
+                  <button class="dropdown-item" type="button">Change email</button>
+                  <button class="dropdown-item" type="button">Enter bid manually</button>
+                  <button class="dropdown-item" type="button">Remove</button>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-1">
+              <button class="btn btn-sm btn-light">
+                <span class="fa fa-envelope"></span>
+              </button>
             </div>
           </div>
-        </div>
-        <div class="col-md-1">
-          <button class="btn btn-sm btn-light">
-            <span class="fa fa-envelope"></span>
-          </button>
-        </div>
-      </div>
-    </li>
+        </li>
+    <% end %>
   </ul>
 </div>
 
@@ -164,42 +109,48 @@
 <div class="card-body">
   <h4 class="card-title text-warning">
     Read
-    <small><span class="badge badge-pill badge-warning">1</span></small>
+    <small>
+      <span class="badge badge-pill badge-warning">
+          <%= @request.participants.read.count %>
+      </span>
+    </small>
   </h4>
 
   <ul class="list-group">
-    <li class="list-group-item">
-      <div class="row">
-        <div class="col-md-5">
-          Comply Ltd.
-          <br>
-          <small>
-            <span class="fa fa-user"></span>
-            Bob Schmidt
-          </small>
-        </div>
-        <div class="col-md-4">
-          Aug 14, 2017 08:27
-        </div>
-        <div class="col-md-2">
-          <div class="dropdown">
-            <button class="btn btn-sm btn-light dropdown-toggle" type="button" id="bid_actions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Actions
-            </button>
-            <div class="dropdown-menu" aria-labelledby="bid_actions">
-              <button class="dropdown-item" type="button">Change email</button>
-              <button class="dropdown-item" type="button">Enter bid manually</button>
-              <button class="dropdown-item" type="button">Remove</button>
+    <% @request.participants.read.each do |participant| %>
+        <li class="list-group-item">
+          <div class="row">
+            <div class="col-md-5">
+              <%= participant.email %>
+              <br>
+              <small>
+                <span class="fa fa-user"></span>
+                <%= participant.phone_number %>
+              </small>
+            </div>
+            <div class="col-md-4">
+              <%= participant.request_read_time.to_formatted_s(:long) %>
+            </div>
+            <div class="col-md-2">
+              <div class="dropdown">
+                <button class="btn btn-sm btn-light dropdown-toggle" type="button" id="bid_actions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Actions
+                </button>
+                <div class="dropdown-menu" aria-labelledby="bid_actions">
+                  <button class="dropdown-item" type="button">Change email</button>
+                  <button class="dropdown-item" type="button">Enter bid manually</button>
+                  <button class="dropdown-item" type="button">Remove</button>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-1">
+              <button class="btn btn-sm btn-light">
+                <span class="fa fa-envelope"></span>
+              </button>
             </div>
           </div>
-        </div>
-        <div class="col-md-1">
-          <button class="btn btn-sm btn-light">
-            <span class="fa fa-envelope"></span>
-          </button>
-        </div>
-      </div>
-    </li>
+        </li>
+    <% end %>
   </ul>
 </div>
 
@@ -207,42 +158,48 @@
 <div class="card-body">
   <h4 class="card-title text-warning">
     Want to bid
-    <small><span class="badge badge-pill badge-warning">1</span></small>
+    <small>
+      <span class="badge badge-pill badge-warning">
+                <%= @request.participants.want_to_bid.count %>
+    </span>
+    </small>
   </h4>
 
   <ul class="list-group">
-    <li class="list-group-item">
-      <div class="row">
-        <div class="col-md-5">
-          Pacific Trade Corp.
-          <br>
+    <% @request.participants.want_to_bid.each do |participant| %>
+        <li class="list-group-item">
+          <div class="row">
+            <div class="col-md-5">
+              Pacific Trade Corp.
+              <br>
 
-          <small>
-            <span class="fa fa-user"></span>
-            Mia Stunner
-          </small>
-        </div>
-        <div class="col-md-4">
-          Aug 14, 2017 08:23
-        </div>
-        <div class="col-md-2">
-          <div class="dropdown">
-            <button class="btn btn-sm btn-light dropdown-toggle" type="button" id="bid_actions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Actions
-            </button>
-            <div class="dropdown-menu" aria-labelledby="bid_actions">
-              <button class="dropdown-item" type="button">Enter bid manually</button>
-              <button class="dropdown-item" type="button">Remove</button>
+              <small>
+                <span class="fa fa-user"></span>
+                Mia Stunner
+              </small>
+            </div>
+            <div class="col-md-4">
+              Aug 14, 2017 08:23
+            </div>
+            <div class="col-md-2">
+              <div class="dropdown">
+                <button class="btn btn-sm btn-light dropdown-toggle" type="button" id="bid_actions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Actions
+                </button>
+                <div class="dropdown-menu" aria-labelledby="bid_actions">
+                  <button class="dropdown-item" type="button">Enter bid manually</button>
+                  <button class="dropdown-item" type="button">Remove</button>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-1">
+              <button class="btn btn-sm btn-light">
+                <span class="fa fa-envelope"></span>
+              </button>
             </div>
           </div>
-        </div>
-        <div class="col-md-1">
-          <button class="btn btn-sm btn-light">
-            <span class="fa fa-envelope"></span>
-          </button>
-        </div>
-      </div>
-    </li>
+        </li>
+    <% end %>
   </ul>
 </div>
 
@@ -250,35 +207,41 @@
 <div class="card-body">
   <h4 class="card-title text-muted">
     Do not want to participate
-    <small><span class="badge badge-pill badge-secondary">1</span></small>
+    <small>
+      <span class="badge badge-pill badge-secondary">
+        <%= @request.participants.not_participating.count %>
+      </span>
+    </small>
   </h4>
 
   <ul class="list-group">
-    <li class="list-group-item">
-      <div class="row">
-        <div class="col-md-5">
-          Bass&Co Inc.
-          <br>
+    <% @request.participants.not_participating.each do |participant| %>
+        <li class="list-group-item">
+          <div class="row">
+            <div class="col-md-5">
+              Bass&Co Inc.
+              <br>
 
-          <small>
-            <span class="fa fa-user"></span>
-            Henry Morris
-          </small>
-        </div>
-        <div class="col-md-4">
-          Aug 14, 2017 08:23
-        </div>
-        <div class="col-md-2">
-          <button class="btn btn-sm btn-danger">
-            View Reason
-          </button>
-        </div>
-        <div class="col-md-1">
-          <button class="btn btn-sm btn-light">
-            <span class="fa fa-envelope"></span>
-          </button>
-        </div>
-      </div>
-    </li>
+              <small>
+                <span class="fa fa-user"></span>
+                Henry Morris
+              </small>
+            </div>
+            <div class="col-md-4">
+              Aug 14, 2017 08:23
+            </div>
+            <div class="col-md-2">
+              <button class="btn btn-sm btn-danger">
+                View Reason
+              </button>
+            </div>
+            <div class="col-md-1">
+              <button class="btn btn-sm btn-light">
+                <span class="fa fa-envelope"></span>
+              </button>
+            </div>
+          </div>
+        </li>
+    <% end %>
   </ul>
 </div>

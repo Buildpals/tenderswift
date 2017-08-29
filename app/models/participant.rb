@@ -4,6 +4,12 @@ class Participant < ApplicationRecord
 
   has_secure_token :auth_token
 
+  scope :bid_made, -> { where.not(bid_submission_time: nil) }
+  scope :not_read, -> { where(request_read_time: nil) }
+  scope :read, -> { where.not(request_read_time: nil) }
+  scope :want_to_bid, -> { where(interested: true) }
+  scope :not_participating, -> { where(interested: false) }
+
   has_many :filled_items
 
   belongs_to :request_for_tender
