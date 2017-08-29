@@ -10,6 +10,7 @@ class ParticipantsController < ApplicationController
   # GET /participants/1
   # GET /participants/1.json
   def show
+    @participant.update(request_read_time: Time.current)
   end
 
   # GET /participants/new
