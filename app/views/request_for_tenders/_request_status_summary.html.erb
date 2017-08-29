@@ -1,19 +1,13 @@
 <div class="card mb-4">
   <div class="card-header">
-    White County G4 Communication Tower
+    <%= @request.project_name %>
   </div>
   <ul class="list-group list-group-flush">
-    <li class="list-group-item">
-      <small class="text-muted">
-        <strong>Public web address</strong>
-        https://www.deltabid.com/db/tender/white-county-g4-communication-tower_t24204/en
-      </small>
-    </li>
     <li class="list-group-item bg-info">
       <div class="col-sm-12 request-controls" style="padding: 5px;">
-        <button class="btn btn-sm btn-light" type="button">Edit request</button>
-        <button class="btn btn-sm btn-light" type="button">Extend deadline</button>
-        <button class="btn btn-sm btn-light" type="button">Invite more contractors</button>
+        <%= link_to 'Edit request', edit_request_for_tender_path(@request), class: 'btn btn-sm btn-light' %>
+        <%= link_to 'Extend deadline', edit_request_for_tender_path(@request), class: 'btn btn-sm btn-light' %>
+        <%= link_to 'Invite more contractors', edit_request_for_tender_path(@request), class: 'btn btn-sm btn-light' %>
         <div class="dropdown float-right">
           <button class="btn btn-sm btn-light dropdown-toggle" type="button" id="request_actions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Actions
@@ -38,7 +32,7 @@
             <div class="col-sm-3">3</div>
             <div class="col-sm-3">1/9</div>
             <div class="col-sm-3">8/9</div>
-            <div class="col-sm-3">10d 8h 16m</div>
+            <div class="col-sm-3"><%= @request.time_left %></div>
           </div>
         </div>
         <div class="col-sm-4 text-center">
