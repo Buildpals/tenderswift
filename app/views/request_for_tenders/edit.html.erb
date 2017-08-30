@@ -2,8 +2,8 @@
 
   <div class="row">
 
-    <div class="col-lg-11 mx-auto" id="notice-area" style="height: 40px;">
-      <p id="notice"><%= notice %></p>
+    <div class="col-lg-11 mx-auto pt-4">
+      <%= render 'notice' %>
     </div>
 
     <div class="col-lg-8 ml-auto mb-4">
@@ -19,7 +19,3 @@
   </div>
 
 </div>
-
-<%= javascript_tag do %>
-    var requestForTenderUrl = '<%= request_for_tender_path(@request) %>' + '.json';
-<% end %>

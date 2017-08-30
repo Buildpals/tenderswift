@@ -1,19 +1,23 @@
 <div class="card-body" xmlns:v-on="http://www.w3.org/1999/xhtml">
   <div class="row">
     <div class="form-group col-sm-6">
-      <label for="request_project_name">Project name</label>
-      <input id="request_project_name" type="text" name="request_for_tender[project_name]" class="form-control form-control-sm"
-             v-model='requestForTender.project_name' v-on:change='saveRequestForTender'>
+      <%= form.label :project_name %>
+      <%= form.text_field :project_name, id: :request_project_name,
+                          class: 'form-control form-control-sm', data: { 'save-on-change': true } %>
       <p class="text-muted">
         Example: Purchases of office supplies; Construction of sawmill;
         Railroad engineering works;
       </p>
     </div>
     <div class="form-group col-sm-6">
-      <label for="deadline">Deadline</label>
+      <%= form.label :deadline %>
       <br>
-      <input id="request_deadline" type="datetime-local" name="request_for_tender[deadline]" class="form-control form-control-sm"
-             v-model='requestForTender.deadline' v-on:change='saveRequestForTender'>
+      <div class="form-inline w-100 justify-content-between">
+        <%= form.datetime_select :deadline,
+                                 { use_short_month: true },
+                                 { class: 'form-control form-control-sm', 'data-save-on-change': true } %>
+      </div>
+
       <p class="text-muted">
         Deadline for suppliers to submit their bids.
         Timezone: Accra, Africa (UTC+00:00)
@@ -21,22 +25,21 @@
     </div>
 
     <div class="form-group col-sm-6">
-      <label for="request_country">Country</label>
-      <input id="request_country" type="text" name="request_for_tender[country]" class="form-control form-control-sm"
-             v-model='requestForTender.country' v-on:change='saveRequestForTender'>
+      <%= form.label :country %>
+      <%= form.text_field :country, id: :request_country,
+                          class: 'form-control form-control-sm', data: { 'save-on-change': true } %>
     </div>
 
     <div class="form-group col-sm-6">
-      <label for="request_city">City</label>
-      <input id="request_city" type="text" name="request_for_tender[city]" class="form-control form-control-sm"
-             v-model='requestForTender.city' v-on:change='saveRequestForTender'>
+      <%= form.label :city %>
+      <%= form.text_field :city, id: :request_city,
+                          class: 'form-control form-control-sm', data: { 'save-on-change': true } %>
     </div>
 
     <div class="form-group col-sm-12">
-      <label for="request_description">Description</label>
-      <textarea id="request_description" rows="3" name="request_for_tender[description]" class="form-control form-control-sm"
-                v-model='requestForTender.description' v-on:change='saveRequestForTender'>
-      </textarea>
+      <%= form.label :description %>
+      <%= form.text_area :description, id: :request_description, rows: 3,
+                          class: 'form-control form-control-sm', data: { 'save-on-change': true } %>
     </div>
   </div>
 </div>

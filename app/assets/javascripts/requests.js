@@ -1,5 +1,5 @@
 $(document).on("turbolinks:load", function () {
-    if ($(".request_for_tenders.new, .request_for_tenders.edit ").length === 0) return;
+    if ($(".request_for_tenders.bill_of_quantities").length === 0) return;
 
     Vue.component('message', {
         template: '#message-template',
