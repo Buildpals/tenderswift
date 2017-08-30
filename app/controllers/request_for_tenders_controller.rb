@@ -1,4 +1,7 @@
 class RequestForTendersController < ApplicationController
+  
+  before_action :authenticate_quantity_surveyor!, only: [:edit, :index]
+  
   before_action :set_request, only: [:show, :edit, :update, :destroy]
 
   # GET /requests
