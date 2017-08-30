@@ -22,11 +22,16 @@
       <%= render 'bill_of_quantities_form', form: form %>
       <% render 'questionnaire_form', form: form %>
       <%= render 'participants_form', form: form %>
-      <div class="card-body d-flex w-100 justify-content-between mt-3">
-        <!--<button type="button" class="card-link btn btn-lg btn-block btn-light">Preview</button>-->
-        <%= form.submit 'Save', class: 'card-link btn btn-lg btn-block btn-light' %>
-        <button type="button" class="card-link btn btn-lg btn-block btn-success"
-                v-on:click="submitRequestForTender" v-if="!requestForTender.submitted">Send Request Out</button>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-sm-4">
+            <%= form.submit 'Save', class: 'card-link btn btn-lg btn-block btn-light mb-2' %>
+          </div>
+          <div class="col-sm-8">
+            <button type="button" class="card-link btn btn-lg btn-block btn-success"
+              data-submit-form="true">Send Request Out</button>
+          </div>
+        </div>
       </div>
     </div>
 
