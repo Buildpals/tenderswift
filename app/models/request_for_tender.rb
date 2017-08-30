@@ -25,10 +25,10 @@ class RequestForTender < ApplicationRecord
     end
   end
 
-  def self.read_excel(excel, request, remote = true)
-    file = Creek::Book.new excel.document, remote: remote
+  def self.read_excel(file_path, request)
+    file = Creek::Book.new file_path
     worksheets = file.sheets
-    boq = Boq.new(request.name)
+    boq = Boq.new(name: request.project_name)
       worksheets.each do |page|
         sheet = Page.new(name: page.name)
         section = Section.new
@@ -49,7 +49,7 @@ class RequestForTender < ApplicationRecord
         end
         boq.pages << sheet
       end
-      boq.request = request
+      boq.request_for_tender = request
       boq.save!
       boq
   end

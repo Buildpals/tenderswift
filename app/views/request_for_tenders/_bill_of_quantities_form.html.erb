@@ -4,11 +4,11 @@
 <div class="card-body">
   <div class="row">
     <div class="col-sm-5 text-center">
-    <%= form.label 'Upload Bill of Quantity'%>
-    <%= form.file_field :excel  %>
-      <a href='/bill_of_quantities' class='btn btn-sm btn-primary my-5'>
-        Create Bill Of Quantities
-      </a>
+    <%= form_with(model: @request, id: 'request-form', local: true) do |form| %>
+      <%= form.label 'Upload Bill of Quantity'%>
+      <%= form.file_field :excel  %>
+      <%= form.submit %>
+    <% end %>
     </div>
     <div class="col-sm-7">
       <p class="text-muted">

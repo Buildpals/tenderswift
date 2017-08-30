@@ -41,9 +41,21 @@ class RequestForTendersController < ApplicationController
   # PATCH/PUT /requests/1
   # PATCH/PUT /requests/1.json
   def update
+    #upload file temporarily to read
+    uploaded_io = params[:request_for_tender][:excel]
+    File.open(Rails.root.join('public', 'uploads', uploaded_io.original_filename), 'wb') do |file|
+      file.write(uploaded_io.read)
+    end
+    #upload file to cloudinary
+    excel = Excel.new; excel.document = params[:request_for_tender][:excel]
+    @request.excel = excel
+    excel.save!
+
     respond_to do |format|
       if @request.update(request_params)
         format.html { redirect_to @request, notice: 'Request was successfully updated.' }
+        file_path = Rails.root.join('public', 'uploads', uploaded_io.original_filename)
+        ReadExcelJob.perform_later(file_path.to_s, @request)
         # format.js
         format.json { render :show, status: :ok, location: @request }
       else
