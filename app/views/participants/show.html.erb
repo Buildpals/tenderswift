@@ -1,36 +1,39 @@
-<div class="container-fluid bg-secondary p-2">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-8 mx-auto d-flex w-100 justify-content-between">
-        <a href="" class="btn btn-lg btn-success">MAKE BID</a>
+<% unless @participant.participating? %>
+    <div class="container-fluid bg-secondary p-2">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 mx-auto d-flex w-100 justify-content-between">
 
-        <%= form_with(model: @participant, local: true) do |form| %>
-            <%= form.text_field :interest, id: :interest, value: true, type: 'hidden' %>
+            <%= link_to 'MAKE BID', show_interest_in_request_for_tender_path(@participant),
+                        class: 'btn btn-lg btn-success' %>
 
-            <%= form.submit 'I DO NOT WANT TO PARTICIPATE', class: 'btn btn-lg btn-light' %>
+            <%= link_to 'I DO NOT WANT TO PARTICIPATE', show_disinterest_in_request_for_tender_path(@participant),
+                        class: 'btn btn-lg btn-light' %>
 
-        <% end %>
-
-        <!--<a href="" class="btn btn-lg btn-light">ASK A QUESTION</a>-->
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</div>
+<% end %>
 
 <div class="container" id="app">
   <div class="row">
 
-    <div class="col-lg-8 mx-auto">
-      <div class="alert alert-success alert-dismissible fade show mt-1" role="alert">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-        Click on <strong>Make Bid</strong> to start composing your bid.
-        Need help? Click <a href="">here</a> for a video
-      </div>
-    </div>
+    <% unless @participant.participating? %>
+        <div class="col-lg-8 mx-auto">
+          <div class="alert alert-success alert-dismissible fade show mt-1" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            Click on <strong>Make Bid</strong> to start composing your bid.
+            Need help? Click <a href="">here</a> for a video
+          </div>
+        </div>
+    <% end %>
 
-    <p id="notice"><%= notice %></p>
+    <div class="col-lg-8 mx-auto pt-4">
+      <%= render 'layouts/notice' %>
+    </div>
 
     <div class="col-lg-8 mx-auto">
 

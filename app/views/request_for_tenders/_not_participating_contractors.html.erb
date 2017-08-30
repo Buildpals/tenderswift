@@ -1,0 +1,40 @@
+<div class="card-body">
+  <h4 class="card-title text-muted">
+    Do not want to participate
+    <small>
+      <span class="badge badge-pill badge-secondary">
+        <%= @request.participants.not_participating.count %>
+      </span>
+    </small>
+  </h4>
+
+  <ul class="list-group">
+    <% @request.participants.not_participating.each do |participant| %>
+        <li class="list-group-item">
+          <div class="row">
+            <div class="col-md-5">
+              <%= participant.email %>
+              <br>
+              <small>
+                <span class="fa fa-user"></span>
+                <%= participant.phone_number %>
+              </small>
+            </div>
+            <div class="col-md-4">
+              <%= participant.interested_declaration_time.to_formatted_s(:long) %>
+            </div>
+            <div class="col-md-2">
+              <button class="btn btn-sm btn-danger">
+                View Reason
+              </button>
+            </div>
+            <div class="col-md-1">
+              <button class="btn btn-sm btn-light">
+                <span class="fa fa-envelope"></span>
+              </button>
+            </div>
+          </div>
+        </li>
+    <% end %>
+  </ul>
+</div>

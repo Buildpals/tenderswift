@@ -4,11 +4,8 @@ class Participant < ApplicationRecord
 
   has_secure_token :auth_token
 
-  scope :bid_made, -> { where.not(bid_submission_time: nil) }
-  scope :not_read, -> { where(request_read_time: nil) }
-  scope :read, -> { where.not(request_read_time: nil) }
-  scope :want_to_bid, -> { where(interested: true) }
-  scope :not_participating, -> { where(interested: false) }
+  enum status: [:not_read, :read, :not_participating,
+                :participating, :bid_made]
 
   has_many :filled_items
 
