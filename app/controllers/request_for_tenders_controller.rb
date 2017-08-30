@@ -49,7 +49,7 @@ class RequestForTendersController < ApplicationController
       if @request.update(request_params)
         send_request_out(@request) if params[:send_emails_out] == 'true'
 
-        format.html {redirect_to @request, notice: 'Request was successfully updated.'}
+        format.html {redirect_to (edit_request_for_tender_path @request), notice: 'Request was successfully updated.'}
         format.json {render :show, status: :ok, location: @request}
       else
         format.html {render :edit}
@@ -92,6 +92,9 @@ class RequestForTendersController < ApplicationController
                                                :description,
                                                :budget,
                                                :send_emails_out,
+                                               project_documents_attributes: [:id,
+                                                                         :document,
+                                                                         :_destroy],
                                                participants_attributes: [:id,
                                                                          :email,
                                                                          :phone_number,
