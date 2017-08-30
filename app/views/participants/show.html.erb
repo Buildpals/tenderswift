@@ -87,42 +87,37 @@
         </div>
 
 
+        <div class="card-header">
+          Documents
+        </div>
+        <ul class="list-group list-group-flush">
+          <% @participant.project_documents.each do |project_document| %>
+              <li class="list-group-item d-flex w-100 justify-content-between">
+                <%= project_document.document.file.filename %>
+                <%= link_to 'View', project_document.document.url, target: '_blank',
+                            class: 'btn btn-sm btn-light' %>
+              </li>
+          <% end %>
+        </ul>
+
+
         <!--<div class="card-header">-->
-          <!--Documents-->
-        <!--</div>-->
-        <!--<ul class="list-group list-group-flush">-->
-          <!--<li class="list-group-item d-flex w-100 justify-content-between">-->
-            <!--Project of Construction of Communication Tower.pdf-->
-            <!--<a href="" class="btn btn-sm btn-light">View</a>-->
-          <!--</li>-->
-          <!--<li class="list-group-item d-flex w-100 justify-content-between">-->
-            <!--Specification of Materials.pdf-->
-            <!--<a href="" class="btn btn-sm btn-light">View</a>-->
-          <!--</li>-->
-          <!--<li class="list-group-item d-flex w-100 justify-content-between">-->
-            <!--Network Plans.pdf-->
-            <!--<a href="" class="btn btn-sm btn-light">View</a>-->
-          <!--</li>-->
-        <!--</ul>-->
-        <!---->
-        <!---->
-        <!--<div class="card-header">-->
-          <!--Bill of Quantities-->
+        <!--Bill of Quantities-->
         <!--</div>-->
         <!--<div class="card-body">-->
-          <!--<p class="mb-1">-->
-            <!--<%= @participant.project_description %>-->
-          <!--</p>-->
+        <!--<p class="mb-1">-->
+        <!--<%= @participant.project_description %>-->
+        <!--</p>-->
         <!--</div>-->
         <!---->
         <!---->
         <!--<div class="card-header">-->
-          <!--Other Requirements-->
+        <!--Other Requirements-->
         <!--</div>-->
         <!--<div class="card-body">-->
-          <!--<p class="mb-1">-->
-            <!--<%= @participant.project_description %>-->
-          <!--</p>-->
+        <!--<p class="mb-1">-->
+        <!--<%= @participant.project_description %>-->
+        <!--</p>-->
         <!--</div>-->
 
       </div>
