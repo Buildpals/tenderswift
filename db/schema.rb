@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170829191502) do
+ActiveRecord::Schema.define(version: 20170830071433) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -90,6 +90,14 @@ ActiveRecord::Schema.define(version: 20170829191502) do
     t.index ["request_for_tender_id"], name: "index_participants_requests_on_request_for_tender_id"
   end
 
+  create_table "project_documents", force: :cascade do |t|
+    t.string "document"
+    t.bigint "request_for_tender_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["request_for_tender_id"], name: "index_project_documents_on_request_for_tender_id"
+  end
+
   create_table "request_for_tenders", force: :cascade do |t|
     t.string "project_name"
     t.datetime "deadline"
@@ -112,4 +120,5 @@ ActiveRecord::Schema.define(version: 20170829191502) do
 
   add_foreign_key "filled_items", "items"
   add_foreign_key "filled_items", "participants"
+  add_foreign_key "project_documents", "request_for_tenders"
 end
