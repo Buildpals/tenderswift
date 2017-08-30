@@ -18,6 +18,7 @@
 //= require bootstrap-sprockets
 //= require autosize
 //= require moment
+//= require cocoon
 //= require vue
 //= require_tree .
 
