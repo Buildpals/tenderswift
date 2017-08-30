@@ -6,14 +6,14 @@ class Item < ApplicationRecord
 
     has_many :participants, through: :filled_items
     
-    validates :name, presence: true
+    #validates :name, presence: true
 
-    validates :description, presence: true
+    #validates :description, presence: true
     
-    validates :quantity, presence: true
+    #validates :quantity, presence: true
     
-    validates :rate, presence: true
+    #validates :rate, presence: true
     
-    validates :amount, presence: true
+    #validates :amount, presence: true
     
 end

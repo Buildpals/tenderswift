@@ -10,9 +10,6 @@ class RequestForTendersController < ApplicationController
   # GET /requests/1
   # GET /requests/1.json
   def show
-    # unless @request.submitted?
-    #   redirect_to edit_request_for_tender_path @request
-    # end
   end
 
   # GET /requests/new
@@ -45,9 +42,21 @@ class RequestForTendersController < ApplicationController
   # PATCH/PUT /requests/1
   # PATCH/PUT /requests/1.json
   def update
+    #upload file temporarily to read
+    uploaded_io = params[:request_for_tender][:excel]
+    File.open(Rails.root.join('public', 'uploads', uploaded_io.original_filename), 'wb') do |file|
+      file.write(uploaded_io.read)
+    end
+    #upload file to cloudinary
+    excel = Excel.new; excel.document = params[:request_for_tender][:excel]
+    @request.excel = excel
+    excel.save!
+
     respond_to do |format|
       if @request.update(request_params)
         send_request_out(@request) if params[:send_emails_out] == 'true'
+        file_path = Rails.root.join('public', 'uploads', uploaded_io.original_filename)
+        ReadExcelJob.perform_later(file_path.to_s, @request)
 
         format.html {redirect_to (edit_request_for_tender_path @request), notice: 'Request was successfully updated.'}
         format.json {render :show, status: :ok, location: @request}
@@ -93,8 +102,8 @@ class RequestForTendersController < ApplicationController
                                                :budget,
                                                :send_emails_out,
                                                project_documents_attributes: [:id,
-                                                                         :document,
-                                                                         :_destroy],
+                                                                              :document,
+                                                                              :_destroy],
                                                participants_attributes: [:id,
                                                                          :email,
                                                                          :phone_number,

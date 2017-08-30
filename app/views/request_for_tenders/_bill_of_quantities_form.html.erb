@@ -4,12 +4,10 @@
 <div class="card-body">
   <div class="row">
     <div class="col-sm-5 text-center">
-      <%= form_with(model: @request, id: 'request-form') do |form| %>
-          <%= form.file_field :excel, class: 'btn btn-sm btn-primary my-5' %>
-      <% end %>
+      <%= form.file_field :excel, class: 'form-control-file mt-5'  %>
     </div>
     <div class="col-sm-7">
-      <p class="text-muted">
+      <p class="text-muted mt-1">
         Create a bill of quantities online.
         It's faster than you can ever create it in Excel.
         In addition all the submitted tenders from contractors will be automatically compared
