@@ -1,5 +1,6 @@
 class RequestForTendersController < ApplicationController
-  before_action :set_request, only: [:show, :edit, :update, :destroy]
+  before_action :set_request, only: [:show, :edit, :update, :destroy,
+                                     :email_request_for_tender]
 
   # GET /requests
   # GET /requests.json
@@ -46,8 +47,6 @@ class RequestForTendersController < ApplicationController
 
     respond_to do |format|
       if @request.update(request_params)
-        send_request_out(@request) if params[:send_emails_out] == 'true'
-
         format.html {redirect_to (edit_request_for_tender_path @request), notice: 'Request was successfully updated.'}
         format.json {render :show, status: :ok, location: @request}
       else
@@ -56,6 +55,36 @@ class RequestForTendersController < ApplicationController
       end
     end
   end
+
+  # GET /email_request_for_tender/1
+  def email_request_for_tender
+    if @request.submitted?
+      redirect_to @request,
+                  notice: 'The participants of this request have been contacted already'
+    elsif @request.participants.empty?
+      redirect_to edit_request_for_tender_path(@request),
+                  alert: 'You did not specify any participants in this request.'
+    else
+      @request.participants.each do |participant|
+        # Tell the ParticipantMailer to send a request_for_tender email
+        ParticipantMailer.request_for_tender_email(participant).deliver_later
+      end
+      @request.update(submitted: true)
+      redirect_to @request, notice: 'An email has been sent to each participant of this request.'
+    end
+  end
+
+  # DELETE /requests/1
+  # DELETE /requests/1.json
+  def destroy
+    @request.destroy
+    respond_to do |format|
+      format.html {redirect_to request_for_tenders_url, notice: 'Request was successfully destroyed.'}
+      format.json {head :no_content}
+    end
+  end
+
+  private
 
   def process_excel_file
     #upload file temporarily to read
@@ -73,26 +102,6 @@ class RequestForTendersController < ApplicationController
     ReadExcelJob.perform_later(file_path.to_s, @request)
   end
 
-  def send_request_out(request)
-    request.participants.each do |participant|
-      # Tell the ParticipantMailer to send a request_for_tender email after save
-      ParticipantMailer.request_for_tender_email(participant).deliver_later
-    end
-    request.update(submitted: true)
-  end
-
-  # DELETE /requests/1
-  # DELETE /requests/1.json
-  def destroy
-    @request.destroy
-    respond_to do |format|
-      format.html {redirect_to request_for_tenders_url, notice: 'Request was successfully destroyed.'}
-      format.json {head :no_content}
-    end
-  end
-
-  private
-
   # Use callbacks to share common setup or constraints between actions.
   def set_request
     @request = RequestForTender.find(params[:id])
@@ -106,7 +115,6 @@ class RequestForTendersController < ApplicationController
                                                :city,
                                                :description,
                                                :budget,
-                                               :send_emails_out,
                                                project_documents_attributes: [:id,
                                                                               :document,
                                                                               :_destroy],

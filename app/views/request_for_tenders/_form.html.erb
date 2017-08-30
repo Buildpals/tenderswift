@@ -28,8 +28,10 @@
             <%= form.submit 'Save', class: 'card-link btn btn-lg btn-block btn-light mb-2' %>
           </div>
           <div class="col-sm-8">
-            <button type="button" class="card-link btn btn-lg btn-block btn-success"
-              data-submit-form="true">Send Request Out</button>
+            <% unless @request.submitted %>
+                <%= link_to 'Send Request Out', email_request_for_tender_path(@request), class: 'card-link btn btn-lg btn-block btn-success',
+                            data: {'submit-form': true} %>
+            <% end %>
           </div>
         </div>
       </div>
