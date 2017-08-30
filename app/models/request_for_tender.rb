@@ -1,5 +1,4 @@
 class RequestForTender < ApplicationRecord
-
   include ActionView::Helpers::DateHelper
 
   scope :submitted, -> {where(submitted: true)}
@@ -19,14 +18,13 @@ class RequestForTender < ApplicationRecord
                                 allow_destroy: true,
                                 reject_if: :all_blank
 
-
   validates :project_name, presence: true
 
   validates :deadline, presence: true
 
   def status
     if !submitted?
-      return "not submitted"
+      'not submitted'
     else
       if deadline.past?
         'ended'
@@ -47,19 +45,18 @@ class RequestForTender < ApplicationRecord
     worksheets.each do |page|
       sheet = Page.new(name: page.name)
       section = Section.new
-      #puts "#############################################{page.name}"
+      # puts "#############################################{page.name}"
       page.rows.each do |row|
-        unless row.empty?
-          row.delete_if {|k, v| v.nil?}
-          if row.length.eql?(1)
-            section.name = row.values[0]
-            sheet.sections << section
-            #puts "Section is #{row.values[0]}"
-          else
-            item = Item.new(name: row.values[0], description: row.values[1], quantity: row.values[2], unit: row.values[3])
-            section.items << item
-            #puts "item is #{row.values[0]} name is #{row.values[1]}, quantity is #{row.values[2]} and unit is #{row.values[3]}"
-          end
+        next if row.empty?
+        row.delete_if {|_k, v| v.nil?}
+        if row.length.eql?(1)
+          section.name = row.values[0]
+          sheet.sections << section
+          # puts "Section is #{row.values[0]}"
+        else
+          item = Item.new(name: row.values[0], description: row.values[1], quantity: row.values[2], unit: row.values[3])
+          section.items << item
+          # puts "item is #{row.values[0]} name is #{row.values[1]}, quantity is #{row.values[2]} and unit is #{row.values[3]}"
         end
       end
       boq.pages << sheet
@@ -68,5 +65,4 @@ class RequestForTender < ApplicationRecord
     boq.save!
     boq
   end
-
 end
