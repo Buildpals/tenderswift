@@ -8,6 +8,7 @@
     <span class="navbar-toggler-icon"></span>
   </button>
 
+
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
@@ -15,6 +16,11 @@
             My Requests <span class="sr-only">(current)</span>
         <% end %>
       </li>
+      <% if quantity_surveyor_signed_in? %>
+        <li><%= link_to 'Logout', destroy_quantity_surveyor_session_path, method: :delete %></li>
+      <% else %>
+        <li><%= link_to 'Login', new_quantity_surveyor_session_path  %></li>
+      <% end %>
     </ul>
   </div>
 </nav>

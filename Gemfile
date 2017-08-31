@@ -37,6 +37,10 @@ gem 'carrierwave', '~> 1.0'
 gem 'cloudinary'
 
 gem 'creek'
+
+#devise for authentication
+gem 'devise'
+
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
