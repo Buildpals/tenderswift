@@ -38,24 +38,30 @@ class RequestForTender < ApplicationRecord
     distance_of_time_in_words(Time.current, deadline)
   end
 
+
   def self.read_excel(file_path, request)
     file = Creek::Book.new file_path
     worksheets = file.sheets
     boq = Boq.new(name: request.project_name)
       worksheets.each do |page|
+        #create page
         sheet = Page.new(name: page.name)
-        section = Section.new
+        #create array for section
+        list_of_sections = Array.new
         #puts "#############################################{page.name}"
         page.rows.each do |row|
             unless row.empty?
                 row.delete_if { |k, v| v.nil? }
                 if row.length.eql?(1)
-                  section.name = row.values[0]
+                  section = Section.new(name: row.values[0])
                   sheet.sections << section
+                  list_of_sections << section
                   #puts "Section is #{row.values[0]}"
                 else
                   item = Item.new(name: row.values[0], description: row.values[1], quantity: row.values[2], unit: row.values[3])
-                  section.items << item
+                  last_section = list_of_sections.last
+                  last_section.items << item unless last_section.nil?
+                  #section.save!
                   #puts "item is #{row.values[0]} name is #{row.values[1]}, quantity is #{row.values[2]} and unit is #{row.values[3]}"
                 end
             end
