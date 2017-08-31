@@ -1,9 +1,123 @@
-<p id="notice"><%= notice %></p>
+<div class="container">
+  <div class="row">
 
-<p>
-  <strong>Name:</strong>
-  <%= @boq.name %>
-</p>
+    <div class="col-lg-12 mx-auto pt-4">
+      <%= render 'layouts/notice' %>
+    </div>
 
-<%= link_to 'Edit', edit_boq_path(@boq) %> |
-<%= link_to 'Back', boqs_path %>
+    <div class="col-lg-12 mx-auto">
+
+      <div class="text-center mb-4">
+        <%= link_to 'Back', :back, class: 'btn btn-light float-left' %>
+        <h3><%= @boq.name %></h3>
+      </div>
+
+      <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <% @boq.pages.each_with_index do |page, index| %>
+            <li class="nav-item">
+              <a class="nav-link  <%= 'active' if index == 0 %>" id="page-<%= page.id %>-tab" data-toggle="tab"
+                 href="#page-<%= page.id %>-content" role="tab" aria-controls="page-<%= page.id %>-tab-content">
+                <%= page.name %>
+              </a>
+            </li>
+        <% end %>
+      </ul>
+
+      <div class="tab-content" id="myTabContent">
+        <% @boq.pages.each_with_index do |page, index| %>
+            <div class="tab-pane <%= 'show active' if index == 0 %>"
+                 id="page-<%= page.id %>-content" role="tabpanel" aria-labelledby="page-<%= page.id %>-tab">
+
+              <div id="sheet-<%= page.id %>" style="height: 500px; overflow: hidden"></div>
+
+              <script type="text/javascript" charset="utf-8">
+                  var data<%= page.id %> = [
+                      <% page.sections.each do |section| %>
+                      {
+                          description: '<%= section.name %>'
+                      },
+                      <% section.items.order(id: :asc).each do |item| %>
+                      {
+                          item: '<%= item.name %>',
+                          description: '<%= item.description %>',
+                          quantity: '<%= item.quantity %>',
+                          unit: '<%= item.unit %>',
+                          rate: '',
+                          amount: ''
+                      },
+                      <% end %>
+                      <% end %>
+                  ];
+
+
+                  var greenRenderer = function (instance, td, row, col, prop, value, cellProperties) {
+                      Handsontable.renderers.TextRenderer.apply(this, arguments);
+                      td.style.fontWeight = "bold";
+                  };
+
+                  var sectionHeaders = [
+                      <% page.sections.each_with_index do |section, index| %>
+                      {row: <%= index %>, col: 1, renderer: greenRenderer},
+                      <% end %>
+                  ];
+
+                  var container = document.getElementById('sheet-<%= page.id %>');
+
+                  var hot<%= page.id %> = new Handsontable(container, {
+                      data: data<%= page.id %>,
+                      cell: sectionHeaders,
+                      colHeaders: ['Item', 'Description', 'Quantity', 'Unit', 'Rate', 'Amount'],
+                      className: "htCenter",
+                      columns: [
+                          {
+                              data: 'item',
+                          },
+                          {
+                              data: 'description',
+                              className: 'htLeft'
+                          },
+                          {
+                              data: 'quantity'
+                          },
+                          {
+                              data: 'unit'
+                          },
+                          {
+                              data: 'rate',
+                              readOnly: true
+                          },
+                          {
+                              data: 'amount',
+                              readOnly: true
+                          }
+                      ],
+                      colWidths: [60, 412, 80, 42, 80, 80],
+                      rowHeaders: true,
+                      // colHeaders: true,
+                      stretchH: 'all',
+                      manualColumnResize: true,
+                      manualRowResize: true,
+                      // persistentState: true,
+                      // manualColumnMove: true,
+                      manualRowMove: true,
+                      minSpareRows: 1,
+                      contextMenu: ['row_above', 'row_below', 'remove_row', 'undo', 'redo', 'cut', 'copy']
+                  });
+
+                  $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+                      e.target // newly activated tab
+                      e.relatedTarget // previous active tab
+                      hot<%= page.id %>.render();
+                  });
+              </script>
+
+            </div>
+        <% end %>
+      </div>
+
+
+    </div>
+
+  </div>
+
+</div>

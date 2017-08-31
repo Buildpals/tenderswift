@@ -3,16 +3,16 @@
 </div>
 <div class="card-body">
   <div class="row">
-    <div class="col-md-5 text-center">
-      <%= form.file_field :excel, class: 'form-control-file mt-md-5 mb-4'  %>
-    </div>
-    <div class="col-md-7">
-      <p class="text-muted mt-1">
-        Create a bill of quantities online.
-        It's faster than you can ever create it in Excel.
-        In addition all the submitted tenders from contractors will be automatically compared
-        and the best one will be highlighted.
-      </p>
+    <div class="col-md-12 text-center">
+
+      <div class="mt-md-4 mb-4">
+        <% if @request.boq %>
+            <%= link_to 'View Bill of Quantities', @request.boq if @request.boq %>
+            <div class="my-1">or upload a new one</div>
+        <% end %>
+        <%= form.file_field :excel, class: 'form-control-file btn btn-sm btn-primary'  %>
+      </div>
+
     </div>
   </div>
 </div>
