@@ -91,7 +91,7 @@ class RequestForTendersController < ApplicationController
   def process_excel_file
     #upload file temporarily to read
     uploaded_io = params[:request_for_tender][:excel]
-    File.open(Rails.root.join('public', 'uploads', uploaded_io.original_filename), 'wb') do |file|
+    File.open(Rails.root.join('tmp', uploaded_io.original_filename), 'wb') do |file|
       file.write(uploaded_io.read)
     end
 
@@ -100,7 +100,7 @@ class RequestForTendersController < ApplicationController
     @request.excel = excel
     excel.save!
 
-    file_path = Rails.root.join('public', 'uploads', uploaded_io.original_filename)
+    file_path = Rails.root.join('tmp', uploaded_io.original_filename)
     ReadExcelJob.perform_later(file_path.to_s, @request)
   end
 
