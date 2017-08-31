@@ -16,11 +16,18 @@
             My Requests <span class="sr-only">(current)</span>
         <% end %>
       </li>
+    </ul>
+    <ul class="navbar-nav ml-auto">
       <% if quantity_surveyor_signed_in? %>
-        <li><%= link_to 'Logout', destroy_quantity_surveyor_session_path, method: :delete %></li>
+        <li>
+          <%= link_to 'Logout', destroy_quantity_surveyor_session_path, method: :delete, class: 'nav-link' %>
+        </li>
       <% else %>
-        <li><%= link_to 'Login', new_quantity_surveyor_session_path  %></li>
+        <li>
+          <%= link_to 'Login', new_quantity_surveyor_session_path, class: 'nav-link'  %>
+        </li>
       <% end %>
     </ul>
+
   </div>
 </nav>
