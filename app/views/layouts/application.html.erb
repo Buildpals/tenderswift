@@ -16,16 +16,6 @@
 
   <%= render 'layouts/navbar' %>
 
-  <% if alert %>
-    <div id="notice_wrapper">
-      <p class="alert"><%= alert %></p>
-    </div>
-  <% elsif notice %>
-    <div id="notice_wrapper">
-      <p class="notice"><%= notice %></p>
-    </div>
-  <% end %>
-
   <div class="wrapper">
     <%= yield %>
 

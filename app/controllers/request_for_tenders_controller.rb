@@ -24,6 +24,7 @@ class RequestForTendersController < ApplicationController
 
   # GET /requests/1/edit
   def edit
+    @request.build_excel
   end
 
   # POST /requests
@@ -45,8 +46,6 @@ class RequestForTendersController < ApplicationController
   # PATCH/PUT /requests/1
   # PATCH/PUT /requests/1.json
   def update
-    process_excel_file if params[:request_for_tender][:excel]
-
     respond_to do |format|
       if @request.update(request_params)
         format.html {redirect_to (edit_request_for_tender_path @request), notice: 'Request was successfully updated.'}
@@ -88,22 +87,6 @@ class RequestForTendersController < ApplicationController
 
   private
 
-  def process_excel_file
-    #upload file temporarily to read
-    uploaded_io = params[:request_for_tender][:excel]
-    File.open(Rails.root.join('public', 'uploads', uploaded_io.original_filename), 'wb') do |file|
-      file.write(uploaded_io.read)
-    end
-
-    #upload file to cloudinary
-    excel = Excel.new; excel.document = params[:request_for_tender][:excel]
-    @request.excel = excel
-    excel.save!
-
-    file_path = Rails.root.join('public', 'uploads', uploaded_io.original_filename)
-    ReadExcelJob.perform_later(file_path.to_s, @request)
-  end
-
   # Use callbacks to share common setup or constraints between actions.
   def set_request
     @request = RequestForTender.find(params[:id])
@@ -111,18 +94,22 @@ class RequestForTendersController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def request_params
-    params.require(:request_for_tender).permit(:project_name,
-                                               :deadline,
-                                               :country,
-                                               :city,
-                                               :description,
-                                               :budget,
-                                               project_documents_attributes: [:id,
-                                                                              :document,
-                                                                              :_destroy],
-                                               participants_attributes: [:id,
-                                                                         :email,
-                                                                         :phone_number,
-                                                                         :_destroy])
+    params.require(:request_for_tender)
+          .permit(:project_name,
+                  :deadline,
+                  :country,
+                  :city,
+                  :description,
+                  :budget,
+                  project_documents_attributes: [:id,
+                                                 :document,
+                                                 :_destroy],
+                  participants_attributes: [:id,
+                                            :email,
+                                            :phone_number,
+                                            :_destroy],
+                  excel_attributes: [:id,
+                                      :document,
+                                      :_destroy])
   end
 end

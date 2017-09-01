@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container-fluid">
   <div class="row">
 
     <div class="col-lg-12 mx-auto pt-4">
@@ -9,7 +9,7 @@
 
       <div class="text-center mb-4">
         <%= link_to 'Back', :back, class: 'btn btn-light float-left' %>
-        <h3><%= @boq.name %></h3>
+        <h4>Bill of Quantities for <%= @boq.name %></h4>
       </div>
 
       <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -28,26 +28,11 @@
             <div class="tab-pane <%= 'show active' if index == 0 %>"
                  id="page-<%= page.id %>-content" role="tabpanel" aria-labelledby="page-<%= page.id %>-tab">
 
-              <div id="sheet-<%= page.id %>" style="height: 500px; overflow: hidden"></div>
+              <div id="sheet-<%= page.id %>"></div>
 
               <script type="text/javascript" charset="utf-8">
-                  var data<%= page.id %> = [
-                      <% page.sections.each do |section| %>
-                      {
-                          description: '<%= section.name %>'
-                      },
-                      <% section.items.order(id: :asc).each do |item| %>
-                      {
-                          item: '<%= item.name %>',
-                          description: '<%= item.description %>',
-                          quantity: '<%= item.quantity %>',
-                          unit: '<%= item.unit %>',
-                          rate: '',
-                          amount: ''
-                      },
-                      <% end %>
-                      <% end %>
-                  ];
+
+                  var data<%= page.id %> = <%= page_as_json(page) %>;
 
 
                   var greenRenderer = function (instance, td, row, col, prop, value, cellProperties) {
