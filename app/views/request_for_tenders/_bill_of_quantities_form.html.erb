@@ -6,11 +6,13 @@
     <div class="col-md-12 text-center">
 
       <div class="mt-md-4 mb-4">
-        <% if @request.boq %>
-            <%= link_to 'View Bill of Quantities', @request.boq if @request.boq %>
-            <div class="my-1">or upload a new one</div>
+        <%= form.fields_for :excel do |excel_fields| %>
+            <% if @request.boq %>
+                <%= link_to 'View Bill of Quantities', @request.boq if @request.boq %>
+                <div class="my-1">or upload a new one</div>
+            <% end %>
+            <%= excel_fields.file_field :document, class: 'form-control-file btn btn-sm btn-primary'  %>
         <% end %>
-        <%= form.file_field :excel, class: 'form-control-file btn btn-sm btn-primary'  %>
       </div>
 
     </div>

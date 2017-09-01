@@ -15,7 +15,7 @@ module BoqsHelper
   end
 
   def add_items_to_section(section, sheet_data)
-    section.items.order(id: :asc).each do |item|
+    section.items.each do |item|
       sheet_data.push(item: item.name,
                       description: item.description,
                       quantity: item.quantity,
