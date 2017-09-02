@@ -6,7 +6,7 @@ class Boq < ApplicationRecord
 
     validates :name, presence: true
 
-
+    #Todo includes
     def get_items
       items = Array.new
       self.pages.each { |page|
@@ -18,39 +18,39 @@ class Boq < ApplicationRecord
     }
     items
     end
-
     
+    #Todo: fix N+1 problem here with includes
+    #coded runs too many queries
     def get_total_cost_of_each_bid(items = Array.new)
       total_of_bids_hash = Hash.new(0)
       items.each { |i|
         i.filled_items.each { |filled_item|
           total_of_bids_hash[filled_item.participant.phone_number] = 
             total_of_bids_hash[filled_item.participant.phone_number] + 
-            filled_item.amount
+            eval(filled_item.amount)
         }
       }
       total_of_bids_hash
     end
 
-    #{
-      #"0656754": "455",
-      #"9069864": "2334",
-      #"0659896": "53535"
-    #}
-    #total_cost
-
-    #items have filled_items
-    #a filled_item have the participant details
-
-    #def get_break_down(total_cost_of_bid = 000.00, items = Array.new)
-      #break_down = Hash.new(0)
-      #items.each { |item|
-        #item.filled_items.each { |filled_item|
-          #break_down[filled_item.participant.phone_number] = Hash.new
-        #}
-      #}
-      #break_down
-    #end
+    def get_section_breakdown(items = Array.new)
+      participants = Hash.new(0)
+      sections_cost = Hash.new(0)
+      self.request_for_tender.participants.each do |current_participant|
+        items.each do |i|
+          i.filled_items.each do |filled_item|
+            #current_participant = filled_item.participant.phone_number
+            if i.section.name.eql?(filled_item.item.section.name) && current_participant.phone_number.eql?(filled_item.participant.phone_number)
+              sections_cost[filled_item.item.section.name] = 
+              sections_cost[filled_item.item.section.name] +
+              eval(filled_item.amount)
+            end
+            participants[filled_item.participant.phone_number] = sections_cost
+          end
+        end
+      end
+      participants
+    end
 
     #{
       #"08978765": {

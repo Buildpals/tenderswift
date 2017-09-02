@@ -7,11 +7,11 @@ class Participant < ApplicationRecord
   enum status: [:not_read, :read, :not_participating,
                 :participating, :bid_made]
 
-  has_many :filled_items
+  has_many :filled_items, dependent: :destroy, autosave: true
 
   belongs_to :request_for_tender
 
-  has_many :items, through: :filled_items
+  has_many :items, through: :filled_items, dependent: :destroy, autosave: true
 
   validates :email, presence: true
 
