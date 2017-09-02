@@ -1,7 +1,8 @@
 class ParticipantsController < ApplicationController
   before_action :set_participant, only: [:show, :edit, :update, :destroy,
                                          :show_interest_in_request_for_tender,
-                                         :show_disinterest_in_request_for_tender]
+                                         :show_disinterest_in_request_for_tender,
+                                         :show_boq]
 
   # GET /participants
   # GET /participants.json
@@ -13,6 +14,10 @@ class ParticipantsController < ApplicationController
   # GET /participants/1.json
   def show
     @participant.update(status: 'read', request_read_time: Time.current) if @participant.not_read?
+  end
+
+  def show_boq
+    @boq = @participant.boq
   end
 
   # GET /participants/new
@@ -57,8 +62,7 @@ class ParticipantsController < ApplicationController
   # GET /show_interest_in_request_for_tender/1
   def show_interest_in_request_for_tender
     @participant.update(status: 'participating', interested_declaration_time: Time.current)
-    puts @participant.status
-    redirect_to @participant,
+    redirect_to participant_boq_path(@participant),
                 notice: 'The project owner has been notified of your interest in the project.'
   end
 
@@ -89,6 +93,14 @@ class ParticipantsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def participant_params
-    params.require(:participant).permit(:email, :phone_number)
+    params.require(:participant)
+          .permit(:email,
+                  :phone_number,
+                  filled_items_attributes: [:id,
+                                            :email,
+                                            :phone_number,
+                                            :amount,
+                                            :rate,
+                                            :_destroy])
   end
 end

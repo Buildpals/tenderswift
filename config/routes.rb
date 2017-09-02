@@ -13,6 +13,10 @@ Rails.application.routes.draw do
       to: 'participants#show_disinterest_in_request_for_tender',
       as: 'show_disinterest_in_request_for_tender'
 
+  get '/participants/:id/boq',
+      to: 'participants#show_boq',
+      as: 'participant_boq'
+
   devise_for :quantity_surveyors
 
   resources :items

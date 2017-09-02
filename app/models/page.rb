@@ -1,9 +1,9 @@
 class Page < ApplicationRecord
 
-    belongs_to :boq
+  belongs_to :boq
 
-    has_many :sections, dependent: :destroy, autosave: true
+  has_many :sections, dependent: :destroy, autosave: true
 
-    validates :name, presence: true
+  validates :name, presence: true
 
 end

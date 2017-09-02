@@ -1,0 +1,148 @@
+<div class="container-fluid">
+  <div class="row">
+
+    <div class="col-lg-12 mx-auto pt-4">
+      <%= render 'layouts/notice' %>
+    </div>
+
+    <div class="col-lg-12 mx-auto">
+
+      <div class="text-center mb-4">
+        <%= link_to 'Back', :back, class: 'btn btn-light float-left' %>
+        <%= link_to 'Submit Bid', :back, data: { confirm: 'Are you sure?' },
+                    class: 'btn btn-large btn-primary float-right' %>
+
+        <h4>Bill of Quantities for <%= @boq.name %></h4>
+      </div>
+
+      <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <% @boq.pages.each_with_index do |page, index| %>
+            <li class="nav-item">
+              <a class="nav-link  <%= 'active' if index == 0 %>" id="page-<%= page.id %>-tab" data-toggle="tab"
+                 href="#page-<%= page.id %>-content" role="tab" aria-controls="page-<%= page.id %>-tab-content">
+                <%= page.name %>
+              </a>
+            </li>
+        <% end %>
+      </ul>
+
+      <div class="tab-content" id="myTabContent">
+        <% @boq.pages.each_with_index do |page, index| %>
+            <div class="tab-pane <%= 'show active' if index == 0 %>"
+                 id="page-<%= page.id %>-content" role="tabpanel" aria-labelledby="page-<%= page.id %>-tab">
+
+              <div id="sheet-<%= page.id %>"></div>
+
+              <script type="text/javascript" charset="utf-8">
+
+                  var data<%= page.id %> = <%= page_as_json(page, @participant) %>;
+                  console.log(data<%= page.id %>);
+
+
+                  var greenRenderer = function (instance, td, row, col, prop, value, cellProperties) {
+                      Handsontable.renderers.TextRenderer.apply(this, arguments);
+                      td.style.fontWeight = "bold";
+                  };
+
+                  function saveFilledItem(filledItem) {
+                      let url = '/filled_items.json';
+                      let method = 'POST';
+
+                      if (filledItem.id) {
+                          url = '/filled_items/' + filledItem.id + '.json';
+                          method = 'PUT';
+                      }
+
+                      return $.ajax({
+                          url: url,
+                          method: method,
+                          data: { filled_item:  filledItem }
+                          })
+                          .done(function (data) {
+                              console.log("Saved filledItem", data);
+                          }).fail(function (error) {
+                              console.error('Error saving filledItem', error);
+                          });
+                  }
+
+                  var sectionHeaders = [
+                      <% page.sections.each_with_index do |section, index| %>
+                      {row: <%= index %>, col: 1, renderer: greenRenderer},
+                      <% end %>
+                  ];
+
+                  var container = document.getElementById('sheet-<%= page.id %>');
+
+                  var hot<%= page.id %> = new Handsontable(container, {
+                      data: data<%= page.id %>,
+                      cell: sectionHeaders,
+                      colHeaders: ['Item', 'Description', 'Quantity', 'Unit', 'Rate', 'Amount'],
+                      className: "htCenter",
+                      columns: [
+                          {
+                              data: 'item',
+                              readOnly: true
+                          },
+                          {
+                              data: 'description',
+                              className: 'htLeft',
+                              readOnly: true
+                          },
+                          {
+                              data: 'quantity',
+                              readOnly: true
+                          },
+                          {
+                              data: 'unit',
+                              readOnly: true
+                          },
+                          {
+                              data: 'filled_item.rate'
+                          },
+                          {
+                              data: 'filled_item.amount'
+//                              readOnly: true
+                          }
+                      ],
+                      colWidths: [60, 412, 80, 42, 80, 80],
+                      rowHeaders: true,
+                      // colHeaders: true,
+                      stretchH: 'all',
+                      manualColumnResize: true,
+                      manualRowResize: true,
+                      // persistentState: true,
+                      // manualColumnMove: true,
+                      manualRowMove: true,
+                      minSpareRows: 1,
+                      contextMenu: ['row_above', 'row_below', 'remove_row', 'undo', 'redo', 'cut', 'copy'],
+                      afterChange: function (changes, source) {
+                          console.log("Saving...");
+                          $.each(changes, function(index, change) {
+                              let row = change[0];
+                              let col = change[1];
+                              let oldVal = change[2];
+                              let newVal = change[3];
+                              let rowData = data<%= page.id %>[row];
+                              let filledItem = rowData.filled_item;
+                              console.log(filledItem);
+                              saveFilledItem(filledItem);
+                          });
+                      }
+                  });
+
+                  $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+                      e.target // newly activated tab
+                      e.relatedTarget // previous active tab
+                      hot<%= page.id %>.render();
+                  });
+              </script>
+
+            </div>
+        <% end %>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

@@ -1,20 +1,23 @@
-<% unless @participant.participating? %>
-    <div class="container-fluid bg-secondary p-2">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-8 mx-auto d-flex w-100 justify-content-between">
+<div class="container-fluid bg-secondary p-2">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 mx-auto d-flex w-100 justify-content-between">
 
+        <% if @participant.participating? %>
+            <%= link_to 'MAKE BID', participant_boq_path(@participant),
+                        class: 'btn btn-lg btn-success' %>
+        <% else %>
             <%= link_to 'MAKE BID', show_interest_in_request_for_tender_path(@participant),
                         class: 'btn btn-lg btn-success' %>
+        <% end %>
 
-            <%= link_to 'I DO NOT WANT TO PARTICIPATE', show_disinterest_in_request_for_tender_path(@participant),
-                        class: 'btn btn-lg btn-light' %>
+        <%= link_to 'I DO NOT WANT TO PARTICIPATE', show_disinterest_in_request_for_tender_path(@participant),
+                    class: 'btn btn-lg btn-light' %>
 
-          </div>
-        </div>
       </div>
     </div>
-<% end %>
+  </div>
+</div>
 
 <div class="container" id="app">
   <div class="row">
@@ -102,26 +105,6 @@
               </li>
           <% end %>
         </ul>
-
-
-        <!--<div class="card-header">-->
-        <!--Bill of Quantities-->
-        <!--</div>-->
-        <!--<div class="card-body">-->
-        <!--<p class="mb-1">-->
-        <!--<%= @participant.project_description %>-->
-        <!--</p>-->
-        <!--</div>-->
-        <!---->
-        <!---->
-        <!--<div class="card-header">-->
-        <!--Other Requirements-->
-        <!--</div>-->
-        <!--<div class="card-body">-->
-        <!--<p class="mb-1">-->
-        <!--<%= @participant.project_description %>-->
-        <!--</p>-->
-        <!--</div>-->
 
       </div>
 

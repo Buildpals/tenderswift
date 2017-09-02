@@ -7,9 +7,12 @@ class Participant < ApplicationRecord
   enum status: [:not_read, :read, :not_participating,
                 :participating, :bid_made]
 
-  has_many :filled_items
-
   belongs_to :request_for_tender
+
+  has_many :filled_items, dependent: :destroy
+  accepts_nested_attributes_for :filled_items,
+                                allow_destroy: true,
+                                reject_if: :all_blank
 
   has_many :items, through: :filled_items
 
@@ -43,5 +46,13 @@ class Participant < ApplicationRecord
 
   def time_left
     distance_of_time_in_words(Time.current, project_deadline)
+  end
+
+  def boq
+    request_for_tender.boq
+  end
+
+  def filled_item(item)
+    filled_items.find_by(item_id: item.id) || FilledItem.new(item: item, participant: self)
   end
 end
