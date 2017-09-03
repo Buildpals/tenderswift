@@ -19,7 +19,7 @@
 //= require autosize
 //= require moment
 //= require cocoon
-//= require vue
 //= require handsontable.full
+//= require Chart
 //= require_tree .
 

@@ -1,5 +1,4 @@
 class Participant < ApplicationRecord
-
   include ActionView::Helpers::DateHelper
 
   has_secure_token :auth_token
@@ -54,5 +53,11 @@ class Participant < ApplicationRecord
 
   def filled_item(item)
     filled_items.find_by(item_id: item.id) || FilledItem.new(item: item, participant: self)
+  end
+
+  def bid
+    filled_items.inject(0) do |product, filled_item|
+      product + (filled_item.item.quantity.to_f * filled_item.rate.to_f)
+    end
   end
 end

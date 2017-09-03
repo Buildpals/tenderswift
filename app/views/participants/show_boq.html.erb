@@ -9,8 +9,14 @@
 
       <div class="text-center mb-4">
         <%= link_to 'Back', :back, class: 'btn btn-light float-left' %>
-        <%= link_to 'Submit Bid', :back, data: { confirm: 'Are you sure?' },
-                    class: 'btn btn-large btn-primary float-right' %>
+
+        <%= form_with(model: @participant, local: true) do |form| %>
+            <%= form.text_field :status, value: 'bid_made', id: :participant_phone_number, type: 'hidden' %>
+            <%= form.text_field :bid_submission_time, value: Time.current, id: :participant_phone_number, type: 'hidden' %>
+
+            <%= form.submit 'Submit Bid', data: {confirm: 'Are you sure?'},
+                            class: 'btn btn-large btn-primary float-right' %>
+        <% end %>
 
         <h4>Bill of Quantities for <%= @boq.name %></h4>
       </div>

@@ -87,14 +87,6 @@ $(document).on("turbolinks:load", function () {
             manualRowMove: true,
             minSpareRows: 1,
             // contextMenu: ['row_above', 'row_below', 'remove_row', 'undo', 'redo', 'cut', 'copy'],
-            afterRemoveRow: function (index, amount) {
-                console.log('index', index);
-                console.log('amount', amount);
-                let endpoint = index + amount;
-                for (index; index < endpoint; index++) {
-                    console.log(data[index]);
-                }
-            },
             afterChange: function (changes, source) {
                 console.log("Saving...");
                 $.each(changes, function (index, change) {
@@ -103,6 +95,8 @@ $(document).on("turbolinks:load", function () {
                     let oldVal = change[2];
                     let newVal = change[3];
                     let filledItem = data[row].filled_item;
+                    filledItem.amount = data[row].quantity * filledItem.rate;
+                    hot.render();
                     console.log(filledItem);
                     saveFilledItem(filledItem);
                 });

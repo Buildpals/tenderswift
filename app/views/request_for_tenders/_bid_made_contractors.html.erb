@@ -29,8 +29,8 @@
                   Actions
                 </button>
                 <div class="dropdown-menu" aria-labelledby="bid_actions">
-                  <button class="dropdown-item" type="button">View bid</button>
-                  <button class="dropdown-item" type="button">Enter bid manually</button>
+                  <%= link_to 'View bid', participant_boq_path(participant), class: 'dropdown-item'%>
+                  <%= link_to 'Enter bid manually', participant_boq_path(participant), class: 'dropdown-item'%>
                   <button class="dropdown-item" type="button">Remove</button>
                 </div>
               </div>
