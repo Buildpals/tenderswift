@@ -18,6 +18,7 @@ class ParticipantsController < ApplicationController
 
   def show_boq
     @boq = @participant.boq
+    gon.jbuilder
   end
 
   # GET /participants/new

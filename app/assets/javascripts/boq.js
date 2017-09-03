@@ -1,121 +1,135 @@
+function sectionRenderer(instance, td, row, col, prop, value, cellProperties) {
+    Handsontable.renderers.TextRenderer.apply(this, arguments);
+    td.style.fontWeight = "bold";
+    td.style.fontSize = "1.1em";
+    td.style.textAlign = 'left';
+}
+
+
+function saveItem(item) {
+    let url = '/items.json';
+    let method = 'POST';
+
+    if (item.id) {
+        url = '/items/' + item.id + '.json';
+        method = 'PUT';
+    }
+
+    return $.ajax({
+        url: url,
+        method: method,
+        data: { item: item }
+    })
+    .done(function (data) {
+        console.log("Saved item", data);
+    }).fail(function (error) {
+        console.error('Error saving item', error);
+    });
+}
+
 $(document).on("turbolinks:load", function () {
-    if ($(".boq").length === 0) return;
+    if ($(".boqs.show").length === 0) return;
 
-    Vue.component('message', {
-        template: '#message-template',
-        props: ['message']
-    });
 
-    window.app = new Vue({
-        components: {
-            message: 'message'
-        },
-        el: '#app',
-        data: {
-            requestForTender: {},
-            newParticipant: {},
-            send_emails_out: false,
-            showSavingSpinner: false
-        },
-        mounted: function () {
-            var self = this;
-            $.ajax({
-                url: requestForTenderUrl,
-                method: 'GET',
-                success: function (data) {
-                    self.requestForTender = data;
-                    // initAutosize();
-                },
-                error: function (error) {
-                    console.error(error);
-                }
+    gon.pages.forEach(function (page) {
+
+        // let sectionHeaders = page.sections.map(function (section, index) {
+        //     return {row: index, col: 1, renderer: greenRenderer}
+        // });
+
+        let data = [];
+        let sectionHeaders = [];
+        page.sections.forEach(function (section) {
+            sectionHeaders.push({row: data.length, col: 0, rowspan: 1, colspan: 6, renderer: sectionRenderer});
+            data.push(section);
+            section.items.forEach(function (item) {
+                data.push(item);
             });
-        },
-        methods: {
-            saveRequestForTender: function () {
-                var self = this;
-                console.log("Saving requestForTender...");
-                $('#spinner').show();
+        });
 
-                return $.ajax({
-                    url: requestForTenderUrl,
-                    method: 'PUT',
-                    data: {
-                        request_for_tender: self.requestForTender,
-                        send_emails_out: self.send_emails_out
-                    }})
-                    .done(function (data) {
-                        console.log("Saved requestForTender");
-                        $('#spinner').hide();
-                        console.log(data);
-                        self.requestForTender = data;
-                    }).fail(function (error) {
-                        $('#spinner').hide();
-                        console.error(error);
-                    });
+
+        let container = document.getElementById('sheet-' + page.id);
+
+        let hot = new Handsontable(container, {
+            data: data,
+            cell: sectionHeaders,
+            mergeCells: sectionHeaders,
+            colHeaders: ['Item', 'Description', 'Quantity', 'Unit', 'Rate', 'Amount'],
+            className: "htCenter",
+            columns: [
+                {
+                    data: 'name',
+                    readOnly: true
+                },
+                {
+                    data: 'description',
+                    className: 'htLeft',
+                    readOnly: true
+                },
+                {
+                    data: 'quantity',
+                    readOnly: true
+                },
+                {
+                    data: 'unit',
+                    readOnly: true
+                },
+                {
+                    data: 'rate',
+                    readOnly: true
+                },
+                {
+                    data: 'amount',
+                    readOnly: true
+                }
+            ],
+            colWidths: [60, 412, 80, 42, 80, 80],
+            rowHeaders: true,
+            // colHeaders: true,
+            stretchH: 'all',
+            manualColumnResize: true,
+            manualRowResize: true,
+            // persistentState: true,
+            // manualColumnMove: true,
+            manualRowMove: true,
+            minSpareRows: 1,
+            // contextMenu: ['row_above', 'row_below', 'remove_row', 'undo', 'redo', 'cut', 'copy'],
+            afterRemoveRow: function(index, amount) {
+              console.log('index', index);
+              console.log('amount', amount);
+              let endpoint = index + amount;
+              for (index; index < endpoint; index++) {
+                  console.log(data[index]);
+              }
             },
-            addParticipant: function (participant) {
-                if (!participant.email && !participant.phone_number) return;
-                var self = this;
-
-                console.log("Adding participant...", participant);
-
-                self.requestForTender.participants_attributes = [
-                    {
-                        email: participant.email,
-                        phone_number: participant.phone_number,
+            afterChange: function (changes, source) {
+                console.log("Saving...");
+                $.each(changes, function (index, change) {
+                    let row = change[0];
+                    let col = change[1];
+                    let oldVal = change[2];
+                    let newVal = change[3];
+                    let item = data[row];
+                    console.log('section_id', data[row-1].section_id);
+                    console.log('section_id', data[row+1].section_id);
+                    if (data[row-1].section_id) {
+                        item.section_id = data[row-1].section_id;
+                    } else {
+                        item.section_id = data[row+2].section_id;
                     }
-                ];
-
-                self.saveRequestForTender().done(function () {
-                    console.log("Added participant", participant);
-                    participant.email = "";
-                    participant.phone_number = "";
+                    console.log(item);
+                    saveItem(item);
                 });
-            },
-            removeParticipant: function (participant) {
-                var self = this;
-
-                console.log("Removing participant...", participant);
-
-                self.requestForTender.participants_attributes = [
-                    {
-                        id: participant.id,
-                        email: participant.email,
-                        phone_number: participant.phone_number,
-                        _destroy: true
-                    }
-                ];
-
-                self.saveRequestForTender().done(function () {
-                    console.log("Removed participant")
-                });
-            },
-            submitRequestForTender: function () {
-                var self = this;
-
-                console.log("Submitting requestForTender...");
-
-                self.send_emails_out = true;
-
-                self.saveRequestForTender().done(function () {
-                    console.log("Submitted requestForTender");
-                    window.location.reload(true);
-                });
-            },
-            moment: function() {
-                return moment();
             }
-        },
-        filters: {
-            capitalize: function (value) {
-                if (!value) return '';
-                value = value.toString();
-                return value.charAt(0).toUpperCase() + value.slice(1)
-            },
-            moment: function (date) {
-                return moment(date).format('MMM D, YYYY h:mm a');
-            }
-        }
+        });
+
+        $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+            e.target // newly activated tab
+            e.relatedTarget // previous active tab
+            hot.render();
+        });
+
     });
+
+
 });

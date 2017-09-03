@@ -10,6 +10,7 @@ class BoqsController < ApplicationController
   # GET /boqs/1
   # GET /boqs/1.json
   def show
+    gon.jbuilder
   end
 
   # GET /boqs/new
