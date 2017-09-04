@@ -1,20 +1,18 @@
 $(document).on("turbolinks:load", function () {
+    if ($(".request_for_tenders").length === 0) return;
+
+
     autosize($('textarea'));
 
 
-    console.log(gon);
 
     let data = gon.participants.map(function (participant) {
         return participant.bid;
     });
-    console.log(data);
 
     let labels = gon.participants.map(function (participant) {
        return participant.email;
     });
-    console.log(labels);
-
-
 
     let ctx = document.getElementById('barChart').getContext('2d');
     let chart = new Chart(ctx, {

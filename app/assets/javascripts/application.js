@@ -23,3 +23,73 @@
 //= require Chart
 //= require_tree .
 
+
+
+function sectionRenderer(instance, td, row, col, prop, value, cellProperties) {
+    Handsontable.renderers.TextRenderer.apply(this, arguments);
+    td.innerHTML = '<div class="col-md-10 mx-auto">' + value + '</div>';
+    td.style.fontWeight = "bold";
+    td.style.fontSize = "1.1em";
+    td.style.textAlign = 'left';
+}
+
+function labelRenderer(instance, td, row, col, prop, value, cellProperties) {
+    Handsontable.renderers.TextRenderer.apply(this, arguments);
+    td.style.fontWeight = "bold";
+    td.style.textAlign = 'center';
+}
+
+function buildSheetData(page, sectionHeaders, data) {
+    page.sections.forEach(function (section) {
+        sectionHeaders.push({row: data.length, col: 0, rowspan: 1, colspan: 6, renderer: sectionRenderer});
+        data.push({id: section.id, name: section.name});
+        data.push({readOnly: true});
+        section.items.forEach(function (item) {
+            data.push(item);
+            data.push({readOnly: true});
+        });
+    });
+}
+
+function saveItem(item) {
+    let url = '/items.json';
+    let method = 'POST';
+
+    if (item.id) {
+        url = '/items/' + item.id + '.json';
+        method = 'PUT';
+    }
+
+    return $.ajax({
+        url: url,
+        method: method,
+        data: { item: item }
+    })
+        .done(function (data) {
+            console.log("Saved item", data);
+        }).fail(function (error) {
+            console.error('Error saving item', error);
+        });
+}
+
+function saveFilledItem(filledItem) {
+    let url = '/filled_items.json';
+    let method = 'POST';
+
+    if (filledItem.id) {
+        url = '/filled_items/' + filledItem.id + '.json';
+        method = 'PUT';
+    }
+
+    return $.ajax({
+        url: url,
+        method: method,
+        data: { filled_item:  filledItem }
+    })
+        .done(function (data) {
+            console.log("Saved filledItem", data);
+        }).fail(function (error) {
+            console.error('Error saving filledItem', error);
+        });
+}
+

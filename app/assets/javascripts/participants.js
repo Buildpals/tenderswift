@@ -1,31 +1,3 @@
-function sectionRenderer(instance, td, row, col, prop, value, cellProperties) {
-    Handsontable.renderers.TextRenderer.apply(this, arguments);
-    td.style.fontWeight = "bold";
-    td.style.fontSize = "1.1em";
-    td.style.textAlign = 'left';
-}
-
-function saveFilledItem(filledItem) {
-    let url = '/filled_items.json';
-    let method = 'POST';
-
-    if (filledItem.id) {
-        url = '/filled_items/' + filledItem.id + '.json';
-        method = 'PUT';
-    }
-
-    return $.ajax({
-        url: url,
-        method: method,
-        data: { filled_item:  filledItem }
-        })
-        .done(function (data) {
-            console.log("Saved filledItem", data);
-        }).fail(function (error) {
-            console.error('Error saving filledItem', error);
-        });
-}
-
 $(document).on("turbolinks:load", function () {
     if ($(".participants.show_boq").length === 0) return;
 
@@ -33,14 +5,7 @@ $(document).on("turbolinks:load", function () {
 
         let data = [];
         let sectionHeaders = [];
-        page.sections.forEach(function (section) {
-            sectionHeaders.push({row: data.length, col: 0, rowspan: 1, colspan: 6, renderer: sectionRenderer});
-            data.push(section);
-            section.items.forEach(function (item) {
-                data.push(item);
-            });
-        });
-
+        buildSheetData(page, sectionHeaders, data);
 
         let container = document.getElementById('sheet-' + page.id);
 

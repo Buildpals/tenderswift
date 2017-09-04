@@ -1,52 +1,12 @@
-function sectionRenderer(instance, td, row, col, prop, value, cellProperties) {
-    Handsontable.renderers.TextRenderer.apply(this, arguments);
-    td.style.fontWeight = "bold";
-    td.style.fontSize = "1.1em";
-    td.style.textAlign = 'left';
-}
-
-
-function saveItem(item) {
-    let url = '/items.json';
-    let method = 'POST';
-
-    if (item.id) {
-        url = '/items/' + item.id + '.json';
-        method = 'PUT';
-    }
-
-    return $.ajax({
-        url: url,
-        method: method,
-        data: { item: item }
-    })
-    .done(function (data) {
-        console.log("Saved item", data);
-    }).fail(function (error) {
-        console.error('Error saving item', error);
-    });
-}
-
 $(document).on("turbolinks:load", function () {
     if ($(".boqs.show").length === 0) return;
 
 
     gon.pages.forEach(function (page) {
 
-        // let sectionHeaders = page.sections.map(function (section, index) {
-        //     return {row: index, col: 1, renderer: greenRenderer}
-        // });
-
         let data = [];
         let sectionHeaders = [];
-        page.sections.forEach(function (section) {
-            sectionHeaders.push({row: data.length, col: 0, rowspan: 1, colspan: 6, renderer: sectionRenderer});
-            data.push(section);
-            section.items.forEach(function (item) {
-                data.push(item);
-            });
-        });
-
+        buildSheetData(page, sectionHeaders, data);
 
         let container = document.getElementById('sheet-' + page.id);
 
@@ -59,6 +19,7 @@ $(document).on("turbolinks:load", function () {
             columns: [
                 {
                     data: 'name',
+                    // renderer: labelRenderer,
                     readOnly: true
                 },
                 {
