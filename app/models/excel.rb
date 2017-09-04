@@ -40,7 +40,7 @@ class Excel < ApplicationRecord
   end
 
   def section?(row)
-    row.delete_if { |_key, value| value.nil? }
+    row.delete_if { |_key, value| value.blank? }
     row.length.eql?(1)
   end
 
