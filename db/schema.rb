@@ -42,6 +42,13 @@ ActiveRecord::Schema.define(version: 20170904164644) do
     t.index ["participant_id"], name: "index_filled_items_on_participant_id"
   end
 
+  create_table "item_tags", id: false, force: :cascade do |t|
+    t.integer "item_id"
+    t.integer "tag_id"
+    t.index ["item_id"], name: "index_item_tags_on_item_id"
+    t.index ["tag_id"], name: "index_item_tags_on_tag_id"
+  end
+
   create_table "items", force: :cascade do |t|
     t.string "name"
     t.text "description"
@@ -52,6 +59,10 @@ ActiveRecord::Schema.define(version: 20170904164644) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "unit"
+    t.integer "item_type"
+    t.float "priority"
+    t.bigint "boq_id"
+    t.index ["boq_id"], name: "index_items_on_boq_id"
     t.index ["section_id"], name: "index_items_on_section_id"
   end
 
@@ -142,7 +153,16 @@ ActiveRecord::Schema.define(version: 20170904164644) do
     t.index ["page_id"], name: "index_sections_on_page_id"
   end
 
+  create_table "tags", force: :cascade do |t|
+    t.string "name"
+    t.bigint "boq_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["boq_id"], name: "index_tags_on_boq_id"
+  end
+
   add_foreign_key "filled_items", "items"
   add_foreign_key "filled_items", "participants"
   add_foreign_key "project_documents", "request_for_tenders"
+  add_foreign_key "tags", "boqs"
 end

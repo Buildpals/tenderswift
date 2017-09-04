@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :tags
   root to: 'welcome#index'
 
   get '/email_request_for_tender/:id',
