@@ -11,7 +11,8 @@
                 <%= link_to 'View Bill of Quantities', @request.boq if @request.boq %>
                 <div class="my-1">or upload a new one</div>
             <% end %>
-            <%= excel_fields.file_field :document, class: 'form-control-file btn btn-sm btn-primary'  %>
+            <%= excel_fields.file_field :document, class: 'form-control-file btn btn-sm btn-primary',
+                                        data: { 'save-on-change': true }  %>
         <% end %>
       </div>
 

@@ -2,14 +2,17 @@
   <div class="form-row">
     <div class="col-sm-5">
       <%= f.text_field :email, id: :participant_email,
-                          class: 'form-control form-control-sm mb-2', placeholder: 'email' %>
+                          class: 'form-control form-control-sm mb-2', placeholder: 'email',
+                       data: { 'save-on-change': true } %>
     </div>
     <div class="col-sm-4">
       <%= f.text_field :phone_number, id: :participant_phone_number,
-                          class: 'form-control form-control-sm mb-2', placeholder: 'phone number' %>
+                          class: 'form-control form-control-sm mb-2', placeholder: 'phone number',
+                       data: { 'save-on-change': true } %>
     </div>
     <div class="col-sm-3">
-      <%= link_to_remove_association f, class: 'btn btn-sm btn-light float-right' do %>
+      <%= link_to_remove_association f, class: 'btn btn-sm btn-light float-right',
+                                     data: { 'save-on-click': true } do %>
           Remove
       <% end %>
     </div>

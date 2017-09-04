@@ -17,8 +17,6 @@ class Participant < ApplicationRecord
 
   validates :email, presence: true
 
-  validates :phone_number, presence: true
-
   def to_param
     auth_token
   end

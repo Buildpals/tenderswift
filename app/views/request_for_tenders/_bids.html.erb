@@ -2,12 +2,12 @@
 
   <canvas id="barChart"></canvas>
   <br>
-  <div class="float-right">
-    <strong class="text-danger">
-      Potential savings:
-      $39 640.00
-    </strong>
-  </div>
+  <!--<div class="float-right">-->
+    <!--<strong class="text-danger">-->
+      <!--Potential savings:-->
+      <!--$39 640.00-->
+    <!--</strong>-->
+  <!--</div>-->
 
   <br>
   <br>
@@ -28,23 +28,23 @@
 
 <div class="d-flex w-100 justify-content-between mb-2 form-inline">
   <h5>Bids</h5>
-  <div class="form-group">
-    <label for="currency">Convert totals to &nbsp;</label>
-    <select class="form-control form-control-sm" name="currency" id="currency">
-      <option value="USD">USD - United States dollar</option>
-      <option value="GHS">GHS - Ghanaian cedi</option>
-    </select>
-  </div>
+  <!--<div class="form-group">-->
+    <!--<label for="currency">Convert totals to &nbsp;</label>-->
+    <!--<select class="form-control form-control-sm" name="currency" id="currency">-->
+      <!--<option value="USD">USD - United States dollar</option>-->
+      <!--<option value="GHS">GHS - Ghanaian cedi</option>-->
+    <!--</select>-->
+  <!--</div>-->
 </div>
 
-<table class="table table-striped table-sm" style="border: 1px solid #e3e3e3">
-  <thead>
+<table class="table table-striped table-sm">
+  <thead class="thead-default">
   <tr>
-    <td>Company</td>
-    <td>Total</td>
-    <td>Difference</td>
-    <td>Bid time</td>
-    <td></td>
+    <th>Company</th>
+    <th>Total</th>
+    <th>Difference</th>
+    <th>Bid time</th>
+    <th></th>
   </tr>
   </thead>
   <tbody>
@@ -56,9 +56,9 @@
         <td><small><%= participant.bid_submission_time.to_formatted_s(:short) %></small></td>
         <td>
           <%= link_to 'View bid', participant_boq_path(participant), class: 'btn btn-sm btn-light'%>
-          <button class="btn btn-sm btn-light">
-            <span class="fa fa-envelope"></span>
-          </button>
+          <!--<button class="btn btn-sm btn-light">-->
+            <!--<span class="fa fa-envelope"></span>-->
+          <!--</button>-->
         </td>
       </tr>
   <% end %>

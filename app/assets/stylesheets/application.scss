@@ -68,3 +68,9 @@ Loading Spinner
   text-align:center;
   padding:30px 15px 0px;
 }
+
+.flash {
+  position: fixed;
+  right: 20px;
+  z-index: 1000;
+}

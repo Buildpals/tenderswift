@@ -2,11 +2,11 @@
   <% if f.object.document? %>
       <%= link_to f.object.document.file.filename, f.object.document.url, target: '_blank', class: 'float-left' %>
   <% else %>
-      <%= f.file_field :document %>
+      <%= f.file_field :document, data: { 'save-on-change': true } %>
   <% end %>
 
 
-  <%= link_to_remove_association f, class: 'btn btn-sm btn-light float-right' do %>
+  <%= link_to_remove_association f, class: 'btn btn-sm btn-light float-right', data: { 'save-on-click': true } do %>
       Delete
   <% end %>
 </div>
