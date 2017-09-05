@@ -19,7 +19,7 @@ class RequestForTendersController < ApplicationController
   # GET /requests/new
   def new
 
-    @request = RequestForTender.new(project_name: 'New Request',
+    @request = RequestForTender.new(project_name: 'Untitled Project',
                                        deadline: Time.current + 7.days)
     @request.quantity_surveyor = current_quantity_surveyor
     @request.save!
