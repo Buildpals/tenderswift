@@ -31,7 +31,6 @@ gem 'rspec-rails', '~> 3.6'
 # gem 'redis', '~> 3.0'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
-gem 'rspec-rails', '~> 3.6'
 
 gem 'carrierwave', '~> 1.0'
 
