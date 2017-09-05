@@ -29,8 +29,9 @@
           </div>
           <div class="col-sm-8">
             <% unless @request.submitted %>
-                <%= link_to 'Send Request Out', email_request_for_tender_path(@request), class: 'card-link btn btn-lg btn-block btn-success',
-                            data: {'submit-form': true} %>
+                <%= link_to 'Send emails out to participants', email_request_for_tender_path(@request), class: 'card-link btn btn-lg btn-block btn-success',
+                            data: {'submit-form': true,
+                                   confirm: "If you haven't clicked the 'save' button, please cancel this message and click 'save' before clicking send emails out"} %>
             <% end %>
           </div>
         </div>
