@@ -7,7 +7,7 @@ class RequestForTendersController < ApplicationController
   # GET /requests
   # GET /requests.json
   def index
-    @requests = RequestForTender.order(updated_at: :desc)
+    @requests = current_quantity_surveyor.request_for_tenders.order(updated_at: :desc)
   end
 
   # GET /requests/1
@@ -18,8 +18,11 @@ class RequestForTendersController < ApplicationController
 
   # GET /requests/new
   def new
-    @request = RequestForTender.create(project_name: '[Untitled request]',
+
+    @request = RequestForTender.new(project_name: '[Untitled request]',
                                        deadline: Time.current + 7.days)
+    @request.quantity_surveyor = current_quantity_surveyor
+    @request.save!
     redirect_to edit_request_for_tender_path @request
   end
 

@@ -6,6 +6,8 @@ class RequestForTender < ApplicationRecord
 
   has_one :boq, dependent: :destroy, autosave: true
 
+  belongs_to :quantity_surveyor
+
   has_many :participants, dependent: :destroy
   accepts_nested_attributes_for :participants,
                                 allow_destroy: true,
