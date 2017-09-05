@@ -1,7 +1,6 @@
 class Item < ApplicationRecord
-  belongs_to :section
-
   belongs_to :boq
+  belongs_to :page
 
   has_many :filled_items, dependent: :destroy, autosave: true
 

@@ -15,7 +15,7 @@ class Excel < ApplicationRecord
     file = Creek::Book.new file_path
     worksheets = file.sheets
 
-    boq = Boq.new(name: request.project_name, request_for_tender: request)
+    boq = Boq.create(name: request.project_name, request_for_tender: request)
 
     worksheets.each do |worksheet|
       page = Page.new(name: worksheet.name)
@@ -23,7 +23,6 @@ class Excel < ApplicationRecord
       boq.pages << page
     end
 
-    boq.save
   end
 
   def add_worksheet_content_to_page(worksheet, page)

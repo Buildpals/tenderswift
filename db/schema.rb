@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170904164644) do
+ActiveRecord::Schema.define(version: 20170905080835) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -62,7 +62,9 @@ ActiveRecord::Schema.define(version: 20170904164644) do
     t.integer "item_type"
     t.float "priority"
     t.bigint "boq_id"
+    t.bigint "page_id"
     t.index ["boq_id"], name: "index_items_on_boq_id"
+    t.index ["page_id"], name: "index_items_on_page_id"
     t.index ["section_id"], name: "index_items_on_section_id"
   end
 
@@ -163,6 +165,7 @@ ActiveRecord::Schema.define(version: 20170904164644) do
 
   add_foreign_key "filled_items", "items"
   add_foreign_key "filled_items", "participants"
+  add_foreign_key "items", "pages"
   add_foreign_key "project_documents", "request_for_tenders"
   add_foreign_key "tags", "boqs"
 end

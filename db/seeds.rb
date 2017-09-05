@@ -6,47 +6,30 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-request_for_tender = RequestForTender.new(project_name: 'East Legon Communication Tower',
-                                          deadline: Time.current + 7.days,
-                                          country: 'Ghana',
-                                          city: 'Accra',
-                                          description: 'This RFP is soliciting proposals from qualified contractors, preferably located within the aforementioned region, with demonstrated, relevant experience for all permitting, site development, preparation, erection and installation of small footprint, self supporting, guyed communication towers and related wireless communication equipment. Quotes should include the cost of purchase and installation of the related wireless radio communication equipment. Proposals must include guyed tower with the capability of accommodating the placement of four (4) single vertical antenna (tenant) spaces for communication equipment which includes the placement of four (4) 11’ microwave dishes. The entire project must be built to completion and billed no later than July 31. Successful proposals must acknowledge.',
-                                          budget: '200000')
+request_for_tender = RequestForTender.create(project_name: 'East Legon Communication Tower',
+                                             deadline: Time.current + 7.days,
+                                             country: 'Ghana',
+                                             city: 'Accra',
+                                             description: 'This RFP is soliciting proposals from qualified contractors, preferably located within the aforementioned region, with demonstrated, relevant experience for all permitting, site development, preparation, erection and installation of small footprint, self supporting, guyed communication towers and related wireless communication equipment. Quotes should include the cost of purchase and installation of the related wireless radio communication equipment. Proposals must include guyed tower with the capability of accommodating the placement of four (4) single vertical antenna (tenant) spaces for communication equipment which includes the placement of four (4) 11’ microwave dishes. The entire project must be built to completion and billed no later than July 31. Successful proposals must acknowledge.',
+                                             budget: '200000')
 
-boq = Boq.new(name: request_for_tender.project_name)
+boq = Boq.create(name: request_for_tender.project_name,
+                 request_for_tender: request_for_tender)
 
-page_one = Page.new(name: 'Page One')
-page_two = Page.new(name: 'Page Two')
+page_one = Page.create(name: 'Page One', boq: boq)
+page_two = Page.create(name: 'Page Two', boq: boq)
 
-section_one = Section.new(name: 'Section One')
-section_two = Section.new(name: 'Section Two')
-section_three = Section.new(name: 'Section Three')
+item_one = Item.create(name: 'A', description: 'First Item', quantity: '42',
+                       unit: 'm2', page: page_one)
+item_two = Item.create(name: 'B', description: 'Second Item', quantity: '43',
+                       unit: 'l', page: page_one)
+item_three = Item.create(name: 'C', description: 'Third Item', quantity: '44',
+                         unit: 'nr', page: page_one)
+item_four = Item.create(name: 'D', description: 'Fourth Item', quantity: '45',
+                        unit: 'm2', page: page_two)
+item_five = Item.create(name: 'E', description: 'Fifth Item', quantity: '46',
+                        unit: 'nr', page: page_two)
 
-page_one.sections << section_one
-page_one.sections << section_three
-page_two.sections << section_two
-
-item_one = Item.new(name: 'A', description: 'First Item', quantity: '42', unit: 'm2')
-item_two = Item.new(name: 'B', description: 'Second Item', quantity: '43', unit: 'l')
-item_three = Item.new(name: 'C', description: 'Third Item', quantity: '44', unit: 'nr')
-item_four = Item.new(name: 'D', description: 'Fourth Item', quantity: '45', unit: 'm2')
-item_five = Item.new(name: 'E', description: 'Fifth Item', quantity: '46', unit: 'nr')
-
-section_one.items << item_one
-section_one.items << item_two
-section_three.items << item_three
-section_two.items << item_four
-section_two.items << item_five
-
-request_for_tender.boq = boq
-page_one.boq = boq
-page_two.boq = boq
-boq.save!
-page_one.save!
-page_two.save!
-section_one.save!
-section_two.save!
-section_three.save!
 
 participant = Participant.create(email: 'bkwaku@rocketmail.com',
                                  phone_number: '0509825831',
