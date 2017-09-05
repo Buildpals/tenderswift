@@ -18,44 +18,45 @@ class Excel < ApplicationRecord
     boq = Boq.create(name: request.project_name, request_for_tender: request)
 
     worksheets.each do |worksheet|
-      page = Page.new(name: worksheet.name)
+      page = Page.create(name: worksheet.name, boq: boq)
       add_worksheet_content_to_page(worksheet, page)
       boq.pages << page
     end
-
   end
 
   def add_worksheet_content_to_page(worksheet, page)
-    list_of_sections = []
-    # puts "#############################################{page.name}\n"
     worksheet.rows.each do |row|
       next if row.empty?
-      if section?(row)
-        add_section(list_of_sections, page, row)
+      if header?(row)
+        add_header(row, page)
       else
-        add_item(list_of_sections, row)
+        add_item(row, page)
       end
     end
   end
 
-  def section?(row)
+  def header?(row)
     row.delete_if { |_key, value| value.blank? }
     row.length.eql?(1)
   end
 
-  def add_section(list_of_sections, page, row)
-    section = Section.new(name: row.values[0])
-    page.sections << section
-    list_of_sections << section
-    # puts "Section is #{row.values[0]}"
+  def add_header(row, page)
+    item = Item.new(item_type: 'header', page: page, boq: page.boq, name: row.values[0],
+                       description: row.values[1], quantity: row.values[2],
+                       unit: row.values[3])
+    item.priority = item.id
+    item.save!
+    puts "################################## \n#{item.persisted?}"
+    puts "################################## \n#{item.errors.full_messages}"
   end
 
-  def add_item(list_of_sections, row)
-    item = Item.new(name: row.values[0], description: row.values[1],
-                    quantity: row.values[2], unit: row.values[3])
-    last_section = list_of_sections.last
-    last_section.items << item unless last_section.nil?
-    # puts "item is #{row.values[0]} name is #{row.values[1]}, "
-    # puts "quantity is #{row.values[2]} and unit is #{row.values[3]}"
+  def add_item(row, page)
+    item = Item.new(item_type: 'item', page: page, boq: page.boq, name: row.values[0],
+                       description: row.values[1], quantity: row.values[2],
+                       unit: row.values[3])
+    item.priority = item.id
+    item.save!
+    puts "################################## \n#{item.persisted?}"
+    puts "################################## \n#{item.errors.full_messages}"
   end
 end

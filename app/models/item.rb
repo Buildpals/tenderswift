@@ -1,4 +1,9 @@
 class Item < ApplicationRecord
+  enum item_type: {
+    item: 0,
+    header: 1
+  }
+
   belongs_to :boq
   belongs_to :page
 

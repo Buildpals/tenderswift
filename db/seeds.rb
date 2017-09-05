@@ -1,37 +1,37 @@
 # This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
+# The data can then be loaded with the rails db:seed command (or create!d alongside the database with db:setup).
 #
 # Examples:
 #
-#   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
-#   Character.create(name: 'Luke', movie: movies.first)
+#   movies = Movie.create!([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
+#   Character.create!(name: 'Luke', movie: movies.first)
 
-request_for_tender = RequestForTender.create(project_name: 'East Legon Communication Tower',
+request_for_tender = RequestForTender.create!(project_name: 'East Legon Communication Tower',
                                              deadline: Time.current + 7.days,
                                              country: 'Ghana',
                                              city: 'Accra',
                                              description: 'This RFP is soliciting proposals from qualified contractors, preferably located within the aforementioned region, with demonstrated, relevant experience for all permitting, site development, preparation, erection and installation of small footprint, self supporting, guyed communication towers and related wireless communication equipment. Quotes should include the cost of purchase and installation of the related wireless radio communication equipment. Proposals must include guyed tower with the capability of accommodating the placement of four (4) single vertical antenna (tenant) spaces for communication equipment which includes the placement of four (4) 11’ microwave dishes. The entire project must be built to completion and billed no later than July 31. Successful proposals must acknowledge.',
                                              budget: '200000')
 
-boq = Boq.create(name: request_for_tender.project_name,
+boq = Boq.create!(name: request_for_tender.project_name,
                  request_for_tender: request_for_tender)
 
-page_one = Page.create(name: 'Page One', boq: boq)
-page_two = Page.create(name: 'Page Two', boq: boq)
+page_one = Page.create!(name: 'Page One', boq: boq)
+page_two = Page.create!(name: 'Page Two', boq: boq)
 
-item_one = Item.create(name: 'A', description: 'First Item', quantity: '42',
-                       unit: 'm2', page: page_one)
-item_two = Item.create(name: 'B', description: 'Second Item', quantity: '43',
-                       unit: 'l', page: page_one)
-item_three = Item.create(name: 'C', description: 'Third Item', quantity: '44',
-                         unit: 'nr', page: page_one)
-item_four = Item.create(name: 'D', description: 'Fourth Item', quantity: '45',
-                        unit: 'm2', page: page_two)
-item_five = Item.create(name: 'E', description: 'Fifth Item', quantity: '46',
-                        unit: 'nr', page: page_two)
+item_one = Item.create!(name: 'A', description: 'First Item', quantity: '42',
+                       unit: 'm2', boq: boq, page: page_one)
+item_two = Item.create!(name: 'B', description: 'Second Item', quantity: '43',
+                       unit: 'l',  boq: boq, page: page_one)
+item_three = Item.create!(name: 'C', description: 'Third Item', quantity: '44',
+                         unit: 'nr',  boq: boq, page: page_one)
+item_four = Item.create!(name: 'D', description: 'Fourth Item', quantity: '45',
+                        unit: 'm2',  boq: boq, page: page_two)
+item_five = Item.create!(name: 'E', description: 'Fifth Item', quantity: '46',
+                        unit: 'nr',  boq: boq, page: page_two)
 
 
-participant = Participant.create(email: 'bkwaku@rocketmail.com',
+participant = Participant.create!(email: 'bkwaku@rocketmail.com',
                                  phone_number: '0509825831',
                                  first_name: 'Kwaku',
                                  last_name: 'Boateng',
@@ -68,7 +68,7 @@ filled_item_five.save!
 
 #####################################################
 
-participant_two = Participant.create(email: 'kbboateng14@gmail.com',
+participant_two = Participant.create!(email: 'kbboateng14@gmail.com',
                                      phone_number: '0509825851',
                                      first_name: 'Kwaku',
                                      last_name: 'Boakye',

@@ -1,5 +1,5 @@
 $(document).on("turbolinks:load", function () {
-    if ($(".boqs.show").length === 0) return;
+    if ($(".request_for_tenders.show").length === 0) return;
 
 
     let data = gon.participants.map(function (participant) {
@@ -46,26 +46,26 @@ $(document).on("turbolinks:load", function () {
 
     autosize($('textarea'));
 
-    $('[data-save-on-change]').change(function () {
-        $('#spinner').show();
-        $('#request-form').trigger('submit.rails');
-    });
-
-    $('[data-save-on-click]').click(function () {
-        $('#spinner').show();
-
-        setTimeout( function(){
-            $('#request-form').trigger('submit.rails');
-        }, 500 );
-    });
-
-    $('.nested-forms').on('cocoon:before-insert', function(e, insertedItem) {
-        console.log("item inserted");
-
-        $(insertedItem).find('[data-save-on-change]').change(function () {
-            $('#spinner').show();
-            $('#request-form').trigger('submit.rails');
-        });
-    });
+    // $('[data-save-on-change]').change(function () {
+    //     $('#spinner').show();
+    //     $('#request-form').trigger('submit.rails');
+    // });
+    //
+    // $('[data-save-on-click]').click(function () {
+    //     $('#spinner').show();
+    //
+    //     setTimeout( function(){
+    //         $('#request-form').trigger('submit.rails');
+    //     }, 500 );
+    // });
+    //
+    // $('.nested-forms').on('cocoon:before-insert', function(e, insertedItem) {
+    //     console.log("item inserted");
+    //
+    //     $(insertedItem).find('[data-save-on-change]').change(function () {
+    //         $('#spinner').show();
+    //         $('#request-form').trigger('submit.rails');
+    //     });
+    // });
 
 });
