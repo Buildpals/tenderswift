@@ -40,9 +40,11 @@
                 </div>
               </div>
               <div class="col-md-1">
-                <button class="btn btn-sm btn-light">
-                  <span class="fa fa-envelope"></span>
-                </button>
+                <a href="mailto:<%= participant.email %>?subject=<%= "re: Invitation to Tender for #{participant.project_name}" %>"
+                   target="_blank"
+                   class="btn btn-sm btn-light">
+                  <span class="fa fa-envelope text-secondary"></span>
+                </a>
               </div>
             </div>
           </li>
