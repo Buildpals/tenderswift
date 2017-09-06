@@ -34,6 +34,14 @@ class Participant < ApplicationRecord
     auth_token
   end
 
+  def project_owners_name
+    request_for_tender.project_owners_name
+  end
+
+  def project_owners_contact
+    request_for_tender.project_owners_contact
+  end
+
   def project_name
     request_for_tender.project_name
   end
