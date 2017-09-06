@@ -1,47 +1,52 @@
-<div class="card-body">
-  <h4 class="card-title text-danger">
-    Bid Made
-    <small>
-      <span class="badge badge-pill badge-danger">
-        <%= @request.participants.bid_made.count %>
-    </span>
-    </small>
-  </h4>
-
-  <ul class="list-group">
-    <% @request.participants.bid_made.each do |participant| %>
-        <li class="list-group-item">
-          <div class="row">
-            <div class="col-md-5">
-              <%= participant.email %>
-              <br>
-              <small>
-                <span class="fa fa-user"></span>
-                <%= participant.phone_number %>
-              </small>
-            </div>
-            <div class="col-md-4">
-              <%= participant.bid_submission_time.to_formatted_s(:long) %>
-            </div>
-            <div class="col-md-2">
-              <div class="dropdown">
-                <button class="btn btn-sm btn-light dropdown-toggle" type="button" id="bid_actions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Actions
-                </button>
-                <div class="dropdown-menu" aria-labelledby="bid_actions">
-                  <%= link_to 'View bid', participant_boq_path(participant), class: 'dropdown-item'%>
-                  <%= link_to 'Enter bid manually', participant_boq_path(participant), class: 'dropdown-item'%>
-                  <button class="dropdown-item" type="button">Remove</button>
+<div class="card-header" role="tab" id="headingBidMade">
+  <h5 class="mb-0">
+    <a class="collapsed text-success" data-toggle="collapse" href="#collapseBidMade" aria-expanded="false" aria-controls="collapseBidMade">
+      Bid Made
+      <small>
+      <span class="badge badge-pill badge-success">
+        <%= @request.participants.bid_list.count %>
+      </span>
+      </small>
+    </a>
+  </h5>
+</div>
+<div id="collapseBidMade" class="collapse" role="tabpanel" aria-labelledby="headingBidMade" data-parent="#accordion">
+  <div class="card-body">
+    <ul class="list-group">
+      <% @request.participants.bid_list.each do |participant| %>
+          <li class="list-group-item">
+            <div class="row">
+              <div class="col-md-5">
+                <%= participant.email %>
+                <br>
+                <small>
+                  <span class="fa fa-user"></span>
+                  <%= participant.phone_number %>
+                </small>
+              </div>
+              <div class="col-md-4">
+                <%= participant.bid_submission_time.to_formatted_s(:long) %>
+              </div>
+              <div class="col-md-2">
+                <div class="dropdown">
+                  <button class="btn btn-sm btn-light dropdown-toggle" type="button" id="bid_actions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Actions
+                  </button>
+                  <div class="dropdown-menu" aria-labelledby="bid_actions">
+                    <%= link_to 'View bid', participant_boq_path(participant), class: 'dropdown-item' %>
+                    <%= link_to 'Enter bid manually', participant_boq_path(participant), class: 'dropdown-item' %>
+                    <button class="dropdown-item" type="button">Remove</button>
+                  </div>
                 </div>
               </div>
+              <div class="col-md-1">
+                <button class="btn btn-sm btn-light">
+                  <i class="fa fa-envelope"></i>
+                </button>
+              </div>
             </div>
-            <div class="col-md-1">
-              <button class="btn btn-sm btn-light">
-                <i class="fa fa-envelope"></i>
-              </button>
-            </div>
-          </div>
-        </li>
-    <% end %>
-  </ul>
+          </li>
+      <% end %>
+    </ul>
+  </div>
 </div>

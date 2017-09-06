@@ -25,13 +25,13 @@
       <div class="row" style="padding-top: 15px;">
         <div class="col-sm-8">
           <div class="row">
-            <div class="col-sm-3"><strong class="text-muted">Bids</strong></div>
-            <div class="col-sm-3"><strong class="text-muted">Pending</strong></div>
+            <div class="col-sm-2"><strong class="text-muted">Bids</strong></div>
+            <div class="col-sm-4"><strong class="text-muted">Participating</strong></div>
             <div class="col-sm-3"><strong class="text-muted">Read</strong></div>
             <div class="col-sm-3"><strong class="text-muted">Time left</strong></div>
-            <div class="col-sm-3"><%= @request.participants.bid_made.count %></div>
-            <div class="col-sm-3"><%= @request.participants.not_read.count %>/<%= @request.participants.count %></div>
-            <div class="col-sm-3"><%= @request.participants.read.count %>/<%= @request.participants.count %></div>
+            <div class="col-sm-2"><%= @request.participants.bid_list.count %></div>
+            <div class="col-sm-4"><%= @request.participants.participating_list.count %></div>
+            <div class="col-sm-3"><%= @request.participants.read_list.count %>/<%= @request.participants.count %></div>
             <div class="col-sm-3"><%= @request.time_left %></div>
           </div>
         </div>
