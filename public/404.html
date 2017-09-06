@@ -1,67 +1,119 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html>
 <head>
-  <title>The page you were looking for doesn't exist (404)</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <style>
-  .rails-default-error-page {
-    background-color: #EFEFEF;
-    color: #2E2F30;
-    text-align: center;
-    font-family: arial, sans-serif;
-    margin: 0;
-  }
-
-  .rails-default-error-page div.dialog {
-    width: 95%;
-    max-width: 33em;
-    margin: 4em auto 0;
-  }
-
-  .rails-default-error-page div.dialog > div {
-    border: 1px solid #CCC;
-    border-right-color: #999;
-    border-left-color: #999;
-    border-bottom-color: #BBB;
-    border-top: #B00100 solid 4px;
-    border-top-left-radius: 9px;
-    border-top-right-radius: 9px;
-    background-color: white;
-    padding: 7px 12% 0;
-    box-shadow: 0 3px 8px rgba(50, 50, 50, 0.17);
-  }
-
-  .rails-default-error-page h1 {
-    font-size: 100%;
-    color: #730E15;
-    line-height: 1.5em;
-  }
-
-  .rails-default-error-page div.dialog > p {
-    margin: 0 0 1em;
-    padding: 1em;
-    background-color: #F7F7F7;
-    border: 1px solid #CCC;
-    border-right-color: #999;
-    border-left-color: #999;
-    border-bottom-color: #999;
-    border-bottom-left-radius: 4px;
-    border-bottom-right-radius: 4px;
-    border-top-color: #DADADA;
-    color: #666;
-    box-shadow: 0 3px 8px rgba(50, 50, 50, 0.17);
-  }
+  <title>BuildPals</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <link href='http://fonts.googleapis.com/css?family=Fjalla+One' rel='stylesheet' type='text/css'>
+  <link rel="icon" type="image/png" href="http://res.cloudinary.com/surreal/image/upload/v1502470319/150247071382243_ngs7s5.png">
+  <style type="text/css">
+    body{
+      background-color: rgb(43, 63, 87);
+    }
+    .wrap{
+      margin:0 auto;
+      margin-top: 2%;
+      width:1000px;
+    }
+    .title{
+      margin-bottom: 40px;
+    }
+    .title h1{
+      font-size: 50px;
+      color:yellow;
+      text-align:center;
+      margin-top:100px;
+      text-shadow:6px 1px 6px #333;
+      font-family: 'Fjalla One', sans-serif;
+    }
+    .title h2{
+      font-size:100px;
+      color:yellow;
+      text-align:center;
+      margin-bottom:1px;
+      text-shadow:6px 1px 6px #333;
+      font-family: 'Fjalla One', sans-serif;
+      margin-top: -20px;
+    }
+    .logo p{
+      color:white;
+      font-size:25px;
+      margin-top:1px;
+      font-family: 'Fjalla One', sans-serif;
+    }
+    .gray {
+      margin-bottom: 20px;
+      background: rgba(12, 52, 77, 0.34);
+      text-shadow: 0 -1px 1px rgba(0, 0, 0, 0.25);
+      border-radius: 4px;
+      -webkit-border-radius: 4px;
+      -moz-border-radius: 4px;
+      -o-border-radius: 4px;
+      color:yellow;
+      text-decoration:none;
+      padding:30px 30px;
+      font-size: 20px;
+      font-weight:bold;
+      font-family: 'Fjalla One', sans-serif;
+      text-align: center;
+    }
+    .ag-3d_button.orange {
+      box-shadow: rgba(155, 142, 50, 0.98) 0 3px 0px, rgba(0, 0, 0, 0.3) 0 3px 3px;
+    }
+    .ag-3d_button {
+      vertical-align: top;
+      border-radius: 4px;
+      border: none;
+      padding: 10px 25px 12px;
+    }
+    .orange {
+      background: #fdde02;
+      background: -moz-linear-gradient(top,  #fdde02 0%, #dec829 99%);
+      background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fdde02), color-stop(99%,#dec829));
+      background: -webkit-linear-gradient(top,  #fdde02 0%,#dec829 99%);
+      background: -o-linear-gradient(top,  #fdde02 0%,#dec829 99%);
+      background: -ms-linear-gradient(top,  #fdde02 0%,#dec829 99%);
+      background: linear-gradient(to bottom,  #fdde02 0%,#dec829 99%);
+      filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fdde02', endColorstr='#dec829',GradientType=0 );
+      color:#fff;
+      text-shadow:1px 1px 3px rgba(155, 142, 50, 0.98);
+      border: 1px solid rgba(155, 142, 50, 0.98);
+      text-decoration: none;
+    }
+    .orange:hover {
+      background: #dec829;
+      background: -moz-linear-gradient(top,  #dec829 1%, #fdde02 100%);
+      background: -webkit-gradient(linear, left top, left bottom, color-stop(1%,#dec829), color-stop(100%,#fdde02));
+      background: -webkit-linear-gradient(top,  #dec829 1%,#fdde02 100%);
+      background: -o-linear-gradient(top,  #dec829 1%,#fdde02 100%);
+      background: -ms-linear-gradient(top,  #dec829 1%,#fdde02 100%);
+      background: linear-gradient(to bottom,  #dec829 1%,#fdde02 100%);
+      filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#dec829', endColorstr='#fdde02',GradientType=0 );
+    }
+    .footer{
+      color:white;
+      position:absolute;
+      right:10px;
+      bottom:10px;
+    }
+    .footer a{
+      color:yellow;
+    }
   </style>
 </head>
-
-<body class="rails-default-error-page">
-  <!-- This file lives in public/404.html -->
-  <div class="dialog">
-    <div>
-      <h1>The page you were looking for doesn't exist.</h1>
-      <p>You may have mistyped the address or the page may have moved.</p>
-    </div>
-    <p>If you are the application owner check the logs for more information.</p>
+<body>
+<div class="wrap">
+  <div class="logo">
+    <img class="img-responsive" style="width: 160px; margin-top: 0px;" alt="buildpals - connecting contractors to project leads" src="http://res.cloudinary.com/surreal/image/upload/v1502531106/buildpals-logo-inverse_uo53tw.png" />
   </div>
+  <div class="title">
+    <h1>Sorry, that page does not exist</h1>
+  </div>
+</div>
+<div class="wrap">
+  <div class="gray">
+    <a href="/" class="ag-3d_button orange">Return To Homepage</a>
+  </div>
+</div>
+<div class="footer">
+</div>
 </body>
-</html>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170905163850) do
+ActiveRecord::Schema.define(version: 20170906135835) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -91,6 +91,7 @@ ActiveRecord::Schema.define(version: 20170905163850) do
     t.bigint "request_for_tender_id"
     t.string "auth_token"
     t.integer "status", default: 0
+    t.string "company_name"
     t.index ["auth_token"], name: "index_participants_on_auth_token", unique: true
     t.index ["request_for_tender_id"], name: "index_participants_on_request_for_tender_id"
   end
