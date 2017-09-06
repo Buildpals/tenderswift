@@ -31,8 +31,12 @@ class RequestForTender < ApplicationRecord
     quantity_surveyor.company_name
   end
 
-  def project_owners_contact
+  def project_owners_phone_number
     quantity_surveyor.phone_number
+  end
+
+  def project_owners_email
+    quantity_surveyor.email
   end
 
   def status

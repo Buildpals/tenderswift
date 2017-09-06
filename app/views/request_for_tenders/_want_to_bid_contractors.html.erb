@@ -17,11 +17,12 @@
           <li class="list-group-item">
             <div class="row">
               <div class="col-md-5">
-                <%= participant.email %>
+                <%= participant.name %>
                 <br>
                 <small>
                   <span class="fa fa-user"></span>
-                  <%= participant.phone_number %>
+                  <%= participant.email %>
+                  (<%= participant.phone_number %>)
                 </small>
               </div>
               <div class="col-md-4">
@@ -39,7 +40,7 @@
                 </div>
               </div>
               <div class="col-md-1">
-                <a href="mailto:<%= participant.email %>?subject=<%= "re: Invitation to Tender for #{participant.project_name}" %>"
+                <a href="mailto:<%= participant.project_owners_email %>?subject=<%= "re: Invitation to Tender for #{participant.project_name}" %>"
                    target="_blank"
                    class="btn btn-sm btn-light">
                   <span class="fa fa-envelope text-secondary"></span>

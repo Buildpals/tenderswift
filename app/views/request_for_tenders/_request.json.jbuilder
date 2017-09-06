@@ -13,6 +13,7 @@ json.extract! request,
 json.participants request.participants do |participant|
   json.id participant.id
   json.email participant.email
+  json.name participant.name
   json.phone_number participant.phone_number
   json.bid participant.bid
 end

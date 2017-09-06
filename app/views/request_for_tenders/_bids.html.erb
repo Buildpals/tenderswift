@@ -50,7 +50,11 @@
   <tbody>
   <% @request.participants.bid_made.each do |participant| %>
       <tr>
-        <td><%= participant.email %></td>
+        <td>
+          <span data-toggle="tooltip" data-placement="top" title="<%= participant.email %>">
+              <%= participant.name %>
+          </span>
+        </td>
         <td>$<%= participant.bid %></td>
         <td></td>
         <td><small><%= participant.bid_submission_time.to_formatted_s(:short) %></small></td>
