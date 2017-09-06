@@ -8,6 +8,7 @@
         <%= link_to 'Edit request', edit_request_for_tender_path(@request), class: 'btn btn-sm btn-light' %>
         <%= link_to 'Extend deadline', edit_request_for_tender_path(@request), class: 'btn btn-sm btn-light' %>
         <%= link_to 'Invite more contractors', edit_request_for_tender_path(@request), class: 'btn btn-sm btn-light' %>
+        <%= link_to 'View Bill of Quantities', @request.boq, class: 'btn btn-sm btn-light float-right' %>
         <!--<div class="dropdown float-right">-->
           <!--<button class="btn btn-sm btn-light dropdown-toggle" type="button" id="request_actions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
             <!--Actions-->
