@@ -94,7 +94,7 @@
 
 
         <div class="card-header">
-          Documents
+          Project Documents
         </div>
         <ul class="list-group list-group-flush">
           <% @participant.project_documents.each do |project_document| %>
@@ -105,7 +105,15 @@
               </li>
           <% end %>
         </ul>
-
+        <div class="card-body">
+          <% if @participant.participating? %>
+              <%= link_to 'MAKE BID', participant_boq_path(@participant),
+                          class: 'btn btn-lg btn-success float-right' %>
+          <% else %>
+              <%= link_to 'MAKE BID', show_interest_in_request_for_tender_path(@participant),
+                          class: 'btn btn-lg btn-success float-right' %>
+          <% end %>
+        </div>
       </div>
 
 
