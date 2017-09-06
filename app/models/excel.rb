@@ -5,7 +5,20 @@ class Excel < ApplicationRecord
 
   belongs_to :request_for_tender
 
+  validate :check_file_extension
+
+  validates :document, presence: true
+
   private
+
+  def check_file_extension
+    if document
+      accepted_formats = ['.xlsx', '.xlsm']
+      unless accepted_formats.include? File.extname(document.file.path)
+        errors.add(:document, :invalid, message: "The uploaded document should be an Excel (xlsx and xlsm) file.")
+      end
+    end
+  end
 
   def process_excel_file
     read_excel(document.file.path, request_for_tender)
