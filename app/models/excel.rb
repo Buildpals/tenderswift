@@ -12,12 +12,10 @@ class Excel < ApplicationRecord
   private
 
   def check_file_extension
-    if document
-      accepted_formats = ['.xlsx', '.xlsm']
-      unless accepted_formats.include? File.extname(document.file.path)
-        errors.add(:document, :invalid, message: "The uploaded document should be an Excel (xlsx and xlsm) file.")
-      end
-    end
+    return unless document
+    accepted_formats = %w(.xlsx .xlsm)
+    return if accepted_formats.include? File.extname(document.file.path)
+    errors.add(:document, :invalid, message: 'The uploaded document should be an Excel(.xlsx or .xlsm) file.')
   end
 
   def process_excel_file

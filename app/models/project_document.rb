@@ -8,12 +8,9 @@ class ProjectDocument < ApplicationRecord
   private
 
   def check_file_extension
-    if document
-      accepted_formats = ['.docx', '.pdf', '.dwg', '.dxf']
-      unless accepted_formats.include? File.extname(document.file.path)
-        errors.add(:document, :invalid, message: "The uploaded document should be a PDF, Word Document or Auto Card file.")
-      end
-    end
+    return unless document
+    accepted_formats = %w(.doc .docx .pdf .dwg .dxf)
+    return if accepted_formats.include? File.extname(document.file.path)
+    errors.add(:document, :invalid, message: 'The uploaded document should be a PDF, Word Document or AutoCAD file.')
   end
-  
 end
