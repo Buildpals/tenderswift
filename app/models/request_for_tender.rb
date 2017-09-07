@@ -27,6 +27,10 @@ class RequestForTender < ApplicationRecord
 
   validates :deadline, presence: true
 
+  def name
+    "##{id} #{project_name}"
+  end
+
   def project_owners_name
     quantity_surveyor.company_name
   end
