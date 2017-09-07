@@ -37,8 +37,7 @@ $(document).on("turbolinks:load", function () {
                     data: 'filled_item.rate'
                 },
                 {
-                    data: 'filled_item.amount',
-                    readOnly: true
+                    data: 'filled_item.amount'
                 }
             ],
             colWidths: [60, 412, 80, 42, 80, 80],

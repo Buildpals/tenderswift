@@ -1,10 +1,12 @@
 class RequestForTender < ApplicationRecord
   include ActionView::Helpers::DateHelper
 
-  scope :submitted, -> { where(submitted: true) }
-  scope :not_submitted, -> { where(submitted: false) }
+  scope :submitted, -> {where(submitted: true)}
+  scope :not_submitted, -> {where(submitted: false)}
 
   has_one :boq, dependent: :destroy, autosave: true
+
+  belongs_to :quantity_surveyor
 
   has_many :participants, dependent: :destroy
   accepts_nested_attributes_for :participants,
@@ -24,6 +26,18 @@ class RequestForTender < ApplicationRecord
   validates :project_name, presence: true
 
   validates :deadline, presence: true
+
+  def project_owners_name
+    quantity_surveyor.company_name
+  end
+
+  def project_owners_phone_number
+    quantity_surveyor.phone_number
+  end
+
+  def project_owners_email
+    quantity_surveyor.email
+  end
 
   def status
     if !submitted?

@@ -29,7 +29,7 @@
               <span aria-hidden="true">&times;</span>
             </button>
             Click on <strong>Make Bid</strong> to start composing your bid.
-            Need help? Click <a href="">here</a> for a video
+            Need help?
           </div>
         </div>
     <% end %>
@@ -50,13 +50,13 @@
           <small>
             <p class="mb-1">
               <strong>Project Owner:</strong>
-              Hirael Construction Ltd
+              <%= @participant.project_owners_name %>
             </p>
           </small>
 
           <small>
-            <strong>Contact Person:</strong>
-            Peter O'Hara Adu (+233500011505)
+            <strong>Contact:</strong>
+            <%= @participant.project_owners_phone_number %>
           </small>
         </div>
         <ul class="list-group list-group-flush">
@@ -88,13 +88,13 @@
         </div>
         <div class="card-body">
           <p class="mb-1">
-            <%= @participant.project_description %>
+            <%= simple_format @participant.project_description %>
           </p>
         </div>
 
 
         <div class="card-header">
-          Documents
+          Project Documents
         </div>
         <ul class="list-group list-group-flush">
           <% @participant.project_documents.each do |project_document| %>
@@ -105,7 +105,15 @@
               </li>
           <% end %>
         </ul>
-
+        <div class="card-body">
+          <% if @participant.participating? %>
+              <%= link_to 'MAKE BID', participant_boq_path(@participant),
+                          class: 'btn btn-lg btn-success float-right' %>
+          <% else %>
+              <%= link_to 'MAKE BID', show_interest_in_request_for_tender_path(@participant),
+                          class: 'btn btn-lg btn-success float-right' %>
+          <% end %>
+        </div>
       </div>
 
 

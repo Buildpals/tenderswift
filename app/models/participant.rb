@@ -3,8 +3,19 @@ class Participant < ApplicationRecord
 
   has_secure_token :auth_token
 
-  enum status: [:not_read, :read, :not_participating,
-                :participating, :bid_made]
+  enum status: {
+      not_read: 0,
+      read: 1,
+      not_participating: 2,
+      participating: 3,
+      bid_made: 4
+  }
+
+  scope :not_read_list, -> {where(status: 0)}
+  scope :read_list, -> {where(status: [1, 2, 3, 4, 5])}
+  scope :not_participating_list, -> {where(status: 2)}
+  scope :participating_list, -> {where(status: [3, 4])}
+  scope :bid_list, -> {where(status: 4)}
 
   belongs_to :request_for_tender
 
@@ -19,6 +30,26 @@ class Participant < ApplicationRecord
 
   def to_param
     auth_token
+  end
+
+  def name
+    if company_name.blank?
+      email
+    else
+      company_name
+    end
+  end
+
+  def project_owners_name
+    request_for_tender.project_owners_name
+  end
+
+  def project_owners_phone_number
+    request_for_tender.project_owners_phone_number
+  end
+
+  def project_owners_email
+    request_for_tender.project_owners_email
   end
 
   def project_name

@@ -13,23 +13,25 @@
     </ul>
   </div>
 
-  <div class="card-body">
-    <div class="tab-content">
-      <div role="tabpanel" class="tab-pane active" id="bids">
+  <div class="tab-content">
+    <div role="tabpanel" class="tab-pane active" id="bids">
 
+      <div class="card-body">
         <%= render 'bids' %>
-
       </div>
-      <div role="tabpanel" class="tab-pane" id="contractors">
 
-        <%= render 'participating_contractors' %>
+    </div>
+    <div role="tabpanel" class="tab-pane" id="contractors">
 
-      </div>
-      <div role="tabpanel" class="tab-pane" id="request_details">
+      <%= render 'participating_contractors' %>
 
+    </div>
+    <div role="tabpanel" class="tab-pane" id="request_details">
+
+      <div class="card-body">
         <%= render 'request_information' %>
-
       </div>
+
     </div>
   </div>
 </div>

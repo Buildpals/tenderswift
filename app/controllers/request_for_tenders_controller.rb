@@ -7,7 +7,7 @@ class RequestForTendersController < ApplicationController
   # GET /requests
   # GET /requests.json
   def index
-    @requests = RequestForTender.order(updated_at: :desc)
+    @requests = current_quantity_surveyor.request_for_tenders.order(updated_at: :desc)
   end
 
   # GET /requests/1
@@ -18,9 +18,11 @@ class RequestForTendersController < ApplicationController
 
   # GET /requests/new
   def new
-    @request = RequestForTender.create(project_name: '[Untitled request]',
-                                       country: 'Ghana',
-                                       deadline: Time.current + 7.days)
+    @request = RequestForTender.new(project_name: 'Untitled Project',
+                                    country: 'Ghana',
+                                    deadline: Time.current + 7.days)
+    @request.quantity_surveyor = current_quantity_surveyor
+    @request.save!
     redirect_to edit_request_for_tender_path @request
   end
 
@@ -51,7 +53,6 @@ class RequestForTendersController < ApplicationController
     respond_to do |format|
       if @request.update(request_params)
         format.html { redirect_to edit_request_for_tender_path(@request), notice: 'Request was successfully updated.' }
-        # format.js
         format.json { render :show, status: :ok, location: @request }
       else
         format.html { render :edit }
@@ -110,6 +111,7 @@ class RequestForTendersController < ApplicationController
                   participants_attributes: [:id,
                                             :email,
                                             :phone_number,
+                                            :company_name,
                                             :_destroy],
                   excel_attributes: [:id,
                                      :document,

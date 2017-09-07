@@ -7,7 +7,7 @@ $(document).on("turbolinks:load", function () {
     });
 
     let labels = gon.participants.map(function (participant) {
-       return participant.email;
+       return participant.name;
     });
 
     let ctx = document.getElementById('barChart').getContext('2d');

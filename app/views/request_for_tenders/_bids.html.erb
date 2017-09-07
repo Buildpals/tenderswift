@@ -1,7 +1,7 @@
 <div class="graph mb-4">
 
   <canvas id="barChart"></canvas>
-  <br>
+  <!--<br>-->
   <!--<div class="float-right">-->
     <!--<strong class="text-danger">-->
       <!--Potential savings:-->
@@ -9,20 +9,20 @@
     <!--</strong>-->
   <!--</div>-->
 
-  <br>
-  <br>
+  <!--<br>-->
+  <!--<br>-->
 
-  <div class="row">
-    <div class="col-md-4">
-      <img src="https://d33wubrfki0l68.cloudfront.net/74c9032bea9f3fc96ddd7a3e4011a868bfac0c22/54e08/images/selection_012.png" alt="" class="img-fluid">
-    </div>
-    <div class="col-md-4">
-      <img src="https://d33wubrfki0l68.cloudfront.net/94c8224a6878c785a08542278c2f4863ff420703/940bc/images/selection_013.png" alt="" class="img-fluid">
-    </div>
-    <div class="col-md-4">
-      <img src="https://d33wubrfki0l68.cloudfront.net/8b6e86af4969172adc59d9a0fc969096f6b41b12/d5bdc/images/selection_015.png" alt="" class="img-fluid">
-    </div>
-  </div>
+  <!--<div class="row">-->
+    <!--<div class="col-md-4">-->
+      <!--<img src="https://d33wubrfki0l68.cloudfront.net/74c9032bea9f3fc96ddd7a3e4011a868bfac0c22/54e08/images/selection_012.png" alt="" class="img-fluid">-->
+    <!--</div>-->
+    <!--<div class="col-md-4">-->
+      <!--<img src="https://d33wubrfki0l68.cloudfront.net/94c8224a6878c785a08542278c2f4863ff420703/940bc/images/selection_013.png" alt="" class="img-fluid">-->
+    <!--</div>-->
+    <!--<div class="col-md-4">-->
+      <!--<img src="https://d33wubrfki0l68.cloudfront.net/8b6e86af4969172adc59d9a0fc969096f6b41b12/d5bdc/images/selection_015.png" alt="" class="img-fluid">-->
+    <!--</div>-->
+  <!--</div>-->
 </div>
 
 
@@ -50,15 +50,21 @@
   <tbody>
   <% @request.participants.bid_made.each do |participant| %>
       <tr>
-        <td><%= participant.email %></td>
+        <td>
+          <span data-toggle="tooltip" data-placement="top" title="<%= participant.email %>">
+              <%= participant.name %>
+          </span>
+        </td>
         <td>$<%= participant.bid %></td>
         <td></td>
         <td><small><%= participant.bid_submission_time.to_formatted_s(:short) %></small></td>
-        <td>
+        <td class="p-1">
           <%= link_to 'View bid', participant_boq_path(participant), class: 'btn btn-sm btn-light'%>
-          <!--<button class="btn btn-sm btn-light">-->
-            <!--<span class="fa fa-envelope"></span>-->
-          <!--</button>-->
+          <a href="mailto:<%= participant.email %>?subject=<%= "re: Invitation to Tender for #{participant.project_name}" %>"
+             target="_blank"
+             class="btn btn-sm btn-light">
+            <span class="fa fa-envelope text-secondary"></span>
+          </a>
         </td>
       </tr>
   <% end %>

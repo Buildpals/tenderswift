@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170905134223) do
+ActiveRecord::Schema.define(version: 20170907104354) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -59,7 +59,7 @@ ActiveRecord::Schema.define(version: 20170905134223) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "unit"
-    t.integer "item_type", default: 0
+    t.integer "item_type"
     t.float "priority"
     t.bigint "boq_id"
     t.bigint "page_id"
@@ -78,7 +78,7 @@ ActiveRecord::Schema.define(version: 20170905134223) do
 
   create_table "participants", force: :cascade do |t|
     t.string "email", null: false
-    t.string "phone_number"
+    t.string "phone_number", limit: 10
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "first_name"
@@ -93,6 +93,7 @@ ActiveRecord::Schema.define(version: 20170905134223) do
     t.bigint "request_for_tender_id"
     t.string "auth_token"
     t.integer "status", default: 0
+    t.string "company_name"
     t.index ["auth_token"], name: "index_participants_on_auth_token", unique: true
     t.index ["request_for_tender_id"], name: "index_participants_on_request_for_tender_id"
   end
@@ -145,6 +146,8 @@ ActiveRecord::Schema.define(version: 20170905134223) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "submitted", default: false
+    t.bigint "quantity_surveyor_id"
+    t.index ["quantity_surveyor_id"], name: "index_request_for_tenders_on_quantity_surveyor_id"
   end
 
   create_table "sections", force: :cascade do |t|

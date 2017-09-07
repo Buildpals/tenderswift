@@ -1,40 +1,48 @@
-<div class="card-body">
-  <h4 class="card-title text-muted">
-    Do not want to participate
-    <small>
+<div class="card-header" role="tab" id="headingNotParticipating">
+  <h5 class="mb-0">
+    <a class="collapsed text-muted" data-toggle="collapse" href="#collapseNotParticipating" aria-expanded="false" aria-controls="collapseNotParticipating">
+      Do not want to participate
+      <small>
       <span class="badge badge-pill badge-secondary">
-        <%= @request.participants.not_participating.count %>
+        <%= @request.participants.not_participating_list.count %>
       </span>
-    </small>
-  </h4>
-
-  <ul class="list-group">
-    <% @request.participants.not_participating.each do |participant| %>
-        <li class="list-group-item">
-          <div class="row">
-            <div class="col-md-5">
-              <%= participant.email %>
-              <br>
-              <small>
-                <span class="fa fa-user"></span>
-                <%= participant.phone_number %>
-              </small>
+      </small>
+    </a>
+  </h5>
+</div>
+<div id="collapseNotParticipating" class="collapse" role="tabpanel" aria-labelledby="headingNotParticipating" data-parent="#accordion">
+  <div class="card-body">
+    <ul class="list-group">
+      <% @request.participants.not_participating_list.each do |participant| %>
+          <li class="list-group-item">
+            <div class="row">
+              <div class="col-md-5">
+                <%= participant.name %>
+                <br>
+                <small>
+                  <span class="fa fa-user"></span>
+                  <%= participant.email %>
+                  (<%= participant.phone_number %>)
+                </small>
+              </div>
+              <div class="col-md-4">
+                <%= participant.interested_declaration_time.to_formatted_s(:long) %>
+              </div>
+              <div class="col-md-2">
+                <!--<button class="btn btn-sm btn-danger">-->
+                <!--View Reason-->
+                <!--</button>-->
+              </div>
+              <div class="col-md-1">
+                <a href="mailto:<%= participant.project_owners_email %>?subject=<%= "re: Invitation to Tender for #{participant.project_name}" %>"
+                   target="_blank"
+                   class="btn btn-sm btn-light">
+                  <span class="fa fa-envelope text-secondary"></span>
+                </a>
+              </div>
             </div>
-            <div class="col-md-4">
-              <%= participant.interested_declaration_time.to_formatted_s(:long) %>
-            </div>
-            <div class="col-md-2">
-              <button class="btn btn-sm btn-danger">
-                View Reason
-              </button>
-            </div>
-            <div class="col-md-1">
-              <button class="btn btn-sm btn-light">
-                <span class="fa fa-envelope"></span>
-              </button>
-            </div>
-          </div>
-        </li>
-    <% end %>
-  </ul>
+          </li>
+      <% end %>
+    </ul>
+  </div>
 </div>

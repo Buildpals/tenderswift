@@ -34,7 +34,7 @@
       </div>
       <div class="card">
         <div class="list-group list-group-flush">
-          <% @requests.submitted.each do |request| %>
+          <% if @requests.submitted.each do |request| %>
               <%= link_to request, class: 'list-group-item list-group-item-action flex-column align-items-start' do %>
                   <div class="d-flex w-100 justify-content-between">
                     <h5 class="mb-1">
@@ -55,6 +55,10 @@
                     <%= request.country %>
                   </small>
               <% end %>
+          <% end.empty? %>
+              <div class="list-group-item flex-column align-items-start">
+                You have no submitted requests
+              </div>
           <% end %>
         </div>
       </div>
