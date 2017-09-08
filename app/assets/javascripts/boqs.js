@@ -18,7 +18,7 @@ $(document).on("turbolinks:load", function () {
             className: "htCenter",
             columns: [
                 {
-                    data: "tag_attributes.name"
+                    data: "tag"
                 },
                 {
                     data: 'name',
@@ -86,8 +86,8 @@ $(document).on("turbolinks:load", function () {
                         updateItem(item)
                             .done(function (updatedItem) {
                                 console.log("Updated", updatedItem);
-                                // data[row] = updatedItem;
-                                // hot.render();
+                                data[row] = updatedItem;
+                                hot.render();
                             });
                     }
                 });

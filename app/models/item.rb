@@ -4,6 +4,8 @@ class Item < ApplicationRecord
     header: 1
   }
 
+  before_save :normalise_tag
+
   belongs_to :boq
   belongs_to :page
 
@@ -11,13 +13,8 @@ class Item < ApplicationRecord
 
   has_many :participants, through: :filled_items, dependent: :destroy, autosave: true
 
-  # validates :name, presence: true
-
-  # validates :description, presence: true
-
-  # validates :quantity, presence: true
-
-  # validates :rate, presence: true
-
-  # validates :amount, presence: true
+  def normalise_tag
+    tag.strip!
+    tag.downcase!
+  end
 end

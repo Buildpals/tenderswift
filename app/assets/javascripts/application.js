@@ -51,8 +51,13 @@ function labelRenderer(instance, td, row, col, prop, value, cellProperties) {
 function buildSheetData(page, sectionHeaders, data) {
     page.items.forEach(function  (item) {
         if (item.item_type === 'header') {
+            sectionHeaders.push({row: data.length, col: 0, rowspan: 1, colspan: 7, renderer: sectionRenderer, readOnly: true});
             data.push({ readOnly: true });
             sectionHeaders.push({row: data.length, col: 2, rowspan: 1, colspan: 1, renderer: sectionRenderer});
+            sectionHeaders.push({row: data.length, col: 0, rowspan: 1, colspan: 1, readOnly: true});
+            sectionHeaders.push({row: data.length, col: 1, rowspan: 1, colspan: 1, readOnly: true});
+            sectionHeaders.push({row: data.length, col: 3, rowspan: 1, colspan: 1, readOnly: true});
+            sectionHeaders.push({row: data.length, col: 4, rowspan: 1, colspan: 1, readOnly: true});
             data.push({ description: item.name });
         } else {
             data.push(item);
@@ -78,11 +83,6 @@ function saveItem(item, row, page, boq) {
         method: method,
         data: { item: item, tags_string: item.tags }
     })
-        .done(function (data) {
-            console.log("Updated item", data);
-        }).fail(function (error) {
-            console.error('Error saving item', error);
-        });
 }
 
 function updateItem(item) {
@@ -93,11 +93,6 @@ function updateItem(item) {
         url: url,
         method: method,
         data: { item: item }
-    })
-    .done(function (data) {
-        console.log("Saved item", data);
-    }).fail(function (error) {
-        console.error('Error saving item', error);
     });
 }
 
@@ -114,10 +109,5 @@ function saveFilledItem(filledItem) {
         url: url,
         method: method,
         data: { filled_item:  filledItem }
-    })
-        .done(function (data) {
-            console.log("Saved filledItem", data);
-        }).fail(function (error) {
-            console.error('Error saving filledItem', error);
-        });
+    });
 }
