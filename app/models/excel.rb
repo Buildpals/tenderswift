@@ -53,21 +53,17 @@ class Excel < ApplicationRecord
 
   def add_header(row, page)
     item = Item.new(item_type: 'header', page: page, boq: page.boq, name: row.values[0],
-                       description: row.values[1], quantity: row.values[2],
-                       unit: row.values[3])
+                    description: row.values[1], quantity: row.values[2],
+                    unit: row.values[3])
     item.priority = item.id
     item.save!
-    puts "################################## \n#{item.persisted?}"
-    puts "################################## \n#{item.errors.full_messages}"
   end
 
   def add_item(row, page)
     item = Item.new(item_type: 'item', page: page, boq: page.boq, name: row.values[0],
-                       description: row.values[1], quantity: row.values[2],
-                       unit: row.values[3])
+                    description: row.values[1], quantity: row.values[2],
+                    unit: row.values[3])
     item.priority = item.id
     item.save!
-    puts "################################## \n#{item.persisted?}"
-    puts "################################## \n#{item.errors.full_messages}"
   end
 end
