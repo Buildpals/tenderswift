@@ -14,11 +14,11 @@ $(document).on("turbolinks:load", function () {
             data: data,
             cell: sectionHeaders,
             mergeCells: sectionHeaders,
-            colHeaders: ['Tags', 'Item', 'Description', 'Quantity', 'Unit', 'Rate', 'Amount'],
+            colHeaders: ['Tag', 'Item', 'Description', 'Quantity', 'Unit', 'Rate', 'Amount'],
             className: "htCenter",
             columns: [
                 {
-                    data: "tags",
+                    data: "tag_attributes.name"
                 },
                 {
                     data: 'name',
@@ -43,6 +43,17 @@ $(document).on("turbolinks:load", function () {
                     readOnly: true
                 }
             ],
+            // dataSchema: {id: null, name: {first: null, last: null}, address: null},
+            dataSchema: {
+                "id": null,
+                "item_type": "item",
+                "name": null,
+                "description": null,
+                "quantity": null,
+                "unit": null,
+                "page_id": null,
+                "tag": null
+            },
             colWidths: [80, 50, 450, 80, 42, 42, 50],
             rowHeaders: true,
             // colHeaders: true,
@@ -53,7 +64,7 @@ $(document).on("turbolinks:load", function () {
             // manualColumnMove: true,
             manualRowMove: true,
             minSpareRows: 1,
-            contextMenu: ['row_above', 'row_below', 'remove_row', 'undo', 'redo', 'cut', 'copy'],
+            // contextMenu: ['row_above', 'row_below', 'remove_row', 'undo', 'redo', 'cut', 'copy'],
             // afterRemoveRow: function(index, amount) {
             //     console.log('index', index);
             //     console.log('amount', amount);
@@ -71,11 +82,14 @@ $(document).on("turbolinks:load", function () {
                     let newVal = change[3];
                     let item = data[row];
                     console.log(item);
-                    // saveItem(item, row, page, gon)
-                    //     .done(function (updatedItem) {
-                    //         data[row] = updatedItem;
-                    //         hot.render();
-                    //     });
+                    if (item.id) {
+                        updateItem(item)
+                            .done(function (updatedItem) {
+                                console.log("Updated", updatedItem);
+                                // data[row] = updatedItem;
+                                // hot.render();
+                            });
+                    }
                 });
             }
         });

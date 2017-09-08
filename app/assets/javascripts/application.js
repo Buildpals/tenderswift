@@ -79,10 +79,26 @@ function saveItem(item, row, page, boq) {
         data: { item: item, tags_string: item.tags }
     })
         .done(function (data) {
-            console.log("Saved item", data);
+            console.log("Updated item", data);
         }).fail(function (error) {
             console.error('Error saving item', error);
         });
+}
+
+function updateItem(item) {
+    let url = '/items/' + item.id + '.json';
+    let method = 'PUT';
+
+    return $.ajax({
+        url: url,
+        method: method,
+        data: { item: item }
+    })
+    .done(function (data) {
+        console.log("Saved item", data);
+    }).fail(function (error) {
+        console.error('Error saving item', error);
+    });
 }
 
 function saveFilledItem(filledItem) {

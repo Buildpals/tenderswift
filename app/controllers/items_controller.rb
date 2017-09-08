@@ -38,8 +38,6 @@ class ItemsController < ApplicationController
   # PATCH/PUT /items/1
   # PATCH/PUT /items/1.json
   def update
-    @item.tags = get_item_tags
-
     respond_to do |format|
       if @item.update(item_params)
         format.html { redirect_to @item, notice: 'Item was successfully updated.' }
@@ -63,21 +61,6 @@ class ItemsController < ApplicationController
 
   private
 
-  def get_item_tags
-    tags_string = params[:tags_string]
-    tags = []
-    tags_string_array = tags_string.split(',').map(&:strip)
-    tags_string_array.each do |tag_string|
-      existing_tag = Tag.find_by(boq: @item.boq, name: tag_string)
-      if existing_tag
-        tags.push existing_tag
-      else
-        tags.push Tag.create(boq: @item.boq, name: tag_string)
-      end
-    end
-    tags
-  end
-
   # Use callbacks to share common setup or constraints between actions.
   def set_item
     @item = Item.find(params[:id])
@@ -93,6 +76,7 @@ class ItemsController < ApplicationController
                                  :priority,
                                  :item_type,
                                  :page_id,
-                                 :boq_id)
+                                 :boq_id,
+                                 :tag)
   end
 end
