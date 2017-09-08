@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170907104354) do
+ActiveRecord::Schema.define(version: 20170908132206) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -40,13 +40,6 @@ ActiveRecord::Schema.define(version: 20170907104354) do
     t.decimal "amount", precision: 10, scale: 2
     t.index ["item_id"], name: "index_filled_items_on_item_id"
     t.index ["participant_id"], name: "index_filled_items_on_participant_id"
-  end
-
-  create_table "item_tags", id: false, force: :cascade do |t|
-    t.integer "item_id"
-    t.integer "tag_id"
-    t.index ["item_id"], name: "index_item_tags_on_item_id"
-    t.index ["tag_id"], name: "index_item_tags_on_tag_id"
   end
 
   create_table "items", force: :cascade do |t|

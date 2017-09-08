@@ -11,8 +11,6 @@ class Item < ApplicationRecord
 
   has_many :participants, through: :filled_items, dependent: :destroy, autosave: true
 
-  has_and_belongs_to_many :tags, join_table: :item_tags
-
   # validates :name, presence: true
 
   # validates :description, presence: true
