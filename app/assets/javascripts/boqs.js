@@ -43,7 +43,7 @@ $(document).on("turbolinks:load", function () {
                     readOnly: true
                 }
             ],
-            colWidths: [120, 50, 450, 80, 42, 42, 50],
+            colWidths: [80, 50, 450, 80, 42, 42, 50],
             rowHeaders: true,
             // colHeaders: true,
             stretchH: 'all',
@@ -71,11 +71,11 @@ $(document).on("turbolinks:load", function () {
                     let newVal = change[3];
                     let item = data[row];
                     console.log(item);
-                    saveItem(item, row, page, gon)
-                        .done(function (updatedItem) {
-                            data[row] = updatedItem;
-                            hot.render();
-                        });
+                    // saveItem(item, row, page, gon)
+                    //     .done(function (updatedItem) {
+                    //         data[row] = updatedItem;
+                    //         hot.render();
+                    //     });
                 });
             }
         });
