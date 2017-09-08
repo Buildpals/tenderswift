@@ -6,6 +6,7 @@ class Item < ApplicationRecord
 
   belongs_to :boq
   belongs_to :page
+  belongs_to :tag
 
   has_many :filled_items, dependent: :destroy, autosave: true
 
