@@ -89,4 +89,13 @@ class Participant < ApplicationRecord
       product + (filled_item.item.quantity.to_f * filled_item.rate.to_f)
     end
   end
+
+  def tag_break_down
+    pie_data = Hash.new(0)
+    filled_items.each do |filled_item|
+      pie_data[filled_item.item.tag.name] = pie_data[filled_item.item.tag.name].to_f + filled_item.amount.to_f
+    end
+    pie_data
+  end
+
 end

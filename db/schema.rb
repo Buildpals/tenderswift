@@ -42,6 +42,13 @@ ActiveRecord::Schema.define(version: 20170908132912) do
     t.index ["participant_id"], name: "index_filled_items_on_participant_id"
   end
 
+  create_table "item_tags", id: false, force: :cascade do |t|
+    t.integer "item_id"
+    t.integer "tag_id"
+    t.index ["item_id"], name: "index_item_tags_on_item_id"
+    t.index ["tag_id"], name: "index_item_tags_on_tag_id"
+  end
+
   create_table "items", force: :cascade do |t|
     t.string "name"
     t.text "description"

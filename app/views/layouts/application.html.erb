@@ -11,6 +11,8 @@
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
     <%= javascript_tag "window._token = '#{form_authenticity_token}'" %>
     <%= include_gon %>
+
+
   </head>
 
   <body class="<%= controller_name %> <%= action_name %>">
@@ -28,3 +30,7 @@
 
   </body>
 </html>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js">
+  console.log('dshhdshjdsh');
+</script>
