@@ -16,16 +16,16 @@
 
           <div class="form-group">
             <%= f.label :email %><br />
-            <%= f.email_field :email, autofocus: true, class: 'form-control' %>
+            <%= f.email_field :email, autofocus: true, class: 'form-control', required: true %>
           </div>
           <div class="form-group">
             <%= f.label :phone_number %><br />
-            <%= f.telephone_field :phone_number, autocomplete: "off", class: 'form-control' %>
+            <%= f.telephone_field :phone_number, autocomplete: "off", class: 'form-control', required: true%>
           </div>
 
           <div class="form-group my-4">
             <%= f.label :company_name %><br />
-            <%= f.text_field :company_name, autocomplete: "off", class: 'form-control' %>
+            <%= f.text_field :company_name, autocomplete: "off", class: 'form-control', required: true%>
             <small class="form-text text-muted">
               Enter the name of the company you work for here
             </small>
@@ -47,7 +47,7 @@
 
 
           <div class="actions">
-            <%= f.submit "Sign up", class: 'btn btn-primary float-right' %>
+            <%= f.submit "Sign up", class: 'btn btn-primary float-right', data: { disable_with: "Signing Up"} %>
           </div>
       <% end %>
 
