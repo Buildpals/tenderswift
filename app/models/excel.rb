@@ -47,22 +47,22 @@ class Excel < ApplicationRecord
   end
 
   def header?(row)
-    row.delete_if { |_key, value| value.blank? }
+    row.delete_if {|_key, value| value.blank?}
     row.length.eql?(1)
   end
 
   def add_header(row, page)
-    item = Item.new(item_type: 'header', page: page, boq: page.boq, name: row.values[0],
-                    description: row.values[1], quantity: row.values[2],
-                    unit: row.values[3])
+    item = Item.create!(item_type: 'header', page: page, boq: page.boq, name: row.values[1],
+                        description: row.values[0], quantity: row.values[2],
+                        unit: row.values[3])
     item.priority = item.id
     item.save!
   end
 
   def add_item(row, page)
-    item = Item.new(item_type: 'item', page: page, boq: page.boq, name: row.values[0],
-                    description: row.values[1], quantity: row.values[2],
-                    unit: row.values[3])
+    item = Item.create!(item_type: 'item', page: page, boq: page.boq, name: row.values[0],
+                        description: row.values[1], quantity: row.values[2],
+                        unit: row.values[3])
     item.priority = item.id
     item.save!
   end

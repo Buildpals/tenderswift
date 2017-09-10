@@ -5,4 +5,6 @@ json.description item.description
 json.quantity item.quantity
 json.unit item.unit
 json.page_id item.page_id
+json.boq_id item.boq_id
+json.priority item.priority
 json.tag item.tag

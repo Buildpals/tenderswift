@@ -1,11 +1,11 @@
-<div class="container-fluid">
+<div class="container">
   <div class="row">
 
-    <div class="col-lg-12 mx-auto pt-4">
+    <div class="col-lg-11 mx-auto pt-4">
       <%= render 'layouts/notice' %>
     </div>
 
-    <div class="col-lg-12 mx-auto">
+    <div class="col-lg-11 mx-auto">
 
       <div class="text-center mb-4">
         <%= link_to 'Back', :back, class: 'btn btn-light float-left' %>
@@ -28,7 +28,7 @@
             <div class="tab-pane <%= 'show active' if index == 0 %>"
                  id="page-<%= page.id %>-content" role="tabpanel" aria-labelledby="page-<%= page.id %>-tab">
 
-              <div id="sheet-<%= page.id %>"></div>
+              <div id="sheet-<%= page.id %>" style="height: 500px; overflow: hidden"></div>
 
             </div>
         <% end %>

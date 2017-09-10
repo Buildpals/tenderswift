@@ -18,10 +18,28 @@ $(document).on("turbolinks:load", function () {
             className: "htCenter",
             columns: [
                 {
-                    data: "tag"
+                    data: "tag",
+                    type: 'autocomplete',
+                    source: function(query, process) {
+                        let tagsSoFar = page.items
+                            .filter(function (item) {
+                                return item.tag;
+                            })
+                            .sort()
+                            .map(function (item) {
+                                return item.tag;
+                            })
+                            .filter(function(item, pos, array) {
+                                return !pos || item !== array[pos - 1];
+                            });
+                        console.log('tagsSoFar', tagsSoFar);
+                        process(tagsSoFar);
+                    },
+                    strict: false
                 },
                 {
                     data: 'name',
+                    renderer: labelRenderer
                 },
                 {
                     data: 'description',
@@ -43,7 +61,6 @@ $(document).on("turbolinks:load", function () {
                     readOnly: true
                 }
             ],
-            // dataSchema: {id: null, name: {first: null, last: null}, address: null},
             dataSchema: {
                 "id": null,
                 "item_type": "item",
@@ -51,28 +68,48 @@ $(document).on("turbolinks:load", function () {
                 "description": null,
                 "quantity": null,
                 "unit": null,
-                "page_id": null,
+                "page_id": page.id,
+                "boq_id": gon.id,
+                "priority": null,
                 "tag": null
             },
-            colWidths: [80, 50, 450, 80, 42, 42, 50],
+            colWidths: [80, 50, 300, 42, 42, 50, 50],
             rowHeaders: true,
-            // colHeaders: true,
             stretchH: 'all',
             manualColumnResize: true,
             manualRowResize: true,
             // persistentState: true,
             // manualColumnMove: true,
             manualRowMove: true,
-            minSpareRows: 1,
-            // contextMenu: ['row_above', 'row_below', 'remove_row', 'undo', 'redo', 'cut', 'copy'],
-            // afterRemoveRow: function(index, amount) {
-            //     console.log('index', index);
-            //     console.log('amount', amount);
-            //     let endpoint = index + amount;
-            //     for (index; index < endpoint; index++) {
-            //         console.log(data[index]);
-            //     }
-            // },
+            // minSpareRows: 1,
+            contextMenu: ['row_above', 'row_below', 'remove_row', 'undo', 'redo', 'cut', 'copy'],
+            beforeRemoveRow: function(index, amount, visualRows) {
+                visualRows.forEach(function (visualIndex) {
+                    let item = data[visualIndex];
+                    console.log("Deleting", item);
+                    deleteItem(item)
+                        .done(function (response) {
+                            console.log("Deleted", item);
+                        });
+                });
+            },
+            afterCreateRow: function(index, amount, source) {
+                for (row = index; row < index + amount; row++) {
+                    let item = data[row];
+                    let previous_priority = data[row-1].priority;
+                    let next_priority = data[row+1].priority;
+                    let current_priority = (previous_priority + next_priority) / 2;
+                    console.log("p", previous_priority, "n", next_priority, "c",  current_priority)
+                    item.priority = current_priority;
+                    console.log(item);
+                    createItem(item)
+                        .done(function (createdItem) {
+                            console.log("Created", createdItem);
+                            data[row] = createdItem;
+                            hot.render();
+                        })
+                }
+            },
             afterChange: function (changes, source) {
                 console.log("Saving...");
                 $.each(changes, function (index, change) {
@@ -81,8 +118,8 @@ $(document).on("turbolinks:load", function () {
                     let oldVal = change[2];
                     let newVal = change[3];
                     let item = data[row];
-                    console.log(item);
                     if (item.id) {
+                        console.log(item);
                         updateItem(item)
                             .done(function (updatedItem) {
                                 console.log("Updated", updatedItem);

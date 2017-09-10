@@ -26,62 +26,37 @@
 
 function sectionRenderer(instance, td, row, col, prop, value, cellProperties) {
     Handsontable.renderers.TextRenderer.apply(this, arguments);
-    // td.innerHTML = '<div class="col-md-10 mx-auto">' + value + '</div>';
-    td.style.fontWeight = "bold";
-    td.style.fontSize = "1.1em";
-    td.style.textAlign = 'left';
-}
-
-
-function tagRenderer(instance, td, row, col, prop, value, cellProperties) {
-    Handsontable.renderers.TextRenderer.apply(this, arguments);
-    td.style.textAlign = 'center';
-    let tags = value;
-    td.innerHTML = tags.map(function (tag) {
-        return tag.name;
-    }).join(',');
+    td.setAttribute('style', 'height: 2em !important; font-size: 1.1em; font-weight: bold; vertical-align: bottom; text-align: center');
 }
 
 function labelRenderer(instance, td, row, col, prop, value, cellProperties) {
     Handsontable.renderers.TextRenderer.apply(this, arguments);
     td.style.fontWeight = "bold";
-    td.style.textAlign = 'center';
 }
 
 function buildSheetData(page, sectionHeaders, data) {
     page.items.forEach(function  (item) {
         if (item.item_type === 'header') {
-            sectionHeaders.push({row: data.length, col: 0, rowspan: 1, colspan: 7, renderer: sectionRenderer, readOnly: true});
-            data.push({ readOnly: true });
             sectionHeaders.push({row: data.length, col: 2, rowspan: 1, colspan: 1, renderer: sectionRenderer});
             sectionHeaders.push({row: data.length, col: 0, rowspan: 1, colspan: 1, readOnly: true});
             sectionHeaders.push({row: data.length, col: 1, rowspan: 1, colspan: 1, readOnly: true});
             sectionHeaders.push({row: data.length, col: 3, rowspan: 1, colspan: 1, readOnly: true});
             sectionHeaders.push({row: data.length, col: 4, rowspan: 1, colspan: 1, readOnly: true});
-            data.push({ description: item.name });
+            data.push(item);
         } else {
             data.push(item);
         }
     });
 }
 
-function saveItem(item, row, page, boq) {
+function createItem(item) {
     let url = '/items.json';
     let method = 'POST';
-
-    if (item.id) {
-        url = '/items/' + item.id + '.json';
-        method = 'PUT';
-    } else {
-        item.item_type = 'item';
-        item.page_id = page.id;
-        item.boq_id = boq.id;
-    }
 
     return $.ajax({
         url: url,
         method: method,
-        data: { item: item, tags_string: item.tags }
+        data: { item: item }
     })
 }
 
@@ -93,6 +68,16 @@ function updateItem(item) {
         url: url,
         method: method,
         data: { item: item }
+    });
+}
+
+function deleteItem(item) {
+    let url = '/items/' + item.id + '.json';
+    let method = 'DELETE';
+
+    return $.ajax({
+        url: url,
+        method: method
     });
 }
 

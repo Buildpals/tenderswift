@@ -14,6 +14,7 @@ class Item < ApplicationRecord
   has_many :participants, through: :filled_items, dependent: :destroy, autosave: true
 
   def normalise_tag
+    return if tag.nil?
     tag.strip!
     tag.downcase!
   end
