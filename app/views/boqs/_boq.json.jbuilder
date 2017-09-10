@@ -7,7 +7,7 @@ json.pages boq.pages do |page|
     json.item_type item.item_type
     json.name item.name
     json.description item.description
-    json.quantity item.quantity
+    json.quantity item.quantity.to_f if item.quantity
     json.unit item.unit
     json.page_id item.page_id
     json.boq_id item.boq_id

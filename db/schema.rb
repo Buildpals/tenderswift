@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170908161413) do
+ActiveRecord::Schema.define(version: 20170910152437) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -46,7 +46,6 @@ ActiveRecord::Schema.define(version: 20170908161413) do
     t.string "name"
     t.text "description"
     t.string "rate"
-    t.string "quantity"
     t.string "amount"
     t.bigint "section_id"
     t.datetime "created_at", null: false
@@ -57,6 +56,7 @@ ActiveRecord::Schema.define(version: 20170908161413) do
     t.bigint "boq_id"
     t.bigint "page_id"
     t.string "tag"
+    t.decimal "quantity", precision: 10, scale: 2
     t.index ["boq_id"], name: "index_items_on_boq_id"
     t.index ["page_id"], name: "index_items_on_page_id"
     t.index ["section_id"], name: "index_items_on_section_id"

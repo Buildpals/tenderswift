@@ -2,6 +2,41 @@ $(document).on("turbolinks:load", function () {
     if ($(".boqs.show").length === 0) return;
 
 
+    let ctx = document.getElementById('myChart').getContext('2d');
+    var chart = new Chart(ctx, {
+        // The type of chart we want to create
+        type: 'doughnut',
+
+        // The data for our dataset
+        data: {
+            labels: Object.keys(getBreakDown()),
+            datasets: [{
+                label: "My First dataset",
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255,99,132,1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1,
+                data: Object.values(getBreakDown()),
+            }]
+        },
+
+        // Configuration options go here
+        options: {}
+    });
+
     gon.pages.forEach(function (page) {
 
         let data = [];
@@ -19,23 +54,11 @@ $(document).on("turbolinks:load", function () {
             columns: [
                 {
                     data: "tag",
-                    type: 'autocomplete',
-                    source: function(query, process) {
-                        let tagsSoFar = page.items
-                            .filter(function (item) {
-                                return item.tag;
-                            })
-                            .sort()
-                            .map(function (item) {
-                                return item.tag;
-                            })
-                            .filter(function(item, pos, array) {
-                                return !pos || item !== array[pos - 1];
-                            });
-                        console.log('tagsSoFar', tagsSoFar);
-                        process(tagsSoFar);
-                    },
-                    strict: false
+                    // type: 'autocomplete',
+                    // source: function(query, process) {
+                    //     process(Object.keys(getBreakDown()));
+                    // },
+                    // strict: false
                 },
                 {
                     data: 'name',
@@ -54,10 +77,12 @@ $(document).on("turbolinks:load", function () {
                 },
                 {
                     data: 'rate',
+                    type: 'numeric',
                     readOnly: true
                 },
                 {
                     data: 'amount',
+                    type: 'numeric',
                     readOnly: true
                 }
             ],
@@ -112,6 +137,16 @@ $(document).on("turbolinks:load", function () {
             },
             afterChange: function (changes, source) {
                 console.log("Saving...");
+                console.log(getBreakDown());
+
+                clearChartData(chart);
+
+                let tagsHash = getBreakDown();
+                Object.keys(tagsHash).forEach(function (tag) {
+                    addData(chart, tag, tagsHash[tag]);
+                });
+
+                console.log(chart.data);
                 $.each(changes, function (index, change) {
                     let row = change[0];
                     let col = change[1];
@@ -138,6 +173,5 @@ $(document).on("turbolinks:load", function () {
         });
 
     });
-
 
 });
