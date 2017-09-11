@@ -8,6 +8,30 @@ $body-color: $gray-600;
 @import "footer";
 @import "handsontable.full";
 
+
+.parsley-errors-list{
+  list-style: none;
+  color: red;
+  font-size: 11px;
+  padding-left: 0;
+}
+
+.parsley-error {
+  border: 1px solid red;
+}
+
+#error_explanation h2{
+  font-size: 15px;
+}
+
+#error_explanation ul{
+  font-size: 12px;
+}
+
+#error_explanation li{
+  color: red;
+}
+
 /***************************************
 Card Shadows
 ***************************************/
