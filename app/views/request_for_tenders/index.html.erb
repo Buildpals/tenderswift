@@ -9,9 +9,11 @@
       </div>
       <div class="card mb-4">
         <div class="list-group list-group-flush">
-          <div class="card-body text-center">
-            <%= link_to 'New Request For Tender', new_request_for_tender_path,  class: 'card-link' %>
-          </div>
+          <%= link_to new_request_for_tender_path,  class: 'card-link' do %>
+            <div class="card-body text-center">
+              New Request For Tender
+            </div>
+          <% end %>
           <% @requests.not_submitted.each do |request| %>
               <%= link_to edit_request_for_tender_path(request), class: 'list-group-item list-group-item-action flex-column align-items-start' do %>
                   <div class="d-flex w-100 justify-content-between">
