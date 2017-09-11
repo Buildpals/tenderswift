@@ -16,19 +16,19 @@
 
           <div class="form-group">
             <%= f.label :email %><br />
-            <%= f.email_field :email, autofocus: true, class: 'form-control' %>
+            <%= f.email_field :email, autofocus: true, class: 'form-control', required: true %>
           </div>
           <div class="form-group">
             <%= f.label :phone_number %><br />
-            <%= f.telephone_field :phone_number, autocomplete: "off", class: 'form-control' %>
+            <%= f.telephone_field :phone_number, autocomplete: "on", class: 'form-control', required: true, data: { parsley_trigger:"keyup", parsley_type: "digits", parsley_minlength:"10", parsley_maxlength:"10", parsley_minlength_message:"Enter you phone number eg(0509835811)" }%>
           </div>
 
+
           <div class="form-group my-4">
-            <%= f.label :company_name %><br />
-            <%= f.text_field :company_name, autocomplete: "off", class: 'form-control' %>
-            <small class="form-text text-muted">
-              Enter the name of the company you work for here
-            </small>
+            <%= f.label :company_name %><small class="form-text text-muted">
+              (Enter the name of the company you work for here)
+            </small><br />
+            <%= f.text_field :company_name, autocomplete: "on", class: 'form-control', required: true%>
           </div>
 
           <div class="form-group">
@@ -36,18 +36,18 @@
             <% if @minimum_password_length %>
                 <em>(<%= @minimum_password_length %> characters minimum)</em>
             <% end %><br />
-            <%= f.password_field :password, autocomplete: "off", class: 'form-control' %>
+            <%= f.password_field :password, autocomplete: "off", class: 'form-control', required: true, data: { parsley_trigger:"keyup", parsley_minlength:"6", parsley_maxlength:"100", parsley_minlength_message:"At least six characters" } %>
           </div>
 
           <div class="form-group">
             <%= f.label :password_confirmation %><br />
-            <%= f.password_field :password_confirmation, autocomplete: "off", class: 'form-control' %>
+            <%= f.password_field :password_confirmation, autocomplete: "off", class: 'form-control', required: true, data: { parsley_trigger:"keyup", parsley_minlength:"6", parsley_maxlength:"100", parsley_minlength_message:"At least six characters" } %>
           </div>
 
 
 
           <div class="actions">
-            <%= f.submit "Sign up", class: 'btn btn-primary float-right' %>
+            <%= f.submit "Sign up", class: 'btn btn-primary float-right', data: { disable_with: "Signing Up"} %>
           </div>
       <% end %>
 
@@ -56,3 +56,13 @@
   </div>
 
 </div>
+
+<script>
+$(function () {
+  $('#new_quantity_surveyor').parsley().on('field:validated', function() {
+    var ok = $('.parsley-error').length === 0;
+    $('.bs-callout-info').toggleClass('hidden', !ok);
+    $('.bs-callout-warning').toggleClass('hidden', ok);
+  })
+});
+</script>

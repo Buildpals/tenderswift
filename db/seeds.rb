@@ -22,19 +22,37 @@ request_for_tender = RequestForTender.create!(project_name: 'East Legon Communic
 boq = Boq.create!(name: request_for_tender.project_name,
                   request_for_tender: request_for_tender)
 
+tag_one = Tag.new(name: "Tag one")
+tag_one.boq = boq
+tag_one.save!
+
+tag_two = Tag.new(name: "Tag two")
+tag_two.boq = boq
+tag_two.save!
+
 page_one = Page.create!(name: 'Page One', boq: boq)
 page_two = Page.create!(name: 'Page Two', boq: boq)
 
-item_one = Item.create!(name: 'A', description: 'First Item', quantity: '42',
+item_one = Item.new(name: 'A', description: 'First Item', quantity: '42',
                         unit: 'm2', boq: boq, page: page_one)
-item_two = Item.create!(name: 'B', description: 'Second Item', quantity: '43',
+item_two = Item.new(name: 'B', description: 'Second Item', quantity: '43',
                         unit: 'l',  boq: boq, page: page_one)
-item_three = Item.create!(name: 'C', description: 'Third Item', quantity: '44',
+item_three = Item.new(name: 'C', description: 'Third Item', quantity: '44',
                           unit: 'nr', boq: boq, page: page_one)
-item_four = Item.create!(name: 'D', description: 'Fourth Item', quantity: '45',
+item_four = Item.new(name: 'D', description: 'Fourth Item', quantity: '45',
                          unit: 'm2',  boq: boq, page: page_two)
-item_five = Item.create!(name: 'E', description: 'Fifth Item', quantity: '46',
+item_five = Item.new(name: 'E', description: 'Fifth Item', quantity: '46',
                          unit: 'nr',  boq: boq, page: page_two)
+item_one.tag = tag_one
+item_one.save!
+item_two.tag = tag_two
+item_two.save!
+item_three.tag = tag_one
+item_three.save!
+item_four.tag = tag_two
+item_four.save!
+item_five.tag = tag_one
+item_five.save!
 
 participant = Participant.create!(email: 'bkwaku@rocketmail.com',
                                   phone_number: '0509825831',

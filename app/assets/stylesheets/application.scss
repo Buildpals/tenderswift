@@ -1,12 +1,59 @@
 @import "_bootstrap-variables";
+@import url("//www.jquery-steps.com/Content/examples.css");
 $enable-shadows: true;
 $body-bg:    $gray-200;
 $body-color: $gray-600;
 @import "bootstrap";
+@import 'bootstrap-datetimepicker';
 @import "font-awesome";
 @import "navbar";
 @import "footer";
 @import "handsontable.full";
+
+
+.wizard > .content
+{
+    width: 98%;
+}
+
+.wizard > .steps > ul > li {
+  width: 25%;
+}
+
+.wizard > .content legend
+{
+    position: absolute;
+    left: -9999em;
+}
+
+.wizard > .steps li.current
+{
+    display: block;
+}
+
+
+.parsley-errors-list{
+  list-style: none;
+  color: red;
+  font-size: 11px;
+  padding-left: 0;
+}
+
+.parsley-error {
+  border: 1px solid red;
+}
+
+#error_explanation h2{
+  font-size: 15px;
+}
+
+#error_explanation ul{
+  font-size: 12px;
+}
+
+#error_explanation li{
+  color: red;
+}
 
 /***************************************
 Card Shadows
