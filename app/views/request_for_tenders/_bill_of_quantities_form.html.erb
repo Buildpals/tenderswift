@@ -1,21 +1,54 @@
-<div class="card-header">
-  Bill Of Quantities
-</div>
-<div class="card-body">
-  <div class="row">
-    <div class="col-md-12 text-center">
+<div class="row">
 
-      <div class="mt-md-4 mb-4">
-        <%= form.fields_for :excel do |excel_fields| %>
-            <% if @request.boq %>
-                <%= link_to 'View Bill of Quantities', @request.boq if @request.boq %>
-                <div class="my-1">or upload a new one</div>
-            <% end %>
-            <%= excel_fields.file_field :document, class: 'form-control-file btn btn-sm btn-primary',
-                                        data: { 'save-on-change': true }  %>
-        <% end %>
-      </div>
-
+  <div class="col-md-4 mx-auto">
+    <div class="mt-md-4 mb-4 text-center">
+      <% if @request.boq %>
+          <h5>Replace Bill of Quantities</h5>
+      <% end %>
+      <%= form.fields_for :excel do |excel_fields| %>
+          <%= excel_fields.file_field :document, class: 'form-control-file btn btn-sm btn-primary',
+                                      data: { 'save-on-change': true }  %>
+      <% end %>
     </div>
   </div>
+
+  <% if @request.boq %>
+      <div class="col-lg-12 mx-auto mb-5">
+
+        <div class="text-center mb-4">
+          <h4>Bill of Quantities for <%= @request.boq.name %></h4>
+        </div>
+
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+          <% @request.boq.pages.each_with_index do |page, index| %>
+              <li class="nav-item">
+                <a class="nav-link  <%= 'active' if index == 0 %>" id="page-<%= page.id %>-tab" data-toggle="tab"
+                   href="#page-<%= page.id %>-content" role="tab" aria-controls="page-<%= page.id %>-tab-content">
+                  <%= page.name %>
+                </a>
+              </li>
+          <% end %>
+        </ul>
+
+        <div class="tab-content" id="myTabContent">
+          <% @request.boq.pages.each_with_index do |page, index| %>
+              <div class="tab-pane <%= 'show active' if index == 0 %>"
+                   id="page-<%= page.id %>-content" role="tabpanel" aria-labelledby="page-<%= page.id %>-tab">
+
+                <div id="sheet-<%= page.id %>" style="height: 500px; overflow: hidden"></div>
+
+              </div>
+          <% end %>
+        </div>
+
+
+      </div>
+
+      <div class="col-lg-12">
+        <canvas id="myChart"></canvas>
+      </div>
+  <% end %>
+
+
+
 </div>

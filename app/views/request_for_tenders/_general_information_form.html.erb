@@ -1,52 +1,46 @@
-<div class="card-body" xmlns:v-on="http://www.w3.org/1999/xhtml">
-  <div class="form-row">
-    <div class="form-group col-md-6">
-      <%= form.label :project_name %>
-      <%= form.text_field :project_name, id: :request_project_name,
-                          class: 'form-control form-control-sm', data: { 'save-on-change': true } %>
-      <p class="text-muted">
-        Example: Purchases of office supplies; Construction of sawmill;
-        Railroad engineering works;
-      </p>
-    </div>
-    <div class="form-group col-md-6">
-      <%= form.label :deadline %>
-      <br>
-      <div class="form-inline w-100 justify-content-between">
-        <% form.text_field :deadline, id: :request_deadline,
-                          class: 'form-control form-control-sm mb-1 datetimepicker', data: { 'save-on-change': true } %>
+<div class="form-row">
+  <div class="form-group col-md-6">
+    <%= form.label :project_name %>
+    <%= form.text_field :project_name, id: :request_project_name,
+                        class: 'form-control form-control-sm', data: { 'save-on-change': true } %>
+    <p class="text-muted">
+      Example: Purchases of office supplies; Construction of sawmill;
+      Railroad engineering works;
+    </p>
+  </div>
+  <div class="form-group col-md-6">
+    <%= form.label :deadline %>
+    <br>
+    <div class="form-inline w-100 justify-content-between">
+      <% form.text_field :deadline, id: :request_deadline,
+                         class: 'form-control form-control-sm mb-1 datetimepicker', data: { 'save-on-change': true } %>
 
-        <%= form.datetime_select :deadline,
-                                 { use_short_month: true },
-                                 { class: 'form-control form-control-sm mb-1 datetimepicker', 'data-save-on-change': true } %>
-      </div>
-
-      <p class="text-muted">
-        Deadline for suppliers to submit their bids.
-        Timezone: Accra, Africa (UTC+00:00)
-      </p>
+      <%= form.datetime_select :deadline,
+                               { use_short_month: true },
+                               { class: 'form-control form-control-sm mb-1 datetimepicker', 'data-save-on-change': true } %>
     </div>
 
-    <div class="form-group col-sm-6">
-      <%= form.label :country %>
-      <%= form.text_field :country, id: :request_country,
-                          class: 'form-control form-control-sm', data: { 'save-on-change': true } %>
-    </div>
+    <p class="text-muted">
+      Deadline for suppliers to submit their bids.
+      Timezone: Accra, Africa (UTC+00:00)
+    </p>
+  </div>
 
-    <div class="form-group col-sm-6">
-      <%= form.label :city %>
-      <%= form.text_field :city, id: :request_city,
-                          class: 'form-control form-control-sm', data: { 'save-on-change': true } %>
-    </div>
+  <div class="form-group col-sm-6">
+    <%= form.label :country %>
+    <%= form.text_field :country, id: :request_country,
+                        class: 'form-control form-control-sm', data: { 'save-on-change': true } %>
+  </div>
 
-    <div class="form-group col-md-12">
-      <%= form.label :description %>
-      <%= form.text_area :description, id: :request_description, rows: 3,
-                          class: 'form-control form-control-sm', data: { 'save-on-change': true } %>
-    </div>
+  <div class="form-group col-sm-6">
+    <%= form.label :city %>
+    <%= form.text_field :city, id: :request_city,
+                        class: 'form-control form-control-sm', data: { 'save-on-change': true } %>
+  </div>
+
+  <div class="form-group col-md-12">
+    <%= form.label :description %>
+    <%= form.text_area :description, id: :request_description, rows: 3,
+                       class: 'form-control form-control-sm', data: { 'save-on-change': true } %>
   </div>
 </div>
-
-<script type="text/javascript">
-  $('.datetimepicker1').datetimepicker();
-</script>

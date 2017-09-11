@@ -109,7 +109,7 @@ App.Boq = (function() {
                     "quantity": null,
                     "unit": null,
                     "page_id": page.id,
-                    "boq_id": gon.id,
+                    "boq_id": gon.boq.id,
                     "priority": null,
                     "tag": null
                 },
@@ -191,7 +191,7 @@ App.Boq = (function() {
     }
 
     function getBreakDown(){
-        gon.pages.forEach(function (page) {
+        gon.boq.pages.forEach(function (page) {
             page.items.forEach(function (item) {
                 if (item.item_type === 'item') {
                     if (item.tag) {
@@ -314,17 +314,9 @@ App.Boq = (function() {
 
 
 $(document).on("turbolinks:load", function () {
-    if ($(".boqs.show").length === 0) return;
+    if ($(".request_for_tenders.edit, .request_for_tenders.show").length === 0) return;
 
     let boq;
-    boq = new App.Boq(gon);
-    return boq.render();
-});
-
-$(document).on("turbolinks:load", function () {
-    if ($(".boqs.show, .request_for_tenders.show").length === 0) return;
-
-    let boq;
-    boq = new App.Boq(gon);
+    boq = new App.Boq(gon.boq);
     return boq.render();
 });

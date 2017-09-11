@@ -66,10 +66,6 @@ gem 'gon'
 # RailsAdmin for an easy-to-use interface for managing the apps data
 gem 'rails_admin', '~> 1.2'
 
-#bootsstrap date picker
-gem 'momentjs-rails', '>= 2.9.0'
-gem 'bootstrap3-datetimepicker-rails', '~> 4.17.47'
-
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
