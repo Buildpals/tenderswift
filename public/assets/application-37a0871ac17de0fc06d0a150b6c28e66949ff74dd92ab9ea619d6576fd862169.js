@@ -91475,6 +91475,41 @@ $(document).on("turbolinks:load", function () {
     if ($(".boqs.show").length === 0) return;
 
 
+    let ctx = document.getElementById('myChart').getContext('2d');
+    var chart = new Chart(ctx, {
+        // The type of chart we want to create
+        type: 'doughnut',
+
+        // The data for our dataset
+        data: {
+            labels: Object.keys(getBreakDown()),
+            datasets: [{
+                label: "My First dataset",
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255,99,132,1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1,
+                data: Object.values(getBreakDown()),
+            }]
+        },
+
+        // Configuration options go here
+        options: {}
+    });
+
     gon.pages.forEach(function (page) {
 
         let data = [];
@@ -91487,72 +91522,119 @@ $(document).on("turbolinks:load", function () {
             data: data,
             cell: sectionHeaders,
             mergeCells: sectionHeaders,
-            colHeaders: ['Item', 'Description', 'Quantity', 'Unit', 'Rate', 'Amount'],
+            colHeaders: ['Tag', 'Item', 'Description', 'Quantity', 'Unit', 'Rate', 'Amount'],
             className: "htCenter",
             columns: [
                 {
+                    data: "tag",
+                    // type: 'autocomplete',
+                    // source: function(query, process) {
+                    //     process(Object.keys(getBreakDown()));
+                    // },
+                    // strict: false
+                },
+                {
                     data: 'name',
-                    // renderer: labelRenderer,
-                    readOnly: true
+                    renderer: labelRenderer
                 },
                 {
                     data: 'description',
-                    className: 'htLeft',
-                    readOnly: true
+                    className: 'htLeft'
                 },
                 {
                     data: 'quantity',
-                    readOnly: true
+                    type: 'numeric'
                 },
                 {
-                    data: 'unit',
-                    readOnly: true
+                    data: 'unit'
                 },
                 {
                     data: 'rate',
+                    type: 'numeric',
                     readOnly: true
                 },
                 {
                     data: 'amount',
+                    type: 'numeric',
                     readOnly: true
                 }
             ],
-            colWidths: [60, 412, 80, 42, 80, 80],
+            dataSchema: {
+                "id": null,
+                "item_type": "item",
+                "name": null,
+                "description": null,
+                "quantity": null,
+                "unit": null,
+                "page_id": page.id,
+                "boq_id": gon.id,
+                "priority": null,
+                "tag": null
+            },
+            colWidths: [80, 50, 300, 42, 42, 50, 50],
             rowHeaders: true,
-            // colHeaders: true,
             stretchH: 'all',
             manualColumnResize: true,
             manualRowResize: true,
             // persistentState: true,
             // manualColumnMove: true,
             manualRowMove: true,
-            minSpareRows: 1,
-            // contextMenu: ['row_above', 'row_below', 'remove_row', 'undo', 'redo', 'cut', 'copy'],
-            afterRemoveRow: function(index, amount) {
-              console.log('index', index);
-              console.log('amount', amount);
-              let endpoint = index + amount;
-              for (index; index < endpoint; index++) {
-                  console.log(data[index]);
-              }
+            // minSpareRows: 1,
+            contextMenu: ['row_above', 'row_below', 'remove_row', 'undo', 'redo', 'cut', 'copy'],
+            beforeRemoveRow: function(index, amount, visualRows) {
+                visualRows.forEach(function (visualIndex) {
+                    let item = data[visualIndex];
+                    console.log("Deleting", item);
+                    deleteItem(item)
+                        .done(function (response) {
+                            console.log("Deleted", item);
+                        });
+                });
+            },
+            afterCreateRow: function(index, amount, source) {
+                for (row = index; row < index + amount; row++) {
+                    let item = data[row];
+                    let previous_priority = data[row-1].priority;
+                    let next_priority = data[row+1].priority;
+                    let current_priority = (previous_priority + next_priority) / 2;
+                    console.log("p", previous_priority, "n", next_priority, "c",  current_priority)
+                    item.priority = current_priority;
+                    console.log(item);
+                    createItem(item)
+                        .done(function (createdItem) {
+                            console.log("Created", createdItem);
+                            data[row] = createdItem;
+                            hot.render();
+                        })
+                }
             },
             afterChange: function (changes, source) {
                 console.log("Saving...");
+                console.log(getBreakDown());
+
+                clearChartData(chart);
+
+                let tagsHash = getBreakDown();
+                Object.keys(tagsHash).forEach(function (tag) {
+                    addData(chart, tag, tagsHash[tag]);
+                });
+
+                console.log(chart.data);
                 $.each(changes, function (index, change) {
                     let row = change[0];
                     let col = change[1];
                     let oldVal = change[2];
                     let newVal = change[3];
                     let item = data[row];
-                    console.log('section_id', data[row-1].section_id);
-                    console.log('section_id', data[row+1].section_id);
-                    if (data[row-1].section_id) {
-                        item.section_id = data[row-1].section_id;
-                    } else {
-                        item.section_id = data[row+2].section_id;
+                    if (item.id) {
+                        console.log(item);
+                        updateItem(item)
+                            .done(function (updatedItem) {
+                                console.log("Updated", updatedItem);
+                                data[row] = updatedItem;
+                                hot.render();
+                            });
                     }
-                    console.log(item);
-                    saveItem(item);
                 });
             }
         });
@@ -91565,12 +91647,7 @@ $(document).on("turbolinks:load", function () {
 
     });
 
-
 });
-// # Place all the behaviors and hooks related to the matching controller here.
-// # All this logic will automatically be available in application.js.
-// # You can use CoffeeScript in this file: http://coffeescript.org/
-;
 (function() {
   (function() {
     (function() {
@@ -92187,6 +92264,15 @@ $(document).on("turbolinks:load", function () {
 
 
 }).call(this);
+window.App || (window.App = {});
+
+App.init = function() {
+    return $("a, span, i, div").tooltip();
+};
+
+$(document).on("turbolinks:load", function() {
+    return App.init();
+});
 // # Place all the behaviors and hooks related to the matching controller here.
 // # All this logic will automatically be available in application.js.
 // # You can use CoffeeScript in this file: http://coffeescript.org/
@@ -92275,11 +92361,7 @@ $(document).on("turbolinks:load", function () {
 
 });
 $(document).on("turbolinks:load", function () {
-    if ($(".request_for_tenders").length === 0) return;
-
-
-    autosize($('textarea'));
-
+    if ($(".request_for_tenders.show").length === 0) return;
 
 
     let data = gon.participants.map(function (participant) {
@@ -92287,7 +92369,7 @@ $(document).on("turbolinks:load", function () {
     });
 
     let labels = gon.participants.map(function (participant) {
-       return participant.email;
+       return participant.name;
     });
 
     let ctx = document.getElementById('barChart').getContext('2d');
@@ -92319,10 +92401,44 @@ $(document).on("turbolinks:load", function () {
         }
     });
 });
+
+
+$(document).on("turbolinks:load", function () {
+    if ($(".request_for_tenders.edit").length === 0) return;
+
+    autosize($('textarea'));
+
+    // $('[data-save-on-change]').change(function () {
+    //     $('#spinner').show();
+    //     $('#request-form').trigger('submit.rails');
+    // });
+    //
+    // $('[data-save-on-click]').click(function () {
+    //     $('#spinner').show();
+    //
+    //     setTimeout( function(){
+    //         $('#request-form').trigger('submit.rails');
+    //     }, 500 );
+    // });
+    //
+    // $('.nested-forms').on('cocoon:before-insert', function(e, insertedItem) {
+    //     console.log("item inserted");
+    //
+    //     $(insertedItem).find('[data-save-on-change]').change(function () {
+    //         $('#spinner').show();
+    //         $('#request-form').trigger('submit.rails');
+    //     });
+    // });
+
+});
 // # Place all the behaviors and hooks related to the matching controller here.
 // # All this logic will automatically be available in application.js.
 // # You can use CoffeeScript in this file: http://coffeescript.org/
 ;
+(function() {
+
+
+}).call(this);
 // # Place all the behaviors and hooks related to the matching controller here.
 // # All this logic will automatically be available in application.js.
 // # You can use CoffeeScript in this file: http://coffeescript.org/
@@ -92352,53 +92468,104 @@ $(document).on("turbolinks:load", function () {
 
 
 
+function addData(chart, label, data) {
+    chart.data.labels.push(label);
+    chart.data.datasets.forEach((dataset) => {
+        dataset.data.push(data);
+    });
+    chart.update(0);
+}
+
+function clearChartData(chart) {
+    chart.data.labels.length = 0;
+    chart.data.datasets.forEach((dataset) => {
+        dataset.data.length = 0;
+    });
+    chart.update(0);
+}
+
+function getBreakDown(){
+    let tagsHash =  {};
+    gon.pages.forEach(function (page) {
+        page.items.forEach(function (item) {
+            if (item.item_type === 'item') {
+                if (item.tag) {
+                    tagsHash[item.tag] = tagsHash[item.tag] === undefined ? item.quantity : tagsHash[item.tag] + item.quantity;
+                } else {
+                    let quantity = item.quantity;
+                    if (!quantity) quantity = 0;
+                    tagsHash["Others"] = tagsHash["Others"] === undefined ? quantity : tagsHash["Others"] + quantity;
+                }
+            }
+        })
+    });
+    return tagsHash;
+}
 
 
 function sectionRenderer(instance, td, row, col, prop, value, cellProperties) {
     Handsontable.renderers.TextRenderer.apply(this, arguments);
-    td.innerHTML = '<div class="col-md-10 mx-auto">' + value + '</div>';
-    td.style.fontWeight = "bold";
-    td.style.fontSize = "1.1em";
-    td.style.textAlign = 'left';
+    td.setAttribute('style', 'height: 2em !important; font-size: 1.1em; font-weight: bold; vertical-align: bottom; text-align: center');
 }
 
 function labelRenderer(instance, td, row, col, prop, value, cellProperties) {
     Handsontable.renderers.TextRenderer.apply(this, arguments);
     td.style.fontWeight = "bold";
-    td.style.textAlign = 'center';
 }
 
-function buildSheetData(page, sectionHeaders, data) {
-    page.sections.forEach(function (section) {
-        sectionHeaders.push({row: data.length, col: 0, rowspan: 1, colspan: 6, renderer: sectionRenderer});
-        data.push({id: section.id, name: section.name});
-        data.push({readOnly: true});
-        section.items.forEach(function (item) {
+function buildSheetData(page, customCells, data) {
+    page.items.forEach(function  (item) {
+        if (item.item_type === 'header') {
+            customCells.push({row: data.length, col: 2, rowspan: 1, colspan: 1, renderer: sectionRenderer});
+            customCells.push({row: data.length, col: 0, rowspan: 1, colspan: 1, readOnly: true});
+            customCells.push({row: data.length, col: 1, rowspan: 1, colspan: 1, readOnly: true});
+            customCells.push({row: data.length, col: 3, rowspan: 1, colspan: 1, readOnly: true});
+            customCells.push({row: data.length, col: 4, rowspan: 1, colspan: 1, readOnly: true});
             data.push(item);
-            data.push({readOnly: true});
-        });
+        } else {
+            customCells.push({
+                row: data.length, col: 0,
+                type: 'autocomplete',
+                source: function(query, process) {
+                    process(Object.keys(getBreakDown()));
+                },
+                strict: false
+            });
+            data.push(item);
+        }
     });
 }
 
-function saveItem(item) {
+function createItem(item) {
     let url = '/items.json';
     let method = 'POST';
-
-    if (item.id) {
-        url = '/items/' + item.id + '.json';
-        method = 'PUT';
-    }
 
     return $.ajax({
         url: url,
         method: method,
         data: { item: item }
     })
-        .done(function (data) {
-            console.log("Saved item", data);
-        }).fail(function (error) {
-            console.error('Error saving item', error);
-        });
+}
+
+function updateItem(item) {
+    let url = '/items/' + item.id + '.json';
+    let method = 'PUT';
+
+    return $.ajax({
+        url: url,
+        method: method,
+        data: { item: item }
+    });
+}
+
+function deleteItem(item) {
+    let url = '/items/' + item.id + '.json';
+    let method = 'DELETE';
+
+    return $.ajax({
+        url: url,
+        method: method
+    });
 }
 
 function saveFilledItem(filledItem) {
@@ -92414,12 +92581,6 @@ function saveFilledItem(filledItem) {
         url: url,
         method: method,
         data: { filled_item:  filledItem }
-    })
-        .done(function (data) {
-            console.log("Saved filledItem", data);
-        }).fail(function (error) {
-            console.error('Error saving filledItem', error);
-        });
+    });
 }
-
 ;
