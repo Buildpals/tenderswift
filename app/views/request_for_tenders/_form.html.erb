@@ -1,4 +1,4 @@
-<%= form_with(model: request, local: true, id: 'request-form') do |form| %>
+  <%= form_with(model: request, local: true, id: 'request-form') do |form| %>
     <% if request.errors.any? %>
         <div id="error_explanation">
           <h2><%= pluralize(request.errors.count, "error") %> prohibited this request from being saved:</h2>
@@ -9,35 +9,56 @@
             <% end %>
           </ul>
         </div>
-    <% end %>
-
-    <div class="card">
-      <h4 class="card-header text-center">
-        <%= title %>
-      </h4>
-
-      <%= render 'general_information_form', form: form %>
-      <%= render 'documents_form', form: form %>
-      <%= render 'bill_of_quantities_form', form: form %>
-      <% render 'questionnaire_form', form: form %>
-      <%= render 'participants_form', form: form %>
-      <div class="card-body">
-        <div class="row">
-          <div class="col-sm-4">
-            <%= form.submit 'Save', class: 'card-link btn btn-lg btn-block btn-light mb-2' %>
-          </div>
-          <div class="col-sm-8">
-            <% unless @request.submitted %>
-                <%= link_to 'Send emails out to participants', email_request_for_tender_path(@request), class: 'card-link btn btn-lg btn-block btn-success',
-                            data: {'submit-form': true,
-                                   confirm: "If you haven't clicked the 'save' button, please cancel this message and click 'save' before clicking send emails out"} %>
-            <% end %>
-          </div>
-        </div>
-      </div>
-    </div>
-
+  <% end %>
+<span style="display:none;" id="request_value"><%= @request.id %></span>
+<div id="example-basic">
+    <h3 class="card-header text-center">General Info</h3>
+    <section>
+        <%= render 'general_information_form', form: form %>
+    </section>
+    <h3 class="card-header text-center">Bill Of Quantity</h3>
+    <section>
+         <%= render 'bill_of_quantities_form', form: form %>
+    </section>
+    <h3 class="card-header text-center">Participants</h3>
+    <section>
+         <%= render 'participants_form', form: form %>
+    </section>
+        <h3 class="card-header text-center">Project Documents</h3>
+    <section>
+        <%= render 'documents_form', form: form %>
+    </section>
+</div>
 <% end %>
+<script>
+var id = parseInt($('#request_value').html())
+$("#example-basic").steps({
+      headerTag: "h3",
+      bodyTag: "section",
+      transitionEffect: "slideLeft",
+      autoFocus: true,
+      labels: 
+      {
+        cancel: "Send out Invitation",
+        current: "current step:",
+        pagination: "Pagination",
+        finish: "Save",
+        next: "Next",
+        previous: "Previous",
+        loading: "Loading ..."
+      },
+      enableCancelButton: true,
+        onCanceled: function (event) {
+            //send out emails
+            window.location.replace("/email_request_for_tender/"+<%= @request.id %>);
+        },
+      onFinished: function (event, currentIndex) { 
+        $("#request-form").submit();
+        console.log("finish save with ajax");
+
+      }
+});
+</script>
 
 
 <div id="spinner" style="display: none">

@@ -1,12 +1,35 @@
 @import "_bootstrap-variables";
+@import url("//www.jquery-steps.com/Content/examples.css");
 $enable-shadows: true;
 $body-bg:    $gray-200;
 $body-color: $gray-600;
 @import "bootstrap";
+@import 'bootstrap-datetimepicker';
 @import "font-awesome";
 @import "navbar";
 @import "footer";
 @import "handsontable.full";
+
+
+.wizard > .content
+{
+    width: 98%;
+}
+
+.wizard > .steps > ul > li {
+  width: 25%;
+}
+
+.wizard > .content legend
+{
+    position: absolute;
+    left: -9999em;
+}
+
+.wizard > .steps li.current
+{
+    display: block;
+}
 
 
 .parsley-errors-list{
