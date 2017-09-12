@@ -62,8 +62,21 @@
         },
         onFinished: function (event, currentIndex) {
             $("#request-form").submit();
-            console.log("finish save with ajax");
-
+            localStorage.removeItem('buildpalsIncTab');
+        },
+        onStepChanging: function (event, currentIndex, newIndex){
+          if(currentIndex === 1 && localStorage.getItem('buildpalsIncTab') == 1){
+            localStorage.removeItem('buildpalsIncTab');
+            currentIndex = 2;
+          }
+          if(currentIndex === 1){
+            //localStorage.removeItem('buildpalsIncTab');
+            $("#request-form").submit();
+            localStorage.setItem('buildpalsIncTab', 1);
+          }
+          else{
+            return true;
+          }
         }
     });
 </script>
