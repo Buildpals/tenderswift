@@ -28,8 +28,8 @@
 
   <div class="form-group col-sm-6">
     <%= form.label :country %>
-    <%= form.text_field :country, id: :request_country,
-                        class: 'form-control form-control-sm', data: { 'save-on-change': true } %>
+    <%= form.collection_select :country_id, Country.all, :id, :name, {},{ id: :request_country,
+                        class: 'form-control form-control-sm', data: { 'save-on-change': true } } %>
   </div>
 
   <div class="form-group col-sm-6">

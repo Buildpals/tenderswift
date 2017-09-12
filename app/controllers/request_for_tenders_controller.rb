@@ -105,7 +105,7 @@ class RequestForTendersController < ApplicationController
     params.require(:request_for_tender)
           .permit(:project_name,
                   :deadline,
-                  :country,
+                  :country_id,
                   :city,
                   :description,
                   :budget,

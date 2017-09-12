@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170911102033) do
+ActiveRecord::Schema.define(version: 20170912104418) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,6 +21,12 @@ ActiveRecord::Schema.define(version: 20170911102033) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["request_for_tender_id"], name: "index_boqs_on_request_for_tender_id"
+  end
+
+  create_table "countries", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "excels", force: :cascade do |t|
@@ -40,6 +46,13 @@ ActiveRecord::Schema.define(version: 20170911102033) do
     t.decimal "amount", precision: 10, scale: 2
     t.index ["item_id"], name: "index_filled_items_on_item_id"
     t.index ["participant_id"], name: "index_filled_items_on_participant_id"
+  end
+
+  create_table "item_tags", id: false, force: :cascade do |t|
+    t.integer "item_id"
+    t.integer "tag_id"
+    t.index ["item_id"], name: "index_item_tags_on_item_id"
+    t.index ["tag_id"], name: "index_item_tags_on_tag_id"
   end
 
   create_table "items", force: :cascade do |t|
@@ -141,6 +154,8 @@ ActiveRecord::Schema.define(version: 20170911102033) do
     t.datetime "updated_at", null: false
     t.boolean "submitted", default: false
     t.bigint "quantity_surveyor_id"
+    t.bigint "country_id"
+    t.index ["country_id"], name: "index_request_for_tenders_on_country_id"
     t.index ["quantity_surveyor_id"], name: "index_request_for_tenders_on_quantity_surveyor_id"
   end
 
