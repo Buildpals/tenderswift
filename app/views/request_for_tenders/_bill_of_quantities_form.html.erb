@@ -1,19 +1,7 @@
 <div class="row">
 
-  <div class="col-md-4 mx-auto">
-    <div class="mt-md-4 mb-4 text-center">
-      <% if @request.boq %>
-          <h5>Replace Bill of Quantities</h5>
-      <% end %>
-      <%= form.fields_for :excel do |excel_fields| %>
-          <%= excel_fields.file_field :document, class: 'form-control-file btn btn-sm btn-primary',
-                                      data: { 'save-on-change': true }  %>
-      <% end %>
-    </div>
-  </div>
-
   <% if @request.boq %>
-      <div class="col-lg-12 mx-auto mb-5">
+      <div class="col-lg-10 mx-auto mb-5">
 
         <div class="text-center mb-4">
           <h4>Bill of Quantities for <%= @request.boq.name %></h4>
@@ -43,11 +31,19 @@
 
 
       </div>
-
-      <div class="col-lg-12">
-        <canvas id="myChart"></canvas>
-      </div>
   <% end %>
+
+  <div class="col-md-2 mx-auto">
+    <div class="mt-md-4 mb-4 text-center">
+      <% if @request.boq %>
+          <h5>Replace Bill of Quantities</h5>
+      <% end %>
+      <%= form.fields_for :excel do |excel_fields| %>
+          <%= excel_fields.file_field :document, class: 'form-control-file btn btn-sm btn-primary',
+                                      data: { 'save-on-change': true }  %>
+      <% end %>
+    </div>
+  </div>
 
 
 

@@ -12,46 +12,49 @@ App.Boq = (function() {
     };
 
     function renderChart() {
-        let ctx = document.getElementById('myChart').getContext('2d');
+        let chartDiv = document.getElementById('myChart');
+        if (chartDiv) {
+            let ctx = chartDiv.getContext('2d');
 
-        chart = new Chart(ctx, {
-            // The type of chart we want to create
-            type: 'doughnut',
+            chart = new Chart(ctx, {
+                // The type of chart we want to create
+                type: 'doughnut',
 
-            // The data for our dataset
-            data: {
-                labels: Object.keys(getBreakDown()),
-                datasets: [{
-                    label: "My First dataset",
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)'
-                    ],
-                    borderColor: [
-                        'rgba(255,99,132,1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)'
-                    ],
-                    borderWidth: 1,
-                    data: Object.values(getBreakDown()),
-                }]
-            },
+                // The data for our dataset
+                data: {
+                    labels: Object.keys(getBreakDown()),
+                    datasets: [{
+                        label: "My First dataset",
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255,99,132,1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        borderWidth: 1,
+                        data: Object.values(getBreakDown()),
+                    }]
+                },
 
-            // Configuration options go here
-            options: {}
-        });
+                // Configuration options go here
+                options: {}
+            });
 
-        console.log(chart);
+            console.log(chart);
+        }
     }
 
-    function renderSpreadSheet(boqData) {
+    function renderSpreadSheet(boqData, includeTags) {
         boqData.pages.forEach(function (page) {
 
             let data = [];
@@ -60,13 +63,10 @@ App.Boq = (function() {
 
             let container = document.getElementById('sheet-' + page.id);
 
-            let hot = new Handsontable(container, {
-                data: data,
-                cell: sectionHeaders,
-                mergeCells: sectionHeaders,
-                colHeaders: ['Tag', 'Item', 'Description', 'Quantity', 'Unit', 'Rate', 'Amount'],
-                className: "htCenter",
-                columns: [
+            let colHeaders, columns, colWidths;
+            if (includeTags) {
+                colHeaders = ['Tag', 'Item', 'Description', 'Quantity', 'Unit', 'Rate', 'Amount'];
+                columns = [
                     {
                         data: "tag",
                         // type: 'autocomplete',
@@ -100,7 +100,48 @@ App.Boq = (function() {
                         type: 'numeric',
                         readOnly: true
                     }
-                ],
+                ];
+                colWidths = [80, 50, 300, 42, 42, 50, 50];
+
+            } else {
+                colHeaders = ['Item', 'Description', 'Quantity', 'Unit', 'Rate', 'Amount'];
+                columns = [
+                    {
+                        data: 'name',
+                        renderer: labelRenderer
+                    },
+                    {
+                        data: 'description',
+                        className: 'htLeft'
+                    },
+                    {
+                        data: 'quantity',
+                        type: 'numeric'
+                    },
+                    {
+                        data: 'unit'
+                    },
+                    {
+                        data: 'rate',
+                        type: 'numeric',
+                        readOnly: true
+                    },
+                    {
+                        data: 'amount',
+                        type: 'numeric',
+                        readOnly: true
+                    }
+                ];
+                colWidths = [50, 300, 42, 42, 50, 50];
+            }
+
+            let hot = new Handsontable(container, {
+                data: data,
+                cell: sectionHeaders,
+                mergeCells: sectionHeaders,
+                colHeaders: colHeaders,
+                className: "htCenter",
+                columns: columns,
                 dataSchema: {
                     "id": null,
                     "item_type": "item",
@@ -113,7 +154,7 @@ App.Boq = (function() {
                     "priority": null,
                     "tag": null
                 },
-                colWidths: [80, 50, 300, 42, 42, 50, 50],
+                colWidths: colWidths,
                 rowHeaders: true,
                 stretchH: 'all',
                 manualColumnResize: true,
@@ -154,14 +195,19 @@ App.Boq = (function() {
                     console.log("Saving...");
                     console.log(getBreakDown());
 
-                    clearChartData(chart);
 
-                    let tagsHash = getBreakDown();
-                    Object.keys(tagsHash).forEach(function (tag) {
-                        addData(chart, tag, tagsHash[tag]);
-                    });
+                    if (chart) {
+                        clearChartData(chart);
 
-                    console.log(chart.data);
+                        let tagsHash = getBreakDown();
+                        Object.keys(tagsHash).forEach(function (tag) {
+                            addData(chart, tag, tagsHash[tag]);
+                        });
+
+                        console.log(chart.data);
+                    }
+
+
                     $.each(changes, function (index, change) {
                         let row = change[0];
                         let col = change[1];
