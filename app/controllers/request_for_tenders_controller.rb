@@ -32,7 +32,6 @@ class RequestForTendersController < ApplicationController
     3.times { @request.participants.build } if  @request.participants.length == 0
     3.times { @request.project_documents.build } if  @request.project_documents.length == 0
 
-
     gon.jbuilder
   end
 
