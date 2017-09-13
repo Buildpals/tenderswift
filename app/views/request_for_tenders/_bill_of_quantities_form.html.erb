@@ -1,12 +1,7 @@
 <div class="row">
 
   <% if @request.boq %>
-      <div class="col-lg-10 mx-auto mb-5">
-
-        <div class="text-center mb-4">
-          <h4>Bill of Quantities for <%= @request.boq.name %></h4>
-        </div>
-
+      <div class="col-lg-10 mx-auto">
         <nav class="nav nav-tabs" id="myTab" role="tablist">
           <% @request.boq.pages.each_with_index do |page, index| %>
               <div class="nav-item">
@@ -23,7 +18,7 @@
               <div class="tab-pane <%= 'show active' if index == 0 %>"
                    id="page-<%= page.id %>-content" role="tabpanel" aria-labelledby="page-<%= page.id %>-tab">
 
-                <div id="sheet-<%= page.id %>" style="height: 500px; overflow: hidden"></div>
+                <div id="sheet-<%= page.id %>" style="height: 500px; overflow: hidden" class="mb-5"></div>
 
               </div>
           <% end %>
@@ -34,17 +29,15 @@
   <% end %>
 
   <div class="col-md-2 mx-auto">
-    <div class="mt-md-4 mb-4 text-center">
+    <div class="mb-4 text-center">
       <% if @request.boq %>
-          <h5>Replace Bill of Quantities</h5>
+          <p>Replace</p>
       <% end %>
       <%= form.fields_for :excel do |excel_fields| %>
-          <%= excel_fields.file_field :document, class: 'form-control-file btn btn-sm btn-primary',
+          <%= excel_fields.file_field :document, class: 'form-control-file',
                                       data: { 'save-on-change': true }  %>
       <% end %>
     </div>
   </div>
-
-
 
 </div>

@@ -1,5 +1,9 @@
-<div class="nested-fields list-group-item">
+<div class="nested-fields">
   <div class="form-row">
+    <div class="col-sm-5">
+      <%= f.text_field :company_name, id: :participant_company_name,
+                       class: 'form-control form-control-sm mb-2', placeholder: 'Company Name' %>
+    </div>
     <div class="col-sm-3">
       <%= f.text_field :email, id: :participant_email,
                           class: 'form-control form-control-sm mb-2', placeholder: 'E-mail' %>
@@ -8,11 +12,7 @@
       <%= f.text_field :phone_number, id: :participant_phone_number,
                           class: 'form-control form-control-sm mb-2', placeholder: 'Phone Number' %>
     </div>
-    <div class="col-sm-4">
-      <%= f.text_field :company_name, id: :participant_company_name,
-                          class: 'form-control form-control-sm mb-2', placeholder: 'Company Name' %>
-    </div>
-    <div class="col-sm-2">
+    <div class="col-sm-1">
       <%= link_to_remove_association f, class: 'btn btn-sm btn-light float-right' do %>
           Remove
       <% end %>

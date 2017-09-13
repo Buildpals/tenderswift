@@ -1,8 +1,8 @@
-<ul class="list-group list-group-flush nested-forms">
+<ul class="nested-forms">
   <%= form.fields_for :project_documents do |project_document| %>
       <%= render 'project_document_fields', f: project_document %>
   <% end %>
-  <li class="list-group-item d-flex w-100 justify-content-between">
+  <li class="d-flex w-100 justify-content-between">
     <%= link_to_add_association 'Add new document', form, :project_documents, class: 'btn btn-sm btn-block btn-primary my-1' %>
   </li>
 </ul>
