@@ -8,26 +8,52 @@
     <span class="navbar-toggler-icon"></span>
   </button>
 
-
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
       <% if quantity_surveyor_signed_in? %>
-        <%= link_to request_for_tenders_path, class: 'nav-link' do %>
-            My Tender Requests <span class="sr-only">(current)</span>
-        <% end %>
-      <% end %>
+
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="" id="request_for_tender_links" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Request For Tenders
+        </a>
+        <div class="dropdown-menu" aria-labelledby="request_for_tender_links">
+          <%= link_to request_for_tenders_path, class: 'dropdown-item' do %>
+              My Tender Requests <span class="sr-only">(current)</span>
+          <% end %>
+          <%= link_to request_for_tenders_path, class: 'dropdown-item' do %>
+              Create New<span class="sr-only">(current)</span>
+          <% end %>
+        </div>
       </li>
+
+      <% end %>
     </ul>
     <ul class="navbar-nav ml-auto">
       <% if quantity_surveyor_signed_in? %>
-        <li>
-          <%= link_to 'Logout', destroy_quantity_surveyor_session_path, method: :delete, class: 'nav-link' %>
-        </li>
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="" id="account_links" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <span class="fa fa-user" aria-hidden="true"></span>
+              <%= current_quantity_surveyor.company_name %>
+            </a>
+            <div class="dropdown-menu" aria-labelledby="account_links">
+              <%= link_to "Account Information", edit_quantity_surveyor_registration_path(current_quantity_surveyor),
+                          class: 'dropdown-item' %>
+              <%= link_to "Logout", destroy_quantity_surveyor_session_path, method: :delete,
+                          class: 'dropdown-item' %>
+            </div>
+          </li>
+
       <% else %>
-        <li>
-          <%= link_to 'Login', new_quantity_surveyor_session_path, class: 'nav-link'  %>
-        </li>
+
+          <li class="nav-item mr-3">
+            <%= link_to 'Login', new_quantity_surveyor_session_path, class: 'nav-link' %>
+          </li>
+
+          <li class="nav-item">
+            <%= link_to 'Signup', new_quantity_surveyor_registration_path, class: 'btn btn-primary' %>
+          </li>
+
       <% end %>
     </ul>
 
