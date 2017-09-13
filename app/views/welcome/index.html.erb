@@ -1,20 +1,23 @@
-<div class="col-lg-8 mx-auto pt-4">
+<div class="col-lg-8 mx-auto pt-4" id="notice-area">
   <%= render 'layouts/notice' %>
 </div>
 
-<section class="jumbotron text-center">
+<section id="banner" class="banner jumbotron text-center">
   <div class="container pt-5">
 
-    <%= image_tag 'buildpals-logo-small.png', class: 'img-fluid center-block', style: 'width: 200px' %>
-
-    <!--<h1 class="jumbotron-heading">Tendering made easy</h1>-->
-    <p class="lead text-muted mt-2">
+    <h1 class="jumbotron-heading">Tendering made easy</h1>
+    <p class="lead text-muted mt-2 mb-4">
       Spend less time preparing documentation, calling contractors and evaluating bids.
       <br>
       Let BuildPals do the heavy lifting
     </p>
     <p>
-      <%= link_to 'Get Started',  request_for_tenders_path, class: 'btn btn-primary' %>
+      <%= link_to 'Get Started',  new_quantity_surveyor_registration_path,
+                  class: 'btn btn-primary', style: 'width: 200px' %>
+      <br>
+      <small>Already use Buildpals?</small>
+      <%= link_to 'Log in',  new_quantity_surveyor_session_path %>.
     </p>
+
   </div>
 </section>
