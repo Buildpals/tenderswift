@@ -59,6 +59,7 @@ class RequestForTendersController < ApplicationController
       if @request.update(request_params)
         format.html { redirect_to edit_request_for_tender_path(@request), notice: 'Request was successfully updated.' }
         format.json { render :show, status: :ok, location: @request }
+        format.js
       else
         format.html { render :edit }
         format.json { render json: @request.errors, status: :unprocessable_entity }
