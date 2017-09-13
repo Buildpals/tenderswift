@@ -23,5 +23,5 @@
 //= require Chart
 //= require init
 //= require boqs
-//= require participants
 //= require requests
+//= require participants

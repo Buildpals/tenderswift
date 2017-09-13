@@ -10,6 +10,9 @@ class Item < ApplicationRecord
   belongs_to :page
 
   has_many :filled_items, dependent: :destroy, autosave: true
+  accepts_nested_attributes_for :filled_items,
+                                allow_destroy: true,
+                                reject_if: :all_blank
 
   has_many :participants, through: :filled_items, dependent: :destroy, autosave: true
 

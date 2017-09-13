@@ -7,16 +7,16 @@
           <h4>Bill of Quantities for <%= @request.boq.name %></h4>
         </div>
 
-        <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <nav class="nav nav-tabs" id="myTab" role="tablist">
           <% @request.boq.pages.each_with_index do |page, index| %>
-              <li class="nav-item">
+              <div class="nav-item">
                 <a class="nav-link  <%= 'active' if index == 0 %>" id="page-<%= page.id %>-tab" data-toggle="tab"
                    href="#page-<%= page.id %>-content" role="tab" aria-controls="page-<%= page.id %>-tab-content">
                   <%= page.name %>
                 </a>
-              </li>
+              </div>
           <% end %>
-        </ul>
+        </nav>
 
         <div class="tab-content" id="myTabContent">
           <% @request.boq.pages.each_with_index do |page, index| %>

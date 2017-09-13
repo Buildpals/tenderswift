@@ -77,6 +77,14 @@ class ItemsController < ApplicationController
                                  :item_type,
                                  :page_id,
                                  :boq_id,
-                                 :tag)
+                                 :tag,
+                                 filled_items_attributes: [
+                                     :id,
+                                     :participant_id,
+                                     :item_id,
+                                     :rate,
+                                     :amount,
+                                     :_destroy
+                                 ])
   end
 end

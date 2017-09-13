@@ -86,7 +86,7 @@ class Participant < ApplicationRecord
 
   def bid
     filled_items.inject(0) do |product, filled_item|
-      product + (filled_item.item.quantity.to_f * filled_item.rate.to_f)
+      product + (filled_item.amount)
     end
   end
 

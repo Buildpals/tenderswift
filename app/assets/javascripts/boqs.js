@@ -5,24 +5,33 @@ App.Boq = (function() {
 
     let chart;
     let tagsHash =  {};
+    let viewType;
 
-    Boq.prototype.render = function() {
+    Boq.prototype.render = function(_viewType) {
+        viewType = _viewType;
         renderChart();
-        renderSpreadSheet(this.boqData);
+        renderSpreadSheet(this.boqData, viewType);
     };
+
+    Boq.prototype.renderSpreadSheet = renderSpreadSheet;
+
+    Boq.prototype.renderChart = renderChart;
 
     function renderChart() {
         let chartDiv = document.getElementById('myChart');
+        console.log(chartDiv);
         if (chartDiv) {
             let ctx = chartDiv.getContext('2d');
 
+            let tagsHash = getBreakDown();
+            console.log("I was here som", tagsHash);
             chart = new Chart(ctx, {
                 // The type of chart we want to create
                 type: 'doughnut',
 
                 // The data for our dataset
                 data: {
-                    labels: Object.keys(getBreakDown()),
+                    labels: Object.keys(tagsHash),
                     datasets: [{
                         label: "My First dataset",
                         backgroundColor: [
@@ -42,7 +51,7 @@ App.Boq = (function() {
                             'rgba(255, 159, 64, 1)'
                         ],
                         borderWidth: 1,
-                        data: Object.values(getBreakDown()),
+                        data: Object.values(tagsHash),
                     }]
                 },
 
@@ -54,7 +63,7 @@ App.Boq = (function() {
         }
     }
 
-    function renderSpreadSheet(boqData, includeTags) {
+    function renderSpreadSheet(boqData, viewType) {
         boqData.pages.forEach(function (page) {
 
             let data = [];
@@ -64,7 +73,7 @@ App.Boq = (function() {
             let container = document.getElementById('sheet-' + page.id);
 
             let colHeaders, columns, colWidths;
-            if (includeTags) {
+            if (viewType === 'tag_editing') {
                 colHeaders = ['Tag', 'Item', 'Description', 'Quantity', 'Unit', 'Rate', 'Amount'];
                 columns = [
                     {
@@ -102,7 +111,38 @@ App.Boq = (function() {
                     }
                 ];
                 colWidths = [80, 50, 300, 42, 42, 50, 50];
-
+            } else if (viewType === 'rate_filling') {
+                colHeaders = ['Item', 'Description', 'Quantity', 'Unit', 'Rate', 'Amount'];
+                columns = [
+                    {
+                        data: 'name',
+                        renderer: labelRenderer,
+                        readOnly: true
+                    },
+                    {
+                        data: 'description',
+                        className: 'htLeft',
+                        readOnly: true
+                    },
+                    {
+                        data: 'quantity',
+                        type: 'numeric',
+                        readOnly: true
+                    },
+                    {
+                        data: 'unit',
+                        readOnly: true
+                    },
+                    {
+                        data: 'filled_items_attributes.rate',
+                        type: 'numeric'
+                    },
+                    {
+                        data: 'filled_items_attributes.amount',
+                        type: 'numeric'
+                    }
+                ];
+                colWidths = [50, 300, 42, 42, 50, 50];
             } else {
                 colHeaders = ['Item', 'Description', 'Quantity', 'Unit', 'Rate', 'Amount'];
                 columns = [
@@ -191,38 +231,33 @@ App.Boq = (function() {
                             })
                     }
                 },
-                afterChange: function (changes, source) {
-                    console.log("Saving...");
-                    console.log(getBreakDown());
-
-
-                    if (chart) {
-                        clearChartData(chart);
-
-                        let tagsHash = getBreakDown();
-                        Object.keys(tagsHash).forEach(function (tag) {
-                            addData(chart, tag, tagsHash[tag]);
-                        });
-
-                        console.log(chart.data);
-                    }
-
-
+                afterChange: function(changes, source) {
                     $.each(changes, function (index, change) {
                         let row = change[0];
                         let col = change[1];
                         let oldVal = change[2];
                         let newVal = change[3];
                         let item = data[row];
-                        if (item.id) {
-                            console.log(item);
-                            updateItem(item)
-                                .done(function (updatedItem) {
-                                    console.log("Updated", updatedItem);
-                                    data[row] = updatedItem;
-                                    hot.render();
-                                });
+                        if (item.filled_items_attributes.rate) {
+                            item.filled_items_attributes.amount = item.quantity * item.filled_items_attributes.rate;
                         }
+
+                        if (chart) {
+                            clearChartData(chart);
+
+                            let tagsHash = getBreakDown();
+                            Object.keys(tagsHash).forEach(function (tag) {
+                                addData(chart, tag, tagsHash[tag]);
+                            });
+                        }
+
+                        console.log(item);
+                        updateItem(item)
+                            .done(function (updatedItem) {
+                                console.log("Updated", updatedItem);
+                                data[row] = updatedItem;
+                                hot.render();
+                            });
                     });
                 }
             });
@@ -240,6 +275,7 @@ App.Boq = (function() {
         gon.boq.pages.forEach(function (page) {
             page.items.forEach(function (item) {
                 if (item.item_type === 'item') {
+                    console.log("In breakDown", item);
                     if (item.tag) {
                         tagsHash[item.tag] = tagsHash[item.tag] === undefined ? item.quantity : tagsHash[item.tag] + item.quantity;
                     } else {
@@ -252,8 +288,6 @@ App.Boq = (function() {
         });
         return tagsHash;
     }
-
-
 
 
     function addData(chart, label, data) {
@@ -354,15 +388,22 @@ App.Boq = (function() {
         });
     }
 
-
     return Boq;
 })();
 
 
 $(document).on("turbolinks:load", function () {
-    if ($(".request_for_tenders.edit, .request_for_tenders.show").length === 0) return;
+    if ($(".request_for_tenders.edit").length === 0) return;
 
     let boq;
     boq = new App.Boq(gon.boq);
     return boq.render();
+});
+
+$(document).on("turbolinks:load", function () {
+    if ($(".request_for_tenders.show").length === 0) return;
+
+    let boq;
+    boq = new App.Boq(gon.boq);
+    return boq.renderChart();
 });
