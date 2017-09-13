@@ -18,8 +18,9 @@ class RequestForTendersController < ApplicationController
 
   # GET /requests/new
   def new
+    country = Country.first
     @request = RequestForTender.new(project_name: 'Untitled Project',
-                                    country: 'Ghana',
+                                    country: country,
                                     deadline: Time.current + 7.days)
     @request.quantity_surveyor = current_quantity_surveyor
     @request.save!
