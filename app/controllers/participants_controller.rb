@@ -14,6 +14,8 @@ class ParticipantsController < ApplicationController
   # GET /participants/1.json
   def show
     @participant.update(status: 'read', request_read_time: Time.current) if @participant.not_read?
+    @boq = @participant.boq
+    gon.jbuilder
   end
 
   def show_boq
