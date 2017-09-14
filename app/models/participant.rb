@@ -85,8 +85,8 @@ class Participant < ApplicationRecord
   end
 
   def bid
-    filled_items.inject(0) do |product, filled_item|
-      product + (filled_item.amount) unless filled_item.amount.nil?
+    filled_items.where.not(amount: nil).inject(0) do |product, filled_item|
+      product + filled_item.amount
     end
   end
 
