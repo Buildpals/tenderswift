@@ -1,5 +1,5 @@
 class Boq < ApplicationRecord
-  belongs_to :request_for_tender
+  belongs_to :request_for_tender, inverse_of: :boq
 
   has_many :pages, dependent: :destroy, autosave: true
 

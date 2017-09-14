@@ -23,6 +23,7 @@ class RequestForTendersController < ApplicationController
                                     country: country,
                                     deadline: Time.current + 7.days)
     @request.quantity_surveyor = current_quantity_surveyor
+    @request.create_blank_boq
     @request.save!
     redirect_to edit_request_for_tender_path @request, tab: '1'
   end
@@ -132,7 +133,6 @@ class RequestForTendersController < ApplicationController
                                             :company_name,
                                             :_destroy],
                   excel_attributes: [:id,
-                                     :document,
-                                     :_destroy])
+                                     :document])
   end
 end

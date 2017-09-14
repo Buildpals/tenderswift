@@ -4,7 +4,8 @@ class RequestForTender < ApplicationRecord
   scope :submitted, -> {where(submitted: true)}
   scope :not_submitted, -> {where(submitted: false)}
 
-  has_one :boq, dependent: :destroy, autosave: true
+  has_one :boq, inverse_of: :request_for_tender,
+          dependent: :destroy
 
   belongs_to :quantity_surveyor
 
@@ -59,6 +60,13 @@ class RequestForTender < ApplicationRecord
 
   def time_left
     distance_of_time_in_words(Time.current, deadline)
+  end
+
+  def create_blank_boq
+    boq = Boq.new(request_for_tender: self, name: name)
+    page = boq.pages.build(name: 'Sheet 1')
+    30.times {page.items.build(boq: boq)}
+    boq.save!
   end
 
 end

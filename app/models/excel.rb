@@ -22,14 +22,14 @@ class Excel < ApplicationRecord
     read_excel(document.file.path, request_for_tender)
   end
 
-  def read_excel(file_path, request)
+  def read_excel(file_path, request_for_tender)
     file = Creek::Book.new file_path
     worksheets = file.sheets
 
-    boq = Boq.create(name: request.project_name, request_for_tender: request)
+    boq = Boq.create!(name: request_for_tender.project_name, request_for_tender: request_for_tender)
 
     worksheets.each do |worksheet|
-      page = Page.create(name: worksheet.name, boq: boq)
+      page = Page.create!(name: worksheet.name, boq: boq)
       add_worksheet_content_to_page(worksheet, page)
       boq.pages << page
     end
