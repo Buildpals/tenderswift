@@ -2,14 +2,20 @@
 
   <div class="row">
 
-    <div class="col-lg-12 mx-auto pt-4" id="notice-area">
+    <div class="col-lg-11 mx-auto pt-4 mb-4">
       <%= render 'layouts/notice' %>
     </div>
 
-    <div class="col-lg-12 mx-auto mb-4">
+    <div class="col-lg-9 ml-auto mb-4">
       <%= render 'form', request: @request, title: 'Editing Request' %>
     </div>
 
+    <div class="col-lg-2 mr-auto">
+      <%= link_to 'Back',  request_for_tenders_path, class: 'btn btn-block btn-large btn-light btn-raised' %>
+      <!--<button class="btn btn-block btn-large btn-light btn-raised">Copy</button>-->
+      <%= link_to 'Delete', @request, method: :delete, data: { confirm: 'Are you sure?' },
+                  class: 'btn btn-block btn-large btn-light btn-raised' %>
+    </div>
   </div>
 
 </div>

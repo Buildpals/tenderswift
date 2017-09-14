@@ -1,9 +1,41 @@
-<div class="nested-forms">
-  <%= form.fields_for :participants do |participant| %>
-      <%= render 'participant_fields', f: participant %>
-  <% end %>
-  <li class="d-flex w-100 justify-content-between">
-    <%= link_to_add_association 'Add participant', form, :participants, class: 'btn btn-sm btn-block btn-primary my-1' %>
-  </li>
-</div>
+<%= form_with(model: request, local: true, id: 'request-form') do |form| %>
+
+    <% if request.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= pluralize(request.errors.count, "error") %> prohibited this request from being saved:</h2>
+
+          <ul>
+            <% request.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+    <% end %>
+
+    <p class="text-muted text-center small">
+      Add the contact information of all contractors you are inviting to bid on this project.
+      <br>
+      We will send this request to them via email and sms when you hit the "Send Request Out" button.
+    </p>
+
+    <div class="nested-forms mb-5">
+      <%= form.fields_for :participants do |participant| %>
+          <%= render 'participant_fields', f: participant %>
+      <% end %>
+      <li class="d-flex w-100 justify-content-between">
+        <%= link_to_add_association 'Add more participants', form, :participants, class: 'btn btn-sm btn-primary my-1' %>
+      </li>
+    </div>
+
+
+    <div class="w-100 d-flex justify-content-between">
+      <input type="hidden" name="tab" value="2">
+      <a href="?tab=2" class="btn btn-primary mr-2 ml-auto">Previous</a>
+      <%= form.submit 'Save', class: 'btn btn-primary' %>
+      <% unless @request.submitted %>
+          <%= link_to 'Send Request Out', email_request_for_tender_path(@request), class: 'btn btn-success ml-2',
+                      data: {'submit-form': true} %>
+      <% end %>
+    </div>
+<% end %>
 

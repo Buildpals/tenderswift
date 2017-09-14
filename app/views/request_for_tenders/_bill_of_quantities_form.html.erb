@@ -1,46 +1,80 @@
-<div class="row">
+<%= form_with(model: request, local: true, id: 'request-form') do |form| %>
 
-  <% if @request.boq %>
-      <div class="col-lg-12">
-        <nav class="nav nav-tabs" id="myTab" role="tablist">
-          <% @request.boq.pages.each_with_index do |page, index| %>
-              <div class="nav-item">
-                <a class="nav-link  <%= 'active' if index == 0 %>" id="page-<%= page.id %>-tab" data-toggle="tab"
-                   href="#page-<%= page.id %>-content" role="tab" aria-controls="page-<%= page.id %>-tab-content">
-                  <%= page.name %>
-                </a>
-              </div>
-          <% end %>
-        </nav>
+    <% if request.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= pluralize(request.errors.count, "error") %> prohibited this request from being saved:</h2>
 
-        <div class="tab-content" id="myTabContent">
-          <% @request.boq.pages.each_with_index do |page, index| %>
-              <div class="tab-pane <%= 'show active' if index == 0 %>"
-                   id="page-<%= page.id %>-content" role="tabpanel" aria-labelledby="page-<%= page.id %>-tab">
-
-                <div id="sheet-<%= page.id %>" class="mb-5"></div>
-
-              </div>
-          <% end %>
+          <ul>
+            <% request.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+            <% end %>
+          </ul>
         </div>
+    <% end %>
 
-      </div>
-  <% end %>
+    <%= form.text_field :project_name, type: 'hidden' %>
 
-</div>
+    <% if @request.boq %>
+        <p class="text-center text-muted small">
+          You can edit the rows of this bill of quantities, and your changes will be saved automatically.
+          <br>
+          To add new rows, right click and choose 'insert row above' or 'insert row below' in the menu that appears.
+        </p>
 
+        <div class="mb-5">
 
-<div class="row">
-  <div class="col-md-4 mx-auto">
+          <nav class="nav nav-tabs" id="myTab" role="tablist">
+            <% @request.boq.pages.each_with_index do |page, index| %>
+                <div class="nav-item">
+                  <a class="nav-link  <%= 'active' if index == 0 %>" id="page-<%= page.id %>-tab" data-toggle="tab"
+                     href="#page-<%= page.id %>-content" role="tab" aria-controls="page-<%= page.id %>-tab-content">
+                    <%= page.name %>
+                  </a>
+                </div>
+            <% end %>
+          </nav>
+
+          <div class="tab-content" id="myTabContent">
+            <% @request.boq.pages.each_with_index do |page, index| %>
+                <div class="tab-pane <%= 'show active' if index == 0 %>"
+                     id="page-<%= page.id %>-content" role="tabpanel" aria-labelledby="page-<%= page.id %>-tab">
+
+                  <div id="sheet-<%= page.id %>" style="height: 500px; overflow: hidden"></div>
+
+                </div>
+            <% end %>
+          </div>
+
+        </div>
+    <% end %>
+
     <div class="mb-4 text-center">
       <% if @request.boq %>
-          <h5>Replace</h5>
+          <p>
+            If you don't like this bill of quantities you uploaded above,
+            <br>
+            you can upload a different one using the button below.
+          </p>
+      <% else %>
+          <p class="text-center text-muted small">
+            Upload a bill of quantities by choosing an excel file from your computer using the 'Choose File' button,
+            <br>
+            and clicking the 'Save' button thereafter.
+            <br>
+            You'll be able to edit the bill of quantities after uploading it.
+          </p>
       <% end %>
       <%= form.fields_for :excel do |excel_fields| %>
-          <%= excel_fields.file_field :document, class: 'form-control-file',
-                                      data: { 'save-on-change': true }  %>
+          <%= excel_fields.file_field :document, class: 'form-control-file btn btn-sm btn-primary',
+                                      data: {'save-on-change': true} %>
       <% end %>
     </div>
-  </div>
 
-</div>
+    <div class="w-100 d-flex justify-content-between">
+      <input type="hidden" name="tab" value="2">
+      <a href="?tab=1" class="btn btn-primary mr-2 ml-auto">Previous</a>
+      <%= form.submit 'Save', class: 'btn btn-primary' %>
+      <a href="?tab=3" class="btn btn-primary ml-2">Next</a>
+    </div>
+
+<% end %>

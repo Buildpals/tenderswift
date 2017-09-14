@@ -24,14 +24,24 @@ class RequestForTendersController < ApplicationController
                                     deadline: Time.current + 7.days)
     @request.quantity_surveyor = current_quantity_surveyor
     @request.save!
-    redirect_to edit_request_for_tender_path @request
+    redirect_to edit_request_for_tender_path @request, tab: '1'
   end
 
   # GET /requests/1/edit
   def edit
+    params[:tab] = '1' unless params[:tab]
     @request.build_excel
-    3.times { @request.participants.build } if  @request.participants.length == 0
-    3.times { @request.project_documents.build } if  @request.project_documents.length == 0
+    if @request.participants.length < 3
+      (3 - @request.participants.length).times { @request.participants.build }
+    else
+      @request.participants.build
+    end
+
+    if @request.project_documents.length < 3
+      (3 - @request.project_documents.length).times { @request.project_documents.build }
+    else
+      @request.project_documents.build
+    end
 
     gon.jbuilder
   end
@@ -57,11 +67,13 @@ class RequestForTendersController < ApplicationController
   def update
     respond_to do |format|
       if @request.update(request_params)
-        format.html { redirect_to edit_request_for_tender_path(@request), notice: 'Request was successfully updated.' }
+        format.html { redirect_to edit_request_for_tender_path(@request),
+                                  tab: params[:tab],
+                                  notice: 'Request was successfully updated.' }
         format.json { render :show, status: :ok, location: @request }
         format.js
       else
-        format.html { render :edit }
+        format.html { render :edit, tab: params[:tab] }
         format.json { render json: @request.errors, status: :unprocessable_entity }
       end
     end
