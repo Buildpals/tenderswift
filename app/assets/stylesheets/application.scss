@@ -8,29 +8,10 @@ $body-color: $gray-600;
 @import "navbar";
 @import "footer";
 @import "handsontable.full";
+@import "request_for_tenders";
 
 
-.wizard > .content
-{
-    width: 98%;
-    overflow: auto;
-}
-
-.wizard > .steps > ul > li {
-  width: 20%;
-}
-
-.wizard > .content legend
-{
-    position: absolute;
-    left: -9999em;
-}
-
-.wizard > .steps li.current
-{
-    display: block;
-}
-
+// Parsley validation styles
 
 .parsley-errors-list{
   list-style: none;

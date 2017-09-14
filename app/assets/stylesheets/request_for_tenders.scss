@@ -1,0 +1,28 @@
+// Place all the styles related to the Requests controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+
+
+.request_for_tenders {
+  .wizard > .content
+  {
+    width: 98%;
+    overflow: auto;
+  }
+
+  .wizard > .steps > ul > li {
+    width: 20%;
+  }
+
+  .wizard > .content legend
+  {
+    position: absolute;
+    left: -9999em;
+  }
+
+  .wizard > .steps li.current
+  {
+    display: block;
+  }
+}
