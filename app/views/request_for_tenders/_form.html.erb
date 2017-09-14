@@ -12,7 +12,7 @@
     <% end %>
     <span style="display:none;" id="request_value"><%= @request.id %></span>
     <div id="example-basic">
-      <h3 class="card-header text-center">General Info</h3>
+      <h3 class="card-header text-center">Project Info</h3>
       <section>
         <%= render 'general_information_form', form: form %>
       </section>
@@ -28,6 +28,10 @@
       <section>
         <%= render 'documents_form', form: form %>
       </section>
+      <h3 class="card-header text-center">Preview</h3>
+      <section>
+        <%= render 'preview'%>
+      </section>
     </div>
 <% end %>
 
@@ -39,7 +43,8 @@
 
 
 <script>
-    var id = parseInt($('#request_value').html())
+    var id = parseInt($('#request_value').html());
+    var request;
     $("#example-basic").steps({
         headerTag: "h3",
         bodyTag: "section",
@@ -71,7 +76,13 @@
         onStepChanged: function (event, currentIndex, newIndex){
             $("#example-basic .actions a[href='#previous']").show();
             $("#request-form").submit();
-            if(currentIndex == 3){
+            if(currentIndex == 0){
+             $("#example-basic .actions a[href='#previous']").hide(); 
+            }
+            if(currentIndex < 4){
+              $("#example-basic .actions a[href='#cancel']").hide();
+            }
+            if(currentIndex == 4){
                $("#example-basic .actions a[href='#cancel']").show();
             }
         }

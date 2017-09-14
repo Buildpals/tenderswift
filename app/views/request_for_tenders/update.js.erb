@@ -1,5 +1,7 @@
 $('#spinner').hide();
-console.log("Request updated");
+var request;
+request = <%= raw @request.to_json %>;
+console.log(request);
 $('#notice-area').append(
     '<div class="alert alert-success alert-dismissible fade show flash" role="alert">\n' +
     '  <button type="button" class="close" data-dismiss="alert" aria-label="Close">\n' +
@@ -8,6 +10,13 @@ $('#notice-area').append(
     '  Your changes have been saved!' +
     '</div>'
 );
+
+
+$('#preview-request-project-name').html(request.project_name);
+$('#preview-request-project-country').html(request.country.name);
+$('#preview-request-project-description').html(request.description);
+$('#preview-request-project-deadline').html(request.deadline);
+$('#preview-request-project-city').html(request.city);
 
 setTimeout( function(){
     $(".alert").alert('close')
