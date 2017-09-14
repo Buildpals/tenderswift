@@ -120,7 +120,7 @@
 
     <div class="col-lg-9 mx-auto">
 
-      <% if @participant.participating? %>
+      <% if @participant.status.in? %w(participating bid_made) %>
           <div class="card mb-4">
             <div class="card-header">
               Bill of Quantities
