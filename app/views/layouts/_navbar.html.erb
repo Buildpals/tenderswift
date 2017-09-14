@@ -13,7 +13,9 @@
       <% if quantity_surveyor_signed_in? %>
 
       <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="" id="request_for_tender_links" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <a class="nav-link dropdown-toggle"
+           href="<%= request_for_tenders_path %>"
+           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Request For Tenders
         </a>
         <div class="dropdown-menu" aria-labelledby="request_for_tender_links">
@@ -32,7 +34,9 @@
       <% if quantity_surveyor_signed_in? %>
 
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="" id="account_links" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <a class="nav-link dropdown-toggle"
+               href="<%= edit_quantity_surveyor_registration_path(current_quantity_surveyor) %>"
+               id="account_links" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <span class="fa fa-user" aria-hidden="true"></span>
               <%= current_quantity_surveyor.company_name %>
             </a>
