@@ -193,13 +193,13 @@ App.Boq = (function() {
                     "tag": null
                 },
                 colWidths: colWidths,
-                rowHeaders: true,
+                // rowHeaders: true,
                 stretchH: 'all',
                 manualColumnResize: true,
                 manualRowResize: true,
                 // persistentState: true,
                 // manualColumnMove: true,
-                manualRowMove: true,
+                // manualRowMove: true,
                 // minSpareRows: 1,
                 contextMenu: ['row_above', 'row_below', 'remove_row', 'undo', 'redo', 'cut', 'copy'],
                 beforeRemoveRow: function(index, amount, visualRows) {
