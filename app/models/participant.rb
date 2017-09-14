@@ -61,7 +61,7 @@ class Participant < ApplicationRecord
   end
 
   def project_location
-    "#{request_for_tender.city}, #{request_for_tender.country}"
+    "#{request_for_tender.city}, #{request_for_tender.country.name}"
   end
 
   def project_description

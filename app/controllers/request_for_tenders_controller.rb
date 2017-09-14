@@ -18,8 +18,9 @@ class RequestForTendersController < ApplicationController
 
   # GET /requests/new
   def new
+    country = Country.first
     @request = RequestForTender.new(project_name: 'Untitled Project',
-                                    country: 'Ghana',
+                                    country: country,
                                     deadline: Time.current + 7.days)
     @request.quantity_surveyor = current_quantity_surveyor
     @request.save!
@@ -58,6 +59,7 @@ class RequestForTendersController < ApplicationController
       if @request.update(request_params)
         format.html { redirect_to edit_request_for_tender_path(@request), notice: 'Request was successfully updated.' }
         format.json { render :show, status: :ok, location: @request }
+        format.js
       else
         format.html { render :edit }
         format.json { render json: @request.errors, status: :unprocessable_entity }
@@ -105,7 +107,7 @@ class RequestForTendersController < ApplicationController
     params.require(:request_for_tender)
           .permit(:project_name,
                   :deadline,
-                  :country,
+                  :country_id,
                   :city,
                   :description,
                   :budget,

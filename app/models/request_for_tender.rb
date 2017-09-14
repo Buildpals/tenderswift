@@ -8,6 +8,8 @@ class RequestForTender < ApplicationRecord
 
   belongs_to :quantity_surveyor
 
+  belongs_to :country
+
   has_many :participants, dependent: :destroy
   accepts_nested_attributes_for :participants,
                                 allow_destroy: true,
@@ -58,4 +60,5 @@ class RequestForTender < ApplicationRecord
   def time_left
     distance_of_time_in_words(Time.current, deadline)
   end
+
 end

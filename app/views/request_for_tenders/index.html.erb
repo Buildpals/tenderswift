@@ -23,7 +23,9 @@
                   </div>
                   <small class="text-muted">
                     <%= request.city %>,
-                    <%= request.country %>
+                    <% unless request.country.nil? %>
+                      <%= request.country.name %>
+                    <% end %>
                   </small>
               <% end %>
           <% end %>
@@ -54,7 +56,9 @@
                   </div>
                   <small class="text-muted">
                     <%= request.city %>,
-                    <%= request.country %>
+                    <% unless request.country.nil? %>
+                      <%= request.country.name %>
+                    <% end %>
                   </small>
               <% end %>
           <% end.empty? %>

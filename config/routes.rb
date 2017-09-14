@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :countries
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   resources :tags
   root to: 'welcome#index'

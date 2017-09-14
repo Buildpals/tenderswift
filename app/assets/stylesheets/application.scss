@@ -13,10 +13,11 @@ $body-color: $gray-600;
 .wizard > .content
 {
     width: 98%;
+    overflow: auto;
 }
 
 .wizard > .steps > ul > li {
-  width: 25%;
+  width: 20%;
 }
 
 .wizard > .content legend
