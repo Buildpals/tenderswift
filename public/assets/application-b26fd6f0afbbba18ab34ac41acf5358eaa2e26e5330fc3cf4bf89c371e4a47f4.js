@@ -91471,799 +91471,6 @@ module.exports = function(Chart) {
 
 },{"1":1}]},{},[7])(7)
 });
-$(document).on("turbolinks:load", function () {
-    if ($(".boqs.show").length === 0) return;
-
-
-    let ctx = document.getElementById('myChart').getContext('2d');
-    var chart = new Chart(ctx, {
-        // The type of chart we want to create
-        type: 'doughnut',
-
-        // The data for our dataset
-        data: {
-            labels: Object.keys(getBreakDown()),
-            datasets: [{
-                label: "My First dataset",
-                backgroundColor: [
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(255, 206, 86, 0.2)',
-                    'rgba(75, 192, 192, 0.2)',
-                    'rgba(153, 102, 255, 0.2)',
-                    'rgba(255, 159, 64, 0.2)'
-                ],
-                borderColor: [
-                    'rgba(255,99,132,1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)',
-                    'rgba(255, 159, 64, 1)'
-                ],
-                borderWidth: 1,
-                data: Object.values(getBreakDown()),
-            }]
-        },
-
-        // Configuration options go here
-        options: {}
-    });
-
-    gon.pages.forEach(function (page) {
-
-        let data = [];
-        let sectionHeaders = [];
-        buildSheetData(page, sectionHeaders, data);
-
-        let container = document.getElementById('sheet-' + page.id);
-
-        let hot = new Handsontable(container, {
-            data: data,
-            cell: sectionHeaders,
-            mergeCells: sectionHeaders,
-            colHeaders: ['Tag', 'Item', 'Description', 'Quantity', 'Unit', 'Rate', 'Amount'],
-            className: "htCenter",
-            columns: [
-                {
-                    data: "tag",
-                    // type: 'autocomplete',
-                    // source: function(query, process) {
-                    //     process(Object.keys(getBreakDown()));
-                    // },
-                    // strict: false
-                },
-                {
-                    data: 'name',
-                    renderer: labelRenderer
-                },
-                {
-                    data: 'description',
-                    className: 'htLeft'
-                },
-                {
-                    data: 'quantity',
-                    type: 'numeric'
-                },
-                {
-                    data: 'unit'
-                },
-                {
-                    data: 'rate',
-                    type: 'numeric',
-                    readOnly: true
-                },
-                {
-                    data: 'amount',
-                    type: 'numeric',
-                    readOnly: true
-                }
-            ],
-            dataSchema: {
-                "id": null,
-                "item_type": "item",
-                "name": null,
-                "description": null,
-                "quantity": null,
-                "unit": null,
-                "page_id": page.id,
-                "boq_id": gon.id,
-                "priority": null,
-                "tag": null
-            },
-            colWidths: [80, 50, 300, 42, 42, 50, 50],
-            rowHeaders: true,
-            stretchH: 'all',
-            manualColumnResize: true,
-            manualRowResize: true,
-            // persistentState: true,
-            // manualColumnMove: true,
-            manualRowMove: true,
-            // minSpareRows: 1,
-            contextMenu: ['row_above', 'row_below', 'remove_row', 'undo', 'redo', 'cut', 'copy'],
-            beforeRemoveRow: function(index, amount, visualRows) {
-                visualRows.forEach(function (visualIndex) {
-                    let item = data[visualIndex];
-                    console.log("Deleting", item);
-                    deleteItem(item)
-                        .done(function (response) {
-                            console.log("Deleted", item);
-                        });
-                });
-            },
-            afterCreateRow: function(index, amount, source) {
-                for (row = index; row < index + amount; row++) {
-                    let item = data[row];
-                    let previous_priority = data[row-1].priority;
-                    let next_priority = data[row+1].priority;
-                    let current_priority = (previous_priority + next_priority) / 2;
-                    console.log("p", previous_priority, "n", next_priority, "c",  current_priority)
-                    item.priority = current_priority;
-                    console.log(item);
-                    createItem(item)
-                        .done(function (createdItem) {
-                            console.log("Created", createdItem);
-                            data[row] = createdItem;
-                            hot.render();
-                        })
-                }
-            },
-            afterChange: function (changes, source) {
-                console.log("Saving...");
-                console.log(getBreakDown());
-
-                clearChartData(chart);
-
-                let tagsHash = getBreakDown();
-                Object.keys(tagsHash).forEach(function (tag) {
-                    addData(chart, tag, tagsHash[tag]);
-                });
-
-                console.log(chart.data);
-                $.each(changes, function (index, change) {
-                    let row = change[0];
-                    let col = change[1];
-                    let oldVal = change[2];
-                    let newVal = change[3];
-                    let item = data[row];
-                    if (item.id) {
-                        console.log(item);
-                        updateItem(item)
-                            .done(function (updatedItem) {
-                                console.log("Updated", updatedItem);
-                                data[row] = updatedItem;
-                                hot.render();
-                            });
-                    }
-                });
-            }
-        });
-
-        $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-            e.target // newly activated tab
-            e.relatedTarget // previous active tab
-            hot.render();
-        });
-
-    });
-
-});
-(function() {
-  (function() {
-    (function() {
-      var slice = [].slice;
-
-      this.ActionCable = {
-        INTERNAL: {
-          "message_types": {
-            "welcome": "welcome",
-            "ping": "ping",
-            "confirmation": "confirm_subscription",
-            "rejection": "reject_subscription"
-          },
-          "default_mount_path": "/cable",
-          "protocols": ["actioncable-v1-json", "actioncable-unsupported"]
-        },
-        WebSocket: window.WebSocket,
-        logger: window.console,
-        createConsumer: function(url) {
-          var ref;
-          if (url == null) {
-            url = (ref = this.getConfig("url")) != null ? ref : this.INTERNAL.default_mount_path;
-          }
-          return new ActionCable.Consumer(this.createWebSocketURL(url));
-        },
-        getConfig: function(name) {
-          var element;
-          element = document.head.querySelector("meta[name='action-cable-" + name + "']");
-          return element != null ? element.getAttribute("content") : void 0;
-        },
-        createWebSocketURL: function(url) {
-          var a;
-          if (url && !/^wss?:/i.test(url)) {
-            a = document.createElement("a");
-            a.href = url;
-            a.href = a.href;
-            a.protocol = a.protocol.replace("http", "ws");
-            return a.href;
-          } else {
-            return url;
-          }
-        },
-        startDebugging: function() {
-          return this.debugging = true;
-        },
-        stopDebugging: function() {
-          return this.debugging = null;
-        },
-        log: function() {
-          var messages, ref;
-          messages = 1 <= arguments.length ? slice.call(arguments, 0) : [];
-          if (this.debugging) {
-            messages.push(Date.now());
-            return (ref = this.logger).log.apply(ref, ["[ActionCable]"].concat(slice.call(messages)));
-          }
-        }
-      };
-
-    }).call(this);
-  }).call(this);
-
-  var ActionCable = this.ActionCable;
-
-  (function() {
-    (function() {
-      var bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
-
-      ActionCable.ConnectionMonitor = (function() {
-        var clamp, now, secondsSince;
-
-        ConnectionMonitor.pollInterval = {
-          min: 3,
-          max: 30
-        };
-
-        ConnectionMonitor.staleThreshold = 6;
-
-        function ConnectionMonitor(connection) {
-          this.connection = connection;
-          this.visibilityDidChange = bind(this.visibilityDidChange, this);
-          this.reconnectAttempts = 0;
-        }
-
-        ConnectionMonitor.prototype.start = function() {
-          if (!this.isRunning()) {
-            this.startedAt = now();
-            delete this.stoppedAt;
-            this.startPolling();
-            document.addEventListener("visibilitychange", this.visibilityDidChange);
-            return ActionCable.log("ConnectionMonitor started. pollInterval = " + (this.getPollInterval()) + " ms");
-          }
-        };
-
-        ConnectionMonitor.prototype.stop = function() {
-          if (this.isRunning()) {
-            this.stoppedAt = now();
-            this.stopPolling();
-            document.removeEventListener("visibilitychange", this.visibilityDidChange);
-            return ActionCable.log("ConnectionMonitor stopped");
-          }
-        };
-
-        ConnectionMonitor.prototype.isRunning = function() {
-          return (this.startedAt != null) && (this.stoppedAt == null);
-        };
-
-        ConnectionMonitor.prototype.recordPing = function() {
-          return this.pingedAt = now();
-        };
-
-        ConnectionMonitor.prototype.recordConnect = function() {
-          this.reconnectAttempts = 0;
-          this.recordPing();
-          delete this.disconnectedAt;
-          return ActionCable.log("ConnectionMonitor recorded connect");
-        };
-
-        ConnectionMonitor.prototype.recordDisconnect = function() {
-          this.disconnectedAt = now();
-          return ActionCable.log("ConnectionMonitor recorded disconnect");
-        };
-
-        ConnectionMonitor.prototype.startPolling = function() {
-          this.stopPolling();
-          return this.poll();
-        };
-
-        ConnectionMonitor.prototype.stopPolling = function() {
-          return clearTimeout(this.pollTimeout);
-        };
-
-        ConnectionMonitor.prototype.poll = function() {
-          return this.pollTimeout = setTimeout((function(_this) {
-            return function() {
-              _this.reconnectIfStale();
-              return _this.poll();
-            };
-          })(this), this.getPollInterval());
-        };
-
-        ConnectionMonitor.prototype.getPollInterval = function() {
-          var interval, max, min, ref;
-          ref = this.constructor.pollInterval, min = ref.min, max = ref.max;
-          interval = 5 * Math.log(this.reconnectAttempts + 1);
-          return Math.round(clamp(interval, min, max) * 1000);
-        };
-
-        ConnectionMonitor.prototype.reconnectIfStale = function() {
-          if (this.connectionIsStale()) {
-            ActionCable.log("ConnectionMonitor detected stale connection. reconnectAttempts = " + this.reconnectAttempts + ", pollInterval = " + (this.getPollInterval()) + " ms, time disconnected = " + (secondsSince(this.disconnectedAt)) + " s, stale threshold = " + this.constructor.staleThreshold + " s");
-            this.reconnectAttempts++;
-            if (this.disconnectedRecently()) {
-              return ActionCable.log("ConnectionMonitor skipping reopening recent disconnect");
-            } else {
-              ActionCable.log("ConnectionMonitor reopening");
-              return this.connection.reopen();
-            }
-          }
-        };
-
-        ConnectionMonitor.prototype.connectionIsStale = function() {
-          var ref;
-          return secondsSince((ref = this.pingedAt) != null ? ref : this.startedAt) > this.constructor.staleThreshold;
-        };
-
-        ConnectionMonitor.prototype.disconnectedRecently = function() {
-          return this.disconnectedAt && secondsSince(this.disconnectedAt) < this.constructor.staleThreshold;
-        };
-
-        ConnectionMonitor.prototype.visibilityDidChange = function() {
-          if (document.visibilityState === "visible") {
-            return setTimeout((function(_this) {
-              return function() {
-                if (_this.connectionIsStale() || !_this.connection.isOpen()) {
-                  ActionCable.log("ConnectionMonitor reopening stale connection on visibilitychange. visbilityState = " + document.visibilityState);
-                  return _this.connection.reopen();
-                }
-              };
-            })(this), 200);
-          }
-        };
-
-        now = function() {
-          return new Date().getTime();
-        };
-
-        secondsSince = function(time) {
-          return (now() - time) / 1000;
-        };
-
-        clamp = function(number, min, max) {
-          return Math.max(min, Math.min(max, number));
-        };
-
-        return ConnectionMonitor;
-
-      })();
-
-    }).call(this);
-    (function() {
-      var i, message_types, protocols, ref, supportedProtocols, unsupportedProtocol,
-        slice = [].slice,
-        bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
-        indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
-
-      ref = ActionCable.INTERNAL, message_types = ref.message_types, protocols = ref.protocols;
-
-      supportedProtocols = 2 <= protocols.length ? slice.call(protocols, 0, i = protocols.length - 1) : (i = 0, []), unsupportedProtocol = protocols[i++];
-
-      ActionCable.Connection = (function() {
-        Connection.reopenDelay = 500;
-
-        function Connection(consumer) {
-          this.consumer = consumer;
-          this.open = bind(this.open, this);
-          this.subscriptions = this.consumer.subscriptions;
-          this.monitor = new ActionCable.ConnectionMonitor(this);
-          this.disconnected = true;
-        }
-
-        Connection.prototype.send = function(data) {
-          if (this.isOpen()) {
-            this.webSocket.send(JSON.stringify(data));
-            return true;
-          } else {
-            return false;
-          }
-        };
-
-        Connection.prototype.open = function() {
-          if (this.isActive()) {
-            ActionCable.log("Attempted to open WebSocket, but existing socket is " + (this.getState()));
-            return false;
-          } else {
-            ActionCable.log("Opening WebSocket, current state is " + (this.getState()) + ", subprotocols: " + protocols);
-            if (this.webSocket != null) {
-              this.uninstallEventHandlers();
-            }
-            this.webSocket = new ActionCable.WebSocket(this.consumer.url, protocols);
-            this.installEventHandlers();
-            this.monitor.start();
-            return true;
-          }
-        };
-
-        Connection.prototype.close = function(arg) {
-          var allowReconnect, ref1;
-          allowReconnect = (arg != null ? arg : {
-            allowReconnect: true
-          }).allowReconnect;
-          if (!allowReconnect) {
-            this.monitor.stop();
-          }
-          if (this.isActive()) {
-            return (ref1 = this.webSocket) != null ? ref1.close() : void 0;
-          }
-        };
-
-        Connection.prototype.reopen = function() {
-          var error;
-          ActionCable.log("Reopening WebSocket, current state is " + (this.getState()));
-          if (this.isActive()) {
-            try {
-              return this.close();
-            } catch (error1) {
-              error = error1;
-              return ActionCable.log("Failed to reopen WebSocket", error);
-            } finally {
-              ActionCable.log("Reopening WebSocket in " + this.constructor.reopenDelay + "ms");
-              setTimeout(this.open, this.constructor.reopenDelay);
-            }
-          } else {
-            return this.open();
-          }
-        };
-
-        Connection.prototype.getProtocol = function() {
-          var ref1;
-          return (ref1 = this.webSocket) != null ? ref1.protocol : void 0;
-        };
-
-        Connection.prototype.isOpen = function() {
-          return this.isState("open");
-        };
-
-        Connection.prototype.isActive = function() {
-          return this.isState("open", "connecting");
-        };
-
-        Connection.prototype.isProtocolSupported = function() {
-          var ref1;
-          return ref1 = this.getProtocol(), indexOf.call(supportedProtocols, ref1) >= 0;
-        };
-
-        Connection.prototype.isState = function() {
-          var ref1, states;
-          states = 1 <= arguments.length ? slice.call(arguments, 0) : [];
-          return ref1 = this.getState(), indexOf.call(states, ref1) >= 0;
-        };
-
-        Connection.prototype.getState = function() {
-          var ref1, state, value;
-          for (state in WebSocket) {
-            value = WebSocket[state];
-            if (value === ((ref1 = this.webSocket) != null ? ref1.readyState : void 0)) {
-              return state.toLowerCase();
-            }
-          }
-          return null;
-        };
-
-        Connection.prototype.installEventHandlers = function() {
-          var eventName, handler;
-          for (eventName in this.events) {
-            handler = this.events[eventName].bind(this);
-            this.webSocket["on" + eventName] = handler;
-          }
-        };
-
-        Connection.prototype.uninstallEventHandlers = function() {
-          var eventName;
-          for (eventName in this.events) {
-            this.webSocket["on" + eventName] = function() {};
-          }
-        };
-
-        Connection.prototype.events = {
-          message: function(event) {
-            var identifier, message, ref1, type;
-            if (!this.isProtocolSupported()) {
-              return;
-            }
-            ref1 = JSON.parse(event.data), identifier = ref1.identifier, message = ref1.message, type = ref1.type;
-            switch (type) {
-              case message_types.welcome:
-                this.monitor.recordConnect();
-                return this.subscriptions.reload();
-              case message_types.ping:
-                return this.monitor.recordPing();
-              case message_types.confirmation:
-                return this.subscriptions.notify(identifier, "connected");
-              case message_types.rejection:
-                return this.subscriptions.reject(identifier);
-              default:
-                return this.subscriptions.notify(identifier, "received", message);
-            }
-          },
-          open: function() {
-            ActionCable.log("WebSocket onopen event, using '" + (this.getProtocol()) + "' subprotocol");
-            this.disconnected = false;
-            if (!this.isProtocolSupported()) {
-              ActionCable.log("Protocol is unsupported. Stopping monitor and disconnecting.");
-              return this.close({
-                allowReconnect: false
-              });
-            }
-          },
-          close: function(event) {
-            ActionCable.log("WebSocket onclose event");
-            if (this.disconnected) {
-              return;
-            }
-            this.disconnected = true;
-            this.monitor.recordDisconnect();
-            return this.subscriptions.notifyAll("disconnected", {
-              willAttemptReconnect: this.monitor.isRunning()
-            });
-          },
-          error: function() {
-            return ActionCable.log("WebSocket onerror event");
-          }
-        };
-
-        return Connection;
-
-      })();
-
-    }).call(this);
-    (function() {
-      var slice = [].slice;
-
-      ActionCable.Subscriptions = (function() {
-        function Subscriptions(consumer) {
-          this.consumer = consumer;
-          this.subscriptions = [];
-        }
-
-        Subscriptions.prototype.create = function(channelName, mixin) {
-          var channel, params, subscription;
-          channel = channelName;
-          params = typeof channel === "object" ? channel : {
-            channel: channel
-          };
-          subscription = new ActionCable.Subscription(this.consumer, params, mixin);
-          return this.add(subscription);
-        };
-
-        Subscriptions.prototype.add = function(subscription) {
-          this.subscriptions.push(subscription);
-          this.consumer.ensureActiveConnection();
-          this.notify(subscription, "initialized");
-          this.sendCommand(subscription, "subscribe");
-          return subscription;
-        };
-
-        Subscriptions.prototype.remove = function(subscription) {
-          this.forget(subscription);
-          if (!this.findAll(subscription.identifier).length) {
-            this.sendCommand(subscription, "unsubscribe");
-          }
-          return subscription;
-        };
-
-        Subscriptions.prototype.reject = function(identifier) {
-          var i, len, ref, results, subscription;
-          ref = this.findAll(identifier);
-          results = [];
-          for (i = 0, len = ref.length; i < len; i++) {
-            subscription = ref[i];
-            this.forget(subscription);
-            this.notify(subscription, "rejected");
-            results.push(subscription);
-          }
-          return results;
-        };
-
-        Subscriptions.prototype.forget = function(subscription) {
-          var s;
-          this.subscriptions = (function() {
-            var i, len, ref, results;
-            ref = this.subscriptions;
-            results = [];
-            for (i = 0, len = ref.length; i < len; i++) {
-              s = ref[i];
-              if (s !== subscription) {
-                results.push(s);
-              }
-            }
-            return results;
-          }).call(this);
-          return subscription;
-        };
-
-        Subscriptions.prototype.findAll = function(identifier) {
-          var i, len, ref, results, s;
-          ref = this.subscriptions;
-          results = [];
-          for (i = 0, len = ref.length; i < len; i++) {
-            s = ref[i];
-            if (s.identifier === identifier) {
-              results.push(s);
-            }
-          }
-          return results;
-        };
-
-        Subscriptions.prototype.reload = function() {
-          var i, len, ref, results, subscription;
-          ref = this.subscriptions;
-          results = [];
-          for (i = 0, len = ref.length; i < len; i++) {
-            subscription = ref[i];
-            results.push(this.sendCommand(subscription, "subscribe"));
-          }
-          return results;
-        };
-
-        Subscriptions.prototype.notifyAll = function() {
-          var args, callbackName, i, len, ref, results, subscription;
-          callbackName = arguments[0], args = 2 <= arguments.length ? slice.call(arguments, 1) : [];
-          ref = this.subscriptions;
-          results = [];
-          for (i = 0, len = ref.length; i < len; i++) {
-            subscription = ref[i];
-            results.push(this.notify.apply(this, [subscription, callbackName].concat(slice.call(args))));
-          }
-          return results;
-        };
-
-        Subscriptions.prototype.notify = function() {
-          var args, callbackName, i, len, results, subscription, subscriptions;
-          subscription = arguments[0], callbackName = arguments[1], args = 3 <= arguments.length ? slice.call(arguments, 2) : [];
-          if (typeof subscription === "string") {
-            subscriptions = this.findAll(subscription);
-          } else {
-            subscriptions = [subscription];
-          }
-          results = [];
-          for (i = 0, len = subscriptions.length; i < len; i++) {
-            subscription = subscriptions[i];
-            results.push(typeof subscription[callbackName] === "function" ? subscription[callbackName].apply(subscription, args) : void 0);
-          }
-          return results;
-        };
-
-        Subscriptions.prototype.sendCommand = function(subscription, command) {
-          var identifier;
-          identifier = subscription.identifier;
-          return this.consumer.send({
-            command: command,
-            identifier: identifier
-          });
-        };
-
-        return Subscriptions;
-
-      })();
-
-    }).call(this);
-    (function() {
-      ActionCable.Subscription = (function() {
-        var extend;
-
-        function Subscription(consumer, params, mixin) {
-          this.consumer = consumer;
-          if (params == null) {
-            params = {};
-          }
-          this.identifier = JSON.stringify(params);
-          extend(this, mixin);
-        }
-
-        Subscription.prototype.perform = function(action, data) {
-          if (data == null) {
-            data = {};
-          }
-          data.action = action;
-          return this.send(data);
-        };
-
-        Subscription.prototype.send = function(data) {
-          return this.consumer.send({
-            command: "message",
-            identifier: this.identifier,
-            data: JSON.stringify(data)
-          });
-        };
-
-        Subscription.prototype.unsubscribe = function() {
-          return this.consumer.subscriptions.remove(this);
-        };
-
-        extend = function(object, properties) {
-          var key, value;
-          if (properties != null) {
-            for (key in properties) {
-              value = properties[key];
-              object[key] = value;
-            }
-          }
-          return object;
-        };
-
-        return Subscription;
-
-      })();
-
-    }).call(this);
-    (function() {
-      ActionCable.Consumer = (function() {
-        function Consumer(url) {
-          this.url = url;
-          this.subscriptions = new ActionCable.Subscriptions(this);
-          this.connection = new ActionCable.Connection(this);
-        }
-
-        Consumer.prototype.send = function(data) {
-          return this.connection.send(data);
-        };
-
-        Consumer.prototype.connect = function() {
-          return this.connection.open();
-        };
-
-        Consumer.prototype.disconnect = function() {
-          return this.connection.close({
-            allowReconnect: false
-          });
-        };
-
-        Consumer.prototype.ensureActiveConnection = function() {
-          if (!this.connection.isActive()) {
-            return this.connection.open();
-          }
-        };
-
-        return Consumer;
-
-      })();
-
-    }).call(this);
-  }).call(this);
-
-  if (typeof module === "object" && module.exports) {
-    module.exports = ActionCable;
-  } else if (typeof define === "function" && define.amd) {
-    define(ActionCable);
-  }
-}).call(this);
-// Action Cable provides the framework to deal with WebSockets in Rails.
-// You can generate new channels where WebSocket features live using the `rails generate channel` command.
-//
-
-
-
-
-(function() {
-  this.App || (this.App = {});
-
-  App.cable = ActionCable.createConsumer();
-
-}).call(this);
-(function() {
-
-
-}).call(this);
 window.App || (window.App = {});
 
 App.init = function() {
@@ -92273,92 +91480,437 @@ App.init = function() {
 $(document).on("turbolinks:load", function() {
     return App.init();
 });
-// # Place all the behaviors and hooks related to the matching controller here.
-// # All this logic will automatically be available in application.js.
-// # You can use CoffeeScript in this file: http://coffeescript.org/
-;
-// # Place all the behaviors and hooks related to the matching controller here.
-// # All this logic will automatically be available in application.js.
-// # You can use CoffeeScript in this file: http://coffeescript.org/
-;
-$(document).on("turbolinks:load", function () {
-    if ($(".participants.show_boq").length === 0) return;
+App.Boq = (function() {
+    function Boq(boqData) {
+        this.boqData = boqData;
+    }
 
-    gon.boq.pages.forEach(function (page) {
+    let chart;
+    let tagsHash =  {};
+    let viewType;
 
-        let data = [];
-        let sectionHeaders = [];
-        buildSheetData(page, sectionHeaders, data);
+    Boq.prototype.render = function(_viewType) {
+        viewType = _viewType;
+        renderChart();
+        renderSpreadSheet(this.boqData, viewType);
+    };
 
-        let container = document.getElementById('sheet-' + page.id);
+    Boq.prototype.renderSpreadSheet = renderSpreadSheet;
 
-        let hot = new Handsontable(container, {
-            data: data,
-            cell: sectionHeaders,
-            mergeCells: sectionHeaders,
-            colHeaders: ['Item', 'Description', 'Quantity', 'Unit', 'Rate', 'Amount'],
-            className: "htCenter",
-            columns: [
-                {
-                    data: 'name',
-                    readOnly: true
+    Boq.prototype.renderChart = renderChart;
+
+    function renderChart() {
+        let chartDiv = document.getElementById('myChart');
+        if (chartDiv) {
+            let ctx = chartDiv.getContext('2d');
+
+            let tagsHash = getBreakDown();
+            chart = new Chart(ctx, {
+                // The type of chart we want to create
+                type: 'doughnut',
+
+                // The data for our dataset
+                data: {
+                    labels: Object.keys(tagsHash),
+                    datasets: [{
+                        label: "My First dataset",
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255,99,132,1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        borderWidth: 1,
+                        data: Object.values(tagsHash),
+                    }]
                 },
-                {
-                    data: 'description',
-                    className: 'htLeft',
-                    readOnly: true
+
+                // Configuration options go here
+                options: {}
+            });
+        }
+    }
+
+
+
+    function renderSpreadSheet(boqData, viewType) {
+        boqData.pages.forEach(function (page) {
+
+            let data = [];
+            let sectionHeaders = [];
+            buildSheetData(page, sectionHeaders, data);
+
+            let container = document.getElementById('sheet-' + page.id);
+
+            let colHeaders, columns, colWidths;
+            if (viewType === 'tag_editing') {
+                colHeaders = ['Tag', 'Item', 'Description', 'Quantity', 'Unit', 'Rate', 'Amount'];
+                columns = [
+                    {
+                        data: "tag",
+                        // type: 'autocomplete',
+                        // source: function(query, process) {
+                        //     process(Object.keys(getBreakDown()));
+                        // },
+                        // strict: false
+                    },
+                    {
+                        data: 'name',
+                        renderer: labelRenderer
+                    },
+                    {
+                        data: 'description',
+                        className: 'htLeft'
+                    },
+                    {
+                        data: 'quantity',
+                        type: 'numeric'
+                    },
+                    {
+                        data: 'unit'
+                    },
+                    {
+                        data: 'rate',
+                        type: 'numeric',
+                        readOnly: true
+                    },
+                    {
+                        data: 'amount',
+                        type: 'numeric',
+                        readOnly: true
+                    }
+                ];
+                colWidths = [80, 50, 300, 42, 42, 50, 50];
+            } else if (viewType === 'rate_filling') {
+                colHeaders = ['Item', 'Description', 'Quantity', 'Unit', 'Rate', 'Amount'];
+                columns = [
+                    {
+                        data: 'name',
+                        renderer: labelRenderer,
+                        readOnly: true
+                    },
+                    {
+                        data: 'description',
+                        className: 'htLeft',
+                        readOnly: true
+                    },
+                    {
+                        data: 'quantity',
+                        type: 'numeric',
+                        readOnly: true
+                    },
+                    {
+                        data: 'unit',
+                        readOnly: true
+                    },
+                    {
+                        data: 'filled_item.rate',
+                        type: 'numeric'
+                    },
+                    {
+                        data: 'filled_item.amount',
+                        type: 'numeric'
+                    }
+                ];
+                colWidths = [50, 300, 42, 42, 50, 50];
+            } else {
+                colHeaders = ['Item', 'Description', 'Quantity', 'Unit', 'Rate', 'Amount'];
+                columns = [
+                    {
+                        data: 'name',
+                        renderer: labelRenderer
+                    },
+                    {
+                        data: 'description',
+                        className: 'htLeft'
+                    },
+                    {
+                        data: 'quantity',
+                        type: 'numeric'
+                    },
+                    {
+                        data: 'unit'
+                    },
+                    {
+                        data: 'rate',
+                        type: 'numeric',
+                        readOnly: true
+                    },
+                    {
+                        data: 'amount',
+                        type: 'numeric',
+                        readOnly: true
+                    }
+                ];
+                colWidths = [50, 300, 42, 42, 50, 50];
+            }
+
+            let hot = new Handsontable(container, {
+                data: data,
+                cell: sectionHeaders,
+                mergeCells: sectionHeaders,
+                colHeaders: colHeaders,
+                className: "htCenter",
+                columns: columns,
+                dataSchema: {
+                    "id": null,
+                    "item_type": "item",
+                    "name": null,
+                    "description": null,
+                    "quantity": null,
+                    "unit": null,
+                    "page_id": page.id,
+                    "boq_id": gon.boq.id,
+                    "priority": null,
+                    "tag": null
                 },
-                {
-                    data: 'quantity',
-                    readOnly: true
+                colWidths: colWidths,
+                // rowHeaders: true,
+                stretchH: 'all',
+                manualColumnResize: true,
+                manualRowResize: true,
+                // persistentState: true,
+                // manualColumnMove: true,
+                // manualRowMove: true,
+                // minSpareRows: 1,
+                contextMenu: ['row_above', 'row_below', 'remove_row', 'undo', 'redo', 'cut', 'copy'],
+                beforeRemoveRow: function(index, amount, visualRows) {
+                    visualRows.forEach(function (visualIndex) {
+                        let item = data[visualIndex];
+                        console.log("Deleting", item);
+                        deleteItem(item)
+                            .done(function (response) {
+                                console.log("Deleted", item);
+                            });
+                    });
                 },
-                {
-                    data: 'unit',
-                    readOnly: true
+                afterCreateRow: function(index, amount, source) {
+                    for (row = index; row < index + amount; row++) {
+                        let item = data[row];
+                        let previous_priority = data[row-1].priority;
+                        let next_priority = data[row+1].priority;
+                        let current_priority = (previous_priority + next_priority) / 2;
+                        item.priority = current_priority;
+                        console.log("Creating item", item);
+                        createItem(item)
+                            .done(function (createdItem) {
+                                console.log("Created", createdItem);
+                                data[row] = createdItem;
+                                hot.render();
+                            })
+                    }
                 },
-                {
-                    data: 'filled_item.rate'
-                },
-                {
-                    data: 'filled_item.amount'
+                afterChange: function(changes, source) {
+                    $.each(changes, function (index, change) {
+                        let row = change[0];
+                        let col = change[1];
+                        let oldVal = change[2];
+                        let newVal = change[3];
+                        let item = data[row];
+
+                        if (chart) {
+                            clearChartData(chart);
+
+                            let tagsHash = getBreakDown();
+                            Object.keys(tagsHash).forEach(function (tag) {
+                                addData(chart, tag, tagsHash[tag]);
+                            });
+                        }
+
+                        if (viewType === 'rate_filling') {
+                            if (item.filled_item.rate) {
+                                item.filled_item.amount = item.quantity * item.filled_item.rate;
+                            }
+                            saveFilledItem(item.filled_item)
+                                .done(function (updatedFilledItem) {
+                                    console.log("Updated", updatedFilledItem);
+                                    data[row].filled_item = updatedFilledItem;
+                                    hot.render();
+                                });
+                        } else {
+                            updateItem(item)
+                                .done(function (updatedItem) {
+                                    console.log("Updated", updatedItem);
+                                    data[row] = updatedItem;
+                                    hot.render();
+                                });
+                        }
+                    });
                 }
-            ],
-            colWidths: [60, 412, 80, 42, 80, 80],
-            rowHeaders: true,
-            // colHeaders: true,
-            stretchH: 'all',
-            manualColumnResize: true,
-            manualRowResize: true,
-            // persistentState: true,
-            // manualColumnMove: true,
-            manualRowMove: true,
-            minSpareRows: 1,
-            // contextMenu: ['row_above', 'row_below', 'remove_row', 'undo', 'redo', 'cut', 'copy'],
-            afterChange: function (changes, source) {
-                console.log("Saving...");
-                $.each(changes, function (index, change) {
-                    let row = change[0];
-                    let col = change[1];
-                    let oldVal = change[2];
-                    let newVal = change[3];
-                    let filledItem = data[row].filled_item;
-                    filledItem.amount = data[row].quantity * filledItem.rate;
-                    hot.render();
-                    console.log(filledItem);
-                    saveFilledItem(filledItem);
-                });
+            });
+
+            $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+                e.target // newly activated tab
+                e.relatedTarget // previous active tab
+                hot.render();
+            });
+
+        });
+    }
+
+
+
+    function getBreakDown(){
+        gon.boq.pages.forEach(function (page) {
+            page.items.forEach(function (item) {
+                if (item.item_type === 'item') {
+                    if (item.tag) {
+                        tagsHash[item.tag] = tagsHash[item.tag] === undefined ? item.quantity : tagsHash[item.tag] + item.quantity;
+                    } else {
+                        let quantity = item.quantity;
+                        if (!quantity) quantity = 0;
+                        tagsHash["Others"] = tagsHash["Others"] === undefined ? quantity : tagsHash["Others"] + quantity;
+                    }
+                }
+            })
+        });
+        return tagsHash;
+    }
+
+    function addData(chart, label, data) {
+        chart.data.labels.push(label);
+        chart.data.datasets.forEach((dataset) => {
+            dataset.data.push(data);
+        });
+        chart.update(0);
+    }
+
+    function clearChartData(chart) {
+        chart.data.labels.length = 0;
+        chart.data.datasets.forEach((dataset) => {
+            dataset.data.length = 0;
+        });
+        chart.update(0);
+    }
+
+
+
+    function buildSheetData(page, customCells, data) {
+        page.items.forEach(function  (item) {
+            if (item.item_type === 'header') {
+                customCells.push({row: data.length, col: 1, rowspan: 1, colspan: 1, renderer: sectionRenderer});
+                customCells.push({row: data.length, col: 0, rowspan: 1, colspan: 1, readOnly: true});
+                customCells.push({row: data.length, col: 2, rowspan: 1, colspan: 1, readOnly: true});
+                customCells.push({row: data.length, col: 3, rowspan: 1, colspan: 1, readOnly: true});
+                customCells.push({row: data.length, col: 4, rowspan: 1, colspan: 1, readOnly: true});
+                customCells.push({row: data.length, col: 5, rowspan: 1, colspan: 1, readOnly: true});
+                data.push(item);
+            } else {
+                data.push(item);
             }
         });
+    }
 
-        $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-            e.target // newly activated tab
-            e.relatedTarget // previous active tab
-            hot.render();
+    function buildSheetDataWithTagging(page, customCells, data) {
+        page.items.forEach(function  (item) {
+            if (item.item_type === 'header') {
+                customCells.push({row: data.length, col: 2, rowspan: 1, colspan: 1, renderer: sectionRenderer});
+                customCells.push({row: data.length, col: 0, rowspan: 1, colspan: 1, readOnly: true});
+                customCells.push({row: data.length, col: 1, rowspan: 1, colspan: 1, readOnly: true});
+                customCells.push({row: data.length, col: 3, rowspan: 1, colspan: 1, readOnly: true});
+                customCells.push({row: data.length, col: 4, rowspan: 1, colspan: 1, readOnly: true});
+                data.push(item);
+            } else {
+                customCells.push({
+                    row: data.length, col: 0,
+                    type: 'autocomplete',
+                    source: function(query, process) {
+                        process(Object.keys(getBreakDown()));
+                    },
+                    strict: false
+                });
+                data.push(item);
+            }
         });
+    }
 
-    });
+    function sectionRenderer(instance, td, row, col, prop, value, cellProperties) {
+        Handsontable.renderers.TextRenderer.apply(this, arguments);
+        td.setAttribute('style', 'height: 2em !important; font-size: 1.1em; font-weight: bold; vertical-align: bottom; text-align: center');
+    }
+
+    function labelRenderer(instance, td, row, col, prop, value, cellProperties) {
+        Handsontable.renderers.TextRenderer.apply(this, arguments);
+        td.style.fontWeight = "bold";
+    }
 
 
+    function createItem(item) {
+        let url = '/items.json';
+        let method = 'POST';
+
+        return $.ajax({
+            url: url,
+            method: method,
+            data: { item: item }
+        })
+    }
+
+    function updateItem(item) {
+        let url = '/items/' + item.id + '.json';
+        let method = 'PUT';
+
+        return $.ajax({
+            url: url,
+            method: method,
+            data: { item: item }
+        });
+    }
+
+    function deleteItem(item) {
+        let url = '/items/' + item.id + '.json';
+        let method = 'DELETE';
+
+        return $.ajax({
+            url: url,
+            method: method
+        });
+    }
+
+    function saveFilledItem(filledItem) {
+        let url = '/filled_items.json';
+        let method = 'POST';
+
+        if (filledItem.id) {
+            url = '/filled_items/' + filledItem.id + '.json';
+            method = 'PUT';
+        }
+
+        return $.ajax({
+            url: url,
+            method: method,
+            data: { filled_item:  filledItem }
+        });
+    }
+
+    return Boq;
+})();
+
+
+$(document).on("turbolinks:load", function () {
+    if ($(".request_for_tenders.edit").length === 0) return;
+
+    let boq;
+    boq = new App.Boq(gon.boq);
+    return boq.render();
+});
+
+$(document).on("turbolinks:load", function () {
+    if ($(".request_for_tenders.show").length === 0) return;
+
+    let boq;
+    boq = new App.Boq(gon.boq);
+    return boq.renderChart();
 });
 $(document).on("turbolinks:load", function () {
     if ($(".request_for_tenders.show").length === 0) return;
@@ -92379,7 +91931,6 @@ $(document).on("turbolinks:load", function () {
 
         // The data for our dataset
         data: {
-            // labels: ["January", "February", "March", "April", "May", "June", "July"],
             labels: labels,
             datasets: [{
                 label: 'Bid Amount in $',
@@ -92407,42 +91958,14 @@ $(document).on("turbolinks:load", function () {
     if ($(".request_for_tenders.edit").length === 0) return;
 
     autosize($('textarea'));
-
-    // $('[data-save-on-change]').change(function () {
-    //     $('#spinner').show();
-    //     $('#request-form').trigger('submit.rails');
-    // });
-    //
-    // $('[data-save-on-click]').click(function () {
-    //     $('#spinner').show();
-    //
-    //     setTimeout( function(){
-    //         $('#request-form').trigger('submit.rails');
-    //     }, 500 );
-    // });
-    //
-    // $('.nested-forms').on('cocoon:before-insert', function(e, insertedItem) {
-    //     console.log("item inserted");
-    //
-    //     $(insertedItem).find('[data-save-on-change]').change(function () {
-    //         $('#spinner').show();
-    //         $('#request-form').trigger('submit.rails');
-    //     });
-    // });
-
 });
-// # Place all the behaviors and hooks related to the matching controller here.
-// # All this logic will automatically be available in application.js.
-// # You can use CoffeeScript in this file: http://coffeescript.org/
-;
-(function() {
+$(document).on("turbolinks:load", function () {
+    if ($(".participants.show_boq, .participants.show").length === 0) return;
 
-
-}).call(this);
-// # Place all the behaviors and hooks related to the matching controller here.
-// # All this logic will automatically be available in application.js.
-// # You can use CoffeeScript in this file: http://coffeescript.org/
-;
+    let boq;
+    boq = new App.Boq(gon.boq);
+    return boq.render('rate_filling');
+});
 // This is a manifest file that'll be compiled into application.js, which will include all the files
 // listed below.
 //
@@ -92468,119 +91991,6 @@ $(document).on("turbolinks:load", function () {
 
 
 
-function addData(chart, label, data) {
-    chart.data.labels.push(label);
-    chart.data.datasets.forEach((dataset) => {
-        dataset.data.push(data);
-    });
-    chart.update(0);
-}
-
-function clearChartData(chart) {
-    chart.data.labels.length = 0;
-    chart.data.datasets.forEach((dataset) => {
-        dataset.data.length = 0;
-    });
-    chart.update(0);
-}
-
-function getBreakDown(){
-    let tagsHash =  {};
-    gon.pages.forEach(function (page) {
-        page.items.forEach(function (item) {
-            if (item.item_type === 'item') {
-                if (item.tag) {
-                    tagsHash[item.tag] = tagsHash[item.tag] === undefined ? item.quantity : tagsHash[item.tag] + item.quantity;
-                } else {
-                    let quantity = item.quantity;
-                    if (!quantity) quantity = 0;
-                    tagsHash["Others"] = tagsHash["Others"] === undefined ? quantity : tagsHash["Others"] + quantity;
-                }
-            }
-        })
-    });
-    return tagsHash;
-}
 
 
-function sectionRenderer(instance, td, row, col, prop, value, cellProperties) {
-    Handsontable.renderers.TextRenderer.apply(this, arguments);
-    td.setAttribute('style', 'height: 2em !important; font-size: 1.1em; font-weight: bold; vertical-align: bottom; text-align: center');
-}
-
-function labelRenderer(instance, td, row, col, prop, value, cellProperties) {
-    Handsontable.renderers.TextRenderer.apply(this, arguments);
-    td.style.fontWeight = "bold";
-}
-
-function buildSheetData(page, customCells, data) {
-    page.items.forEach(function  (item) {
-        if (item.item_type === 'header') {
-            customCells.push({row: data.length, col: 2, rowspan: 1, colspan: 1, renderer: sectionRenderer});
-            customCells.push({row: data.length, col: 0, rowspan: 1, colspan: 1, readOnly: true});
-            customCells.push({row: data.length, col: 1, rowspan: 1, colspan: 1, readOnly: true});
-            customCells.push({row: data.length, col: 3, rowspan: 1, colspan: 1, readOnly: true});
-            customCells.push({row: data.length, col: 4, rowspan: 1, colspan: 1, readOnly: true});
-            data.push(item);
-        } else {
-            customCells.push({
-                row: data.length, col: 0,
-                type: 'autocomplete',
-                source: function(query, process) {
-                    process(Object.keys(getBreakDown()));
-                },
-                strict: false
-            });
-            data.push(item);
-        }
-    });
-}
-
-function createItem(item) {
-    let url = '/items.json';
-    let method = 'POST';
-
-    return $.ajax({
-        url: url,
-        method: method,
-        data: { item: item }
-    })
-}
-
-function updateItem(item) {
-    let url = '/items/' + item.id + '.json';
-    let method = 'PUT';
-
-    return $.ajax({
-        url: url,
-        method: method,
-        data: { item: item }
-    });
-}
-
-function deleteItem(item) {
-    let url = '/items/' + item.id + '.json';
-    let method = 'DELETE';
-
-    return $.ajax({
-        url: url,
-        method: method
-    });
-}
-
-function saveFilledItem(filledItem) {
-    let url = '/filled_items.json';
-    let method = 'POST';
-
-    if (filledItem.id) {
-        url = '/filled_items/' + filledItem.id + '.json';
-        method = 'PUT';
-    }
-
-    return $.ajax({
-        url: url,
-        method: method,
-        data: { filled_item:  filledItem }
-    });
-}
 ;
