@@ -18,7 +18,7 @@ if participant.boq
         json.boq_id item.boq_id
         json.priority item.priority
         json.tag item.tag
-        json.filled_items_attributes participant.filled_item(item)
+        json.filled_item participant.filled_item(item)
       end
     end
     json.url boq_url(participant.boq, format: :json)

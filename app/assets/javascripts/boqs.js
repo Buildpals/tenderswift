@@ -19,12 +19,10 @@ App.Boq = (function() {
 
     function renderChart() {
         let chartDiv = document.getElementById('myChart');
-        console.log(chartDiv);
         if (chartDiv) {
             let ctx = chartDiv.getContext('2d');
 
             let tagsHash = getBreakDown();
-            console.log("I was here som", tagsHash);
             chart = new Chart(ctx, {
                 // The type of chart we want to create
                 type: 'doughnut',
@@ -58,10 +56,10 @@ App.Boq = (function() {
                 // Configuration options go here
                 options: {}
             });
-
-            console.log(chart);
         }
     }
+
+
 
     function renderSpreadSheet(boqData, viewType) {
         boqData.pages.forEach(function (page) {
@@ -134,11 +132,11 @@ App.Boq = (function() {
                         readOnly: true
                     },
                     {
-                        data: 'filled_items_attributes.rate',
+                        data: 'filled_item.rate',
                         type: 'numeric'
                     },
                     {
-                        data: 'filled_items_attributes.amount',
+                        data: 'filled_item.amount',
                         type: 'numeric'
                     }
                 ];
@@ -220,9 +218,8 @@ App.Boq = (function() {
                         let previous_priority = data[row-1].priority;
                         let next_priority = data[row+1].priority;
                         let current_priority = (previous_priority + next_priority) / 2;
-                        console.log("p", previous_priority, "n", next_priority, "c",  current_priority)
                         item.priority = current_priority;
-                        console.log(item);
+                        console.log("Creating item", item);
                         createItem(item)
                             .done(function (createdItem) {
                                 console.log("Created", createdItem);
@@ -238,9 +235,6 @@ App.Boq = (function() {
                         let oldVal = change[2];
                         let newVal = change[3];
                         let item = data[row];
-                        if (item.filled_items_attributes.rate) {
-                            item.filled_items_attributes.amount = item.quantity * item.filled_items_attributes.rate;
-                        }
 
                         if (chart) {
                             clearChartData(chart);
@@ -251,13 +245,24 @@ App.Boq = (function() {
                             });
                         }
 
-                        console.log(item);
-                        updateItem(item)
-                            .done(function (updatedItem) {
-                                console.log("Updated", updatedItem);
-                                data[row] = updatedItem;
-                                hot.render();
-                            });
+                        if (viewType === 'rate_filling') {
+                            if (item.filled_item.rate) {
+                                item.filled_item.amount = item.quantity * item.filled_item.rate;
+                            }
+                            saveFilledItem(item.filled_item)
+                                .done(function (updatedFilledItem) {
+                                    console.log("Updated", updatedFilledItem);
+                                    data[row].filled_item = updatedFilledItem;
+                                    hot.render();
+                                });
+                        } else {
+                            updateItem(item)
+                                .done(function (updatedItem) {
+                                    console.log("Updated", updatedItem);
+                                    data[row] = updatedItem;
+                                    hot.render();
+                                });
+                        }
                     });
                 }
             });
@@ -271,11 +276,12 @@ App.Boq = (function() {
         });
     }
 
+
+
     function getBreakDown(){
         gon.boq.pages.forEach(function (page) {
             page.items.forEach(function (item) {
                 if (item.item_type === 'item') {
-                    console.log("In breakDown", item);
                     if (item.tag) {
                         tagsHash[item.tag] = tagsHash[item.tag] === undefined ? item.quantity : tagsHash[item.tag] + item.quantity;
                     } else {
@@ -288,7 +294,6 @@ App.Boq = (function() {
         });
         return tagsHash;
     }
-
 
     function addData(chart, label, data) {
         chart.data.labels.push(label);
@@ -307,17 +312,24 @@ App.Boq = (function() {
     }
 
 
-    function sectionRenderer(instance, td, row, col, prop, value, cellProperties) {
-        Handsontable.renderers.TextRenderer.apply(this, arguments);
-        td.setAttribute('style', 'height: 2em !important; font-size: 1.1em; font-weight: bold; vertical-align: bottom; text-align: center');
-    }
-
-    function labelRenderer(instance, td, row, col, prop, value, cellProperties) {
-        Handsontable.renderers.TextRenderer.apply(this, arguments);
-        td.style.fontWeight = "bold";
-    }
 
     function buildSheetData(page, customCells, data) {
+        page.items.forEach(function  (item) {
+            if (item.item_type === 'header') {
+                customCells.push({row: data.length, col: 1, rowspan: 1, colspan: 1, renderer: sectionRenderer});
+                customCells.push({row: data.length, col: 0, rowspan: 1, colspan: 1, readOnly: true});
+                customCells.push({row: data.length, col: 2, rowspan: 1, colspan: 1, readOnly: true});
+                customCells.push({row: data.length, col: 3, rowspan: 1, colspan: 1, readOnly: true});
+                customCells.push({row: data.length, col: 4, rowspan: 1, colspan: 1, readOnly: true});
+                customCells.push({row: data.length, col: 5, rowspan: 1, colspan: 1, readOnly: true});
+                data.push(item);
+            } else {
+                data.push(item);
+            }
+        });
+    }
+
+    function buildSheetDataWithTagging(page, customCells, data) {
         page.items.forEach(function  (item) {
             if (item.item_type === 'header') {
                 customCells.push({row: data.length, col: 2, rowspan: 1, colspan: 1, renderer: sectionRenderer});
@@ -339,6 +351,17 @@ App.Boq = (function() {
             }
         });
     }
+
+    function sectionRenderer(instance, td, row, col, prop, value, cellProperties) {
+        Handsontable.renderers.TextRenderer.apply(this, arguments);
+        td.setAttribute('style', 'height: 2em !important; font-size: 1.1em; font-weight: bold; vertical-align: bottom; text-align: center');
+    }
+
+    function labelRenderer(instance, td, row, col, prop, value, cellProperties) {
+        Handsontable.renderers.TextRenderer.apply(this, arguments);
+        td.style.fontWeight = "bold";
+    }
+
 
     function createItem(item) {
         let url = '/items.json';

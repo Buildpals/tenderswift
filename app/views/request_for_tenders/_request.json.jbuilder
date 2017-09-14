@@ -15,7 +15,7 @@ json.participants request.participants do |participant|
   json.email participant.email
   json.name participant.name
   json.phone_number participant.phone_number
-  json.bid participant.bid
+  json.bid participant.bid if action_name == 'show'
 end
 
 if request.boq
