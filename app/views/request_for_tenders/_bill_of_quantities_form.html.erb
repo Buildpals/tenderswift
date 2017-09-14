@@ -1,7 +1,7 @@
 <div class="row">
 
   <% if @request.boq %>
-      <div class="col-lg-10 mx-auto">
+      <div class="col-lg-12">
         <nav class="nav nav-tabs" id="myTab" role="tablist">
           <% @request.boq.pages.each_with_index do |page, index| %>
               <div class="nav-item">
@@ -18,20 +18,23 @@
               <div class="tab-pane <%= 'show active' if index == 0 %>"
                    id="page-<%= page.id %>-content" role="tabpanel" aria-labelledby="page-<%= page.id %>-tab">
 
-                <div id="sheet-<%= page.id %>" style="height: 500px; overflow: hidden" class="mb-5"></div>
+                <div id="sheet-<%= page.id %>" class="mb-5"></div>
 
               </div>
           <% end %>
         </div>
 
-
       </div>
   <% end %>
 
-  <div class="col-md-2 mx-auto">
+</div>
+
+
+<div class="row">
+  <div class="col-md-4 mx-auto">
     <div class="mb-4 text-center">
       <% if @request.boq %>
-          <p>Replace</p>
+          <h5>Replace</h5>
       <% end %>
       <%= form.fields_for :excel do |excel_fields| %>
           <%= excel_fields.file_field :document, class: 'form-control-file',

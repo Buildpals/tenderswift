@@ -78,23 +78,23 @@
         </div>
         <div class="card-body">
           <p class="mb-1">
-            <span id="preview-request-project-description">/span>
+            <span id="preview-request-project-description"></span>
           </p>
         </div>
         <div class="card-header">
           Project Documents
         </div>
-        <ul class="list-group list-group-flush">
+        <div class="list-group list-group-flush">
           <% @request.project_documents.each do |project_document| %>
               <% unless project_document.document.file.nil? %>
-                <li class="list-group-item d-flex w-100 justify-content-between">
+                <div class="list-group-item d-flex w-100 justify-content-between">
                   <%= project_document.document.file.filename %>
                   <%= link_to 'View', project_document.document.url, target: '_blank',
                               class: 'btn btn-sm btn-light' %>
-                </li>
+                </div>
               <% end %>
           <% end %>
-        </ul>
+        </div>
       </div>
     </div>
   </div>
