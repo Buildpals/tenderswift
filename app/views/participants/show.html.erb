@@ -3,16 +3,13 @@
     <div class="row">
       <div class="col-lg-8 mx-auto d-flex w-100 justify-content-between">
 
-        <% if @participant.participating? %>
-            <%= link_to 'MAKE BID', participant_boq_path(@participant),
-                        class: 'btn btn-lg btn-success' %>
-        <% else %>
+        <% unless @participant.status.in? %w(participating bid_made) %>
             <%= link_to 'MAKE BID', show_interest_in_request_for_tender_path(@participant),
                         class: 'btn btn-lg btn-success' %>
         <% end %>
 
         <%= link_to 'I DO NOT WANT TO PARTICIPATE', show_disinterest_in_request_for_tender_path(@participant),
-                    class: 'btn btn-lg btn-light' %>
+                    class: 'btn btn-lg btn-light ml-auto' %>
 
       </div>
     </div>
@@ -22,7 +19,7 @@
 <div class="container" id="app">
   <div class="row">
 
-    <% unless @participant.participating? %>
+    <% unless @participant.status.in? %w(participating bid_made) %>
         <div class="col-lg-8 mx-auto">
           <div class="alert alert-success alert-dismissible fade show mt-1" role="alert">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -106,7 +103,7 @@
           <% end %>
         </ul>
 
-        <% unless @participant.participating? %>
+        <% unless @participant.status.in? %w(participating bid_made) %>
             <div class="card-body">
               <%= link_to 'MAKE BID', show_interest_in_request_for_tender_path(@participant),
                           class: 'btn btn-lg btn-success float-right' %>
@@ -142,7 +139,7 @@
                 <% end %>
               </ul>
 
-              <div class="tab-content" id="myTabContent">
+              <div class="tab-content mb-5" id="myTabContent">
                 <% @participant.boq.pages.each_with_index do |page, index| %>
                     <div class="tab-pane <%= 'show active' if index == 0 %>"
                          id="page-<%= page.id %>-content" role="tabpanel" aria-labelledby="page-<%= page.id %>-tab">
@@ -153,16 +150,19 @@
                 <% end %>
               </div>
 
-              <br>
-              <br>
+              <!--<br>-->
+              <!--<br>-->
 
-              <%= form_with(model: @participant, local: true) do |form| %>
-                  <%= form.text_field :status, value: 'bid_made', id: :participant_phone_number, type: 'hidden' %>
-                  <%= form.text_field :bid_submission_time, value: Time.current, id: :participant_phone_number, type: 'hidden' %>
+              <% unless @participant.bid_made? %>
+                  <%= form_with(model: @participant, local: true) do |form| %>
+                      <%= form.text_field :status, value: 'bid_made', id: :participant_phone_number, type: 'hidden' %>
+                      <%= form.text_field :bid_submission_time, value: Time.current, id: :participant_phone_number, type: 'hidden' %>
 
-                  <%= form.submit 'Submit Bid', data: {confirm: 'Are you sure?'},
-                                  class: 'btn btn-large btn-primary float-right' %>
+                      <%= form.submit 'Submit Bid', data: {confirm: 'Are you sure?'},
+                                      class: 'btn btn-large btn-primary float-right' %>
+                  <% end %>
               <% end %>
+
             </div>
           </div>
       <% end %>
