@@ -65,7 +65,7 @@ class ParticipantsController < ApplicationController
   # GET /show_interest_in_request_for_tender/1
   def show_interest_in_request_for_tender
     @participant.update(status: 'participating', interested_declaration_time: Time.current)
-    redirect_to participant_boq_path(@participant),
+    redirect_to @participant,
                 notice: 'The project owner has been notified of your interest in the project.'
   end
 
