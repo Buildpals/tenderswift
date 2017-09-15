@@ -1,0 +1,9 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Request for tender:</strong>
+  <%= @chatroom.request_for_tender %>
+</p>
+
+<%= link_to 'Edit', edit_chatroom_path(@chatroom) %> |
+<%= link_to 'Back', chatrooms_path %>

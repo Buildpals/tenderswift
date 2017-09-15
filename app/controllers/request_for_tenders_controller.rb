@@ -25,6 +25,7 @@ class RequestForTendersController < ApplicationController
     @request.quantity_surveyor = current_quantity_surveyor
     @request.create_blank_boq
     @request.save!
+    create_chat_room_for @request
     redirect_to edit_request_for_tender_path @request, tab: '1'
   end
 
@@ -109,6 +110,13 @@ class RequestForTendersController < ApplicationController
   end
 
   private
+
+  # Use to create a chatroom for a request
+  def create_chat_room_for request_for_tender
+    chatroom = Chatroom.new
+    chatroom.request_for_tender = request_for_tender
+    chatroom.save!
+  end
 
   # Use callbacks to share common setup or constraints between actions.
   def set_request

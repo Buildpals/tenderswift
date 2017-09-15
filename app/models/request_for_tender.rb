@@ -26,6 +26,8 @@ class RequestForTender < ApplicationRecord
                                 allow_destroy: true,
                                 reject_if: :all_blank
 
+  has_one :chatroom
+
   validates :project_name, presence: true
 
   validates :deadline, presence: true
