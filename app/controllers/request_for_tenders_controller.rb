@@ -37,8 +37,8 @@ class RequestForTendersController < ApplicationController
       @request.participants.build
     end
 
-    if @request.project_documents.length < 3
-      (3 - @request.project_documents.length).times { @request.project_documents.build }
+    if @request.project_documents.length < 2
+      (2 - @request.project_documents.length).times { @request.project_documents.build }
     else
       @request.project_documents.build
     end
