@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :broadcast_messages
   resources :chatrooms
   resources :countries
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'

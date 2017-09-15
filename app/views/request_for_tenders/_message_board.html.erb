@@ -13,31 +13,45 @@
       <a class="nav-link" href="#all" aria-controls="all" role="tab" data-toggle="tab">All</a>
     </li>
   </ul>
-  <div class="tab-content pt-3" id="messageBoardContents">
-    <div class="tab-pane fade show active" role="tabpanel" id="messages" aria-labelledby="home-tab">
-      <div class="row">
-        <div class="col-md-12 text-center">
-          <button class="btn btn-sm btn-light">POST NEW MESSAGE</button>
+    <div class="tab-content pt-3" id="messageBoardContents">
+      <div class="tab-pane fade show active" role="tabpanel" id="messages" aria-labelledby="home-tab">
+        <div class="row">
+          <div class="col-md-12 text-center">
+            <button class="btn btn-sm btn-light" id="post-new-message">POST NEW MESSAGE</button>
+          </div>
         </div>
-      </div>
 
-      <br>
+        <br>
 
-      <message v-for="message in filteredMessages(request.messages, 'correspondence')"
-               v-bind:message="message" key="message.id"></message>
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title"><span class="fa fa-bullhorn"></span></h4>
+            <h6 class="card-subtitle mb-2 text-muted">All Participants</h6>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            <small class="float-right">
+                <span class="fa fa-time"></span>
+                Aug 14, 2017 08:28
+            </small>
+          </div>
+        </div>
+        <br>
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title"><span class="fa fa-bullhorn"></span></h4>
+            <h6 class="card-subtitle mb-2 text-muted">All Participants</h6>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            <small class="float-right">
+                <span class="fa fa-time"></span>
+                Aug 14, 2017 08:28
+            </small>
+          </div>
+        </div>
+
+
     </div>
-    <div class="tab-pane fade" role="tabpanel" id="change_logs" aria-labelledby="home-tab">
-      <message v-for="message in filteredMessages(request.messages, 'correspondence')"
-               v-bind:message="message" key="message.id"></message>
-    </div>
-    <div class="tab-pane fade" role="tabpanel" id="access_logs" aria-labelledby="home-tab">
-      <message v-for="message in filteredMessages(request.messages, 'correspondence')"
-               v-bind:message="message" key="message.id"></message>
-    </div>
-    <div class="tab-pane fade" role="tabpanel" id="all" aria-labelledby="home-tab">
-      <message v-for="message in filteredMessages(request.messages, 'correspondence')"
-               v-bind:message="message" key="message.id"></message>
-    </div>
+    <div class="tab-pane fade" role="tabpanel" id="change_logs" aria-labelledby="home-tab"></div>
+    <div class="tab-pane fade" role="tabpanel" id="access_logs" aria-labelledby="home-tab"></div>
+    <div class="tab-pane fade" role="tabpanel" id="all" aria-labelledby="home-tab"></div>
   </div>
 </div>
 
@@ -85,4 +99,70 @@
   </div>
   </div>
   </div>
+</script>
+
+
+<script>
+$('#post-new-message').click(function(e){
+  if (!$("#broad-cast-message").length){ //if there is no broadcastmessage textarea
+        $("html, body").animate({ scrollTop: $(document).height() }, 1000); //scroll to the bottom of the page
+        var messageInput = $(
+        '<div id="input-broadcast-message-card" class="card push-down">\n' +
+        '  <div class="card-body">\n' +
+        '   <h4 class="card-title"><span class="fa fa-bullhorn"></span></h4>\n'+
+        '   <h6 class="card-subtitle mb-2 text-muted">All Participants</h6>\n'+
+        '    <textarea id="broad-cast-message" class="form-control" style="margin-top:2%;"></textarea>\n'+
+        '    <small class="float-right">\n'+
+        '       <span class="fa fa-time"></span> Aug 14, 2017 08:28\n'+
+        '    </small>\n'+
+        '    <button id="send-broad-cast-message" class="pull-left btn btn-primary form-control">Send Message</button>\n'+
+        '  </div>\n'+
+        '</div>');
+       
+       $('#messageBoardContents').append(messageInput);
+
+       $('#broad-cast-message').focus();
+
+       $('#send-broad-cast-message').click(function(e){
+          e.preventDefault();
+          $('#send-broad-cast-message').prop('disabled', true);
+          $("#send-broad-cast-message").html("Sending...");
+        //create boardcast message
+          $.ajax({
+              url: "/broadcast_messages/",
+              type: "POST",
+              data: { 
+                broadcast_message: {
+                          chatroom_id: <%= @request.chatroom.id %>,
+                          content: $('#broad-cast-message').val()
+                          }
+                  },
+              success: function(messageObject){ 
+                console.log(messageObject);
+                var broadcastMessage = $(
+                  '<div class="card">\n'+
+                  '   <div class="card-body">\n'+
+                  '    <h4 class="card-title"><span class="fa fa-bullhorn"></span></h4>\n'+
+                  '    <h6 class="card-subtitle mb-2 text-muted">All Participants</h6>\n'+
+                  '    <p class="card-text">'+messageObject.content+'</p>\n'+
+                  '    <small class="float-right">\n'+
+                  '          <span class="fa fa-time"></span>'+messageObject.created_at+'\n'+
+                  '    </small>\n'+
+                  '   </div>\n'+
+                  '</div>'
+                );
+                $('#broad-cast-message').val("");
+                $('button').prop('disabled', false);
+                $("#send-broad-cast-message").html("Send Message");
+                $('#input-broadcast-message-card').prepend(broadcastMessage);
+              }
+          });
+      });
+   }
+
+});
+
+
+
+
 </script>

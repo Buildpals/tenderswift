@@ -1,0 +1,27 @@
+<%= form_with(model: broadcast_message, local: true) do |form| %>
+  <% if broadcast_message.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(broadcast_message.errors.count, "error") %> prohibited this broadcast_message from being saved:</h2>
+
+      <ul>
+      <% broadcast_message.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :content %>
+    <%= form.text_area :content, id: :broadcast_message_content %>
+  </div>
+
+  <div class="field">
+    <%= form.label :chatroom_id %>
+    <%= form.text_field :chatroom_id, id: :broadcast_message_chatroom_id %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
