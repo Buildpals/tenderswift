@@ -66,7 +66,8 @@ class ParticipantsController < ApplicationController
   def show_interest_in_request_for_tender
     @participant.update(status: 'participating', interested_declaration_time: Time.current)
     redirect_to @participant,
-                notice: 'The project owner has been notified of your interest in the project.'
+                notice: 'The project owner has been notified of your interest in the project.<br>'+
+                    'You\'ll find the Bill of Quantities for the project at the bottom of this page.'
   end
 
   # GET /show_disinterest_in_request_for_tender/1
