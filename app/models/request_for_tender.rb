@@ -4,7 +4,7 @@ class RequestForTender < ApplicationRecord
   scope :submitted, -> {where(submitted: true)}
   scope :not_submitted, -> {where(submitted: false)}
 
-  has_one :boq, inverse_of: :request_for_tender,
+  has_many :boqs, inverse_of: :request_for_tender,
           dependent: :destroy
 
   belongs_to :quantity_surveyor
@@ -29,6 +29,10 @@ class RequestForTender < ApplicationRecord
   validates :project_name, presence: true
 
   validates :deadline, presence: true
+
+  def boq
+    boqs.last
+  end
 
   def name
     "##{id} #{project_name}"
