@@ -72,8 +72,13 @@ class RequestForTendersController < ApplicationController
     end
     respond_to do |format|
       if @request.update(request_params)
-        format.html { redirect_to edit_request_for_tender_path(@request),
-                                  notice: 'Request was successfully updated.' }
+        format.html {
+            if params[:commit] == 'Send Request Out'
+              redirect_to email_request_for_tender_path(@request)
+            else
+              redirect_to edit_request_for_tender_path(@request), notice: 'Request was successfully updated.'
+            end
+        }
         format.json { render :show, status: :ok, location: @request }
         format.js
       else
