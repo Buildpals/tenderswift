@@ -29,8 +29,7 @@
 
 
     <div class="w-100 d-flex justify-content-between">
-      <input type="hidden" name="tab" value="2">
-      <a href="?tab=2" class="btn btn-primary mr-2 ml-auto">Previous</a>
+      <%= form.submit 'Previous', class: 'btn btn-primary mr-2 ml-auto' %>
       <%= form.submit 'Save', class: 'btn btn-primary' %>
       <% unless @request.submitted %>
           <%= link_to 'Send Request Out', email_request_for_tender_path(@request), class: 'btn btn-success ml-2',

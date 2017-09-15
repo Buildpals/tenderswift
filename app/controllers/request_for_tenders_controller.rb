@@ -25,12 +25,11 @@ class RequestForTendersController < ApplicationController
     @request.quantity_surveyor = current_quantity_surveyor
     @request.create_blank_boq
     @request.save!
-    redirect_to edit_request_for_tender_path @request, tab: '1'
+    redirect_to edit_request_for_tender_path @request
   end
 
   # GET /requests/1/edit
   def edit
-    params[:tab] = '1' unless params[:tab]
     @request.build_excel
     if @request.participants.length < 3
       (3 - @request.participants.length).times { @request.participants.build }
@@ -51,7 +50,6 @@ class RequestForTendersController < ApplicationController
   # POST /requests.json
   def create
     @request = RequestForTender.new(request_params)
-
     respond_to do |format|
       if @request.save
         format.html { redirect_to @request, notice: 'Request was successfully created.' }
@@ -66,15 +64,20 @@ class RequestForTendersController < ApplicationController
   # PATCH/PUT /requests/1
   # PATCH/PUT /requests/1.json
   def update
+    case params[:commit]
+      when 'Previous'
+        @request.current_step = @request.previous_step
+      when 'Save & Continue'
+        @request.current_step = @request.next_step
+    end
     respond_to do |format|
       if @request.update(request_params)
         format.html { redirect_to edit_request_for_tender_path(@request),
-                                  tab: params[:tab],
                                   notice: 'Request was successfully updated.' }
         format.json { render :show, status: :ok, location: @request }
         format.js
       else
-        format.html { render :edit, tab: params[:tab] }
+        format.html { render :edit }
         format.json { render json: @request.errors, status: :unprocessable_entity }
       end
     end

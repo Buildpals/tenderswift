@@ -72,9 +72,9 @@
 
     <div class="w-100 d-flex justify-content-between">
       <input type="hidden" name="tab" value="2">
-      <a href="?tab=1" class="btn btn-primary mr-2 ml-auto">Previous</a>
-      <%= form.submit 'Save', class: 'btn btn-primary' %>
-      <a href="?tab=3" class="btn btn-primary ml-2">Next</a>
+      <%= form.submit 'Previous', class: 'btn btn-primary mr-2 ml-auto' %>
+      <%= form.submit 'Save', class: 'btn btn-primary mr-2' %>
+      <%= form.submit 'Save & Continue', class: 'btn btn-primary' %>
     </div>
 
 <% end %>
