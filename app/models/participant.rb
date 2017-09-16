@@ -68,6 +68,10 @@ class Participant < ApplicationRecord
     request_for_tender.description
   end
 
+  def project_budget
+    request_for_tender.budget
+  end
+
   def project_documents
     request_for_tender.project_documents
   end

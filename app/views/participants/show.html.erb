@@ -45,15 +45,15 @@
           </p>
 
           <small>
-            <p class="mb-1">
-              <strong>Project Owner:</strong>
-              <%= @participant.project_owners_name %>
-            </p>
+            <strong>Project Budget:</strong>
+            <%= @participant.project_budget %>
           </small>
 
           <small>
-            <strong>Contact:</strong>
-            <%= @participant.project_owners_phone_number %>
+            <p class="mb-1">
+              <strong>Project Owner:</strong>
+              <%= @participant.project_owners_name %> (<%= @participant.project_owners_phone_number %>)
+            </p>
           </small>
         </div>
         <ul class="list-group list-group-flush">
@@ -149,9 +149,6 @@
                     </div>
                 <% end %>
               </div>
-
-              <!--<br>-->
-              <!--<br>-->
 
               <% unless @participant.bid_made? %>
                   <%= form_with(model: @participant, local: true) do |form| %>
