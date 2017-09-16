@@ -1,0 +1,84 @@
+<div class="message-board mb-4">
+  <ul class="nav nav-tabs" id="messageBoardTabs" role="tablist">
+    <li class="nav-item">
+      <a class="nav-link active" href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Messages</a>
+    </li>
+  </ul>
+    <div class="tab-content pt-3" id="messageBoardContents">
+      <div class="tab-pane fade show active" role="tabpanel" id="messages" aria-labelledby="home-tab">
+        <div class="row">
+          <div class="col-md-12 text-center">
+            <button class="btn btn-sm btn-light" id="post-new-message">POST NEW MESSAGE</button>
+          </div>
+        </div>
+
+        <br>
+
+        <% @participant.request_for_tender.chatroom.broadcast_messages.each do |broadcast| %>
+          <div class="card">
+            <div class="card-body">
+              <h4 class="card-title"><span class="fa fa-bullhorn"></span></h4>
+              <h6 class="card-subtitle mb-2 text-muted">All Participants</h6>
+              <p class="card-text"><%= broadcast.content %></p>
+              <small class="float-right">
+                  <span class="fa fa-time"></span>
+                  <%= broadcast.created_at.to_formatted_s(:long) %>
+              </small>
+            </div>
+          </div>
+          <br>
+        <% end %>
+
+        <div class="new-broadcast-messages">
+        </div>
+
+
+    </div>
+  </div>
+</div>
+
+
+<script type="text/x-template" id="message-template">
+  <div class="panel panel-primary message" v-bind:class="{ 'panel-danger': message.to === 'all' }">
+    <div class="panel-heading" style="padding: 5px;">
+      <h4 class="panel-title" v-if="message.to === 'me'">
+        <span class="fa fa-arrow-left"></span>
+        {{message.from}}
+        <small class="float-right">
+          <span class="fa fa-time"></span>
+          Aug 14, 2017 08:28
+        </small>
+      </h4>
+      <h4 class="panel-title" v-else-if="message.to === 'all'">
+        <span class="fa fa-bullhorn"></span>
+        All contractors
+        <small class="float-right">
+          <span class="fa fa-time"></span>
+          Aug 14, 2017 08:28
+        </small>
+      </h4>
+      <h4 class="panel-title" v-else>
+        <span class="fa fa-arrow-left"></span>
+        {{message.to}}
+        <small class="float-right">
+          <span class="fa fa-time"></span>
+          Aug 14, 2017 08:28
+        </small>
+      </h4>
+    </div>
+    <div class="panel-body">
+      <p>{{message.content}}</p>
+      <div class="controls float-right" v-if="message.to == 'me'">
+        <button class="btn btn-xs btn-light">Mark as unread</button>
+        <button class="btn btn-xs btn-light">
+          <span class="fa fa-share-alt"></span>
+          reply
+        </button>
+      </div>
+    </div>
+  </div>
+
+  </div>
+  </div>
+  </div>
+</script>
