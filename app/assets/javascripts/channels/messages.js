@@ -9,6 +9,7 @@ App.cable = ActionCable.createConsumer();
 App.messages = App.cable.subscriptions.create('MessagesChannel', {  
   received: function(data) {
     //console.log(data);
+    //check if the participant is part of the participants of the request for tender
     return $('#new-broadcast-messages').append(
       '<br/>'+
       '<div class="card">'+
