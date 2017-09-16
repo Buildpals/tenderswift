@@ -31,7 +31,6 @@ class RequestForTendersController < ApplicationController
 
   # GET /requests/1/edit
   def edit
-    params[:tab] = '1' unless params[:tab]
     @request.build_excel
     if @request.participants.length < 3
       (3 - @request.participants.length).times { @request.participants.build }
@@ -39,8 +38,8 @@ class RequestForTendersController < ApplicationController
       @request.participants.build
     end
 
-    if @request.project_documents.length < 3
-      (3 - @request.project_documents.length).times { @request.project_documents.build }
+    if @request.project_documents.length < 2
+      (2 - @request.project_documents.length).times { @request.project_documents.build }
     else
       @request.project_documents.build
     end
@@ -52,7 +51,6 @@ class RequestForTendersController < ApplicationController
   # POST /requests.json
   def create
     @request = RequestForTender.new(request_params)
-
     respond_to do |format|
       if @request.save
         format.html { redirect_to @request, notice: 'Request was successfully created.' }
@@ -67,15 +65,25 @@ class RequestForTendersController < ApplicationController
   # PATCH/PUT /requests/1
   # PATCH/PUT /requests/1.json
   def update
+    case params[:commit]
+      when 'Previous'
+        @request.current_step = @request.previous_step
+      when 'Save & Continue'
+        @request.current_step = @request.next_step
+    end
     respond_to do |format|
       if @request.update(request_params)
-        format.html { redirect_to edit_request_for_tender_path(@request),
-                                  tab: params[:tab],
-                                  notice: 'Request was successfully updated.' }
+        format.html {
+            if params[:commit] == 'Send Request Out'
+              redirect_to email_request_for_tender_path(@request)
+            else
+              redirect_to edit_request_for_tender_path(@request), notice: 'Request was successfully updated.'
+            end
+        }
         format.json { render :show, status: :ok, location: @request }
         format.js
       else
-        format.html { render :edit, tab: params[:tab] }
+        format.html { render :edit }
         format.json { render json: @request.errors, status: :unprocessable_entity }
       end
     end

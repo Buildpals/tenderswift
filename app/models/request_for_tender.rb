@@ -5,7 +5,7 @@ class RequestForTender < ApplicationRecord
   scope :not_submitted, -> {where(submitted: false)}
 
   has_many :boqs, inverse_of: :request_for_tender,
-          dependent: :destroy
+           dependent: :destroy
 
   belongs_to :quantity_surveyor
 
@@ -73,6 +73,30 @@ class RequestForTender < ApplicationRecord
     page = boq.pages.build(name: 'Sheet 1')
     30.times {page.items.build(boq: boq)}
     boq.save!
+  end
+
+  enum current_step: {
+      project_information: 0,
+      bill_of_quantities: 1,
+      send_tender: 2
+  }
+
+  def next_step
+    case current_step
+      when 'project_information'
+        'bill_of_quantities'
+      when 'bill_of_quantities'
+        'send_tender'
+    end
+  end
+
+  def previous_step
+    case current_step
+      when 'bill_of_quantities'
+        'project_information'
+      when 'send_tender'
+        'bill_of_quantities'
+    end
   end
 
 end
