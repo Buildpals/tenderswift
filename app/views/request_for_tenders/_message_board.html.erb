@@ -23,28 +23,22 @@
 
         <br>
 
-        <div class="card">
-          <div class="card-body">
-            <h4 class="card-title"><span class="fa fa-bullhorn"></span></h4>
-            <h6 class="card-subtitle mb-2 text-muted">All Participants</h6>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            <small class="float-right">
-                <span class="fa fa-time"></span>
-                Aug 14, 2017 08:28
-            </small>
+        <% @request.chatroom.broadcast_messages.each do |broadcast| %>
+          <div class="card">
+            <div class="card-body">
+              <h4 class="card-title"><span class="fa fa-bullhorn"></span></h4>
+              <h6 class="card-subtitle mb-2 text-muted">All Participants</h6>
+              <p class="card-text"><%= broadcast.content %></p>
+              <small class="float-right">
+                  <span class="fa fa-time"></span>
+                  <%= broadcast.created_at.to_formatted_s(:long) %>
+              </small>
+            </div>
           </div>
-        </div>
-        <br>
-        <div class="card">
-          <div class="card-body">
-            <h4 class="card-title"><span class="fa fa-bullhorn"></span></h4>
-            <h6 class="card-subtitle mb-2 text-muted">All Participants</h6>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            <small class="float-right">
-                <span class="fa fa-time"></span>
-                Aug 14, 2017 08:28
-            </small>
-          </div>
+          <br>
+        <% end %>
+
+        <div id="new-broadcast-messages">
         </div>
 
 
@@ -107,7 +101,8 @@ $('#post-new-message').click(function(e){
   if (!$("#broad-cast-message").length){ //if there is no broadcastmessage textarea
         $("html, body").animate({ scrollTop: $(document).height() }, 1000); //scroll to the bottom of the page
         var messageInput = $(
-        '<div id="input-broadcast-message-card" class="card push-down">\n' +
+        '<br/>\n'+
+        '<div id="input-broadcast-message-card" class="card">\n' +
         '  <div class="card-body">\n' +
         '   <h4 class="card-title"><span class="fa fa-bullhorn"></span></h4>\n'+
         '   <h6 class="card-subtitle mb-2 text-muted">All Participants</h6>\n'+
@@ -119,7 +114,7 @@ $('#post-new-message').click(function(e){
         '  </div>\n'+
         '</div>');
        
-       $('#messageBoardContents').append(messageInput);
+       $('#messages').append(messageInput);
 
        $('#broad-cast-message').focus();
 
@@ -138,26 +133,20 @@ $('#post-new-message').click(function(e){
                           }
                   },
               success: function(messageObject){ 
-                console.log(messageObject);
-                var broadcastMessage = $(
-                  '<div class="card">\n'+
-                  '   <div class="card-body">\n'+
-                  '    <h4 class="card-title"><span class="fa fa-bullhorn"></span></h4>\n'+
-                  '    <h6 class="card-subtitle mb-2 text-muted">All Participants</h6>\n'+
-                  '    <p class="card-text">'+messageObject.content+'</p>\n'+
-                  '    <small class="float-right">\n'+
-                  '          <span class="fa fa-time"></span>'+messageObject.created_at+'\n'+
-                  '    </small>\n'+
-                  '   </div>\n'+
-                  '</div>'
-                );
                 $('#broad-cast-message').val("");
                 $('button').prop('disabled', false);
                 $("#send-broad-cast-message").html("Send Message");
-                $('#input-broadcast-message-card').prepend(broadcastMessage);
+              },
+              fail: function(response){
+                alert("Failed to send message check you internet connection.");
+                $('button').prop('disabled', false);
+                $("#send-broad-cast-message").html("Send Message");
               }
           });
       });
+   }else if($("#broad-cast-message").length == 1){ //if there is already a broadcastmessage textarea
+        $("html, body").animate({ scrollTop: $(document).height() }, 1000);
+        $('#broad-cast-message').focus();
    }
 
 });

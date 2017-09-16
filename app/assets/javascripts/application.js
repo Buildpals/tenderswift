@@ -14,6 +14,7 @@
 //= require turbolinks
 //= require jquery3
 //= require jquery_ujs
+//= require_tree ./channels
 //= require popper
 //= require bootstrap-sprockets
 //= require autosize
@@ -21,7 +22,6 @@
 //= require cocoon
 //= require handsontable.full
 //= require Chart
-//= require init
 //= require boqs
 //= require requests
 //= require participants
