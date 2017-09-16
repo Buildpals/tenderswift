@@ -17,7 +17,7 @@
   <thead class="thead-light">
   <tr>
     <th>Company</th>
-    <th>Total</th>
+    <th>Bid</th>
     <th>Difference</th>
     <th>Bid time</th>
     <th></th>
@@ -31,8 +31,13 @@
               <%= participant.name %>
           </span>
         </td>
-        <td>$<%= participant.bid %></td>
-        <td></td>
+        <td>
+          $<%= participant.bid %>
+        </td>
+        <td>
+          $<%= participant.bid_difference %>
+          <small>(<%= participant.bid_difference_as_percentage %>)</small>
+        </td>
         <td><small><%= participant.bid_submission_time.to_formatted_s(:short) %></small></td>
         <td class="p-1">
           <%= link_to 'View bid', participant_boq_path(participant), class: 'btn btn-sm btn-light'%>

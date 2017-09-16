@@ -1,6 +1,8 @@
 class RequestForTender < ApplicationRecord
   include ActionView::Helpers::DateHelper
 
+  monetize :budget_cents
+
   scope :submitted, -> {where(submitted: true)}
   scope :not_submitted, -> {where(submitted: false)}
 

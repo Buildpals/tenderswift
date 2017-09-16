@@ -131,6 +131,7 @@ class RequestForTendersController < ApplicationController
                   :country_id,
                   :city,
                   :description,
+                  :budget_currency,
                   :budget,
                   project_documents_attributes: [:id,
                                                  :document,

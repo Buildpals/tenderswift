@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170915073549) do
+ActiveRecord::Schema.define(version: 20170916144649) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -142,13 +142,14 @@ ActiveRecord::Schema.define(version: 20170915073549) do
     t.string "country"
     t.string "city"
     t.string "description"
-    t.string "budget"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "submitted", default: false
     t.bigint "quantity_surveyor_id"
     t.bigint "country_id"
     t.integer "current_step", default: 0
+    t.bigint "budget_cents"
+    t.string "budget_currency", default: "USD", null: false
     t.index ["country_id"], name: "index_request_for_tenders_on_country_id"
     t.index ["quantity_surveyor_id"], name: "index_request_for_tenders_on_quantity_surveyor_id"
   end

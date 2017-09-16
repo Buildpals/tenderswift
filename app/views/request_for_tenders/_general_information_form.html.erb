@@ -15,12 +15,13 @@
       Please in this general information about the project you are creating a request for tender here.
       <br>
       <strong>
-        Make sure to click 'Save' before moving away from this page. You will lose the information you've typed in if you don't.
+        Make sure to click 'Save' before moving away from this page. You will lose the information you've typed in if
+        you don't.
       </strong>
     </p>
 
     <div class="form-row mx-auto">
-      <div class="form-group col-md-6">
+      <div class="form-group col-sm-6">
         <%= form.label :project_name %>
         <%= form.text_field :project_name, id: :request_project_name,
                             class: 'form-control form-control-sm', data: {'save-on-change': true} %>
@@ -29,7 +30,7 @@
           Railroad engineering works;
         </p>
       </div>
-      <div class="form-group col-md-6">
+      <div class="form-group col-sm-6">
         <%= form.label :deadline %>
         <br>
         <div class="form-inline w-100 justify-content-between">
@@ -48,30 +49,42 @@
       </div>
 
       <div class="form-group col-sm-6">
+        <div class="form-row">
+          <div class="col-sm-12">
+            <%= form.label :budget %>
+          </div>
+          <div class="col-sm-3">
+            <%= form.select :budget_currency, '<option>USD</option>'.html_safe, {},
+                            {id: :request_budget_currency,
+                             class: 'form-control form-control-sm', data: {'save-on-change': true}} %>
+          </div>
+          <div class="col-sm-9">
+            <%= form.text_field :budget, id: :request_budget,
+                                class: 'form-control form-control-sm', data: {'save-on-change': true} %>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group col-sm-2">
         <%= form.label :country %>
         <%= form.collection_select :country_id, Country.all, :id, :name, {}, {id: :request_country,
                                                                               class: 'form-control form-control-sm', data: {'save-on-change': true}} %>
       </div>
 
-      <div class="form-group col-sm-6">
+      <div class="form-group col-sm-4">
         <%= form.label :city %>
         <%= form.text_field :city, id: :request_city,
                             class: 'form-control form-control-sm', data: {'save-on-change': true} %>
       </div>
 
-      <div class="form-group col-md-12">
+      <div class="form-group col-sm-12">
         <%= form.label :description %>
         <%= form.text_area :description, id: :request_description, rows: 3,
                            class: 'form-control form-control-sm', data: {'save-on-change': true} %>
       </div>
 
-      <div class="form-group col-md-12">
-        <%= form.label :budget %>
-        <%= form.text_field :budget, id: :request_budget,
-                            class: 'form-control form-control-sm', data: {'save-on-change': true} %>
-      </div>
 
-      <div class="form-group col-md-12 mt-3">
+      <div class="form-group col-sm-12 mt-3">
         <div class="text-center">
           <%= form.label :project_documents %>
         </div>
