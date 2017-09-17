@@ -16,7 +16,7 @@ class BroadcastMessage < ApplicationRecord
   end
 
   def send_data_to_message_channel
-    ActionCable.server.broadcast 'messages',
+    ActionCable.server.broadcast 'broadcast_messages',
     message: self,
     formatted_date: format_day_created,
     request_for_tender_id: self.chatroom.request_for_tender.id,

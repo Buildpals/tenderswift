@@ -6,7 +6,7 @@ this.App = {};
 
 App.cable = ActionCable.createConsumer();
 
-App.messages = App.cable.subscriptions.create('MessagesChannel', {  
+App.messages = App.cable.subscriptions.create('BroadcastMessagesChannel', {  
   received: function(data) {
     console.log(data);
     var current_request_id = parseInt($(".hidden-request-id").text());
