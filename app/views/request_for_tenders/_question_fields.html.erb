@@ -13,13 +13,6 @@
                       class: 'form-control form-control-sm mb-2', data: {'save-on-change': true} %>
     </div>
 
-    <div class="col-sm-3">
-      <%= f.label :question_type %>
-      <%= f.select :question_type, Question.question_types.keys.to_a.map {|w| [w.humanize, w]}, {},
-                   {class: 'form-control form-control-sm'} %>
-    </div>
-
-
     <div class="col-sm-3 mt-4 pt-2">
       <div class="form-check form-check-inline">
         <%= f.label :can_attach_documents, class: 'form-check-label' do %>
@@ -30,7 +23,7 @@
       </div>
     </div>
 
-    <div class="col-sm-3 mt-4 pt-2">
+    <div class="col-sm-6 mt-4 pt-2">
       <div class="form-check form-check-inline">
         <%= f.label :mandatory, class: 'form-check-label' do %>
             <%= f.check_box :mandatory, id: :question_mandatory,
@@ -45,5 +38,6 @@
           Remove
       <% end %>
     </div>
+
   </div>
 </div>

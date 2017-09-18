@@ -175,21 +175,13 @@
             <% @participant.questions.each do |question| %>
                 <div class="card-body">
 
-                  <h4 class="card-title"><%= question.title%></h4>
-                  <p class="card-text"><%= question.description %></p>
-
-                  <% case question.question_type
-                     when 'text'%>
-                      <textarea name="" id="" cols="30" rows="10"></textarea>
-                  <% when 'yes_no' %>
-                    <checkbox></checkbox>
-
-                  <% when 'multiple_choice' %>
-                      <select name="" id=""></select>
-
-                  <% when 'checkboxes' %>
-                      <select name="" id="" multiple></select>
-                  
+                  <%= question.title%>
+                  <p class="text-muted small"><%= question.description %></p>
+                  <%= form_with(model: @participant.answer_to(question), local: true, id: 'request-form') do |form| %>
+                      <%= form.hidden_field :participant_id, value: @participant.id %>
+                      <%= form.hidden_field :question_id, value: question.id %>
+                      <%= form.text_area :answer, id: :answer_answer, class: 'form-control form-control-sm mb-2' %>
+                      <%= form.submit 'Save', class: 'btn btn-sm btn-primary' %>
                   <% end %>
                 </div>
             <% end %>

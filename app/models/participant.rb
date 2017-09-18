@@ -27,6 +27,8 @@ class Participant < ApplicationRecord
 
   has_many :items, through: :filled_items
 
+  has_many :answers
+
   validates :email, presence: true
 
   def to_param
@@ -91,6 +93,10 @@ class Participant < ApplicationRecord
 
   def filled_item(item)
     filled_items.find_by(item_id: item.id) || FilledItem.new(item: item, participant: self)
+  end
+
+  def answer_to(question)
+    answer_to = answers.find_by(question: question, participant: self) || answers.build(question: question, participant: self)
   end
 
   def bid

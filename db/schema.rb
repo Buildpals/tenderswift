@@ -10,10 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170918091738) do
+ActiveRecord::Schema.define(version: 20170919111613) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "answers", force: :cascade do |t|
+    t.bigint "question_id"
+    t.bigint "participant_id"
+    t.string "answer"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["participant_id"], name: "index_answers_on_participant_id"
+    t.index ["question_id"], name: "index_answers_on_question_id"
+  end
 
   create_table "boqs", force: :cascade do |t|
     t.string "name"
@@ -141,7 +151,6 @@ ActiveRecord::Schema.define(version: 20170918091738) do
     t.integer "number"
     t.string "title"
     t.text "description"
-    t.integer "question_type"
     t.boolean "can_attach_documents"
     t.boolean "mandatory"
     t.text "choices"
@@ -184,6 +193,8 @@ ActiveRecord::Schema.define(version: 20170918091738) do
     t.index ["boq_id"], name: "index_tags_on_boq_id"
   end
 
+  add_foreign_key "answers", "participants"
+  add_foreign_key "answers", "questions"
   add_foreign_key "filled_items", "items"
   add_foreign_key "filled_items", "participants"
   add_foreign_key "items", "pages"

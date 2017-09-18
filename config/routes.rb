@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :answers
   resources :questions
   resources :countries
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
@@ -28,7 +29,9 @@ Rails.application.routes.draw do
   resources :pages
   resources :request_for_tenders
   resources :boqs
-  resources :participants
+  resources :participants do
+
+  end
   resources :filled_items
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
