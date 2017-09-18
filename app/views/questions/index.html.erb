@@ -1,0 +1,41 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Questions</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Request for tender</th>
+      <th>Number</th>
+      <th>Title</th>
+      <th>Description</th>
+      <th>Question type</th>
+      <th>Can attach documents</th>
+      <th>Mandatory</th>
+      <th>Choices</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @questions.each do |question| %>
+      <tr>
+        <td><%= question.request_for_tender %></td>
+        <td><%= question.number %></td>
+        <td><%= question.title %></td>
+        <td><%= question.description %></td>
+        <td><%= question.question_type %></td>
+        <td><%= question.can_attach_documents %></td>
+        <td><%= question.mandatory %></td>
+        <td><%= question.choices %></td>
+        <td><%= link_to 'Show', question %></td>
+        <td><%= link_to 'Edit', edit_question_path(question) %></td>
+        <td><%= link_to 'Destroy', question, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Question', new_question_path %>

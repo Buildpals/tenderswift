@@ -1,0 +1,57 @@
+<%= form_with(model: question, local: true) do |form| %>
+  <% if question.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(question.errors.count, "error") %> prohibited this question from being saved:</h2>
+
+      <ul>
+      <% question.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :request_for_tender_id %>
+    <%= form.text_field :request_for_tender_id, id: :question_request_for_tender_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :number %>
+    <%= form.number_field :number, id: :question_number %>
+  </div>
+
+  <div class="field">
+    <%= form.label :title %>
+    <%= form.text_field :title, id: :question_title %>
+  </div>
+
+  <div class="field">
+    <%= form.label :description %>
+    <%= form.text_area :description, id: :question_description %>
+  </div>
+
+  <div class="field">
+    <%= form.label :question_type %>
+    <%= form.number_field :question_type, id: :question_question_type %>
+  </div>
+
+  <div class="field">
+    <%= form.label :can_attach_documents %>
+    <%= form.check_box :can_attach_documents, id: :question_can_attach_documents %>
+  </div>
+
+  <div class="field">
+    <%= form.label :mandatory %>
+    <%= form.check_box :mandatory, id: :question_mandatory %>
+  </div>
+
+  <div class="field">
+    <%= form.label :choices %>
+    <%= form.text_area :choices, id: :question_choices %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

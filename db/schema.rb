@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170916144649) do
+ActiveRecord::Schema.define(version: 20170918091738) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -136,6 +136,20 @@ ActiveRecord::Schema.define(version: 20170916144649) do
     t.index ["reset_password_token"], name: "index_quantity_surveyors_on_reset_password_token", unique: true
   end
 
+  create_table "questions", force: :cascade do |t|
+    t.bigint "request_for_tender_id"
+    t.integer "number"
+    t.string "title"
+    t.text "description"
+    t.integer "question_type"
+    t.boolean "can_attach_documents"
+    t.boolean "mandatory"
+    t.text "choices"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["request_for_tender_id"], name: "index_questions_on_request_for_tender_id"
+  end
+
   create_table "request_for_tenders", force: :cascade do |t|
     t.string "project_name"
     t.datetime "deadline"
@@ -174,5 +188,6 @@ ActiveRecord::Schema.define(version: 20170916144649) do
   add_foreign_key "filled_items", "participants"
   add_foreign_key "items", "pages"
   add_foreign_key "project_documents", "request_for_tenders"
+  add_foreign_key "questions", "request_for_tenders"
   add_foreign_key "tags", "boqs"
 end
