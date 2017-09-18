@@ -115,9 +115,10 @@
 
     </div>
 
-    <div class="col-lg-9 mx-auto">
 
-      <% if @participant.status.in? %w(participating bid_made) %>
+    <% if @participant.status.in? %w(participating bid_made) %>
+        <div class="col-lg-9 mx-auto">
+
           <div class="card mb-4">
             <div class="card-header">
               Bill of Quantities
@@ -162,10 +163,42 @@
 
             </div>
           </div>
-      <% end %>
 
+        </div>
 
-    </div>
+        <div class="col-lg-9 mx-auto">
+
+          <div class="card mb-4">
+            <div class="card-header">
+              Other Requirements
+            </div>
+            <% @participant.questions.each do |question| %>
+                <div class="card-body">
+
+                  <h4 class="card-title"><%= question.title%></h4>
+                  <p class="card-text"><%= question.description %></p>
+
+                  <% case question.question_type
+                     when 'text'%>
+                      <textarea name="" id="" cols="30" rows="10"></textarea>
+                  <% when 'yes_no' %>
+                    <checkbox></checkbox>
+
+                  <% when 'multiple_choice' %>
+                      <select name="" id=""></select>
+
+                  <% when 'checkboxes' %>
+                      <select name="" id="" multiple></select>
+                  
+                  <% end %>
+                </div>
+            <% end %>
+          </div>
+
+        </div>
+
+    <% end %>
+
 
   </div>
 

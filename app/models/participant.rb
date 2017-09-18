@@ -85,6 +85,10 @@ class Participant < ApplicationRecord
     request_for_tender.boq
   end
 
+  def questions
+    request_for_tender.questions
+  end
+
   def filled_item(item)
     filled_items.find_by(item_id: item.id) || FilledItem.new(item: item, participant: self)
   end
