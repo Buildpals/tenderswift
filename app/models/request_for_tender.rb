@@ -76,7 +76,7 @@ class RequestForTender < ApplicationRecord
   def create_blank_boq
     boq = Boq.new(request_for_tender: self, name: name)
     page = boq.pages.build(name: 'Sheet 1')
-    30.times {page.items.build(boq: boq)}
+    30.times { |i| page.items.build(boq: boq, item_type: 'item', priority: i)}
     boq.save!
   end
 
