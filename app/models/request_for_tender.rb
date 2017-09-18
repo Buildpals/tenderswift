@@ -13,6 +13,11 @@ class RequestForTender < ApplicationRecord
 
   belongs_to :country
 
+  has_many :questions, dependent: :destroy
+  accepts_nested_attributes_for :questions,
+                                allow_destroy: true,
+                                reject_if: :all_blank
+
   has_many :participants, dependent: :destroy
   accepts_nested_attributes_for :participants,
                                 allow_destroy: true,

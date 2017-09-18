@@ -141,6 +141,11 @@ class RequestForTendersController < ApplicationController
                                             :phone_number,
                                             :company_name,
                                             :_destroy],
+                  questions_attributes: [:id,
+                                         :email,
+                                         :phone_number,
+                                         :company_name,
+                                         :_destroy],
                   excel_attributes: [:id,
                                      :document])
   end
