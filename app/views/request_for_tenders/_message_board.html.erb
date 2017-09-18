@@ -25,15 +25,32 @@
         <br>
 
         <% @request.chatroom.broadcast_messages.each do |broadcast| %>
-          <div class="card">
+          <div class="card" id="<%= broadcast.id %>">
             <div class="card-body">
               <h4 class="card-title"><span class="fa fa-bullhorn"></span></h4>
               <h6 class="card-subtitle mb-2 text-muted">All Participants</h6>
               <p class="card-text"><%= broadcast.content %></p>
-              <small class="float-right">
+              <small class="float-left">
                   <span class="fa fa-time"></span>
                   <%= broadcast.created_at.to_formatted_s(:long) %>
               </small>
+              <small><a href="#" class="card-link float-right reply-link">Reply</a></small>
+              <br/>
+              <br/>
+              <ul class="list-group list-group-flush">
+                <% broadcast.messages.each do |message| %>
+                  <% unless message.participant.nil? %>
+                    <li class="list-group-item message-thread">
+                      <% if message.sender == 'quantity_surveyor' %>
+                        <h5><%= @request.quantity_surveyor.company_name %></h5>
+                      <% else %>
+                        <h5 id="<%= message.participant.id %>"><%= message.participant.company_name %></h5>
+                      <% end %>
+                      <span><%= message.content %></span>
+                    </li>
+                  <% end %>
+                <% end %>
+              </ul>
             </div>
           </div>
           <br>
@@ -50,54 +67,8 @@
   </div>
 </div>
 
-
-<script type="text/x-template" id="message-template">
-  <div class="panel panel-primary message" v-bind:class="{ 'panel-danger': message.to === 'all' }">
-    <div class="panel-heading" style="padding: 5px;">
-      <h4 class="panel-title" v-if="message.to === 'me'">
-        <span class="fa fa-arrow-left"></span>
-        {{message.from}}
-        <small class="float-right">
-          <span class="fa fa-time"></span>
-          Aug 14, 2017 08:28
-        </small>
-      </h4>
-      <h4 class="panel-title" v-else-if="message.to === 'all'">
-        <span class="fa fa-bullhorn"></span>
-        All contractors
-        <small class="float-right">
-          <span class="fa fa-time"></span>
-          Aug 14, 2017 08:28
-        </small>
-      </h4>
-      <h4 class="panel-title" v-else>
-        <span class="fa fa-arrow-left"></span>
-        {{message.to}}
-        <small class="float-right">
-          <span class="fa fa-time"></span>
-          Aug 14, 2017 08:28
-        </small>
-      </h4>
-    </div>
-    <div class="panel-body">
-      <p>{{message.content}}</p>
-      <div class="controls float-right" v-if="message.to == 'me'">
-        <button class="btn btn-xs btn-light">Mark as unread</button>
-        <button class="btn btn-xs btn-light">
-          <span class="fa fa-share-alt"></span>
-          reply
-        </button>
-      </div>
-    </div>
-  </div>
-
-  </div>
-  </div>
-  </div>
-</script>
-
-
 <script>
+//when creating a broadcast
 $('#post-new-message').click(function(e){
   if (!$("#broad-cast-message").length){ //if there is no broadcastmessage textarea
         $("html, body").animate({ scrollTop: $(document).height() }, 1000); //scroll to the bottom of the page
@@ -109,7 +80,7 @@ $('#post-new-message').click(function(e){
         '   <h6 class="card-subtitle mb-2 text-muted">All Participants</h6>\n'+
         '    <textarea id="broad-cast-message" class="form-control" style="margin-top:2%;"></textarea>\n'+
         '    <small class="float-right">\n'+
-        '       <span class="fa fa-time"></span> Aug 14, 2017 08:28\n'+
+        '       <span class="fa fa-time"></span>\n'+
         '    </small>\n'+
         '    <button id="send-broad-cast-message" class="pull-left btn btn-primary form-control">Send Message</button>\n'+
         '  </div>\n'+
@@ -152,6 +123,72 @@ $('#post-new-message').click(function(e){
 
 });
 
+
+
+
+</script>
+
+
+<script>
+//when replying a message
+var iddOfSelectedCard;
+$('.reply-link').click(function(e){
+  e.preventDefault();
+  var parents = $(this).parents();
+  var card = parents[2];
+  var hiddenLink = $('.reply-link.hide_link');
+  hiddenLink.removeClass('hide_link');
+  $(this).addClass('hide_link');
+  iddOfSelectedCard = card.id;
+  if ($('#reply-message-input').length == 1){ //if there is already a message input in the DOM
+    $('#reply-message-input').detach(); //remove and reply input that's avialiable in the DOM
+  }
+  var messageInput = $(
+        '<br/>\n'+
+        '<div id="reply-message-input" class="card">\n' +
+        '  <div class="card-body">\n' +
+        '    <textarea id="reply-message-text" class="form-control" style="margin-top:2%;"></textarea>\n'+
+        '    <small class="float-right">\n'+
+        '       <span class="fa fa-time"></span> Aug 14, 2017 08:28\n'+
+        '    </small>\n'+
+        '    <button id="send-reply-message" class="pull-left btn btn-primary form-control">Send Reply</button>\n'+
+        '  </div>\n'+
+        '</div>');
+
+  $('#'+iddOfSelectedCard+'').append(messageInput);
+  $('#reply-message-text').focus();
+  var participant_id = parseInt($('.message-thread').last().children().first().attr('id'));
+
+
+    $('#send-reply-message').click(function(e){
+    e.preventDefault();
+    $('#send-reply-message').prop('disabled', true);
+    $('#send-reply-message').html("Sending...");
+    $.ajax({
+          url: "/messages/",
+          type: "POST",
+          data: { 
+            message: {
+                      broadcast_message_id: iddOfSelectedCard,
+                      participant_id: participant_id,
+                      content: $('#reply-message-text').val(),
+                      sender: 'quantity_surveyor'
+                      }
+              },
+          success: function(messageObject){ 
+            $('#reply-message-text').val("");
+            $('#send-reply-message').prop('disabled', false);
+            $("#send-reply-message").html("Send Message");
+          },
+          fail: function(response){
+            alert("Failed to send message check you internet connection.");
+            $('#send-reply-message').prop('disabled', false);
+            $("#send-reply-message").html("Send Message");
+          }
+      });
+  });
+  
+});
 
 
 

@@ -10,8 +10,6 @@ App.messages = App.cable.subscriptions.create('BroadcastMessagesChannel', {
   received: function(data) {
     console.log(data);
     var current_request_id = parseInt($(".hidden-request-id").text());
-    console.log(current_request_id);
-    console.log(data.request_for_tender_id);
     if(current_request_id === parseInt(data.request_for_tender_id)){
           //check if the participant is part of the participants of the request for tender
         return $('.new-broadcast-messages').append(

@@ -26,7 +26,11 @@ class Participant < ApplicationRecord
 
   has_many :items, through: :filled_items
 
+  has_many :messages
+
   validates :email, presence: true
+
+  validates :company_name, presence: true
 
   def to_param
     auth_token

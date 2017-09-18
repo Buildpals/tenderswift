@@ -1,9 +1,6 @@
 Rails.application.routes.draw do
-  resources :broadcast_messages
-  resources :chatrooms
-  resources :countries
+  resources :messages
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
-  resources :tags
   root to: 'welcome#index'
 
   get '/email_request_for_tender/:id',
@@ -31,6 +28,10 @@ Rails.application.routes.draw do
   resources :boqs
   resources :participants
   resources :filled_items
+  resources :broadcast_messages
+  resources :chatrooms
+  resources :countries
+  resources :tags
 
   mount ActionCable.server => '/cable'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html

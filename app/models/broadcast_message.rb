@@ -3,6 +3,8 @@ class BroadcastMessage < ApplicationRecord
   
   has_many :participants
 
+  has_many :messages
+
   has_one :quantity_surveyor
   
   after_create :send_data_to_message_channel
