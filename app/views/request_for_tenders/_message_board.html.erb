@@ -78,11 +78,14 @@ $('#post-new-message').click(function(e){
         '  <div class="card-body">\n' +
         '   <h4 class="card-title"><span class="fa fa-bullhorn"></span></h4>\n'+
         '   <h6 class="card-subtitle mb-2 text-muted">All Participants</h6>\n'+
-        '    <textarea id="broad-cast-message" class="form-control" style="margin-top:2%;"></textarea>\n'+
-        '    <small class="float-right">\n'+
-        '       <span class="fa fa-time"></span>\n'+
-        '    </small>\n'+
-        '    <button id="send-broad-cast-message" class="pull-left btn btn-primary form-control">Send Message</button>\n'+
+        '   <div class="row"> \n'+
+        '     <div class="col-md-9"> \n'+
+        '       <textarea id="broad-cast-message" class="form-control" style="margin-top:2%;"></textarea>\n'+
+        '     </div>\n'+   
+        '     <div class="col-md-3">\n'+
+        '       <button id="send-broad-cast-message" class="pull-left btn btn-primary form-control reply-message">Send Message</button>\n'+
+        '     </div>\n'+
+        '   </div>\n'+
         '  </div>\n'+
         '</div>');
        
@@ -147,11 +150,14 @@ $('.reply-link').click(function(e){
         '<br/>\n'+
         '<div id="reply-message-input" class="card">\n' +
         '  <div class="card-body">\n' +
-        '    <textarea id="reply-message-text" class="form-control" style="margin-top:2%;"></textarea>\n'+
-        '    <small class="float-right">\n'+
-        '       <span class="fa fa-time"></span> Aug 14, 2017 08:28\n'+
-        '    </small>\n'+
-        '    <button id="send-reply-message" class="pull-left btn btn-primary form-control">Send Reply</button>\n'+
+        '   <div class="row"> \n'+
+        '     <div class="col-md-9"> \n'+
+        '       <textarea id="reply-message-text" class="form-control" style="margin-top:2%;"></textarea>\n'+
+        '      </div>\n'+
+        '     <div class="col-md-3">\n'+
+        '       <button id="send-reply-message" class="pull-left btn btn-primary form-control reply-message">Send Reply</button>\n'+
+        '     </div>\n'+
+        '   </div>\n'+   
         '  </div>\n'+
         '</div>');
 

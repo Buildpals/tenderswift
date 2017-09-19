@@ -27,9 +27,9 @@ class MessagesController < ApplicationController
   # POST /messages.json
   def create
     @message = Message.new(message_params)
-
     respond_to do |format|
       if @message.save
+        MessageEmailJob.perform_now(@message)
         #format.html { redirect_to @message, notice: 'Message was successfully created.' }
         format.json { render :show, status: :created, location: @message }
       else

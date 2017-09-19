@@ -4,6 +4,8 @@ class RequestForTendersController < ApplicationController
 
   before_action :authenticate_quantity_surveyor!, only: [:edit, :index]
 
+  DEFAULT_BROADCAST_CONTENT = "If you have any questions you can reply me here".freeze
+
   # GET /requests
   # GET /requests.json
   def index
@@ -99,6 +101,11 @@ class RequestForTendersController < ApplicationController
                   alert: 'You did not specify any participants in this request.'
     else
       @request.participants.each do |participant|
+        #create default broadcast message for the request
+        broadcast = BroadcastMessage.new
+        broadcast.content = DEFAULT_BROADCAST_CONTENT
+        broadcast.chatroom = @request.chatroom
+        broadcast.save!
         # Tell the ParticipantMailer to send a request_for_tender email
         ParticipantMailer.request_for_tender_email(participant).deliver_later
       end
