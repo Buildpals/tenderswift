@@ -68,6 +68,8 @@ gem 'rails_admin', '~> 1.2'
 
 # Gem for handling money
 gem 'money-rails', '~>1'
+# Redis for ActionCable
+gem 'redis', '~> 3.0'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
