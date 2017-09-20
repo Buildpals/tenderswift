@@ -100,12 +100,15 @@ class RequestForTendersController < ApplicationController
       redirect_to edit_request_for_tender_path(@request),
                   alert: 'You did not specify any participants in this request.'
     else
+      if @request.chatroom.nil?
+        create_chat_room_for @request
+      end
+      #create default broadcast message for the request
+      broadcast = BroadcastMessage.new
+      broadcast.content = DEFAULT_BROADCAST_CONTENT
+      broadcast.chatroom = @request.chatroom
+      broadcast.save!
       @request.participants.each do |participant|
-        #create default broadcast message for the request
-        broadcast = BroadcastMessage.new
-        broadcast.content = DEFAULT_BROADCAST_CONTENT
-        broadcast.chatroom = @request.chatroom
-        broadcast.save!
         # Tell the ParticipantMailer to send a request_for_tender email
         ParticipantMailer.request_for_tender_email(participant).deliver_later
       end
