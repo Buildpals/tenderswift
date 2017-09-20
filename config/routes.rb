@@ -1,11 +1,8 @@
 Rails.application.routes.draw do
-<<<<<<< HEAD
   resources :messages
-=======
   resources :answer_boxes
   resources :questions
   resources :countries
->>>>>>> 9da2d6f3a28db7db4b48fea0eb1d713d7ed48f64
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   root to: 'welcome#index'
 

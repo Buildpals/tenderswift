@@ -10,11 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-<<<<<<< HEAD
-ActiveRecord::Schema.define(version: 20170918162801) do
-=======
 ActiveRecord::Schema.define(version: 20170919155201) do
->>>>>>> 9da2d6f3a28db7db4b48fea0eb1d713d7ed48f64
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -240,15 +236,12 @@ ActiveRecord::Schema.define(version: 20170919155201) do
     t.index ["boq_id"], name: "index_tags_on_boq_id"
   end
 
-<<<<<<< HEAD
   add_foreign_key "broadcast_messages", "chatrooms"
   add_foreign_key "chatrooms", "request_for_tenders"
-=======
   add_foreign_key "answer_boxes", "participants"
   add_foreign_key "answer_boxes", "questions"
   add_foreign_key "answers", "participants"
   add_foreign_key "answers", "questions"
->>>>>>> 9da2d6f3a28db7db4b48fea0eb1d713d7ed48f64
   add_foreign_key "filled_items", "items"
   add_foreign_key "filled_items", "participants"
   add_foreign_key "items", "pages"

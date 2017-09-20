@@ -27,11 +27,8 @@ class Participant < ApplicationRecord
 
   has_many :items, through: :filled_items
 
-<<<<<<< HEAD
   has_many :messages
-=======
   has_many :answers
->>>>>>> 9da2d6f3a28db7db4b48fea0eb1d713d7ed48f64
 
   validates :email, presence: true
 
