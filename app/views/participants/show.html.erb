@@ -172,15 +172,24 @@
             <div class="card-header">
               Other Requirements
             </div>
-            <% @participant.questions.each do |question| %>
+            <% @participant.answers.each do |answer| %>
                 <div class="card-body">
 
                   <%= question.title%>
                   <p class="text-muted small"><%= question.description %></p>
+
                   <%= form_with(model: @participant.answer_to(question), local: true, id: 'request-form') do |form| %>
                       <%= form.hidden_field :participant_id, value: @participant.id %>
                       <%= form.hidden_field :question_id, value: question.id %>
                       <%= form.text_area :answer, id: :answer_answer, class: 'form-control form-control-sm mb-2' %>
+                      <div class="nested-forms mb-5">
+                        <%= form.fields_for :answer_documents do |answer_document| %>
+                            <%= render 'answer_document_fields', f: answer_document %>
+                        <% end %>
+                        <li class="d-flex w-100 justify-content-between">
+                          <%= link_to_add_association 'Add more answer documents', form, :answer_documents, class: 'btn btn-sm btn-primary my-1' %>
+                        </li>
+                      </div>
                       <%= form.submit 'Save', class: 'btn btn-sm btn-primary' %>
                   <% end %>
                 </div>

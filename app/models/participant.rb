@@ -87,16 +87,13 @@ class Participant < ApplicationRecord
     request_for_tender.boq
   end
 
-  def questions
-    request_for_tender.questions
-  end
-
   def filled_item(item)
     filled_items.find_by(item_id: item.id) || FilledItem.new(item: item, participant: self)
   end
 
   def answer_to(question)
-    answer_to = answers.find_by(question: question, participant: self) || answers.build(question: question, participant: self)
+    answer = answers.find_by(question: question, participant: self) || answers.build(question: question, participant: self)
+    answer.answer_documents.build
   end
 
   def bid

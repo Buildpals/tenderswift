@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :answers
+  resources :answer_boxes
   resources :questions
   resources :countries
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
