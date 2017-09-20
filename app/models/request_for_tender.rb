@@ -1,6 +1,8 @@
 class RequestForTender < ApplicationRecord
   include ActionView::Helpers::DateHelper
 
+  monetize :budget_cents, allow_nil: true
+
   scope :submitted, -> {where(submitted: true)}
   scope :not_submitted, -> {where(submitted: false)}
 
@@ -10,6 +12,11 @@ class RequestForTender < ApplicationRecord
   belongs_to :quantity_surveyor
 
   belongs_to :country
+
+  has_many :questions, dependent: :destroy, inverse_of: :request_for_tender
+  accepts_nested_attributes_for :questions,
+                                allow_destroy: true,
+                                reject_if: :all_blank
 
   has_many :participants, dependent: :destroy
   accepts_nested_attributes_for :participants,
@@ -71,7 +78,7 @@ class RequestForTender < ApplicationRecord
   def create_blank_boq
     boq = Boq.new(request_for_tender: self, name: name)
     page = boq.pages.build(name: 'Sheet 1')
-    30.times {page.items.build(boq: boq)}
+    30.times { |i| page.items.build(boq: boq, item_type: 'item', priority: i)}
     boq.save!
   end
 

@@ -10,10 +10,34 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+<<<<<<< HEAD
 ActiveRecord::Schema.define(version: 20170918162801) do
+=======
+ActiveRecord::Schema.define(version: 20170919155201) do
+>>>>>>> 9da2d6f3a28db7db4b48fea0eb1d713d7ed48f64
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "answer_boxes", force: :cascade do |t|
+    t.bigint "question_id"
+    t.bigint "participant_id"
+    t.string "answer"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["participant_id"], name: "index_answer_boxes_on_participant_id"
+    t.index ["question_id"], name: "index_answer_boxes_on_question_id"
+  end
+
+  create_table "answers", force: :cascade do |t|
+    t.bigint "question_id"
+    t.bigint "participant_id"
+    t.string "answer"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["participant_id"], name: "index_answers_on_participant_id"
+    t.index ["question_id"], name: "index_answers_on_question_id"
+  end
 
   create_table "boqs", force: :cascade do |t|
     t.string "name"
@@ -169,19 +193,33 @@ ActiveRecord::Schema.define(version: 20170918162801) do
     t.index ["reset_password_token"], name: "index_quantity_surveyors_on_reset_password_token", unique: true
   end
 
+  create_table "questions", force: :cascade do |t|
+    t.bigint "request_for_tender_id"
+    t.integer "number"
+    t.string "title"
+    t.text "description"
+    t.boolean "can_attach_documents"
+    t.boolean "mandatory"
+    t.text "choices"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["request_for_tender_id"], name: "index_questions_on_request_for_tender_id"
+  end
+
   create_table "request_for_tenders", force: :cascade do |t|
     t.string "project_name"
     t.datetime "deadline"
     t.string "country"
     t.string "city"
     t.string "description"
-    t.string "budget"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "submitted", default: false
     t.bigint "quantity_surveyor_id"
     t.bigint "country_id"
     t.integer "current_step", default: 0
+    t.bigint "budget_cents"
+    t.string "budget_currency", default: "USD", null: false
     t.index ["country_id"], name: "index_request_for_tenders_on_country_id"
     t.index ["quantity_surveyor_id"], name: "index_request_for_tenders_on_quantity_surveyor_id"
   end
@@ -202,13 +240,21 @@ ActiveRecord::Schema.define(version: 20170918162801) do
     t.index ["boq_id"], name: "index_tags_on_boq_id"
   end
 
+<<<<<<< HEAD
   add_foreign_key "broadcast_messages", "chatrooms"
   add_foreign_key "chatrooms", "request_for_tenders"
+=======
+  add_foreign_key "answer_boxes", "participants"
+  add_foreign_key "answer_boxes", "questions"
+  add_foreign_key "answers", "participants"
+  add_foreign_key "answers", "questions"
+>>>>>>> 9da2d6f3a28db7db4b48fea0eb1d713d7ed48f64
   add_foreign_key "filled_items", "items"
   add_foreign_key "filled_items", "participants"
   add_foreign_key "items", "pages"
   add_foreign_key "messages", "broadcast_messages"
   add_foreign_key "messages", "participants"
   add_foreign_key "project_documents", "request_for_tenders"
+  add_foreign_key "questions", "request_for_tenders"
   add_foreign_key "tags", "boqs"
 end

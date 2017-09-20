@@ -105,5 +105,5 @@ Rails.application.configure do
       tls: true
   }
 
-  config.action_mailer.default_url_options = { host: 'http://buildpals-development.herokuapp.com/' }
+  config.action_mailer.default_url_options = { host: 'http://buildpals-staging.herokuapp.com/' }
 end

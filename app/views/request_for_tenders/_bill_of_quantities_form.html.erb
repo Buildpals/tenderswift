@@ -70,6 +70,10 @@
       <% end %>
     </div>
 
+
+    <%= render 'questionnaire_form', form: form %>
+
+
     <div class="w-100 d-flex justify-content-between">
       <input type="hidden" name="tab" value="2">
       <%= form.submit 'Previous', class: 'btn btn-primary mr-2 ml-auto' %>

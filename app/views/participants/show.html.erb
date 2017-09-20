@@ -45,15 +45,15 @@
           </p>
 
           <small>
-            <p class="mb-1">
-              <strong>Project Owner:</strong>
-              <%= @participant.project_owners_name %>
-            </p>
+            <strong>Project Budget:</strong>
+            <%= humanized_money_with_symbol @participant.project_budget %>
           </small>
 
           <small>
-            <strong>Contact:</strong>
-            <%= @participant.project_owners_phone_number %>
+            <p class="mb-1">
+              <strong>Project Owner:</strong>
+              <%= @participant.project_owners_name %> (<%= @participant.project_owners_phone_number %>)
+            </p>
           </small>
         </div>
         <ul class="list-group list-group-flush">
@@ -115,9 +115,10 @@
 
     </div>
 
-    <div class="col-lg-9 mx-auto">
 
-      <% if @participant.status.in? %w(participating bid_made) %>
+    <% if @participant.status.in? %w(participating bid_made) %>
+        <div class="col-lg-9 mx-auto">
+
           <div class="card mb-4">
             <div class="card-header">
               Bill of Quantities
@@ -150,9 +151,6 @@
                 <% end %>
               </div>
 
-              <!--<br>-->
-              <!--<br>-->
-
               <% unless @participant.bid_made? %>
                   <%= form_with(model: @participant, local: true) do |form| %>
                       <%= form.text_field :status, value: 'bid_made', id: :participant_phone_number, type: 'hidden' %>
@@ -165,11 +163,47 @@
 
             </div>
           </div>
-      <% end %>
 
+<<<<<<< HEAD
       <%= render 'message_board' %>
+=======
+        </div>
 
-    </div>
+        <div class="col-lg-9 mx-auto">
+
+          <div class="card mb-4">
+            <div class="card-header">
+              Other Requirements
+            </div>
+            <% @participant.answers.each do |answer| %>
+                <div class="card-body">
+
+                  <%= question.title%>
+                  <p class="text-muted small"><%= question.description %></p>
+
+                  <%= form_with(model: @participant.answer_to(question), local: true, id: 'request-form') do |form| %>
+                      <%= form.hidden_field :participant_id, value: @participant.id %>
+                      <%= form.hidden_field :question_id, value: question.id %>
+                      <%= form.text_area :answer, id: :answer_answer, class: 'form-control form-control-sm mb-2' %>
+                      <div class="nested-forms mb-5">
+                        <%= form.fields_for :answer_documents do |answer_document| %>
+                            <%= render 'answer_document_fields', f: answer_document %>
+                        <% end %>
+                        <li class="d-flex w-100 justify-content-between">
+                          <%= link_to_add_association 'Add more answer documents', form, :answer_documents, class: 'btn btn-sm btn-primary my-1' %>
+                        </li>
+                      </div>
+                      <%= form.submit 'Save', class: 'btn btn-sm btn-primary' %>
+                  <% end %>
+                </div>
+            <% end %>
+          </div>
+
+        </div>
+
+    <% end %>
+>>>>>>> 9da2d6f3a28db7db4b48fea0eb1d713d7ed48f64
+
 
   </div>
 

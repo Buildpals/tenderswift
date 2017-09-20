@@ -146,6 +146,7 @@ class RequestForTendersController < ApplicationController
                   :country_id,
                   :city,
                   :description,
+                  :budget_currency,
                   :budget,
                   project_documents_attributes: [:id,
                                                  :document,
@@ -155,6 +156,14 @@ class RequestForTendersController < ApplicationController
                                             :phone_number,
                                             :company_name,
                                             :_destroy],
+                  questions_attributes: [:id,
+                                         :number,
+                                         :title,
+                                         :description,
+                                         :question_type,
+                                         :can_attach_documents,
+                                         :mandatory,
+                                         :_destroy],
                   excel_attributes: [:id,
                                      :document])
   end

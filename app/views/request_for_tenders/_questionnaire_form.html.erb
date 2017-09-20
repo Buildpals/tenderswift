@@ -1,19 +1,19 @@
-<div class="card-header">
-  Additional Requirements
+<div class="text-center">
+  <%= form.label :other_requirements %>
 </div>
-<div class="card-body">
-  <div class="row">
-    <div class="col-sm-5 text-center">
-      <button type="button" class="btn btn-sm btn-primary my-5" data-toggle="modal"
-              data-target="#questionnaire">
-        Add requirement
-      </button>
-    </div>
-    <div class="col-sm-7">
-      <p class="text-muted">
-        Create a set of questions that all contractors are required to answer.
-        Their answers will be automatically comparable.
-      </p>
-    </div>
-  </div>
+<p class="text-muted text-center small">
+  Add the any additional requirements you have for the contractors who are going to bid on this project.
+  <br>
+  These requirements are in the form of questions they will have to answer.
+  Their answers will be made automatically comparable by buildpals.
+  The form below will help you create those questions.
+</p>
+
+<div class="nested-forms mb-5">
+  <%= form.fields_for :questions do |question| %>
+      <%= render 'question_fields', f: question %>
+  <% end %>
+  <li class="d-flex w-100 justify-content-between">
+    <%= link_to_add_association 'Add more questions', form, :questions, class: 'btn btn-sm btn-primary my-1' %>
+  </li>
 </div>

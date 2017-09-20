@@ -66,6 +66,9 @@ gem 'gon'
 # RailsAdmin for an easy-to-use interface for managing the apps data
 gem 'rails_admin', '~> 1.2'
 
+# Gem for handling money
+gem 'money-rails', '~>1'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

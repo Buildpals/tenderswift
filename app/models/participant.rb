@@ -1,5 +1,6 @@
 class Participant < ApplicationRecord
   include ActionView::Helpers::DateHelper
+  include  ActionView::Helpers::NumberHelper
 
   has_secure_token :auth_token
 
@@ -26,7 +27,11 @@ class Participant < ApplicationRecord
 
   has_many :items, through: :filled_items
 
+<<<<<<< HEAD
   has_many :messages
+=======
+  has_many :answers
+>>>>>>> 9da2d6f3a28db7db4b48fea0eb1d713d7ed48f64
 
   validates :email, presence: true
 
@@ -72,6 +77,10 @@ class Participant < ApplicationRecord
     request_for_tender.description
   end
 
+  def project_budget
+    request_for_tender.budget
+  end
+
   def project_documents
     request_for_tender.project_documents
   end
@@ -88,10 +97,23 @@ class Participant < ApplicationRecord
     filled_items.find_by(item_id: item.id) || FilledItem.new(item: item, participant: self)
   end
 
+  def answer_to(question)
+    answer = answers.find_by(question: question, participant: self) || answers.build(question: question, participant: self)
+    answer.answer_documents.build
+  end
+
   def bid
     filled_items.where.not(amount: nil).inject(0) do |product, filled_item|
       product + filled_item.amount
     end
+  end
+
+  def bid_difference
+    project_budget.to_d - bid
+  end
+
+  def bid_difference_as_percentage
+    number_to_percentage 100 * (bid_difference / project_budget.to_d)
   end
 
   def tag_break_down
