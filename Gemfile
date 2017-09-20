@@ -66,6 +66,9 @@ gem 'gon'
 # RailsAdmin for an easy-to-use interface for managing the apps data
 gem 'rails_admin', '~> 1.2'
 
+# Redis for ActionCable
+gem 'redis', '~> 3.0'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
