@@ -25,20 +25,20 @@
               <ul class="list-group list-group-flush">
                 <% broadcast.messages.each do |message| %>
                   <% unless message.participant.nil? %>
-                     <% if message.sender == 'participant' && message.participant.id == @participant.id %> 
-                      <li class="list-group-item">
-                        <h5><%= message.participant.company_name %></h5>
-                        <span><%= message.content %></span>
-                      </li>
-                    <% end %>
-                    <% if message.sender == 'quantity_surveyor' %>
+                     <% if message.participant.id == @participant.id %>
+                      <% if message.sender == 'participant' %> 
+                        <li class="list-group-item">
+                          <h5><%= message.participant.company_name %></h5>
+                          <span><%= message.content %></span>
+                        </li>
+                      <% elsif message.sender == 'quantity_surveyor' %>
                        <li class="list-group-item">
                         <h5><%= @participant.request_for_tender.quantity_surveyor.company_name %></h5>
                         <span><%= message.content %></span>
                        </li>
+                      <% end %>
                     <% end %>
-                 
-                <% end %>
+                  <% end %>
                 <% end %>
               </ul>
             </div>

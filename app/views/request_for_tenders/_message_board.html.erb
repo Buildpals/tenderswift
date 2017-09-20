@@ -25,7 +25,7 @@
         <br>
 
         <% @request.chatroom.broadcast_messages.each do |broadcast| %>
-          <div class="card" id="<%= broadcast.id %>">
+          <div class="card" id="broadcast-<%= broadcast.id %>">
             <div class="card-body">
               <h4 class="card-title"><span class="fa fa-bullhorn"></span></h4>
               <h6 class="card-subtitle mb-2 text-muted">All Participants</h6>
@@ -34,20 +34,25 @@
                   <span class="fa fa-time"></span>
                   <%= broadcast.created_at.to_formatted_s(:long) %>
               </small>
-              <small><a href="#" class="card-link float-right reply-link">Reply</a></small>
+              <!--<small><a href="#" class="card-link float-right reply-link">Reply</a></small>-->
               <br/>
               <br/>
               <ul class="list-group list-group-flush">
                 <% broadcast.messages.each do |message| %>
                   <% unless message.participant.nil? %>
-                    <li class="list-group-item message-thread">
                       <% if message.sender == 'quantity_surveyor' %>
-                        <h5><%= @request.quantity_surveyor.company_name %></h5>
+                         <li class="list-group-item message-thread" id="<%= message.id %>">
+                            <h5><%= @request.quantity_surveyor.company_name %></h5>
+                            <span><%= message.content %></span>
+                        </li>
                       <% else %>
-                        <h5 id="<%= message.participant.id %>"><%= message.participant.company_name %></h5>
+                        <li class="list-group-item message-thread" id="<%= message.id %>">
+                            <h5 id="<%= message.participant.id %>"><%= message.participant.company_name %></h5>
+                            <span><%= message.content %></span>
+                            <small><a href="#" class="card-link float-right reply-link">Reply</a></small>
+                        </li>
                       <% end %>
-                      <span><%= message.content %></span>
-                    </li>
+
                   <% end %>
                 <% end %>
               </ul>
@@ -134,15 +139,20 @@ $('#post-new-message').click(function(e){
 
 <script>
 //when replying a message
-var iddOfSelectedCard;
 $('.reply-link').click(function(e){
   e.preventDefault();
+  var parentMessage = $(this).parent().closest('li');
   var parents = $(this).parents();
-  var card = parents[2];
+  var broadcastCard = parents[4];
+  var broadcastId = broadcastCard.id
+  console.log(broadcastId);
+  broadcastId = parseInt(broadcastId.split('-')[1]);
+  console.log(broadcastId);
   var hiddenLink = $('.reply-link.hide_link');
   hiddenLink.removeClass('hide_link');
   $(this).addClass('hide_link');
-  iddOfSelectedCard = card.id;
+  console.log(parentMessage);
+  messageId = parentMessage.attr('id');
   if ($('#reply-message-input').length == 1){ //if there is already a message input in the DOM
     $('#reply-message-input').detach(); //remove and reply input that's avialiable in the DOM
   }
@@ -161,10 +171,10 @@ $('.reply-link').click(function(e){
         '  </div>\n'+
         '</div>');
 
-  $('#'+iddOfSelectedCard+'').append(messageInput);
+  $('#'+messageId+'').append(messageInput);
   $('#reply-message-text').focus();
-  var participant_id = parseInt($('.message-thread').last().children().first().attr('id'));
-
+  var participantId = parseInt($('#'+messageId+'').children().first().attr('id'));
+  console.log(participantId);
 
     $('#send-reply-message').click(function(e){
     e.preventDefault();
@@ -175,8 +185,8 @@ $('.reply-link').click(function(e){
           type: "POST",
           data: { 
             message: {
-                      broadcast_message_id: iddOfSelectedCard,
-                      participant_id: participant_id,
+                      broadcast_message_id: broadcastId,
+                      participant_id: participantId,
                       content: $('#reply-message-text').val(),
                       sender: 'quantity_surveyor'
                       }
