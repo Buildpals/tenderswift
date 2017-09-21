@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Content:</strong>
+  <%= @message.content %>
+</p>
+
+<p>
+  <strong>Broadcast message:</strong>
+  <%= @message.broadcast_message %>
+</p>
+
+<p>
+  <strong>Participant:</strong>
+  <%= @message.participant %>
+</p>
+
+<%= link_to 'Edit', edit_message_path(@message) %> |
+<%= link_to 'Back', messages_path %>

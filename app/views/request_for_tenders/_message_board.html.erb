@@ -13,76 +13,200 @@
       <a class="nav-link" href="#all" aria-controls="all" role="tab" data-toggle="tab">All</a>
     </li>
   </ul>
-  <div class="tab-content pt-3" id="messageBoardContents">
-    <div class="tab-pane fade show active" role="tabpanel" id="messages" aria-labelledby="home-tab">
-      <div class="row">
-        <div class="col-md-12 text-center">
-          <button class="btn btn-sm btn-light">POST NEW MESSAGE</button>
+    <p class="hidden-request-id"><%= @request.id %></p>
+    <div class="tab-content pt-3" id="messageBoardContents">
+      <div class="tab-pane fade show active" role="tabpanel" id="messages" aria-labelledby="home-tab">
+        <div class="row">
+          <div class="col-md-12 text-center">
+            <button class="btn btn-sm btn-light" id="post-new-message">BROADCAST NEW MESSAGE</button>
+          </div>
         </div>
-      </div>
 
-      <br>
+        <br>
 
-      <message v-for="message in filteredMessages(request.messages, 'correspondence')"
-               v-bind:message="message" key="message.id"></message>
+        <% @request.chatroom.broadcast_messages.each do |broadcast| %>
+          <div class="card" id="broadcast-<%= broadcast.id %>">
+            <div class="card-body">
+              <h4 class="card-title"><span class="fa fa-bullhorn"></span></h4>
+              <h6 class="card-subtitle mb-2 text-muted">All Participants</h6>
+              <p class="card-text"><%= broadcast.content %></p>
+              <small class="float-left bolden">
+                  <span class="fa fa-time"></span>
+                  <%= broadcast.created_at.to_formatted_s(:long) %>
+              </small>
+              <!--<small><a href="#" class="card-link float-right reply-link">Reply</a></small>-->
+              <br/>
+              <br/>
+              <ul class="list-group list-group-flush">
+                <% broadcast.messages.each do |message| %>
+                  <% unless message.participant.nil? %>
+                      <% if message.sender == 'quantity_surveyor' %>
+                         <li class="list-group-item message-thread" id="<%= message.id %>">
+                            <h5><%= @request.quantity_surveyor.company_name %></h5>
+                            <span><%= message.content %></span>
+                            <p><small class="bolden">in reply to <%= message.participant.company_name %> on <%= message.created_at.to_formatted_s(:long) %></small></p>
+                        </li>
+                      <% else %>
+                        <li class="list-group-item message-thread" id="<%= message.id %>">
+                            <h5 id="<%= message.participant.id %>"><%= message.participant.company_name %></h5>
+                            <span><%= message.content %></span>
+                            <small class="bolden"><a href="#" class="card-link float-right reply-link">Reply</a></small>
+                        </li>
+                      <% end %>
+
+                  <% end %>
+                <% end %>
+              </ul>
+            </div>
+          </div>
+          <br>
+        <% end %>
+
+      <div class="new-broadcast-messages"></div>
+
+
     </div>
-    <div class="tab-pane fade" role="tabpanel" id="change_logs" aria-labelledby="home-tab">
-      <message v-for="message in filteredMessages(request.messages, 'correspondence')"
-               v-bind:message="message" key="message.id"></message>
-    </div>
-    <div class="tab-pane fade" role="tabpanel" id="access_logs" aria-labelledby="home-tab">
-      <message v-for="message in filteredMessages(request.messages, 'correspondence')"
-               v-bind:message="message" key="message.id"></message>
-    </div>
-    <div class="tab-pane fade" role="tabpanel" id="all" aria-labelledby="home-tab">
-      <message v-for="message in filteredMessages(request.messages, 'correspondence')"
-               v-bind:message="message" key="message.id"></message>
-    </div>
+    <div class="tab-pane fade" role="tabpanel" id="change_logs" aria-labelledby="home-tab"></div>
+    <div class="tab-pane fade" role="tabpanel" id="access_logs" aria-labelledby="home-tab"></div>
+    <div class="tab-pane fade" role="tabpanel" id="all" aria-labelledby="home-tab"></div>
   </div>
 </div>
 
+<script>
+//when creating a broadcast
+$('#post-new-message').click(function(e){
+  if (!$("#broad-cast-message").length){ //if there is no broadcastmessage textarea
+        $("html, body").animate({ scrollTop: $(document).height() }, 1000); //scroll to the bottom of the page
+        var messageInput = $(
+        '<br/>\n'+
+        '<div id="input-broadcast-message-card" class="card">\n' +
+        '  <div class="card-body">\n' +
+        '   <h4 class="card-title"><span class="fa fa-bullhorn"></span></h4>\n'+
+        '   <h6 class="card-subtitle mb-2 text-muted">All Participants</h6>\n'+
+        '   <div class="row"> \n'+
+        '     <div class="col-md-9"> \n'+
+        '       <textarea id="broad-cast-message" class="form-control" style="margin-top:2%;"></textarea>\n'+
+        '     </div>\n'+   
+        '     <div class="col-md-3">\n'+
+        '       <button id="send-broad-cast-message" class="pull-left btn btn-primary form-control reply-message">Send Message</button>\n'+
+        '     </div>\n'+
+        '   </div>\n'+
+        '  </div>\n'+
+        '</div>');
+       
+       $('#messages').append(messageInput);
 
-<script type="text/x-template" id="message-template">
-  <div class="panel panel-primary message" v-bind:class="{ 'panel-danger': message.to === 'all' }">
-    <div class="panel-heading" style="padding: 5px;">
-      <h4 class="panel-title" v-if="message.to === 'me'">
-        <span class="fa fa-arrow-left"></span>
-        {{message.from}}
-        <small class="float-right">
-          <span class="fa fa-time"></span>
-          Aug 14, 2017 08:28
-        </small>
-      </h4>
-      <h4 class="panel-title" v-else-if="message.to === 'all'">
-        <span class="fa fa-bullhorn"></span>
-        All contractors
-        <small class="float-right">
-          <span class="fa fa-time"></span>
-          Aug 14, 2017 08:28
-        </small>
-      </h4>
-      <h4 class="panel-title" v-else>
-        <span class="fa fa-arrow-left"></span>
-        {{message.to}}
-        <small class="float-right">
-          <span class="fa fa-time"></span>
-          Aug 14, 2017 08:28
-        </small>
-      </h4>
-    </div>
-    <div class="panel-body">
-      <p>{{message.content}}</p>
-      <div class="controls float-right" v-if="message.to == 'me'">
-        <button class="btn btn-xs btn-light">Mark as unread</button>
-        <button class="btn btn-xs btn-light">
-          <span class="fa fa-share-alt"></span>
-          reply
-        </button>
-      </div>
-    </div>
-  </div>
+       $('#broad-cast-message').focus();
 
-  </div>
-  </div>
-  </div>
+       $('#send-broad-cast-message').click(function(e){
+          e.preventDefault();
+          $('#send-broad-cast-message').prop('disabled', true);
+          $("#send-broad-cast-message").html("Sending...");
+        //create boardcast message
+          $.ajax({
+              url: "/broadcast_messages/",
+              type: "POST",
+              data: { 
+                broadcast_message: {
+                          chatroom_id: <%= @request.chatroom.id %>,
+                          content: $('#broad-cast-message').val()
+                          }
+                  },
+              success: function(messageObject){ 
+                $('#broad-cast-message').val("");
+                $('button').prop('disabled', false);
+                $("#send-broad-cast-message").html("Send Message");
+              },
+              fail: function(response){
+                alert("Failed to send message check you internet connection.");
+                $('button').prop('disabled', false);
+                $("#send-broad-cast-message").html("Send Message");
+              }
+          });
+      });
+   }else if($("#broad-cast-message").length == 1){ //if there is already a broadcastmessage textarea
+        $("html, body").animate({ scrollTop: $(document).height() }, 1000);
+        $('#broad-cast-message').focus();
+   }
+
+});
+
+
+
+
+</script>
+
+
+<script>
+//when replying a message
+$('.reply-link').click(function(e){
+  e.preventDefault();
+  var parentMessage = $(this).parent().closest('li');
+  var parents = $(this).parents();
+  var broadcastCard = parents[4];
+  var broadcastId = broadcastCard.id;
+  broadcastId = parseInt(broadcastId.split('-')[1]);
+  var hiddenLink = $('.reply-link.hide_link');
+  hiddenLink.removeClass('hide_link');
+  $(this).addClass('hide_link');
+  messageId = parentMessage.attr('id');
+  if ($('#reply-message-input').length == 1){ //if there is already a message input in the DOM
+    $('#reply-message-input').detach(); //remove and reply input that's avialiable in the DOM
+  }
+  var messageInput = $(
+        '<br/>\n'+
+        '<div id="reply-message-input" class="card">\n' +
+        '  <div class="card-body">\n' +
+        '   <div class="row"> \n'+
+        '     <div class="col-md-9"> \n'+
+        '       <textarea id="reply-message-text" class="form-control" style="margin-top:2%;"></textarea>\n'+
+        '      </div>\n'+
+        '     <div class="col-md-3">\n'+
+        '       <button id="send-reply-message" class="pull-left btn btn-primary form-control reply-message">Send Reply</button>\n'+
+        '     </div>\n'+
+        '   </div>\n'+   
+        '  </div>\n'+
+        '</div>');
+
+  $('#'+messageId+'').append(messageInput);
+  $('#reply-message-text').focus();
+  var participantId = parseInt($('#'+messageId+'').children().first().attr('id'));
+
+    $('#send-reply-message').click(function(e){
+    e.preventDefault();
+    $('#send-reply-message').prop('disabled', true);
+    $('#send-reply-message').html("Sending...");
+    $.ajax({
+          url: "/messages/",
+          type: "POST",
+          data: { 
+            message: {
+                      broadcast_message_id: broadcastId,
+                      participant_id: participantId,
+                      content: $('#reply-message-text').val(),
+                      sender: 'quantity_surveyor'
+                      }
+              },
+          success: function(messageObject){
+            $('#send-reply-message').prop('disabled', false);
+            $("#send-reply-message").html("Send Message");
+            $('#reply-message-input').replaceWith(
+              '<li class="list-group-item message-thread">\n'+
+                  '<h5><%= @request.quantity_surveyor.company_name %></h5>\n'+
+                  '<span>'+$('#reply-message-text').val()+'</span>\n'+
+              '</li>'
+            );
+          },
+          fail: function(response){
+            alert("Failed to send message check you internet connection.");
+            $('#send-reply-message').prop('disabled', false);
+            $("#send-reply-message").html("Send Message");
+          }
+      });
+  });
+  
+});
+
+
+
 </script>

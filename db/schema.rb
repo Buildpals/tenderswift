@@ -41,6 +41,21 @@ ActiveRecord::Schema.define(version: 20170921155950) do
     t.index ["request_for_tender_id"], name: "index_boqs_on_request_for_tender_id"
   end
 
+  create_table "broadcast_messages", force: :cascade do |t|
+    t.text "content"
+    t.bigint "chatroom_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["chatroom_id"], name: "index_broadcast_messages_on_chatroom_id"
+  end
+
+  create_table "chatrooms", force: :cascade do |t|
+    t.bigint "request_for_tender_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["request_for_tender_id"], name: "index_chatrooms_on_request_for_tender_id"
+  end
+
   create_table "countries", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -86,6 +101,17 @@ ActiveRecord::Schema.define(version: 20170921155950) do
     t.index ["section_id"], name: "index_items_on_section_id"
   end
 
+  create_table "messages", force: :cascade do |t|
+    t.text "content"
+    t.bigint "broadcast_message_id"
+    t.bigint "participant_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "sender", default: 0
+    t.index ["broadcast_message_id"], name: "index_messages_on_broadcast_message_id"
+    t.index ["participant_id"], name: "index_messages_on_participant_id"
+  end
+
   create_table "pages", force: :cascade do |t|
     t.string "name"
     t.bigint "boq_id"
@@ -96,7 +122,7 @@ ActiveRecord::Schema.define(version: 20170921155950) do
 
   create_table "participants", force: :cascade do |t|
     t.string "email", null: false
-    t.string "phone_number", limit: 10
+    t.string "phone_number", default: "+233 50 136 9031", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "first_name"
@@ -205,9 +231,13 @@ ActiveRecord::Schema.define(version: 20170921155950) do
   add_foreign_key "answer_boxes", "participants"
   add_foreign_key "answer_boxes", "questions"
   add_foreign_key "answer_documents", "answer_boxes"
+  add_foreign_key "broadcast_messages", "chatrooms"
+  add_foreign_key "chatrooms", "request_for_tenders"
   add_foreign_key "filled_items", "items"
   add_foreign_key "filled_items", "participants"
   add_foreign_key "items", "pages"
+  add_foreign_key "messages", "broadcast_messages"
+  add_foreign_key "messages", "participants"
   add_foreign_key "project_documents", "request_for_tenders"
   add_foreign_key "questions", "request_for_tenders"
   add_foreign_key "tags", "boqs"

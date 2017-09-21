@@ -24,7 +24,7 @@
       <div class="form-group col-sm-6">
         <%= form.label :project_name %>
         <%= form.text_field :project_name, id: :request_project_name,
-                            class: 'form-control form-control-sm', data: {'save-on-change': true} %>
+                            class: 'form-control form-control-sm', data: {'save-on-change': true, toggle:'tooltip', placement:'right', title:'Eg. Proposed residential building for Mrs. Diana Aduboat. '} %>
         <p class="text-muted small">
           Example: Purchases of office supplies; Construction of sawmill;
           Railroad engineering works;
@@ -80,7 +80,7 @@
       <div class="form-group col-sm-12">
         <%= form.label :description %>
         <%= form.text_area :description, id: :request_description, rows: 3,
-                           class: 'form-control form-control-sm', data: {'save-on-change': true} %>
+                           class: 'form-control form-control-sm', data: {'save-on-change': true, toggle:'tooltip', placement:'right', title:'Eg. The structure is a one-storey building skeleton frames faculty with solid sandcrete walls as partitions. It covers an area of 478 sqm. The project is funded by Mrs Aduboat. '} %>
       </div>
 
 
@@ -112,3 +112,12 @@
       <%= form.submit 'Save & Continue', class: 'btn btn-primary' %>
     </div>
 <% end %>
+
+<script>
+  $('#request_description').hover( function(e){
+    $('#request_description').tooltip('show');
+  });
+  $('#request_project_name').hover( function(e){
+    $('#request_project_name').tooltip('show');
+  });
+</script>

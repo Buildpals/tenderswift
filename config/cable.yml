@@ -6,5 +6,5 @@ test:
 
 production:
   adapter: redis
-  url: redis://localhost:6379/1
+  url: redis://redistogo:c3fc4b29566b1dec325d0ebb268e97fd@chubb.redistogo.com:9929/
   channel_prefix: ds02_server_production

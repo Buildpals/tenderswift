@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'/>
+</head>
+<body>
+  <h3>Hello,</h3>
+  <p>You have a new message on <a href="https://www.buildpals.com">Buildpals</a></p>
+
+  <h2>Project Name: <%= @message.participant.project_name %></h2>
+  <p>Deadline: <%= @message.participant.project_deadline.to_formatted_s(:long) %></p>
+  <p>Description: <%= simple_format @message.participant.project_description %></p>
+
+  <p>
+    View message 
+  </p>
+</body>
+</html>

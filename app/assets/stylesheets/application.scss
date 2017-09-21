@@ -102,3 +102,35 @@ Loading Spinner
   right: 20px;
   z-index: 1000;
 }
+
+
+/***************************************
+Messaging Cards
+***************************************/
+
+.push-down{
+  margin-top: 5%;
+}
+
+.hidden-request-id{
+  display: none;
+}
+
+.message-thread h5{
+  color: #17a2b8 !important;
+}
+
+.hide_link{
+  display: none;
+}
+
+.reply-message{ 
+  height: 100%;
+  cursor: pointer;
+}
+
+.bolden{
+  font-size: 70%;
+  font-weight: bolder;
+  color: rebeccapurple;
+}

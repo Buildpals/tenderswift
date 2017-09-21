@@ -30,7 +30,13 @@ class Participant < ApplicationRecord
   has_many :answer_boxes, inverse_of: :participant
   has_many :questions, through: :answer_boxes
 
+  has_many :messages
+
   validates :email, presence: true
+
+  validates :company_name, presence: true
+
+  validates :phone_number, presence: true, uniqueness: true
 
   def to_param
     auth_token

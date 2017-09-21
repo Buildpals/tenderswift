@@ -4,6 +4,8 @@ class RequestForTendersController < ApplicationController
 
   before_action :authenticate_quantity_surveyor!, only: [:edit, :index]
 
+  DEFAULT_BROADCAST_CONTENT = "If you have any questions you can reply me here".freeze
+
   # GET /requests
   # GET /requests.json
   def index
@@ -25,7 +27,8 @@ class RequestForTendersController < ApplicationController
     @request.quantity_surveyor = current_quantity_surveyor
     @request.create_blank_boq
     @request.save!
-    redirect_to edit_request_for_tender_path @request
+    create_chat_room_for @request
+    redirect_to edit_request_for_tender_path @request, tab: '1'
   end
 
   # GET /requests/1/edit
@@ -97,6 +100,14 @@ class RequestForTendersController < ApplicationController
       redirect_to edit_request_for_tender_path(@request),
                   alert: 'You did not specify any participants in this request.'
     else
+      if @request.chatroom.nil?
+        create_chat_room_for @request
+      end
+      #create default broadcast message for the request
+      broadcast = BroadcastMessage.new
+      broadcast.content = DEFAULT_BROADCAST_CONTENT
+      broadcast.chatroom = @request.chatroom
+      broadcast.save!
       @request.participants.each do |participant|
         # Tell the ParticipantMailer to send a request_for_tender email
         ParticipantMailer.request_for_tender_email(participant).deliver_later
@@ -117,6 +128,13 @@ class RequestForTendersController < ApplicationController
   end
 
   private
+
+  # Use to create a chatroom for a request
+  def create_chat_room_for request_for_tender
+    chatroom = Chatroom.new
+    chatroom.request_for_tender = request_for_tender
+    chatroom.save!
+  end
 
   # Use callbacks to share common setup or constraints between actions.
   def set_request
