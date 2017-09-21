@@ -1,0 +1,28 @@
+<div class="card mb-4">
+  <div class="card-header">
+    Requirements
+  </div>
+  <% @participant.request_for_tender.questions.each do |question| %>
+      <div class="card-body">
+
+        <%= question.title%>
+        <p class="text-muted small"><%= question.description %></p>
+        <p class="text-muted small">
+          <strong>Answer</strong>
+          <%= @participant.answer_box_for(question).answer %>
+        </p>
+      </div>
+      <ul class="list-group list-group-flush">
+        <div class="ml-3">
+          Documents
+        </div>
+        <% @participant.answer_box_for(question).answer_documents.each do |answer_document| %>
+            <li class="list-group-item d-flex w-100 justify-content-between">
+              <%= answer_document.document.file.filename %>
+              <%= link_to 'View', answer_document.document.url, target: '_blank',
+                          class: 'btn btn-sm btn-light' %>
+            </li>
+        <% end %>
+      </ul>
+  <% end %>
+</div>
