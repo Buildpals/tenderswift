@@ -3,11 +3,15 @@
     Bill of Quantities
   </div>
   <div class="card-body">
+    <canvas id="myChart" style="height: 100px;"></canvas>
+  </div>
+  <div class="card-body">
     <p class="text-center">
-      Please fill in your rates in the Bill of Quantities below.
+      You can see a breakdown of the bill of quantities in the pie chart on the left.
       <br>
-      Click the submit button when you are done to submit your tender to the project owner
+      To edit this break down tag the items in the bill of quantities.
     </p>
+
     <ul class="nav nav-tabs" id="myTab" role="tablist">
       <% @participant.boq.pages.each_with_index do |page, index| %>
           <li class="nav-item">
@@ -29,16 +33,6 @@
           </div>
       <% end %>
     </div>
-
-    <% unless @participant.bid_made? %>
-        <%= form_with(model: @participant, local: true) do |form| %>
-            <%= form.text_field :status, value: 'bid_made', id: :participant_phone_number, type: 'hidden' %>
-            <%= form.text_field :bid_submission_time, value: Time.current, id: :participant_phone_number, type: 'hidden' %>
-
-            <%= form.submit 'Submit Bid', data: {confirm: 'You cannot edit the Bill of Quantities after submitting your bid. Are you sure you want to submit your bid?'},
-                            class: 'btn btn-large btn-primary float-right' %>
-        <% end %>
-    <% end %>
 
   </div>
 </div>
