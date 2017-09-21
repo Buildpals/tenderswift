@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Question:</strong>
+  <%= @answer_box.question %>
+</p>
+
+<p>
+  <strong>Participant:</strong>
+  <%= @answer_box.participant %>
+</p>
+
+<p>
+  <strong>Answer:</strong>
+  <%= @answer_box.answer %>
+</p>
+
+<%= link_to 'Edit', edit_answer_box_path(@answer_box) %> |
+<%= link_to 'Back', answer_boxes_path %>

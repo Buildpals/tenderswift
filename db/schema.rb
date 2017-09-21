@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170919155201) do
+ActiveRecord::Schema.define(version: 20170921082533) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,14 +25,12 @@ ActiveRecord::Schema.define(version: 20170919155201) do
     t.index ["question_id"], name: "index_answer_boxes_on_question_id"
   end
 
-  create_table "answers", force: :cascade do |t|
-    t.bigint "question_id"
-    t.bigint "participant_id"
-    t.string "answer"
+  create_table "answer_documents", force: :cascade do |t|
+    t.bigint "answer_box_id"
+    t.string "document"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["participant_id"], name: "index_answers_on_participant_id"
-    t.index ["question_id"], name: "index_answers_on_question_id"
+    t.index ["answer_box_id"], name: "index_answer_documents_on_answer_box_id"
   end
 
   create_table "boqs", force: :cascade do |t|
@@ -205,8 +203,7 @@ ActiveRecord::Schema.define(version: 20170919155201) do
 
   add_foreign_key "answer_boxes", "participants"
   add_foreign_key "answer_boxes", "questions"
-  add_foreign_key "answers", "participants"
-  add_foreign_key "answers", "questions"
+  add_foreign_key "answer_documents", "answer_boxes"
   add_foreign_key "filled_items", "items"
   add_foreign_key "filled_items", "participants"
   add_foreign_key "items", "pages"

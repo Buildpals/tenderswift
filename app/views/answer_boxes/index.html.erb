@@ -1,0 +1,31 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Answer Boxes</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Question</th>
+      <th>Participant</th>
+      <th>Answer</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @answer_boxes.each do |answer_box| %>
+      <tr>
+        <td><%= answer_box.question %></td>
+        <td><%= answer_box.participant %></td>
+        <td><%= answer_box.answer %></td>
+        <td><%= link_to 'Show', answer_box %></td>
+        <td><%= link_to 'Edit', edit_answer_box_path(answer_box) %></td>
+        <td><%= link_to 'Destroy', answer_box, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Answer Box', new_answer_box_path %>

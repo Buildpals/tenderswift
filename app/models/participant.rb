@@ -27,7 +27,8 @@ class Participant < ApplicationRecord
 
   has_many :items, through: :filled_items
 
-  has_many :answers
+  has_many :answer_boxes, inverse_of: :participant
+  has_many :questions, through: :answer_boxes
 
   validates :email, presence: true
 
@@ -91,9 +92,10 @@ class Participant < ApplicationRecord
     filled_items.find_by(item_id: item.id) || FilledItem.new(item: item, participant: self)
   end
 
-  def answer_to(question)
-    answer = answers.find_by(question: question, participant: self) || answers.build(question: question, participant: self)
-    answer.answer_documents.build
+  def answer_box_for(question)
+    answer_box = answer_boxes.find_by(question: question, participant: self) || answer_boxes.build(question: question, participant: self)
+    answer_box.answer_documents.build
+    answer_box
   end
 
   def bid
