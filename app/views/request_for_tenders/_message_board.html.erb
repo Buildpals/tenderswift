@@ -18,7 +18,7 @@
       <div class="tab-pane fade show active" role="tabpanel" id="messages" aria-labelledby="home-tab">
         <div class="row">
           <div class="col-md-12 text-center">
-            <button class="btn btn-sm btn-light" id="post-new-message">POST NEW MESSAGE</button>
+            <button class="btn btn-sm btn-light" id="post-new-message">BROADCAST NEW MESSAGE</button>
           </div>
         </div>
 
@@ -30,7 +30,7 @@
               <h4 class="card-title"><span class="fa fa-bullhorn"></span></h4>
               <h6 class="card-subtitle mb-2 text-muted">All Participants</h6>
               <p class="card-text"><%= broadcast.content %></p>
-              <small class="float-left">
+              <small class="float-left bolden">
                   <span class="fa fa-time"></span>
                   <%= broadcast.created_at.to_formatted_s(:long) %>
               </small>
@@ -44,12 +44,13 @@
                          <li class="list-group-item message-thread" id="<%= message.id %>">
                             <h5><%= @request.quantity_surveyor.company_name %></h5>
                             <span><%= message.content %></span>
+                            <p><small class="bolden">in reply to <%= message.participant.company_name %> on <%= message.created_at.to_formatted_s(:long) %></small></p>
                         </li>
                       <% else %>
                         <li class="list-group-item message-thread" id="<%= message.id %>">
                             <h5 id="<%= message.participant.id %>"><%= message.participant.company_name %></h5>
                             <span><%= message.content %></span>
-                            <small><a href="#" class="card-link float-right reply-link">Reply</a></small>
+                            <small class="bolden"><a href="#" class="card-link float-right reply-link">Reply</a></small>
                         </li>
                       <% end %>
 
@@ -61,8 +62,7 @@
           <br>
         <% end %>
 
-        <div class="new-broadcast-messages">
-        </div>
+      <div class="new-broadcast-messages"></div>
 
 
     </div>
@@ -144,14 +144,11 @@ $('.reply-link').click(function(e){
   var parentMessage = $(this).parent().closest('li');
   var parents = $(this).parents();
   var broadcastCard = parents[4];
-  var broadcastId = broadcastCard.id
-  console.log(broadcastId);
+  var broadcastId = broadcastCard.id;
   broadcastId = parseInt(broadcastId.split('-')[1]);
-  console.log(broadcastId);
   var hiddenLink = $('.reply-link.hide_link');
   hiddenLink.removeClass('hide_link');
   $(this).addClass('hide_link');
-  console.log(parentMessage);
   messageId = parentMessage.attr('id');
   if ($('#reply-message-input').length == 1){ //if there is already a message input in the DOM
     $('#reply-message-input').detach(); //remove and reply input that's avialiable in the DOM
@@ -174,7 +171,6 @@ $('.reply-link').click(function(e){
   $('#'+messageId+'').append(messageInput);
   $('#reply-message-text').focus();
   var participantId = parseInt($('#'+messageId+'').children().first().attr('id'));
-  console.log(participantId);
 
     $('#send-reply-message').click(function(e){
     e.preventDefault();
@@ -191,10 +187,15 @@ $('.reply-link').click(function(e){
                       sender: 'quantity_surveyor'
                       }
               },
-          success: function(messageObject){ 
-            $('#reply-message-text').val("");
+          success: function(messageObject){
             $('#send-reply-message').prop('disabled', false);
             $("#send-reply-message").html("Send Message");
+            $('#reply-message-input').replaceWith(
+              '<li class="list-group-item message-thread">\n'+
+                  '<h5><%= @request.quantity_surveyor.company_name %></h5>\n'+
+                  '<span>'+$('#reply-message-text').val()+'</span>\n'+
+              '</li>'
+            );
           },
           fail: function(response){
             alert("Failed to send message check you internet connection.");

@@ -15,14 +15,14 @@
               <h4 class="card-title"><span class="fa fa-bullhorn"></span></h4>
               <h6 class="card-subtitle mb-2 text-muted">All Participants</h6>
               <p class="card-text"><%= broadcast.content %></p>
-              <small class="float-left">
+              <small class="float-left bolden">
                   <span class="fa fa-time"></span>
                   <%= broadcast.created_at.to_formatted_s(:long) %>
               </small>
-              <small><a href="#" class="card-link float-right reply-link">Reply</a></small>
+              <small class="bolden"><a href="#" class="card-link float-right reply-link">Reply</a></small>
               <br/>
               <br/>
-              <ul class="list-group list-group-flush">
+              <ul class="list-group list-group-flush message-thread">
                 <% broadcast.messages.each do |message| %>
                   <% unless message.participant.nil? %>
                      <% if message.participant.id == @participant.id %>
