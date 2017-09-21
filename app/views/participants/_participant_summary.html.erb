@@ -1,0 +1,41 @@
+<div class="card mb-4">
+  <div class="card-header">
+    <%= @participant.project_name %>
+  </div>
+  <ul class="list-group list-group-flush">
+    <div class="card-body">
+      <div class="d-flex w-100 justify-content-between">
+        <div>
+          <h4 class="card-title">
+            <%= @participant.company_name %>
+          </h4>
+          <p class="mb-1">
+            <%= @participant.email %> (<%= @participant.phone_number %>)
+          </p>
+        </div>
+        <h4>
+          <%= humanized_money_with_symbol @participant.bid %>
+        </h4>
+      </div>
+
+      <small>
+
+      </small>
+    </div>
+    <li class="list-group-item bg-info">
+      <div class="col-sm-12 d-flex w-100" style="padding: 5px;">
+        <div class="btn-group ml-auto" data-toggle="buttons">
+          <label class="btn btn-secondary active">
+            <input type="radio" name="options" id="option1" autocomplete="off" checked> Radio 1 (preselected)
+          </label>
+          <label class="btn btn-secondary">
+            <input type="radio" name="options" id="option2" autocomplete="off"> Radio 2
+          </label>
+          <label class="btn btn-secondary">
+            <input type="radio" name="options" id="option3" autocomplete="off"> Radio 3
+          </label>
+        </div>
+      </div>
+    </li>
+  </ul>
+</div>

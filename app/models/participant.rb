@@ -94,7 +94,7 @@ class Participant < ApplicationRecord
 
   def answer_box_for(question)
     answer_box = answer_boxes.find_by(question: question, participant: self) || answer_boxes.build(question: question, participant: self)
-    answer_box.answer_documents.build
+    # answer_box.answer_documents.build
     answer_box
   end
 

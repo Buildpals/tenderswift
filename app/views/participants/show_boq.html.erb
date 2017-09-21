@@ -1,48 +1,22 @@
-<div class="container-fluid">
+<div class="container" id="app">
   <div class="row">
 
-    <div class="col-lg-12 mx-auto pt-4">
+    <div class="col-lg-11 mx-auto pt-4">
       <%= render 'layouts/notice' %>
     </div>
 
-    <div class="col-lg-12 mx-auto">
+    <div class="col-lg-9 ml-auto">
 
-      <div class="text-center mb-4">
-        <%= link_to 'Back', :back, class: 'btn btn-light float-left' %>
+      <%= render 'participant_summary' %>
 
-        <%= form_with(model: @participant, local: true) do |form| %>
-            <%= form.text_field :status, value: 'bid_made', id: :participant_phone_number, type: 'hidden' %>
-            <%= form.text_field :bid_submission_time, value: Time.current, id: :participant_phone_number, type: 'hidden' %>
+      <%= render 'participant_details' %>
 
-            <%= form.submit 'Submit Bid', data: {confirm: 'Are you sure?'},
-                            class: 'btn btn-large btn-primary float-right' %>
-        <% end %>
+      <% render 'request_for_tenders/message_board' %>
 
-        <h4>Bill of Quantities for <%= @boq.name %></h4>
-      </div>
+    </div>
 
-      <ul class="nav nav-tabs" id="myTab" role="tablist">
-        <% @boq.pages.each_with_index do |page, index| %>
-            <li class="nav-item">
-              <a class="nav-link  <%= 'active' if index == 0 %>" id="page-<%= page.id %>-tab" data-toggle="tab"
-                 href="#page-<%= page.id %>-content" role="tab" aria-controls="page-<%= page.id %>-tab-content">
-                <%= page.name %>
-              </a>
-            </li>
-        <% end %>
-      </ul>
-
-      <div class="tab-content" id="myTabContent">
-        <% @boq.pages.each_with_index do |page, index| %>
-            <div class="tab-pane <%= 'show active' if index == 0 %>"
-                 id="page-<%= page.id %>-content" role="tabpanel" aria-labelledby="page-<%= page.id %>-tab">
-
-              <div id="sheet-<%= page.id %>"></div>
-
-            </div>
-        <% end %>
-      </div>
-
+    <div class="col-lg-2 mr-auto">
+      <%= link_to 'Back',  request_for_tender_path(@participant.request_for_tender), class: 'btn btn-block btn-large btn-light btn-raised' %>
     </div>
 
   </div>
