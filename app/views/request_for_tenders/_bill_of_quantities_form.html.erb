@@ -1,4 +1,5 @@
 <%= form_with(model: request, local: true, id: 'request-form') do |form| %>
+    <%= form.text_field :project_name, type: 'hidden' %>
 
     <% if request.errors.any? %>
         <div id="error_explanation">
@@ -12,7 +13,8 @@
         </div>
     <% end %>
 
-    <%= form.text_field :project_name, type: 'hidden' %>
+
+    <%= render 'questionnaire_form', form: form %>
 
     <% if @request.boq %>
         <p class="text-center text-muted small">
@@ -69,9 +71,6 @@
                                       data: {'save-on-change': true} %>
       <% end %>
     </div>
-
-
-    <%= render 'questionnaire_form', form: form %>
 
 
     <div class="w-100 d-flex justify-content-between">
