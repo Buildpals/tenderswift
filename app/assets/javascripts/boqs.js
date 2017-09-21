@@ -75,7 +75,7 @@ App.Boq = (function() {
                 colHeaders = ['Tag', 'Item', 'Description', 'Quantity', 'Unit', 'Rate', 'Amount'];
                 columns = [
                     {
-                        data: "tag",
+                        data: "tag"
                         // type: 'autocomplete',
                         // source: function(query, process) {
                         //     process(Object.keys(getBreakDown()));
@@ -84,26 +84,30 @@ App.Boq = (function() {
                     },
                     {
                         data: 'name',
-                        renderer: labelRenderer
+                        renderer: labelRenderer,
+                        readOnly: true
                     },
                     {
                         data: 'description',
-                        className: 'htLeft'
+                        className: 'htLeft',
+                        readOnly: true
                     },
                     {
                         data: 'quantity',
-                        type: 'numeric'
-                    },
-                    {
-                        data: 'unit'
-                    },
-                    {
-                        data: 'rate',
                         type: 'numeric',
                         readOnly: true
                     },
                     {
-                        data: 'amount',
+                        data: 'unit',
+                        readOnly: true
+                    },
+                    {
+                        data: 'filled_item.rate',
+                        type: 'numeric',
+                        readOnly: true
+                    },
+                    {
+                        data: 'filled_item.amount',
                         type: 'numeric',
                         readOnly: true
                     }
