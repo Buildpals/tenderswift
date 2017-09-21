@@ -13,7 +13,7 @@
       <a class="nav-link" href="#all" aria-controls="all" role="tab" data-toggle="tab">All</a>
     </li>
   </ul>
-    <p class="hidden-request-id"><%= @request.id %></p>
+    <p class="hidden-request-id"><%= request.id %></p>
     <div class="tab-content pt-3" id="messageBoardContents">
       <div class="tab-pane fade show active" role="tabpanel" id="messages" aria-labelledby="home-tab">
         <div class="row">
@@ -24,7 +24,7 @@
 
         <br>
 
-        <% @request.chatroom.broadcast_messages.each do |broadcast| %>
+        <% request.chatroom.broadcast_messages.each do |broadcast| %>
           <div class="card" id="broadcast-<%= broadcast.id %>">
             <div class="card-body">
               <h4 class="card-title"><span class="fa fa-bullhorn"></span></h4>
@@ -42,7 +42,7 @@
                   <% unless message.participant.nil? %>
                       <% if message.sender == 'quantity_surveyor' %>
                          <li class="list-group-item message-thread" id="<%= message.id %>">
-                            <h5><%= @request.quantity_surveyor.company_name %></h5>
+                            <h5><%= request.quantity_surveyor.company_name %></h5>
                             <span><%= message.content %></span>
                             <p><small class="bolden">in reply to <%= message.participant.company_name %> on <%= message.created_at.to_formatted_s(:long) %></small></p>
                         </li>
@@ -108,7 +108,7 @@ $('#post-new-message').click(function(e){
               type: "POST",
               data: { 
                 broadcast_message: {
-                          chatroom_id: <%= @request.chatroom.id %>,
+                          chatroom_id: <%= request.chatroom.id %>,
                           content: $('#broad-cast-message').val()
                           }
                   },
@@ -192,7 +192,7 @@ $('.reply-link').click(function(e){
             $("#send-reply-message").html("Send Message");
             $('#reply-message-input').replaceWith(
               '<li class="list-group-item message-thread">\n'+
-                  '<h5><%= @request.quantity_surveyor.company_name %></h5>\n'+
+                  '<h5><%= request.quantity_surveyor.company_name %></h5>\n'+
                   '<span>'+$('#reply-message-text').val()+'</span>\n'+
               '</li>'
             );
