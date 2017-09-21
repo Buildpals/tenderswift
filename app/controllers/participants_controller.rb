@@ -53,7 +53,13 @@ class ParticipantsController < ApplicationController
   def update
     respond_to do |format|
       if @participant.update(participant_params)
-        format.html {redirect_to @participant, notice: 'Participant was successfully updated.'}
+        format.html {
+          if params[:commit] == 'save_rating'
+            redirect_to participant_boq_path(@participant), notice: 'Participant was successfully updated.'
+          else
+            redirect_to @participant, notice: 'Participant was successfully updated.'
+          end
+        }
         format.json {render :show, status: :ok, location: @participant}
       else
         format.html {render :edit}
@@ -103,6 +109,7 @@ class ParticipantsController < ApplicationController
                   :first_name,
                   :last_name,
                   :status,
+                  :rating,
                   :bid_submission_time,
                   :request_read_time,
                   :interested,

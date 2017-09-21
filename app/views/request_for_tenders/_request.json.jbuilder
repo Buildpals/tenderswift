@@ -10,7 +10,7 @@ json.extract! request,
               :created_at,
               :updated_at
 
-json.participants request.participants.bid_list do |participant|
+json.participants request.participants.bid_list.where('rating >= 0').order(rating: :desc) do |participant|
   json.id participant.id
   json.email participant.email
   json.name participant.name
