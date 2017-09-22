@@ -1,39 +1,33 @@
-<div class="nested-fields mb-3">
+<div class="nested-fields mb-4">
   <hr>
   <div class="form-row">
 
     <div class="col-sm-12">
+      <%= f.label :Question %>
       <%= f.text_field :title, id: :question_title,
                        class: 'form-control form-control-sm mb-2', placeholder: 'Question Title' %>
     </div>
 
     <div class="col-sm-12">
       <%= f.label :description %>
-      <%= f.text_area :description, id: :question_description, rows: 3,
+      <%= f.text_area :description, id: :question_description, rows: 2,
                       class: 'form-control form-control-sm mb-2', data: {'save-on-change': true} %>
     </div>
 
-    <div class="col-sm-3 mt-4 pt-2">
+    <div class="col-sm-4">
       <div class="form-check form-check-inline">
         <%= f.label :can_attach_documents, class: 'form-check-label' do %>
             <%= f.check_box :can_attach_documents, id: :question_can_attach_documents,
                             class: 'form-check-input' %>
-            Can attach documents?
+            Should attach documents?
         <% end %>
       </div>
     </div>
 
-    <div class="col-sm-6 mt-4 pt-2">
-      <div class="form-check form-check-inline">
-        <%= f.label :mandatory, class: 'form-check-label' do %>
-            <%= f.check_box :mandatory, id: :question_mandatory,
-                            class: 'form-check-input' %>
-            Is Mandatory?
-        <% end %>
-      </div>
+    <div class="col-sm-5">
     </div>
 
-    <div class="col-sm-3 mt-4 pt-2">
+    <div class="col-sm-3">
       <%= link_to_remove_association f, class: 'btn btn-sm btn-block btn-light float-right' do %>
           Remove
       <% end %>
