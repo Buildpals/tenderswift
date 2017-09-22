@@ -139,11 +139,11 @@
                         <%= form.fields_for :answer_documents do |answer_document| %>
                             <%= render 'answer_document_fields', f: answer_document %>
                         <% end %>
-                        <li class="d-flex w-100 justify-content-between">
-                          <%= link_to_add_association 'Add more answer documents', form, :answer_documents, class: 'btn btn-sm btn-primary my-1' %>
-                        </li>
+                        <div class="d-flex w-100 justify-content-between mt-3">
+                          <%= link_to_add_association 'Add document', form, :answer_documents, class: 'btn btn-sm btn-primary' %>
+                          <%= form.submit 'Save', class: 'btn btn-sm btn-primary' %>
+                        </div>
                       </div>
-                      <%= form.submit 'Save', class: 'btn btn-sm btn-primary' %>
                   <% end %>
                 </div>
             <% end %>
