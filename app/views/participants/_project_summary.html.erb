@@ -1,0 +1,40 @@
+<div class="card mb-4">
+  <div class="card-body">
+    <h4 class="card-title"><%= @participant.project_name %></h4>
+    <p>
+      <%= @participant.project_location %>
+    </p>
+
+    <small>
+      <strong>Project Budget:</strong>
+      <%= humanized_money_with_symbol @participant.project_budget %>
+    </small>
+
+    <small>
+      <p class="mb-1">
+        <strong>Project Owner:</strong>
+        <%= @participant.project_owners_name %> (<%= @participant.project_owners_phone_number %>)
+      </p>
+    </small>
+  </div>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item">
+      <div class="row">
+        <div class="col-lg-4">
+          <strong>Time left</strong>
+        </div>
+        <div class="col-lg-8">
+          <strong>End date</strong>
+        </div>
+        <div class="col-lg-4">
+          <%= @participant.time_left %>
+        </div>
+        <div class="col-lg-8">
+          <%= @participant.project_deadline.to_formatted_s(:long) %>
+          <span class="ml-3">(UTC+00:00)</span>
+        </div>
+
+      </div>
+    </li>
+  </ul>
+</div>

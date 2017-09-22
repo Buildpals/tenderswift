@@ -1,35 +1,5 @@
-<div class="container-fluid bg-secondary p-2">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-8 mx-auto d-flex w-100 justify-content-between">
-
-        <% unless @participant.status.in? %w(participating bid_made) %>
-            <%= link_to 'MAKE BID', show_interest_in_request_for_tender_path(@participant),
-                        class: 'btn btn-lg btn-success' %>
-        <% end %>
-
-        <%= link_to 'I DO NOT WANT TO PARTICIPATE', show_disinterest_in_request_for_tender_path(@participant),
-                    class: 'btn btn-lg btn-light ml-auto' %>
-
-      </div>
-    </div>
-  </div>
-</div>
-
 <div class="container" id="app">
   <div class="row">
-
-    <% unless @participant.status.in? %w(participating bid_made) %>
-        <div class="col-lg-8 mx-auto">
-          <div class="alert alert-success alert-dismissible fade show mt-1" role="alert">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-            Click on <strong>Make Bid</strong> to start composing your bid.
-            Need help?
-          </div>
-        </div>
-    <% end %>
 
     <div class="col-lg-9 mx-auto pt-4">
       <%= render 'layouts/notice' %>
@@ -37,170 +7,40 @@
 
     <div class="col-lg-9 mx-auto">
 
-      <div class="card mb-4">
-        <div class="card-body">
-          <h4 class="card-title"><%= @participant.project_name %></h4>
-          <p>
-            <%= @participant.project_location %>
-          </p>
+      <%= render 'project_summary' %>
 
-          <small>
-            <strong>Project Budget:</strong>
-            <%= humanized_money_with_symbol @participant.project_budget %>
-          </small>
-
-          <small>
-            <p class="mb-1">
-              <strong>Project Owner:</strong>
-              <%= @participant.project_owners_name %> (<%= @participant.project_owners_phone_number %>)
-            </p>
-          </small>
-        </div>
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item">
-            <div class="row">
-              <div class="col-lg-4">
-                <strong>Time left</strong>
-              </div>
-              <div class="col-lg-8">
-                <strong>End date</strong>
-              </div>
-              <div class="col-lg-4">
-                <%= @participant.time_left %>
-              </div>
-              <div class="col-lg-8">
-                <%= @participant.project_deadline.to_formatted_s(:long) %>
-                <span class="ml-3">(UTC+00:00)</span>
-              </div>
-
-            </div>
-          </li>
-        </ul>
-      </div>
-
-      <div class="card mb-4">
-
-        <div class="card-header">
-          Project Description
-        </div>
-        <div class="card-body">
-          <p class="mb-1">
-            <%= simple_format @participant.project_description %>
-          </p>
-        </div>
-
-
-        <div class="card-header">
-          Project Documents
-        </div>
-        <ul class="list-group list-group-flush">
-          <% @participant.project_documents.each do |project_document| %>
-              <li class="list-group-item d-flex w-100 justify-content-between">
-                <%= project_document.document.file.filename %>
-                <%= link_to 'View', project_document.document.url, target: '_blank',
-                            class: 'btn btn-sm btn-light' %>
-              </li>
-          <% end %>
-        </ul>
-
-        <% unless @participant.status.in? %w(participating bid_made) %>
-            <div class="card-body">
-              <%= link_to 'MAKE BID', show_interest_in_request_for_tender_path(@participant),
-                          class: 'btn btn-lg btn-success float-right' %>
-            </div>
-        <% end %>
-
-      </div>
-
-      <%= render 'message_board' %>
+      <%= render 'project_description' %>
 
     </div>
+
+    <% unless @participant.status.in? %w(participating bid_made) %>
+        <div class="col-lg-9 mx-auto">
+          <div class="alert alert-success alert-dismissible fade show mt-1" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            Click on the <strong>Accept project</strong> button above to start composing your bid.
+          </div>
+        </div>
+    <% end %>
 
 
     <% if @participant.status.in? %w(participating bid_made) %>
 
         <div class="col-lg-9 mx-auto">
-
-          <div class="card mb-4">
-            <div class="card-header">
-              Requirements
-            </div>
-            <% @participant.request_for_tender.questions.each do |question| %>
-                <div class="card-body">
-
-                  <%= question.title%>
-                  <p class="text-muted small"><%= question.description %></p>
-
-                  <%= form_with(model: @participant.answer_box_for(question), local: true) do |form| %>
-                      <%= form.hidden_field :participant_id, value: @participant.id %>
-                      <%= form.hidden_field :question_id, value: question.id %>
-                      <%= form.text_field :answer, id: :answer_answer, class: 'form-control form-control-sm mb-2' %>
-                      <div class="nested-forms mb-5">
-                        <%= form.fields_for :answer_documents do |answer_document| %>
-                            <%= render 'answer_document_fields', f: answer_document %>
-                        <% end %>
-                        <div class="d-flex w-100 justify-content-between mt-3">
-                          <%= link_to_add_association 'Add document', form, :answer_documents, class: 'btn btn-sm btn-primary' %>
-                          <%= form.submit 'Save', class: 'btn btn-sm btn-primary' %>
-                        </div>
-                      </div>
-                  <% end %>
-                </div>
-            <% end %>
-          </div>
-
+          <%= render 'requirements_form' %>
         </div>
 
         <div class="col-lg-9 mx-auto">
-
-          <div class="card mb-4">
-            <div class="card-header">
-              Bill of Quantities
-            </div>
-            <div class="card-body">
-              <p class="text-center">
-                Please fill in your rates in the Bill of Quantities below.
-                <br>
-                Click the submit button when you are done to submit your tender to the project owner
-              </p>
-              <ul class="nav nav-tabs" id="myTab" role="tablist">
-                <% @participant.boq.pages.each_with_index do |page, index| %>
-                    <li class="nav-item">
-                      <a class="nav-link  <%= 'active' if index == 0 %>" id="page-<%= page.id %>-tab" data-toggle="tab"
-                         href="#page-<%= page.id %>-content" role="tab" aria-controls="page-<%= page.id %>-tab-content">
-                        <%= page.name %>
-                      </a>
-                    </li>
-                <% end %>
-              </ul>
-
-              <div class="tab-content mb-5" id="myTabContent">
-                <% @participant.boq.pages.each_with_index do |page, index| %>
-                    <div class="tab-pane <%= 'show active' if index == 0 %>"
-                         id="page-<%= page.id %>-content" role="tabpanel" aria-labelledby="page-<%= page.id %>-tab">
-
-                      <div id="sheet-<%= page.id %>"></div>
-
-                    </div>
-                <% end %>
-              </div>
-
-              <% unless @participant.bid_made? %>
-                  <%= form_with(model: @participant, local: true) do |form| %>
-                      <%= form.text_field :status, value: 'bid_made', id: :participant_phone_number, type: 'hidden' %>
-                      <%= form.text_field :bid_submission_time, value: Time.current, id: :participant_phone_number, type: 'hidden' %>
-
-                      <%= form.submit 'Submit Bid', data: {confirm: 'You cannot edit the Bill of Quantities after submitting your bid. Are you sure you want to submit your bid?'},
-                                      class: 'btn btn-large btn-primary float-right' %>
-                  <% end %>
-              <% end %>
-
-            </div>
-          </div>
+          <%= render 'bill_of_quantities' %>
         </div>
 
     <% end %>
 
+
+    <div class="col-lg-9 mx-auto">
+      <%= render 'message_board' %>
+    </div>
 
   </div>
 
