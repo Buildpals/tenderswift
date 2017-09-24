@@ -4,7 +4,7 @@ class BoqsController < ApplicationController
   # GET /boqs
   # GET /boqs.json
   def index
-    @boqs = Boq.all
+    @boqs = Boq.all.includes(:pages, :items, :tags, :name)
   end
 
   # GET /boqs/1
@@ -65,7 +65,7 @@ class BoqsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_boq
-      @boq = Boq.find(params[:id])
+      @boq = Boq.includes(:pages, :items, :tags, :name).find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

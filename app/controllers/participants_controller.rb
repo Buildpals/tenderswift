@@ -7,7 +7,7 @@ class ParticipantsController < ApplicationController
   # GET /participants
   # GET /participants.json
   def index
-    @participants = Participant.all
+    @participants = Participant.all.includes(:messages, :answers, :items, :filled_items)
   end
 
   # GET /participants/1
@@ -92,7 +92,7 @@ class ParticipantsController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_participant
-    @participant = Participant.find_by(auth_token: params[:id])
+    @participant = Participant.includes(:messages, :answers, :items, :filled_items).find_by(auth_token: params[:id])
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.
