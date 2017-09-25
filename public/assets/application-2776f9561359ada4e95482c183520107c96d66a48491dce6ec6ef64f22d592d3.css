@@ -16397,3 +16397,39 @@ Loading Spinner
   right: 20px;
   z-index: 1000;
 }
+
+/***************************************
+Messaging Cards
+***************************************/
+/* line 111, /home/peter/RubymineProjects/ds02_server/app/assets/stylesheets/application.scss */
+.push-down {
+  margin-top: 5%;
+}
+
+/* line 115, /home/peter/RubymineProjects/ds02_server/app/assets/stylesheets/application.scss */
+.hidden-request-id {
+  display: none;
+}
+
+/* line 119, /home/peter/RubymineProjects/ds02_server/app/assets/stylesheets/application.scss */
+.message-thread h5 {
+  color: #17a2b8 !important;
+}
+
+/* line 123, /home/peter/RubymineProjects/ds02_server/app/assets/stylesheets/application.scss */
+.hide_link {
+  display: none;
+}
+
+/* line 127, /home/peter/RubymineProjects/ds02_server/app/assets/stylesheets/application.scss */
+.reply-message {
+  height: 100%;
+  cursor: pointer;
+}
+
+/* line 132, /home/peter/RubymineProjects/ds02_server/app/assets/stylesheets/application.scss */
+.bolden {
+  font-size: 70%;
+  font-weight: bolder;
+  color: rebeccapurple;
+}

@@ -45,7 +45,8 @@ class AnswerBoxesController < ApplicationController
         format.html {redirect_to participant_path(@answer_box.participant), notice: 'Answer box was successfully updated.'}
         format.json {render :show, status: :ok, location: @answer_box}
       else
-        format.html {render :edit}
+        @participant = @answer_box.participant
+        format.html {render 'participants/show', participant: @answer_box.participant}
         format.json {render json: @answer_box.errors, status: :unprocessable_entity}
       end
     end
