@@ -4,11 +4,11 @@
   <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'/>
 </head>
 <body>
-  <h3>Hello,</h3>
-  <p>You have a new message on Buildpals from <%= @broadcast.chatroom.request_for_tender.quantity_surveyor.company_name %></a></p>
+  <h3>Hi,</h3>
+  <p>You have a new message from <%= @broadcast_message.chatroom.request_for_tender.quantity_surveyor.company_name %></a></p>
 
   <h2>Project Name: <%= @participant.project_name %></h2>
-  <p>Message: <%= @broadcast.content %></p>
+  <p>"<%= @broadcast_message.content %>"</p>
   <p></p>
 
   <p>
