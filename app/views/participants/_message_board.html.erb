@@ -105,9 +105,15 @@ $('.reply-link').click(function(e){
                       }
               },
           success: function(messageObject){ 
-            $('#reply-message-text').val("");
-            $('#send-reply-message').prop('disabled', false);
-            $("#send-reply-message").html("Send Message");
+            $('#reply-message-input').replaceWith(
+              '</li>\n'+
+              '<li class="list-group-item message-thread">\n'+
+                  '<h5><%= @participant.company_name %></h5>\n'+
+                  '<span>'+$('#reply-message-text').val()+'</span>\n'+
+              '</li>'
+            );
+            //$('#send-reply-message').prop('disabled', false);
+            //$("#send-reply-message").html("Send Message");
           },
           fail: function(response){
             alert("Failed to send message check you internet connection.");
