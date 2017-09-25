@@ -5,14 +5,13 @@
 </head>
 <body>
   <h3>Hello,</h3>
-  <p>You have a new message on <a href="https://www.buildpals.com">Buildpals</a></p>
+  <p>You have a new message on Buildpals</a></p>
 
   <h2>Project Name: <%= @message.participant.project_name %></h2>
-  <p>Deadline: <%= @message.participant.project_deadline.to_formatted_s(:long) %></p>
-  <p>Description: <%= simple_format @message.participant.project_description %></p>
+  <p>Message: <%= @message.content %></p>
 
   <p>
-    View message 
+    <%= link_to 'View message here', @message.participant %>
   </p>
 </body>
 </html>
