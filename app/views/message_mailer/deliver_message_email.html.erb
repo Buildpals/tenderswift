@@ -5,14 +5,22 @@
 </head>
 <body>
   <h3>Hello,</h3>
-  <p>You have a new message on <a href="https://www.buildpals.com">Buildpals</a></p>
+
+  <% if @message.sender.eql?('quantity_surveyor') %>
+  <p>You have a new message from <%= @message.broadcast_message.chatroom.request_for_tender.quantity_surveyor.company_name %></p>
+  <% else %>
+  <p>You have a new message from <%= @message.participant.company_name %></p>
+  <% end %>
 
   <h2>Project Name: <%= @message.participant.project_name %></h2>
-  <p>Deadline: <%= @message.participant.project_deadline.to_formatted_s(:long) %></p>
-  <p>Description: <%= simple_format @message.participant.project_description %></p>
+  <p>"<%= @message.content %>"</p>
 
   <p>
-    View message 
+  <% if @message.sender.eql?('quantity_surveyor') %>
+    <%= link_to 'View message here', @message.participant %>
+  <% else %>
+    <%= link_to 'View message here', @message.broadcast_message.chatroom.request_for_tender %>
+  <% end %>
   </p>
 </body>
 </html>

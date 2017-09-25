@@ -191,6 +191,7 @@ $('.reply-link').click(function(e){
             $('#send-reply-message').prop('disabled', false);
             $("#send-reply-message").html("Send Message");
             $('#reply-message-input').replaceWith(
+              '</li>\n'+
               '<li class="list-group-item message-thread">\n'+
                   '<h5><%= request.quantity_surveyor.company_name %></h5>\n'+
                   '<span>'+$('#reply-message-text').val()+'</span>\n'+

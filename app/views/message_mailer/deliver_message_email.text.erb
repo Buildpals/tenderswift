@@ -1,0 +1,18 @@
+Hello
+
+<% if @message.sender.eql?('quantity_surveyor') %>
+  You have a new message from <%= @message.broadcast_message.chatroom.request_for_tender.quantity_surveyor.company_name %>
+<% else %>
+  You have a new message from <%= @message.participant.company_name %>
+<% end %>
+
+Project Name: <%= @message.participant.project_name %>
+"<%= @message.content %>"
+
+<p>
+  <% if @message.sender.eql?('quantity_surveyor') %>
+    <%= link_to 'View message here', @message.participant %>
+  <% else %>
+    <%= link_to 'View message here', @message.broadcast_message.chatroom.request_for_tender %>
+  <% end %>
+</p>

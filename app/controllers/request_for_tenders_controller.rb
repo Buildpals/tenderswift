@@ -110,7 +110,7 @@ class RequestForTendersController < ApplicationController
       broadcast.save!
       @request.participants.each do |participant|
         # Tell the ParticipantMailer to send a request_for_tender email
-        ParticipantMailer.request_for_tender_email(participant).deliver_later
+        ParticipantMailer.request_for_tender_email(participant, @request).deliver_later
       end
       @request.update(submitted: true)
       redirect_to @request, notice: 'An email has been sent to each participant of this request.'

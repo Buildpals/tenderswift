@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'/>
+</head>
+<body>
+  <h3>Hi,</h3>
+  <p>You have a new message from <%= @broadcast_message.chatroom.request_for_tender.quantity_surveyor.company_name %></a></p>
+
+  <h2>Project Name: <%= @participant.project_name %></h2>
+  <p>"<%= @broadcast_message.content %>"</p>
+  <p></p>
+
+  <p>
+  <%= link_to 'View message here', @participant %>
+  </p>
+</body>
+</html>

@@ -7,6 +7,7 @@
   <h3>Hello,</h3>
   <p>You have been invited to tender for a project on buildpals.com</p>
 
+  <h2>Consultant Name: <%= @request_for_tender.quantity_surveyor.company_name %></h2>
   <h2>Project Name: <%= @participant.project_name %></h2>
   <p>Deadline: <%= @participant.project_deadline.to_formatted_s(:long) %></p>
   <p>Description: <%= simple_format @participant.project_description %></p>
