@@ -12,14 +12,14 @@
   <p>You have a new message from <%= @message.participant.company_name %></p>
   <% end %>
 
-  <h2>Project Name: <%= @message.participant.project_name %></h2>
+  <h4>Project Name: <%= @message.participant.project_name %></h4>
   <p>"<%= @message.content %>"</p>
 
   <p>
   <% if @message.sender.eql?('quantity_surveyor') %>
-    <%= link_to 'View message here', @message.participant %>
+    <%= link_to 'View message here', { controller: :messages, action: :show, id: @message.participant.id, scroll: :down } %>
   <% else %>
-    <%= link_to 'View message here', @message.broadcast_message.chatroom.request_for_tender %>
+    <%= link_to 'View message here', { controller: :request_for_tenders, action: :show, id: @message.broadcast_message.chatroom.request_for_tender.id, scroll: :down } %>
   <% end %>
   </p>
 </body>
