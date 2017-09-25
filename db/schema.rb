@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170925122859) do
+ActiveRecord::Schema.define(version: 20170925135922) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -111,7 +111,6 @@ ActiveRecord::Schema.define(version: 20170925122859) do
 
   create_table "participants", force: :cascade do |t|
     t.string "email", null: false
-    t.string "phone_number", default: ""
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "first_name"
@@ -127,6 +126,7 @@ ActiveRecord::Schema.define(version: 20170925122859) do
     t.string "auth_token"
     t.integer "status", default: 0
     t.string "company_name"
+    t.string "phone_number"
     t.index ["auth_token"], name: "index_participants_on_auth_token", unique: true
     t.index ["request_for_tender_id"], name: "index_participants_on_request_for_tender_id"
   end
