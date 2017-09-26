@@ -98,8 +98,8 @@ Rails.application.configure do
       address: 'smtp.zoho.com',
       port: '465',
       domain: 'buildpals.com',
-      user_name: 'kwaku@buildpals.com',
-      password: 'playoffs2',
+      user_name: 'projects@buildpals.com',
+      password: 'buildpal$2017',
       authentication: :plain,
       enable_starttls_auto: true,
       tls: true

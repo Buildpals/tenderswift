@@ -1,6 +1,6 @@
 class BroadcastMailer < ApplicationMailer
 
-  default from: "kwaku@buildpals.com"
+  default from: "projects@buildpals.com"
 
   def deliver_broadcast_email(participant, broadcast_message)
     @broadcast_message = broadcast_message
