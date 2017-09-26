@@ -9,10 +9,9 @@ Hello
 Project Name: <%= @message.participant.project_name %>
 Message says "<%= @message.content %>"
 
-<p>
-  <% if @message.sender.eql?('quantity_surveyor') %>
-    <%= link_to 'View conversation here', { controller: :participants, action: :show, id: @message.participant.auth_token, scroll: true } %>
-  <% else %>
-    <%= link_to 'View conversation here', { controller: :request_for_tenders, action: :show, id: @message.broadcast_message.chatroom.request_for_tender.id, scroll: true } %>
-  <% end %>
-</p>
+
+<% if @message.sender.eql?('quantity_surveyor') %>
+  <%= link_to 'View conversation here', { controller: :participants, action: :show, id: @message.participant.auth_token, scroll: true } %>
+<% else %>
+  <%= link_to 'View conversation here', { controller: :request_for_tenders, action: :show, id: @message.broadcast_message.chatroom.request_for_tender.id, scroll: true } %>
+<% end %>
