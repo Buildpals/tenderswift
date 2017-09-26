@@ -111,11 +111,11 @@ class Participant < ApplicationRecord
   end
 
   def bid_difference
-    project_budget.to_d - bid
+    # project_budget.to_d - bid
   end
 
   def bid_difference_as_percentage
-    number_to_percentage 100 * (bid_difference / project_budget.to_d)
+    # number_to_percentage 100 * (bid_difference / project_budget.to_d)
   end
 
   def tag_break_down
