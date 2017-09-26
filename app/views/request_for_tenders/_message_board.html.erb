@@ -209,3 +209,12 @@ $('.reply-link').click(function(e){
 
 
 </script>
+
+
+<script>
+  var isScroll = window.location.href.split('=')[1];
+  isScroll = Boolean(isScroll);
+  if(isScroll == true){
+    $("html, body").animate({ scrollTop: $(document).height() }, 1000);
+  }
+</script>

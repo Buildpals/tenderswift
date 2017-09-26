@@ -1,6 +1,6 @@
 class MessageMailer < ApplicationMailer
 
-  default from: "kwaku@buildpals.com"
+  default from: "projects@buildpals.com"
 
   def deliver_message_email(message)
     @message = message

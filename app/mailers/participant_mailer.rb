@@ -1,5 +1,5 @@
 class ParticipantMailer < ApplicationMailer
-  default from: 'kwaku@buildpals.com'
+  default from: 'projects@buildpals.com'
 
   def request_for_tender_email(participant, request_for_tender)
     @participant = participant
