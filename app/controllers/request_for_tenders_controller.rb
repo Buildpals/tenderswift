@@ -78,6 +78,8 @@ class RequestForTendersController < ApplicationController
         format.html {
             if params[:commit] == 'Send Request Out'
               redirect_to email_request_for_tender_path(@request)
+            elsif params[:commit] == 'Calculate Budget Differences'
+              redirect_to @request
             else
               redirect_to edit_request_for_tender_path(@request), notice: 'Request was successfully updated.'
             end

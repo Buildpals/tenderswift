@@ -54,8 +54,7 @@
             <%= form.label :contract_sum %>
           </div>
           <div class="col-sm-3">
-            <%= form.select :contract_sum_currency, [%w(USD USD), %w(GHS GHS)], {}
-                            { id: :request_contract_sum_currency, class: 'form-control form-control-sm' } %>
+            <%= form.select :contract_sum_currency, [%w(USD USD), %w(GHS GHS)], {}, { class: 'form-control form-control-sm' } %>
           </div>
           <div class="col-sm-9">
             <%= form.text_field :contract_sum, id: :request_contract_sum,
