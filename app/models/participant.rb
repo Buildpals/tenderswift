@@ -119,19 +119,12 @@ class Participant < ApplicationRecord
   end
 
   def bid_difference
-    # project_budget.to_d - bid
+    return ' - ' unless project_budget
+    project_budget.to_d - bid
   end
 
   def bid_difference_as_percentage
-    # number_to_percentage 100 * (bid_difference / project_budget.to_d)
+    return ' - ' unless project_budget
+    number_to_percentage 100 * (bid_difference / project_budget.to_d)
   end
-
-  def tag_break_down
-    pie_data = Hash.new(0)
-    filled_items.each do |filled_item|
-      pie_data[filled_item.item.tag.name] = pie_data[filled_item.item.tag.name].to_f + filled_item.amount.to_f
-    end
-    pie_data
-  end
-
 end
