@@ -13,7 +13,7 @@
   <%= form.fields_for :questions do |question| %>
       <%= render 'question_fields', f: question %>
   <% end %>
-  <li class="d-flex w-100 justify-content-between">
-    <%= link_to_add_association 'Add question', form, :questions, class: 'btn btn-sm btn-primary my-1' %>
+  <li class="d-flex w-100 justify-content-center">
+    <%= link_to_add_association 'Add question', form, :questions, class: 'btn btn btn-primary my-1' %>
   </li>
 </div>
