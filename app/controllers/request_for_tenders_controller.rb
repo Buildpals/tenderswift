@@ -151,6 +151,8 @@ class RequestForTendersController < ApplicationController
                   :description,
                   :budget_currency,
                   :budget,
+                  :contract_sum,
+                  :contract_sum_currency,
                   project_documents_attributes: [:id,
                                                  :document,
                                                  :_destroy],

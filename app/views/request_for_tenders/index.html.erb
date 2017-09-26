@@ -22,10 +22,7 @@
                     </h5>
                   </div>
                   <small class="text-muted">
-                    <%= request.city %>,
-                    <% unless request.country.nil? %>
-                      <%= request.country.name %>
-                    <% end %>
+                    <%= request.project_location %>
                   </small>
               <% end %>
           <% end %>
@@ -55,10 +52,7 @@
                     </small>
                   </div>
                   <small class="text-muted">
-                    <%= request.city %>,
-                    <% unless request.country.nil? %>
-                      <%= request.country.name %>
-                    <% end %>
+                    <%= request.project_location %>
                   </small>
               <% end %>
           <% end.empty? %>

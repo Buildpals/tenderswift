@@ -1,21 +1,25 @@
 <div class="card mb-4">
   <div class="card-body">
+
     <h4 class="card-title"><%= @participant.project_name %></h4>
+
     <p>
       <%= @participant.project_location %>
     </p>
 
     <small>
-      <strong>Project Budget:</strong>
-      <%= humanized_money_with_symbol @participant.project_budget %>
+      <strong>Contract Sum&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong>&nbsp;&nbsp;
+      <%= @participant.contract_sum_currency %>
+      <%= @participant.contract_sum %>
     </small>
 
     <small>
       <p class="mb-1">
-        <strong>Project Owner:</strong>
-        <%= @participant.project_owners_name %> (<%= @participant.project_owners_phone_number %>)
+        <strong>Project Consultant&nbsp;</strong>&nbsp;&nbsp;
+        <%= @participant.project_owners_name %>
       </p>
     </small>
+
   </div>
   <ul class="list-group list-group-flush">
     <li class="list-group-item">

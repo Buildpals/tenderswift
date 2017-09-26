@@ -59,6 +59,10 @@ class RequestForTender < ApplicationRecord
     quantity_surveyor.email
   end
 
+  def project_location
+    "#{city.present? ? city : 'N/A' }, #{country.name}"
+  end
+
   def status
     if !submitted?
       'not submitted'

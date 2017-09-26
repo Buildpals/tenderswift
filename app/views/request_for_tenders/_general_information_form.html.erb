@@ -51,15 +51,15 @@
       <div class="form-group col-sm-6">
         <div class="form-row">
           <div class="col-sm-12">
-            <%= form.label :budget %>
+            <%= form.label :contract_sum %>
           </div>
           <div class="col-sm-3">
-            <%= form.select :budget_currency, '<option>USD</option>'.html_safe, {},
-                            {id: :request_budget_currency,
-                             class: 'form-control form-control-sm', data: {'save-on-change': true}} %>
+
+            <%= form.text_field :contract_sum_currency, id: :request_contract_sum,
+                                class: 'form-control form-control-sm', data: {'save-on-change': true} %>
           </div>
           <div class="col-sm-9">
-            <%= form.text_field :budget, id: :request_budget,
+            <%= form.text_field :contract_sum, id: :request_contract_sum,
                                 class: 'form-control form-control-sm', data: {'save-on-change': true} %>
           </div>
         </div>

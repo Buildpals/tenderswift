@@ -71,7 +71,7 @@ class Participant < ApplicationRecord
   end
 
   def project_location
-    "#{request_for_tender.city}, #{request_for_tender.country.name}"
+    request_for_tender.project_location
   end
 
   def project_description
@@ -80,6 +80,14 @@ class Participant < ApplicationRecord
 
   def project_budget
     request_for_tender.budget
+  end
+
+  def contract_sum_currency
+    request_for_tender.contract_sum_currency
+  end
+
+  def contract_sum
+    request_for_tender.contract_sum
   end
 
   def project_documents
