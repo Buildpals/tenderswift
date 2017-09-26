@@ -57,8 +57,12 @@
             <%= form.select :contract_sum_currency, [%w(USD USD), %w(GHS GHS)], {}, { class: 'form-control form-control-sm' } %>
           </div>
           <div class="col-sm-9">
-            <%= form.text_field :contract_sum, id: :request_contract_sum,
-                                class: 'form-control form-control-sm', data: {'save-on-change': true} %>
+            <%= form.select :contract_sum, [['0 - 75,000', '0 - 75,000'],
+                                            ['75,000 - 200,000', '75,000 - 200,000'],
+                                            ['200,000 - 500,000', '200,000 - 500,000'],
+                                            ['above 500,000', 'above 500,000']],
+                            {},
+                            { id: :request_contract_sum, class: 'form-control form-control-sm' } %>
           </div>
         </div>
       </div>
