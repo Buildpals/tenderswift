@@ -12,9 +12,9 @@
     <span class="text-muted ml-3">(UTC+00:00)</span>
   </dd>
 
-  <dt class="col-sm-3 text-truncate">Project Budget</dt>
+  <dt class="col-sm-3 text-truncate">Contract Sum</dt>
   <dd class="col-sm-9 mb-4">
-    <%= humanized_money_with_symbol @request.budget %>
+    <%= @request.contract_sum_currency %> <%= @request.contract_sum %>
   </dd>
 
   <dt class="col-sm-3 text-truncate">Description</dt>
