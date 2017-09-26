@@ -105,8 +105,8 @@ Rails.application.configure do
       tls: true
   }
 
-  config.action_mailer.default_url_options = { host: 'http://buildpals-staging.herokuapp.com/' }
+  config.action_mailer.default_url_options = { host: 'http://buildpals-development.herokuapp.com/' }
 
-  config.web_socket_server_url = 'wss://buildpals-staging.herokuapp.com/cable'
-  config.action_cable.allowed_request_origins = %w(https://buildpals-staging.herokuapp.com http://buildpals-staging.herokuapp.com)
+  config.web_socket_server_url = 'wss://buildpals-development.herokuapp.com/cable'
+  config.action_cable.allowed_request_origins = %w(https://buildpals-development.herokuapp.com http://buildpals-development.herokuapp.com)
 end
