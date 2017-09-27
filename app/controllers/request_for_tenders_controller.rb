@@ -110,10 +110,14 @@ class RequestForTendersController < ApplicationController
       broadcast.content = DEFAULT_BROADCAST_CONTENT
       broadcast.chatroom = @request.chatroom
       broadcast.save!
+
       @request.participants.each do |participant|
         # Tell the ParticipantMailer to send a request_for_tender email
         ParticipantMailer.request_for_tender_email(participant, @request).deliver_later
       end
+
+      BroadcastEmailJob.perform_later(broadcast) #send another mail about the default broadcast message
+
       @request.update(submitted: true)
       redirect_to @request, notice: 'An email has been sent to each participant of this request.'
     end
