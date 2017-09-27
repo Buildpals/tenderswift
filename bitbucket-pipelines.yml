@@ -6,14 +6,16 @@
 image: ruby:2.4.0
 
 pipelines:
+  default:
+    - step:
+        caches:
+          - bundler
+        script: # Modify the commands below to build your repository.
+          - bundle install
   branches:
-   develop:
-    default:
+    develop:
       - step:
-          caches:
-            - bundler
-          script: # Modify the commands below to build your repository.
-            - bundle install
+          script: #Modify the commands here for the develop branch
             - bundle exec rspec
 
 definitions:
