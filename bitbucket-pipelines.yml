@@ -16,7 +16,7 @@ pipelines:
     develop:
       - step:
           script:
-            - sudo apt-get install nodejs
+            - apt-get install nodejs
             - bundle install
             - bundle exec rspec
 
