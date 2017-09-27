@@ -15,7 +15,8 @@ pipelines:
   branches:
     develop:
       - step:
-          script: #Modify the commands here for the develop branch
+          script:
+            - bundle install
             - bundle exec rspec
 
 definitions:
