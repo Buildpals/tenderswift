@@ -71,6 +71,9 @@ gem 'money-rails', '~>1'
 # Redis for ActionCable
 gem 'redis', '~> 3.0'
 
+#use sidekiq for a queuing backend
+gem 'sidekiq'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

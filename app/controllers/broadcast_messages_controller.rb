@@ -31,7 +31,10 @@ class BroadcastMessagesController < ApplicationController
 
     respond_to do |format|
       if @broadcast_message.save
-        BroadcastEmailJob.perform_later(@broadcast_message)
+        @broadcast_message.chatroom.request_for_tender.participants.each do |participant|
+          BroadcastMailer.deliver_broadcast_email(participant, @broadcast_message).deliver_later
+        end
+        #BroadcastEmailJob.perform_later(@broadcast_message)
         #format.html { redirect_to @broadcast_message, notice: 'Broadcast message was successfully created.' }
         format.json { render :show, status: :created, location: @broadcast_message }
       else
