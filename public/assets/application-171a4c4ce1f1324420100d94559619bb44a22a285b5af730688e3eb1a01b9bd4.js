@@ -92402,11 +92402,11 @@ App.Boq = (function() {
             page.items.forEach(function (item) {
                 if (item.item_type === 'item') {
                     if (item.tag) {
-                        tagsHash[item.tag] = tagsHash[item.tag] === undefined ? item.quantity : tagsHash[item.tag] + item.quantity;
+                        tagsHash[item.tag] = tagsHash[item.tag] === undefined ? item.filled_item.amount : tagsHash[item.tag] + item.filled_item.amount;
                     } else {
-                        let quantity = item.quantity;
-                        if (!quantity) quantity = 0;
-                        tagsHash["Others"] = tagsHash["Others"] === undefined ? quantity : tagsHash["Others"] + quantity;
+                        let amount = item.filled_item.amount;
+                        if (!amount) amount = 0;
+                        tagsHash["Others"] = tagsHash["Others"] === undefined ? amount : tagsHash["Others"] + amount;
                     }
                 }
             })
