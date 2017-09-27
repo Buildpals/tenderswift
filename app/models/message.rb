@@ -7,4 +7,5 @@ class Message < ApplicationRecord
     participant: 1
   }
   
+  validates :content, presence: true
 end

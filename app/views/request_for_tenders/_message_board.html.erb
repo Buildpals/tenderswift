@@ -98,29 +98,31 @@ $('#post-new-message').click(function(e){
 
        $('#send-broad-cast-message').click(function(e){
           e.preventDefault();
-          $('#send-broad-cast-message').prop('disabled', true);
-          $("#send-broad-cast-message").html("Sending...");
-        //create boardcast message
-          $.ajax({
-              url: "/broadcast_messages/",
-              type: "POST",
-              data: { 
-                broadcast_message: {
-                          chatroom_id: <%= request.chatroom.id %>,
-                          content: $('#broad-cast-message').val()
-                          }
-                  },
-              success: function(messageObject){ 
-                $('#broad-cast-message').val("");
-                $('button').prop('disabled', false);
-                $("#send-broad-cast-message").html("Send Message");
-              },
-              fail: function(response){
-                alert("Failed to send message check you internet connection.");
-                $('button').prop('disabled', false);
-                $("#send-broad-cast-message").html("Send Message");
-              }
-          });
+          if($('#broad-cast-message').val().length > 1){
+            $('#send-broad-cast-message').prop('disabled', true);
+            $("#send-broad-cast-message").html("Sending...");
+          //create boardcast message
+            $.ajax({
+                url: "/broadcast_messages/",
+                type: "POST",
+                data: { 
+                  broadcast_message: {
+                            chatroom_id: <%= request.chatroom.id %>,
+                            content: $('#broad-cast-message').val()
+                            }
+                    },
+                success: function(messageObject){ 
+                  $('#broad-cast-message').val("");
+                  $('button').prop('disabled', false);
+                  $("#send-broad-cast-message").html("Send Message");
+                },
+                fail: function(response){
+                  alert("Failed to send message check you internet connection.");
+                  $('button').prop('disabled', false);
+                  $("#send-broad-cast-message").html("Send Message");
+                }
+            });
+          }
       });
    }else if($("#broad-cast-message").length == 1){ //if there is already a broadcastmessage textarea
         $("html, body").animate({ scrollTop: $(document).height() }, 1000);
@@ -172,36 +174,38 @@ $('.reply-link').click(function(e){
 
     $('#send-reply-message').click(function(e){
     e.preventDefault();
-    $('#send-reply-message').prop('disabled', true);
-    $('#send-reply-message').html("Sending...");
-    $.ajax({
-          url: "/messages/",
-          type: "POST",
-          data: { 
-            message: {
-                      broadcast_message_id: broadcastId,
-                      participant_id: participantId,
-                      content: $('#reply-message-text').val(),
-                      sender: 'quantity_surveyor'
-                      }
-              },
-          success: function(messageObject){
-            $('#send-reply-message').prop('disabled', false);
-            $("#send-reply-message").html("Send Message");
-            $('#reply-message-input').replaceWith(
-              '</li>\n'+
-              '<li class="list-group-item message-thread">\n'+
-                  '<h5><%= request.quantity_surveyor.company_name %></h5>\n'+
-                  '<span>'+$('#reply-message-text').val()+'</span>\n'+
-              '</li>'
-            );
-          },
-          fail: function(response){
-            alert("Failed to send message check you internet connection.");
-            $('#send-reply-message').prop('disabled', false);
-            $("#send-reply-message").html("Send Message");
-          }
-      });
+    if($('#reply-message-text').val().length > 1){
+      $('#send-reply-message').prop('disabled', true);
+      $('#send-reply-message').html("Sending...");
+      $.ajax({
+            url: "/messages/",
+            type: "POST",
+            data: { 
+              message: {
+                        broadcast_message_id: broadcastId,
+                        participant_id: participantId,
+                        content: $('#reply-message-text').val(),
+                        sender: 'quantity_surveyor'
+                        }
+                },
+            success: function(messageObject){
+              $('#send-reply-message').prop('disabled', false);
+              $("#send-reply-message").html("Send Message");
+              $('#reply-message-input').replaceWith(
+                '</li>\n'+
+                '<li class="list-group-item message-thread">\n'+
+                    '<h5><%= request.quantity_surveyor.company_name %></h5>\n'+
+                    '<span>'+$('#reply-message-text').val()+'</span>\n'+
+                '</li>'
+              );
+            },
+            fail: function(response){
+              alert("Failed to send message check you internet connection.");
+              $('#send-reply-message').prop('disabled', false);
+              $("#send-reply-message").html("Send Message");
+            }
+        });
+    }
   });
   
 });

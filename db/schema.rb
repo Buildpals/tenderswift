@@ -81,6 +81,13 @@ ActiveRecord::Schema.define(version: 20170926100706) do
     t.index ["participant_id"], name: "index_filled_items_on_participant_id"
   end
 
+  create_table "item_tags", id: false, force: :cascade do |t|
+    t.integer "item_id"
+    t.integer "tag_id"
+    t.index ["item_id"], name: "index_item_tags_on_item_id"
+    t.index ["tag_id"], name: "index_item_tags_on_tag_id"
+  end
+
   create_table "items", force: :cascade do |t|
     t.string "name"
     t.text "description"
@@ -137,8 +144,8 @@ ActiveRecord::Schema.define(version: 20170926100706) do
     t.string "auth_token"
     t.integer "status", default: 0
     t.string "company_name"
-    t.integer "rating", default: 0
     t.string "phone_number"
+    t.integer "rating", default: 0
     t.index ["auth_token"], name: "index_participants_on_auth_token", unique: true
     t.index ["request_for_tender_id"], name: "index_participants_on_request_for_tender_id"
   end

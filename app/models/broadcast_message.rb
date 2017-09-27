@@ -10,6 +10,9 @@ class BroadcastMessage < ApplicationRecord
   after_create :send_data_to_message_channel
 
 
+  validates :content, presence: true
+
+
 
   private
 

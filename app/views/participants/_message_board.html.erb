@@ -91,36 +91,38 @@ $('.reply-link').click(function(e){
 
     $('#send-reply-message').click(function(e){
     e.preventDefault();
-    $('#send-reply-message').prop('disabled', true);
-    $('#send-reply-message').html("Sending...");
-    $.ajax({
-          url: "/messages/",
-          type: "POST",
-          data: { 
-            message: {
-                      broadcast_message_id: iddOfSelectedCard,
-                      participant_id: <%= @participant.id %>,
-                      content: $('#reply-message-text').val(),
-                      sender: 'participant'
-                      }
-              },
-          success: function(messageObject){ 
-            $('#reply-message-input').replaceWith(
-              '</li>\n'+
-              '<li class="list-group-item message-thread">\n'+
-                  '<h5><%= @participant.company_name %></h5>\n'+
-                  '<span>'+$('#reply-message-text').val()+'</span>\n'+
-              '</li>'
-            );
-            //$('#send-reply-message').prop('disabled', false);
-            //$("#send-reply-message").html("Send Message");
-          },
-          fail: function(response){
-            alert("Failed to send message check you internet connection.");
-            $('#send-reply-message').prop('disabled', false);
-            $("#send-reply-message").html("Send Message");
-          }
-      });
+    if($('#reply-message-text').val().length > 1){
+      $('#send-reply-message').prop('disabled', true);
+      $('#send-reply-message').html("Sending...");
+      $.ajax({
+            url: "/messages/",
+            type: "POST",
+            data: { 
+              message: {
+                        broadcast_message_id: iddOfSelectedCard,
+                        participant_id: <%= @participant.id %>,
+                        content: $('#reply-message-text').val(),
+                        sender: 'participant'
+                        }
+                },
+            success: function(messageObject){ 
+              $('#reply-message-input').replaceWith(
+                '</li>\n'+
+                '<li class="list-group-item message-thread">\n'+
+                    '<h5><%= @participant.company_name %></h5>\n'+
+                    '<span>'+$('#reply-message-text').val()+'</span>\n'+
+                '</li>'
+              );
+              //$('#send-reply-message').prop('disabled', false);
+              //$("#send-reply-message").html("Send Message");
+            },
+            fail: function(response){
+              alert("Failed to send message check you internet connection.");
+              $('#send-reply-message').prop('disabled', false);
+              $("#send-reply-message").html("Send Message");
+            }
+        });
+    }
   });
   
 });
