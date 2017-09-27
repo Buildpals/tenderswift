@@ -30,3 +30,5 @@ class BroadcastMessage < ApplicationRecord
 end
 
 #if the request_for_tender_id of the broadcast is equal to the request_for_tender_id of the participant
+
+#redis://redistogo:c3fc4b29566b1dec325d0ebb268e97fd@chubb.redistogo.com:9929/
