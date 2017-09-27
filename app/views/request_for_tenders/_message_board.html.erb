@@ -116,8 +116,8 @@ $('#post-new-message').click(function(e){
                   $('button').prop('disabled', false);
                   $("#send-broad-cast-message").html("Send Message");
                 },
-                fail: function(response){
-                  alert("Failed to send message check you internet connection.");
+                error: function(response){
+                  alert("Message could not be sent at this time. Please check you internet connection and try again. Thank you!");
                   $('button').prop('disabled', false);
                   $("#send-broad-cast-message").html("Send Message");
                 }
@@ -199,8 +199,8 @@ $('.reply-link').click(function(e){
                 '</li>'
               );
             },
-            fail: function(response){
-              alert("Failed to send message check you internet connection.");
+            error: function(response){
+              alert("Message could not be sent at this time. Please check you internet connection and try again. Thank you!");
               $('#send-reply-message').prop('disabled', false);
               $("#send-reply-message").html("Send Message");
             }
