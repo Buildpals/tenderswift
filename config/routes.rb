@@ -22,6 +22,11 @@ Rails.application.routes.draw do
       to: 'participants#show_boq',
       as: 'participant_boq'
 
+
+  post '/requests/send_out/:id', 
+      to: 'request_for_tenders#send_out_final_invitation',
+      as: 'request_send_out_final_invitation'
+
   devise_for :quantity_surveyors
 
   resources :items

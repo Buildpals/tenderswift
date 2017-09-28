@@ -4,6 +4,7 @@ class RequestForTendersController < ApplicationController
 
   before_action :authenticate_quantity_surveyor!, only: [:edit, :index]
 
+
   DEFAULT_BROADCAST_CONTENT = "If you have any questions you can reply me here".freeze
 
   # GET /requests
@@ -133,6 +134,17 @@ class RequestForTendersController < ApplicationController
     end
   end
 
+  #POST /requests/send_out/:id
+  #Send final inivitation out to shortlisted participants
+  def send_out_final_invitation
+    request = RequestForTender.find(params[:id])
+    body = params[:final_email_message]
+    participants = request.participants.bid_list.where('rating > 0')
+    participants.each do |participant|
+      ShortlistInvitationMailer.deliver_shortlist_inivitation(participant, request, body).deliver_later
+    end
+  end
+
   private
 
   # Use to create a chatroom for a request
@@ -157,6 +169,7 @@ class RequestForTendersController < ApplicationController
                   :description,
                   :budget_currency,
                   :budget,
+                  :final_email_message,
                   :contract_sum,
                   :contract_sum_currency,
                   project_documents_attributes: [:id,
