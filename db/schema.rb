@@ -144,8 +144,8 @@ ActiveRecord::Schema.define(version: 20170926100706) do
     t.string "auth_token"
     t.integer "status", default: 0
     t.string "company_name"
-    t.string "phone_number"
     t.integer "rating", default: 0
+    t.string "phone_number"
     t.index ["auth_token"], name: "index_participants_on_auth_token", unique: true
     t.index ["request_for_tender_id"], name: "index_participants_on_request_for_tender_id"
   end
