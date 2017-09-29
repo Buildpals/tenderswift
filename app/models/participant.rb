@@ -113,8 +113,13 @@ class Participant < ApplicationRecord
   end
 
   def bid
-    filled_items.where.not(amount: nil).inject(0) do |product, filled_item|
-      product + filled_item.amount
+    filled_items.where.not(amount: nil).inject(0) do |sum_of_amounts, filled_item|
+      puts "#{sum_of_amounts} #{filled_item.item.quantity} #{filled_item.rate} #{filled_item.amount}"
+      if filled_item.amount.nan?
+        sum_of_amounts
+      else
+        sum_of_amounts + filled_item.amount.to_f
+      end
     end
   end
 
