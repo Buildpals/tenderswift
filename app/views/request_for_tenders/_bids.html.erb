@@ -134,8 +134,8 @@
         </button>
       </div>
       <div class="modal-body">
-        <%= form_with url: request_send_out_final_invitation_url(@request.id) do |form| %>
-          <%= form.text_area :final_email_message, { class: 'form-control', id: 'final-email-message'} %>
+        <%= form_with url: request_send_out_final_invitation_url(@request.id), id: 'send-out-final-invitation' do |form| %>
+          <%= form.text_area :final_email_message, { class: 'form-control', id: 'final-email-message', data: { parsley_minlength: '20', parsley_required: 'true' }, require: true } %>
       </div>
       <div class="modal-footer">
         <%= form.submit "Send Message", {class: 'btn btn-success', data: { disable_with: 'Sending Email...'}} %>
@@ -144,3 +144,15 @@
     </div>
   </div>
 </div>
+
+<script>
+$(function () {
+    $('#send-out-final-invitation').parsley().on('field:validated', function() {
+    var ok = $('.parsley-error').length === 0;
+    $('.bs-callout-warning').toggleClass('hidden', ok);
+  })
+  .on('form:submit', function() {
+    return true;
+  });
+});
+</script>
