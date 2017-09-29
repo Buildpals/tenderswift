@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :messages
+  resources :messages, only: [:create]
   resources :answer_boxes
   resources :questions
   resources :countries
@@ -38,9 +38,9 @@ Rails.application.routes.draw do
 
   end
   resources :filled_items
-  resources :broadcast_messages
-  resources :chatrooms
-  resources :countries
+  resources :broadcast_messages, only: [:create]
+  #resources :chatrooms
+  #resources :countries
   resources :tags
 
   mount ActionCable.server => '/cable'
