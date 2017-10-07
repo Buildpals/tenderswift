@@ -11,15 +11,22 @@ pipelines:
         caches:
           - bundler
         script: # Modify the commands below to build your repository.
+          - export DATABASE_URL=postgresql://ds02_server_test:ds02_server_test@localhost/pipelines
+          - gem install rails
           - bundle install
-  branches:
-    develop:
-      - step:
-          script:
-            # - apt-get update
-            - bundle install
-            - bundle exec rspec
-
+          - rake db:setup
+          - rake db:test:prepare
+          - rspec
+        services:
+          - postgres
+ 
 definitions:
+  services:
+    postgres:
+      image: postgres
+      environment:
+        POSTGRES_DB: pipelines
+        POSTGRES_USER: ds02_server_test
+        POSTGRES_PASSWORD: ds02_server_test
   caches:
     bundler: ./vendor
