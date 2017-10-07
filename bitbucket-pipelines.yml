@@ -12,9 +12,10 @@ pipelines:
           - bundler
         script: # Modify the commands below to build your repository.
           - export DATABASE_URL=postgresql://ds02_server_test:ds02_server_test@localhost/pipelines
+          - apt-get update -y
+          - apt-get install -y build-essential git-core curl nodejs libmysqlclient-dev ssh
           - gem install rails
-          - apt-get update
-          - apt-get install nodejs
+          - gem install bundler
           - bundle install
           - rails db:setup
           - rails db:test:prepare
