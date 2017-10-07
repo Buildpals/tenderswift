@@ -28,7 +28,7 @@ definitions:
     postgres:
       image: postgres
       environment:
-        POSTGRES_DB: pipelines
+        POSTGRES_DB: ds02_server_test
         POSTGRES_USER: ds02_server_test
         POSTGRES_PASSWORD: ds02_server_test
   caches:
