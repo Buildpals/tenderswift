@@ -13,6 +13,8 @@ pipelines:
         script: # Modify the commands below to build your repository.
           - export DATABASE_URL=postgresql://ds02_server_test:ds02_server_test@localhost/pipelines
           - gem install rails
+          - apt-get update
+          - apt-get install nodejs
           - bundle install
           - rails db:setup
           - rails db:test:prepare
