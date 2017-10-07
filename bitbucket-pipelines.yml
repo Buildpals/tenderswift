@@ -14,8 +14,8 @@ pipelines:
           - export DATABASE_URL=postgresql://ds02_server_test:ds02_server_test@localhost/pipelines
           - gem install rails
           - bundle install
-          - rake db:setup
-          - rake db:test:prepare
+          - rails db:setup
+          - rails db:test:prepare
           - rspec
         services:
           - postgres
