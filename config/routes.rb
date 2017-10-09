@@ -1,9 +1,10 @@
 Rails.application.routes.draw do
+  devise_for :admins
   resources :messages
   resources :answer_boxes
   resources :questions
   resources :countries
-  mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
+  mount RailsAdmin::Engine => '/adonai', as: 'rails_admin'
   root to: 'welcome#index'
 
   get '/email_request_for_tender/:id',
