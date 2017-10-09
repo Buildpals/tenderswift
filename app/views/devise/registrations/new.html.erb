@@ -15,43 +15,40 @@
           <%= devise_error_messages! %>
 
           <div class="form-group">
-            <%= f.label :email %><br />
-            <%= f.email_field :email, autofocus: true, class: 'form-control', required: true %>
+            <%= f.email_field :email, autofocus: true, class: 'form-control', required: true, placeholder: 'Email eg. youremail@example.com' %>
           </div>
           <div class="form-group">
-            <%= f.label :phone_number %><br />
-            <%= f.telephone_field :phone_number, autocomplete: "on", class: 'form-control', required: true, data: { parsley_trigger:"keyup", parsley_type: "digits", parsley_minlength:"10", parsley_maxlength:"10", parsley_minlength_message:"Enter you phone number eg(0509835811)" }%>
+            <%= f.telephone_field :phone_number, autocomplete: "on", class: 'form-control', required: true, placeholder: 'Phone Number eg(0509835811)', data: { parsley_trigger:"keyup", parsley_type: "digits", parsley_minlength:"10", parsley_maxlength:"10", parsley_minlength_message:"Enter you phone number eg(0509835811)" }%>
           </div>
 
 
           <div class="form-group my-4">
-            <%= f.label :company_name %><small class="form-text text-muted">
+            <small class="form-text text-muted">
               (Enter the name of the company you work for here)
-            </small><br />
-            <%= f.text_field :company_name, autocomplete: "on", class: 'form-control', required: true%>
+            </small>
+            <%= f.text_field :company_name, autocomplete: "on", class: 'form-control', required: true, placeholder: 'Company Name'%>
           </div>
 
           <div class="form-group">
-            <%= f.label :password %>
             <% if @minimum_password_length %>
-                <em>(<%= @minimum_password_length %> characters minimum)</em>
-            <% end %><br />
-            <%= f.password_field :password, autocomplete: "off", class: 'form-control', required: true, data: { parsley_trigger:"keyup", parsley_minlength:"6", parsley_maxlength:"100", parsley_minlength_message:"At least six characters" } %>
+                <small class="form-text text-muted">(<%= @minimum_password_length %> characters minimum)</small>
+            <% end %>
+            <%= f.password_field :password, autocomplete: "off", class: 'form-control', required: true, placeholder: 'Password', data: { parsley_trigger:"keyup", parsley_minlength:"6", parsley_maxlength:"100", parsley_minlength_message:"At least six characters" } %>
           </div>
 
           <div class="form-group">
-            <%= f.label :password_confirmation %><br />
-            <%= f.password_field :password_confirmation, autocomplete: "off", class: 'form-control', required: true, data: { parsley_trigger:"keyup", parsley_minlength:"6", parsley_maxlength:"100", parsley_minlength_message:"At least six characters" } %>
+            <%= f.password_field :password_confirmation, autocomplete: "off", class: 'form-control', required: true, placeholder: 'Confirm password', data: { parsley_trigger:"keyup", parsley_minlength:"6", parsley_maxlength:"100", parsley_minlength_message:"At least six characters" } %>
           </div>
 
 
 
           <div class="actions">
-            <%= f.submit "Sign up", class: 'btn btn-primary float-right', data: { disable_with: "Signing Up"} %>
+            <%= f.submit "Sign up", class: 'btn btn-primary col-md-12', data: { disable_with: "Signing Up"} %>
           </div>
       <% end %>
-
-      <%= render "devise/shared/links" %>
+      <div class="row">
+        <%= render "devise/shared/links" %>
+      </div>
     </div>
   </div>
 
