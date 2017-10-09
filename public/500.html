@@ -1,66 +1,434 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html>
 <head>
-  <title>We're sorry, but something went wrong (500)</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <style>
-  .rails-default-error-page {
-    background-color: #EFEFEF;
-    color: #2E2F30;
+  <title>BuildPals</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <link href='//fonts.googleapis.com/css?family=Josefin+Sans:400,100,100italic,300,300italic,400italic,600,600italic,700,700italic' rel='stylesheet' type='text/css'>
+  <link rel="icon" type="image/png" href="http://res.cloudinary.com/surreal/image/upload/v1502470319/150247071382243_ngs7s5.png">
+  <style type="text/css">
+  	html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,dl,dt,dd,ol,nav ul,nav li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,section,summary,time,mark,audio,video{margin:0;padding:0;border:0;font-size:100%;font:inherit;vertical-align:baseline;}
+	article, aside, details, figcaption, figure,footer, header, hgroup, menu, nav, section {display: block;}
+	ol,ul{list-style:none;margin:0px;padding:0px;}
+	blockquote,q{quotes:none;}
+	blockquote:before,blockquote:after,q:before,q:after{content:'';content:none;}
+	table{border-collapse:collapse;border-spacing:0;}
+	/* start editing from here */
+	a{text-decoration:none;}
+	.txt-rt{text-align:right;}/* text align right */
+	.txt-lt{text-align:left;}/* text align left */
+	.txt-center{text-align:center;}/* text align center */
+	.float-rt{float:right;}/* float right */
+	.float-lt{float:left;}/* float left */
+	.clear{clear:both;}/* clear float */
+	.pos-relative{position:relative;}/* Position Relative */
+	.pos-absolute{position:absolute;}/* Position Absolute */
+	.vertical-base{vertical-align:baseline;}/* vertical align baseline */
+	.vertical-top{vertical-align:top;}/* vertical align top */
+	nav.vertical ul li{display:block;}/* vertical menu */
+	nav.horizontal ul li{display: inline-block;}/* horizontal menu */
+	img{max-width:100%;}
+/*-- //Reset-Code --*/
+
+body {
+    font-family: 'Josefin Sans', sans-serif;
+    background: #2b82ad;
+    padding: 60px 80px 20px;
+}
+.clear{
+	clear:both;
+}
+h1 {
+    font-size: 70px;
+    text-align: left;
+    margin-bottom: 20px;
+    margin-top: 0px;
+    color: #ffffff;
+    font-weight: 700;
+}
+p {
+    font-weight: 600;
+    font-size: 20px;
+    text-align: left;
+    color: #ffffff;
+    line-height: 32px;
+    padding-top: 10px;
+}
+.agile {
+    width: 80%;
+    margin: 0 auto;
+}
+.image {
+	width: 30%;
+	float: left;
+	margin-top:40px;
+}
+.image img{
+	width:100%;
+}
+.text {
+    width: 64%;
+    float: left;
+    padding: 5em 0em 3em 0em;
+}
+.text a{
+	color:#000;
+	text-decoration:undrline;
+}
+.text a:hover{
+	color:#003b64;
+	text-decoration:underline;
+}
+.agileits_main_grid_left h1 {
+    font-size: 2.5em;
+    color: #000;
+}
+.agileits_main_grid_right {
+    float: right;
+    margin: 1.2em 0 0;
+}
+.agileits_main_grid_left {
+    float: left;
+}
+.footer {
+    padding: 1em 1em;
+}
+.footer p {
+    font-size: 17px;
+    color:#ffffff;
+    letter-spacing: 1px;
     text-align: center;
-    font-family: arial, sans-serif;
-    margin: 0;
-  }
+    margin: 20px 0;
+    padding: 0;
+}
+.footer a{
+	color:#000000;
+	text-decoration:none;
+}
+.footer a:hover{
+	text-decoration:underline;
+	color:#00337f;
+}
+.menu {
+    display: inline-block;
+    position: relative;
+}
+.menu a {
+    display: block;
+}
+span.menu-icon,span.menu-icon1 {
+	display: block;
+	cursor: pointer;
+	margin: 0 0 0.5em 0;
+	position: relative;
+}
 
-  .rails-default-error-page div.dialog {
-    width: 95%;
-    max-width: 33em;
-    margin: 4em auto 0;
-  }
-
-  .rails-default-error-page div.dialog > div {
-    border: 1px solid #CCC;
-    border-right-color: #999;
-    border-left-color: #999;
-    border-bottom-color: #BBB;
-    border-top: #B00100 solid 4px;
-    border-top-left-radius: 9px;
-    border-top-right-radius: 9px;
-    background-color: white;
-    padding: 7px 12% 0;
-    box-shadow: 0 3px 8px rgba(50, 50, 50, 0.17);
-  }
-
-  .rails-default-error-page h1 {
-    font-size: 100%;
-    color: #730E15;
-    line-height: 1.5em;
-  }
-
-  .rails-default-error-page div.dialog > p {
-    margin: 0 0 1em;
+ul.nav1,ul.nav {
+    z-index: 999;
+    width: 102px;
+    background-color: #FFF;
+    padding: 0.5em 1em;
+    position: absolute;
+	right:0;
+}
+ul.nav1{
+    display: none;
+}
+ul.nav1 li ,ul.nav li {
+	display: block;
+    margin: 0.5em 0;
+}
+ul.nav1 li a,ul.nav li a{
+	font-size: 1em;
+    color: #31386F;
+    font-weight: 800;
+}
+ul.nav1 li a:hover,ul.nav li a:hover{
+    color: #FF7FE5;
+}
+.social-icons {
+    float: right;
+}
+.social-icons ul li {
+    display: inline-block;
+    margin: 0 5px;
+    vertical-align: middle;
+	color:#fff;
+}
+.social-icons ul li a:hover{
+    opacity:0.5;
+}
+.back {
+    float: left;
+}
+.wthree {
+    background: #000;
     padding: 1em;
-    background-color: #F7F7F7;
-    border: 1px solid #CCC;
-    border-right-color: #999;
-    border-left-color: #999;
-    border-bottom-color: #999;
-    border-bottom-left-radius: 4px;
-    border-bottom-right-radius: 4px;
-    border-top-color: #DADADA;
-    color: #666;
-    box-shadow: 0 3px 8px rgba(50, 50, 50, 0.17);
-  }
+}
+.back a {
+    display: block;
+    font-size: 1.2em;
+    color: #fff;
+    text-decoration: none;
+    padding-top: 6px;
+}
+.w3l {
+    margin: 4em 0;
+}
+/*---- responsive-design -----*/
+@media(max-width:1336px){
+h1 {
+    font-size: 66px;
+}
+p {
+    font-size: 18px;
+}
+}
+@media(max-width:1280px){
+h1 {
+    font-size: 62px;
+}
+}
+@media(max-width:1024px){
+.agile {
+    width: 90%;
+}
+body {
+    padding: 53px 53px 20px;
+}
+h1 {
+    font-size: 56px;
+}
+.w3l {
+    margin: 1em 0;
+}
+}
+@media(max-width:800px){
+.agile {
+    width: 100%;
+}
+.text {
+    width: 70%;
+    padding: 3em 0em 3em 0em;
+}
+h1 {
+    font-size: 52px;
+}
+p {
+    font-size: 16px;
+}
+.footer {
+    padding: 1em 0em;
+}
+}
+@media(max-width:768px){
+
+}
+@media(max-width:736px){
+	.footer p{
+		font-size:16px;
+		
+	}
+	h1 {
+    font-size: 48px;
+}
+.agileits_main_grid_left h1 {
+    font-size: 2em;
+}
+.agileits_main_grid_right {
+    margin: 0.8em 0 0;
+}
+}
+@media(max-width:667px){
+	.footer p{
+		font-size:15px;
+	}
+	h1 {
+    font-size: 43px;
+}
+.text {
+    padding: 3em 0em 1em 0em;
+}
+}
+@media(max-width:640px){
+h1 {
+    font-size: 40px;
+}
+p {
+    line-height: 26px;
+}
+.wthree {
+    background: #000;
+    padding: 0.8em;
+}
+}
+@media(max-width:600px){
+h1 {
+    font-size: 37px;
+}
+	.footer p{
+		font-size:15px;
+	}
+}
+@media(max-width:568px){
+	p{
+		font-size:16px;
+	}
+	.footer p{
+		font-size:14px;
+	}
+	h1 {
+    font-size: 34px;
+}
+.back a {
+    font-size: 1em;
+    padding-top: 8px;
+}
+}
+@media(max-width:480px){
+body {
+    padding: 30px;
+}
+h1 {
+    font-size: 32px;
+}
+.text {
+    padding: 3em 0em 0em 0em;
+}
+}
+@media(max-width:414px){
+	.text{
+		width:100%;
+		float: none;
+	}
+	.footer p{
+		font-size:14px;
+	}
+	.text {
+    padding: 2em 0em 0em 0em;
+}
+body {
+    padding: 24px;
+}
+.image {
+    width: 60%;
+    float: none;
+    margin: 16px auto;
+}
+.footer {
+    padding: 0em 0em;
+}
+}
+@media(max-width:384px){
+	.footer p{
+		font-size:14px;
+		 margin: 0px 0 10px;
+}
+.social-icons ul li {
+    margin: 0 0px;
+}
+.wthree {
+    padding: 0.5em;
+}
+}
+@media(max-width:375px){
+
+	.footer p{
+		font-size:14px;
+	}
+}
+@media(max-width:320px){
+	body {
+    padding: 16px 16px;
+}
+.agileits_main_grid_left h1 {
+    font-size: 1.8em;
+}
+h1 {
+    font-size: 30px;
+	margin-bottom:0;
+}
+p {
+    font-size: 14px;
+	line-height:24px;
+}
+.footer p {
+    font-size: 14px;
+    padding-top: 0px;
+}
+.back {
+    float: none;
+    width: 100%;
+    text-align: center;
+}
+.social-icons {
+    float: none;
+    width: 100%;
+    text-align: center;
+    margin-top: 12px;
+}
+.back a {
+    padding-top: 0px;
+}
+.wthree {
+    padding: 0.8em;
+}
+.text {
+    padding: 1em 0em 0em 0em;
+}
+}
   </style>
 </head>
-
-<body class="rails-default-error-page">
-  <!-- This file lives in public/500.html -->
-  <div class="dialog">
-    <div>
-      <h1>We're sorry, but something went wrong.</h1>
-    </div>
-    <p>If you are the application owner check the logs for more information.</p>
-  </div>
+<body>
+	<div class="main">
+		<div class="agile">
+			<div class="agileits_main_grid">
+				<div class="agileits_main_grid_left">
+					<h1>BuildPals</h1>
+				</div>
+				<div class="agileits_main_grid_right">
+					<div class="menu">
+						<span class="menu-icon"><a href="#"><img src="http://res.cloudinary.com/surreal/image/upload/v1507555311/menu-icon_mjgfzb.png" alt=""></a></span>	
+							<ul class="nav1">
+								<li><a href="#">Home</a></li>
+								<li><a href="#">About</a></li>
+								<li><a href="#">Services</a></li>
+								<li><a href="#">Gallery</a></li>
+								<li><a href="#">Contact</a></li>
+							</ul> 	
+							<!-- script-for-menu -->
+							 <script>
+							   $( "span.menu-icon" ).click(function() {
+								 $( "ul.nav1" ).slideToggle( 300, function() {
+								 // Animation complete.
+								  });
+								 });
+							</script>
+							<!-- /script-for-menu -->
+					</div>
+				</div>
+				<div class="clear"> </div>
+			</div>
+			<div class="w3l">
+				<div class="text">
+					<h1>Something went wrong</h1>	
+					
+					<p>You might have clicked a link or performed an action we don't have support for now.</p>
+				</div>
+				<div class="image">
+					<img src="http://res.cloudinary.com/surreal/image/upload/v1507555278/smile_ppdqox.png">
+				</div>
+				<div class="clear"></div>
+			</div>
+				<div class="footer">
+				</div>
+				<div class="wthree">
+					<div class="back">
+						<a href="#">Back to home</a>
+					</div>
+					<div class="social-icons w3agile">
+					</div>
+					<div class="clear"></div>
+				</div>
+		</div>
+	</div>
 </body>
-</html>
