@@ -134,11 +134,34 @@
         </button>
       </div>
       <div class="modal-body">
+        <div class="final-message" contenteditable="true">
+          <span>
+            Dear Sir/Madam, 
+            <br/>
+            <br/>
+            <p>On behalf of <span class="replace">(Client Name)</span>, I am pleased to accept your bid for the above project. Please find attached the documents listed below which shall be deemed to form and to be read and to be construed as part of the Contract:</p> 
+            <br/>
+            <ul>
+              <li class="replace">List Attached contract documents</li>
+            </ul>
+            <br/>
+            <br/>
+            <p>The contract will commence on Insert Date, and per above the value of the contract, for the full life of the contract shall be exclusive of VAT.   The contract completion date is <span>(Date of Completion)</span>.</p>
+            <p>Please confirm receipt of this contract award letter at the following address  by return in order to act as an acknowledgement of receipt of this contract award letter. </p>
+            <p>Furthermore no action should be taken by your company at this time in respect of this contract until the official contract start date. <span class="replace">(Consultant Name)</span> accept no responsibility or liability for any actions which you may take based on the information detailed in this letter.  Any such actions and their financial consequences will be entirely at your own risk. </p>
+            <p>Please do not hesitate to contact us directly should you have any questions about the content of this letter. </p>
+            <br/>
+            <p>Yours faithfully 
+            <br/>
+            <p>For and on behalf of <span class="replace">(Clients Name)</span></p>
+          </span>
+        </div>
         <%= form_with url: request_send_out_final_invitation_url(@request.id), id: 'send-out-final-invitation' do |form| %>
-          <%= form.text_area :final_email_message, { class: 'form-control', id: 'final-email-message', data: { parsley_minlength: '20', parsley_required: 'true' }, require: true } %>
+          <%= form.text_area :final_email_message, { class: 'form-control', id: 'final-email-message', data: { parsley_minlength: '20', parsley_required: 'true' }, require: true, rows: '25' } %>
+          <%= form.file_field :final_contract_document, { class: 'form-control' }%>
       </div>
       <div class="modal-footer">
-          <%= form.submit "Send Message", {class: 'btn btn-success', data: { disable_with: 'Sending Email...'}} %>
+          <%= form.submit "Send Message", { class: 'btn btn-success', data: { disable_with: 'Sending Email...'} } %>
         <% end %>
       </div>
     </div>
@@ -147,12 +170,26 @@
 
 <script>
 $(function () {
+    $('#final-email-message').val($('.final-message').text());
     $('#send-out-final-invitation').parsley().on('field:validated', function() {
     var ok = $('.parsley-error').length === 0;
     $('.bs-callout-warning').toggleClass('hidden', ok);
   })
   .on('form:submit', function() {
+    $('#final-email-message').val($('.final-message').text());
     return true;
   });
+});
+
+const rejectContent = "Dear Sirs/Madam \n"+
+                      "Thank you for taking part in this bidding process.  We have now evaluated all of the final bids we received.  On the basis of this evaluation, I am writing to advise you that unfortunately on this occasion you have not been successful. \n"+
+                      "The contract was awarded to (Winning company name). \n"+
+                      "If you would like to receive feedback on your submission we would be more than happy to provide you with this. \n"+
+                      "In the meantime, on behalf our organization, I would like to take this opportunity to thank you for the time and effort you have taken over the preparation and submission of your proposals.  I hope this will not discourage you from bidding again in the future. \n"+
+                      "Yours faithfully \n"+
+                      "For and on behalf (Client Name)";
+
+$('#finalMessageModal').on('shown.bs.modal', function(e){
+  $('.final-message').focus();
 });
 </script>
