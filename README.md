@@ -1,6 +1,6 @@
 # READ ME BEFORE YOU TRY SETTING THIS PROJECT UP
 
-This project was created [Ruby On Rails 5]
+This project was created with *`Ruby On Rails 5`
 (https://guides.rubyonrails.org)
 
 Below you'll find information on how to set the project up on your local machine. <br>
