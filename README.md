@@ -134,3 +134,5 @@ Run `rails server`
 
 Now navigate to navigate to [http://localhost:3000](http://localhost:3000) in your browser to see the application 
 
+![BuildPals Inc](https://drive.google.com/file/d/0ByOTYN5Yw_axcEZSYXVzZFJPYzQ/view?usp=sharing)
+
