@@ -1,14 +1,15 @@
 # READ ME BEFORE YOU TRY SETTING THIS PROJECT UP
 
+This project was created [Ruby On Rails 5]
+(https://guides.rubyonrails.org)
+
+Below you'll find information on how to set the project up on your local machine. <br>
+
 ![One](http://res.cloudinary.com/surreal/image/upload/v1508520901/Screenshot_from_2017-10-20_18-31-56_d5czcu.png)
 ![Two](http://res.cloudinary.com/surreal/image/upload/v1508520901/Screenshot_from_2017-10-20_18-33-47_mmprkt.png)
 ![Three](http://res.cloudinary.com/surreal/image/upload/v1508520901/Screenshot_from_2017-10-20_18-34-06_bnegys.png)
 ![Four](http://res.cloudinary.com/surreal/image/upload/v1508520901/Screenshot_from_2017-10-20_18-34-11_dp0whw.png)
 
-This project was created [Ruby On Rails 5]
-(https://guides.rubyonrails.org)
-
-Below you'll find information on how to set the project up on your local machine. <br>
 
 ## System Dependencies
 
