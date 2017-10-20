@@ -1,6 +1,6 @@
 # READ ME BEFORE YOU TRY SETTING THIS PROJECT UP
 
-This project was created with *`Ruby On Rails 5`
+This project was created [Ruby On Rails 5]
 (https://guides.rubyonrails.org)
 
 Below you'll find information on how to set the project up on your local machine. <br>
@@ -12,8 +12,8 @@ First, we should update apt-get since this is the first time we will be using ap
 
 Run `sudo apt-get update`
 
-Now let's install the dependencies required for rbenv and Ruby with *[`apt-get`] :
-Run `sudo apt-get install autoconf bison build-essential libssl-dev libyaml-dev libreadline6-dev zlib1g-dev libncurses5-dev libffi-dev libgdbm3 libgdbm-dev` in your terminal
+Now let's install the dependencies required for rbenv and Ruby with *[`apt-get`] : 
+`sudo apt-get install autoconf bison build-essential libssl-dev libyaml-dev libreadline6-dev zlib1g-dev libncurses5-dev libffi-dev libgdbm3 libgdbm-dev` in your terminal
 
 ### Install Rbenv
 Now we are ready to install rbenv. Let's clone the rbenv repository from git. You should complete these steps from the user account from which you plan to run Ruby.
@@ -67,6 +67,7 @@ With the ruby-build rbenv plugin now installed, we can install whatever versions
 Let's install Ruby version 2.4.1, and once it's done installing, we can set it as our default version with the global sub-command:
 
 `rbenv install 2.4.1`
+<br>
 `rbenv global 2.4.1`
 
 Verify that Ruby was properly installed by checking your version number:
@@ -111,11 +112,11 @@ Now we can use *[`apt-get`] to install Node.Js:
 
 
 ### Install Postgres  
-Run `sudo apt-get install postgresql postgresql-contrib`
+Run `sudo apt-get install postgresql postgresql-contrib` <br>
 **Minimum version required is 9**
 
 ### Clone Repo
-Clone repo with `git clone https://[username]@bitbucket.org/dreamstone/ds02_server.git`
+Clone repo with `git clone https://[username]@bitbucket.org/dreamstone/ds02_server.git` <br>
 **Replace [username] with your bitbucket username**
 
 ## Setting Up The Environment
@@ -132,7 +133,7 @@ Run `rails server`
 
 ## It's that simple!!
 
-Now navigate to navigate to [http://localhost:3000](http://localhost:3000) in your browser to see the application 
+Now navigate to navigate to [https://localhost:3000](https://localhost:3000) in your browser to see the application 
 
 ![BuildPals Inc](https://drive.google.com/file/d/0ByOTYN5Yw_axcEZSYXVzZFJPYzQ/view?usp=sharing)
 
