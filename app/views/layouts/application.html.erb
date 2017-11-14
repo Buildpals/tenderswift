@@ -50,6 +50,7 @@
     <script type="text/javascript" charset="utf-8">
         FS.identify('<%= current_quantity_surveyor ? current_quantity_surveyor.id : request.remote_ip %>', {
             displayName: '<%= current_quantity_surveyor ? current_quantity_surveyor.company_name : "Guest #{request.remote_ip}" %>',
+            usersName: '<%= current_quantity_surveyor ? current_quantity_surveyor.full_name : 'n/a' %>',
             email: '<%= current_quantity_surveyor ? current_quantity_surveyor.email : 'n/a' %>',
             phone_number: '<%= current_quantity_surveyor ? current_quantity_surveyor.phone_number : 'n/a' %>',
             ipAddress: '<%= request.remote_ip %>',
