@@ -8,33 +8,35 @@
   </div>
 
   <div class="row">
-    <div class="col-lg-4 mx-auto">
-      <h2 class="text-center mb-4">Log in</h2>
+    <div class="col-lg-4 mx-auto mt-5">
+      <h2 class="text-center mb-4">Log In</h2>
 
       <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
           <div class="form-group">
-            <%= f.label :email %><br />
-            <%= f.email_field :email, autofocus: true, class: 'form-control', required: true %>
+            <%= f.email_field :email, placeholder: 'Email address', autofocus: true, class: 'form-control', required: true %>
           </div>
 
           <div class="form-group">
-            <%= f.label :password %><br />
-            <%= f.password_field :password, autocomplete: "off", class: 'form-control', required: true %>
+            <%= f.password_field :password, placeholder: 'Password', autocomplete: "off", class: 'form-control', required: true %>
           </div>
 
-          <% if devise_mapping.rememberable? -%>
-              <div class="field">
-                <%= f.check_box :remember_me %>
-                <%= f.label :remember_me %>
-              </div>
-          <% end -%>
+          <div class="d-flex w-100 justify-content-between">
+            <% if devise_mapping.rememberable? -%>
+                <div class="field">
+                  <%= f.check_box :remember_me %>
+                  <%= f.label :remember_me %>
+                </div>
+            <% end -%>
+            <%= link_to "Forgot your password?", new_password_path(resource_name) %>
+          </div>
+
+          <br>
 
           <div class="actions">
-            <%= f.submit "Log in", class: 'btn btn-primary float-right', data: {disable_with: "Signing in..."} %>
+            <%= f.submit "Log in", class: 'btn btn-primary btn-block', data: {disable_with: "Signing in..."} %>
           </div>
       <% end %>
 
-      <%= render "devise/shared/links" %>
     </div>
   </div>
 
