@@ -13,6 +13,19 @@
     <%= include_gon %>
     <%= action_cable_meta_tag %>
 
+    <link rel="stylesheet" href="/intl-tel-input/css/intlTelInput.css">
+    <style>
+      .iti-flag {background-image: url("/intl-tel-input/img/flags.png");}
+
+      @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2 / 1), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
+        .iti-flag {background-image: url("/intl-tel-input/img/flags@2x.png");}
+      }
+
+      .intl-tel-input {
+        display: block;
+      }
+    </style>
+
     <script>
         window['_fs_debug'] = false;
         window['_fs_host'] = 'fullstory.com';
@@ -41,6 +54,8 @@
             // http://help.fullstory.com/develop-js/setuservars.
         });
     </script>
+
+    <script src="/intl-tel-input/js/intlTelInput.js"></script>
   </head>
 
   <body class="<%= controller_name %> <%= action_name %>">

@@ -8,50 +8,47 @@
   </div>
 
   <div class="row">
-    <div class="col-lg-4 mx-auto">
-      <h2 class="text-center mb-4">Sign up</h2>
+    <div class="col-lg-4 mx-auto mt-2">
+      <h2 class="text-center mb-4">Sign Up</h2>
 
       <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
           <%= devise_error_messages! %>
 
+
           <div class="form-group">
-            <%= f.label :email %><br />
-            <%= f.email_field :email, autofocus: true, class: 'form-control', required: true %>
-          </div>
-          <div class="form-group">
-            <%= f.label :phone_number %><br />
-            <%= f.telephone_field :phone_number, autocomplete: "on", class: 'form-control', required: true, data: { parsley_trigger:"keyup", parsley_type: "digits", parsley_minlength:"10", parsley_maxlength:"10", parsley_minlength_message:"Enter you phone number eg(0509835811)" }%>
+            <%= f.text_field :full_name, placeholder: 'Your name', autofocus: true, class: 'form-control', required: true %>
           </div>
 
+          <div class="form-group">
+            <%= f.email_field :email, placeholder: 'Email address', class: 'form-control', required: true %>
+          </div>
+          <div class="form-group">
+            <input type="tel" name="phone" id="phone_number_input" value="<%= resource.phone_number%>"
+                   placeholder="Phone number" autocomplete="on" class="form-control" required>
+            <%= f.hidden_field :phone_number %>
+          </div>
 
           <div class="form-group my-4">
-            <%= f.label :company_name %><small class="form-text text-muted">
-              (Enter the name of the company you work for here)
-            </small><br />
-            <%= f.text_field :company_name, autocomplete: "on", class: 'form-control', required: true%>
+            <%= f.text_field :company_name, placeholder: :company_name, autocomplete: "on", class: 'form-control', required: true%>
+          </div>
+
+          <br>
+
+          <div class="form-group">
+            <%= f.password_field :password, placeholder: :password, autocomplete: "off", class: 'form-control', required: true, data: { parsley_trigger:"keyup", parsley_minlength:"6", parsley_maxlength:"100", parsley_minlength_message:"At least six characters" } %>
           </div>
 
           <div class="form-group">
-            <%= f.label :password %>
-            <% if @minimum_password_length %>
-                <em>(<%= @minimum_password_length %> characters minimum)</em>
-            <% end %><br />
-            <%= f.password_field :password, autocomplete: "off", class: 'form-control', required: true, data: { parsley_trigger:"keyup", parsley_minlength:"6", parsley_maxlength:"100", parsley_minlength_message:"At least six characters" } %>
+            <%= f.password_field :password_confirmation, placeholder: :password_confirmation, autocomplete: "off", class: 'form-control', required: true, data: { parsley_trigger:"keyup", parsley_minlength:"6", parsley_maxlength:"100", parsley_minlength_message:"At least six characters" } %>
           </div>
 
-          <div class="form-group">
-            <%= f.label :password_confirmation %><br />
-            <%= f.password_field :password_confirmation, autocomplete: "off", class: 'form-control', required: true, data: { parsley_trigger:"keyup", parsley_minlength:"6", parsley_maxlength:"100", parsley_minlength_message:"At least six characters" } %>
-          </div>
-
-
+          <br>
 
           <div class="actions">
-            <%= f.submit "Sign up", class: 'btn btn-primary float-right', data: { disable_with: "Signing Up"} %>
+            <%= f.submit "Sign up", class: 'btn btn-primary btn-block', data: { disable_with: "Signing Up"} %>
           </div>
       <% end %>
 
-      <%= render "devise/shared/links" %>
     </div>
   </div>
 
@@ -63,6 +60,17 @@ $(function () {
     var ok = $('.parsley-error').length === 0;
     $('.bs-callout-info').toggleClass('hidden', !ok);
     $('.bs-callout-warning').toggleClass('hidden', ok);
-  })
+  });
+
+  let input = $("#phone_number_input");
+  input.intlTelInput({
+      initialCountry: "gh",
+      utilsScript: "/intl-tel-input/js/utils.js?10"
+  });
+
+  $("form").submit(function() {
+      var intlNumber = input.intlTelInput("getNumber");
+      $("#quantity_surveyor_phone_number").val(intlNumber);
+  });
 });
 </script>
