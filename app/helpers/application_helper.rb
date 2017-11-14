@@ -37,4 +37,14 @@ module ApplicationHelper
     end
   end
 
+
+  def is_admin_sigin?
+    request_path = request.fullpath.split('/')
+    if request_path[1].eql?('admins')
+      return true
+    else
+      return false
+    end
+  end
+
 end

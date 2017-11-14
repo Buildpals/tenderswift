@@ -32,7 +32,9 @@
       <% end %>
       <br/>
       <div class="row">
-        <%= render "devise/shared/links" %>
+        <% unless is_admin_sigin? %>
+          <%= render "devise/shared/links" %>
+        <% end %>
       </div>
       
     </div>
