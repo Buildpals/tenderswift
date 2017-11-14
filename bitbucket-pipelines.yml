@@ -11,15 +11,26 @@ pipelines:
         caches:
           - bundler
         script: # Modify the commands below to build your repository.
+          - export DATABASE_URL=postgresql://ds02_server_test:ds02_server_test@localhost/ds02_server_test
+          - apt-get update -y
+          - apt-get install -y build-essential git-core curl nodejs libmysqlclient-dev ssh
+          - gem install rails
+          - gem install bundler
           - bundle install
-  branches:
-    develop:
-      - step:
-          script:
-            - apt-get install nodejs
-            - bundle install
-            - bundle exec rspec
-
+          - cp config/secrets.ci.yml config/secrets.yml
+          - cp config/database.ci.yml config/database.yml
+          - bundle exec rake db:migrate RAILS_ENV=test
+          - rspec
+        services:
+          - postgres
+ 
 definitions:
+  services:
+    postgres:
+      image: postgres
+      environment:
+        POSTGRES_DB: ds02_server_test
+        POSTGRES_USER: ds02_server_test
+        POSTGRES_PASSWORD: ds02_server_test
   caches:
     bundler: ./vendor

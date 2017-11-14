@@ -51,7 +51,6 @@ ehthumbs.db
 /doc/*
 
 
-# Redis
-/dump.rdb
-
+#Redis
+dump.rdb
 
