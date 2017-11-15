@@ -32,8 +32,14 @@
       <% end %>
       <br/>
       <div class="row">
-        <% unless is_admin_sigin? %>
+        <% unless is_admin_signin? %>
           <%= render "devise/shared/links" %>
+        <% else %>
+            <%- if devise_mapping.confirmable? && controller_name != 'confirmations' %>
+                <div class="col-md-12">
+                  <%= link_to "Didn't receive confirmation instructions?", new_confirmation_path(resource_name), class: 'shared-links' %>
+                </div>
+            <% end -%>
         <% end %>
       </div>
       

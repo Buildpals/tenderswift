@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171009111250) do
+ActiveRecord::Schema.define(version: 20171114113447) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -107,13 +107,6 @@ ActiveRecord::Schema.define(version: 20171009111250) do
     t.index ["participant_id"], name: "index_filled_items_on_participant_id"
   end
 
-  create_table "item_tags", id: false, force: :cascade do |t|
-    t.integer "item_id"
-    t.integer "tag_id"
-    t.index ["item_id"], name: "index_item_tags_on_item_id"
-    t.index ["tag_id"], name: "index_item_tags_on_tag_id"
-  end
-
   create_table "items", force: :cascade do |t|
     t.string "name"
     t.text "description"
@@ -170,8 +163,8 @@ ActiveRecord::Schema.define(version: 20171009111250) do
     t.string "auth_token"
     t.integer "status", default: 0
     t.string "company_name"
-    t.string "phone_number"
     t.integer "rating", default: 0
+    t.string "phone_number"
     t.index ["auth_token"], name: "index_participants_on_auth_token", unique: true
     t.index ["request_for_tender_id"], name: "index_participants_on_request_for_tender_id"
   end
@@ -210,6 +203,7 @@ ActiveRecord::Schema.define(version: 20171009111250) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "company_name"
+    t.string "full_name"
     t.index ["email"], name: "index_quantity_surveyors_on_email", unique: true
     t.index ["reset_password_token"], name: "index_quantity_surveyors_on_reset_password_token", unique: true
   end
