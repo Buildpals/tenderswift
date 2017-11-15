@@ -66,14 +66,15 @@
 
   <%= render 'layouts/navbar' %>
 
-  <div class="wrapper">
+  <div class="content">
     <%= yield %>
-
-    <div class="push"></div>
   </div>
 
-  <!-- FOOTER -->
-  <%= render 'layouts/footer' %>
+  <% if controller_name == 'welcome' %>
+    <%= render 'layouts/home_page_footer' %>
+  <% else %>
+    <%= render 'layouts/footer' %>
+  <% end %>
 
   </body>
 </html>
