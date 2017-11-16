@@ -92401,16 +92401,27 @@ App.Boq = (function() {
         gon.boq.pages.forEach(function (page) {
             page.items.forEach(function (item) {
                 if (item.item_type === 'item') {
-                    if (item.tag) {
-                        tagsHash[item.tag] = tagsHash[item.tag] === undefined ? item.filled_item.amount : tagsHash[item.tag] + item.filled_item.amount;
+                    console.log('item.filled_item.amount', item.filled_item.amount, typeof item.filled_item.amount);
+
+                    let amount;
+                    if (item.filled_item.amount) {
+                        amount = parseFloat(item.filled_item.amount)
                     } else {
-                        let amount = item.filled_item.amount;
-                        if (!amount) amount = 0;
+                        amount = 0
+                    }
+
+                    console.log('amount', amount, typeof amount);
+
+
+                    if (item.tag) {
+                        tagsHash[item.tag] = tagsHash[item.tag] === undefined ? amount : tagsHash[item.tag] + amount;
+                    } else {
                         tagsHash["Others"] = tagsHash["Others"] === undefined ? amount : tagsHash["Others"] + amount;
                     }
                 }
             })
         });
+        console.log('tagsHash', tagsHash);
         return tagsHash;
     }
 
