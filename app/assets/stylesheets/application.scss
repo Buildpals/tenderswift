@@ -11,6 +11,13 @@ $body-color: $gray-600;
 @import "request_for_tenders";
 
 
+// Managing Accounts
+
+.fix-screen{
+  margin-left: -30%;
+}
+
+
 // Parsley validation styles
 
 .parsley-errors-list{

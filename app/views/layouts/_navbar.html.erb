@@ -40,7 +40,7 @@
               <span class="fa fa-user" aria-hidden="true"></span>
               <%= current_quantity_surveyor.company_name %>
             </a>
-            <div class="dropdown-menu" aria-labelledby="account_links">
+            <div class="dropdown-menu fix-screen" aria-labelledby="account_links">
               <%= link_to "Account Information", edit_quantity_surveyor_registration_path(current_quantity_surveyor),
                           class: 'dropdown-item' %>
               <%= link_to "Logout", destroy_quantity_surveyor_session_path, method: :delete,
