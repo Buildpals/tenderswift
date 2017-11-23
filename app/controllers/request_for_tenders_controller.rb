@@ -135,7 +135,8 @@ class RequestForTendersController < ApplicationController
 
 
   def preview
-    
+    @request = RequestForTender.find(params[:id])
+    gon.jbuilder
   end
 
   private

@@ -9,7 +9,7 @@
       Click the submit button when you are done to submit your tender to the project owner
     </p>
     <ul class="nav nav-tabs" id="myTab" role="tablist">
-      <% @participant.boq.pages.each_with_index do |page, index| %>
+      <% project.boq.pages.each_with_index do |page, index| %>
           <li class="nav-item">
             <a class="nav-link  <%= 'active' if index == 0 %>" id="page-<%= page.id %>-tab" data-toggle="tab"
                href="#page-<%= page.id %>-content" role="tab" aria-controls="page-<%= page.id %>-tab-content">
@@ -20,7 +20,7 @@
     </ul>
 
     <div class="tab-content mb-5" id="myTabContent">
-      <% @participant.boq.pages.each_with_index do |page, index| %>
+      <% project.boq.pages.each_with_index do |page, index| %>
           <div class="tab-pane <%= 'show active' if index == 0 %>"
                id="page-<%= page.id %>-content" role="tabpanel" aria-labelledby="page-<%= page.id %>-tab">
 
@@ -30,14 +30,17 @@
       <% end %>
     </div>
 
-    <% unless @participant.bid_made? %>
-        <%= form_with(model: @participant, local: true) do |form| %>
-            <%= form.text_field :status, value: 'bid_made', id: :participant_phone_number, type: 'hidden' %>
-            <%= form.text_field :bid_submission_time, value: Time.current, id: :participant_phone_number, type: 'hidden' %>
 
-            <%= form.submit 'Submit Bid', data: {confirm: 'You cannot edit the Bill of Quantities after submitting your bid. Are you sure you want to submit your bid?'},
-                            class: 'btn btn-large btn-primary float-right' %>
-        <% end %>
+    <% if project.class.eql?('Participant') %>
+      <% unless project.bid_made? %>
+          <%= form_with(model: project, local: true) do |form| %>
+              <%= form.text_field :status, value: 'bid_made', id: :participant_phone_number, type: 'hidden' %>
+              <%= form.text_field :bid_submission_time, value: Time.current, id: :participant_phone_number, type: 'hidden' %>
+
+              <%= form.submit 'Submit Bid', data: {confirm: 'You cannot edit the Bill of Quantities after submitting your bid. Are you sure you want to submit your bid?'},
+                              class: 'btn btn-large btn-primary float-right' %>
+          <% end %>
+      <% end %>
     <% end %>
 
   </div>

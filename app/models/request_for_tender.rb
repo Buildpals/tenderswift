@@ -59,6 +59,14 @@ class RequestForTender < ApplicationRecord
     quantity_surveyor.email
   end
 
+  def project_deadline
+    self.deadline
+  end
+
+  def project_description
+    self.description
+  end
+
   def project_location
     "#{city.present? ? city : 'N/A' }, #{country.name}"
   end

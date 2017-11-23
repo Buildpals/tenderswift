@@ -431,7 +431,7 @@ App.Boq = (function() {
 
 
 $(document).on("turbolinks:load", function () {
-    if ($(".request_for_tenders.edit").length === 0) return;
+    if ($(".request_for_tenders.edit, .request_for_tenders.preview").length === 0) return;
 
     let boq;
     boq = new App.Boq(gon.boq);
