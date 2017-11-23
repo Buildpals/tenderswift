@@ -23,6 +23,10 @@ Rails.application.routes.draw do
       to: 'participants#show_boq',
       as: 'participant_boq'
 
+  get '/request_for_tenders/:id/preview',
+      to: 'request_for_tenders#preview',
+      as: 'request_for_tender_preview'
+
   devise_for :quantity_surveyors
 
   resources :items

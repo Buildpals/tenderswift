@@ -133,6 +133,11 @@ class RequestForTendersController < ApplicationController
     end
   end
 
+
+  def preview
+    
+  end
+
   private
 
   # Use to create a chatroom for a request
