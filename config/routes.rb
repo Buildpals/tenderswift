@@ -23,9 +23,18 @@ Rails.application.routes.draw do
       as: 'participant_boq'
 
 
+  post '/requests/set_winner/:id/:participant',
+      to: 'request_for_tenders#set_winner',
+      as: 'request_for_tenders_set_winner'
+
+
   post '/requests/send_out/:id', 
       to: 'request_for_tenders#send_out_final_invitation',
       as: 'request_send_out_final_invitation'
+
+  post '/requests/notify_disqualified_contractors/:id',
+      to: 'request_for_tenders#notify_disqualified_contractors',
+      as: 'notify_disqualified_contractors'
 
   devise_for :quantity_surveyors
 

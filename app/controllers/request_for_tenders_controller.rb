@@ -134,15 +134,29 @@ class RequestForTendersController < ApplicationController
     end
   end
 
+
+  def set_winner
+    request = RequestForTender.find(params[:id])
+    participant = Participant.find(params[:participant])
+    request.winner = participant
+    if request.save! and notify_disqualified_contractors(request)
+      render json: request
+    else
+      render json: request.errors.messages
+    end  
+  end
+
+
   #POST /requests/send_out/:id
   #Send final inivitation out to shortlisted participants
   def send_out_final_invitation
     request = RequestForTender.find(params[:id])
-    body = params[:final_email_message]
-    participants = request.participants.bid_list.where('rating > 0')
-    participants.each do |participant|
-      ShortlistInvitationMailer.deliver_shortlist_inivitation(participant, request, body).deliver_later
-    end
+    puts request.inspect
+    #body = params[:final_email_message]
+    #participants = request.participants.bid_list.where('rating > 0')
+    #participants.each do |participant|
+    #  ShortlistInvitationMailer.deliver_shortlist_inivitation(participant, request, body).deliver_later
+    #end
   end
 
   private
@@ -153,6 +167,13 @@ class RequestForTendersController < ApplicationController
     chatroom.request_for_tender = request_for_tender
     chatroom.save!
   end
+
+    #Notify all disqualified contractors
+    def notify_disqualified_contractors(request)
+      request.get_disqualified_contractors.each do |contractor|
+        #fire email to contractors
+      end
+    end
 
   # Use callbacks to share common setup or constraints between actions.
   def set_request

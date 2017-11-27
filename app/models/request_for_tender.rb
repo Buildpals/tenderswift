@@ -13,6 +13,8 @@ class RequestForTender < ApplicationRecord
 
   belongs_to :country
 
+  belongs_to :winner, class_name: "Participant"
+
   has_many :questions, dependent: :destroy, inverse_of: :request_for_tender
   accepts_nested_attributes_for :questions,
                                 allow_destroy: true,
@@ -108,6 +110,16 @@ class RequestForTender < ApplicationRecord
       when 'send_tender'
         'bill_of_quantities'
     end
+  end
+
+  def get_disqualified_contractors
+    disqualified_participants = Array.new
+    self.participants.lazy.each do |participant|
+      unless self.winner.id.eql?(participant.id)
+        disqualified_participants.push(participant)
+      end
+    end
+    disqualified_participants
   end
 
 end

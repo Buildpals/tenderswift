@@ -1,0 +1,2 @@
+class DecisionMailer < ApplicationMailer
+end
