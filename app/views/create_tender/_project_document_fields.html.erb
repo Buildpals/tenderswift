@@ -1,0 +1,16 @@
+<div class="nested-fields">
+  <div class="form-row">
+    <div class="col-sm-10">
+      <% if f.object.document? %>
+          <%= link_to f.object.document.file.filename, f.object.document.url, target: '_blank' %>
+      <% else %>
+          <%= f.file_field :document, class: 'form-control-file form-control-sm mb-2', data: { 'save-on-change': true } %>
+      <% end %>
+    </div>
+    <div class="col-sm-2">
+      <%= link_to_remove_association f, class: 'btn btn-sm btn-block btn-light float-right', data: { 'save-on-click': true } do %>
+          Remove
+      <% end %>
+    </div>
+  </div>
+</div>

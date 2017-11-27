@@ -17,6 +17,7 @@
 //= require_tree ./channels
 //= require popper
 //= require bootstrap-sprockets
+//= require bootstrap-datepicker
 //= require autosize
 //= require moment
 //= require cocoon
@@ -25,3 +26,4 @@
 //= require boqs
 //= require requests
 //= require participants
+//= require create_tender

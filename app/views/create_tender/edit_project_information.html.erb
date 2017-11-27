@@ -1,0 +1,112 @@
+<%= form_with model: @request,
+              scope: :request_for_tender,
+              url: update_project_information_path(@request),
+              method: :patch,
+              id: 'request-form' do |form| %>
+
+    <p class="text-muted small ">
+      Please in this general information about the project you are creating a request for tender here.
+    </p>
+
+
+    <div class="form-group">
+      <%= form.label :project_name %>
+      <%= form.text_field :project_name, id: :request_project_name,
+                          class: 'form-control form-control-sm', data: {'save-on-change': true, toggle: 'tooltip', placement: 'right', title: 'Eg. Proposed residential building for Mrs. Diana Aduboat. '} %>
+      <p class="text-muted small">
+        Example: Purchases of office supplies; Construction of sawmill;
+        Railroad engineering works;
+      </p>
+    </div>
+
+    <div class="form-row">
+      <div class="col-sm-12">
+        <%= form.label :contract_sum %>
+      </div>
+
+      <div class="form-group col-sm-1">
+        <%= form.select :contract_sum_currency, [%w(USD USD), %w(GHS GHS)],
+                        {},
+                        {
+                            class: 'form-control form-control-sm',
+                            data: {'save-on-change': true}
+                        }
+        %>
+      </div>
+      <div class="form-group col-sm-6">
+        <%= form.select :contract_sum, [['0 - 75,000', '0 - 75,000'],
+                                        ['75,000 - 200,000', '75,000 - 200,000'],
+                                        ['200,000 - 500,000', '200,000 - 500,000'],
+                                        ['above 500,000', 'above 500,000']],
+                        {},
+                        {
+                            id: :request_contract_sum, class: 'form-control form-control-sm',
+                            data: {'save-on-change': true}
+                        }
+        %>
+      </div>
+
+    </div>
+
+    <div class="form-row">
+      <div class="col-sm-12">
+        <%= form.label :deadline %>
+      </div>
+
+      <div class="form-group col-sm-2">
+        <%= form.text_field :deadline, id: :request_deadline,
+                            class: 'form-control form-control-sm',
+                            data: {
+                                'save-on-change': true,
+                                'provide': 'datepicker',
+                                'save-on-change': true,
+                                'toggle': 'tooltip',
+                                'placement': 'right',
+                                'html': true,
+                                'title': 'Deadline for contractors to submit their bids.<br> Timezone: Accra, Africa (UTC+00:00)'
+                            } %>
+      </div>
+      <div class="form-group col-sm-1">
+        <%= form.text_field :deadline, id: :request_deadline,
+                            class: 'form-control form-control-sm',
+                            data: {
+                                'save-on-change': true,
+                                'provide': 'datepicker',
+                                'save-on-change': true,
+                                'toggle': 'tooltip',
+                                'placement': 'right',
+                                'html': true,
+                                'title': 'Deadline for contractors to submit their bids.<br> Timezone: Accra, Africa (UTC+00:00)'
+                            } %>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="col-sm-12">
+        <%= form.label :country %>
+      </div>
+      <div class="form-group col-sm-2">
+        <%= form.collection_select :country_id, Country.all, :id, :name, {}, {id: :request_country,
+                                                                              class: 'form-control form-control-sm', data: {'save-on-change': true}} %>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="col-sm-12">
+        <%= form.label :city %>
+      </div>
+      <div class="form-group col-sm-5">
+        <%= form.text_field :city, id: :request_city,
+                            class: 'form-control form-control-sm', data: {'save-on-change': true} %>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :description %>
+      <%= form.text_area :description, id: :request_description, rows: 3,
+                         class: 'form-control form-control-sm', data: {'save-on-change': true, toggle: 'tooltip', placement: 'top', title: 'Eg. The structure is a one-storey building skeleton frames faculty with solid sandcrete walls as partitions. It covers an area of 478 sqm. The project is funded by Mrs Aduboat. '} %>
+    </div>
+
+
+
+<% end %>

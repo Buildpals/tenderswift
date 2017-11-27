@@ -38,10 +38,3 @@ $(document).on("turbolinks:load", function () {
         }
     });
 });
-
-
-$(document).on("turbolinks:load", function () {
-    if ($(".request_for_tenders.edit").length === 0) return;
-
-    autosize($('textarea'));
-});

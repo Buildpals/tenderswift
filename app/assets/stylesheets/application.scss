@@ -4,11 +4,14 @@ $enable-shadows: true;
 $body-bg:    $gray-200;
 $body-color: $gray-600;
 @import "bootstrap";
+@import "bootstrap-datepicker";
+
 @import "font-awesome";
 @import "navbar";
 @import "footer";
 @import "handsontable.full";
 @import "request_for_tenders";
+@import "create_tender";
 
 
 // Parsley validation styles
@@ -87,15 +90,15 @@ Card Shadows
 /***************************************
 Loading Spinner
 ***************************************/
-#spinner {
-  /*display: none;*/
-  position: fixed;
-  top: 45%;
-  left: 45%;
-  z-index: 1002;
-  text-align:center;
-  padding:30px 15px 0px;
-}
+//#spinner {
+//  /*display: none;*/
+//  position: fixed;
+//  top: 45%;
+//  left: 45%;
+//  z-index: 1002;
+//  text-align:center;
+//  padding:30px 15px 0px;
+//}
 
 .flash {
   position: fixed;

@@ -1,5 +1,8 @@
 class RequestForTendersController < ApplicationController
-  before_action :set_request, only: [:show, :edit, :update, :destroy,
+  before_action :set_request, only: [:show, :preview,
+                                     :edit_project_information, :edit_documents, :edit_boq, :edit_questionnaire, :edit_participants,
+                                     :update_project_information, :update_documents, :update_boq, :update_questionnaire, :update_participants,
+                                     :destroy,
                                      :email_request_for_tender]
 
   before_action :authenticate_quantity_surveyor!, only: [:edit, :index]
@@ -32,21 +35,40 @@ class RequestForTendersController < ApplicationController
   end
 
   # GET /requests/1/edit
-  def edit
-    @request.build_excel
-    if @request.participants.length < 3
-      (3 - @request.participants.length).times { @request.participants.build }
-    else
-      @request.participants.build
-    end
+  def edit_project_information
+  end
 
-    if @request.project_documents.length < 2
-      (2 - @request.project_documents.length).times { @request.project_documents.build }
+  def edit_documents
+    if @request.project_documents.length < 5
+      (5 - @request.project_documents.length).times { @request.project_documents.build }
     else
       @request.project_documents.build
     end
+  end
 
+  def edit_boq
+    @request.build_excel
     gon.jbuilder
+  end
+
+  def edit_questionnaire
+    if @request.questions.length < 1
+      (1 - @request.questions.length).times { @request.questions.build }
+    else
+      @request.questions.build
+    end
+  end
+
+
+  def edit_participants
+    if @request.participants.length < 5
+      (5 - @request.participants.length).times { @request.participants.build }
+    else
+      @request.participants.build
+    end
+  end
+
+  def preview
   end
 
   # POST /requests
@@ -64,15 +86,20 @@ class RequestForTendersController < ApplicationController
     end
   end
 
+
+  def update_project_information
+    respond_to do |format|
+      if @request.update(request_params)
+        format.js
+      else
+        format.js
+      end
+    end
+  end
+
   # PATCH/PUT /requests/1
   # PATCH/PUT /requests/1.json
   def update
-    case params[:commit]
-      when 'Previous'
-        @request.current_step = @request.previous_step
-      when 'Save & Continue'
-        @request.current_step = @request.next_step
-    end
     respond_to do |format|
       if @request.update(request_params)
         format.html {
@@ -88,6 +115,7 @@ class RequestForTendersController < ApplicationController
         format.js
       else
         format.html { render :edit }
+        format.js
         format.json { render json: @request.errors, status: :unprocessable_entity }
       end
     end

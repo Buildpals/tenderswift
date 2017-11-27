@@ -1,27 +1,16 @@
-<%= form_with(model: request, local: true, id: 'request-form') do |form| %>
+<%= form_with model: @request,
+              scope: :request_for_tender,
+              url: update_request_for_tenders_boq_path(@request),
+              method: :patch,
+              id: 'request-form' do |form| %>
+
+    <p class="text-muted small">
+      Upload the Bill of Quantities for the project or create one using the templates provided.
+    </p>
+
     <%= form.text_field :project_name, type: 'hidden' %>
 
-    <% if request.errors.any? %>
-        <div id="error_explanation">
-          <h2><%= pluralize(request.errors.count, "error") %> prohibited this request from being saved:</h2>
-
-          <ul>
-            <% request.errors.full_messages.each do |message| %>
-                <li><%= message %></li>
-            <% end %>
-          </ul>
-        </div>
-    <% end %>
-
-
-    <%= render 'questionnaire_form', form: form %>
-
     <% if @request.boq %>
-        <p class="text-center text-muted small">
-          You can edit the rows of this bill of quantities, and your changes will be saved automatically.
-          <br>
-          To add new rows, right click and choose 'insert row above' or 'insert row below' in the menu that appears.
-        </p>
 
         <div class="mb-5">
 
@@ -70,14 +59,6 @@
           <%= excel_fields.file_field :document, class: 'form-control-file btn btn-sm btn-primary',
                                       data: {'save-on-change': true} %>
       <% end %>
-    </div>
-
-
-    <div class="w-100 d-flex justify-content-between">
-      <input type="hidden" name="tab" value="2">
-      <%= form.submit 'Previous', class: 'btn btn-primary mr-2 ml-auto' %>
-      <%= form.submit 'Save', class: 'btn btn-primary mr-2' %>
-      <%= form.submit 'Save & Continue', class: 'btn btn-primary' %>
     </div>
 
 <% end %>

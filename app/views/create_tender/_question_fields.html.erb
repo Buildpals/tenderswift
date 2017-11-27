@@ -1,11 +1,10 @@
 <div class="nested-fields mb-4">
-  <hr>
   <div class="form-row">
-
     <div class="col-sm-12">
       <%= f.label :Question %>
       <%= f.text_field :title, id: :question_title,
-                       class: 'form-control form-control-sm mb-2', placeholder: 'Question Title' %>
+                       class: 'form-control form-control-sm mb-2', placeholder: 'Question Title',
+                       data: {'save-on-change': true} %>
     </div>
 
     <div class="col-sm-12">
@@ -18,7 +17,8 @@
       <div class="form-check form-check-inline">
         <%= f.label :can_attach_documents, class: 'form-check-label' do %>
             <%= f.check_box :can_attach_documents, id: :question_can_attach_documents,
-                            class: 'form-check-input' %>
+                            class: 'form-check-input',
+                            data: {'save-on-change': true} %>
             Should attach documents?
         <% end %>
       </div>
@@ -28,10 +28,11 @@
     </div>
 
     <div class="col-sm-3">
-      <%= link_to_remove_association f, class: 'btn btn-sm btn-block btn-light float-right' do %>
+      <%= link_to_remove_association f, class: 'btn btn-sm btn-block btn-light float-right', data: { 'save-on-click': true } do %>
           Remove
       <% end %>
     </div>
-
   </div>
+
+  <br>
 </div>
