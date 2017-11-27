@@ -134,6 +134,100 @@
 </table>
 
 
+<!-- Confirm Winner Modal -->
+<div class="modal fade" id="alertModal" tabindex="-1" role="dialog" aria-labelledby="alertModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="alertModalLabel">Are you sure</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <span class="mute-text"><p>By awarding the contract to <span class="winner-name"></span>, you are selecting 
+          <span class="winner-name"></span> as the winner of this tendering process. </p>   
+          <p>Therefore disqulifying every other contractor that made a bid. </p>
+        <p>Are you sure you want to do this?</p> 
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+        <button type="button" class="btn btn-success" id="confirm-winner" data-dismiss="modal">Yes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Error Message -->
+<div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="errorModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="errorModalLabel">Error</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Something went wrong. Check out your internet connection and try again
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Notify Quantity Surveyors-->
+<div class="modal fade" id="disqualifiedContractorsModal" tabindex="-1" role="dialog" aria-labelledby="disqualifiedContractorsModalTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="disqualifiedContractorsModalTitle">Inform the rest about your decision</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="alert alert-danger" role="alert"><strong>This message will be sent to every disqualified contractor.</strong></div>
+      <div class="modal-body">
+        <div class="message-disqualified-contractors" contenteditable="true">
+          <span>
+            <p>Dear Sirs/Madam,</p>
+            <br/>
+             We have now evaluated all of the final bids we received. 
+            <br/>
+            <br/>
+            On the basis of this evaluation, I am writing to advise you that unfortunately on this occasion you have not been successful.
+            The contract was awarded to <span class="winner-name"></span>.
+            <br/>
+            <br/>
+            If you would like to receive feedback on your submission we would be more than happy to provide you with this.
+            In the meantime, on behalf our organization, I would like to take this opportunity to thank you for the time and effort you have taken over the preparation and submission of your proposals. 
+            <br/>
+            <br/>
+            I hope this will not discourage you from bidding again in the future.
+            <br/>
+            <br/>
+            Yours faithfully,
+            <br/>
+            <br/>
+            For and on behalf <%= @request.quantity_surveyor.company_name %>.
+          </span>
+        </div>
+      </div>
+        <%= form_with url: notify_disqualified_contractors_url(@request.id), id: 'notify-disqualified-contractors' do |form| %>
+          <%= form.text_area :notify_disqualified_contractors_message, { class: 'form-control', id: 'notify-disqualified-contractors-message', data: { parsley_minlength: '20', parsley_required: 'true' }, require: true, rows: '25' } %>
+      <div class="modal-footer">
+          <%= form.submit "Send Message", { id: 'btn-notify-contrators', class: 'btn btn-success', data: { disable_with: 'Sending Email...'} } %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 
 
 
@@ -144,7 +238,7 @@
       <div class="modal-header">
         <div class="alert alert-success col-md-12" role="alert"><strong>Great!</strong> 
           All disqualified contractors have been notified of the outcome of the bid.
-          Send email to <span class="winner-name"></span> to inform of the outcome of the bid
+          Send email to <span class="winner-name"></span> to inform them of their successful bid
         </div>
         <h5 class="modal-title" id="finalMessageModalLabel"></h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -186,52 +280,7 @@
 </div>
 
 
-<!-- Confirm Winner Modal -->
-<div class="modal fade" id="alertModal" tabindex="-1" role="dialog" aria-labelledby="alertModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="alertModalLabel">Are you sure</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-          <span class="mute-text"><p>By awarding the contract to <span class="winner-name"></span>, you are selecting 
-          <span class="winner-name"></span> as the winner of this tendering process. </p>
-          
-          <p>Therefore disqulifying every other contractor that made a bid. </p>
-          <p>All disqualified contractors will be emailed informing them of your decision.</p>
-        <p>Are you sure you want to do this?</p> 
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-        <button type="button" class="btn btn-success" id="confirm-winner" data-dismiss="modal">Yes</button>
-      </div>
-    </div>
-  </div>
-</div>
 
-
-<!-- Error Message -->
-<div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="errorModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="errorModalLabel">Error</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        Something went wrong. Check out your internet connection and try again
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
 
 <script>
 
@@ -248,6 +297,12 @@ function getCompanyName(array){
   return companyName
 }
 
+function displayWinnerName(){
+  $('.winner-name').each( function(i,e){
+    e.innerHTML = winnerName;
+  });
+}
+
 $(function () {
     $('#final-email-message').val($('.final-message').text());
     $('#send-out-final-invitation').parsley().on('field:validated', function() {
@@ -260,13 +315,24 @@ $(function () {
   });
 });
 
-const rejectContent = "Dear Sirs/Madam \n"+
-                      "Thank you for taking part in this bidding process.  We have now evaluated all of the final bids we received.  On the basis of this evaluation, I am writing to advise you that unfortunately on this occasion you have not been successful. \n"+
-                      "The contract was awarded to (Winning company name). \n"+
-                      "If you would like to receive feedback on your submission we would be more than happy to provide you with this. \n"+
-                      "In the meantime, on behalf our organization, I would like to take this opportunity to thank you for the time and effort you have taken over the preparation and submission of your proposals.  I hope this will not discourage you from bidding again in the future. \n"+
-                      "Yours faithfully \n"+
-                      "For and on behalf (Client Name)";
+$(function () {
+    $('#notify-disqualified-contractors-message').val($('.message-disqualified-contractors').text());
+    $('#notify-disqualified-contractors-message').parsley().on('field:validated', function() {
+    var ok = $('.parsley-error').length === 0;
+    $('.bs-callout-warning').toggleClass('hidden', ok);
+  })
+  .on('#notify-disqualified-contractors:submit', function() {
+    $('#notify-disqualified-contractors-message').val($('.message-disqualified-contractors').text());
+    console.log($('#notify-disqualified-contractors-message').val());
+    return true;
+
+  });
+});
+
+$('#btn-notify-contrators').click(function(e){
+  $('#disqualifiedContractorsModal').modal('hide');
+  $('#finalMessageModal').modal('show');
+});
 
 $('#finalMessageModal').on('shown.bs.modal', function(e){
   $('.modal-header .winner-name').innerHTML = winnerName; //Put winner's name in the notification
@@ -287,7 +353,7 @@ $('#confirm-winner').click( function(e){
       data: {},
       success: function(response){
         console.log(response);
-        $('#finalMessageModal').modal('show');
+        $('#disqualifiedContractorsModal').modal('show');
        },
       error: function(response){ 
         console.log(response);
@@ -296,15 +362,17 @@ $('#confirm-winner').click( function(e){
   });
 });
 
-$('#alertModal').on('show.bs.modal', function(e){
+$('#disqualifiedContractorsModal').on('show.bs.modal', function(e){
+  displayWinnerName();
+});
 
+$('#disqualifiedContractorsModal').on('shown.bs.modal', function(e){
+  $('.message-disqualified-contractors').focus();
 });
 
 //Insert winner's name in to alert when modal appears
 $('#alertModal').on('shown.bs.modal', function(e){
-  $('.winner-name').each( function(i,e){
-    e.innerHTML = winnerName;
-  });
+  displayWinnerName();
 });
 
 </script>

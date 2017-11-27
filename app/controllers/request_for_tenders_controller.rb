@@ -139,7 +139,7 @@ class RequestForTendersController < ApplicationController
     request = RequestForTender.find(params[:id])
     participant = Participant.find(params[:participant])
     request.winner = participant
-    if request.save! and notify_disqualified_contractors(request)
+    if request.save!
       render json: request
     else
       render json: request.errors.messages
@@ -147,16 +147,22 @@ class RequestForTendersController < ApplicationController
   end
 
 
+  #Notify all disqualified contractors
+  def notify_disqualified_contractors
+    request = RequestForTender.find(params[:id])
+    body = params[:notify_disqualified_contractors_message]
+    request.get_disqualified_contractors.each do |contractor|
+      DecisionMailer.notify_disqualified(contractor, request, body).deliver_now
+    end
+  end
+
+
   #POST /requests/send_out/:id
   #Send final inivitation out to shortlisted participants
   def send_out_final_invitation
     request = RequestForTender.find(params[:id])
-    puts request.inspect
-    #body = params[:final_email_message]
-    #participants = request.participants.bid_list.where('rating > 0')
-    #participants.each do |participant|
-    #  ShortlistInvitationMailer.deliver_shortlist_inivitation(participant, request, body).deliver_later
-    #end
+    body = params[:final_email_message]
+    DecisionMailer.award_contract(request, body).deliver_later
   end
 
   private
@@ -167,13 +173,6 @@ class RequestForTendersController < ApplicationController
     chatroom.request_for_tender = request_for_tender
     chatroom.save!
   end
-
-    #Notify all disqualified contractors
-    def notify_disqualified_contractors(request)
-      request.get_disqualified_contractors.each do |contractor|
-        #fire email to contractors
-      end
-    end
 
   # Use callbacks to share common setup or constraints between actions.
   def set_request
@@ -191,6 +190,7 @@ class RequestForTendersController < ApplicationController
                   :budget_currency,
                   :budget,
                   :final_email_message,
+                  :notify_disqualified_contractors_message,
                   :contract_sum,
                   :contract_sum_currency,
                   project_documents_attributes: [:id,
