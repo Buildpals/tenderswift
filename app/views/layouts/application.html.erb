@@ -1,80 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>Buildpals</title>
-    <%= csrf_meta_tags %>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="theme-color" content="#2b3f57"/>
 
-    <link rel="icon" type="image/png" href="http://res.cloudinary.com/surreal/image/upload/v1502470319/150247071382243_ngs7s5.png">
-
-    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/parsley.js/2.7.2/parsley.min.js"></script>
-    <%= javascript_tag "window._token = '#{form_authenticity_token}'" %>
-    <%= include_gon %>
-    <%= action_cable_meta_tag %>
-
-    <link rel="stylesheet" href="/intl-tel-input/css/intlTelInput.css">
-    <style>
-      .iti-flag {background-image: url("/intl-tel-input/img/flags.png");}
-
-      @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2 / 1), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
-        .iti-flag {background-image: url("/intl-tel-input/img/flags@2x.png");}
-      }
-
-      .intl-tel-input {
-        display: block;
-      }
-    </style>
-
-    <script>
-        window['_fs_debug'] = false;
-        window['_fs_host'] = 'fullstory.com';
-        window['_fs_org'] = '8ECWC';
-        window['_fs_namespace'] = 'FS';
-        (function(m,n,e,t,l,o,g,y){
-            if (e in m) {if(m.console && m.console.log) { m.console.log('FullStory namespace conflict. Please set window["_fs_namespace"].');} return;}
-            g=m[e]=function(a,b){g.q?g.q.push([a,b]):g._api(a,b);};g.q=[];
-            o=n.createElement(t);o.async=1;o.src='https://'+_fs_host+'/s/fs.js';
-            y=n.getElementsByTagName(t)[0];y.parentNode.insertBefore(o,y);
-            g.identify=function(i,v){g(l,{uid:i});if(v)g(l,v)};g.setUserVars=function(v){g(l,v)};
-            g.identifyAccount=function(i,v){o='account';v=v||{};v.acctId=i;g(o,v)};
-            g.clearUserCookie=function(c,d,i){if(!c || document.cookie.match('fs_uid=[`;`]*`[`;`]*`[`;`]*`')){
-                d=n.domain;while(1){n.cookie='fs_uid=;domain='+d+
-                    ';path=/;expires='+new Date(0).toUTCString();i=d.indexOf('.');if(i<0)break;d=d.slice(i+1)}}};
-        })(window,document,window['_fs_namespace'],'script','user');
-    </script>
-
-    <script type="text/javascript" charset="utf-8">
-        FS.identify('<%= current_quantity_surveyor ? current_quantity_surveyor.id : request.remote_ip %>', {
-            displayName: '<%= current_quantity_surveyor ? current_quantity_surveyor.company_name : "Guest #{request.remote_ip}" %>',
-            usersName: '<%= current_quantity_surveyor ? current_quantity_surveyor.full_name : 'n/a' %>',
-            email: '<%= current_quantity_surveyor ? current_quantity_surveyor.email : 'n/a' %>',
-            phone_number: '<%= current_quantity_surveyor ? current_quantity_surveyor.phone_number : 'n/a' %>',
-            ipAddress: '<%= request.remote_ip %>',
-            // TODO: Add your own custom user variables here, details at
-            // http://help.fullstory.com/develop-js/setuservars.
-        });
-    </script>
-
-    <script src="/intl-tel-input/js/intlTelInput.js"></script>
-  </head>
+  <%= render 'layouts/head' %>
 
   <body class="<%= controller_name %> <%= action_name %>">
 
-  <%= render 'layouts/navbar' %>
+    <%= render 'layouts/navbar' %>
 
-  <div class="content">
-    <%= yield %>
-  </div>
+    <div class="content">
+      <%= yield %>
+    </div>
 
-  <% if controller_name == 'welcome' %>
-    <%= render 'layouts/home_page_footer' %>
-  <% else %>
     <%= render 'layouts/footer' %>
-  <% end %>
 
   </body>
 </html>
