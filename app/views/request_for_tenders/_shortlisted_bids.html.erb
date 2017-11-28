@@ -41,9 +41,11 @@
         </td>
         <% if @request.winner.nil? %>
           <td>
-            <button type="button" class="btn btn-danger btn-award-contract">Disqualify</button>
+            <button type="button" class="btn btn-danger btn-award-contract remove-con-btn">Disqualify
+              <span class="<%= participant.id %>"></span>
+            </button>
           </td>
-          <td>
+          <td class="params">
             <button type="button" class="btn btn-success btn-award-contract accept" data-toggle="modal" data-target="#alertModal">Award contract
               <span class="<%= participant.company_name %>"></span>
               <span class="<%= participant.id %>"></span>
