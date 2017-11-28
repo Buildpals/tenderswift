@@ -1,17 +1,16 @@
 class CreateTenderController < ApplicationController
-  before_action :set_request, only: [:edit_project_information, :edit_documents, :edit_boq, :edit_questionnaire, :edit_participants,
-                                     :update_project_information, :update_documents, :update_boq, :update_questionnaire, :update_participants,
-                                     :preview]
+  before_action :set_request, only: [:edit_tender_information, :edit_tender_documents, :edit_tender_boq, :edit_tender_questionnaire, :edit_tender_participants,
+                                     :update_tender_information, :update_tender_documents, :update_tender_boq, :update_tender_questionnaire, :update_tender_participants]
 
   before_action :authenticate_quantity_surveyor!, only: [:edit, :index]
 
 
 
-  def edit_project_information
-    @next_path = request_for_tenders_documents_path
+  def edit_tender_information
+    @next_path = edit_tender_documents_path(@request)
   end
 
-  def update_project_information
+  def update_tender_information
     respond_to do |format|
       if @request.update(request_params)
         format.js
@@ -23,20 +22,16 @@ class CreateTenderController < ApplicationController
 
 
 
-  def edit_documents
-    @next_path = request_for_tenders_boq_path
+  def edit_tender_documents
+    @next_path = edit_tender_boq_path(@request)
 
-    if @request.project_documents.length < 5
-      (5 - @request.project_documents.length).times { @request.project_documents.build }
-    else
-      @request.project_documents.build
-    end
+    5.times { @request.project_documents.build } if @request.project_documents.empty?
   end
 
-  def update_documents
+  def update_tender_documents
     respond_to do |format|
       if @request.update(request_params)
-        format.html { redirect_to request_for_tenders_documents_path(@request), notice: 'All changes saved.' }
+        format.html { redirect_to edit_tender_documents_path(@request), notice: 'All changes saved.' }
         format.js
       else
         format.js
@@ -46,17 +41,17 @@ class CreateTenderController < ApplicationController
 
 
 
-  def edit_boq
-    @next_path = request_for_tenders_questionnaire_path
+  def edit_tender_boq
+    @next_path = edit_tender_questionnaire_path(@request)
 
     @request.build_excel
     gon.jbuilder
   end
 
-  def update_boq
+  def update_tender_boq
     respond_to do |format|
       if @request.update(request_params)
-        format.html { redirect_to request_for_tenders_boq_path(@request), notice: 'All changes saved.' }
+        format.html { redirect_to edit_tender_boq_path(@request), notice: 'All changes saved.' }
         format.js
       else
         format.js
@@ -66,17 +61,13 @@ class CreateTenderController < ApplicationController
 
 
 
-  def edit_questionnaire
-    @next_path = request_for_tenders_participants_path
+  def edit_tender_questionnaire
+    @next_path = edit_tender_participants_path(@request)
 
-    if @request.questions.length < 1
-      (1 - @request.questions.length).times { @request.questions.build }
-    else
-      @request.questions.build
-    end
+    @request.questions.build if @request.questions.empty?
   end
 
-  def update_questionnaire
+  def update_tender_questionnaire
     respond_to do |format|
       if @request.update(request_params)
         format.js
@@ -88,18 +79,12 @@ class CreateTenderController < ApplicationController
 
 
 
-  def edit_participants
-    @next_path = request_for_tenders_preview_path
-
-    if @request.participants.length < 5
-      (5 - @request.participants.length).times { @request.participants.build }
-    else
-      @request.participants.build
-    end
+  def edit_tender_participants
+    5.times { @request.participants.build } if @request.participants.empty?
   end
 
 
-  def update_participants
+  def update_tender_participants
     respond_to do |format|
       if @request.update(request_params)
         format.js
@@ -107,12 +92,6 @@ class CreateTenderController < ApplicationController
         format.js
       end
     end
-  end
-
-
-
-  def preview
-    @next_path = request_for_tenders_documents_path
   end
 
 

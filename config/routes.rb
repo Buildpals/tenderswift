@@ -19,27 +19,22 @@ Rails.application.routes.draw do
       as: 'participant_boq'
 
 
-  get '/tender/:id/edit', to: 'create_tender#edit_project_information', as: 'request_for_tenders_project_information'
-  patch '/tender/:id/update/project_information', to: 'create_tender#update_project_information', as: 'update_project_information'
+  get '/tender/:id/edit', to: 'create_tender#edit_tender_information', as: 'edit_tender_information'
+  patch '/tender/:id/update/project_information', to: 'create_tender#update_tender_information', as: 'update_tender_information'
 
-  get '/tender/:id/edit/documents', to: 'create_tender#edit_documents', as: 'request_for_tenders_documents'
-  patch '/tender/:id/update/documents', to: 'create_tender#update_documents', as: 'update_request_for_tenders_documents'
+  get '/tender/:id/edit/documents', to: 'create_tender#edit_tender_documents', as: 'edit_tender_documents'
+  patch '/tender/:id/update/documents', to: 'create_tender#update_tender_documents', as: 'update_tender_documents'
 
-  get '/tender/:id/edit/boq', to: 'create_tender#edit_boq', as: 'request_for_tenders_boq'
-  patch '/tender/:id/update/boq', to: 'create_tender#update_boq', as: 'update_request_for_tenders_boq'
+  get '/tender/:id/edit/boq', to: 'create_tender#edit_tender_boq', as: 'edit_tender_boq'
+  patch '/tender/:id/update/boq', to: 'create_tender#update_tender_boq', as: 'update_tender_boq'
 
-  get '/tender/:id/edit/questionnaire', to: 'create_tender#edit_questionnaire', as: 'request_for_tenders_questionnaire'
-  patch '/tender/:id/update/questionnaire', to: 'create_tender#update_questionnaire', as: 'update_request_for_tenders_questionnaire'
+  get '/tender/:id/edit/questionnaire', to: 'create_tender#edit_tender_questionnaire', as: 'edit_tender_questionnaire'
+  patch '/tender/:id/update/questionnaire', to: 'create_tender#update_tender_questionnaire', as: 'update_tender_questionnaire'
 
-  get '/tender/:id/edit/participants', to: 'create_tender#edit_participants', as: 'request_for_tenders_participants'
-  patch '/tender/:id/update/participants', to: 'create_tender#update_participants', as: 'update_request_for_tenders_participants'
+  get '/tender/:id/edit/participants', to: 'create_tender#edit_tender_participants', as: 'edit_tender_participants'
+  patch '/tender/:id/update/participants', to: 'create_tender#update_tender_participants', as: 'update_tender_participants'
 
-  get '/tender/:id/edit/preview', to: 'create_tender#preview', as: 'request_for_tenders_preview'
-
-
-  get '/request_for_tenders/:id/preview',
-      to: 'request_for_tenders#preview',
-      as: 'request_for_tender_preview'
+  get '/request_for_tenders/:id/preview', to: 'request_for_tenders#preview', as: 'request_for_tender_preview'
 
   devise_for :quantity_surveyors
   devise_for :admins

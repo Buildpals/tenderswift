@@ -5,9 +5,9 @@
   <ul class="list-group list-group-flush">
     <li class="list-group-item bg-info">
       <div class="col-sm-12 request-controls" style="padding: 5px;">
-        <%= link_to 'Edit request', edit_request_for_tender_path(@request), class: 'btn btn-sm btn-light' %>
-        <%= link_to 'Extend deadline', edit_request_for_tender_path(@request), class: 'btn btn-sm btn-light' %>
-        <%= link_to 'Invite more contractors', edit_request_for_tender_path(@request), class: 'btn btn-sm btn-light' %>
+        <%= link_to 'Edit request', edit_tender_information_path(@request), class: 'btn btn-sm btn-light' %>
+        <%= link_to 'Extend deadline', edit_tender_information_path(@request), class: 'btn btn-sm btn-light' %>
+        <%= link_to 'Invite more contractors', edit_tender_participants_path(@request), class: 'btn btn-sm btn-light' %>
         <!--<div class="dropdown float-right">-->
           <!--<button class="btn btn-sm btn-light dropdown-toggle" type="button" id="request_actions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
             <!--Actions-->

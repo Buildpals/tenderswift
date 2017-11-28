@@ -1,6 +1,6 @@
 <div class="container" id="app">
   <div class="row">
-    <div class="col-lg-9 mx-auto pt-4">
+    <div class="col-lg-9 mx-auto pt-5">
       <% render 'layouts/notice' %>
     </div>
 
@@ -17,16 +17,6 @@
 
     <div class="col-lg-9 mx-auto">
       <%= render 'participants/bill_of_quantities', project: @request%>
-    </div>
-    <div class="col-lg-9 mx-auto">
-      <%= render 'participants/list_of_participants' %>
-    </div>
-    <div class="col-lg-12 mx-auto">
-      <%= link_to 'Send Out Request For Tender', { controller: :request_for_tenders, action: :update, commit: 'Send Request Out' },
-                class: 'btn btn-success ml-2 float-right',
-                data: { confirm: 'Send out this request for tender means all listed participants will immediately have access to this particular Request For Tender and as a result can start placing their bids. Are you sure you want to do so?'} %>
-      <%= link_to 'Make Changes', edit_request_for_tender_url(@request.id),
-            class: 'btn btn-danger ml-2 float-right' %>
     </div>
 
   </div>

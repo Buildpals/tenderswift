@@ -1,7 +1,5 @@
 class RequestForTendersController < ApplicationController
   before_action :set_request, only: [:show, :preview,
-                                     :edit_project_information, :edit_documents, :edit_boq, :edit_questionnaire, :edit_participants,
-                                     :update_project_information, :update_documents, :update_boq, :update_questionnaire, :update_participants,
                                      :destroy,
                                      :email_request_for_tender]
 
@@ -21,6 +19,10 @@ class RequestForTendersController < ApplicationController
     gon.jbuilder
   end
 
+  def preview
+    gon.jbuilder
+  end
+
   # GET /requests/new
   def new
     country = Country.first
@@ -31,44 +33,7 @@ class RequestForTendersController < ApplicationController
     @request.create_blank_boq
     @request.save!
     create_chat_room_for @request
-    redirect_to edit_request_for_tender_path @request, tab: '1'
-  end
-
-  # GET /requests/1/edit
-  def edit_project_information
-  end
-
-  def edit_documents
-    if @request.project_documents.length < 5
-      (5 - @request.project_documents.length).times { @request.project_documents.build }
-    else
-      @request.project_documents.build
-    end
-  end
-
-  def edit_boq
-    @request.build_excel
-    gon.jbuilder
-  end
-
-  def edit_questionnaire
-    if @request.questions.length < 1
-      (1 - @request.questions.length).times { @request.questions.build }
-    else
-      @request.questions.build
-    end
-  end
-
-
-  def edit_participants
-    if @request.participants.length < 5
-      (5 - @request.participants.length).times { @request.participants.build }
-    else
-      @request.participants.build
-    end
-  end
-
-  def preview
+    redirect_to edit_tender_information_path @request
   end
 
   # POST /requests
@@ -86,17 +51,6 @@ class RequestForTendersController < ApplicationController
     end
   end
 
-
-  def update_project_information
-    respond_to do |format|
-      if @request.update(request_params)
-        format.js
-      else
-        format.js
-      end
-    end
-  end
-
   # PATCH/PUT /requests/1
   # PATCH/PUT /requests/1.json
   def update
@@ -107,8 +61,6 @@ class RequestForTendersController < ApplicationController
               redirect_to email_request_for_tender_path(@request)
             elsif params[:commit] == 'Calculate Budget Differences'
               redirect_to @request
-            else
-              redirect_to edit_request_for_tender_path(@request), notice: 'Request was successfully updated.'
             end
         }
         format.json { render :show, status: :ok, location: @request }
@@ -121,13 +73,24 @@ class RequestForTendersController < ApplicationController
     end
   end
 
+  # DELETE /requests/1
+  # DELETE /requests/1.json
+  def destroy
+    @request.destroy
+    respond_to do |format|
+      format.html { redirect_to request_for_tenders_url, notice: 'Request was successfully destroyed.' }
+      format.json { head :no_content }
+    end
+  end
+
+
   # GET /email_request_for_tender/1
   def email_request_for_tender
     if @request.submitted?
       redirect_to @request,
                   notice: 'The participants of this request have been contacted already'
     elsif @request.participants.empty?
-      redirect_to edit_request_for_tender_path(@request),
+      redirect_to edit_tender_participants_path(@request),
                   alert: 'You did not specify any participants in this request.'
     else
       if @request.chatroom.nil?
@@ -151,21 +114,6 @@ class RequestForTendersController < ApplicationController
     end
   end
 
-  # DELETE /requests/1
-  # DELETE /requests/1.json
-  def destroy
-    @request.destroy
-    respond_to do |format|
-      format.html { redirect_to request_for_tenders_url, notice: 'Request was successfully destroyed.' }
-      format.json { head :no_content }
-    end
-  end
-
-
-  def preview
-    @request = RequestForTender.find(params[:id])
-    gon.jbuilder
-  end
 
   private
 
