@@ -36,6 +36,9 @@ Rails.application.routes.draw do
       to: 'request_for_tenders#notify_disqualified_contractors',
       as: 'notify_disqualified_contractors'
 
+  patch '/participants/disqualify/:id/',
+      to: 'participants#disqualify'
+  
   devise_for :quantity_surveyors
 
   resources :items

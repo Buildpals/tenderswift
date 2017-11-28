@@ -42,7 +42,7 @@
         <% if @request.winner.nil? %>
           <td>
             <button type="button" class="btn btn-danger btn-award-contract remove-con-btn">Disqualify
-              <span class="<%= participant.id %>"></span>
+              <span class="<%= participant.auth_token %>"></span>
             </button>
           </td>
           <td class="params">
@@ -56,3 +56,24 @@
   <% end %>
   </tbody>
 </table>
+
+<script type="text/javascript" charset="utf-8">
+  $('.remove-con-btn').click(function(e){
+      e.preventDefault();
+      var participantId = $(this)[0].children[0].className;
+      console.log(participantId);
+      $.ajax({
+      url: "/participants/disqualify/"+participantId,
+      type: "PATCH",
+      data: {
+        participant: { rating: "-1" }
+      },
+      success: function(response){
+        console.log(response);
+      },
+      error: function(response){ 
+        console.log(response);
+      }
+    });
+  })
+</script>

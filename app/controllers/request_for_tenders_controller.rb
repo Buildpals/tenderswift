@@ -162,7 +162,7 @@ class RequestForTendersController < ApplicationController
   def send_out_final_invitation
     request = RequestForTender.find(params[:id])
     body = params[:final_email_message]
-    DecisionMailer.award_contract(request, body).deliver_now
+    DecisionMailer.award_contract(request, body).deliver_later
   end
 
   private

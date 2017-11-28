@@ -2,7 +2,7 @@ class ParticipantsController < ApplicationController
   before_action :set_participant, only: [:show, :edit, :update, :destroy,
                                          :show_interest_in_request_for_tender,
                                          :show_disinterest_in_request_for_tender,
-                                         :show_boq]
+                                         :show_boq, :disqualify]
 
   # GET /participants
   # GET /participants.json
@@ -68,6 +68,22 @@ class ParticipantsController < ApplicationController
     end
   end
 
+  def disqualify
+    respond_to do |format|
+      if @participant.update(participant_params)
+        format.html {
+          if params[:commit] == 'save_rating'
+            redirect_to @participant.request_for_tender
+          else
+            redirect_to @participant.request_for_tender, notice: 'Participant was successfully updated.'
+          end
+        }
+        format.json {render :show, status: :ok, location: @participant}
+      else
+        format.json {render json: @participant.errors, status: :unprocessable_entity}
+      end
+    end
+  end
   # GET /show_interest_in_request_for_tender/1
   def show_interest_in_request_for_tender
     @participant.update(status: 'participating', interested_declaration_time: Time.current)
