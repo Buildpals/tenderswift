@@ -2,26 +2,35 @@
   <div class="card-header">
     Requirements
   </div>
-  <% @participant.request_for_tender.questions.each do |question| %>
-      <div class="card-body">
+  <% if project.class.eql?('Participant') %>
+    <% project.request_for_tender.questions.each do |question| %>
+        <div class="card-body">
 
-        <%= question.title %>
-        <p class="text-muted small"><%= question.description %></p>
+          <%= question.title %>
+          <p class="text-muted small"><%= question.description %></p>
 
-        <%= form_with(model: @participant.answer_box_for(question), local: true) do |form| %>
-            <%= form.hidden_field :participant_id, value: @participant.id %>
-            <%= form.hidden_field :question_id, value: question.id %>
-            <%= form.text_field :answer, id: :answer_answer, class: 'form-control form-control-sm mb-2' %>
-            <div class="nested-forms mb-5">
-              <%= form.fields_for :answer_documents do |answer_document| %>
-                  <%= render 'answer_document_fields', f: answer_document %>
-              <% end %>
-              <div class="d-flex w-100 justify-content-between mt-3">
-                <%= link_to_add_association 'Add document', form, :answer_documents, class: 'btn btn-sm btn-primary' %>
-                <%= form.submit 'Save', class: 'btn btn-sm btn-primary' %>
+          <%= form_with(model: project.answer_box_for(question), local: true) do |form| %>
+              <%= form.hidden_field :participant_id, value: project.id %>
+              <%= form.hidden_field :question_id, value: question.id %>
+              <%= form.text_field :answer, id: :answer_answer, class: 'form-control form-control-sm mb-2' %>
+              <div class="nested-forms mb-5">
+                <%= form.fields_for :answer_documents do |answer_document| %>
+                    <%= render 'answer_document_fields', f: answer_document %>
+                <% end %>
+                <div class="d-flex w-100 justify-content-between mt-3">
+                  <%= link_to_add_association 'Add document', form, :answer_documents, class: 'btn btn-sm btn-primary' %>
+                  <%= form.submit 'Save', class: 'btn btn-sm btn-primary' %>
+                </div>
               </div>
-            </div>
-        <% end %>
+          <% end %>
+        </div>
+    <% end %>
+  <% else %>
+    <% project.questions.each do |question| %>
+      <div class="card-body">
+        <%= question.title %>
+          <p class="text-muted small"><%= question.description %></p>
       </div>
+    <% end %>
   <% end %>
 </div>

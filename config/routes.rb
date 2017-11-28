@@ -37,6 +37,10 @@ Rails.application.routes.draw do
   get '/tender/:id/edit/preview', to: 'create_tender#preview', as: 'request_for_tenders_preview'
 
 
+  get '/request_for_tenders/:id/preview',
+      to: 'request_for_tenders#preview',
+      as: 'request_for_tender_preview'
+
   devise_for :quantity_surveyors
   devise_for :admins
 

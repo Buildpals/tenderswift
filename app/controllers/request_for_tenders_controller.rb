@@ -161,6 +161,12 @@ class RequestForTendersController < ApplicationController
     end
   end
 
+
+  def preview
+    @request = RequestForTender.find(params[:id])
+    gon.jbuilder
+  end
+
   private
 
   # Use to create a chatroom for a request

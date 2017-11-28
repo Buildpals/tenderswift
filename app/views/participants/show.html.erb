@@ -7,9 +7,9 @@
 
     <div class="col-lg-9 mx-auto">
 
-      <%= render 'project_summary' %>
+      <%= render 'project_summary', project: @participant %>
 
-      <%= render 'project_details' %>
+      <%= render 'project_details', project: @participant %>
 
     </div>
 
@@ -28,11 +28,11 @@
     <% if @participant.status.in? %w(participating bid_made) %>
 
         <div class="col-lg-9 mx-auto">
-          <%= render 'requirements_form' %>
+          <%= render 'requirements_form', project: @participant %>
         </div>
 
         <div class="col-lg-9 mx-auto">
-          <%= render 'bill_of_quantities' %>
+          <%= render 'bill_of_quantities', project: @participant %>
         </div>
 
     <% end %>
