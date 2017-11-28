@@ -1,0 +1,56 @@
+<div class="d-flex w-100 justify-content-between mb-2 form-inline">
+  <h5>Shortlisted Bids</h5>
+</div>
+
+<table class="table table-striped table-hover mb-5">
+  <thead class="thead-light">
+  <tr>
+    <th>Company</th>
+    <th>Bid</th>
+    <th>Difference</th>
+    <th>Bid time</th>
+    <th>Rating</th>
+    <th></th>
+    <th></th>
+    <th><th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @request.participants.bid_list.where('rating >= 0').order(rating: :desc).each do |participant| %>
+      <tr>
+        <td>
+          <span data-toggle="tooltip" data-placement="top" title="<%= participant.email %>">
+              <%= participant.name %>
+          </span>
+        </td>
+        <td>
+          <%= @request.contract_sum_currency %> <%= participant.bid %>
+        </td>
+        <td>
+          <%= @request.contract_sum_currency %> <%= participant.bid_difference %>
+          <small>(<%= participant.bid_difference_as_percentage %>)</small>
+        </td>
+        <td><small><%= participant.bid_submission_time.to_formatted_s(:short) %></small></td>
+        <td>
+          <% participant.rating.times do %>
+            <span class="fa fa-star text-warning"></span>
+          <% end %>
+        </td>
+        <td>
+          <%= link_to 'View bid', participant_boq_path(participant)%>
+        </td>
+        <% if @request.winner.nil? %>
+          <td>
+            <button type="button" class="btn btn-danger btn-award-contract">Disqualify</button>
+          </td>
+          <td>
+            <button type="button" class="btn btn-success btn-award-contract accept" data-toggle="modal" data-target="#alertModal">Award contract
+              <span class="<%= participant.company_name %>"></span>
+              <span class="<%= participant.id %>"></span>
+            </button>
+          </td>
+        <% end %>
+      </tr>
+  <% end %>
+  </tbody>
+</table>

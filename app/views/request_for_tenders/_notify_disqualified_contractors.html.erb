@@ -1,0 +1,46 @@
+<!-- Notify Quantity Surveyors-->
+<div class="modal fade" id="disqualifiedContractorsModal" tabindex="-1" role="dialog" aria-labelledby="disqualifiedContractorsModalTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header alert alert-info">
+        <h5 class="modal-title" id="disqualifiedContractorsModalTitle">Inform other participants about your decision</h5>
+      </div>
+      <div class="modal-body">
+        <div class="message-disqualified-contractors email-body" contenteditable="true">
+          <span>
+            <p>Dear Sirs/Madam,</p>
+            <br/>
+             We have now evaluated all of the final bids we received. 
+            <br/>
+            <br/>
+            On the basis of this evaluation, I am writing to advise you that unfortunately on this occasion you have not been successful.
+            The contract was awarded to <span class="winner-name"></span>.
+            <br/>
+            <br/>
+            If you would like to receive feedback on your submission we would be more than happy to provide you with this.
+            In the meantime, on behalf our organization, I would like to take this opportunity to thank you for the time and effort you have taken over the preparation and submission of your proposals. 
+            <br/>
+            <br/>
+            I hope this will not discourage you from bidding again in the future.
+            <br/>
+            <br/>
+            Yours faithfully,
+            <br/>
+            <br/>
+            For and on behalf 
+            <br/>
+            <br/>
+            <%= @request.quantity_surveyor.company_name %>.
+          </span>
+        </div>
+      </div>
+         <div class="alert alert-danger" role="alert"><strong>Note: This message will be sent to every disqualified contractor.</strong></div>
+        <%= form_with url: notify_disqualified_contractors_url(@request.id), id: 'notify-disqualified-contractors' do |form| %>
+          <%= form.text_area :notify_disqualified_contractors_message, { class: 'form-control', id: 'notify-disqualified-contractors-message', data: { parsley_minlength: '20', parsley_required: 'true' }, require: true, rows: '25' } %>
+      <div class="modal-footer">
+          <%= form.submit "Send Message", { id: 'btn-notify-contrators', class: 'btn btn-success', data: { disable_with: 'Sending Email...'} } %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

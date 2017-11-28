@@ -30,255 +30,24 @@
 <br/>
 <br/>
 
-<div class="d-flex w-100 justify-content-between mb-2 form-inline">
-  <h5>Shortlisted Bids</h5>
-</div>
+<%= render 'shortlisted_bids' %>
 
-<table class="table table-striped table-hover mb-5">
-  <thead class="thead-light">
-  <tr>
-    <th>Company</th>
-    <th>Bid</th>
-    <th>Difference</th>
-    <th>Bid time</th>
-    <th>Rating</th>
-    <th></th>
-    <th></th>
-    <th><th>
-  </tr>
-  </thead>
-  <tbody>
-  <% @request.participants.bid_list.where('rating >= 0').order(rating: :desc).each do |participant| %>
-      <tr>
-        <td>
-          <span data-toggle="tooltip" data-placement="top" title="<%= participant.email %>">
-              <%= participant.name %>
-          </span>
-        </td>
-        <td>
-          <%= @request.contract_sum_currency %> <%= participant.bid %>
-        </td>
-        <td>
-          <%= @request.contract_sum_currency %> <%= participant.bid_difference %>
-          <small>(<%= participant.bid_difference_as_percentage %>)</small>
-        </td>
-        <td><small><%= participant.bid_submission_time.to_formatted_s(:short) %></small></td>
-        <td>
-          <% participant.rating.times do %>
-            <span class="fa fa-star text-warning"></span>
-          <% end %>
-        </td>
-        <td>
-          <%= link_to 'View bid', participant_boq_path(participant)%>
-        </td>
-        <td>
-          <button type="button" class="btn btn-danger btn-award-contract">Disqualify</button>
-        </td>
-        <td>
-          <button type="button" class="btn btn-success btn-award-contract accept" data-toggle="modal" data-target="#alertModal">Award contract
-            <span class="<%= participant.company_name %>"></span>
-            <span class="<%= participant.id %>"></span>
-          </button>
-        </td>
-      </tr>
-  <% end %>
-  </tbody>
-</table>
+<%= render 'disqualified_bids' %>
 
-<div class="d-flex w-100 justify-content-between mb-2 form-inline">
-  <h5>Disqualified Bids</h5>
-    <% if @request.participants.bid_list.where('rating < 0').size > 1 %>
-    <a href=""
-      class="btn btn-sm btn-primary pull-right" data-toggle="modal" data-target="#finalMessageModal">
-      <span class="fa fa-envelope"></span>
-    </a>
-    <% end %>
-</div>
+<br/>
+<br/>
 
-<table class="table table-striped table-hover">
-  <thead class="thead-light">
-  <tr>
-    <th>Company</th>
-    <th>Bid</th>
-    <th>Difference</th>
-    <th>Bid time</th>
-    <th>Rating</th>
-    <th></th>
-  </tr>
-  </thead>
-  <tbody>
-  <% @request.participants.bid_list.where('rating < 0').order(rating: :desc).each do |participant| %>
-      <tr>
-        <td>
-          <span data-toggle="tooltip" data-placement="top" title="<%= participant.email %>">
-              <%= participant.name %>
-          </span>
-        </td>
-        <td>
-          <%= @request.contract_sum_currency %> <%= participant.bid %>
-        </td>
-        <td>
-          <%= @request.contract_sum_currency %> <%= participant.bid_difference %>
-          <small>(<%= participant.bid_difference_as_percentage %>)</small>
-        </td>
-        <td><small><%= participant.bid_submission_time.to_formatted_s(:short) %></small></td>
-        <td>
-          <span class="text-danger">Disqualified</span>
-        </td>
-        <td>
-          <%= link_to 'View bid', participant_boq_path(participant) %>
-        </td>
-      </tr>
-  <% end %>
-  </tbody>
-</table>
+<%= render 'winner_display' %>
 
+<%= render 'confirm_winner_of_bid' %>
 
-<!-- Confirm Winner Modal -->
-<div class="modal fade" id="alertModal" tabindex="-1" role="dialog" aria-labelledby="alertModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="alertModalLabel">Are you sure</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-          <span class="mute-text"><p>By awarding the contract to <span class="winner-name"></span>, you are selecting 
-          <span class="winner-name"></span> as the winner of this tendering process. </p>   
-          <p>Therefore disqulifying every other contractor that made a bid. </p>
-        <p>Are you sure you want to do this?</p> 
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-        <button type="button" class="btn btn-success" id="confirm-winner" data-dismiss="modal">Yes</button>
-      </div>
-    </div>
-  </div>
-</div>
+<%= render 'error_message_modal'%>
 
+<%= render 'notify_disqualified_contractors'%>
 
-<!-- Error Message -->
-<div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="errorModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="errorModalLabel">Error</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        Something went wrong. Check out your internet connection and try again
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
+<%= render 'award_contract' %>
 
-
-<!-- Notify Quantity Surveyors-->
-<div class="modal fade" id="disqualifiedContractorsModal" tabindex="-1" role="dialog" aria-labelledby="disqualifiedContractorsModalTitle" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="disqualifiedContractorsModalTitle">Inform the rest about your decision</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="alert alert-danger" role="alert"><strong>This message will be sent to every disqualified contractor.</strong></div>
-      <div class="modal-body">
-        <div class="message-disqualified-contractors" contenteditable="true">
-          <span>
-            <p>Dear Sirs/Madam,</p>
-            <br/>
-             We have now evaluated all of the final bids we received. 
-            <br/>
-            <br/>
-            On the basis of this evaluation, I am writing to advise you that unfortunately on this occasion you have not been successful.
-            The contract was awarded to <span class="winner-name"></span>.
-            <br/>
-            <br/>
-            If you would like to receive feedback on your submission we would be more than happy to provide you with this.
-            In the meantime, on behalf our organization, I would like to take this opportunity to thank you for the time and effort you have taken over the preparation and submission of your proposals. 
-            <br/>
-            <br/>
-            I hope this will not discourage you from bidding again in the future.
-            <br/>
-            <br/>
-            Yours faithfully,
-            <br/>
-            <br/>
-            For and on behalf <%= @request.quantity_surveyor.company_name %>.
-          </span>
-        </div>
-      </div>
-        <%= form_with url: notify_disqualified_contractors_url(@request.id), id: 'notify-disqualified-contractors' do |form| %>
-          <%= form.text_area :notify_disqualified_contractors_message, { class: 'form-control', id: 'notify-disqualified-contractors-message', data: { parsley_minlength: '20', parsley_required: 'true' }, require: true, rows: '25' } %>
-      <div class="modal-footer">
-          <%= form.submit "Send Message", { id: 'btn-notify-contrators', class: 'btn btn-success', data: { disable_with: 'Sending Email...'} } %>
-        <% end %>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-
-
-
-
-<div class="modal fade" id="finalMessageModal" tabindex="-1" role="dialog" aria-labelledby="finalMessageModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <div class="alert alert-success col-md-12" role="alert"><strong>Great!</strong> 
-          All disqualified contractors have been notified of the outcome of the bid.
-          Send email to <span class="winner-name"></span> to inform them of their successful bid
-        </div>
-        <h5 class="modal-title" id="finalMessageModalLabel"></h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="final-message" contenteditable="true">
-          <span>
-            Dear Sir/Madam, 
-            <br/>
-            <br/>
-            <p>On behalf of <span class="replace">(Client Name)</span>, I am pleased to accept your bid for the above project. Please find attached the documents listed below which shall be deemed to form and to be read and to be construed as part of the Contract:</p> 
-            <br/>
-            <ul>
-              <li class="replace">List Attached contract documents</li>
-            </ul>
-            <br/>
-            <p>The contract will commence on Insert Date, and per above the value of the contract, for the full life of the contract shall be exclusive of VAT.   The contract completion date is <span>(Date of Completion)</span>.</p>
-            <p>Please confirm receipt of this contract award letter at the following address  by return in order to act as an acknowledgement of receipt of this contract award letter. </p>
-            <p>Furthermore no action should be taken by your company at this time in respect of this contract until the official contract start date. <span class="replace">(Consultant Name)</span> accept no responsibility or liability for any actions which you may take based on the information detailed in this letter.  Any such actions and their financial consequences will be entirely at your own risk. </p>
-            <p>Please do not hesitate to contact us directly should you have any questions about the content of this letter. </p>
-            <br/>
-            <p>Yours faithfully 
-            <br/>
-            <p>For and on behalf of <span class="replace">(Clients Name)</span></p>
-          </span>
-        </div>
-        <%= form_with url: request_send_out_final_invitation_url(@request.id), id: 'send-out-final-invitation' do |form| %>
-          <%= form.text_area :final_email_message, { class: 'form-control', id: 'final-email-message', data: { parsley_minlength: '20', parsley_required: 'true' }, require: true, rows: '25' } %>
-          <%= form.file_field :final_contract_document, { class: 'form-control' }%>
-      </div>
-      <div class="modal-footer">
-          <%= form.submit "Send Message", { class: 'btn btn-success', data: { disable_with: 'Sending Email...'} } %>
-        <% end %>
-      </div>
-    </div>
-  </div>
-</div>
-
+<%= render 'done' %>
 
 
 
@@ -331,6 +100,11 @@ $(function () {
 
 $('#btn-notify-contrators').click(function(e){
   $('#disqualifiedContractorsModal').modal('hide');
+  //make modal unclosable
+  $('#finalMessageModal').modal({
+    backdrop: 'static',
+    keyboard: false
+  });
   $('#finalMessageModal').modal('show');
 });
 
@@ -352,11 +126,14 @@ $('#confirm-winner').click( function(e){
       type: "POST",
       data: {},
       success: function(response){
-        console.log(response);
+        //make modal unclosable
+        $('#disqualifiedContractorsModal').modal({
+          backdrop: 'static',
+          keyboard: false
+        });
         $('#disqualifiedContractorsModal').modal('show');
        },
       error: function(response){ 
-        console.log(response);
         $('#errorModal').modal('show');
        }
   });
@@ -373,6 +150,14 @@ $('#disqualifiedContractorsModal').on('shown.bs.modal', function(e){
 //Insert winner's name in to alert when modal appears
 $('#alertModal').on('shown.bs.modal', function(e){
   displayWinnerName();
+});
+
+$('#finalMessageModal').on('hidden.bs.modal', function (e) {
+  $("#doneModal").modal('show');
+});
+
+$('#doneModal').on('hidden.bs.modal', function (e) {
+  location.reload();
 });
 
 </script>
