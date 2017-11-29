@@ -15,27 +15,29 @@
   </thead>
   <tbody>
   <% @request.participants.bid_list.where('rating < 0').order(rating: :desc).each do |participant| %>
-      <tr>
-        <td>
-          <span data-toggle="tooltip" data-placement="top" title="<%= participant.email %>">
-              <%= participant.name %>
-          </span>
-        </td>
-        <td>
-          <%= @request.contract_sum_currency %> <%= participant.bid %>
-        </td>
-        <td>
-          <%= @request.contract_sum_currency %> <%= participant.bid_difference %>
-          <small>(<%= participant.bid_difference_as_percentage %>)</small>
-        </td>
-        <td><small><%= participant.bid_submission_time.to_formatted_s(:short) %></small></td>
-        <td>
-          <span class="text-danger">Disqualified</span>
-        </td>
-        <td>
-          <%= link_to 'View bid', participant_boq_path(participant) %>
-        </td>
-      </tr>
+      <% unless !@request.winner.nil? && @request.winner.auth_token.eql?(participant.auth_token) %>
+        <tr>
+          <td>
+            <span data-toggle="tooltip" data-placement="top" title="<%= participant.email %>">
+                <%= participant.name %>
+            </span>
+          </td>
+          <td>
+            <%= @request.contract_sum_currency %> <%= participant.bid %>
+          </td>
+          <td>
+            <%= @request.contract_sum_currency %> <%= participant.bid_difference %>
+            <small>(<%= participant.bid_difference_as_percentage %>)</small>
+          </td>
+          <td><small><%= participant.bid_submission_time.to_formatted_s(:short) %></small></td>
+          <td>
+            <span class="text-danger">Disqualified</span>
+          </td>
+          <td>
+            <%= link_to 'View bid', participant_boq_path(participant) %>
+          </td>
+        </tr>
+      <% end %>
   <% end %>
   </tbody>
 </table>

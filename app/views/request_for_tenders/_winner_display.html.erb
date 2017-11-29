@@ -18,17 +18,17 @@
         <tr>
           <td>
             <span data-toggle="tooltip" data-placement="top" title="<%= @request.winner.email %>">
-                <%= @request.winner.name %>
+                <%= @request.winner.company_name %>
             </span>
           </td>
           <td>
-            <%= @request.contract_sum_currency %> <%= @request.winner.bid %>
+            <%= @request.contract_sum_currency %> <%= @winner.bid %>
           </td>
           <td>
-            <%= @request.contract_sum_currency %> <%= @request.winner.bid_difference %>
-            <small>(<%= @request.winner.bid_difference_as_percentage %>)</small>
+            <%= @request.contract_sum_currency %> <%= @winner.bid_difference %>
+            <small>(<%= @winner.bid_difference_as_percentage %>)</small>
           </td>
-          <td><small><%= @request.winner.bid_submission_time.to_formatted_s(:short) %></small></td>
+          <td><small><%= @winner.bid_submission_time.to_formatted_s(:short) %></small></td>
           <td>
             <span class="text-danger">Winner</span>
           </td>

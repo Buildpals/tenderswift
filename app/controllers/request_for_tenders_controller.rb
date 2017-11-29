@@ -16,6 +16,9 @@ class RequestForTendersController < ApplicationController
   # GET /requests/1
   # GET /requests/1.json
   def show
+    unless @request.winner.nil?
+      @winner = Participant.find_by(auth_token: @request.winner.auth_token)
+    end
     gon.jbuilder
   end
 
@@ -138,7 +141,7 @@ class RequestForTendersController < ApplicationController
   def set_winner
     request = RequestForTender.find(params[:id])
     participant = Participant.find(params[:participant])
-    request.winner = participant
+    request.winner = Winner.cast_participant(participant)
     if request.save!
       render json: request
     else

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171125201301) do
+ActiveRecord::Schema.define(version: 20171129152703) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -244,7 +244,6 @@ ActiveRecord::Schema.define(version: 20171125201301) do
     t.string "budget_currency", default: "USD", null: false
     t.string "contract_sum"
     t.string "contract_sum_currency", default: "USD", null: false
-    t.integer "winner_id"
     t.index ["country_id"], name: "index_request_for_tenders_on_country_id"
     t.index ["quantity_surveyor_id"], name: "index_request_for_tenders_on_quantity_surveyor_id"
   end
@@ -265,6 +264,19 @@ ActiveRecord::Schema.define(version: 20171125201301) do
     t.index ["boq_id"], name: "index_tags_on_boq_id"
   end
 
+  create_table "winners", force: :cascade do |t|
+    t.string "email"
+    t.string "first_name"
+    t.string "last_name"
+    t.string "company_name"
+    t.string "phone_number"
+    t.string "auth_token"
+    t.bigint "request_for_tender_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["request_for_tender_id"], name: "index_winners_on_request_for_tender_id"
+  end
+
   add_foreign_key "answer_boxes", "participants"
   add_foreign_key "answer_boxes", "questions"
   add_foreign_key "answer_documents", "answer_boxes"
@@ -278,4 +290,5 @@ ActiveRecord::Schema.define(version: 20171125201301) do
   add_foreign_key "project_documents", "request_for_tenders"
   add_foreign_key "questions", "request_for_tenders"
   add_foreign_key "tags", "boqs"
+  add_foreign_key "winners", "request_for_tenders"
 end

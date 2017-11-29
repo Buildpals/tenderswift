@@ -13,7 +13,7 @@ class RequestForTender < ApplicationRecord
 
   belongs_to :country
 
-  belongs_to :winner, class_name: "Participant"
+  has_one :winner
 
   has_many :questions, dependent: :destroy, inverse_of: :request_for_tender
   accepts_nested_attributes_for :questions,
@@ -115,7 +115,7 @@ class RequestForTender < ApplicationRecord
   def get_disqualified_contractors
     disqualified_participants = Array.new
     self.participants.lazy.each do |participant|
-      unless self.winner.id.eql?(participant.id)
+      unless self.winner.auth_token.eql?(participant.auth_token)
         disqualified_participants.push(participant)
       end
     end
