@@ -6,10 +6,10 @@
         <tbody>
         <tr>
           <td align="left" valign="top" width="91" style="padding:30px 20px 0px 20px">
-            <img style="border: 0pt none; max-width: 1752px;"
-                 title="<%= participant.project_owners_company_name %>"
-                 src=""
-                 alt="<%= participant.project_owners_company_name %>">
+            <%= cl_image_tag(participant.project_owners_company_logo.full_public_id,
+                             format: 'jpg', width: 91, crop: :scale, 
+                             alt: participant.project_owners_company_name)
+            %>
           </td>
           <td align="left" valign="top" style="padding:60px 50px 60px 10px">
             <table border="0" width="470" cellspacing="0" cellpadding="0">
@@ -24,19 +24,22 @@
                   <p></p>
                   <p>
                     <span style="color:#555555;font-family:Arial;font-size:14px">
-                      I am inviting you to participate on a request for tender below. Click the name of the request to see details and please submit your bid through our online platform.
+                      I am inviting you to participate on a request for tender below.
+                      Click the name of the request to see details and please submit
+                      your bid through our online platform.
                     </span>
                   </p>
                   <p>
                     <span style="color:#555555;font-family:Arial;font-size:16px">
-                      <a style="font-family:Arial;color:#f2d10e" href="<%= participant_url(participant) %>" target="_blank">
+                      <a style="font-family:Arial;color:darkorange" href="<%= participant_url(participant) %>" target="_blank">
                         <%= participant.project_name %>
                       </a>
                     </span>
                     <br>
 
                     <span style="color:#555555;font-family:Arial;font-size:14px">
-                      The deadline for making bids is: <%= participant.project_deadline.to_formatted_s(:long) %>
+                      The deadline for making bids is: 
+                      <%= participant.project_deadline.to_formatted_s(:long) %>
                     </span>
                   </p>
 
@@ -60,7 +63,7 @@
                     <span style="color:#555555;font-family:Arial;font-size:14px">
                       <strong>
                         If you are considering to participate on this request, please
-                        <a style="font-family:Arial;color:#f2d10e" href="<%= participant.accept_url %>">
+                        <a style="font-family:Arial;color:darkorange" href="<%= participant.accept_url %>">
                           click here
                         </a>
                         so I will know to wait for your bid.
@@ -71,7 +74,7 @@
                   <p>
                     <span style="color:#555555;font-family:Arial;font-size:14px">
                       However if this request is of no interest to you, just
-                      <a style="font-family:Arial;color:#f2d10e" href="<%= participant.decline_url %>">
+                      <a style="font-family:Arial;color:darkorange" href="<%= participant.decline_url %>">
                         let me know.
                       </a>
                     </span>
@@ -120,14 +123,19 @@
         <tbody>
         <tr>
           <td valign="top" style="padding-right:10px">
-            <img style="border: 0pt none; width: 160px;"
-                 src="http://res.cloudinary.com/surreal/image/upload/c_scale,w_160/v1511600212/buildpals-logo-small_glrdoc.png" alt="Buildpals">
+            <img style="border: 0pt none; width: 100px;"
+                 src="http://res.cloudinary.com/surreal/image/upload/c_scale,w_160/v1511600212/buildpals-logo-small_glrdoc.png" 
+                 alt="Buildpals">
           </td>
           <td valign="top">
             <p>
               <span style="color:#888888;font-family:Arial;font-size:13px">
-				        <a style="font-family:Arial;color:#f2d10e" href="https://www.buildpals.com" target="_blank" data-saferedirecturl="https://www.google.com/url?hl=en&amp;q=https://www.buildpals.com&amp;source=gmail&amp;ust=1512056495717000&amp;usg=AFQjCNEhBkY30gpDJqn6HsTX6zP6pjmh1Q">
-                  Buildpals</a> provides an easy to use solution to the traditional paper-based bidding for faster and more thorough sourcing processes. To enter your bid click on the green button above. It is free of charge and the information is accessible only to you and the buyer.
+				        <a style="font-family:Arial;color:darkorange" href="https://www.buildpals.com" target="_blank">
+                  Buildpals
+                </a> 
+                provides an easy to use solution to the traditional paper-based bidding for faster and more 
+                thorough tendering processes. To enter your bid click on the green button above.
+                It is free of charge and the information is accessible only to you and the project owner.
               </span>
             </p>
             <p>

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <%= render 'layouts/head' %>
+
+  <body class="<%= controller_name %> <%= action_name %>">
+
+    <%= render 'layouts/participants_navbar' %>
+
+    <div class="content">
+      <%= yield %>
+    </div>
+
+    <%= render 'layouts/participants_footer' %>
+
+  </body>
+</html>

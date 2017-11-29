@@ -55,6 +55,10 @@ class RequestForTender < ApplicationRecord
     quantity_surveyor.company_name
   end
 
+  def project_owners_company_logo
+    quantity_surveyor.company_logo
+  end
+
   def project_owners_phone_number
     quantity_surveyor.phone_number
   end
