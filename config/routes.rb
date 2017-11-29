@@ -56,6 +56,7 @@ Rails.application.routes.draw do
   resources :answer_boxes
   resources :questions
   resources :countries
+  resources :quantity_surveyors
 
   mount ActionCable.server => '/cable'
 end

@@ -3,8 +3,8 @@ class Message < ApplicationRecord
   belongs_to :participant, dependent: :destroy
 
   enum sender: {
-    quantity_surveyor: 0,
-    participant: 1
+      quantity_surveyors: 0,
+      participant: 1
   }
   
   validates :content, presence: true

@@ -19,6 +19,7 @@
 //= require bootstrap-sprockets
 //= require bootstrap-datepicker
 //= require autosize
+//= require parsley
 //= require moment
 //= require cocoon
 //= require handsontable.full
@@ -27,3 +28,4 @@
 //= require requests
 //= require participants
 //= require create_tender
+//= require registrations

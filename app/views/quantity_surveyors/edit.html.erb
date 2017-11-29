@@ -1,0 +1,104 @@
+<div class="container">
+  <div class="row">
+
+    <div class="col-lg-8 mx-auto pt-5">
+      <%= render 'layouts/notice' %>
+    </div>
+
+  </div>
+
+  <div class="row">
+    <div class="col-lg-8 mx-auto mb-5">
+      <h3 class="mb-4">Account Information</h3>
+      <hr>
+
+      <div class="mb-5">
+        <%= form_with(model: @quantity_surveyor, local: true) do |f| %>
+
+            <div class="form-group row">
+              <%= f.label :full_name, class: 'col-sm-3 col-form-label' %>
+
+              <div class="col-sm-9">
+                <%= f.text_field :full_name, placeholder: 'Your name', autofocus: true, class: 'form-control', required: true %>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <%= f.label :email, class: 'col-sm-3 col-form-label' %>
+
+              <div class="col-sm-9">
+                <%= f.email_field :email, autofocus: true, class: 'form-control' %>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <%= f.label :phone_number, class: 'col-sm-3 col-form-label' %>
+
+              <div class="col-sm-9">
+                <input type="tel" name="phone" id="phone_number_input" value="<%= @quantity_surveyor.phone_number %>"
+                       placeholder="Phone number" autocomplete="on" class="form-control" required>
+                <%= f.hidden_field :phone_number, id: 'quantity_surveyor_phone_number' %>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <%= f.label :company_name, class: 'col-sm-3 col-form-label' %>
+
+              <div class="col-sm-9">
+                <%= f.text_field :company_name, placeholder: :company_name, autocomplete: "on", class: 'form-control', required: true %>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <%= f.label :company_logo, class: 'col-sm-3 col-form-label' %>
+
+              <div class="col-sm-9">
+                <% if f.object.company_logo? %>
+                    <img class="img-fluid mb-2" style="height: 100px;"
+                         src="<%= f.object.company_logo.url %>" alt="<%= f.object.company_logo.file.filename %>">
+                    <%= f.file_field :company_logo, placeholder: :company_logo, class: 'form-control-file' %>
+                <% else %>
+                    <%= f.file_field :company_logo, placeholder: :company_logo, class: 'form-control-file', required: true %>
+                <% end %>
+              </div>
+            </div>
+
+            <div class="actions d-flex w-100 justify-content-end">
+              <%= f.submit 'Update Account Information', class: 'btn btn-primary' %>
+            </div>
+
+        <% end %>
+      </div>
+
+
+      <div class="mb-5">
+        <h3>Change Password</h3>
+        <hr>
+        <a href="<%= edit_quantity_surveyor_registration_path(@quantity_surveyor) %>">Change Password</a>
+      </div>
+
+      <div class="mb-5">
+        <h3>Delete account</h3>
+        <hr>
+
+        <p>Want to delete your account? <br>
+          <small>Be careful, this action is not reversible.</small>
+        </p>
+        <%= button_to 'Delete my account', registration_path(@quantity_surveyor),
+                      class: 'btn btn-danger',
+                      data: {confirm: 'Are you sure?'}, method: :delete %>
+      </div>
+
+    </div>
+  </div>
+
+
+  <div class="row">
+    <div class="col-lg-6 mx-auto">
+      <% link_to "Back", :back %>
+    </div>
+  </div>
+</div>
+
+
+

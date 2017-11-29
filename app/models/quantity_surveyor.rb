@@ -4,6 +4,8 @@ class QuantitySurveyor < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
+  mount_uploader :company_logo, CompanyLogoUploader
+
   has_many :request_for_tenders
 
   EMAIL_REGEX = /\A[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}\Z/i
