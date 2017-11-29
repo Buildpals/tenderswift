@@ -6,9 +6,10 @@
 
     <div class="col-lg-9 mx-auto">
 
-      <%= render 'participants/project_summary', project: @request %>
+      <%= render 'participants/project_summary', participant: @request %>
 
-      <%= render 'participants/project_details', project: @request %>
+      <%= render 'participants/project_details', participant: @request,
+                 decline_project_link: '#', accept_project_link: '#' %>
 
     </div>
     <div class="col-lg-9 mx-auto">

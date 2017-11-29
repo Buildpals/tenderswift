@@ -15,7 +15,7 @@ class ParticipantsController < ApplicationController
   def show
     @participant.update(status: 'read', request_read_time: Time.current) if @participant.not_read?
     @boq = @participant.boq
-    gon.jbuilder
+    # gon.jbuilder
   end
 
   def show_boq
@@ -98,7 +98,12 @@ class ParticipantsController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_participant
-    @participant = Participant.find_by(auth_token: params[:id])
+    if params[:id].first(6) == 'guest-'
+      request_for_tender = RequestForTender.find(params[:id][6..-1])
+      @participant = GuestParticipant.new(request_for_tender)
+    else
+      @participant = Participant.find_by(auth_token: params[:id])
+    end
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.

@@ -1,22 +1,22 @@
 <div class="card mb-4">
   <div class="card-body">
 
-    <h4 class="card-title"><%= project.project_name %></h4>
+    <h4 class="card-title"><%= participant.project_name %></h4>
 
     <p>
-      <%= project.project_location %>
+      <%= participant.project_location %>
     </p>
 
     <small>
       <strong>Contract Sum&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong>&nbsp;&nbsp;
-      <%= project.contract_sum_currency %>
-      <%= project.contract_sum %>
+      <%= participant.contract_sum_currency %>
+      <%= participant.contract_sum %>
     </small>
 
     <small>
       <p class="mb-1">
         <strong>Project Consultant&nbsp;</strong>&nbsp;&nbsp;
-        <%= project.project_owners_name %>
+        <%= participant.project_owners_company_name %>
       </p>
     </small>
 
@@ -31,10 +31,10 @@
           <strong>End date</strong>
         </div>
         <div class="col-lg-4">
-          <%= project.time_left %>
+          <%= participant.time_left %>
         </div>
         <div class="col-lg-8">
-          <%= project.project_deadline.to_formatted_s(:long) %>
+          <%= participant.project_deadline.to_formatted_s(:long) %>
           <span class="ml-3">(UTC+00:00)</span>
         </div>
 

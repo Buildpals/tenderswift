@@ -5,7 +5,6 @@ class CreateTenderController < ApplicationController
   before_action :authenticate_quantity_surveyor!, only: [:edit, :index]
 
 
-
   def edit_tender_information
     @next_path = edit_tender_documents_path(@request)
   end
@@ -21,24 +20,22 @@ class CreateTenderController < ApplicationController
   end
 
 
-
   def edit_tender_documents
     @next_path = edit_tender_boq_path(@request)
 
-    5.times { @request.project_documents.build } if @request.project_documents.empty?
+    5.times {@request.project_documents.build} if @request.project_documents.empty?
   end
 
   def update_tender_documents
     respond_to do |format|
       if @request.update(request_params)
-        format.html { redirect_to edit_tender_documents_path(@request), notice: 'All changes saved.' }
+        format.html {redirect_to edit_tender_documents_path(@request), notice: 'All changes saved.'}
         format.js
       else
         format.js
       end
     end
   end
-
 
 
   def edit_tender_boq
@@ -51,14 +48,13 @@ class CreateTenderController < ApplicationController
   def update_tender_boq
     respond_to do |format|
       if @request.update(request_params)
-        format.html { redirect_to edit_tender_boq_path(@request), notice: 'All changes saved.' }
+        format.html {redirect_to edit_tender_boq_path(@request), notice: 'All changes saved.'}
         format.js
       else
         format.js
       end
     end
   end
-
 
 
   def edit_tender_questionnaire
@@ -78,9 +74,8 @@ class CreateTenderController < ApplicationController
   end
 
 
-
   def edit_tender_participants
-    5.times { @request.participants.build } if @request.participants.empty?
+    5.times {@request.participants.build} if @request.participants.empty?
   end
 
 
@@ -98,6 +93,7 @@ class CreateTenderController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_request
     @request = RequestForTender.find(params[:id])
+    @participant = GuestParticipant.new(@request)
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.

@@ -48,6 +48,10 @@ class RequestForTender < ApplicationRecord
   end
 
   def project_owners_name
+    quantity_surveyor.full_name
+  end
+
+  def project_owners_company_name
     quantity_surveyor.company_name
   end
 

@@ -1,46 +1,121 @@
-class Participant < ApplicationRecord
+class GuestParticipant
   include ActionView::Helpers::DateHelper
   include  ActionView::Helpers::NumberHelper
 
-  has_secure_token :auth_token
+  def initialize(request_for_tender)
+    @request_for_tender = request_for_tender
+  end
 
-  enum status: {
-      not_read: 0,
-      read: 1,
-      not_participating: 2,
-      participating: 3,
-      bid_made: 4
-  }
+  def id
+    'guest'
+  end
 
-  scope :not_read_list, -> {where(status: 0)}
-  scope :read_list, -> {where(status: [1, 2, 3, 4, 5])}
-  scope :not_participating_list, -> {where(status: 2)}
-  scope :participating_list, -> {where(status: [3, 4])}
-  scope :bid_list, -> {where(status: 4)}
+  def created_at
+    request_for_tender.created_at
+  end
 
-  belongs_to :request_for_tender
+  def updated_at
+    request_for_tender.updated_at
+  end
 
-  has_many :filled_items, dependent: :destroy
-  accepts_nested_attributes_for :filled_items,
-                                allow_destroy: true,
-                                reject_if: :all_blank
+  def decline_url
+    ''
+  end
 
-  has_many :items, through: :filled_items
+  def accept_url
+    ''
+  end
 
-  has_many :answer_boxes, inverse_of: :participant
-  has_many :questions, through: :answer_boxes
+  def status
+    'read'
+  end
 
-  has_many :messages
+  def answer_boxes
+    AnswerBox.none
+  end
 
-  validates :email, presence: true
 
-  validates :company_name, presence: true
-
-  validates :phone_number, presence: true
+  def filled_items
+    # FilledItem.none
+  end
 
   def to_param
-    auth_token
+    "guest-#{request_for_tender.id}"
   end
+
+  def request_for_tender
+    @request_for_tender
+  end
+
+  def company_name
+    'Example Company Ltd'
+  end
+
+  def email
+    'example_participant@buildpals.com'
+  end
+
+  def first_name
+    'John'
+  end
+
+  def last_name
+    'Smith'
+  end
+
+  def phone_number
+    '+233240000000'
+  end
+
+  def bid_submission_time
+    nil
+  end
+
+  def request_read_time
+    nil
+  end
+
+  def interested
+    false
+  end
+
+  def interested_declaration_time
+    nil
+  end
+
+  def declination_reason
+    nil
+  end
+
+  def removed
+    nil
+  end
+
+  def comment
+    nil
+  end
+
+  def auth_token
+    nil
+  end
+
+  def rating
+    0
+  end
+
+
+
+
+
+  def not_read?
+    true
+  end
+
+  def update(attributes)
+    self
+  end
+
+
 
   def name
     if company_name.blank?
@@ -48,16 +123,6 @@ class Participant < ApplicationRecord
     else
       company_name
     end
-  end
-
-  def decline_url
-    Rails.application.routes.url_helpers
-        .show_disinterest_in_request_for_tender_path(self)
-  end
-
-  def accept_url
-    Rails.application.routes.url_helpers
-        .show_interest_in_request_for_tender_path(self)
   end
 
   def project_owners_name
