@@ -5,6 +5,9 @@
 </head>
 <body>
   <p>Thank you for taking part in <%= @request_for_tender.project_name %>'s bidding process.</p>
-  <p><%= @message %></p>
+  <br>
+  <% @message.split('.').each do |line| %>
+    <p><%= line %></p>
+  <% end %>
 </body>
 </html>
