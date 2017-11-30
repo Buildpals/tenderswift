@@ -141,32 +141,17 @@ class RequestForTendersController < ApplicationController
   def set_winner
     request = RequestForTender.find(params[:id])
     participant = Participant.find(params[:participant])
-    request.winner = Winner.cast_participant(participant)
-    if request.save!
+    if request.winner = Winner.cast_participant(participant)
+      disqualified_message = params[:request_for_tender][:notify_disqualified_contractors_message]
+      winner_message = params[:request_for_tender][:final_email_message]
+      notify_disqualified_contractors(request, disqualified_message)
+      send_out_final_invitation(request, winner_message)
       render json: request
     else
       render json: request.errors.messages
     end  
   end
 
-
-  #Notify all disqualified contractors
-  def notify_disqualified_contractors
-    request = RequestForTender.find(params[:id])
-    body = params[:notify_disqualified_contractors_message]
-    request.get_disqualified_contractors.each do |contractor|
-      DecisionMailer.notify_disqualified(contractor, request, body).deliver_now
-    end
-  end
-
-
-  #POST /requests/send_out/:id
-  #Send final inivitation out to shortlisted participants
-  def send_out_final_invitation
-    request = RequestForTender.find(params[:id])
-    body = params[:final_email_message]
-    DecisionMailer.award_contract(request, body).deliver_later
-  end
 
   private
 
@@ -175,6 +160,21 @@ class RequestForTendersController < ApplicationController
     chatroom = Chatroom.new
     chatroom.request_for_tender = request_for_tender
     chatroom.save!
+  end
+
+
+  #Notify all disqualified contractors
+  def notify_disqualified_contractors(request, body)
+    request.get_disqualified_contractors.each do |contractor|
+      DecisionMailer.notify_disqualified(contractor, request, body).deliver_now
+    end
+  end
+
+
+  #POST /requests/send_out/:id
+  #Send final inivitation out to shortlisted participants
+  def send_out_final_invitation(request, body)
+    DecisionMailer.award_contract(request, body).deliver_later
   end
 
   # Use callbacks to share common setup or constraints between actions.

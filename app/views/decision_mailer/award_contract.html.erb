@@ -4,7 +4,7 @@
   <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'/>
 </head>
 <body>
-  <p>Thank you for taking part in <%= @request_for_tender.project_name %>'s bidding process.</p>
+  <p>Thank you for taking part in <strong><%= @request_for_tender.project_name %>'s</strong> bidding process.</p>
   <br>
   <% @message.split('.').each do |line| %>
     <p><%= line %></p>

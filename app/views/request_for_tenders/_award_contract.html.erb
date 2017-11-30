@@ -2,8 +2,8 @@
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header alert alert-success">
-        <p><strong>Great! </strong>All disqualified contractors have been notified of the outcome of the bid.
-          Send an email to <span class="winner-name"></span> to inform them of their successful bid.</p>
+        <p><strong>Great! </strong> Now draft an email to be sent to <span class="winner-name"></span>
+          informing them of their successful bid.</p>
         <h5 class="modal-title" id="finalMessageModalLabel"></h5>
       </div>
       <div class="modal-body">
@@ -29,13 +29,17 @@
             <p>For and on behalf of <span class="replace">(Clients Name)</span></p>
           </span>
         </div>
-        <%= form_with url: request_send_out_final_invitation_url(@request.id), id: 'send-out-final-invitation' do |form| %>
-          <%= form.text_area :final_email_message, { class: 'form-control', id: 'final-email-message', data: { parsley_minlength: '20', parsley_required: 'true' }, require: true, rows: '25' } %>
       </div>
       <div class="modal-footer">
-          <%= form.submit "Send Message", { id: 'btn-final-message', class: 'btn btn-success', data: { disable_with: 'Sending Email...'} } %>
-        <% end %>
+        <a href="#alertModal" class="btn btn-success pull-right"  data-toggle="modal" data-dismiss="modal">Next ></a>
       </div>
     </div>
   </div>
 </div>
+
+<script>
+$('#finalMessageModal').on('shown.bs.modal', function(e){
+  displayWinnerName();
+  $('.final-message').focus();
+});
+</script>

@@ -10,9 +10,9 @@
       </div>
       <div class="modal-body" style="color:#000;">
           <span class="mute-text"><p>By awarding the contract to <span class="winner-name"></span>, you are selecting 
-          <span class="winner-name"></span> as the winner of this tendering process. </p>   
-          <p>Therefore disqulifying every other contractor that made a bid. </p>
-        <p>Are you sure you want to do this?</p> 
+          <span class="winner-name"></span> as the winner of this tendering process. Therefore disqualifying every other contractor that placed a bid. </p>
+          <p>The emails you drafted will be sent to the respective contractors.<p>
+        <p class="alert alert-info">This cannot be reversed. Are you sure you want to do this?</p> 
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
@@ -21,3 +21,53 @@
     </div>
   </div>
 </div>
+
+<script>
+var winnerName;
+
+var participantId;
+
+//Get winner's name and award contract when QS clicks award contract button
+$('.accept').click( function(e){
+  winnerName = getCompanyName($(this)[0].children[0].classList);
+  participantId = $(this)[0].children[1].classList[0];
+});
+
+function getCompanyName(array){
+  var companyName="";
+  for(i=0; i < array.length; i++){
+    companyName = companyName +" "+ array[i]
+  }
+  return companyName
+}
+
+function displayWinnerName(){
+  $('.winner-name').each( function(i,e){
+    e.innerHTML = winnerName;
+  });
+}
+
+//Confirm who is winning the bid 
+$('#confirm-winner').click( function(e){
+    $.ajax({
+      url: "/requests/set_winner/"+<%= @request.id %>+"/"+participantId,
+      type: "POST",
+      data: {
+        request_for_tender: {
+          notify_disqualified_contractors_message: $('.message-disqualified-contractors').text().trim(),
+          final_email_message: $('.final-message').text().trim()
+        }
+      },
+      success: function(response){
+        $("#doneModal").modal('show');
+       },
+      error: function(response){ 
+        $('#errorModal').modal('show');
+       }
+  });
+});
+
+$('#doneModal').on('hidden.bs.modal', function (e) {
+  location.reload();
+});
+</script>
