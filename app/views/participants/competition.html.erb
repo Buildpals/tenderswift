@@ -1,0 +1,41 @@
+<% if @participant.deadline_over? %>
+
+    <div class="card">
+      <div class="card-header">
+        All Bids Submitted For This Project
+      </div>
+      <div class="card-body">
+        <table class="table table-striped table-hover mb-5">
+          <thead class="thead-light">
+          <tr>
+            <th>Company</th>
+            <th class="d-flex w-100 justify-content-end">Bid</th>
+          </tr>
+          </thead>
+          <tbody>
+          <% @participant.request_for_tender.participants.bid_list.order(company_name: :desc).each do |participant| %>
+              <tr>
+                <td>
+                  <%= participant.name %>
+                </td>
+                <td class="d-flex w-100 justify-content-end">
+                  <%= @participant.contract_sum_currency %> <%= participant.bid %>
+                </td>
+              </tr>
+          <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+<% else %>
+
+    <p>
+      In accordance with the standards of tender fairness, the contract sums of the other contractors bidding on this
+      project will be shown here when the deadline for bid submission is over.
+    </p>
+
+    <p class='text-center request-countdown'><%= @participant.time_left %> left to request deadline.</p>
+
+<% end %>
+

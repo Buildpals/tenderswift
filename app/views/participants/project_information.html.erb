@@ -1,0 +1,93 @@
+<div class="card mb-4">
+  <div class="card-body">
+
+    <div class="media">
+      <%= cl_image_tag(@participant.project_owners_company_logo.full_public_id,
+                       format: 'jpg', width: 160, crop: :scale,
+                       alt: @participant.project_owners_company_name,
+                       class: 'align-self-start mr-3') %>
+      <div class="media-body">
+        <h4 class="card-title mt-0"><%= @participant.project_name %></h4>
+
+        <p>
+          <%= @participant.project_location %>
+        </p>
+
+        <small>
+          <strong>Contract Sum&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong>&nbsp;&nbsp;
+          <%= @participant.contract_sum_currency %>
+          <%= @participant.contract_sum %>
+        </small>
+
+        <small>
+          <p class="mb-1">
+            <strong>Project Consultant&nbsp;</strong>&nbsp;&nbsp;
+            <%= @participant.project_owners_company_name %>
+          </p>
+        </small>
+      </div>
+    </div>
+  </div>
+
+
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item">
+      <div class="row">
+        <div class="col-lg-4">
+          <strong>Time left</strong>
+        </div>
+        <div class="col-lg-8">
+          <strong>End date</strong>
+        </div>
+        <div class="col-lg-4">
+          <%= @participant.time_left %>
+        </div>
+        <div class="col-lg-8">
+          <%= @participant.project_deadline.to_formatted_s(:long) %>
+          <span class="ml-3">(UTC+00:00)</span>
+        </div>
+
+      </div>
+    </li>
+  </ul>
+</div>
+
+<div class="card mb-4">
+
+  <div class="card-header">
+    Project Description
+  </div>
+  <div class="card-body">
+    <p class="mb-1">
+      <%= simple_format @participant.project_description %>
+    </p>
+  </div>
+
+
+  <div class="card-header">
+    Project Documents
+  </div>
+  <ul class="list-group list-group-flush">
+    <% @participant.project_documents.each do |project_document| %>
+        <li class="list-group-item d-flex w-100 justify-content-between">
+          <%= project_document.document.file.filename %>
+          <%= link_to 'Download', project_document.document.url, target: '_blank',
+                      class: 'btn btn-sm btn-light' %>
+        </li>
+    <% end %>
+  </ul>
+
+  <div class="card-body">
+    <div class="d-flex w-100 justify-content-between">
+      <%= link_to 'Decline invitation', @participant.decline_url,
+                  class: 'btn btn-danger ml-auto',
+                  data: {confirm: 'Declining this project means you will no longer be participating in tendering for this project. Are you sure you want to do so?'} %>
+
+      <% unless @participant.status.in? %w(participating bid_made) %>
+          <%= link_to 'Accept invitation', @participant.accept_url,
+                      class: 'btn btn-success ml-2' %>
+      <% end %>
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <%= render 'layouts/head' %>
+
+  <body class="<%= controller_name %> <%= action_name %>">
+
+    <%= render 'layouts/participants_navbar' %>
+
+    <div class="content">
+      <div class="container" id="app">
+        <div class="row">
+
+          <div class="col-lg-9 mx-auto pt-5">
+            <%= render 'layouts/notice' %>
+          </div>
+
+          <div class="col-lg-9 mx-auto">
+
+            <nav class="nav nav-tabs nav-fill">
+              <a class="nav-item nav-link <%= 'active' if action_name == 'messages' %>" href="<%= participants_messages_path(@participant) %>">
+                Messages
+              </a>
+              <a class="nav-item nav-link <%= 'active' if action_name == 'project_information' %>" href="<%= participants_project_information_path(@participant) %>">
+                1. Project Information
+              </a>
+              <a class="nav-item nav-link <%= 'active' if action_name == 'questionnaire' %>" href="<%= participants_questionnaire_path(@participant) %>">
+                2. Questionnaire
+              </a>
+              <a class="nav-item nav-link <%= 'active' if action_name == 'boq' %>" href="<%= participants_boq_path(@participant) %>">
+                3. Bill of Quantities
+              </a>
+              <a class="nav-item nav-link <%= 'active' if action_name == 'competition' %>" href="<%= participants_competition_path(@participant) %>">
+                4. Competition
+              </a>
+            </nav>
+
+            <div class="tab-content mt-4">
+              <%= yield %>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+    </div>
+
+    <%= render 'layouts/participants_footer' %>
+
+  </body>
+</html>

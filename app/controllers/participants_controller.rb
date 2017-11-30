@@ -1,31 +1,35 @@
 class ParticipantsController < ApplicationController
-  before_action :set_participant, only: [:show, :edit, :update, :destroy,
+  before_action :set_participant, only: [:edit, :update, :destroy,
                                          :show_interest_in_request_for_tender,
                                          :show_disinterest_in_request_for_tender,
+                                         :messages,
+                                         :project_information,
+                                         :boq,
+                                         :questionnaire,
+                                         :competition,
                                          :show_boq]
 
-  # GET /participants
-  # GET /participants.json
-  def index
-    @participants = Participant.all
+  def messages
+    @participant.update(status: 'read', request_read_time: Time.current) if @participant.not_read?
   end
 
-  # GET /participants/1
-  # GET /participants/1.json
-  def show
-    @participant.update(status: 'read', request_read_time: Time.current) if @participant.not_read?
+  def project_information
+  end
+
+  def boq
     @boq = @participant.boq
     gon.jbuilder
+  end
+
+  def questionnaire
+  end
+
+  def competition
   end
 
   def show_boq
     @boq = @participant.boq
     gon.jbuilder
-  end
-
-  # GET /participants/new
-  def new
-    @participant = Participant.new
   end
 
   # GET /participants/1/edit

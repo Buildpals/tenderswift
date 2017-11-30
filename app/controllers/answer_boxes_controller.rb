@@ -28,7 +28,7 @@ class AnswerBoxesController < ApplicationController
 
     respond_to do |format|
       if @answer_box.save
-        format.html {redirect_to participant_path(@answer_box.participant), notice: 'Answer box was successfully created.'}
+        format.html {redirect_to participants_questionnaire_path(@answer_box.participant), notice: 'Answer box was successfully created.'}
         format.json {render :show, status: :created, location: @answer_box}
       else
         format.html {render :new}
@@ -42,7 +42,7 @@ class AnswerBoxesController < ApplicationController
   def update
     respond_to do |format|
       if @answer_box.update(answer_box_params)
-        format.html {redirect_to participant_path(@answer_box.participant), notice: 'Answer box was successfully updated.'}
+        format.html {redirect_to participants_questionnaire_path(@answer_box.participant), notice: 'Answer box was successfully updated.'}
         format.json {render :show, status: :ok, location: @answer_box}
       else
         @participant = @answer_box.participant

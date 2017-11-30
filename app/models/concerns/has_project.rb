@@ -72,7 +72,11 @@ module HasProject
   end
 
   def time_left
-    distance_of_time_in_words(Time.current, project_deadline)
+    request_for_tender.time_left
+  end
+
+  def deadline_over?
+    request_for_tender.deadline_over?
   end
 
   def boq

@@ -1,5 +1,11 @@
 Rails.application.routes.draw do
 
+  get 'participants/:id/show', to: 'participants#messages', as: 'participants_messages'
+  get 'participants/:id/project_information', to: 'participants#project_information', as: 'participants_project_information'
+  get 'participants/:id/questionnaire', to: 'participants#questionnaire', as: 'participants_questionnaire'
+  get 'participants/:id/boq', to: 'participants#boq', as: 'participants_boq'
+  get 'participants/:id/competition', to: 'participants#competition', as: 'participants_competition'
+
   root to: 'welcome#index'
 
   get '/email_request_for_tender/:id',
