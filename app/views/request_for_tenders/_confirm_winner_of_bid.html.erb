@@ -63,6 +63,7 @@ $('#confirm-winner').click( function(e){
         $("#doneModal").modal('show');
        },
       error: function(response){ 
+        $('#loadingModal').modal('hide');
         $('#errorModal').modal('show');
        }
   });
