@@ -26,14 +26,15 @@
               <%= f.label :current_password, class: 'col-sm-3 col-form-label' %>
               <div class="col-sm-9">
                 <%= f.password_field :current_password, autocomplete: "off", class: 'form-control' %>
-                <small id="passwordHelpBlock" class="form-text text-muted">
+                <small id="passwordHelpBlock" class="form-text text-muted d-flex wd-100 justify-content-between">
                   We need your current password to confirm your changes.
+                  <%= link_to "Forgot your password?", new_password_path(resource_name), class: 'shared-links' %>
                 </small>
               </div>
             </div>
 
             <div class="form-group row">
-              <%= f.label :password, class: 'col-sm-3 col-form-label' %>
+              <%= f.label :password, 'New password', class: 'col-sm-3 col-form-label' %>
               <div class="col-sm-9">
                 <%= f.password_field :password, autocomplete: "off", class: 'form-control' %>
                 <small id="passwordHelpBlock" class="form-text text-muted">
@@ -45,7 +46,7 @@
             </div>
 
             <div class="form-group row">
-              <%= f.label :password_confirmation, class: 'col-sm-3 col-form-label' %>
+              <%= f.label :password_confirmation, 'New password confirmation', class: 'col-sm-3 col-form-label' %>
               <div class="col-sm-9">
                 <%= f.password_field :password_confirmation, autocomplete: "off", class: 'form-control' %>
               </div>
@@ -60,12 +61,6 @@
     </div>
   </div>
 
-
-  <div class="row">
-    <div class="col-lg-6 mx-auto">
-      <% link_to "Back", :back %>
-    </div>
-  </div>
 </div>
 
 
