@@ -95,6 +95,10 @@ class RequestForTender < ApplicationRecord
     distance_of_time_in_words(Time.current, deadline)
   end
 
+  def deadline_over?
+    Time.current > deadline
+  end
+
   def create_blank_boq
     boq = Boq.new(request_for_tender: self, name: name)
     page = boq.pages.build(name: 'Sheet 1')

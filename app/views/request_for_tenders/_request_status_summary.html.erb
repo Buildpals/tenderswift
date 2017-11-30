@@ -36,9 +36,33 @@
           </div>
         </div>
         <div class="col-sm-4 text-center">
-          <a href='' class='btn btn-lg btn-success'>Compare bids</a>
+          <% if @request.deadline_over? %>
+
+              <a href='#' class='btn btn-lg btn-success'>Compare bids</a>
+
+          <% else %>
+
+              <div data-toggle="tooltip" data-placement="bottom"
+                   data-html="true"
+                   data-title="<p>In order to comply with the standards of tender fairness,
+                 bids will only be shown when the request deadline is reached.<p>
+                <p class='text-center request-countdown'><%= @request.time_left %> left to request deadline.</p>">
+
+                <button class="btn btn-lg btn-success disabled" type="button">
+                  Compare bids
+                </button>
+
+              </div>
+
+          <% end %>
         </div>
       </div>
     </li>
   </ul>
 </div>
+
+<script type="text/javascript" charset="utf-8">
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
+</script>

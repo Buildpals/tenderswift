@@ -8,7 +8,8 @@
         <a href="#contractors" class="nav-link" aria-controls="profile" role="tab" data-toggle="tab">Contractors</a>
       </li>
       <li role="presentation" class="nav-item">
-        <a href="#request_details" class="nav-link" aria-controls="messages" role="tab" data-toggle="tab">Request Details</a>
+        <a href="#request_details" class="nav-link" aria-controls="messages" role="tab" data-toggle="tab">Request
+          Details</a>
       </li>
     </ul>
   </div>
@@ -17,7 +18,22 @@
     <div role="tabpanel" class="tab-pane active" id="bids">
 
       <div class="card-body">
-        <%= render 'bids' %>
+        <% if @request.deadline_over? %>
+
+            <%= render 'bids' %>
+
+        <% else %>
+
+            <p>
+              In order to comply with the standards of tender fairness,
+              bids will only be shown when the request deadline is reached.
+            </p>
+
+            <p class="text-center">
+              <%= @request.time_left %> left to request deadline.
+            </p>
+
+        <% end %>
       </div>
 
     </div>

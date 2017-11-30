@@ -29,9 +29,7 @@
                 <%= participant.interested_declaration_time.to_formatted_s(:long) %>
               </div>
               <div class="col-md-2">
-                <!--<button class="btn btn-sm btn-danger">-->
-                <!--View Reason-->
-                <!--</button>-->
+                <%= render 'participant_actions', participant: participant %>
               </div>
               <div class="col-md-1">
                 <a href="mailto:<%= participant.project_owners_email %>?subject=<%= "re: Invitation to Tender for #{participant.project_name}" %>"

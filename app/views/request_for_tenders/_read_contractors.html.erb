@@ -29,16 +29,7 @@
                 <%= participant.request_read_time.to_formatted_s(:long) %>
               </div>
               <div class="col-md-2">
-                <div class="dropdown">
-                  <button class="btn btn-sm btn-light dropdown-toggle" type="button" id="bid_actions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Actions
-                  </button>
-                  <div class="dropdown-menu" aria-labelledby="bid_actions">
-                    <button class="dropdown-item" type="button">Change email</button>
-                    <button class="dropdown-item" type="button">Enter bid manually</button>
-                    <button class="dropdown-item" type="button">Remove</button>
-                  </div>
-                </div>
+                <%= render 'participant_actions', participant: participant %>
               </div>
               <div class="col-md-1">
                 <a href="mailto:<%= participant.project_owners_email %>?subject=<%= "re: Invitation to Tender for #{participant.project_name}" %>"
