@@ -4,8 +4,6 @@ class Item < ApplicationRecord
     header: 1
   }
 
-  before_save :normalise_tag
-
   belongs_to :boq
   belongs_to :page
 
@@ -15,10 +13,4 @@ class Item < ApplicationRecord
                                 reject_if: :all_blank
 
   has_many :participants, through: :filled_items, dependent: :destroy, autosave: true
-
-  def normalise_tag
-    return if tag.nil?
-    tag.strip!
-    tag.downcase!
-  end
 end

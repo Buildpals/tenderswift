@@ -35,7 +35,6 @@ if request.boq
         json.page_id item.page_id
         json.boq_id item.boq_id
         json.priority item.priority
-        json.tag item.tag
       end
     end
     json.url boq_url(request.boq, format: :json)

@@ -5,7 +5,5 @@ class Boq < ApplicationRecord
 
   has_many :items, dependent: :destroy, autosave: true
 
-  has_many :tags, dependent: :destroy, autosave: true
-
   validates :name, presence: true
 end

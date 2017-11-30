@@ -3,15 +3,6 @@
     Bill of Quantities
   </div>
   <div class="card-body">
-    <canvas id="myChart" style="height: 100px;"></canvas>
-  </div>
-  <div class="card-body">
-    <p class="text-center">
-      You can see a breakdown of the bill of quantities in the pie chart on the left.
-      <br>
-      To edit this break down tag the items in the bill of quantities.
-    </p>
-
     <ul class="nav nav-tabs" id="myTab" role="tablist">
       <% @participant.boq.pages.each_with_index do |page, index| %>
           <li class="nav-item">

@@ -77,7 +77,6 @@ class ItemsController < ApplicationController
                                  :item_type,
                                  :page_id,
                                  :boq_id,
-                                 :tag,
                                  filled_items_attributes: [
                                      :id,
                                      :participant_id,
