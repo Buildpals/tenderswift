@@ -95,18 +95,6 @@ Card Shadows
 
 
 
-/***************************************
-Loading Spinner
-***************************************/
-//#spinner {
-//  /*display: none;*/
-//  position: fixed;
-//  top: 45%;
-//  left: 45%;
-//  z-index: 1002;
-//  text-align:center;
-//  padding:30px 15px 0px;
-//}
 
 .flash {
   position: fixed;
@@ -152,4 +140,41 @@ AUTHENTICATION
 
 .shared-links{
   font-size: 11px;
+}
+
+/***************************************
+Final Email to Shortlisted Participants
+***************************************/
+.btn-award-contract{
+  width: 100%;
+}
+
+.header-warning{
+  background-color: #dc3545;
+  color: white;
+}
+
+.email-body{
+  padding: 4%;
+  color: #000;
+}
+
+.winner-name{
+  font-weight: bolder;
+}
+
+.replace{
+  background-color: yellow;
+}
+
+.final-message{
+  padding: 2%;
+}
+
+#final-email-message{
+  display: none;
+}
+
+#notify-disqualified-contractors-message{
+  display: none;
 }

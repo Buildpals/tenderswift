@@ -257,6 +257,19 @@ ActiveRecord::Schema.define(version: 20171130100833) do
     t.index ["boq_id"], name: "index_tags_on_boq_id"
   end
 
+  create_table "winners", force: :cascade do |t|
+    t.string "email"
+    t.string "first_name"
+    t.string "last_name"
+    t.string "company_name"
+    t.string "phone_number"
+    t.string "auth_token"
+    t.bigint "request_for_tender_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["request_for_tender_id"], name: "index_winners_on_request_for_tender_id"
+  end
+
   add_foreign_key "answer_boxes", "participants"
   add_foreign_key "answer_boxes", "questions"
   add_foreign_key "answer_documents", "answer_boxes"
@@ -270,4 +283,5 @@ ActiveRecord::Schema.define(version: 20171130100833) do
   add_foreign_key "project_documents", "request_for_tenders"
   add_foreign_key "questions", "request_for_tenders"
   add_foreign_key "tags", "boqs"
+  add_foreign_key "winners", "request_for_tenders"
 end

@@ -7,7 +7,7 @@ class ParticipantsController < ApplicationController
                                          :boq,
                                          :questionnaire,
                                          :competition,
-                                         :show_boq]
+                                         :show_boq, :disqualify]
 
   def messages
     @participant.update(status: 'read', request_read_time: Time.current) if @participant.not_read?
@@ -67,6 +67,23 @@ class ParticipantsController < ApplicationController
         format.json {render :show, status: :ok, location: @participant}
       else
         format.html {render :edit}
+        format.json {render json: @participant.errors, status: :unprocessable_entity}
+      end
+    end
+  end
+
+  def disqualify
+    respond_to do |format|
+      if @participant.update(participant_params)
+        format.html {
+          if params[:commit] == 'save_rating'
+            redirect_to @participant.request_for_tender
+          else
+            redirect_to @participant.request_for_tender, notice: 'Participant was successfully updated.'
+          end
+        }
+        format.json {render :show, status: :ok, location: @participant}
+      else
         format.json {render json: @participant.errors, status: :unprocessable_entity}
       end
     end

@@ -5,6 +5,7 @@ class RequestForTendersController < ApplicationController
 
   before_action :authenticate_quantity_surveyor!, only: [:edit, :index]
 
+
   DEFAULT_BROADCAST_CONTENT = "If you have any questions you can reply me here".freeze
 
   # GET /requests
@@ -16,6 +17,9 @@ class RequestForTendersController < ApplicationController
   # GET /requests/1
   # GET /requests/1.json
   def show
+    unless @request.winner.nil?
+      @winner = Participant.find_by(auth_token: @request.winner.auth_token)
+    end
     gon.jbuilder
   end
 
@@ -115,6 +119,22 @@ class RequestForTendersController < ApplicationController
   end
 
 
+
+  def set_winner
+    request = RequestForTender.find(params[:id])
+    participant = Participant.find(params[:participant])
+    if request.winner = Winner.cast_participant(participant)
+      disqualified_message = params[:request_for_tender][:notify_disqualified_contractors_message]
+      winner_message = params[:request_for_tender][:final_email_message]
+      notify_disqualified_contractors(request, disqualified_message)
+      send_out_final_invitation(request, winner_message)
+      render json: request
+    else
+      render json: request.errors.messages
+    end  
+  end
+
+
   private
 
   # Use to create a chatroom for a request
@@ -122,6 +142,21 @@ class RequestForTendersController < ApplicationController
     chatroom = Chatroom.new
     chatroom.request_for_tender = request_for_tender
     chatroom.save!
+  end
+
+
+  #Notify all disqualified contractors
+  def notify_disqualified_contractors(request, body)
+    request.get_disqualified_contractors.each do |contractor|
+      DecisionMailer.notify_disqualified(contractor, request, body).deliver_now
+    end
+  end
+
+
+  #POST /requests/send_out/:id
+  #Send final inivitation out to shortlisted participants
+  def send_out_final_invitation(request, body)
+    DecisionMailer.award_contract(request, body).deliver_later
   end
 
   # Use callbacks to share common setup or constraints between actions.
@@ -139,6 +174,8 @@ class RequestForTendersController < ApplicationController
                   :description,
                   :budget_currency,
                   :budget,
+                  :final_email_message,
+                  :notify_disqualified_contractors_message,
                   :contract_sum,
                   :contract_sum_currency,
                   project_documents_attributes: [:id,

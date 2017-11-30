@@ -25,6 +25,23 @@ Rails.application.routes.draw do
       as: 'participant_boq'
 
 
+  post '/requests/set_winner/:id/:participant',
+      to: 'request_for_tenders#set_winner',
+      as: 'request_for_tenders_set_winner'
+
+
+  post '/requests/send_out/:id',
+      to: 'request_for_tenders#send_out_final_invitation',
+      as: 'request_send_out_final_invitation'
+
+  post '/requests/notify_disqualified_contractors/:id',
+      to: 'request_for_tenders#notify_disqualified_contractors',
+      as: 'notify_disqualified_contractors'
+
+  patch '/participants/disqualify/:id/',
+      to: 'participants#disqualify'
+
+
   get '/tender/:id/edit', to: 'create_tender#edit_tender_information', as: 'edit_tender_information'
   patch '/tender/:id/update/project_information', to: 'create_tender#update_tender_information', as: 'update_tender_information'
 
@@ -53,13 +70,13 @@ Rails.application.routes.draw do
   resources :boqs
   resources :participants
   resources :filled_items
-  resources :broadcast_messages
-  resources :chatrooms
-  resources :countries
+  resources :broadcast_messages, only: [:create]
   resources :messages
   resources :answer_boxes
   resources :questions
   resources :quantity_surveyors
+  resources :messages, only: [:create]
+
 
   mount ActionCable.server => '/cable'
 end
