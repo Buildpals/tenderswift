@@ -3,63 +3,14 @@ App.Boq = (function() {
         this.boqData = boqData;
     }
 
-    let chart;
-    let tagsHash =  {};
     let viewType;
 
     Boq.prototype.render = function(_viewType) {
         viewType = _viewType;
-        renderChart();
         renderSpreadSheet(this.boqData, viewType);
     };
 
     Boq.prototype.renderSpreadSheet = renderSpreadSheet;
-
-    Boq.prototype.renderChart = renderChart;
-
-    function renderChart() {
-        let chartDiv = document.getElementById('myChart');
-        if (chartDiv) {
-            let ctx = chartDiv.getContext('2d');
-
-            let tagsHash = getBreakDown();
-            chart = new Chart(ctx, {
-                // The type of chart we want to create
-                type: 'doughnut',
-
-                // The data for our dataset
-                data: {
-                    labels: Object.keys(tagsHash),
-                    datasets: [{
-                        label: "My First dataset",
-                        backgroundColor: [
-                            'rgba(255, 99, 132, 0.2)',
-                            'rgba(54, 162, 235, 0.2)',
-                            'rgba(255, 206, 86, 0.2)',
-                            'rgba(75, 192, 192, 0.2)',
-                            'rgba(153, 102, 255, 0.2)',
-                            'rgba(255, 159, 64, 0.2)'
-                        ],
-                        borderColor: [
-                            'rgba(255,99,132,1)',
-                            'rgba(54, 162, 235, 1)',
-                            'rgba(255, 206, 86, 1)',
-                            'rgba(75, 192, 192, 1)',
-                            'rgba(153, 102, 255, 1)',
-                            'rgba(255, 159, 64, 1)'
-                        ],
-                        borderWidth: 1,
-                        data: Object.values(tagsHash),
-                    }]
-                },
-
-                // Configuration options go here
-                options: {}
-            });
-        }
-    }
-
-
 
     function renderSpreadSheet(boqData, viewType) {
         boqData.pages.forEach(function (page) {
@@ -70,50 +21,9 @@ App.Boq = (function() {
 
             let container = document.getElementById('sheet-' + page.id);
 
-            let colHeaders, columns, colWidths;
+            let colHeaders, columns, colWidths, contextMenu;
             if (viewType === 'tag_editing') {
-                colHeaders = ['Tag', 'Item', 'Description', 'Quantity', 'Unit', 'Rate', 'Amount'];
-                columns = [
-                    {
-                        data: "tag"
-                        // type: 'autocomplete',
-                        // source: function(query, process) {
-                        //     process(Object.keys(getBreakDown()));
-                        // },
-                        // strict: false
-                    },
-                    {
-                        data: 'name',
-                        renderer: labelRenderer,
-                        readOnly: true
-                    },
-                    {
-                        data: 'description',
-                        className: 'htLeft',
-                        readOnly: true
-                    },
-                    {
-                        data: 'quantity',
-                        type: 'numeric',
-                        readOnly: true
-                    },
-                    {
-                        data: 'unit',
-                        readOnly: true
-                    },
-                    {
-                        data: 'filled_item.rate',
-                        type: 'numeric',
-                        readOnly: true
-                    },
-                    {
-                        data: 'filled_item.amount',
-                        type: 'numeric',
-                        readOnly: true
-                    }
-                ];
-                colWidths = [80, 50, 300, 42, 42, 50, 50];
-            } else if (viewType === 'rate_filling') {
+                contextMenu = ['undo', 'redo', 'cut', 'copy'];
                 colHeaders = ['Item', 'Description', 'Quantity', 'Unit', 'Rate', 'Amount'];
                 columns = [
                     {
@@ -128,7 +38,6 @@ App.Boq = (function() {
                     },
                     {
                         data: 'quantity',
-                        type: 'numeric',
                         readOnly: true
                     },
                     {
@@ -137,15 +46,47 @@ App.Boq = (function() {
                     },
                     {
                         data: 'filled_item.rate',
-                        type: 'numeric'
+                        readOnly: true
                     },
                     {
-                        data: 'filled_item.amount',
-                        type: 'numeric'
+                        data: 'amount',
+                        readOnly: true
+                    }
+                ];
+                colWidths = [50, 300, 42, 42, 50, 50];
+            } else if (viewType === 'rate_filling') {
+                contextMenu = ['undo', 'redo', 'cut', 'copy'];
+                colHeaders = ['Item', 'Description', 'Quantity', 'Unit', 'Rate', 'Amount'];
+                columns = [
+                    {
+                        data: 'name',
+                        renderer: labelRenderer,
+                        readOnly: true
+                    },
+                    {
+                        data: 'description',
+                        className: 'htLeft',
+                        readOnly: true
+                    },
+                    {
+                        data: 'quantity',
+                        readOnly: true
+                    },
+                    {
+                        data: 'unit',
+                        readOnly: true
+                    },
+                    {
+                        data: 'filled_item.rate'
+                    },
+                    {
+                        data: 'amount',
+                        readOnly: true
                     }
                 ];
                 colWidths = [50, 300, 42, 42, 50, 50];
             } else {
+                contextMenu = ['row_above', 'row_below', 'remove_row', 'undo', 'redo', 'cut', 'copy'];
                 colHeaders = ['Item', 'Description', 'Quantity', 'Unit', 'Rate', 'Amount'];
                 columns = [
                     {
@@ -158,19 +99,15 @@ App.Boq = (function() {
                     },
                     {
                         data: 'quantity',
-                        type: 'numeric'
                     },
                     {
                         data: 'unit'
                     },
                     {
-                        data: 'rate',
-                        type: 'numeric',
-                        readOnly: true
+                        data: 'rate'
                     },
                     {
                         data: 'amount',
-                        type: 'numeric',
                         readOnly: true
                     }
                 ];
@@ -193,8 +130,7 @@ App.Boq = (function() {
                     "unit": null,
                     "page_id": page.id,
                     "boq_id": gon.boq.id,
-                    "priority": null,
-                    "tag": null
+                    "priority": null
                 },
                 colWidths: colWidths,
                 // rowHeaders: true,
@@ -205,8 +141,9 @@ App.Boq = (function() {
                 // manualColumnMove: true,
                 // manualRowMove: true,
                 // minSpareRows: 1,
-                contextMenu: ['row_above', 'row_below', 'remove_row', 'undo', 'redo', 'cut', 'copy'],
-                beforeRemoveRow: function(index, amount, visualRows) {
+                formulas: true,
+                contextMenu: contextMenu,
+                beforeRemoveRow: function(index, numRowsToBeRemoved, visualRows) {
                     visualRows.forEach(function (visualIndex) {
                         let item = data[visualIndex];
                         console.log("Deleting", item);
@@ -216,8 +153,8 @@ App.Boq = (function() {
                             });
                     });
                 },
-                afterCreateRow: function(index, amount, source) {
-                    for (row = index; row < index + amount; row++) {
+                afterCreateRow: function(index, numNewlyCreatedRows, source) {
+                    for (row = index; row < index + numNewlyCreatedRows; row++) {
                         let item = data[row];
                         let previous_priority = data[row-1].priority;
                         let next_priority = data[row+1].priority;
@@ -240,19 +177,7 @@ App.Boq = (function() {
                         let newVal = change[3];
                         let item = data[row];
 
-                        if (chart) {
-                            clearChartData(chart);
-
-                            let tagsHash = getBreakDown();
-                            Object.keys(tagsHash).forEach(function (tag) {
-                                addData(chart, tag, tagsHash[tag]);
-                            });
-                        }
-
                         if (viewType === 'rate_filling') {
-                            if (item.filled_item.rate) {
-                                item.filled_item.amount = item.quantity * item.filled_item.rate;
-                            }
                             saveFilledItem(item.filled_item)
                                 .done(function (updatedFilledItem) {
                                     console.log("Updated", updatedFilledItem);
@@ -280,56 +205,8 @@ App.Boq = (function() {
         });
     }
 
-
-
-    function getBreakDown(){
-        gon.boq.pages.forEach(function (page) {
-            page.items.forEach(function (item) {
-                if (item.item_type === 'item') {
-                    console.log('item.filled_item.amount', item.filled_item.amount, typeof item.filled_item.amount);
-
-                    let amount;
-                    if (item.filled_item.amount) {
-                        amount = parseFloat(item.filled_item.amount)
-                    } else {
-                        amount = 0
-                    }
-
-                    console.log('amount', amount, typeof amount);
-
-
-                    if (item.tag) {
-                        tagsHash[item.tag] = tagsHash[item.tag] === undefined ? amount : tagsHash[item.tag] + amount;
-                    } else {
-                        tagsHash["Others"] = tagsHash["Others"] === undefined ? amount : tagsHash["Others"] + amount;
-                    }
-                }
-            })
-        });
-        console.log('tagsHash', tagsHash);
-        return tagsHash;
-    }
-
-    function addData(chart, label, data) {
-        chart.data.labels.push(label);
-        chart.data.datasets.forEach((dataset) => {
-            dataset.data.push(data);
-        });
-        chart.update(0);
-    }
-
-    function clearChartData(chart) {
-        chart.data.labels.length = 0;
-        chart.data.datasets.forEach((dataset) => {
-            dataset.data.length = 0;
-        });
-        chart.update(0);
-    }
-
-
-
     function buildSheetData(page, customCells, data) {
-        page.items.forEach(function  (item) {
+        page.items.forEach(function  (item, index) {
             if (item.item_type === 'header') {
                 customCells.push({row: data.length, col: 1, rowspan: 1, colspan: 1, renderer: sectionRenderer});
                 customCells.push({row: data.length, col: 0, rowspan: 1, colspan: 1, readOnly: true});
@@ -339,33 +216,28 @@ App.Boq = (function() {
                 customCells.push({row: data.length, col: 5, rowspan: 1, colspan: 1, readOnly: true});
                 data.push(item);
             } else {
-                data.push(item);
+                let rowNum = index + 1;
+                let quantityCell = "C" + rowNum;
+                let rateCell = "E" + rowNum;
+                data.push(
+                    {
+                        boq_id: item.boq_id,
+                        description: item.description,
+                        filled_item: item.filled_item,
+                        id: item.id,
+                        item_type: item.item_type,
+                        name: item.name,
+                        page_id: item.page_id,
+                        priority: item.priority,
+                        quantity: item.quantity,
+                        unit: item.unit,
+                        amount: "=" + quantityCell + "*" + rateCell
+                    }
+                );
             }
         });
     }
 
-    function buildSheetDataWithTagging(page, customCells, data) {
-        page.items.forEach(function  (item) {
-            if (item.item_type === 'header') {
-                customCells.push({row: data.length, col: 2, rowspan: 1, colspan: 1, renderer: sectionRenderer});
-                customCells.push({row: data.length, col: 0, rowspan: 1, colspan: 1, readOnly: true});
-                customCells.push({row: data.length, col: 1, rowspan: 1, colspan: 1, readOnly: true});
-                customCells.push({row: data.length, col: 3, rowspan: 1, colspan: 1, readOnly: true});
-                customCells.push({row: data.length, col: 4, rowspan: 1, colspan: 1, readOnly: true});
-                data.push(item);
-            } else {
-                customCells.push({
-                    row: data.length, col: 0,
-                    type: 'autocomplete',
-                    source: function(query, process) {
-                        process(Object.keys(getBreakDown()));
-                    },
-                    strict: false
-                });
-                data.push(item);
-            }
-        });
-    }
 
     function sectionRenderer(instance, td, row, col, prop, value, cellProperties) {
         Handsontable.renderers.TextRenderer.apply(this, arguments);
@@ -443,5 +315,5 @@ $(document).on("turbolinks:load", function () {
 
     let boq;
     boq = new App.Boq(gon.boq);
-    return boq.renderChart();
+    return boq.render();
 });

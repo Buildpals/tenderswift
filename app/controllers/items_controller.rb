@@ -83,7 +83,6 @@ class ItemsController < ApplicationController
                                      :participant_id,
                                      :item_id,
                                      :rate,
-                                     :amount,
                                      :_destroy
                                  ])
   end

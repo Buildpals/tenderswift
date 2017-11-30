@@ -15,7 +15,7 @@ class ParticipantsController < ApplicationController
   def show
     @participant.update(status: 'read', request_read_time: Time.current) if @participant.not_read?
     @boq = @participant.boq
-    # gon.jbuilder
+    gon.jbuilder
   end
 
   def show_boq
@@ -125,7 +125,6 @@ class ParticipantsController < ApplicationController
                   filled_items_attributes: [:id,
                                             :email,
                                             :phone_number,
-                                            :amount,
                                             :rate,
                                             :_destroy])
   end

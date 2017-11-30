@@ -42,7 +42,6 @@ Rails.application.routes.draw do
   mount RailsAdmin::Engine => '/adonai', as: 'rails_admin'
 
   resources :items
-  resources :sections
   resources :pages
   resources :request_for_tenders
   resources :boqs

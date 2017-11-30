@@ -31,16 +31,14 @@
     </div>
 
 
-    <% if project.class.eql?('Participant') %>
-      <% unless project.bid_made? %>
-          <%= form_with(model: project, local: true) do |form| %>
-              <%= form.text_field :status, value: 'bid_made', id: :participant_phone_number, type: 'hidden' %>
-              <%= form.text_field :bid_submission_time, value: Time.current, id: :participant_phone_number, type: 'hidden' %>
+    <% unless project.bid_made? %>
+        <%= form_with(model: project, local: true) do |form| %>
+            <%= form.text_field :status, value: 'bid_made', id: :participant_phone_number, type: 'hidden' %>
+            <%= form.text_field :bid_submission_time, value: Time.current, id: :participant_phone_number, type: 'hidden' %>
 
-              <%= form.submit 'Submit Bid', data: {confirm: 'You cannot edit the Bill of Quantities after submitting your bid. Are you sure you want to submit your bid?'},
-                              class: 'btn btn-large btn-primary float-right' %>
-          <% end %>
-      <% end %>
+            <%= form.submit 'Submit Bid', data: {confirm: 'You cannot edit the Bill of Quantities after submitting your bid. Are you sure you want to submit your bid?'},
+                            class: 'btn btn-large btn-primary float-right' %>
+        <% end %>
     <% end %>
 
   </div>

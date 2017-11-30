@@ -20,9 +20,26 @@
 //= require bootstrap-datepicker
 //= require autosize
 //= require parsley
-//= require moment
 //= require cocoon
+
+
+
 //= require handsontable.full
+//= require lodash
+//= require underscore.string
+//= require moment
+//= require numeral
+//= require numeric
+//= require md5
+//= require jstat
+//= require formula
+//= require parser
+//= require ruleJS
+//= require handsontable.formula
+
+
+
+
 //= require Chart
 //= require boqs
 //= require requests

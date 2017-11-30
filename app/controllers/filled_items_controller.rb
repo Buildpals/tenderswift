@@ -1,6 +1,9 @@
 class FilledItemsController < ApplicationController
   before_action :set_filled_item, only: [:show, :edit, :update, :destroy]
 
+  # skip_before_action :verify_authenticity_token
+
+
   # GET /filled_items
   # GET /filled_items.json
   def index
@@ -69,6 +72,6 @@ class FilledItemsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def filled_item_params
-      params.require(:filled_item).permit(:amount, :rate, :participant_id, :item_id)
+      params.require(:filled_item).permit(:rate, :participant_id, :item_id)
     end
 end

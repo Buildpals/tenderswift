@@ -50,19 +50,31 @@ class Participant < ApplicationRecord
 
   def answer_box_for(question)
     answer_box = answer_boxes.find_by(question: question, participant: self) || answer_boxes.build(question: question, participant: self)
-    # answer_box.answer_documents.build
     answer_box
   end
 
   def bid
-    filled_items.where.not(amount: nil).inject(0) do |sum_of_amounts, filled_item|
-      puts "#{sum_of_amounts} #{filled_item.item.quantity} #{filled_item.rate} #{filled_item.amount}"
-      if filled_item.amount.nan?
-        sum_of_amounts
+    sum = 0
+
+    request_for_tender.boq.items.each do |item|
+      filled_item = FilledItem.find_by(participant: self, item: item)
+
+      if filled_item
+        rate = filled_item.rate
       else
-        sum_of_amounts + filled_item.amount.to_f
+        rate = 0
       end
+
+      if item.quantity.present?
+        amount = rate * item.quantity
+      else
+        amount = rate
+      end
+
+      sum += amount
     end
+
+    sum
   end
 
   def bid_difference
