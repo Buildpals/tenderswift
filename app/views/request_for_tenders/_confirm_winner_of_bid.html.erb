@@ -59,6 +59,7 @@ $('#confirm-winner').click( function(e){
         }
       },
       success: function(response){
+        $('#loadingModal').modal('hide');
         $("#doneModal").modal('show');
        },
       error: function(response){ 
@@ -70,4 +71,13 @@ $('#confirm-winner').click( function(e){
 $('#doneModal').on('hidden.bs.modal', function (e) {
   location.reload();
 });
+
+$('#alertModal').on('hidden.bs.modal', function (e) {
+  $('#loadingModal').modal({
+    backdrop: 'static',
+    keyboard: false
+  });
+  $('#loadingModal').modal('show');
+});
+
 </script>
