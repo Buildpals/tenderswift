@@ -68,9 +68,6 @@ $('#confirm-winner').click( function(e){
   });
 });
 
-$('#doneModal').on('hidden.bs.modal', function (e) {
-  location.reload();
-});
 
 $('#alertModal').on('hidden.bs.modal', function (e) {
   $('#loadingModal').modal({
@@ -80,4 +77,12 @@ $('#alertModal').on('hidden.bs.modal', function (e) {
   $('#loadingModal').modal('show');
 });
 
+
+$('#doneModal').on('hidden.bs.modal', function (e) {
+  location.reload();
+});
+
+$('.finished').click(function(e){
+  location.reload();
+})
 </script>
