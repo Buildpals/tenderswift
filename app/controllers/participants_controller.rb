@@ -27,11 +27,6 @@ class ParticipantsController < ApplicationController
   def results
   end
 
-  def show_boq
-    @boq = @participant.boq
-    gon.jbuilder
-  end
-
   # GET /participants/1/edit
   def edit
   end

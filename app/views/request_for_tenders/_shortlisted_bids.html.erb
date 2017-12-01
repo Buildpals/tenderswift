@@ -38,7 +38,7 @@
             <% end %>
           </td>
           <td>
-            <%= link_to 'View bid', participant_boq_path(participant)%>
+            <%= link_to 'View bid', show_bid_path(participant)%>
           </td>
           <% if @request.winner.nil? %>
             <td>

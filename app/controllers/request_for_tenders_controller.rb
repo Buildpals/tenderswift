@@ -23,6 +23,12 @@ class RequestForTendersController < ApplicationController
     gon.jbuilder
   end
 
+  def show_bid
+    @participant = Participant.find_by(auth_token: params[:id])
+    @boq = @participant.boq
+    gon.jbuilder
+  end
+
   def preview
     gon.jbuilder
   end

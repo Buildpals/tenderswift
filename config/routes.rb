@@ -20,9 +20,9 @@ Rails.application.routes.draw do
       to: 'participants#show_disinterest_in_request_for_tender',
       as: 'show_disinterest_in_request_for_tender'
 
-  get '/participants/:id/boq',
-      to: 'participants#show_boq',
-      as: 'participant_boq'
+  get '/request_for_tenders/show_bid/:id',
+      to: 'request_for_tenders#show_bid',
+      as: 'show_bid'
 
 
   post '/requests/set_winner/:id/:participant',

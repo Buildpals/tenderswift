@@ -2,6 +2,13 @@
   <div class="card-header">
     Bill of Quantities
   </div>
+
+  <div class="card-body">
+    <div class="graph mb-4">
+      <canvas id="barChart" class="mb-2"></canvas>
+    </div>
+  </div>
+
   <div class="card-body">
     <ul class="nav nav-tabs" id="myTab" role="tablist">
       <% @participant.boq.pages.each_with_index do |page, index| %>
