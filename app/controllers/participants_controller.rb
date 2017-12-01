@@ -1,5 +1,5 @@
 class ParticipantsController < ApplicationController
-  before_action :set_participant, only: [:edit, :update, :destroy,
+  before_action :set_participant, only: [:update, :destroy,
                                          :show_interest_in_request_for_tender,
                                          :show_disinterest_in_request_for_tender,
                                          :messages,
@@ -25,10 +25,6 @@ class ParticipantsController < ApplicationController
   end
 
   def results
-  end
-
-  # GET /participants/1/edit
-  def edit
   end
 
   # POST /participants
