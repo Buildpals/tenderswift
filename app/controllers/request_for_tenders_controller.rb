@@ -29,10 +29,6 @@ class RequestForTendersController < ApplicationController
     gon.jbuilder
   end
 
-  def preview
-    gon.jbuilder
-  end
-
   # GET /requests/new
   def new
     country = Country.first
