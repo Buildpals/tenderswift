@@ -1,130 +1,110 @@
 <div class="container">
   <div class="row">
+
     <div class="col-md-4 ml-md-auto mr-md-auto pt-4">
-
       <%= render 'layouts/notice' %>
-
       <div class="ml-4 mb-2 text-center">
         <small style="color: rgb(169, 68, 66); font-size: 100%;">Unsent Request For Tender</small>
       </div>
       <div class="card mb-4">
         <div class="list-group list-group-flush">
-
           <%= link_to new_request_for_tender_path,  class: 'card-link' do %>
             <div class="card-body text-center">
               Create Request For Tender
             </div>
           <% end %>
-
           <% @requests.not_submitted.each do |request| %>
-
               <li class="list-group-item flex-row">
-
                 <div class="d-flex w-100 justify-content-between align-items-center">
-
-
                   <div class="primary-action">
                     <%= link_to edit_tender_information_path(request) do %>
                       <h5 class="mb-1">
                         <%= request.project_name %>
                       </h5>
-
-
                       <small class="text-muted">
                         <%= request.project_location %>
                       </small>
                     <% end %>
                   </div>
-
                   <div class="secondary-action">
                     <%= link_to @request, method: :delete, data: { confirm: 'Are you sure?' },
                                 class: 'btn btn-secondary btn-raised' do %>
                         <i class="fa fa-trash" aria-hidden="true"></i>
                     <% end %>
                   </div>
-
                 </div>
-
-
               </li>
-
           <% end %>
-
         </div>
       </div>
     </div>
 
 
     <div class="col-md-4 ml-md-auto mr-md-auto pt-4">
-
       <% if @requests.submitted %>
-
-          <div class="ml-4 mb-2 text-center">
-            <small style="font-size: 100%;">Submitted Requests For Tender</small>
-          </div>
-          <div class="card">
-            <div class="list-group list-group-flush">
-              <% @requests.submitted.each do |request| %>
-                <% unless request.deadline.past? %>
-                  <%= link_to request, class: 'list-group-item list-group-item-action flex-column align-items-start' do %>
-                      <div class="d-flex w-100 justify-content-between">
-                        <h5 class="mb-1">
-                          <%= request.project_name %>
-                        </h5>
-                        <small class="text-muted">
-                          <% if !request.submitted? %>
-                              <span class="badge badge-pill badge-secondary"><%= request.status %></span>
-                          <% elsif request.deadline.past? %>
-                              <span class="badge badge-pill badge-success"><%= request.status %></span>
-                          <% else %>
-                              <span class="badge badge-pill badge-warning"><%= request.status %></span>
-                          <% end %>
-                        </small>
-                      </div>
-                      <small class="text-muted">
-                        <%= request.project_location %>
-                      </small>
+        <div class="ml-4 mb-2 text-center">
+          <small style="font-size: 100%;">Submitted Requests For Tender</small>
+        </div>
+        <div class="card">
+          <div class="list-group list-group-flush">
+            <% @requests.submitted.each do |request| %>
+              <% unless request.deadline.past? %>
+                <%= link_to request, class: 'list-group-item list-group-item-action flex-column align-items-start' do %>
+                  <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">
+                      <%= request.project_name %>
+                    </h5>
+                    <small class="text-muted">
+                      <% if !request.submitted? %>
+                        <span class="badge badge-pill badge-secondary"><%= request.status %></span>
+                      <% else %>
+                        <span class="badge badge-pill badge-warning"><%= request.status %></span>
                       <% end %>
+                    </small>
+                  </div>
+                  <small class="text-muted">
+                    <%= request.project_location %>
+                  </small>
                   <% end %>
-                <% end %>              
-            </div>
+                <% end %>
+              <% end %>              
           </div>
-
+        </div>
       <% end %>
     </div>
 
 
     <div class="col-md-4 ml-md-auto mr-md-auto pt-4">
       <div class="ml-4 mb-2 text-center">
-            <small style="color:rgb(60, 118, 61); font-size: 100%;">Closed Tenders</small>
+        <small style="color:rgb(60, 118, 61); font-size: 100%;">Closed Tenders</small>
       </div>
       <div class="card">
-            <div class="list-group list-group-flush">
-              <% @requests.submitted.each do |request| %>
-                <% if request.deadline.past? %>
-                  <%= link_to request, class: 'list-group-item list-group-item-action flex-column align-items-start' do %>
-                      <div class="d-flex w-100 justify-content-between">
-                        <h5 class="mb-1">
-                          <%= request.project_name %>
-                        </h5>
-                        <small class="text-muted">
-                          <% if !request.submitted? %>
-                              <span class="badge badge-pill badge-secondary"><%= request.status %></span>
-                          <% elsif request.deadline.past? %>
-                              <span class="badge badge-pill badge-success"><%= request.status %></span>
-                          <% else %>
-                              <span class="badge badge-pill badge-warning"><%= request.status %></span>
-                          <% end %>
-                        </small>
-                      </div>
-                      <small class="text-muted">
-                        <%= request.project_location %>
-                      </small>
+        <div class="list-group list-group-flush">
+          <% @requests.submitted.each do |request| %>
+            <% if request.deadline.past? %>
+              <%= link_to request, class: 'list-group-item list-group-item-action flex-column align-items-start' do %>
+                <div class="d-flex w-100 justify-content-between">
+                  <h5 class="mb-1">
+                    <%= request.project_name %>
+                  </h5>
+                  <small class="text-muted">
+                    <% if !request.submitted? %>
+                      <span class="badge badge-pill badge-secondary"><%= request.status %></span>
+                    <% elsif request.deadline.past? %>
+                      <span class="badge badge-pill badge-success"><%= request.status %></span>
+                    <% else %>
+                      <span class="badge badge-pill badge-warning"><%= request.status %></span>
                     <% end %>
-                <% end %>
+                  </small>
+                </div>
+                <small class="text-muted">
+                  <%= request.project_location %>
+                </small>
               <% end %>
-            </div>
+            <% end %>
+          <% end %>
         </div>
+      </div>
     </div>
 
 
@@ -138,8 +118,8 @@
 $(document).ready( function(e){
   $('.card').each( function(i,e){
     if(parseInt($(this).css('height')) >= 700){
-      $(this).css('height', '700px')
-      $(this).css('overflow-y', 'scroll')
+      $(this).css('height', '700px');
+      $(this).css('overflow-y', 'scroll');
     }
   });
 });
