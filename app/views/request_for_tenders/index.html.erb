@@ -1,18 +1,18 @@
 <div class="container">
   <div class="row">
-    <div class="col-md-6 ml-md-auto mr-md-auto pt-4">
+    <div class="col-md-4 ml-md-auto mr-md-auto pt-4">
 
       <%= render 'layouts/notice' %>
 
-      <div class="ml-4 mb-2">
-        <small>New Request For Tender</small>
+      <div class="ml-4 mb-2 text-center">
+        <small style="color: rgb(169, 68, 66); font-size: 100%;">Unsent Request For Tender</small>
       </div>
       <div class="card mb-4">
         <div class="list-group list-group-flush">
 
           <%= link_to new_request_for_tender_path,  class: 'card-link' do %>
             <div class="card-body text-center">
-              New Request For Tender
+              Create Request For Tender
             </div>
           <% end %>
 
@@ -52,16 +52,20 @@
 
         </div>
       </div>
+    </div>
 
+
+    <div class="col-md-4 ml-md-auto mr-md-auto pt-4">
 
       <% if @requests.submitted %>
 
-          <div class="ml-4 mb-2">
-            <small>Submitted Requests For Tender</small>
+          <div class="ml-4 mb-2 text-center">
+            <small style="font-size: 100%;">Submitted Requests For Tender</small>
           </div>
           <div class="card">
             <div class="list-group list-group-flush">
               <% @requests.submitted.each do |request| %>
+                <% unless request.deadline.past? %>
                   <%= link_to request, class: 'list-group-item list-group-item-action flex-column align-items-start' do %>
                       <div class="d-flex w-100 justify-content-between">
                         <h5 class="mb-1">
@@ -80,12 +84,48 @@
                       <small class="text-muted">
                         <%= request.project_location %>
                       </small>
+                      <% end %>
                   <% end %>
-              <% end %>
+                <% end %>              
             </div>
           </div>
 
       <% end %>
+    </div>
+
+
+    <div class="col-md-4 ml-md-auto mr-md-auto pt-4">
+      <div class="ml-4 mb-2 text-center">
+            <small style="color:rgb(60, 118, 61); font-size: 100%;">Closed Tenders</small>
+      </div>
+      <div class="card">
+            <div class="list-group list-group-flush">
+              <% @requests.submitted.each do |request| %>
+                <% if request.deadline.past? %>
+                  <%= link_to request, class: 'list-group-item list-group-item-action flex-column align-items-start' do %>
+                      <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1">
+                          <%= request.project_name %>
+                        </h5>
+                        <small class="text-muted">
+                          <% if !request.submitted? %>
+                              <span class="badge badge-pill badge-secondary"><%= request.status %></span>
+                          <% elsif request.deadline.past? %>
+                              <span class="badge badge-pill badge-success"><%= request.status %></span>
+                          <% else %>
+                              <span class="badge badge-pill badge-warning"><%= request.status %></span>
+                          <% end %>
+                        </small>
+                      </div>
+                      <small class="text-muted">
+                        <%= request.project_location %>
+                      </small>
+                    <% end %>
+                <% end %>
+              <% end %>
+            </div>
+        </div>
+    </div>
 
 
 
@@ -93,3 +133,14 @@
     </div>
   </div>
 </div>
+
+<script>
+$(document).ready( function(e){
+  $('.card').each( function(i,e){
+    if(parseInt($(this).css('height')) >= 700){
+      $(this).css('height', '700px')
+      $(this).css('overflow-y', 'scroll')
+    }
+  });
+});
+</script>
