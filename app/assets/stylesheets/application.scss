@@ -1,5 +1,4 @@
 @import "_bootstrap-variables";
-@import url("//www.jquery-steps.com/Content/examples.css");
 $enable-shadows: true;
 $body-bg:    $gray-200;
 $body-color: $gray-600;
@@ -177,4 +176,13 @@ Final Email to Shortlisted Participants
 
 #notify-disqualified-contractors-message{
   display: none;
+}
+
+
+
+// Top Nav
+
+.top-nav-breadcrumb {
+  padding-left: 0;
+  background-color: initial;
 }

@@ -91,7 +91,6 @@ class ParticipantsController < ApplicationController
   # GET /show_disinterest_in_request_for_tender/1
   def show_disinterest_in_request_for_tender
     @participant.update(status: 'not_participating', interested_declaration_time: Time.current)
-    puts @participant.status
     redirect_to @participant,
                 notice: 'Thank you for your time. You\'ll not receive anymore emails about this project.'
   end

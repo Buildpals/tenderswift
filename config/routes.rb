@@ -1,10 +1,12 @@
 Rails.application.routes.draw do
 
-  get 'participants/:id/show', to: 'participants#messages', as: 'participants_messages'
+  get 'participants/:id', to: 'participants#messages', as: 'participants_messages'
   get 'participants/:id/project_information', to: 'participants#project_information', as: 'participants_project_information'
   get 'participants/:id/questionnaire', to: 'participants#questionnaire', as: 'participants_questionnaire'
   get 'participants/:id/boq', to: 'participants#boq', as: 'participants_boq'
   get 'participants/:id/results', to: 'participants#results', as: 'participants_results'
+
+
 
   root to: 'welcome#index'
 
@@ -20,9 +22,10 @@ Rails.application.routes.draw do
       to: 'participants#show_disinterest_in_request_for_tender',
       as: 'show_disinterest_in_request_for_tender'
 
-  get '/request_for_tenders/show_bid/:id',
-      to: 'request_for_tenders#show_bid',
-      as: 'show_bid'
+  get 'request_for_tenders/show_bid/:id', to: 'request_for_tenders#show_bid_boq', as: 'show_bid_boq'
+  get 'request_for_tenders/show_bid/:id/messages', to: 'request_for_tenders#show_bid_messages', as: 'show_bid_messages'
+  get 'request_for_tenders/show_bid/:id/questionnaire', to: 'request_for_tenders#show_bid_questionnaire', as: 'show_bid_questionnaire'
+  get 'request_for_tenders/show_bid/:id/information', to: 'request_for_tenders#show_bid_information', as: 'show_bid_information'
 
 
   post '/requests/set_winner/:id/:participant',

@@ -1,19 +1,49 @@
 <nav class="navbar navbar-expand-lg navbar-dark">
+  <%= link_to '#', class: 'navbar-brand' do %>
+      <%= cl_image_tag(@participant.project_owners_company_logo.full_public_id,
+                       format: 'jpg', height: 50, crop: :scale,
+                       title: @participant.project_owners_company_name,
+                       alt: @participant.project_owners_company_name)
+      %>
+      <%= @participant.project_owners_company_name %>
+  <% end %>
+
 
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
 
+
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav ml-auto">
-      <li class="nav-item mr-3">
-        <%= link_to 'Login', new_quantity_surveyor_session_path, class: 'nav-link' %>
-      </li>
+      <% if @participant.status.in? %w(guest not_read read participating) %>
+          <li class="nav-item mr-3">
+            <%= link_to 'Decline invitation', @participant.decline_url,
+                        class: 'btn btn-secondary',
+                        data: {confirm: 'Declining this project means you will no longer be participating in tendering for this project. Are you sure you want to do so?'} %>
+          </li>
+      <% end %>
 
-      <li class="nav-item">
-        <%= link_to 'Signup', new_quantity_surveyor_registration_path, class: 'btn btn-primary' %>
-      </li>
+      <% if @participant.status.in? %w(guest not_read read not_participating) %>
+          <li class="nav-item mr-3">
+            <%= link_to 'Accept invitation', @participant.accept_url,
+                        class: 'btn btn-success' %>
+          </li>
+      <% end %>
     </ul>
-
   </div>
+
+
+  <% if @participant.status.in? %w(participating) %>
+      <%= form_with(model: @participant, local: true, class: 'form-inline') do |form| %>
+          <%= form.text_field :status, value: 'bid_made', id: :participant_phone_number, type: 'hidden' %>
+          <%= form.text_field :bid_submission_time, value: Time.current, id: :participant_phone_number, type: 'hidden' %>
+          <%= form.submit 'Submit Bid', data: {confirm: 'You cannot edit the Bill of Quantities after submitting your bid. Are you sure you want to submit your bid?'},
+                          class: 'btn btn-outline-success my-2 my-sm-0' %>
+      <% end %>
+  <% end %>
+
+  <% if @participant.status.in? %w(bid_made) %>
+      Bid submitted successfully
+  <% end %>
 </nav>

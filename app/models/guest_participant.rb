@@ -17,6 +17,13 @@ class GuestParticipant
     "guest-#{request_for_tender.id}"
   end
 
+  def to_model
+    Participant.new
+  end
+
+  def update(attributes)
+    self
+  end
 
   def request_for_tender
     @request_for_tender
@@ -42,27 +49,11 @@ class GuestParticipant
     '+233240000000'
   end
 
-  def bid_submission_time
-    nil
-  end
-
-  def request_read_time
-    nil
-  end
-
-  def interested
-    false
-  end
-
   def interested_declaration_time
     nil
   end
 
   def declination_reason
-    nil
-  end
-
-  def removed
     nil
   end
 
@@ -78,9 +69,31 @@ class GuestParticipant
     0
   end
 
+
   def status
-    'read'
+    'guest'
   end
+
+  def not_read?
+    true
+  end
+
+  def read?
+    false
+  end
+
+  def not_participating?
+    false
+  end
+
+  def participating?
+    false
+  end
+
+  def bid_made?
+    false
+  end
+
 
   def created_at
     request_for_tender.created_at
@@ -90,22 +103,38 @@ class GuestParticipant
     request_for_tender.updated_at
   end
 
+
+
+
   def answer_boxes
     AnswerBox.none
   end
 
+  def items
+    FilledItem.none
+  end
+
+
   def filled_items
-    # FilledItem.none
+    FilledItem.none
+  end
+
+  def questions
+    Question.none
+  end
+
+  def messages
+    Message.none
   end
 
 
-
-  def update(attributes)
-    self
+  def filled_item(item)
+    FilledItem.new
   end
 
-
-
+  def answer_box_for(question)
+    AnswerBox.new
+  end
 
   def decline_url
     ''
@@ -113,20 +142,6 @@ class GuestParticipant
 
   def accept_url
     ''
-  end
-
-
-  def not_read?
-    true
-  end
-
-  def filled_item(item)
-    filled_items.find_by(item_id: item.id) || FilledItem.new(item: item, participant: self)
-  end
-
-  def answer_box_for(question)
-    answer_box = answer_boxes.find_by(question: question, participant: self) || answer_boxes.build(question: question, participant: self)
-    answer_box
   end
 
   def bid

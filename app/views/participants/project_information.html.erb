@@ -1,32 +1,23 @@
 <div class="card mb-4">
   <div class="card-body">
+    <h4 class="card-title mt-0"><%= @participant.project_name %></h4>
 
-    <div class="media">
-      <%= cl_image_tag(@participant.project_owners_company_logo.full_public_id,
-                       format: 'jpg', width: 160, crop: :scale,
-                       alt: @participant.project_owners_company_name,
-                       class: 'align-self-start mr-3') %>
-      <div class="media-body">
-        <h4 class="card-title mt-0"><%= @participant.project_name %></h4>
+    <p>
+      <%= @participant.project_location %>
+    </p>
 
-        <p>
-          <%= @participant.project_location %>
-        </p>
+    <small>
+      <strong>Contract Sum&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong>&nbsp;&nbsp;
+      <%= @participant.contract_sum_currency %>
+      <%= @participant.contract_sum %>
+    </small>
 
-        <small>
-          <strong>Contract Sum&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong>&nbsp;&nbsp;
-          <%= @participant.contract_sum_currency %>
-          <%= @participant.contract_sum %>
-        </small>
-
-        <small>
-          <p class="mb-1">
-            <strong>Project Consultant&nbsp;</strong>&nbsp;&nbsp;
-            <%= @participant.project_owners_company_name %>
-          </p>
-        </small>
-      </div>
-    </div>
+    <small>
+      <p class="mb-1">
+        <strong>Project Consultant&nbsp;</strong>&nbsp;&nbsp;
+        <%= @participant.project_owners_company_name %>
+      </p>
+    </small>
   </div>
 
 
@@ -76,18 +67,5 @@
         </li>
     <% end %>
   </ul>
-
-  <div class="card-body">
-    <div class="d-flex w-100 justify-content-between">
-      <%= link_to 'Decline invitation', @participant.decline_url,
-                  class: 'btn btn-danger ml-auto',
-                  data: {confirm: 'Declining this project means you will no longer be participating in tendering for this project. Are you sure you want to do so?'} %>
-
-      <% unless @participant.status.in? %w(participating bid_made) %>
-          <%= link_to 'Accept invitation', @participant.accept_url,
-                      class: 'btn btn-success ml-2' %>
-      <% end %>
-    </div>
-  </div>
 
 </div>

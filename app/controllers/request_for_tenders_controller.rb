@@ -23,11 +23,24 @@ class RequestForTendersController < ApplicationController
     gon.jbuilder
   end
 
-  def show_bid
+  def show_bid_messages
     @participant = Participant.find_by(auth_token: params[:id])
-    @boq = @participant.boq
+  end
+
+  def show_bid_boq
+    @participant = Participant.find_by(auth_token: params[:id])
+    @request = @participant.request_for_tender
     gon.jbuilder
   end
+
+  def show_bid_questionnaire
+    @participant = Participant.find_by(auth_token: params[:id])
+  end
+
+  def show_bid_information
+    @participant = Participant.find_by(auth_token: params[:id])
+  end
+
 
   # GET /requests/new
   def new

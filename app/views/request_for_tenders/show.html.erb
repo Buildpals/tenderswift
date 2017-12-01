@@ -1,11 +1,22 @@
+<% content_for :breadcrumbs do %>
+    <li class="breadcrumb-item">
+      <a href="<%= root_path %>">
+        Home
+      </a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page">
+      <%= @request.project_name %>
+    </li>
+<% end %>
+
 <div class="container" id="app">
   <div class="row">
 
-    <div class="col-lg-12 mx-auto pt-4">
+    <div class="col-lg-9 mx-auto pt-4">
       <%= render 'layouts/notice' %>
     </div>
 
-    <div class="col-lg-12 ml-auto">
+    <div class="col-lg-9 mx-auto">
       <%= render 'request_status_summary' %>
 
       <%= render 'request_status_detail' %>
