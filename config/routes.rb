@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   get 'participants/:id/project_information', to: 'participants#project_information', as: 'participants_project_information'
   get 'participants/:id/questionnaire', to: 'participants#questionnaire', as: 'participants_questionnaire'
   get 'participants/:id/boq', to: 'participants#boq', as: 'participants_boq'
-  get 'participants/:id/competition', to: 'participants#competition', as: 'participants_competition'
+  get 'participants/:id/results', to: 'participants#results', as: 'participants_results'
 
   root to: 'welcome#index'
 

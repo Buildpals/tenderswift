@@ -6,7 +6,7 @@ class ParticipantsController < ApplicationController
                                          :project_information,
                                          :boq,
                                          :questionnaire,
-                                         :competition,
+                                         :results,
                                          :show_boq, :disqualify]
 
   def messages
@@ -24,7 +24,7 @@ class ParticipantsController < ApplicationController
   def questionnaire
   end
 
-  def competition
+  def results
   end
 
   def show_boq
