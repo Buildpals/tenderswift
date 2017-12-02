@@ -1,5 +1,6 @@
 class QuantitySurveyorsController < ApplicationController
   before_action :set_quantity_surveyor, only: [:edit, :update]
+  before_action :authenticate_quantity_surveyor!
 
   # GET /quantity_surveyors/1/edit
   def edit

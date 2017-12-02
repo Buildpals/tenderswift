@@ -2,7 +2,7 @@ class CreateTenderController < ApplicationController
   before_action :set_request, only: [:edit_tender_information, :edit_tender_documents, :edit_tender_boq, :edit_tender_questionnaire, :edit_tender_participants,
                                      :update_tender_information, :update_tender_documents, :update_tender_boq, :update_tender_questionnaire, :update_tender_participants]
 
-  before_action :authenticate_quantity_surveyor!, only: [:edit, :index]
+  before_action :authenticate_quantity_surveyor!
 
 
   def edit_tender_information

@@ -3,7 +3,7 @@ class RequestForTendersController < ApplicationController
                                      :destroy,
                                      :email_request_for_tender]
 
-  before_action :authenticate_quantity_surveyor!, only: [:edit, :index]
+  before_action :authenticate_quantity_surveyor!
 
 
   DEFAULT_BROADCAST_CONTENT = "If you have any questions you can reply me here".freeze
