@@ -1,126 +1,24 @@
 App.Boq = (function() {
-    function Boq(boqData) {
-        this.boqData = boqData;
+    function Boq() {
     }
 
-    let viewType;
+    Boq.prototype.render = renderSpreadSheet;
 
-    Boq.prototype.render = function(_viewType) {
-        viewType = _viewType;
-        renderSpreadSheet(this.boqData, viewType);
-    };
-
-    Boq.prototype.renderSpreadSheet = renderSpreadSheet;
-
-    function renderSpreadSheet(boqData, viewType) {
+    function renderSpreadSheet(boqData, settings) {
         boqData.pages.forEach(function (page) {
 
-            let data = [];
-            let sectionHeaders = [];
-            buildSheetData(page, sectionHeaders, data);
+            let sheetData = buildSheetData(page);
 
             let container = document.getElementById('sheet-' + page.id);
 
-            let colHeaders, columns, colWidths, contextMenu;
-            if (viewType === 'tag_editing') {
-                contextMenu = ['undo', 'redo', 'cut', 'copy'];
-                colHeaders = ['Item', 'Description', 'Quantity', 'Unit', 'Rate', 'Amount'];
-                columns = [
-                    {
-                        data: 'name',
-                        renderer: labelRenderer,
-                        readOnly: true
-                    },
-                    {
-                        data: 'description',
-                        className: 'htLeft',
-                        readOnly: true
-                    },
-                    {
-                        data: 'quantity',
-                        readOnly: true
-                    },
-                    {
-                        data: 'unit',
-                        readOnly: true
-                    },
-                    {
-                        data: 'filled_item.rate',
-                        readOnly: true
-                    },
-                    {
-                        data: 'amount',
-                        readOnly: true
-                    }
-                ];
-                colWidths = [50, 300, 42, 42, 50, 50];
-            } else if (viewType === 'rate_filling') {
-                contextMenu = ['undo', 'redo', 'cut', 'copy'];
-                colHeaders = ['Item', 'Description', 'Quantity', 'Unit', 'Rate', 'Amount'];
-                columns = [
-                    {
-                        data: 'name',
-                        renderer: labelRenderer,
-                        readOnly: true
-                    },
-                    {
-                        data: 'description',
-                        className: 'htLeft',
-                        readOnly: true
-                    },
-                    {
-                        data: 'quantity',
-                        readOnly: true
-                    },
-                    {
-                        data: 'unit',
-                        readOnly: true
-                    },
-                    {
-                        data: 'filled_item.rate'
-                    },
-                    {
-                        data: 'amount',
-                        readOnly: true
-                    }
-                ];
-                colWidths = [50, 300, 42, 42, 50, 50];
-            } else {
-                contextMenu = ['row_above', 'row_below', 'remove_row', 'undo', 'redo', 'cut', 'copy'];
-                colHeaders = ['Item', 'Description', 'Quantity', 'Unit', 'Rate', 'Amount'];
-                columns = [
-                    {
-                        data: 'name',
-                        renderer: labelRenderer
-                    },
-                    {
-                        data: 'description',
-                        className: 'htLeft'
-                    },
-                    {
-                        data: 'quantity',
-                    },
-                    {
-                        data: 'unit'
-                    },
-                    {
-                        data: 'rate'
-                    },
-                    {
-                        data: 'amount',
-                        readOnly: true
-                    }
-                ];
-                colWidths = [50, 300, 42, 42, 50, 50];
-            }
-
             let hot = new Handsontable(container, {
-                data: data,
-                cell: sectionHeaders,
-                mergeCells: sectionHeaders,
-                colHeaders: colHeaders,
+                data: sheetData.data,
+                cell: sheetData.sectionHeaders,
+                mergeCells: sheetData.sectionHeaders,
+                colHeaders: ['Item', 'Description', 'Quantity', 'Unit', 'Rate', 'Amount'],
+                colWidths: [50, 300, 42, 42, 50, 50],
                 className: "htCenter",
-                columns: columns,
+                columns: settings.columns,
                 dataSchema: {
                     "id": null,
                     "item_type": "item",
@@ -132,17 +30,11 @@ App.Boq = (function() {
                     "boq_id": gon.boq.id,
                     "priority": null
                 },
-                colWidths: colWidths,
-                // rowHeaders: true,
                 stretchH: 'all',
                 manualColumnResize: true,
                 manualRowResize: true,
-                // persistentState: true,
-                // manualColumnMove: true,
-                // manualRowMove: true,
-                // minSpareRows: 1,
                 formulas: true,
-                contextMenu: contextMenu,
+                contextMenu: settings.contextMenu,
                 beforeRemoveRow: function(index, numRowsToBeRemoved, visualRows) {
                     visualRows.forEach(function (visualIndex) {
                         let item = data[visualIndex];
@@ -177,7 +69,7 @@ App.Boq = (function() {
                         let newVal = change[3];
                         let item = data[row];
 
-                        if (viewType === 'rate_filling') {
+                        if (settings.editRates) {
                             saveFilledItem(item.filled_item)
                                 .done(function (updatedFilledItem) {
                                     console.log("Updated", updatedFilledItem);
@@ -194,6 +86,11 @@ App.Boq = (function() {
                         }
                     });
                 }
+                // rowHeaders: true,
+                // persistentState: true,
+                // manualColumnMove: true,
+                // manualRowMove: true,
+                // minSpareRows: 1
             });
 
             $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
@@ -205,7 +102,11 @@ App.Boq = (function() {
         });
     }
 
-    function buildSheetData(page, customCells, data) {
+    function buildSheetData(page) {
+        let sheetData = {};
+        let customCells = [];
+        let data = [];
+
         page.items.forEach(function  (item, index) {
             if (item.item_type === 'header') {
                 customCells.push({row: data.length, col: 1, rowspan: 1, colspan: 1, renderer: sectionRenderer});
@@ -236,9 +137,13 @@ App.Boq = (function() {
                 );
             }
         });
+
+        sheetData.sectionHeaders = customCells;
+        sheetData.data = data;
+        return sheetData;
     }
 
-
+    // Renderers
     function sectionRenderer(instance, td, row, col, prop, value, cellProperties) {
         Handsontable.renderers.TextRenderer.apply(this, arguments);
         td.setAttribute('style', 'height: 2em !important; font-size: 1.1em; font-weight: bold; vertical-align: bottom; text-align: center');
@@ -249,7 +154,7 @@ App.Boq = (function() {
         td.style.fontWeight = "bold";
     }
 
-
+    // CRUD functions
     function createItem(item) {
         let url = '/items.json';
         let method = 'POST';
@@ -300,20 +205,3 @@ App.Boq = (function() {
 
     return Boq;
 })();
-
-
-$(document).on("turbolinks:load", function () {
-    if ($(".create_tender.edit_tender_boq, .request_for_tenders.preview").length === 0) return;
-
-    let boq;
-    boq = new App.Boq(gon.boq);
-    return boq.render();
-});
-
-$(document).on("turbolinks:load", function () {
-    if ($(".request_for_tenders.show").length === 0) return;
-
-    let boq;
-    boq = new App.Boq(gon.boq);
-    return boq.render();
-});

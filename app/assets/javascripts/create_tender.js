@@ -37,3 +37,39 @@ $(document).on("turbolinks:load", function () {
         });
     });
 });
+
+
+
+$(document).on("turbolinks:load", function () {
+    if ($(".create_tender.edit_tender_boq").length === 0) return;
+
+    let boq = new App.Boq();
+    let itemsEditingSettings = {
+        contextMenu: ['row_above', 'row_below', 'remove_row', 'undo', 'redo', 'cut', 'copy'],
+        columns: [
+            {
+                data: 'name',
+                renderer: boq.labelRenderer
+            },
+            {
+                data: 'description',
+                className: 'htLeft'
+            },
+            {
+                data: 'quantity',
+            },
+            {
+                data: 'unit'
+            },
+            {
+                data: 'rate'
+            },
+            {
+                data: 'amount',
+                readOnly: true
+            }
+        ],
+        editRates: true
+    };
+    boq.render(gon.boq, itemsEditingSettings);
+});
