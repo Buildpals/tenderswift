@@ -71,7 +71,7 @@ Rails.application.routes.draw do
   resources :messages
   resources :answer_boxes
   resources :questions
-  resources :quantity_surveyors
+  resources :quantity_surveyors, only: [:edit, :update]
   resources :messages, only: [:create]
 
 
