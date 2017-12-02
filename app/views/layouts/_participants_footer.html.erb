@@ -1,13 +1,16 @@
-<footer id="footer" class="footer">
+<footer id="footer" class="footer bg-primary">
   <div class="footer-line">
-    <div class="container">
+    <div class="container-fluid">
       <div class="row">
         <div class="col-md-12 text-center">
           <a href="<%= root_path %>">
-            Powered by
-            <%= image_tag 'buildpals-logo-small-inverse.png', style: 'width: 100px; margin-top: 0px;',
+            <%= image_tag 'buildpals-logo-small-inverse.png', style: 'height: 16px; margin-top: 5px', class: 'float-right',
                           alt: 'buildpals - connecting contractors to project leads' %>
-            &copy; 2017 &middot; All Rights Reserved
+          </a>
+
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <a href="<%= root_path %>">
+            Powered by Buildpals &copy; 2017 &middot; All Rights Reserved
           </a>
         </div>
       </div>

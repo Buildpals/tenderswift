@@ -37,7 +37,7 @@ App.Boq = (function() {
                 contextMenu: settings.contextMenu,
                 beforeRemoveRow: function(index, numRowsToBeRemoved, visualRows) {
                     visualRows.forEach(function (visualIndex) {
-                        let item = data[visualIndex];
+                        let item = sheetData.data[visualIndex];
                         console.log("Deleting", item);
                         deleteItem(item)
                             .done(function (response) {
@@ -47,16 +47,16 @@ App.Boq = (function() {
                 },
                 afterCreateRow: function(index, numNewlyCreatedRows, source) {
                     for (row = index; row < index + numNewlyCreatedRows; row++) {
-                        let item = data[row];
-                        let previous_priority = data[row-1].priority;
-                        let next_priority = data[row+1].priority;
+                        let item = sheetData.data[row];
+                        let previous_priority = sheetData.data[row-1].priority;
+                        let next_priority = sheetData.data[row+1].priority;
                         let current_priority = (previous_priority + next_priority) / 2;
                         item.priority = current_priority;
                         console.log("Creating item", item);
                         createItem(item)
                             .done(function (createdItem) {
                                 console.log("Created", createdItem);
-                                data[row] = createdItem;
+                                sheetData.data[row] = createdItem;
                                 hot.render();
                             })
                     }
@@ -67,20 +67,20 @@ App.Boq = (function() {
                         let col = change[1];
                         let oldVal = change[2];
                         let newVal = change[3];
-                        let item = data[row];
+                        let item = sheetData.data[row];
 
                         if (settings.editRates) {
                             saveFilledItem(item.filled_item)
                                 .done(function (updatedFilledItem) {
                                     console.log("Updated", updatedFilledItem);
-                                    data[row].filled_item = updatedFilledItem;
+                                    sheetData.data[row].filled_item = updatedFilledItem;
                                     hot.render();
                                 });
                         } else {
                             updateItem(item)
                                 .done(function (updatedItem) {
                                     console.log("Updated", updatedItem);
-                                    data[row] = updatedItem;
+                                    sheetData.data[row] = updatedItem;
                                     hot.render();
                                 });
                         }

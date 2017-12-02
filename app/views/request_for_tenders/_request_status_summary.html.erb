@@ -3,7 +3,7 @@
     <%= @request.project_name %>
   </div>
   <ul class="list-group list-group-flush">
-    <li class="list-group-item bg-info">
+    <li class="list-group-item bg-primary">
       <div class="col-sm-12 request-controls" style="padding: 5px;">
         <%= link_to 'Edit request', edit_tender_information_path(@request), class: 'btn btn-sm btn-light' %>
         <%= link_to 'Extend deadline', edit_tender_information_path(@request), class: 'btn btn-sm btn-light' %>
@@ -48,7 +48,7 @@
                  bids will only be shown when the request deadline is reached.<p>
                 <p class='text-center request-countdown'><%= @request.time_left %> left to request deadline.</p>">
 
-                <button class="btn btn-lg btn-success disabled" type="button">
+                <button class="btn btn-lg btn-secondary disabled" type="button">
                   Compare bids
                 </button>
 

@@ -13,7 +13,7 @@
   <% end %>
 
   <div class="d-flex ml-auto loading-indicator hidden">
-    <i class="fa fa-spinner fa-pulse fa-2x fa-fw align-self-center" style="color: darkorange;"></i>
+    <i class="fa fa-spinner fa-pulse fa-2x fa-fw align-self-center text-secondary"></i>
     <div class="align-self-center">
       <span class="ml-1 font-weight-bold">Saving changes</span>
     </div>
@@ -36,7 +36,7 @@
 
         <%= link_to 'Send to participants',
                     email_request_for_tender_path(request),
-                    class: 'btn btn-success ml-2 float-right',
+                    class: 'btn btn-secondary ml-2 float-right',
                     data: {confirm: 'Send out this request for tender means all listed participants will immediately have access to this particular Request For Tender and as a result can start placing their bids. Are you sure you want to do so?'} %>
     <% else %>
         <a href="<%= @next_path %>" class="btn btn-primary next-button">Next</a>

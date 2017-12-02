@@ -1,7 +1,8 @@
-<nav class="navbar navbar-expand-lg navbar-dark">
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
   <%= link_to '#', class: 'navbar-brand' do %>
       <%= cl_image_tag(@participant.project_owners_company_logo.full_public_id,
-                       format: 'jpg', height: 50, crop: :scale,
+                       format: 'jpg', height: 28, crop: :scale,
+                       style: 'height: 28px; margin-top: 0px;',
                        title: @participant.project_owners_company_name,
                        alt: @participant.project_owners_company_name)
       %>
@@ -18,8 +19,8 @@
     <ul class="navbar-nav ml-auto">
       <% if @participant.status.in? %w(guest not_read read participating) %>
           <li class="nav-item mr-3">
-            <%= link_to 'Decline invitation', @participant.decline_url,
-                        class: 'btn btn-secondary',
+            <%= link_to @participant.status.in?(%w(participating)) ? 'Exit tender process' : 'Decline invitation', @participant.decline_url,
+                        class: 'btn btn-light',
                         data: {confirm: 'Declining this project means you will no longer be participating in tendering for this project. Are you sure you want to do so?'} %>
           </li>
       <% end %>
@@ -27,7 +28,7 @@
       <% if @participant.status.in? %w(guest not_read read not_participating) %>
           <li class="nav-item mr-3">
             <%= link_to 'Accept invitation', @participant.accept_url,
-                        class: 'btn btn-success' %>
+                        class: 'btn btn-secondary' %>
           </li>
       <% end %>
     </ul>
@@ -39,7 +40,7 @@
           <%= form.text_field :status, value: 'bid_made', id: :participant_phone_number, type: 'hidden' %>
           <%= form.text_field :bid_submission_time, value: Time.current, id: :participant_phone_number, type: 'hidden' %>
           <%= form.submit 'Submit Bid', data: {confirm: 'You cannot edit the Bill of Quantities after submitting your bid. Are you sure you want to submit your bid?'},
-                          class: 'btn btn-outline-success my-2 my-sm-0' %>
+                          class: 'btn btn-outline-secondary my-2 my-sm-0' %>
       <% end %>
   <% end %>
 

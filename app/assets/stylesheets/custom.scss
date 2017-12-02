@@ -1,0 +1,21 @@
+@import "bootstrap";
+
+$gray-50: #FAFAFA;
+
+$theme-colors: (
+  primary: #2b3f57,
+  secondary: #ffce12,
+  success: $green,
+  info: $cyan,
+  warning: $yellow,
+  danger: $red,
+  light: $gray-100,
+  dark: $gray-800
+);
+
+$enable-shadows: true;
+$body-bg:    $gray-50;
+$body-color: $gray-600;
+
+$component-active-bg: theme-color("primary");
+$nav-pills-link-active-bg:    $component-active-bg;

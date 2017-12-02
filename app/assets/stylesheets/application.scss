@@ -1,10 +1,6 @@
-@import "_bootstrap-variables";
-$enable-shadows: true;
-$body-bg:    $gray-200;
-$body-color: $gray-600;
+@import "custom";
 @import "bootstrap";
 @import "bootstrap-datepicker";
-
 @import "font-awesome";
 @import "navbar";
 @import "footer";
