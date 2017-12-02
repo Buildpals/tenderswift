@@ -1,5 +1,5 @@
 $(document).on("turbolinks:load", function () {
-    if ($(".request_for_tenders.show, .request_for_tenders.show_bid_boq").length === 0) return;
+    if ($(".request_for_tenders.show, .bids.boq").length === 0) return;
 
 
     let data = gon.participants.map(function (participant) {

@@ -1,6 +1,3 @@
-<%= render 'page_head_content' %>
-
-
 <div class="container" id="app">
   <div class="row">
 
@@ -10,7 +7,7 @@
 
     <div class="col-lg-9 mx-auto">
 
-      <%= render 'message_board', request: @participant.request_for_tender %>
+      <%= render 'request_for_tenders/message_board', request: @participant.request_for_tender %>
 
     </div>
 

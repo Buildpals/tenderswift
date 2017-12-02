@@ -1,0 +1,49 @@
+<div class="container" id="app">
+  <div class="row">
+
+    <div class="col-lg-9 mx-auto pt-4">
+      <%= render 'layouts/notice' %>
+    </div>
+
+    <div class="col-lg-9 mx-auto">
+      <div class="card mb-4">
+        <div class="card-header">
+          Bill of Quantities
+        </div>
+
+        <div class="card-body">
+          <div class="graph mb-4">
+            <canvas id="barChart" class="mb-2"></canvas>
+          </div>
+        </div>
+
+        <div class="card-body">
+          <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <% @participant.boq.pages.each_with_index do |page, index| %>
+                <li class="nav-item">
+                  <a class="nav-link  <%= 'active' if index == 0 %>" id="page-<%= page.id %>-tab" data-toggle="tab"
+                     href="#page-<%= page.id %>-content" role="tab" aria-controls="page-<%= page.id %>-tab-content">
+                    <%= page.name %>
+                  </a>
+                </li>
+            <% end %>
+          </ul>
+
+          <div class="tab-content mb-5" id="myTabContent">
+            <% @participant.boq.pages.each_with_index do |page, index| %>
+                <div class="tab-pane <%= 'show active' if index == 0 %>"
+                     id="page-<%= page.id %>-content" role="tabpanel" aria-labelledby="page-<%= page.id %>-tab">
+
+                  <div id="sheet-<%= page.id %>"></div>
+
+                </div>
+            <% end %>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>

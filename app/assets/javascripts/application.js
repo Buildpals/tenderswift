@@ -23,7 +23,6 @@
 //= require cocoon
 
 
-
 //= require handsontable.full
 //= require lodash
 //= require underscore.string
@@ -38,11 +37,11 @@
 //= require handsontable.formula
 
 
-
-
 //= require Chart
+
 //= require boqs
+//= require registrations
+//= require create_tender
 //= require requests
 //= require participants
-//= require create_tender
-//= require registrations
+//= require bids

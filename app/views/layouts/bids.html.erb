@@ -12,16 +12,16 @@
 
 <% content_for :nav_tabs do %>
     <nav class="nav">
-      <a class="nav-item nav-link <%= 'active' if action_name == 'show_bid_boq' %>" href="<%= show_bid_boq_path(@participant) %>">
+      <a class="nav-item nav-link <%= 'active' if action_name == 'boq' %>" href="<%= bid_boq_path(@participant) %>">
         Bill Of Quantities
       </a>
-      <a class="nav-item nav-link <%= 'active' if action_name == 'show_bid_questionnaire' %>" href="<%= show_bid_questionnaire_path(@participant) %>">
+      <a class="nav-item nav-link <%= 'active' if action_name == 'questionnaire' %>" href="<%= bid_questionnaire_path(@participant) %>">
         Questionnaire
       </a>
-      <a class="nav-item nav-link <%= 'active' if action_name == 'show_bid_messages' %>" href="<%= show_bid_messages_path(@participant) %>">
+      <a class="nav-item nav-link <%= 'active' if action_name == 'messages' %>" href="<%= bid_messages_path(@participant) %>">
         Messages
       </a>
-      <a class="nav-item nav-link <%= 'active' if action_name == 'show_bid_information' %>" href="<%= show_bid_information_path(@participant) %>">
+      <a class="nav-item nav-link <%= 'active' if action_name == 'contractor_information' %>" href="<%= bid_contractor_information_path(@participant) %>">
         Contractor Information
       </a>
     </nav>
@@ -76,3 +76,26 @@
     </script>
 <% end %>
 
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<%= render 'layouts/head' %>
+
+<body class="<%= controller_name %> <%= action_name %>">
+
+<%= render 'layouts/navbar' %>
+
+<div class="content">
+
+  <%= render 'layouts/page_head' %>
+
+  <%= yield %>
+
+</div>
+
+<%= render 'layouts/footer' %>
+
+</body>
+</html>
