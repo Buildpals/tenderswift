@@ -108,30 +108,6 @@ class RequestForTender < ApplicationRecord
     boq.save!
   end
 
-  enum current_step: {
-      project_information: 0,
-      bill_of_quantities: 1,
-      send_tender: 2
-  }
-
-  def next_step
-    case current_step
-      when 'project_information'
-        'bill_of_quantities'
-      when 'bill_of_quantities'
-        'send_tender'
-    end
-  end
-
-  def previous_step
-    case current_step
-      when 'bill_of_quantities'
-        'project_information'
-      when 'send_tender'
-        'bill_of_quantities'
-    end
-  end
-
   def get_disqualified_contractors
     disqualified_participants = Array.new
     self.participants.lazy.each do |participant|
