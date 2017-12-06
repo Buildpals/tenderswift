@@ -13,9 +13,10 @@
     <% if @request.boq %>
       <div id="content-boq" style="display:none;"><%=@request.boq.workbook_data%></div>
     <% end %>
-
-    <div id="example"></div>
-    <div id="buttons"></div>
+    <div id="boq-excel"></div>
+    
+    <div class="buttons row"></div>
+    
 
     <div class="mb-4 text-center">
       <% if @request.boq %>
@@ -56,14 +57,12 @@ function handleFile(e) {
   reader.onload = function(e) {
     var data = e.target.result;
     if(!rABS) data = new Uint8Array(data);
-    var workbook = XLSX.read(data, {type: rABS ? 'binary' : 'array'});
+    var workbook = XLSX.read(data, {type: rABS ? 'binary' : 'array'}); //read workbook
     console.log(data);
     var parsedJson = JSON.stringify(workbook);
     $('#workbook-data').val(parsedJson);
     parsedJson = JSON.parse(parsedJson);
-    console.log(parsedJson);
-    $('#request-form').submit();
-    /* DO SOMETHING WITH workbook HERE */
+    $('#request-form').submit(); //submit form to save json data in DB;
   };
   if(rABS) reader.readAsBinaryString(f); else reader.readAsArrayBuffer(f);
 }
@@ -80,34 +79,24 @@ $(document).ready(function(e){
     var calculateScreenWidth = function(){
         return window.innerWidth * 2/3;
     }
-    function choose_sheet(sheetidx) { 
-        var sheet = process_wb(last_wb, sheetidx);
-        var hot = new Handsontable(container, {
-            data: sheet,
-            startRows: 5,
-            startCols: 3,
-            stretchH: 'all',
-            rowHeaders: true,
-            colHeaders: true,
-            width: function () { return calculateScreenWidth(); },
-            height: function () { return calculateScreenHeight(); },
-            stretchH: 'all'
-        });
-    }
 
-  /* make the buttons for the sheets */
-    var make_buttons = function(sheetnames, cb) {
-        var $buttons = $('#buttons');
+  /* make the buttons for the sheet names for good navigation */
+    var make_buttons = function(sheetnames) {
+        var $buttons = $('.buttons');
         $buttons.html("");
         sheetnames.forEach(function(s,idx) {
-        var button= $('<button/>').attr({ type:'button', name:'btn' +idx, text:s });
-        button.append('<h3>' + s + '</h3>');
-        button.click(function() { choose_sheet(idx); });
-        $buttons.append(button);
-        $buttons.append('<br/>');
+            var button= $('<button/>').attr({ type:'button', name:'btn' +idx, text:s });
+            button.append('<h3>' + s + '</h3>');
+            button.addClass("col-md-2 btn btn-light excel-nav");
+            button.click(function() { displaySheet(idx); });
+            $buttons.each(function(index, element) {
+                $(this).append(button);
+                $(this).append('<br/>');
+            });
         });
     };
 
+    /* Turn workbook to json object */
 	function to_json(workbook) {
 		XLSX.SSF.load_table(workbook.SSF);
 		var result = {};
@@ -117,33 +106,41 @@ $(document).ready(function(e){
 		});
 		return result;
 	}
-
+    /* process workbook to be viewable with
+        handsontable. We can pass an index to tell
+        us where exactly we should start reading from. 
+    */
     function process_wb(wb, sheetidx) {
         last_wb = wb;
         var sheet = wb.SheetNames[sheetidx||0];
         var json = to_json(wb)[sheet];
-        console.log(json);
         return json;
     }
-    var container = document.getElementById('example');
+    var container = document.getElementById('boq-excel');
     var json;
     
-    json = process_wb(data);
-    if(!json) json = [];
-        json.forEach(function(r) { if(json[0].length < r.length) json[0].length = r.length; });
-    //console.log(data);
+    /*  Display Sheet to the screen
+    */
+    var displaySheet = function(sheetidx){
+        json = process_wb(data, sheetidx);
+        if(!json) json = [];
+            json.forEach(function(r) { if(json[0].length < r.length) json[0].length = r.length; });
+        //console.log(data);
     
-    var hot = new Handsontable(container, {
-        data: json,
-        startRows: 5,
-        startCols: 3,
-        stretchH: 'all',
-        rowHeaders: true,
-        colHeaders: true,
-        width: function () { return calculateScreenWidth(); },
-        height: function () { return calculateScreenHeight(); },
-        stretchH: 'all'
-    });
-    make_buttons(data.SheetNames);
+        var hot = new Handsontable(container, {
+            data: json,
+            startRows: 5,
+            startCols: 3,
+            stretchH: 'all',
+            rowHeaders: true,
+            colHeaders: true,
+            width: function () { return calculateScreenWidth(); },
+            height: function () { return calculateScreenHeight(); },
+            stretchH: 'all'
+        });
+        make_buttons(data.SheetNames);
+    }
+
+    displaySheet(0);
 });
 </script>
