@@ -70,6 +70,6 @@ class BoqsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def boq_params
-      params.require(:boq).permit(:name)
+      params.require(:boq).permit(:workbook_data)
     end
 end

@@ -1,4 +1,4 @@
-json.extract! boq, :id, :name, :created_at, :updated_at
+json.extract! boq, :id, :created_at, :updated_at
 json.pages boq.pages do |page|
   json.id page.id
   json.name page.name

@@ -50,6 +50,7 @@ ehthumbs.db
 .yardoc/
 /doc/*
 
+.vscode/
 
 #Redis
 dump.rdb

@@ -11,33 +11,11 @@
     <%= form.text_field :project_name, type: 'hidden' %>
 
     <% if @request.boq %>
-
-        <div class="mb-5">
-
-          <nav class="nav nav-tabs" id="myTab" role="tablist">
-            <% @request.boq.pages.each_with_index do |page, index| %>
-                <div class="nav-item">
-                  <a class="nav-link  <%= 'active' if index == 0 %>" id="page-<%= page.id %>-tab" data-toggle="tab"
-                     href="#page-<%= page.id %>-content" role="tab" aria-controls="page-<%= page.id %>-tab-content">
-                    <%= page.name %>
-                  </a>
-                </div>
-            <% end %>
-          </nav>
-
-          <div class="tab-content" id="myTabContent">
-            <% @request.boq.pages.each_with_index do |page, index| %>
-                <div class="tab-pane <%= 'show active' if index == 0 %>"
-                     id="page-<%= page.id %>-content" role="tabpanel" aria-labelledby="page-<%= page.id %>-tab">
-
-                  <div id="sheet-<%= page.id %>" style="height: 500px; overflow: hidden"></div>
-
-                </div>
-            <% end %>
-          </div>
-
-        </div>
+      <div id="content-boq" style="display:none;"><%=@request.boq.workbook_data%></div>
     <% end %>
+
+    <div id="example"></div>
+    <div id="buttons"></div>
 
     <div class="mb-4 text-center">
       <% if @request.boq %>
@@ -56,9 +34,116 @@
           </p>
       <% end %>
       <%= form.fields_for :excel do |excel_fields| %>
-          <%= excel_fields.file_field :document, class: 'form-control-file btn btn-sm btn-primary',
-                                      data: {'save-on-change': true} %>
       <% end %>
+      <%= form.fields_for :boq do |boq_field| %>
+        <%= boq_field.text_field :workbook_data, id: 'workbook-data', type: 'hidden' %>
+      <% end %>
+      <%= form.file_field :document, id: 'upload-boq', class: 'form-control-file btn btn-sm btn-primary'%>
     </div>
 
 <% end %>
+
+<script src="//rawgit.com/SheetJS/js-xlsx/master/dist/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/handsontable/0.34.5/handsontable.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/handsontable/0.34.5/handsontable.min.css">
+
+
+<script>
+var rABS = true; // true: readAsBinaryString ; false: readAsArrayBuffer
+function handleFile(e) {
+  var files = e.target.files, f = files[0];
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    var data = e.target.result;
+    if(!rABS) data = new Uint8Array(data);
+    var workbook = XLSX.read(data, {type: rABS ? 'binary' : 'array'});
+    console.log(data);
+    var parsedJson = JSON.stringify(workbook);
+    $('#workbook-data').val(parsedJson);
+    parsedJson = JSON.parse(parsedJson);
+    console.log(parsedJson);
+    $('#request-form').submit();
+    /* DO SOMETHING WITH workbook HERE */
+  };
+  if(rABS) reader.readAsBinaryString(f); else reader.readAsArrayBuffer(f);
+}
+var uploadBoqButton = document.getElementById('upload-boq');
+uploadBoqButton.addEventListener('change', handleFile, false);
+
+$(document).ready(function(e){
+  data = JSON.parse($("#content-boq").text());
+
+    var calculateScreenHeight = function(){
+        return window.innerHeight;
+    }
+
+    var calculateScreenWidth = function(){
+        return window.innerWidth * 2/3;
+    }
+    function choose_sheet(sheetidx) { 
+        var sheet = process_wb(last_wb, sheetidx);
+        var hot = new Handsontable(container, {
+            data: sheet,
+            startRows: 5,
+            startCols: 3,
+            stretchH: 'all',
+            rowHeaders: true,
+            colHeaders: true,
+            width: function () { return calculateScreenWidth(); },
+            height: function () { return calculateScreenHeight(); },
+            stretchH: 'all'
+        });
+    }
+
+  /* make the buttons for the sheets */
+    var make_buttons = function(sheetnames, cb) {
+        var $buttons = $('#buttons');
+        $buttons.html("");
+        sheetnames.forEach(function(s,idx) {
+        var button= $('<button/>').attr({ type:'button', name:'btn' +idx, text:s });
+        button.append('<h3>' + s + '</h3>');
+        button.click(function() { choose_sheet(idx); });
+        $buttons.append(button);
+        $buttons.append('<br/>');
+        });
+    };
+
+	function to_json(workbook) {
+		XLSX.SSF.load_table(workbook.SSF);
+		var result = {};
+		workbook.SheetNames.forEach(function(sheetName) {
+			var roa = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], {header:1});
+			if(roa.length > 0) result[sheetName] = roa;
+		});
+		return result;
+	}
+
+    function process_wb(wb, sheetidx) {
+        last_wb = wb;
+        var sheet = wb.SheetNames[sheetidx||0];
+        var json = to_json(wb)[sheet];
+        console.log(json);
+        return json;
+    }
+    var container = document.getElementById('example');
+    var json;
+    
+    json = process_wb(data);
+    if(!json) json = [];
+        json.forEach(function(r) { if(json[0].length < r.length) json[0].length = r.length; });
+    //console.log(data);
+    
+    var hot = new Handsontable(container, {
+        data: json,
+        startRows: 5,
+        startCols: 3,
+        stretchH: 'all',
+        rowHeaders: true,
+        colHeaders: true,
+        width: function () { return calculateScreenWidth(); },
+        height: function () { return calculateScreenHeight(); },
+        stretchH: 'all'
+    });
+    make_buttons(data.SheetNames);
+});
+</script>
