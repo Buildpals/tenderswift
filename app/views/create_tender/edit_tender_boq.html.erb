@@ -42,7 +42,35 @@
       <%= form.file_field :document, id: 'upload-boq', class: 'form-control-file btn btn-sm btn-primary'%>
     </div>
 
+
+    <!-- Modal -->
+    <div class="modal fade" id="qunatityColumnModal" tabindex="-1" role="dialog" aria-labelledby="qunatityColumnModallLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="qunatityColumnModalLabel">Tell us where you put the quantity column</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Which of the columns contain the 'Quantity' field in your Bill of Quantity.</p> 
+                    <%= form.fields_for :boq do |boq_field| %>
+                        <%= boq_field.select :quantity_column, ('A'...'Z').map { |i| [i,i] }, {}, { class: 'form-control' } %>
+                    <% end %>
+                    <br/>
+                    <p class="text-muted small">Don't remind me of this again. <%= form.check_box :is_done_quantity %></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="set-quantity-column" class="btn btn-secondary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 <% end %>
+
+
 
 <script src="//rawgit.com/SheetJS/js-xlsx/master/dist/xlsx.full.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/handsontable/0.34.5/handsontable.min.js"></script>
@@ -50,6 +78,13 @@
 
 
 <script>
+
+$('#set-quantity-column').click( function(e){
+    //set the quantity column
+    $('#request-form').submit();
+    $('#qunatityColumnModal').modal('hide');
+});
+
 var rABS = true; // true: readAsBinaryString ; false: readAsArrayBuffer
 function handleFile(e) {
   var files = e.target.files, f = files[0];

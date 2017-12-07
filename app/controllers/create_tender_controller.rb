@@ -124,7 +124,9 @@ class CreateTenderController < ApplicationController
                                        :mandatory,
                                        :_destroy],
                 boq_attributes: [:id, 
-                                 :workbook_data],
+                                 :workbook_data,
+                                 :quantity_column,
+                                 :_destroy],
                 excel_attributes: [:id,
                                    :document])
   end
