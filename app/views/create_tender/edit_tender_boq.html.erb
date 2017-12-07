@@ -5,7 +5,10 @@
               id: 'request-form' do |form| %>
 
     <p class="text-muted small">
-      Upload the Bill of Quantities for the project or create one using the templates provided.
+        Upload the Bill of Quantities for the project or create one using the templates provided.
+        <button type="button" class="btn btn-info pull-right" data-toggle="modal" data-target="#qunatityColumnModal">
+            Set Quantity Column
+        </button>
     </p>
 
     <%= form.text_field :project_name, type: 'hidden' %>
@@ -177,5 +180,6 @@ $(document).ready(function(e){
     }
 
     displaySheet(0);
+    $('#qunatityColumnModal').modal('show');
 });
 </script>
