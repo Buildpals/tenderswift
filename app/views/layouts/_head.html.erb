@@ -41,20 +41,21 @@
     }
   </style>
 
-  <script>
-      window['_fs_debug'] = false;
-      window['_fs_host'] = 'fullstory.com';
-      window['_fs_org'] = '8ECWC';
-      window['_fs_namespace'] = 'FS';
-      (function (m, n, e, t, l, o, g, y) {
+  <% if ENV['BUILDPALS_SERVER_NAME'] == 'production_server' %>
+      <script>
+        window['_fs_debug'] = false;
+        window['_fs_host'] = 'fullstory.com';
+        window['_fs_org'] = '8ECWC';
+        window['_fs_namespace'] = 'FS';
+        (function (m, n, e, t, l, o, g, y) {
           if (e in m) {
-              if (m.console && m.console.log) {
-                  m.console.log('FullStory namespace conflict. Please set window["_fs_namespace"].');
-              }
-              return;
+            if (m.console && m.console.log) {
+              m.console.log('FullStory namespace conflict. Please set window["_fs_namespace"].');
+            }
+            return;
           }
           g = m[e] = function (a, b) {
-              g.q ? g.q.push([a, b]) : g._api(a, b);
+            g.q ? g.q.push([a, b]) : g._api(a, b);
           };
           g.q = [];
           o = n.createElement(t);
@@ -63,35 +64,35 @@
           y = n.getElementsByTagName(t)[0];
           y.parentNode.insertBefore(o, y);
           g.identify = function (i, v) {
-              g(l, {uid: i});
-              if (v) g(l, v)
+            g(l, {uid: i});
+            if (v) g(l, v)
           };
           g.setUserVars = function (v) {
-              g(l, v)
+            g(l, v)
           };
           g.identifyAccount = function (i, v) {
-              o = 'account';
-              v = v || {};
-              v.acctId = i;
-              g(o, v)
+            o = 'account';
+            v = v || {};
+            v.acctId = i;
+            g(o, v)
           };
           g.clearUserCookie = function (c, d, i) {
-              if (!c || document.cookie.match('fs_uid=[`;`]*`[`;`]*`[`;`]*`')) {
-                  d = n.domain;
-                  while (1) {
-                      n.cookie = 'fs_uid=;domain=' + d +
-                          ';path=/;expires=' + new Date(0).toUTCString();
-                      i = d.indexOf('.');
-                      if (i < 0) break;
-                      d = d.slice(i + 1)
-                  }
+            if (!c || document.cookie.match('fs_uid=[`;`]*`[`;`]*`[`;`]*`')) {
+              d = n.domain;
+              while (1) {
+                n.cookie = 'fs_uid=;domain=' + d +
+                  ';path=/;expires=' + new Date(0).toUTCString();
+                i = d.indexOf('.');
+                if (i < 0) break;
+                d = d.slice(i + 1)
               }
+            }
           };
-      })(window, document, window['_fs_namespace'], 'script', 'user');
-  </script>
+        })(window, document, window['_fs_namespace'], 'script', 'user');
+      </script>
 
-  <script type="text/javascript" charset="utf-8">
-      FS.identify('<%= current_quantity_surveyor ? current_quantity_surveyor.id : request.remote_ip %>', {
+      <script type="text/javascript" charset="utf-8">
+        FS.identify('<%= current_quantity_surveyor ? current_quantity_surveyor.id : request.remote_ip %>', {
           displayName: '<%= current_quantity_surveyor ? current_quantity_surveyor.company_name : "Guest #{request.remote_ip}" %>',
           usersName: '<%= current_quantity_surveyor ? current_quantity_surveyor.full_name : 'n/a' %>',
           email: '<%= current_quantity_surveyor ? current_quantity_surveyor.email : 'n/a' %>',
@@ -99,8 +100,11 @@
           ipAddress: '<%= request.remote_ip %>',
           // TODO: Add your own custom user variables here, details at
           // http://help.fullstory.com/develop-js/setuservars.
-      });
-  </script>
+        });
+      </script>
+  <% end %>
+
+
 
   <script src="/intl-tel-input/js/intlTelInput.js"></script>
 </head>
