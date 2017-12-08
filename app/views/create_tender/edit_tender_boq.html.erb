@@ -58,9 +58,9 @@
                     <p>Which of the columns contain the 'Quantity' field in your Bill of Quantity.</p> 
                     <%= form.fields_for :boq do |boq_field| %>
                         <%= boq_field.select :quantity_column, ('A'...'Z').map { |i| [i,i] }, {}, { class: 'form-control' } %>
+                        <br/>
+                        <p class="text-muted small">Don't remind me of this again. <%= boq_field.check_box :remind_me %></p>
                     <% end %>
-                    <br/>
-                    <p class="text-muted small">Don't remind me of this again. <%= form.check_box :is_done_quantity %></p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" id="set-quantity-column" class="btn btn-secondary">Save changes</button>
@@ -178,6 +178,10 @@ $(document).ready(function(e){
     }
     
     displaySheet(0);
-    $('#qunatityColumnModal').modal('show');
+    var remind_me = <%= @request.boq.remind_me %>;
+    console.log(remind_me);
+    if(remind_me != true){
+        $('#qunatityColumnModal').modal('show');
+    }
 });
 </script>
