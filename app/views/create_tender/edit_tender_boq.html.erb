@@ -37,8 +37,6 @@
             You'll be able to edit the bill of quantities after uploading it.
           </p>
       <% end %>
-      <%= form.fields_for :excel do |excel_fields| %>
-      <% end %>
       <%= form.fields_for :boq do |boq_field| %>
         <%= boq_field.text_field :workbook_data, id: 'workbook-data', type: 'hidden' %>
       <% end %>
@@ -46,7 +44,7 @@
     </div>
 
 
-    <!-- Modal -->
+    <!-- Setting Quantity Modal -->
     <div class="modal fade" id="qunatityColumnModal" tabindex="-1" role="dialog" aria-labelledby="qunatityColumnModallLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -156,6 +154,7 @@ $(document).ready(function(e){
     }
     var container = document.getElementById('boq-excel');
     var json;
+    var excelTable;
     
     /*  Display Sheet to the screen
     */
@@ -163,9 +162,8 @@ $(document).ready(function(e){
         json = process_wb(data, sheetidx);
         if(!json) json = [];
             json.forEach(function(r) { if(json[0].length < r.length) json[0].length = r.length; });
-        //console.log(data);
     
-        var hot = new Handsontable(container, {
+        excelTable = new Handsontable(document.getElementById('boq-excel'), {
             data: json,
             startRows: 5,
             startCols: 3,
@@ -178,7 +176,7 @@ $(document).ready(function(e){
         });
         make_buttons(data.SheetNames);
     }
-
+    
     displaySheet(0);
     $('#qunatityColumnModal').modal('show');
 });
