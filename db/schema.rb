@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171208130913) do
+ActiveRecord::Schema.define(version: 20171211201642) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -66,6 +66,7 @@ ActiveRecord::Schema.define(version: 20171208130913) do
     t.text "workbook_data"
     t.string "quantity_column"
     t.boolean "remind_me"
+    t.string "rate_column"
     t.index ["request_for_tender_id"], name: "index_boqs_on_request_for_tender_id"
   end
 

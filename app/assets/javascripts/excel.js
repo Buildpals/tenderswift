@@ -54,7 +54,17 @@ function displaySheet (data, sheetidx){
         colHeaders: true,
         width: function () { return calculateScreenWidth(); },
         height: function () { return calculateScreenHeight(); },
-        stretchH: 'all'
+        cells: function(row, col, prop){
+            var cellProperties = {};
+            if(col !== 5){
+              cellProperties.readOnly = 'true'
+          }
+          return cellProperties;
+        }
     });
     make_buttons(data, data.SheetNames);
 }
+
+/* 
+1. Ask QS for the rate column
+*/

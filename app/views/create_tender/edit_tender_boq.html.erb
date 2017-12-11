@@ -51,7 +51,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="qunatityColumnModalLabel">Tell us where you put the quantity column</h5>
+                    <h5 class="modal-title" id="qunatityColumnModalLabel">Before you proceed there are a few things you have to tell us.</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -61,6 +61,8 @@
                     <%= form.fields_for :boq do |boq_field| %>
                         <%= boq_field.select :quantity_column, ('A'...'Z').map { |i| [i,i] }, {}, { class: 'form-control' } %>
                         <br/>
+                        <p>Which of the columns contain the 'Rate' field in your Bill of Quantity.</p> 
+                        <%= boq_field.select :rate_column, ('A'...'Z').map { |i| [i,i] }, {}, { class: 'form-control' } %>
                         <p class="text-muted small">Don't remind me of this again. <%= boq_field.check_box :remind_me %></p>
                     <% end %>
                 </div>
