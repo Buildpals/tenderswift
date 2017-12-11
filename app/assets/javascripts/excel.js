@@ -1,4 +1,3 @@
-
 function calculateScreenHeight (){
     return window.innerHeight;
 }
@@ -56,7 +55,8 @@ function displaySheet (data, sheetidx){
         height: function () { return calculateScreenHeight(); },
         cells: function(row, col, prop){
             var cellProperties = {};
-            if(col !== 5){
+            var rateColumn = parseInt($('.rate_column').text());
+            if(col !== rateColumn){
               cellProperties.readOnly = 'true'
           }
           return cellProperties;
