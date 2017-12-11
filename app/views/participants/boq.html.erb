@@ -10,49 +10,13 @@
         <%= @participant.boq.workbook_data %>
     </div>
 
+    <div class="buttons row">
+    </div>
+
 <script>
 var container = $('#boq-excel');
 var excelData = JSON.parse($('.content-boq').text());
-
-
-function to_json(workbook) {
-    XLSX.SSF.load_table(workbook.SSF);
-    var result = {};
-    workbook.SheetNames.forEach(function(sheetName) {
-        var roa = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], {header:1});
-        if(roa.length > 0) result[sheetName] = roa;
-    });
-    return result;
-}
-
-
-function process_wb(wb, sheetidx) {
-    last_wb = wb;
-    var sheet = wb.SheetNames[sheetidx||0];
-    var json = to_json(wb)[sheet];
-    return json;
-}
-
-var displaySheet = function(sheetidx){
-    json = process_wb(excelData, sheetidx);
-    if(!json) json = [];
-        json.forEach(function(r) { if(json[0].length < r.length) json[0].length = r.length; });
-
-    excelTable = new Handsontable(document.getElementById('boq-excel'), {
-        data: json,
-        startRows: 5,
-        startCols: 3,
-        stretchH: 'all',
-        rowHeaders: true,
-        colHeaders: true,
-        width: function () { return calculateScreenWidth(); },
-        height: function () { return calculateScreenHeight(); },
-        stretchH: 'all'
-    });
-    make_buttons(excelData.SheetNames);
-}
-
-displaySheet(0);
+displaySheet(excelData, 0);
 </script>
 
 <% end %>

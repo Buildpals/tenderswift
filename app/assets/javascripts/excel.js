@@ -25,14 +25,14 @@ function process_wb(wb, sheetidx) {
     return json;
 }
 
-function make_buttons (sheetnames) {
+function make_buttons (data, sheetnames) {
     var $buttons = $('.buttons');
     $buttons.html("");
     sheetnames.forEach(function(s,idx) {
         var button= $('<button/>').attr({ type:'button', name:'btn' +idx, text:s });
-        button.append('<h3>' + s + '</h3>');
+        button.append('<h5>' + s + '</h5>');
         button.addClass("col-md-2 btn btn-light excel-nav");
-        button.click(function() { displaySheet(idx); });
+        button.click(function() { displaySheet(data, idx); });
         $buttons.each(function(index, element) {
             $(this).append(button);
             $(this).append('<br/>');
@@ -40,7 +40,7 @@ function make_buttons (sheetnames) {
     });
 };
 
-function displaySheet (sheetidx){
+function displaySheet (data, sheetidx){
     json = process_wb(data, sheetidx);
     if(!json) json = [];
         json.forEach(function(r) { if(json[0].length < r.length) json[0].length = r.length; });
@@ -56,5 +56,5 @@ function displaySheet (sheetidx){
         height: function () { return calculateScreenHeight(); },
         stretchH: 'all'
     });
-    make_buttons(data.SheetNames);
+    make_buttons(data, data.SheetNames);
 }
