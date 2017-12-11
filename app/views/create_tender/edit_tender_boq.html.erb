@@ -14,7 +14,9 @@
     <%= form.text_field :project_name, type: 'hidden' %>
 
     <% if @request.boq %>
-      <div id="content-boq" style="display:none;"><%=@request.boq.workbook_data%></div>
+        <div id="content-boq">
+            <%= @request.boq.workbook_data %>
+        </div>
     <% end %>
     <div id="boq-excel"></div>
     
@@ -106,7 +108,7 @@ var uploadBoqButton = document.getElementById('upload-boq');
 uploadBoqButton.addEventListener('change', handleFile, false);
 
 $(document).ready(function(e){
-  data = JSON.parse($("#content-boq").text());
+    data = JSON.parse($("#content-boq").text());
 
     var calculateScreenHeight = function(){
         return window.innerHeight;

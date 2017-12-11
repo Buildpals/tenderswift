@@ -1,19 +1,11 @@
-<script src="//rawgit.com/SheetJS/js-xlsx/master/dist/xlsx.full.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/handsontable/0.34.5/handsontable.min.js"></script>
-<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/handsontable/0.34.5/handsontable.min.css"/>
 
-<% if @participant.status.in? %w(participating bid_made) %>
-    <div id="boq-excel">
-    </div>
+function calculateScreenHeight (){
+    return window.innerHeight;
+}
 
-    <div class="content-boq">
-        <%= @participant.boq.workbook_data %>
-    </div>
-
-<script>
-var container = $('#boq-excel');
-var excelData = JSON.parse($('.content-boq').text());
-
+function calculateScreenWidth (){
+    return window.innerWidth * 2/3;
+}
 
 function to_json(workbook) {
     XLSX.SSF.load_table(workbook.SSF);
@@ -33,8 +25,23 @@ function process_wb(wb, sheetidx) {
     return json;
 }
 
-var displaySheet = function(sheetidx){
-    json = process_wb(excelData, sheetidx);
+function make_buttons (sheetnames) {
+    var $buttons = $('.buttons');
+    $buttons.html("");
+    sheetnames.forEach(function(s,idx) {
+        var button= $('<button/>').attr({ type:'button', name:'btn' +idx, text:s });
+        button.append('<h3>' + s + '</h3>');
+        button.addClass("col-md-2 btn btn-light excel-nav");
+        button.click(function() { displaySheet(idx); });
+        $buttons.each(function(index, element) {
+            $(this).append(button);
+            $(this).append('<br/>');
+        });
+    });
+};
+
+function displaySheet (sheetidx){
+    json = process_wb(data, sheetidx);
     if(!json) json = [];
         json.forEach(function(r) { if(json[0].length < r.length) json[0].length = r.length; });
 
@@ -49,10 +56,5 @@ var displaySheet = function(sheetidx){
         height: function () { return calculateScreenHeight(); },
         stretchH: 'all'
     });
-    make_buttons(excelData.SheetNames);
+    make_buttons(data.SheetNames);
 }
-
-displaySheet(0);
-</script>
-
-<% end %>
