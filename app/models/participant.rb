@@ -34,6 +34,8 @@ class Participant < ApplicationRecord
 
   has_many :messages
 
+  has_many :rates
+
   validates :email, presence: true
 
   validates :company_name, presence: true

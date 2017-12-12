@@ -63,6 +63,10 @@
                         <br/>
                         <p>Which of the columns contain the 'Rate' field in your Bill of Quantity.</p> 
                         <%= boq_field.select :rate_column, ('A'...'Z').map { |i| [i,i] }, {}, { class: 'form-control' } %>
+                        <brs/>
+                        <p>Which of the columns contain the 'Amount' field in your Bill of Quantity.</p>
+                        <%= boq_field.select :amount_column, ('A'...'Z').map { |i| [i,i] }, {}, { class: 'form-control' } %>
+                        <br/>
                         <p class="text-muted small">Don't remind me of this again. <%= boq_field.check_box :remind_me %></p>
                     <% end %>
                 </div>

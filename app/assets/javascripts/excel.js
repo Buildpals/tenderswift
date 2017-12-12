@@ -31,7 +31,11 @@ function make_buttons (data, sheetnames) {
         var button= $('<button/>').attr({ type:'button', name:'btn' +idx, text:s });
         button.append('<h5>' + s + '</h5>');
         button.addClass("col-md-2 btn btn-light excel-nav");
-        button.click(function() { displaySheet(data, idx); });
+        button.click(function() {
+            $('.sheet-name').text("");
+            $('.sheet-name').text(s);
+            displaySheet(data, idx); 
+        });
         $buttons.each(function(index, element) {
             $(this).append(button);
             $(this).append('<br/>');
@@ -44,6 +48,9 @@ function displaySheet (data, sheetidx){
     if(!json) json = [];
         json.forEach(function(r) { if(json[0].length < r.length) json[0].length = r.length; });
 
+    var rateColumn;
+    var amountColumn = parseInt($('.amount_column').text());
+
     excelTable = new Handsontable(document.getElementById('boq-excel'), {
         data: json,
         startRows: 5,
@@ -55,9 +62,10 @@ function displaySheet (data, sheetidx){
         height: function () { return calculateScreenHeight(); },
         cells: function(row, col, prop){
             var cellProperties = {};
-            var rateColumn = parseInt($('.rate_column').text());
+            rateColumn = parseInt($('.rate_column').text());
             if(col !== rateColumn){
               cellProperties.readOnly = 'true';
+              cellProperties.contextMenu = 'true';
               //cellProperties.type = 'numeric';
           }
           return cellProperties;
@@ -68,28 +76,38 @@ function displaySheet (data, sheetidx){
                 let col = change[1];
                 let oldVal = change[2];
                 let newVal = change[3];
-                console.log(row);
-                console.log(newVal);
+                if($('.sheet-name').text() == ""){ //if there is nothing here then it's on the first sheet
+                    $('.sheet-name').text(data.SheetNames[0]);   
+                }
                 $.ajax({
                     url: "/rates/",
                     type: "POST",
                     data: { 
                         rate: {
                                 boq_id: parseInt($('.boq_id').text()),
-                                sheet_name: 'Substructure',
-                                row_number: row + 1,
+                                sheet_name: $('.sheet-name').text(),
+                                row_number: parseInt(row) + 1,
+                                participant_id: parseInt($('.participant_id').text()),
                                 value: newVal
                                 }
                         },
-                    success: function(messageObject){ 
-                        console.log(messageObject);
+                    success: function(response){ 
+                        //console.log(response);
+                        var quantityColumn = parseInt($('.quantity_column').text());
+                        //myData[row][col+1]=parseInt(myData[row][col+1])+parseInt(newVal);
+                        //json[row][]
+                        quantity = json[row][quantityColumn];
+                        rate = json[row][rateColumn];
+                        json[row][amountColumn] = quantity * rate;
+                        //console.log(json[row][amountColumn]);
+                        excelTable.loadData(json);
                     },
                     error: function(response){
                         console.log(response);
                     }
                 });
             });
-        }
+        },
     });
     make_buttons(data, data.SheetNames);
 }

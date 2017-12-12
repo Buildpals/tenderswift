@@ -24,16 +24,25 @@ class RatesController < ApplicationController
   # POST /rates
   # POST /rates.json
   def create
-    @rate = Rate.new(rate_params)
-
-    respond_to do |format|
-      if @rate.save
-        #format.html { redirect_to @rate, notice: 'Rate was successfully created.' }
-        format.json { render :show, status: :created, location: @rate }
-      else
-        #format.html { render :new }
-        format.json { render json: @rate.errors, status: :unprocessable_entity }
-      end
+    @rate = Rate.new(rate_params) 
+    old_rate = Rate.where(participant_id: @rate.participant_id).where(boq_id: @rate.boq_id).where(row_number: @rate.row_number).first
+    puts old_rate.nil?
+    puts @rate.inspect
+    if old_rate.nil?
+       puts "here"
+        respond_to do |format|
+            if @rate.save
+                format.json { render :show, status: :created, location: @rate }
+            else
+                format.json { render json: @rate.errors, status: :unprocessable_entity }
+            end
+        end
+    else
+        if old_rate.update(rate_params)
+            render json: old_rate
+        else
+            render json: old_rate.errors.messages
+        end
     end
   end
 
@@ -69,6 +78,6 @@ class RatesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def rate_params
-      params.require(:rate).permit(:boq_id, :sheet_name, :row, :value)
+      params.require(:rate).permit(:boq_id, :sheet_name, :row_number, :value, :participant_id)
     end
 end
