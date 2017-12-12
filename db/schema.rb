@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171212103546) do
+ActiveRecord::Schema.define(version: 20171212103908) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -237,7 +237,9 @@ ActiveRecord::Schema.define(version: 20171212103546) do
     t.integer "value"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "participant_id"
     t.index ["boq_id"], name: "index_rates_on_boq_id"
+    t.index ["participant_id"], name: "index_rates_on_participant_id"
     t.index ["row_number"], name: "index_rates_on_row_number", unique: true
   end
 
@@ -293,6 +295,7 @@ ActiveRecord::Schema.define(version: 20171212103546) do
   add_foreign_key "messages", "participants"
   add_foreign_key "project_documents", "request_for_tenders"
   add_foreign_key "questions", "request_for_tenders"
+  add_foreign_key "rates", "participants"
   add_foreign_key "winners", "request_for_tenders"
   add_foreign_key "workbooks", "request_for_tenders"
 end
