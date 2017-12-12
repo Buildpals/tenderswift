@@ -57,9 +57,21 @@ function displaySheet (data, sheetidx){
             var cellProperties = {};
             var rateColumn = parseInt($('.rate_column').text());
             if(col !== rateColumn){
-              cellProperties.readOnly = 'true'
+              cellProperties.readOnly = 'true';
+              //cellProperties.type = 'numeric';
           }
           return cellProperties;
+        },
+        afterChange: function(changes, source) {
+            $.each(changes, function (index, change) {
+                let row = change[0];
+                let col = change[1];
+                let oldVal = change[2];
+                let newVal = change[3];
+                console.log(row);
+                console.log(newVal);
+                //save rate
+            });
         }
     });
     make_buttons(data, data.SheetNames);

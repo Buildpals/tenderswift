@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Sheet name:</strong>
+  <%= @rate.sheet_name %>
+</p>
+
+<p>
+  <strong>Row:</strong>
+  <%= @rate.row %>
+</p>
+
+<p>
+  <strong>Value:</strong>
+  <%= @rate.value %>
+</p>
+
+<%= link_to 'Edit', edit_rate_path(@rate) %> |
+<%= link_to 'Back', rates_path %>

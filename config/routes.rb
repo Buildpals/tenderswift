@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :rates
   root to: 'welcome#index'
 
   get '/tender/:id/edit', to: 'create_tender#edit_tender_information', as: 'edit_tender_information'
