@@ -50,6 +50,8 @@ function displaySheet (data, sheetidx){
 
     var rateColumn;
     var amountColumn = parseInt($('.amount_column').text());
+    var contractSum = 0;
+    var quantityColumn = parseInt($('.quantity_column').text());
 
     excelTable = new Handsontable(document.getElementById('boq-excel'), {
         data: json,
@@ -79,33 +81,38 @@ function displaySheet (data, sheetidx){
                 if($('.sheet-name').text() == ""){ //if there is nothing here then it's on the first sheet
                     $('.sheet-name').text(data.SheetNames[0]);   
                 }
-                $.ajax({
-                    url: "/rates/",
-                    type: "POST",
-                    data: { 
-                        rate: {
-                                boq_id: parseInt($('.boq_id').text()),
-                                sheet_name: $('.sheet-name').text(),
-                                row_number: parseInt(row) + 1,
-                                participant_id: parseInt($('.participant_id').text()),
-                                value: newVal
-                                }
+                if(newVal != "" && typeof json[row][quantityColumn] != 'undefined'){ //make sure user has typed something and there is a value in a quantity column
+                    $.ajax({
+                        url: "/rates/",
+                        type: "POST",
+                        data: { 
+                            rate: {
+                                    boq_id: parseInt($('.boq_id').text()),
+                                    sheet_name: $('.sheet-name').text(),
+                                    row_number: parseInt(row) + 1,
+                                    participant_id: parseInt($('.participant_id').text()),
+                                    value: newVal
+                                    }
+                            },
+                        success: function(response){ 
+                            //console.log(response);               
+                            //myData[row][col+1]=parseInt(myData[row][col+1])+parseInt(newVal);
+                            //json[row][]
+                            quantity = json[row][quantityColumn];
+                            rate = json[row][rateColumn];
+                            json[row][amountColumn] = quantity * rate;
+
+                            contractSum = contractSum + json[row][amountColumn];
+                            //console.log(json[row][amountColumn]);
+                            excelTable.loadData(json);
+
+                            $('.contract-sum').text(contractSum);
                         },
-                    success: function(response){ 
-                        //console.log(response);
-                        var quantityColumn = parseInt($('.quantity_column').text());
-                        //myData[row][col+1]=parseInt(myData[row][col+1])+parseInt(newVal);
-                        //json[row][]
-                        quantity = json[row][quantityColumn];
-                        rate = json[row][rateColumn];
-                        json[row][amountColumn] = quantity * rate;
-                        //console.log(json[row][amountColumn]);
-                        excelTable.loadData(json);
-                    },
-                    error: function(response){
-                        console.log(response);
-                    }
-                });
+                        error: function(response){
+                            console.log(response);
+                        }
+                    });
+                }
             });
         },
     });
