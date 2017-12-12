@@ -18,6 +18,9 @@
     <span class="quantity_column">
         <%= get_index_of_alphabet(@participant.boq.quantity_column.to_s) %>
     </span>
+    <span class="boq_id">
+        <%= @participant.boq.id %>
+    </span>
 
 <script>
 var container = $('#boq-excel');

@@ -70,7 +70,24 @@ function displaySheet (data, sheetidx){
                 let newVal = change[3];
                 console.log(row);
                 console.log(newVal);
-                //save rate
+                $.ajax({
+                    url: "/rates/",
+                    type: "POST",
+                    data: { 
+                        rate: {
+                                boq_id: parseInt($('.boq_id').text()),
+                                sheet_name: 'Substructure',
+                                row_number: row + 1,
+                                value: newVal
+                                }
+                        },
+                    success: function(messageObject){ 
+                        console.log(messageObject);
+                    },
+                    error: function(response){
+                        console.log(response);
+                    }
+                });
             });
         }
     });
