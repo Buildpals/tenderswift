@@ -4,6 +4,8 @@
               method: :patch,
               id: 'request-form' do |form| %>
 
+    <%= render 'layouts/create_tender_navigation', location: 'top', request: @request %>
+
     <p class="text-muted small ">
       Please in this general information about the project you are creating a request for tender here.
     </p>
@@ -107,6 +109,5 @@
                          class: 'form-control form-control-sm', data: {'save-on-change': true, toggle: 'tooltip', placement: 'top', title: 'Eg. The structure is a one-storey building skeleton frames faculty with solid sandcrete walls as partitions. It covers an area of 478 sqm. The project is funded by Mrs Aduboat. '} %>
     </div>
 
-
-
+    <%= render 'layouts/create_tender_navigation', location: 'bottom', request: @request %>
 <% end %>

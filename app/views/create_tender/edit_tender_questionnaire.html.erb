@@ -4,6 +4,8 @@
               method: :patch,
               id: 'request-form' do |form| %>
 
+    <%= render 'layouts/create_tender_navigation', location: 'top', request: @request %>
+
     <%= form.text_field :project_name, type: 'hidden' %>
 
     <p class="text-muted small">
@@ -21,4 +23,5 @@
       </ul>
     </div>
 
+    <%= render 'layouts/create_tender_navigation', location: 'bottom', request: @request %>
 <% end %>

@@ -4,6 +4,8 @@
               method: :patch,
               id: 'request-form' do |form| %>
 
+    <%= render 'layouts/create_tender_navigation', location: 'top', request: @request %>
+
     <p class="text-muted small">
       Upload the Bill of Quantities for the project or create one using the templates provided.
     </p>
@@ -61,4 +63,5 @@
       <% end %>
     </div>
 
+    <%= render 'layouts/create_tender_navigation', location: 'bottom', request: @request %>
 <% end %>

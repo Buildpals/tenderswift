@@ -4,6 +4,8 @@
               method: :patch,
               id: 'request-form' do |form| %>
 
+    <%= render 'layouts/create_tender_navigation', location: 'top', request: @request %>
+
     <p class="text-muted small">
       Upload any documents that you want the contractor to use in deciding his bid here.
       <br>
@@ -24,4 +26,6 @@
       </ul>
     </div>
 
+
+    <%= render 'layouts/create_tender_navigation', location: 'bottom', request: @request %>
 <% end %>

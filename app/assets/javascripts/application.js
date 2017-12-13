@@ -20,6 +20,8 @@
 //= require bootstrap-datepicker
 //= require autosize
 //= require parsley
+//= require jquery.are-you-sure
+//= require ays-beforeunload-shim
 //= require cocoon
 
 
@@ -38,6 +40,7 @@
 
 
 //= require Chart
+
 
 //= require boqs
 //= require registrations

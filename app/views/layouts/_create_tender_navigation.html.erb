@@ -1,3 +1,7 @@
+<% if location == 'bottom' %>
+    <hr>
+<% end %>
+
 <div class="w-100 d-flex <%= location == 'top' ? 'justify-content-between' : 'justify-content-end' %>">
 
   <% if location == 'top' %>
@@ -27,8 +31,97 @@
   </div>
 
   <div class="align-self-center ml-4">
-    <% unless action_name == 'edit_tender_participants' %>
-        <a href="<%= @next_path %>" class="btn btn-primary next-button">Next</a>
+    <% if action_name == 'edit_tender_participants' %>
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-info mr-2" data-toggle="modal" data-target="#preview-modal">
+          PREVIEW
+        </button>
     <% end %>
+
+    <input type="submit" class="btn btn-secondary mr-2" data-submit-button="true" disabled value="SAVE CHANGES">
+
+    <% if action_name == 'edit_tender_participants' %>
+        <%= link_to 'SEND TO PARTICIPANTS',
+                    email_request_for_tender_path(request),
+                    class: 'btn btn-secondary',
+                    data: {confirm: 'Send out this request for tender means all listed participants will immediately have access to this particular Request For Tender and as a result can start placing their bids. Are you sure you want to do so?'} %>
+    <% else %>
+        <a href="<%= @next_path %>" class="btn btn-primary next-button">NEXT</a>
+    <% end %>
+  </div>
+</div>
+
+
+<% if location == 'top' %>
+    <hr>
+<% end %>
+
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="preview-modal" tabindex="-1" role="dialog" aria-labelledby="preview-modal-label" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="preview-modal-label">
+          Preview request before sending out
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        <strong>Preview the invitation email</strong>
+        <div class="mb-2">
+          When you click the 'Send to participants' button, an email similar to this, will be sent to all the participating contractors
+        </div>
+
+        <div class="d-flex w-100 justify-content-end mb-2">
+          <button type="button" class="btn btn-sm btn-primary"
+                  data-toggle="modal" data-target="#email-modal" data-dismiss="modal">
+            Preview invitation email
+          </button>
+        </div>
+
+        <hr>
+
+        <strong>Open the contractor view</strong>
+        <div class="mb-2">
+          Preview what the contractor will see when they open the invitation email. <br>
+          Check that the project information, bill of quantities, documents and questionnaire is exactly as you want it.
+        </div>
+
+        <div class="d-flex w-100 justify-content-end mb-2">
+          <a href="<%= participants_project_information_path(@participant) %>" target="_blank" class="btn btn-sm btn-primary">
+            Open contractor view
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="email-modal" tabindex="-1" role="dialog" aria-labelledby="email-modal-label" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="email-modal-label">
+          Email Preview
+        </h5>
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" style="height: 500px; overflow: scroll">
+        <%= render 'participant_mailer/participant_email_template', participant: @participant %>
+      </div>
+    </div>
   </div>
 </div>

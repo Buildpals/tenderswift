@@ -49,20 +49,8 @@
             </nav>
           </div>
 
-          <div class="col-md-9 d-flex flex-column justify-content-between">
-            <div>
-              <%= render 'layouts/create_tender_navigation', location: 'top', request: @request %>
-              <hr>
-            </div>
-
-            <div>
-              <%= yield %>
-            </div>
-
-            <div>
-              <hr>
-              <%= render 'layouts/create_tender_navigation', location: 'bottom', request: @request %>
-            </div>
+          <div class="col-md-9">
+            <%= yield %>
           </div>
 
         </div>
