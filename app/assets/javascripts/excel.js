@@ -72,6 +72,33 @@ function displaySheet (data, sheetidx){
           }
           return cellProperties;
         },
+        afterInit: function(){
+            $.ajax({
+                url: "/rates/",
+                type: "GET",
+                data: { 
+                    rate: {
+                            boq_id: parseInt($('.boq_id').text()),
+                            participant_id: parseInt($('.participant_id').text()),
+                            sheet_name: data.SheetNames[sheetidx]
+                            }
+                    },
+                success: function(response){ 
+                    console.log(response);
+                    for(i=0; i <= response.length; i++){
+                        row_number = response[i].row_number - 1;
+                        quantity = json[row_number][quantityColumn];
+                        rate = response[i].value;
+                        json[row_number][rateColumn] = rate;
+                        json[row_number][amountColumn] = quantity * rate;
+                        excelTable.loadData(json);
+                    }
+                },
+                error: function(response){
+                    console.log(response);
+                }
+            });
+        },
         afterChange: function(changes, source) {
             $.each(changes, function (index, change) {
                 let row = change[0];
@@ -95,9 +122,6 @@ function displaySheet (data, sheetidx){
                                     }
                             },
                         success: function(response){ 
-                            //console.log(response);               
-                            //myData[row][col+1]=parseInt(myData[row][col+1])+parseInt(newVal);
-                            //json[row][]
                             quantity = json[row][quantityColumn];
                             rate = json[row][rateColumn];
                             json[row][amountColumn] = quantity * rate;
@@ -105,6 +129,8 @@ function displaySheet (data, sheetidx){
                             contractSum = contractSum + json[row][amountColumn];
                             //console.log(json[row][amountColumn]);
                             excelTable.loadData(json);
+
+                            console.log()
 
                             $('.contract-sum').text(contractSum);
                         },

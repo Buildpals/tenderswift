@@ -4,7 +4,9 @@ class RatesController < ApplicationController
   # GET /rates
   # GET /rates.json
   def index
-    @rates = Rate.all
+    @rate = Rate.new(rate_params)
+    @rates = Rate.where(participant_id: @rate.participant_id).where(boq_id: @rate.boq_id).where(sheet_name: @rate.sheet_name)
+    render json: @rates
   end
 
   # GET /rates/1
@@ -29,7 +31,6 @@ class RatesController < ApplicationController
     puts old_rate.nil?
     puts @rate.inspect
     if old_rate.nil?
-       puts "here"
         respond_to do |format|
             if @rate.save
                 format.json { render :show, status: :created, location: @rate }

@@ -7,17 +7,34 @@
     <p class="text-muted small">
         Upload the Bill of Quantities for the project or create one using the templates provided.
         <button type="button" class="btn btn-info pull-right" data-toggle="modal" data-target="#qunatityColumnModal">
-            Set Quantity Column
+            Describe Boq
         </button>
     </p>
 
     <%= form.text_field :project_name, type: 'hidden' %>
 
     <% if @request.boq %>
-        <div id="content-boq">
+        <div class="content-boq">
             <%= @request.boq.workbook_data %>
         </div>
     <% end %>
+    <span class="rate_column">
+        <%= get_index_of_alphabet(@request.boq.rate_column.to_s) %>
+    </span>
+    <span class="quantity_column">
+        <%= get_index_of_alphabet(@request.boq.quantity_column.to_s) %>
+    </span>
+    <span class="amount_column">
+         <%= get_index_of_alphabet(@request.boq.amount_column.to_s) %>
+    </span>
+    <span class="boq_id">
+        <%= @request.boq.id %>
+    </span>
+    <span class="quantity_surveyor_id">
+        <%= @request.quantity_surveyor.id %>
+    </span>
+    <span class="sheet-name"></span>
+
     <div id="boq-excel"></div>
     
     <div class="buttons row"></div>
@@ -57,15 +74,17 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <p>Which of the columns contain the 'Quantity' field in your Bill of Quantity.</p> 
+                    <p>Which of the columns contain the 'Quantity' field in your Bill of Quantity?</p> 
                     <%= form.fields_for :boq do |boq_field| %>
-                        <%= boq_field.select :quantity_column, ('A'...'Z').map { |i| [i,i] }, {}, { class: 'form-control' } %>
+                        <%= boq_field.select :quantity_column, ('A'...'Z').collect { |i| [i,i] }, { selected: 'D' }, { class: 'form-control' } %>
                         <br/>
-                        <p>Which of the columns contain the 'Rate' field in your Bill of Quantity.</p> 
-                        <%= boq_field.select :rate_column, ('A'...'Z').map { |i| [i,i] }, {}, { class: 'form-control' } %>
-                        <brs/>
-                        <p>Which of the columns contain the 'Amount' field in your Bill of Quantity.</p>
-                        <%= boq_field.select :amount_column, ('A'...'Z').map { |i| [i,i] }, {}, { class: 'form-control' } %>
+                        
+                        <p>Which of the columns contain the 'Rate' field in your Bill of Quantity?</p> 
+                        <%= boq_field.select :rate_column, ('A'...'Z').collect { |i| [i,i] }, { selected: 'F' }, { class: 'form-control' } %>
+                        <br/>
+
+                        <p>Which of the columns contain the 'Amount' field in your Bill of Quantity?</p>
+                        <%= boq_field.select :amount_column, ('A'...'Z').collect { |i| [i,i] }, { selected: 'G' }, { class: 'form-control' } %>
                         <br/>
                         <p class="text-muted small">Don't remind me of this again. <%= boq_field.check_box :remind_me %></p>
                     <% end %>
@@ -114,7 +133,7 @@ var uploadBoqButton = document.getElementById('upload-boq');
 uploadBoqButton.addEventListener('change', handleFile, false);
 
 $(document).ready(function(e){
-    data = JSON.parse($("#content-boq").text());
+    data = JSON.parse($(".content-boq").text());
 
     var calculateScreenHeight = function(){
         return window.innerHeight;
@@ -180,16 +199,54 @@ $(document).ready(function(e){
             colHeaders: true,
             width: function () { return calculateScreenWidth(); },
             height: function () { return calculateScreenHeight(); },
-            stretchH: 'all'
+            afterInit: function(){
+            }
         });
         make_buttons(data.SheetNames);
     }
     
     displaySheet(0);
     var remind_me = <%= @request.boq.remind_me %>;
-    console.log(remind_me);
     if(remind_me != true){
         $('#qunatityColumnModal').modal('show');
     }
+
+    $('.btn.btn-primary.next-button').click( function(e){
+        rate_column = parseInt($('.rate_column').text());
+        data.SheetNames.forEach(function(sheetname, index){
+            json = process_wb(data, index);
+            json.forEach(function(row){
+                if(row.length > 2){ // check row has at least two columns ie. quantity and rate or unit
+                    if(!isNaN(row[rate_column])){
+                        //all qs rates are here
+                        $.ajax({
+                            url: "/quantity_surveyor_rates/",
+                            type: "POST",
+                            data: { 
+                                quantity_surveyor_rates: {
+                                        boq_id: parseInt($('.boq_id').text()),
+                                        sheet_name: $('.sheet-name').text(),
+                                        row_number: parseInt(row) + 1,
+                                        quantity_surveyor_id: parseInt($('.quantity_surveyor_id').text()),
+                                        rate: row[rate_column]
+                                        }
+                                },
+                            success: function(response){ 
+                                console.log(response);
+                            },
+                            error: function(response){
+                                console.log(response);
+                            }
+                        });
+                        
+                    } 
+                }
+            })
+        });
+        console.log("yeah!!");
+        //return true;
+    });
 });
+
+
 </script>
