@@ -182,7 +182,7 @@ $(document).ready(function(e){
     var container = document.getElementById('boq-excel');
     var json;
     var excelTable;
-    
+    var ratesArray;    
     /*  Display Sheet to the screen
     */
     var displaySheet = function(sheetidx){
@@ -190,6 +190,7 @@ $(document).ready(function(e){
         if(!json) json = [];
             json.forEach(function(r) { if(json[0].length < r.length) json[0].length = r.length; });
     
+        var contractSum = 0.0;        
         excelTable = new Handsontable(document.getElementById('boq-excel'), {
             data: json,
             startRows: 5,
@@ -200,6 +201,21 @@ $(document).ready(function(e){
             width: function () { return calculateScreenWidth(); },
             height: function () { return calculateScreenHeight(); },
             afterInit: function(){
+                rate_column = parseInt($('.rate_column').text());
+                quantity_column = parseInt($('.quantity_column').text());
+                data.SheetNames.forEach(function(sheetname, index){
+                    json = process_wb(data, index);
+                    json.forEach(function(row){
+                        if(row.length > 2){ // check row has at least two columns ie. quantity and rate or unit
+                            if(!isNaN(row[rate_column]) && !isNaN(row[quantity_column])){
+                                //all qs rates are here
+                                contractSum = contractSum + (parseFloat(row[rate_column]) * parseFloat(row[quantity_column]))
+                                
+                            } 
+                        }
+                    })
+                });
+                $('.contract-sum').text(contractSum);
             }
         });
         make_buttons(data.SheetNames);
@@ -212,37 +228,7 @@ $(document).ready(function(e){
     }
 
     $('.btn.btn-primary.next-button').click( function(e){
-        rate_column = parseInt($('.rate_column').text());
-        data.SheetNames.forEach(function(sheetname, index){
-            json = process_wb(data, index);
-            json.forEach(function(row){
-                if(row.length > 2){ // check row has at least two columns ie. quantity and rate or unit
-                    if(!isNaN(row[rate_column])){
-                        //all qs rates are here
-                        $.ajax({
-                            url: "/quantity_surveyor_rates/",
-                            type: "POST",
-                            data: { 
-                                quantity_surveyor_rates: {
-                                        boq_id: parseInt($('.boq_id').text()),
-                                        sheet_name: $('.sheet-name').text(),
-                                        row_number: parseInt(row) + 1,
-                                        quantity_surveyor_id: parseInt($('.quantity_surveyor_id').text()),
-                                        rate: row[rate_column]
-                                        }
-                                },
-                            success: function(response){ 
-                                console.log(response);
-                            },
-                            error: function(response){
-                                console.log(response);
-                            }
-                        });
-                        
-                    } 
-                }
-            })
-        });
+
         console.log("yeah!!");
         //return true;
     });
