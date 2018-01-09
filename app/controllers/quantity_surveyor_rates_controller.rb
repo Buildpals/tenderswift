@@ -24,17 +24,7 @@ class QuantitySurveyorRatesController < ApplicationController
   # POST /quantity_surveyor_rates
   # POST /quantity_surveyor_rates.json
   def create
-    @quantity_surveyor_rate = QuantitySurveyorRate.new(quantity_surveyor_rate_params)
-
-    respond_to do |format|
-      if @quantity_surveyor_rate.save
-        format.html { redirect_to @quantity_surveyor_rate, notice: 'Quantity surveyor rate was successfully created.' }
-        format.json { render :show, status: :created, location: @quantity_surveyor_rate }
-      else
-        format.html { render :new }
-        format.json { render json: @quantity_surveyor_rate.errors, status: :unprocessable_entity }
-      end
-    end
+    parse_rate_data
   end
 
   # PATCH/PUT /quantity_surveyor_rates/1
@@ -67,8 +57,21 @@ class QuantitySurveyorRatesController < ApplicationController
       @quantity_surveyor_rate = QuantitySurveyorRate.find(params[:id])
     end
 
+    def parse_rate_data
+        all_items = params[:quantity_surveyor_rates][:rate_data].split(',')
+        all_items.each do |item|
+            item_components = item.split('--')
+            rate = item_components[0]
+            sheet_name = item_components.last
+            quantity_surveyor_rate = QuantitySurveyorRate.new(sheet_name: sheet_name, rate: rate, 
+                                                             boq_id: params[:quantity_surveyor_rates][:boq_id], 
+                                                             quantity_surveyor_id: params[:quantity_surveyor_rates][:quantity_surveyor_id])
+            quantity_surveyor_rate.save!
+        end
+    end
+
     # Never trust parameters from the scary internet, only allow the white list through.
     def quantity_surveyor_rate_params
-      params.require(:quantity_surveyor_rate).permit(:sheet_name, :rate, :quantity_surveyor_id, :boq_id)
+      params.require(:quantity_surveyor_rate).permit(:sheet_name, :rate, :quantity_surveyor_id, :boq_id, :rate_data)
     end
 end

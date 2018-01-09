@@ -237,7 +237,7 @@ $(document).ready(function(e){
             data: { 
                 quantity_surveyor_rates: {
                         boq_id: parseInt($('.boq_id').text()),
-                        data: qsRates.toString(),
+                        rate_data: qsRates.toString(),
                         quantity_surveyor_id: parseInt($('.quantity_surveyor_id').text()),
                     }
                 },
@@ -246,8 +246,6 @@ $(document).ready(function(e){
             },
             error: function(response){
                 console.log(response);
-                console.log(qsRates[i].split("--")[0]);
-                console.log(NameOfSheet);
             }
         });
     });
