@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180107140751) do
+ActiveRecord::Schema.define(version: 20180109101320) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -192,6 +192,17 @@ ActiveRecord::Schema.define(version: 20180107140751) do
     t.index ["request_for_tender_id"], name: "index_project_documents_on_request_for_tender_id"
   end
 
+  create_table "quantity_surveyor_rates", force: :cascade do |t|
+    t.string "sheet_name"
+    t.float "rate"
+    t.bigint "quantity_surveyor_id"
+    t.bigint "boq_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["boq_id"], name: "index_quantity_surveyor_rates_on_boq_id"
+    t.index ["quantity_surveyor_id"], name: "index_quantity_surveyor_rates_on_quantity_surveyor_id"
+  end
+
   create_table "quantity_surveyors", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -294,6 +305,8 @@ ActiveRecord::Schema.define(version: 20180107140751) do
   add_foreign_key "messages", "broadcast_messages"
   add_foreign_key "messages", "participants"
   add_foreign_key "project_documents", "request_for_tenders"
+  add_foreign_key "quantity_surveyor_rates", "boqs"
+  add_foreign_key "quantity_surveyor_rates", "quantity_surveyors"
   add_foreign_key "questions", "request_for_tenders"
   add_foreign_key "rates", "participants"
   add_foreign_key "winners", "request_for_tenders"

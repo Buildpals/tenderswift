@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :quantity_surveyor_rates
   resources :rates
   root to: 'welcome#index'
 
