@@ -62,6 +62,12 @@ class BoqsController < ApplicationController
     end
   end
 
+  def contract_sum
+      boq = Boq.find(params[:id])
+      boq.contract_sum = params[:boqs][:contract_sum]
+      boq.save!
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_boq
@@ -70,6 +76,6 @@ class BoqsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def boq_params
-      params.require(:boq).permit(:workbook_data)
+      params.require(:boq).permit(:workbook_data, :contract_sum)
     end
 end

@@ -57,15 +57,20 @@ class QuantitySurveyorRatesController < ApplicationController
       @quantity_surveyor_rate = QuantitySurveyorRate.find(params[:id])
     end
 
+    #put this method into a job
     def parse_rate_data
+        old_rates = QuantitySurveyorRate.where(boq_id: params[:quantity_surveyor_rates][:boq_id])
+        unless old_rates.nil?
+            old_rates.each{ |r| r.destroy! }
+        end
         all_items = params[:quantity_surveyor_rates][:rate_data].split(',')
         all_items.each do |item|
             item_components = item.split('--')
             rate = item_components[0]
             sheet_name = item_components.last
             quantity_surveyor_rate = QuantitySurveyorRate.new(sheet_name: sheet_name, rate: rate, 
-                                                             boq_id: params[:quantity_surveyor_rates][:boq_id], 
-                                                             quantity_surveyor_id: params[:quantity_surveyor_rates][:quantity_surveyor_id])
+                                                                boq_id: params[:quantity_surveyor_rates][:boq_id], 
+                                                                quantity_surveyor_id: params[:quantity_surveyor_rates][:quantity_surveyor_id])
             quantity_surveyor_rate.save!
         end
     end

@@ -63,6 +63,10 @@ Rails.application.routes.draw do
       to: 'participants#disqualify'
 
 
+  patch '/boqs/contract_sum/:id',
+      to: 'boqs#contract_sum',
+      as: 'set_qs_contract_sum'
+      
   resources :items
   resources :pages
   resources :request_for_tenders

@@ -183,15 +183,15 @@ $(document).ready(function(e){
     var json;
     var excelTable;
     var qsRates = [];
-    var rowNumbers = [];    
+    var rowNumbers = [];   
+    var contractSum = 0.0;  
     /*  Display Sheet to the screen
     */
     var displaySheet = function(sheetidx){
         json = process_wb(data, sheetidx);
         if(!json) json = [];
             json.forEach(function(r) { if(json[0].length < r.length) json[0].length = r.length; });
-    
-        var contractSum = 0.0;        
+           
         excelTable = new Handsontable(document.getElementById('boq-excel'), {
             data: json,
             startRows: 5,
@@ -239,6 +239,22 @@ $(document).ready(function(e){
                         boq_id: parseInt($('.boq_id').text()),
                         rate_data: qsRates.toString(),
                         quantity_surveyor_id: parseInt($('.quantity_surveyor_id').text()),
+                    }
+                },
+            success: function(response){
+                console.log(response);
+            },
+            error: function(response){
+                console.log(response);
+            }
+        });
+
+        $.ajax({
+            url: "/boqs/contract_sum/"+parseInt($('.boq_id').text())+"/",
+            type: "PATCH",
+            data: { 
+                boqs: {
+                        contract_sum: contractSum
                     }
                 },
             success: function(response){
