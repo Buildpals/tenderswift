@@ -182,7 +182,8 @@ $(document).ready(function(e){
     var container = document.getElementById('boq-excel');
     var json;
     var excelTable;
-    var ratesArray;    
+    var qsRates = [];
+    var rowNumbers = [];    
     /*  Display Sheet to the screen
     */
     var displaySheet = function(sheetidx){
@@ -207,13 +208,15 @@ $(document).ready(function(e){
                     json = process_wb(data, index);
                     json.forEach(function(row){
                         if(row.length > 2){ // check row has at least two columns ie. quantity and rate or unit
-                            if(!isNaN(row[rate_column]) && !isNaN(row[quantity_column])){
+                            if(!isNaN(row[rate_column])){
                                 //all qs rates are here
-                                contractSum = contractSum + (parseFloat(row[rate_column]) * parseFloat(row[quantity_column]))
-                                
+                                qsRates.push(parseFloat(row[rate_column]) + "--sheet--" +sheetname);
+                                if(!isNaN(row[rate_column]) && !isNaN(row[quantity_column])){ //make sure there is a valid number in the quantity column
+                                    contractSum = contractSum + (parseFloat(row[rate_column]) * parseFloat(row[quantity_column]));
+                                }    
                             } 
                         }
-                    })
+                    });
                 });
                 $('.contract-sum').text(contractSum);
             }
@@ -228,9 +231,25 @@ $(document).ready(function(e){
     }
 
     $('.btn.btn-primary.next-button').click( function(e){
-
-        console.log("yeah!!");
-        //return true;
+        $.ajax({
+            url: "/quantity_surveyor_rates/",
+            type: "POST",
+            data: { 
+                quantity_surveyor_rates: {
+                        boq_id: parseInt($('.boq_id').text()),
+                        data: qsRates.toString(),
+                        quantity_surveyor_id: parseInt($('.quantity_surveyor_id').text()),
+                    }
+                },
+            success: function(response){
+                console.log(response);
+            },
+            error: function(response){
+                console.log(response);
+                console.log(qsRates[i].split("--")[0]);
+                console.log(NameOfSheet);
+            }
+        });
     });
 });
 
