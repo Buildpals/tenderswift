@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180109101320) do
+ActiveRecord::Schema.define(version: 20180109114249) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -68,6 +68,7 @@ ActiveRecord::Schema.define(version: 20180109101320) do
     t.boolean "remind_me", default: false
     t.string "rate_column"
     t.string "amount_column"
+    t.float "contract_sum", default: 0.0
     t.index ["request_for_tender_id"], name: "index_boqs_on_request_for_tender_id"
   end
 
