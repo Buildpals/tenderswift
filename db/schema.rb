@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180109114249) do
+ActiveRecord::Schema.define(version: 20180110114741) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -245,20 +245,19 @@ ActiveRecord::Schema.define(version: 20180109114249) do
   create_table "rates", force: :cascade do |t|
     t.bigint "boq_id"
     t.string "sheet_name"
-    t.integer "row_number"
     t.integer "value"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "participant_id"
+    t.integer "row_number"
     t.index ["boq_id"], name: "index_rates_on_boq_id"
     t.index ["participant_id"], name: "index_rates_on_participant_id"
-    t.index ["row_number"], name: "index_rates_on_row_number", unique: true
+    t.index ["row_number"], name: "index_rates_on_row_number"
   end
 
   create_table "request_for_tenders", force: :cascade do |t|
     t.string "project_name"
     t.datetime "deadline"
-    t.string "country"
     t.string "city"
     t.string "description"
     t.datetime "created_at", null: false

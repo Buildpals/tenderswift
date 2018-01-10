@@ -20,7 +20,7 @@ class RequestForTendersController < ApplicationController
     unless @request.winner.nil?
       @winner = Participant.find_by(auth_token: @request.winner.auth_token)
     end
-    gon.jbuilder
+    #gon.jbuilder
   end
 
   # GET /requests/new

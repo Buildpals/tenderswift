@@ -73,6 +73,10 @@ function displaySheet (data, sheetidx){
           return cellProperties;
         },
         afterInit: function(){
+            json.forEach(function(row){
+                row[rateColumn] = "";
+                row[amountColumn] = "";   
+            });
             $.ajax({
                 url: "/rates/",
                 type: "GET",
@@ -85,13 +89,15 @@ function displaySheet (data, sheetidx){
                     },
                 success: function(response){ 
                     console.log(response);
-                    for(i=0; i <= response.length; i++){
-                        row_number = response[i].row_number - 1;
-                        quantity = json[row_number][quantityColumn];
-                        rate = response[i].value;
-                        json[row_number][rateColumn] = rate;
-                        json[row_number][amountColumn] = quantity * rate;
-                        excelTable.loadData(json);
+                    if (response.length > 0){
+                        for(i=0; i <= response.length; i++){
+                            row_number = response[i].row_number - 1;
+                            quantity = json[row_number][quantityColumn];
+                            rate = response[i].value;
+                            json[row_number][rateColumn] = rate;
+                            json[row_number][amountColumn] = quantity * rate;
+                            excelTable.loadData(json);
+                        }
                     }
                 },
                 error: function(response){
