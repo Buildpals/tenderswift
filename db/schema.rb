@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180110114741) do
+ActiveRecord::Schema.define(version: 20180111105425) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -69,6 +69,8 @@ ActiveRecord::Schema.define(version: 20180110114741) do
     t.string "rate_column"
     t.string "amount_column"
     t.float "contract_sum", default: 0.0
+    t.string "item_column"
+    t.string "unit_column"
     t.index ["request_for_tender_id"], name: "index_boqs_on_request_for_tender_id"
   end
 

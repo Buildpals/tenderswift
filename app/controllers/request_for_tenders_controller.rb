@@ -130,6 +130,14 @@ class RequestForTendersController < ApplicationController
     end  
   end
 
+  def compare_bids
+    @request = RequestForTender.find(params[:id])
+    @boq = @request.boq
+    @participants = @request.participants
+    #I need all the rates for each contractor
+    @rates = Rate.where(boq_id: @boq.id)
+  end
+
 
   private
 
