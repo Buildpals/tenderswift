@@ -127,6 +127,8 @@ class CreateTenderController < ApplicationController
                                  :workbook_data,
                                  :quantity_column,
                                  :amount_column,
+                                 :item_column,
+                                 :unit_column,
                                  :rate_column,
                                  :remind_me,
                                  :_destroy],

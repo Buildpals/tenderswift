@@ -55,10 +55,20 @@ function displaySheet (data, sheetidx){
     if(!json) json = [];
         json.forEach(function(r) { if(json[0].length < r.length) json[0].length = r.length; });
 
-    var rateColumn;
+    var rateColumn = parseInt($('.rate_column').text());
     var amountColumn = parseInt($('.amount_column').text());
+    var itemColumn = parseInt($('.item_column').text());
     var contractSum = 0;
     var quantityColumn = parseInt($('.quantity_column').text());
+
+    json.forEach(function(row){
+        remove(row,row[rateColumn]);
+        console.log(itemColumn);
+        remove(row,row[amountColumn]);  
+        if(row[itemColumn] == 'Item' || row[itemColumn] == 'item'){
+            row.push('Rate');
+        }
+    });
 
     excelTable = new Handsontable(document.getElementById('boq-excel'), {
         data: json,
@@ -80,12 +90,6 @@ function displaySheet (data, sheetidx){
           return cellProperties;
         },
         afterInit: function(){
-            json.forEach(function(row){
-                row[rateColumn] = "";
-                row[amountColumn] = ""; 
-                remove(row,row[rateColumn]);
-                remove(row,row[amountColumn]);  
-            });
             $.ajax({
                 url: "/rates/",
                 type: "GET",
