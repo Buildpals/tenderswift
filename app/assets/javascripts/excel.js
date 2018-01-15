@@ -64,7 +64,6 @@ function displaySheet (data, sheetidx){
     json.forEach(function(row){
         remove(row, row[amountColumn]);
         remove(row, row[rateColumn]);
-        console.log(itemColumn); 
         if(row[itemColumn] == 'Item' || row[itemColumn] == 'item'){
             row.push('Rate');
             row.push('Amount');
@@ -149,8 +148,6 @@ function displaySheet (data, sheetidx){
                             contractSum = contractSum + json[row][amountColumn];
                             //console.log(json[row][amountColumn]);
                             excelTable.loadData(json);
-
-                            console.log()
 
                             $('.contract-sum').text(contractSum);
                         },
