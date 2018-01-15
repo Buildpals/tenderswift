@@ -24,6 +24,13 @@ function process_wb(wb, sheetidx) {
     return json;
 }
 
+function remove(array, element) {
+    const index = array.indexOf(element);    
+    if (index !== -1) {
+        array.splice(index, 1);
+    }
+}
+
 function make_buttons (data, sheetnames) {
     var $buttons = $('.buttons');
     $buttons.html("");
@@ -75,7 +82,9 @@ function displaySheet (data, sheetidx){
         afterInit: function(){
             json.forEach(function(row){
                 row[rateColumn] = "";
-                row[amountColumn] = "";   
+                row[amountColumn] = ""; 
+                remove(row,row[rateColumn]);
+                remove(row,row[amountColumn]);  
             });
             $.ajax({
                 url: "/rates/",

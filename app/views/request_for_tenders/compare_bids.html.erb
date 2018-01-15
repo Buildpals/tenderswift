@@ -53,13 +53,6 @@
 </div>
 
 <script>
-    function process_wb(wb, sheetidx) {
-        last_wb = wb;
-        var sheet = wb.SheetNames[sheetidx||0];
-        var json = to_json(wb)[sheet];
-        return json;
-    }
-    
     function to_json(workbook) {
         XLSX.SSF.load_table(workbook.SSF);
         var result = {};
@@ -68,6 +61,14 @@
             if(roa.length > 0) result[sheetName] = roa;
         });
         return result;
+    }
+
+
+    function process_wb(wb, sheetidx) {
+        last_wb = wb;
+        var sheet = wb.SheetNames[sheetidx||0];
+        var json = to_json(wb)[sheet];
+        return json;
     }
 
     function make_buttons (data, sheetnames) {
@@ -100,32 +101,7 @@
     }
 
     function display(data, sheetidx){
-        if(sheetidx == 0){
-            $('.sheet-name').text(data.SheetNames[0]);
-        }
-        var participantRates = new Map();
-        data.SheetNames.forEach(function(sheetName, index){
-            sheetbook = data.Sheets[sheetName];
-             $('.request_for_tender_participants').children().each(function (i, e){
-                participantCompanyName = $(this).attr('class');
-                participantColumn = "<%= @boq.amount_column.next %>";
-                var participantObject = {t:"s", v: participantCompanyName, r: "<t"+participantCompanyName+"</t>", h: participantCompanyName, w: participantCompanyName }
-                sheetbook[participantColumn+"1"] = participantObject;
-                firstPartOfCompanyName = participantCompanyName.split(' ')[0];
-                participantRates.set(participantCompanyName, $('.'+firstPartOfCompanyName+'').children().children());
-                for (var [key, value] of participantRates.entries()) {
-                    for(i = 0; i < value.length; i++){
-                        if(value[i].className == $('.sheet-name').text()){
-                            var rateObject = { t: "n", v: parseFloat(value[i].innerHTML), w: value[i].innerHTML };
-                            sheetbook[participantColumn+''+ parseInt(value[i].getAttribute('row'))] = rateObject;
-                        }
-                    }
-                }
-                
-            });
-        });
         json = process_wb(data, sheetidx);
-        //console.log(data);
         if(!json) json = [];
             json.forEach(function(r) { if(json[0].length < r.length) json[0].length = r.length; });
 
@@ -133,10 +109,50 @@
         var amountColumn = parseInt($('.amount_column').text());
         var quantityColumn = parseInt($('.quantity_column').text());
         var itemColumn = parseInt($('.item_column').text());
-
+        if(sheetidx == 0){
+            $('.sheet-name').text(data.SheetNames[0]);
+        }
+        var participantRates = new Map();
+        var listOfParticipants = [];
+        
         json.forEach(function(row, index) {
             remove(row,row[amountColumn]);
             remove(row,row[unitColumn]);
+            var participantCompanyName;
+            //console.log(row);
+
+            if(row[itemColumn] == 'Item' || row[itemColumn] == 'item'){ //if the row has a item header    
+                $('.request_for_tender_participants').children().each(function (i, e){
+                    participantCompanyName = $(this).attr('class');
+                    row.push(participantCompanyName);
+                    listOfParticipants.push(participantCompanyName);
+                    console.log(listOfParticipants);
+                    firstPartOfCompanyName = participantCompanyName.split(' ')[0];
+                    participantRates.set(participantCompanyName, $('.'+firstPartOfCompanyName+'').children().children());
+                });
+            }
+            //console.log(participantRates);
+            if(row.length > 3){
+                for (var [key, value] of participantRates.entries()) {
+                    for(i = 0; i < value.length; i++){
+                        if(value[i].className == $('.sheet-name').text()){
+                            rowNumber = parseInt(value[i].getAttribute('row'));
+                            sheetRowNumber = index + 1
+                            if(sheetRowNumber == rowNumber){ //check row number
+                                //console.log(listOfParticipants);
+                                participantPostion = listOfParticipants.indexOf(key);
+                                if(participantPostion == 0){
+                                    row[row.length] = value[i].innerHTML;
+                                }else{
+                                row[(row.length - 1) + participantPostion] = value[i].innerHTML;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            //console.log(listOfParticipants);
+
         });
 
         excelTable = new Handsontable(document.getElementById('boq-excel'), {
