@@ -62,11 +62,12 @@ function displaySheet (data, sheetidx){
     var quantityColumn = parseInt($('.quantity_column').text());
 
     json.forEach(function(row){
-        remove(row,row[rateColumn]);
-        console.log(itemColumn);
-        remove(row,row[amountColumn]);  
+        remove(row, row[amountColumn]);
+        remove(row, row[rateColumn]);
+        console.log(itemColumn); 
         if(row[itemColumn] == 'Item' || row[itemColumn] == 'item'){
             row.push('Rate');
+            row.push('Amount');
         }
     });
 
