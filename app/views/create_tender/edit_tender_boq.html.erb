@@ -79,12 +79,13 @@
                         <%= boq_field.select :item_column, ('A'...'Z').collect { |i| [i,i] }, { selected: 'A' }, { class: 'form-control' } %>
                         <br/>
 
-                        <p>Which of the columns contain the 'Unit' field in your Bill of Quantity?</p>
-                        <%= boq_field.select :unit_column, ('A'...'Z').collect { |i| [i,i] }, { selected: 'C' }, { class: 'form-control' } %>
-                        <br/>
 
                         <p>Which of the columns contain the 'Quantity' field in your Bill of Quantity?</p> 
                         <%= boq_field.select :quantity_column, ('A'...'Z').collect { |i| [i,i] }, { selected: 'D' }, { class: 'form-control' } %>
+                        <br/>
+
+                        <p>Which of the columns contain the 'Unit' field in your Bill of Quantity?</p>
+                        <%= boq_field.select :unit_column, ('A'...'Z').collect { |i| [i,i] }, { selected: 'E' }, { class: 'form-control' } %>
                         <br/>
                         
                         <p>Which of the columns contain the 'Rate' field in your Bill of Quantity?</p> 
