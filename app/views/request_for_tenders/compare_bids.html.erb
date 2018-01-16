@@ -100,6 +100,25 @@
         }
     }
 
+    function differenceValueRenderer(instance, td, row, col, prop, value, cellProperties) {
+        Handsontable.renderers.TextRenderer.apply(this, arguments);
+        var specificQSRate = instance.getData()[row][rateColumn-1];
+        var greenPercentage = 0.05 * value;
+        var redPercentage = 0.35 * value;
+        if (parseInt(value) < specificQSRate){
+            td.style.fontStyle = 'italic';
+            td.className = 'make-me-green';
+        }
+        if (parseInt(value) > specificQSRate){
+            td.style.fontStyle = 'italic';
+            td.className = 'make-me-red';
+        }
+
+    }
+
+
+    Handsontable.renderers.registerRenderer('differenceValueRenderer', differenceValueRenderer);
+
     function display(data, sheetidx){
         json = process_wb(data, sheetidx);
         if(!json) json = [];
@@ -119,39 +138,34 @@
             remove(row,row[amountColumn]);
             remove(row,row[unitColumn]);
             var participantCompanyName;
-            //console.log(row);
 
             if(row[itemColumn] == 'Item' || row[itemColumn] == 'item'){ //if the row has a item header    
                 $('.request_for_tender_participants').children().each(function (i, e){
                     participantCompanyName = $(this).attr('class');
                     row.push(participantCompanyName);
                     listOfParticipants.push(participantCompanyName);
-                    console.log(listOfParticipants);
                     firstPartOfCompanyName = participantCompanyName.split(' ')[0];
                     participantRates.set(participantCompanyName, $('.'+firstPartOfCompanyName+'').children().children());
                 });
             }
-            //console.log(participantRates);
             if(row.length > 3){
                 for (var [key, value] of participantRates.entries()) {
                     for(i = 0; i < value.length; i++){
                         if(value[i].className == $('.sheet-name').text()){
-                            rowNumber = parseInt(value[i].getAttribute('row'));
-                            sheetRowNumber = index + 1
+                            rowNumber = parseInt(value[i].getAttribute('row')); //get row Number
+                            sheetRowNumber = index + 1 //get the actually row number on the excel
                             if(sheetRowNumber == rowNumber){ //check row number
-                                //console.log(listOfParticipants);
                                 participantPostion = listOfParticipants.indexOf(key);
                                 if(participantPostion == 0){
                                     row[row.length] = value[i].innerHTML;
                                 }else{
-                                row[(row.length - 1) + participantPostion] = value[i].innerHTML;
+                                    row[(row.length - 1) + participantPostion] = value[i].innerHTML;
                                 }
                             }
                         }
                     }
                 }
             }
-            //console.log(listOfParticipants);
 
         });
 
@@ -168,11 +182,13 @@
                 var cellProperties = {};
                 rateColumn = parseInt($('.rate_column').text());
                 if(col !== rateColumn){
-                cellProperties.readOnly = 'true';
-                cellProperties.contextMenu = 'true';
-                //cellProperties.type = 'numeric';
+                    cellProperties.readOnly = 'true';
+                    cellProperties.contextMenu = 'true';
                 }
-            return cellProperties;
+                if(col >= rateColumn){ 
+                    cellProperties.renderer = "differenceValueRenderer"; 
+                }
+                return cellProperties;
             },
             afterInit: function(){
             }
