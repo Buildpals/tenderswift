@@ -240,6 +240,7 @@ $(document).ready(function(e){
     }
 
     $('.btn.btn-primary.next-button').click( function(e){
+        /*
         $.ajax({
             url: "/quantity_surveyor_rates/",
             type: "POST",
@@ -256,7 +257,7 @@ $(document).ready(function(e){
             error: function(response){
                 console.log(response);
             }
-        });
+        }); */
 
         $.ajax({
             url: "/boqs/contract_sum/"+parseInt($('.boq_id').text())+"/",
