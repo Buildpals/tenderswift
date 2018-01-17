@@ -50,6 +50,8 @@ function make_buttons (data, sheetnames) {
     });
 };
 
+var contractSum = 0.0;
+
 function displaySheet (data, sheetidx){
     json = process_wb(data, sheetidx);
     if(!json) json = [];
@@ -58,7 +60,6 @@ function displaySheet (data, sheetidx){
     var rateColumn = parseInt($('.rate_column').text());
     var amountColumn = parseInt($('.amount_column').text());
     var itemColumn = parseInt($('.item_column').text());
-    var contractSum = 0;
     var quantityColumn = parseInt($('.quantity_column').text());
 
     json.forEach(function(row){
@@ -109,7 +110,9 @@ function displaySheet (data, sheetidx){
                             rate = response[i].value;
                             json[row_number][rateColumn] = rate;
                             json[row_number][amountColumn] = quantity * rate;
+                            contractSum = contractSum + json[row_number][amountColumn];
                             excelTable.loadData(json);
+                            $('.contract-sum').text(contractSum);
                         }
                     }
                 },

@@ -92,6 +92,7 @@
 
     var container = $('#boq-excel');
     var excelData = JSON.parse($('.content-boq').text());
+    var listOfParticipants = [];
 
     function remove(array, element) {
         const index = array.indexOf(element);    
@@ -102,15 +103,33 @@
 
     function differenceValueRenderer(instance, td, row, col, prop, value, cellProperties) {
         Handsontable.renderers.TextRenderer.apply(this, arguments);
-        var specificQSRate = instance.getData()[row][rateColumn-1];
-        var greenPercentage = 0.05 * value;
-        var redPercentage = 0.35 * value;
-        if (parseInt(value) < specificQSRate){
+        var quantitySurveyorRate = instance.getData()[row][rateColumn-1];
+        //(0.05 * 34.00) + 34.00
+        quantitySurveyorRate = parseFloat(quantitySurveyorRate);
+        if(!isNaN(quantitySurveyorRate) && quantitySurveyorRate != null){
+            var fivePercentagePlus = (0.05 * quantitySurveyorRate) + quantitySurveyorRate;
+            var fivePercentageMinus = parseFloat(quantitySurveyorRate - (0.05 * quantitySurveyorRate));
+            var fifteenPercentagePlus = parseFloat(quantitySurveyorRate + (0.15 * quantitySurveyorRate));
+            var fifteenPercentageMinus = parseFloat(quantitySurveyorRate - (0.15 * quantitySurveyorRate));
+        }
+        //var orangePercentage = 0.15 * quantitySurveyorRate;
+        if (parseFloat(value) >= quantitySurveyorRate && parseFloat(value) < fivePercentagePlus){
             td.style.fontStyle = 'italic';
             td.className = 'make-me-green';
-        }
-        if (parseInt(value) > specificQSRate){
+        }else if(parseFloat(value) >= fivePercentagePlus && parseFloat(value) <= fifteenPercentagePlus){
+            td.style.fontStyle = 'bold';
+            td.className = 'make-me-orange';
+        }else if(parseFloat(value) > fifteenPercentagePlus){
+            td.style.fontStyle = 'bold';
+            td.className = 'make-me-red';
+        }else if (parseFloat(value) <= quantitySurveyorRate && parseFloat(value) > fivePercentageMinus){
             td.style.fontStyle = 'italic';
+            td.className = 'make-me-green';
+        }else if(parseFloat(value) >= fivePercentageMinus && parseFloat(value) >= fifteenPercentageMinus){
+            td.style.fontStyle = 'bold';
+            td.className = 'make-me-orange';
+        }else if(parseFloat(value) < fifteenPercentageMinus){
+            td.style.fontStyle = 'bold';
             td.className = 'make-me-red';
         }
 
@@ -132,7 +151,6 @@
             $('.sheet-name').text(data.SheetNames[0]);
         }
         var participantRates = new Map();
-        var listOfParticipants = [];
         
         json.forEach(function(row, index) {
             remove(row,row[amountColumn]);
