@@ -160,12 +160,15 @@
             if(row[itemColumn] == 'Item' || row[itemColumn] == 'item'){ //if the row has a item header    
                 $('.request_for_tender_participants').children().each(function (i, e){
                     participantCompanyName = $(this).attr('class');
+                    //console.log(participantCompanyName);
                     row.push(participantCompanyName);
                     listOfParticipants.push(participantCompanyName);
                     firstPartOfCompanyName = participantCompanyName.split(' ')[0];
                     participantRates.set(participantCompanyName, $('.'+firstPartOfCompanyName+'').children().children());
                 });
             }
+
+            //console.log(participantRates);
             if(row.length > 3){
                 for (var [key, value] of participantRates.entries()) {
                     for(i = 0; i < value.length; i++){
@@ -194,6 +197,8 @@
             stretchH: 'all',
             rowHeaders: true,
             colHeaders: true,
+            fixedColumnsLeft: 3,
+            colWidths: [20, 5, 120],
             width: function () { return calculateScreenWidth(); },
             height: function () { return calculateScreenHeight(); },
             cells: function(row, col, prop){
