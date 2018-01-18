@@ -27,6 +27,9 @@
     <span class="amount_column">
          <%= get_index_of_alphabet(@request.boq.amount_column.to_s) %>
     </span>
+    <span class="item_column">
+         <%= get_index_of_alphabet(@request.boq.item_column.to_s) %>
+    </span>
     <span class="boq_id">
         <%= @request.boq.id %>
     </span>
@@ -192,11 +195,11 @@ $(document).ready(function(e){
     var json;
     var excelTable;
     var qsRates = [];
-    var rowNumbers = [];   
-    var contractSum = 0.0;  
+    var rowNumbers = []; 
     /*  Display Sheet to the screen
     */
     var displaySheet = function(sheetidx){
+        var contractSum = 0.0; 
         json = process_wb(data, sheetidx);
         if(!json) json = [];
             json.forEach(function(r) { if(json[0].length < r.length) json[0].length = r.length; });
@@ -211,17 +214,19 @@ $(document).ready(function(e){
             width: function () { return calculateScreenWidth(); },
             height: function () { return calculateScreenHeight(); },
             afterInit: function(){
-                rate_column = parseInt($('.rate_column').text());
-                quantity_column = parseInt($('.quantity_column').text());
+                rateColumn = parseInt($('.rate_column').text());
+                quantityColumn = parseInt($('.quantity_column').text());
+                itemColumn = parseInt($('.item_column').text());
                 data.SheetNames.forEach(function(sheetname, index){
                     json = process_wb(data, index);
                     json.forEach(function(row){
                         if(row.length > 2){ // check row has at least two columns ie. quantity and rate or unit
-                            if(!isNaN(row[rate_column])){
+                            if(!isNaN(row[rateColumn])){
                                 //all qs rates are here
-                                qsRates.push(parseFloat(row[rate_column]) + "--sheet--" +sheetname);
-                                if(!isNaN(row[rate_column]) && !isNaN(row[quantity_column])){ //make sure there is a valid number in the quantity column
-                                    contractSum = contractSum + (parseFloat(row[rate_column]) * parseFloat(row[quantity_column]));
+                                qsRates.push(parseFloat(row[rateColumn]) + "--sheet--" +sheetname);
+                                if(!isNaN(row[rateColumn]) && !isNaN(row[quantityColumn])){ //make sure there is a valid number in the quantity column
+                                    contractSum = contractSum + (parseFloat(row[rateColumn]) * parseFloat(row[quantityColumn]));
+                                    console.log((parseFloat(row[rateColumn]) * parseFloat(row[quantityColumn])));
                                 }    
                             } 
                         }
