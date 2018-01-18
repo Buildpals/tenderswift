@@ -244,7 +244,25 @@ $(document).ready(function(e){
         $('#qunatityColumnModal').modal('show');
     }
 
+    function setContractSumAtBackend(){
+        $.ajax({
+            url: "/boqs/contract_sum/"+parseInt($('.boq_id').text())+"/",
+            type: "PATCH",
+            data: { 
+                boqs: {
+                        contract_sum: parseFloat($('.contract-sum').text())
+                    }
+                },
+            success: function(response){
+                console.log(response);
+            },
+            error: function(response){
+                console.log(response);
+            }
+        });
+    }
     $('.btn.btn-primary.next-button').click( function(e){
+        setContractSumAtBackend();
         /*
         $.ajax({
             url: "/quantity_surveyor_rates/",
@@ -263,22 +281,10 @@ $(document).ready(function(e){
                 console.log(response);
             }
         }); */
+    });
 
-        $.ajax({
-            url: "/boqs/contract_sum/"+parseInt($('.boq_id').text())+"/",
-            type: "PATCH",
-            data: { 
-                boqs: {
-                        contract_sum: contractSum
-                    }
-                },
-            success: function(response){
-                console.log(response);
-            },
-            error: function(response){
-                console.log(response);
-            }
-        });
+    $('.nav-item.nav-link').click (function(e){
+        setContractSumAtBackend();
     });
 });
 
