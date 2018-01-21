@@ -86,7 +86,6 @@ function displaySheet (data, sheetidx){
             if(col !== rateColumn){
               cellProperties.readOnly = 'true';
               cellProperties.contextMenu = 'true';
-              //cellProperties.type = 'numeric';
           }
           return cellProperties;
         },
@@ -98,22 +97,22 @@ function displaySheet (data, sheetidx){
                     rate: {
                             boq_id: parseInt($('.boq_id').text()),
                             participant_id: parseInt($('.participant_id').text()),
-                            sheet_name: data.SheetNames[sheetidx]
+                            //sheet_name: data.SheetNames[sheetidx]
                             }
                     },
                 success: function(response){ 
                     console.log(response);
                     if (response.length > 0){
-                        for(i=0; i <= response.length; i++){
-                            row_number = response[i].row_number - 1;
+                        /*for(i=0; i <= response.length; i++){
+                            row_number = parseInt(response[i].row_number) - 1;
                             quantity = json[row_number][quantityColumn];
-                            rate = response[i].value;
+                            rate = parseFloat(response[i].value);
                             json[row_number][rateColumn] = rate;
-                            json[row_number][amountColumn] = quantity * rate;
+                            json[row_number][amountColumn] = parseInt(quantity) * parseFloat(rate);
                             contractSum = contractSum + json[row_number][amountColumn];
                             excelTable.loadData(json);
                             $('.contract-sum').text(contractSum);
-                        }
+                        }*/
                     }
                 },
                 error: function(response){
@@ -167,4 +166,32 @@ function displaySheet (data, sheetidx){
 
 /* 
 1. Ask QS for the rate column
+*/
+
+$('.submit-your-bid').click( function(e){
+    $.ajax({
+        url: "/participants/contract_sum/"+$('.participant_auth').text()+"/",
+        type: "PATCH",
+        data: { 
+            participants: {
+                    contract_sum: parseFloat($('.contract-sum').text())
+                }
+            },
+        success: function(response){
+            console.log(response);
+        },
+        error: function(response){
+            console.log(response);
+        }
+    });
+});
+
+
+/* 
+ New way off doing the contract sum.
+ ===================================
+ 1. Load all rates of the contractor oninit from DB
+ 2. Read through sheetJS (json) and do the calculation for the amount then add it up
+ to get the contract sum.
+ 3. Do this Sunday Evening! 
 */

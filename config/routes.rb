@@ -71,6 +71,10 @@ Rails.application.routes.draw do
       to: 'boqs#contract_sum',
       as: 'set_qs_contract_sum'
 
+  patch '/participants/contract_sum/:id',
+      to: 'participants#set_contract_sum',
+      as: 'set_participant_contract_sum'
+
   resources :items
   resources :pages
   resources :request_for_tenders

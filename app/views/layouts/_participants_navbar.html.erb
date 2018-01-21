@@ -40,7 +40,7 @@
           <%= form.text_field :status, value: 'bid_made', id: :participant_phone_number, type: 'hidden' %>
           <%= form.text_field :bid_submission_time, value: Time.current, id: :participant_phone_number, type: 'hidden' %>
           <%= form.submit 'Submit Bid', data: {confirm: 'You cannot edit the Bill of Quantities after submitting your bid. Are you sure you want to submit your bid?'},
-                          class: 'btn btn-outline-secondary my-2 my-sm-0' %>
+                          class: 'btn btn-outline-secondary my-2 my-sm-0 submit-your-bid' %>
       <% end %>
   <% end %>
 

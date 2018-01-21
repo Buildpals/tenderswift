@@ -46,6 +46,12 @@ class ParticipantsController < ApplicationController
   # PATCH/PUT /participants/1
   # PATCH/PUT /participants/1.json
   def update
+    rates = @participant.rates.where(boq: @participant.request_for_tender.boq)
+    unless rates.nil?
+        contract_sum = 0.0
+        rates.each { |rate| contract_sum = contract_sum + rate.value.to_f }
+        @participant.contract_sum = contract_sum
+    end
     respond_to do |format|
       if @participant.update(participant_params)
         format.html {
@@ -105,6 +111,12 @@ class ParticipantsController < ApplicationController
     end
   end
 
+  def set_contract_sum
+    set_participant
+    @participant.contract_sum = params[:contract_sum]
+    @participant.save!
+  end
+
   private
 
   # Use callbacks to share common setup or constraints between actions.
@@ -133,6 +145,7 @@ class ParticipantsController < ApplicationController
                   :declination_reason,
                   :removed,
                   :comment,
+                  :contract_sum,
                   filled_items_attributes: [:id,
                                             :email,
                                             :phone_number,
