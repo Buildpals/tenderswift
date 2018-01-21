@@ -20,7 +20,7 @@ class RequestForTendersController < ApplicationController
     unless @request.winner.nil?
       @winner = Participant.find_by(auth_token: @request.winner.auth_token)
     end
-    gon.jbuilder
+    #gon.jbuilder
   end
 
   # GET /requests/new
@@ -128,6 +128,14 @@ class RequestForTendersController < ApplicationController
     else
       render json: request.errors.messages
     end  
+  end
+
+  def compare_bids
+    @request = RequestForTender.find(params[:id])
+    @boq = @request.boq
+    @participants = @request.participants
+    #I need all the rates for each contractor
+    @rates = Rate.where(boq_id: @boq.id)
   end
 
 

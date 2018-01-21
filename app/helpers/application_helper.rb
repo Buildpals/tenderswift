@@ -47,4 +47,11 @@ module ApplicationHelper
     end
   end
 
+  def get_index_of_alphabet(alphabet)
+    alphabets = ('A'...'z').to_a
+    if alphabets.include?(alphabet)
+        return alphabets.index(alphabet)
+    end
+  end
+
 end

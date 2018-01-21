@@ -46,5 +46,6 @@
 //= require registrations
 //= require create_tender
 //= require requests
+//= require excel
 //= require participants
 //= require bids

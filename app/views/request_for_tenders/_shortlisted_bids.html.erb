@@ -25,10 +25,10 @@
             </span>
           </td>
           <td>
-            <%= @request.contract_sum_currency %> <%= participant.bid %>
+            <%= @request.contract_sum_currency %>
           </td>
           <td>
-            <%= @request.contract_sum_currency %> <%= participant.bid_difference %>
+            <%= @request.contract_sum_currency %> 
             <small>(<%= participant.bid_difference_as_percentage %>)</small>
           </td>
           <td><small><%= participant.bid_submission_time.to_formatted_s(:short) %></small></td>

@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Sheet name:</strong>
+  <%= @quantity_surveyor_rate.sheet_name %>
+</p>
+
+<p>
+  <strong>Rate:</strong>
+  <%= @quantity_surveyor_rate.rate %>
+</p>
+
+<p>
+  <strong>Quantity surveyor:</strong>
+  <%= @quantity_surveyor_rate.quantity_surveyor %>
+</p>
+
+<p>
+  <strong>Boq:</strong>
+  <%= @quantity_surveyor_rate.boq %>
+</p>
+
+<%= link_to 'Edit', edit_quantity_surveyor_rate_path(@quantity_surveyor_rate) %> |
+<%= link_to 'Back', quantity_surveyor_rates_path %>

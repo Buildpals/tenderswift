@@ -18,7 +18,7 @@ class ParticipantsController < ApplicationController
 
   def boq
     @boq = @participant.boq
-    gon.jbuilder
+    #gon.jbuilder
   end
 
   def questionnaire

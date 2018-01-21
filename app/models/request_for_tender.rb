@@ -6,8 +6,10 @@ class RequestForTender < ApplicationRecord
   scope :submitted, -> {where(submitted: true)}
   scope :not_submitted, -> {where(submitted: false)}
 
-  has_many :boqs, inverse_of: :request_for_tender,
-           dependent: :destroy
+  has_one :boq, inverse_of: :request_for_tender, dependent: :destroy
+  accepts_nested_attributes_for :boq,
+                                allow_destroy: true,
+                                reject_if: :all_blank
 
   belongs_to :quantity_surveyor
 
@@ -40,10 +42,6 @@ class RequestForTender < ApplicationRecord
   validates :project_name, presence: true
 
   validates :deadline, presence: true
-
-  def boq
-    boqs.last
-  end
 
   def name
     "##{id} #{project_name}"
@@ -102,9 +100,9 @@ class RequestForTender < ApplicationRecord
   end
 
   def create_blank_boq
-    boq = Boq.new(request_for_tender: self, name: name)
-    page = boq.pages.build(name: 'Sheet 1')
-    30.times { |i| page.items.build(boq: boq, item_type: 'item', priority: i)}
+    boq = Boq.new(request_for_tender: self)
+    #page = boq.pages.build(name: 'Sheet 1')
+    #30.times { |i| page.items.build(boq: boq, item_type: 'item', priority: i)}
     boq.save!
   end
 

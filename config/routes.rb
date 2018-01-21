@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  resources :quantity_surveyor_rates
+  resources :rates
   root to: 'welcome#index'
 
   get '/tender/:id/edit', to: 'create_tender#edit_tender_information', as: 'edit_tender_information'
@@ -48,6 +50,10 @@ Rails.application.routes.draw do
       to: 'request_for_tenders#set_winner',
       as: 'request_for_tenders_set_winner'
 
+  get '/request/compare/bids/:id',
+     to: 'request_for_tenders#compare_bids',
+     as: 'compare_bids'
+
 
   post '/requests/send_out/:id',
       to: 'request_for_tenders#send_out_final_invitation',
@@ -60,6 +66,10 @@ Rails.application.routes.draw do
   patch '/participants/disqualify/:id/',
       to: 'participants#disqualify'
 
+
+  patch '/boqs/contract_sum/:id',
+      to: 'boqs#contract_sum',
+      as: 'set_qs_contract_sum'
 
   resources :items
   resources :pages

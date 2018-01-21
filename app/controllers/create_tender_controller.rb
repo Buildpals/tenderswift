@@ -40,9 +40,8 @@ class CreateTenderController < ApplicationController
 
   def edit_tender_boq
     @next_path = edit_tender_questionnaire_path(@request)
-
-    @request.build_excel
-    gon.jbuilder
+    #@request.build_excel
+    #gon.jbuilder
   end
 
   def update_tender_boq
@@ -124,6 +123,15 @@ class CreateTenderController < ApplicationController
                                        :can_attach_documents,
                                        :mandatory,
                                        :_destroy],
+                boq_attributes: [:id, 
+                                 :workbook_data,
+                                 :quantity_column,
+                                 :amount_column,
+                                 :item_column,
+                                 :unit_column,
+                                 :rate_column,
+                                 :remind_me,
+                                 :_destroy],
                 excel_attributes: [:id,
                                    :document])
   end

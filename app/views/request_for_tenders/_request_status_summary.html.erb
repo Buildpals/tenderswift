@@ -37,9 +37,7 @@
         </div>
         <div class="col-sm-4 text-center">
           <% if @request.deadline_over? %>
-
-              <a href='#' class='btn btn-lg btn-success'>Compare bids</a>
-
+                <%= link_to 'Compare Bids', compare_bids_path(@request), class: 'btn btn-lg btn-success' %>
           <% else %>
 
               <div data-toggle="tooltip" data-placement="bottom"

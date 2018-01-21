@@ -3,29 +3,6 @@
 </div>
 
 
-<div class="d-flex w-100">
-  <%= form_with(model: @request, local: true, id: 'some-form', class: 'form-inline ml-auto') do |form| %>
-
-      <div class="form-group">
-        <%= form.label :budget, class: 'mr-2' %>
-        <%= form.hidden_field :budget_currency, value: @request.contract_sum_currency %>
-        <div class="input-group input-group-sm">
-          <span class="input-group-addon" id="sizing-addon1">
-            <%= @request.contract_sum_currency %>
-          </span>
-          <%= form.text_field :budget, id: :request_budget,
-                              class: 'form-control', data: {'save-on-change': true} %>
-          <span class="input-group-btn">
-          <%= form.submit 'Calculate Budget Differences', class: 'btn btn-primary' %>
-        </span>
-        </div>
-      </div>
-
-
-  <% end %>
-</div>
-
-
 
 <br/>
 <br/>

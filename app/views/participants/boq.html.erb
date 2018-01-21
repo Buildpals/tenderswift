@@ -1,29 +1,49 @@
+<script src="//rawgit.com/SheetJS/js-xlsx/master/dist/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/handsontable/0.34.5/handsontable.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/handsontable/0.34.5/handsontable.min.css"/>
+
 <% if @participant.status.in? %w(participating bid_made) %>
-    
-    <div class="card mb-4">
-      <div class="card-header">
-        <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
-          <% @participant.boq.pages.each_with_index do |page, index| %>
-              <li class="nav-item">
-                <a class="nav-link  <%= 'active' if index == 0 %>" id="page-<%= page.id %>-tab" data-toggle="tab"
-                   href="#page-<%= page.id %>-content" role="tab" aria-controls="page-<%= page.id %>-tab-content">
-                  <%= page.name %>
-                </a>
-              </li>
-          <% end %>
-        </ul>
-      </div>
-
-      <div class="tab-content mb-5" id="myTabContent">
-        <% @participant.boq.pages.each_with_index do |page, index| %>
-            <div class="tab-pane <%= 'show active' if index == 0 %>"
-                 id="page-<%= page.id %>-content" role="tabpanel" aria-labelledby="page-<%= page.id %>-tab">
-
-              <div id="sheet-<%= page.id %>"></div>
-
-            </div>
-        <% end %>
-      </div>
+    <div id="boq-excel">
     </div>
 
+    <div class="content-boq">
+        <%= @participant.boq.workbook_data %>
+    </div>
+
+    <div class="buttons row">
+    </div>
+    <div class="row pull-right">
+        <p>Contract Sum:  <strong>GH </strong></p>
+        <div class="contract-sum">
+        </div>
+    </div>
+
+    <span class="rate_column">
+        <%= get_index_of_alphabet(@participant.boq.rate_column.to_s) %>
+    </span>
+    <span class="quantity_column">
+        <%= get_index_of_alphabet(@participant.boq.quantity_column.to_s) %>
+    </span>
+    <span class="amount_column">
+         <%= get_index_of_alphabet(@participant.boq.amount_column.to_s) %>
+    </span>
+    <span class="item_column">
+         <%= get_index_of_alphabet(@participant.boq.item_column.to_s) %>
+    </span>
+    <span class="boq_id">
+        <%= @participant.boq.id %>
+    </span>
+    <span class="participant_id">
+        <%= @participant.id %>
+    </span>
+    <span class="sheet-name"></span>
+
+<script>
+var container = $('#boq-excel');
+var excelData = JSON.parse($('.content-boq').text());
+displaySheet(excelData, 0);
+ 
+</script>
+
 <% end %>
+
