@@ -49,7 +49,7 @@ class ParticipantsController < ApplicationController
     rates = @participant.rates.where(boq: @participant.request_for_tender.boq)
     unless rates.nil?
         contract_sum = 0.0
-        rates.each { |rate| contract_sum = contract_sum + rate.value.to_f }
+        rates.each { |rate| contract_sum = contract_sum + ( rate.value.to_f * rate.quantity.to_f ) }
         @participant.contract_sum = contract_sum
     end
     respond_to do |format|

@@ -189,35 +189,3 @@ function displaySheet (data, sheetidx){
     });
     make_buttons(data, data.SheetNames);
 }
-
-/* 
-1. Ask QS for the rate column
-*/
-
-$('.submit-your-bid').click( function(e){
-    $.ajax({
-        url: "/participants/contract_sum/"+$('.participant_auth').text()+"/",
-        type: "PATCH",
-        data: { 
-            participants: {
-                    contract_sum: parseFloat($('.contract-sum').text())
-                }
-            },
-        success: function(response){
-            console.log(response);
-        },
-        error: function(response){
-            console.log(response);
-        }
-    });
-});
-
-
-/* 
- New way off doing the contract sum.
- ===================================
- 1. Load all rates of the contractor oninit from DB
- 2. Read through sheetJS (json) and do the calculation for the amount then add it up
- to get the contract sum.
- 3. Do this Sunday Evening! 
-*/
