@@ -2,9 +2,14 @@
               scope: :request_for_tender,
               url: update_tender_boq_path(@request),
               method: :patch,
+              local: true,
               id: 'request-form' do |form| %>
 
-    <p class="text-muted small">
+  <%= render 'layouts/create_tender_navigation', location: 'top', request: @request, form: form %>
+
+  <p class="text-center">Contract Sum: <strong>GHC </strong><span class="contract-sum"></span></p>
+
+  <p class="text-muted small">
         Upload the Bill of Quantities for the project or create one using the templates provided.
         <button type="button" class="btn btn-info pull-right" data-toggle="modal" data-target="#qunatityColumnModal">
             Describe Boq
@@ -108,6 +113,7 @@
         </div>
     </div>
 
+  <%= render 'layouts/create_tender_navigation', location: 'bottom', request: @request, form: form %>
 <% end %>
 
 

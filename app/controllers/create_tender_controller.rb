@@ -10,12 +10,14 @@ class CreateTenderController < ApplicationController
   end
 
   def update_tender_information
-    respond_to do |format|
-      if @request.update(request_params)
-        format.js
+    if @request.update(request_params)
+      if params[:commit] == 'Next'
+        redirect_to edit_tender_documents_path(@request)
       else
-        format.js
+        redirect_to edit_tender_information_path(@request)
       end
+    else
+      render :edit_tender_information
     end
   end
 
@@ -27,13 +29,16 @@ class CreateTenderController < ApplicationController
   end
 
   def update_tender_documents
-    respond_to do |format|
-      if @request.update(request_params)
-        format.html {redirect_to edit_tender_documents_path(@request), notice: 'All changes saved.'}
-        format.js
+    if @request.update(request_params)
+      if params[:commit] == 'Back'
+        redirect_to edit_tender_information_path(@request)
+      elsif params[:commit] == 'Next'
+        redirect_to edit_tender_boq_path(@request)
       else
-        format.js
+        redirect_to edit_tender_documents_path(@request)
       end
+    else
+      render :edit_tender_documents
     end
   end
 
@@ -45,13 +50,16 @@ class CreateTenderController < ApplicationController
   end
 
   def update_tender_boq
-    respond_to do |format|
-      if @request.update(request_params)
-        format.html {redirect_to edit_tender_boq_path(@request), notice: 'All changes saved.'}
-        format.js
+    if @request.update(request_params)
+      if params[:commit] == 'Back'
+        redirect_to edit_tender_documents_path(@request)
+      elsif params[:commit] == 'Next'
+        redirect_to edit_tender_questionnaire_path(@request)
       else
-        format.js
+        redirect_to edit_tender_boq_path(@request)
       end
+    else
+      render :edit_tender_boq
     end
   end
 
@@ -63,12 +71,16 @@ class CreateTenderController < ApplicationController
   end
 
   def update_tender_questionnaire
-    respond_to do |format|
-      if @request.update(request_params)
-        format.js
+    if @request.update(request_params)
+      if params[:commit] == 'Back'
+        redirect_to edit_tender_boq_path(@request)
+      elsif params[:commit] == 'Next'
+        redirect_to edit_tender_participants_path(@request)
       else
-        format.js
+        redirect_to edit_tender_questionnaire_path(@request)
       end
+    else
+      render :edit_tender_questionnaire
     end
   end
 
@@ -79,12 +91,14 @@ class CreateTenderController < ApplicationController
 
 
   def update_tender_participants
-    respond_to do |format|
-      if @request.update(request_params)
-        format.js
+    if @request.update(request_params)
+      if params[:commit] == 'Back'
+        redirect_to edit_tender_questionnaire_path(@request)
       else
-        format.js
+        redirect_to edit_tender_participants_path
       end
+    else
+      render :edit_tender_participants
     end
   end
 

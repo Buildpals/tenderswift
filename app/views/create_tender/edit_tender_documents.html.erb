@@ -2,9 +2,10 @@
               scope: :request_for_tender,
               url: update_tender_documents_path(@request),
               method: :patch,
+              local: true,
               id: 'request-form' do |form| %>
 
-    <%= render 'layouts/create_tender_navigation', location: 'top', request: @request %>
+    <%= render 'layouts/create_tender_navigation', location: 'top', request: @request, form: form %>
 
     <p class="text-muted small">
       Upload any documents that you want the contractor to use in deciding his bid here.
@@ -27,5 +28,5 @@
     </div>
 
 
-    <%= render 'layouts/create_tender_navigation', location: 'bottom', request: @request %>
+    <%= render 'layouts/create_tender_navigation', location: 'bottom', request: @request, form: form %>
 <% end %>

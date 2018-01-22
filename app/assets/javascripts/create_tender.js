@@ -1,17 +1,3 @@
-function showLoadingIndicator () {
-  $('.loading-indicator').removeClass('hidden')
-  $('.saved-indicator').addClass('hidden')
-  $('.next-button').addClass('disabled')
-}
-
-function hideLoadingIndicator () {
-  $('.loading-indicator').addClass('hidden')
-  $('.saved-indicator').removeClass('hidden')
-  $('.next-button').removeClass('disabled')
-  $('#request-form').trigger('reinitialize.areYouSure');
-  $('#request-form').find('input[type="submit"]').attr({ 'disabled': true });
-}
-
 $(document).on('turbolinks:load', function () {
   if ($('.create_tender').length === 0) return
 
