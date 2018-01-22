@@ -5,7 +5,8 @@ class RatesController < ApplicationController
   # GET /rates.json
   def index
     @rate = Rate.new(rate_params)
-    @rates = Rate.where(participant_id: @rate.participant_id).where(boq_id: @rate.boq_id).where(sheet_name: @rate.sheet_name)
+    @rates = Rate.where(participant_id: @rate.participant_id).where(boq_id: @rate.boq_id)
+    #@rates = Rate.where(participant_id: @rate.participant_id).where(boq_id: @rate.boq_id).where(sheet_name: @rate.sheet_name)
     render json: @rates
   end
 
@@ -79,6 +80,6 @@ class RatesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def rate_params
-      params.require(:rate).permit(:boq_id, :sheet_name, :row_number, :value, :participant_id)
+      params.require(:rate).permit(:boq_id, :sheet_name, :row_number, :value, :participant_id, :quantity)
     end
 end

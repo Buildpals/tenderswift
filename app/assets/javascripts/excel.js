@@ -51,6 +51,8 @@ function make_buttons (data, sheetnames) {
 };
 
 var contractSum = 0.0;
+var contractorRates = [];
+var isRatesLoaded = false;
 
 function displaySheet (data, sheetidx){
     json = process_wb(data, sheetidx);
@@ -61,6 +63,10 @@ function displaySheet (data, sheetidx){
     var amountColumn = parseInt($('.amount_column').text());
     var itemColumn = parseInt($('.item_column').text());
     var quantityColumn = parseInt($('.quantity_column').text());
+
+    if(sheetidx == 0){
+        $('.sheet-name').text(data.SheetNames[0]);
+    }
 
     json.forEach(function(row){
         remove(row, row[amountColumn]);
@@ -86,7 +92,6 @@ function displaySheet (data, sheetidx){
             if(col !== rateColumn){
               cellProperties.readOnly = 'true';
               cellProperties.contextMenu = 'true';
-              //cellProperties.type = 'numeric';
           }
           return cellProperties;
         },
@@ -97,24 +102,43 @@ function displaySheet (data, sheetidx){
                 data: { 
                     rate: {
                             boq_id: parseInt($('.boq_id').text()),
-                            participant_id: parseInt($('.participant_id').text()),
-                            sheet_name: data.SheetNames[sheetidx]
+                            participant_id: parseInt($('.participant_id').text())
+                            //sheet_name: data.SheetNames[sheetidx]
                             }
                     },
                 success: function(response){ 
-                    console.log(response);
+                    //console.log(response);
                     if (response.length > 0){
-                        for(i=0; i <= response.length; i++){
-                            row_number = response[i].row_number - 1;
-                            quantity = json[row_number][quantityColumn];
-                            rate = response[i].value;
-                            json[row_number][rateColumn] = rate;
-                            json[row_number][amountColumn] = quantity * rate;
-                            contractSum = contractSum + json[row_number][amountColumn];
-                            excelTable.loadData(json);
-                            $('.contract-sum').text(contractSum);
+                        for(i=0; i < response.length; i++){
+                            result = response[i];
+                            const contractorRate = new Object();
+                            contractorRate.quantity = result.quantity;
+                            contractorRate.value = result.value;
+                            contractorRate.sheetName = result.sheet_name;
+                            contractorRate.rowNumber = result.row_number;
+                            contractorRate.participantId = result.participant_id;
+                            contractorRates.push(contractorRate);
+                            if(contractorRate.sheetName == $('.sheet-name').text()){
+                                row_number = parseInt(response[i].row_number) - 1;
+                                quantity = json[row_number][quantityColumn];
+                                rate = parseFloat(response[i].value);
+                                json[row_number][rateColumn] = rate;
+                                json[row_number][amountColumn] = parseInt(quantity) * parseFloat(rate);
+                                excelTable.loadData(json);
+                            }
+
                         }
+
+                        if(!isRatesLoaded){
+                            for(i=0; i < contractorRates.length; i++){
+                                isRatesLoaded = true;
+                                contractSum = contractSum + ( contractorRates[i].value * contractorRates[i].quantity );
+                            }
+                        }
+                        $('.contract-sum').text(contractSum);
+
                     }
+                    console.log(response);
                 },
                 error: function(response){
                     console.log(response);
@@ -140,6 +164,7 @@ function displaySheet (data, sheetidx){
                                     sheet_name: $('.sheet-name').text(),
                                     row_number: parseInt(row) + 1,
                                     participant_id: parseInt($('.participant_id').text()),
+                                    quantity: parseFloat(json[row][quantityColumn]),
                                     value: newVal
                                     }
                             },
@@ -164,7 +189,3 @@ function displaySheet (data, sheetidx){
     });
     make_buttons(data, data.SheetNames);
 }
-
-/* 
-1. Ask QS for the rate column
-*/

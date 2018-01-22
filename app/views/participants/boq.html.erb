@@ -18,6 +18,10 @@
         </div>
     </div>
 
+    <div class="participant_auth">
+        <%= @participant.auth_token %>
+    </div>
+
     <span class="rate_column">
         <%= get_index_of_alphabet(@participant.boq.rate_column.to_s) %>
     </span>
@@ -32,9 +36,6 @@
     </span>
     <span class="boq_id">
         <%= @participant.boq.id %>
-    </span>
-    <span class="participant_id">
-        <%= @participant.id %>
     </span>
     <span class="sheet-name"></span>
 
