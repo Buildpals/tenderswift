@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180123134255) do
+ActiveRecord::Schema.define(version: 20180123134502) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -67,7 +67,7 @@ ActiveRecord::Schema.define(version: 20180123134255) do
     t.string "quantity_column", default: "C"
     t.boolean "remind_me", default: false
     t.string "rate_column", default: "E"
-    t.string "amount_column"
+    t.string "amount_column", default: "F"
     t.float "contract_sum", default: 0.0
     t.string "item_column", default: "A"
     t.string "unit_column"
