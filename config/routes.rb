@@ -32,11 +32,6 @@ Rails.application.routes.draw do
   get 'bids/:id/questionnaire', to: 'bids#questionnaire', as: 'bid_questionnaire'
   get 'bids/:id/information', to: 'bids#contractor_information', as: 'bid_contractor_information'
 
-
-  get '/email_request_for_tender/:id',
-      to: 'request_for_tenders#email_request_for_tender',
-      as: 'email_request_for_tender'
-
   get '/show_interest_in_request_for_tender/:id',
       to: 'participants#show_interest_in_request_for_tender',
       as: 'show_interest_in_request_for_tender'

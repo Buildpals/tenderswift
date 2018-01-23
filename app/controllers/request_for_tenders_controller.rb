@@ -1,7 +1,6 @@
 class RequestForTendersController < ApplicationController
   before_action :set_request, only: [:show,
-                                     :destroy,
-                                     :email_request_for_tender]
+                                     :destroy]
 
   before_action :authenticate_quantity_surveyor!
 
@@ -56,13 +55,6 @@ class RequestForTendersController < ApplicationController
   def update
     respond_to do |format|
       if @request.update(request_params)
-        format.html {
-            if params[:commit] == 'Send Request Out'
-              redirect_to email_request_for_tender_path(@request)
-            elsif params[:commit] == 'Calculate Budget Differences'
-              redirect_to @request
-            end
-        }
         format.json { render :show, status: :ok, location: @request }
         format.js
       else
@@ -82,39 +74,6 @@ class RequestForTendersController < ApplicationController
       format.json { head :no_content }
     end
   end
-
-
-  # GET /email_request_for_tender/1
-  def email_request_for_tender
-    if @request.submitted?
-      redirect_to @request,
-                  notice: 'The participants of this request have been contacted already'
-    elsif @request.participants.empty?
-      redirect_to edit_tender_participants_path(@request),
-                  alert: 'You did not specify any participants in this request.'
-    else
-      if @request.chatroom.nil?
-        create_chat_room_for @request
-      end
-      #create default broadcast message for the request
-      broadcast = BroadcastMessage.new
-      broadcast.content = DEFAULT_BROADCAST_CONTENT
-      broadcast.chatroom = @request.chatroom
-      broadcast.save!
-
-      @request.participants.each do |participant|
-        # Tell the ParticipantMailer to send a request_for_tender email
-        ParticipantMailer.request_for_tender_email(participant, @request).deliver_later
-      end
-
-      BroadcastEmailJob.perform_later(broadcast) #send another mail about the default broadcast message
-
-      @request.update(submitted: true)
-      redirect_to @request, notice: 'An email has been sent to each participant of this request.'
-    end
-  end
-
-
 
   def set_winner
     request = RequestForTender.find(params[:id])

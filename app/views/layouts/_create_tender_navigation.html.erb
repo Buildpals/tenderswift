@@ -24,10 +24,8 @@
     <%= form.submit 'Save', class: 'btn btn-primary next-button text-uppercase' %>
 
     <% if action_name == 'edit_tender_participants' %>
-      <%= link_to 'Send to Participants',
-                  email_request_for_tender_path(request),
-                  class: 'btn btn-secondary text-uppercase',
-                  data: {confirm: 'Send out this request for tender means all listed participants will immediately have access to this particular Request For Tender and as a result can start placing their bids. Are you sure you want to do so?'} %>
+      <%= form.submit 'Send to Participants', class: 'btn btn-secondary text-uppercase',
+                      data: { confirm: 'Send out this request for tender means all listed participants will immediately have access to this particular Request For Tender and as a result can start placing their bids. Are you sure you want to do so?'} %>
     <% else %>
       <%= form.submit 'Next', class: 'btn btn-primary next-button text-uppercase' %>
     <% end %>

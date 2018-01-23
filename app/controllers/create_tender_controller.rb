@@ -4,6 +4,7 @@ class CreateTenderController < ApplicationController
 
   before_action :authenticate_quantity_surveyor!
 
+  DEFAULT_BROADCAST_CONTENT = "If you have any questions you can reply me here".freeze
 
   def edit_tender_information
     @next_path = edit_tender_documents_path(@request)
@@ -94,6 +95,8 @@ class CreateTenderController < ApplicationController
     if @request.update(request_params)
       if params[:commit] == 'Back'
         redirect_to edit_tender_questionnaire_path(@request)
+      elsif params[:commit] == 'Send to Participants'
+        email_participants
       else
         redirect_to edit_tender_participants_path
       end
@@ -102,11 +105,43 @@ class CreateTenderController < ApplicationController
     end
   end
 
+  private
+
+  def email_participants
+    if @request.submitted?
+      redirect_to @request,
+                  notice: 'The participants of this request have been contacted already'
+    elsif @request.participants.empty?
+      redirect_to edit_tender_participants_path(@request),
+                  alert: 'You did not specify any participants for the request.'
+    else
+      send_emails_to_participants
+      redirect_to @request, notice: 'An email has been sent to each participant of this request.'
+    end
+  end
 
   # Use callbacks to share common setup or constraints between actions.
   def set_request
     @request = RequestForTender.find(params[:id])
     @participant = GuestParticipant.new(@request)
+  end
+
+  def send_emails_to_participants
+    create_chat_room_for @request if @request.chatroom.nil?
+
+    # Create default broadcast message for the request
+    broadcast = BroadcastMessage.new
+    broadcast.content = DEFAULT_BROADCAST_CONTENT
+    broadcast.chatroom = @request.chatroom
+    broadcast.save!
+
+    @request.participants.each do |participant|
+      ParticipantMailer.request_for_tender_email(participant, @request).deliver_later
+    end
+
+    BroadcastEmailJob.perform_later(broadcast) # Send another mail about the default broadcast message
+
+    @request.update(submitted: true)
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.
@@ -137,7 +172,7 @@ class CreateTenderController < ApplicationController
                                        :can_attach_documents,
                                        :mandatory,
                                        :_destroy],
-                boq_attributes: [:id, 
+                boq_attributes: [:id,
                                  :workbook_data,
                                  :quantity_column,
                                  :amount_column,
