@@ -190,7 +190,7 @@ Sheet Navigation for Excels
     margin-right: 1%;
 }
 
-.content-boq, .rate_column, .quantity_column, .boq_id, .participant_id, .sheet-name, .amount_column, .quantity_surveyor_id, .unit_column, .request_for_tender_participants, .item_column {
+.content-boq, .rate_column, .quantity_column, .boq_id, .participant_id, .sheet-name, .amount_column, .quantity_surveyor_id, .unit_column, .request_for_tender_participants, .item_column, .total-bid, .boq-contract-sum, .qs-company-name {
     display: none;
 }
 
@@ -203,4 +203,8 @@ Sheet Navigation for Excels
 }
 .make-me-orange {
     color: #f48c42;
+}
+
+#container.handsontable table{
+    width:100%;
 }

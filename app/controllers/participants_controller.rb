@@ -50,7 +50,7 @@ class ParticipantsController < ApplicationController
     unless rates.nil?
         contract_sum = 0.0
         rates.each { |rate| contract_sum = contract_sum + ( rate.value.to_f * rate.quantity.to_f ) }
-        @participant.contract_sum = contract_sum
+        @participant.total_bid = contract_sum
     end
     respond_to do |format|
       if @participant.update(participant_params)
