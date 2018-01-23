@@ -3,15 +3,19 @@
 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/handsontable/0.34.5/handsontable.min.css"/>
 
 <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-8">
+    <div class="col-md-12">
         <div id="boq-excel">
         </div>
 
         <div class="content-boq">
             <%= @boq.workbook_data %>
         </div>
-
+        <div class="boq-contract-sum">
+            <%= @boq.contract_sum %>
+        </div>
+        <div class="qs-company-name">
+            <%= @boq.request_for_tender.quantity_surveyor.company_name %>
+        </div>
         <div class="buttons row">
         </div>
 
@@ -43,13 +47,13 @@
                             <li row="<%= r.row_number %>" class="<%= r.sheet_name %>"><%= r.value %></li>
                         <% end %>
                     </ul>
+                    <p class="total-bid"><%= p.total_bid %></p>
                 </div>
             <% end %>
         </div>
 
         <span class="sheet-name"></span>
     </div>
-    <div class="col-md-2"></div>
 </div>
 
 <script>
@@ -92,7 +96,6 @@
 
     var container = $('#boq-excel');
     var excelData = JSON.parse($('.content-boq').text());
-    var listOfParticipants = [];
 
     function remove(array, element) {
         const index = array.indexOf(element);    
@@ -153,6 +156,9 @@
         var quantityColumn = parseInt($('.quantity_column').text());
         var itemColumn = parseInt($('.item_column').text());
         var displayRatesColumn = parseInt($('.rate_column').text() - 1);
+        var listOfParticipants = [];
+        var participantTotalBids = [];
+
         if(sheetidx == 0){
             $('.sheet-name').text(data.SheetNames[0]);
         }
@@ -163,11 +169,15 @@
             remove(row,row[unitColumn]);
             var participantCompanyName;
             if(row[itemColumn] == 'Item' || row[itemColumn] == 'item'){ //if the row has a item header
-                remove(json, json[index]);
+                row[itemColumn] = "";
+                row[quantityColumn] = "";
+                row[quantityColumn - 1] = "";
+                row[row.length - 1] = "";
                 $('.request_for_tender_participants').children().each(function (i, e){
                     participantCompanyName = $(this).attr('class');
                     listOfParticipants.push(participantCompanyName);
                     firstPartOfCompanyName = participantCompanyName.split(' ')[0];
+                    participantTotalBids.push($('.'+firstPartOfCompanyName+'').children()[1].innerHTML);
                     participantRates.set(participantCompanyName, $('.'+firstPartOfCompanyName+'').children().children());
                 });
             }
@@ -176,7 +186,7 @@
                     for(i = 0; i < value.length; i++){
                         if(value[i].className == $('.sheet-name').text()){
                             rowNumber = parseInt(value[i].getAttribute('row')); //get row Number
-                            sheetRowNumber = index + 2 //get the actually row number on the excel (we add two becasue the sheet number is behind our row number by one and remember we delete the item row from the excel)
+                            sheetRowNumber = index + 1 //get the actually row number on the excel (we add two becasue the sheet number is behind our row number by one and remember we delete the item row from the excel)
                             if(sheetRowNumber == rowNumber){ //check row number
                                 participantPostion = listOfParticipants.indexOf(key);
                                 if(participantPostion == 0){
@@ -191,16 +201,14 @@
             }
 
         });
-        //customize excel to display rates
-        json[1][itemColumn] = "Item";
-        json[1][2] = "Description";
-        json[1][quantityColumn] = "Qty";
-        json[1][displayRatesColumn] = "RATES";
-        json[2][displayRatesColumn] = "Your Rates";
-        listOfParticipants.forEach(function (participant, index){
-            json[2].push(participant);
+        json[0][itemColumn] = "Item";
+        json[0][2] = "Description";
+        json[0][quantityColumn] = "Qty";
+        json[0][displayRatesColumn] = "RATES";
+        json[1][displayRatesColumn] = $('.qs-company-name').text() + " GHC "+$('.boq-contract-sum').text();
+        listOfParticipants.forEach(function (participantName, index){
+            json[1].push(participantName + " GHC "+ participantTotalBids[index]+ " ");
         });
-        //console.log(json[2]);
 
         excelTable = new Handsontable(document.getElementById('boq-excel'), {
             data: json,
@@ -213,7 +221,7 @@
             colWidths: [30, 20, 500],
             width: function () { return calculateScreenWidth(); },
             height: function () { return calculateScreenHeight(); },
-            mergeCells: [{row:1, col: parseInt($('.rate_column').text() - 1), rowspan: 1, colspan: listOfParticipants.length}],
+            mergeCells: [{row:0, col: parseInt($('.rate_column').text() - 1), rowspan: 1, colspan: listOfParticipants.length}],
             cells: function(row, col, prop){
                 var cellProperties = {};
                 rateColumn = parseInt($('.rate_column').text());
@@ -224,7 +232,7 @@
                 if(col >= rateColumn){ 
                     cellProperties.renderer = "differenceValueRenderer"; 
                 }
-                if(row == 1){
+                if(row == 0){
                      cellProperties.renderer = "rateRenderer";
                 }
                 return cellProperties;
