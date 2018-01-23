@@ -1,60 +1,62 @@
 <script src="//rawgit.com/SheetJS/js-xlsx/master/dist/xlsx.full.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/handsontable/0.34.5/handsontable.min.js"></script>
 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/handsontable/0.34.5/handsontable.min.css"/>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div id="boq-excel">
+            </div>
 
-<div class="row">
-    <div class="col-md-12">
-        <div id="boq-excel">
-        </div>
+            <div class="content-boq">
+                <%= @boq.workbook_data %>
+            </div>
+            <div class="boq-contract-sum">
+                <%= @boq.contract_sum %>
+            </div>
+            <div class="qs-company-name">
+                <%= @boq.request_for_tender.quantity_surveyor.company_name %>
+            </div>
+            <div class="buttons row">
+            </div>
 
-        <div class="content-boq">
-            <%= @boq.workbook_data %>
-        </div>
-        <div class="boq-contract-sum">
-            <%= @boq.contract_sum %>
-        </div>
-        <div class="qs-company-name">
-            <%= @boq.request_for_tender.quantity_surveyor.company_name %>
-        </div>
-        <div class="buttons row">
-        </div>
+            <span class="item_column">
+                <%= get_index_of_alphabet(@boq.item_column.to_s) %>
+            </span>
 
-        <span class="item_column">
-            <%= get_index_of_alphabet(@boq.item_column.to_s) %>
-        </span>
+            <span class="rate_column">
+                <%= get_index_of_alphabet(@boq.rate_column.to_s) %>
+            </span>
+            <span class="quantity_column">
+                <%= get_index_of_alphabet(@boq.quantity_column.to_s) %>
+            </span>
+            <span class="amount_column">
+                <%= get_index_of_alphabet(@boq.amount_column.to_s) %>
+            </span>
+            <span class="unit_column">
+                <%= get_index_of_alphabet(@boq.unit_column.to_s) %>
+            </span>
+            <span class="boq_id">
+                <%= @boq.id %>
+            </span>
+            
+            <div class="request_for_tender_participants">
+                <% @participants.each do |p| %>
+                    <div class="<%= p.company_name %>">
+                        <ul>
+                            <% p.rates.each do |r| %>
+                                <li row="<%= r.row_number %>" class="<%= r.sheet_name %>"><%= r.value %></li>
+                            <% end %>
+                        </ul>
+                        <p class="total-bid"><%= p.total_bid %></p>
+                    </div>
+                <% end %>
+            </div>
 
-        <span class="rate_column">
-            <%= get_index_of_alphabet(@boq.rate_column.to_s) %>
-        </span>
-        <span class="quantity_column">
-            <%= get_index_of_alphabet(@boq.quantity_column.to_s) %>
-        </span>
-        <span class="amount_column">
-            <%= get_index_of_alphabet(@boq.amount_column.to_s) %>
-        </span>
-        <span class="unit_column">
-            <%= get_index_of_alphabet(@boq.unit_column.to_s) %>
-        </span>
-        <span class="boq_id">
-            <%= @boq.id %>
-        </span>
-        
-        <div class="request_for_tender_participants">
-            <% @participants.each do |p| %>
-                <div class="<%= p.company_name %>">
-                    <ul>
-                        <% p.rates.each do |r| %>
-                            <li row="<%= r.row_number %>" class="<%= r.sheet_name %>"><%= r.value %></li>
-                        <% end %>
-                    </ul>
-                    <p class="total-bid"><%= p.total_bid %></p>
-                </div>
-            <% end %>
+            <span class="sheet-name"></span>
         </div>
-
-        <span class="sheet-name"></span>
     </div>
 </div>
+
 
 <script>
     function to_json(workbook) {
@@ -143,8 +145,24 @@
     }
 
 
+    var listOfParticipants = [];
+    var participantTotalBids = [];
+    var participantRates = new Map();
+
+
+    $('.request_for_tender_participants').children().each(function (i, e){
+        participantCompanyName = $(this).attr('class');
+        listOfParticipants.push(participantCompanyName);
+        firstPartOfCompanyName = participantCompanyName.split(' ')[0];
+        participantTotalBids.push($('.'+firstPartOfCompanyName+'').children()[1].innerHTML);
+        participantRates.set(participantCompanyName, $('.'+firstPartOfCompanyName+'').children().children());
+    });
+
+
     Handsontable.renderers.registerRenderer('differenceValueRenderer', differenceValueRenderer);
     Handsontable.renderers.registerRenderer('rateRenderer', rateRenderer);
+
+    console.log(listOfParticipants);
 
     function display(data, sheetidx){
         json = process_wb(data, sheetidx);
@@ -156,43 +174,43 @@
         var quantityColumn = parseInt($('.quantity_column').text());
         var itemColumn = parseInt($('.item_column').text());
         var displayRatesColumn = parseInt($('.rate_column').text() - 1);
-        var listOfParticipants = [];
-        var participantTotalBids = [];
+
 
         if(sheetidx == 0){
             $('.sheet-name').text(data.SheetNames[0]);
         }
-        var participantRates = new Map();
         
         json.forEach(function(row, index) {
-            remove(row,row[amountColumn]);
-            remove(row,row[unitColumn]);
+            remove(row,row[amountColumn - 1]);
             var participantCompanyName;
-            if(row[itemColumn] == 'Item' || row[itemColumn] == 'item'){ //if the row has a item header
+            if(index == 0){ //if the row has a item header
                 row[itemColumn] = "";
                 row[quantityColumn] = "";
                 row[quantityColumn - 1] = "";
                 row[row.length - 1] = "";
-                $('.request_for_tender_participants').children().each(function (i, e){
-                    participantCompanyName = $(this).attr('class');
-                    listOfParticipants.push(participantCompanyName);
-                    firstPartOfCompanyName = participantCompanyName.split(' ')[0];
-                    participantTotalBids.push($('.'+firstPartOfCompanyName+'').children()[1].innerHTML);
-                    participantRates.set(participantCompanyName, $('.'+firstPartOfCompanyName+'').children().children());
-                });
             }
             if(row.length > 3){
                 for (var [key, value] of participantRates.entries()) {
-                    for(i = 0; i < value.length; i++){
-                        if(value[i].className == $('.sheet-name').text()){
-                            rowNumber = parseInt(value[i].getAttribute('row')); //get row Number
-                            sheetRowNumber = index + 1 //get the actually row number on the excel (we add two becasue the sheet number is behind our row number by one and remember we delete the item row from the excel)
-                            if(sheetRowNumber == rowNumber){ //check row number
-                                participantPostion = listOfParticipants.indexOf(key);
-                                if(participantPostion == 0){
-                                    row[row.length] = value[i].innerHTML;
-                                }else{
-                                    row[(row.length - 1) + participantPostion] = value[i].innerHTML;
+                    if( value.length == 0){ //contractor has not submitted anything
+                        participantPostion = listOfParticipants.indexOf(key);
+                        if(participantPostion == 0){
+                            row[row.length] = "N/A";
+                        }else{
+                            row[(row.length - 1) + participantPostion] = "N/A";
+                        }
+                    }
+                    else{
+                        for(i = 0; i < value.length; i++){
+                            if(value[i].className == $('.sheet-name').text()){
+                                rowNumber = parseInt(value[i].getAttribute('row')); //get row Number
+                                sheetRowNumber = index + 1 //get the actually row number on the excel (we add two becasue the sheet number is behind our row number by one and remember we delete the item row from the excel)
+                                if(sheetRowNumber == rowNumber){ //check row number
+                                    participantPostion = listOfParticipants.indexOf(key);
+                                    if(participantPostion == 0){
+                                        row[row.length] = value[i].innerHTML;
+                                    }else{
+                                        row[(row.length - 1) + participantPostion] = value[i].innerHTML;
+                                    }
                                 }
                             }
                         }
@@ -201,27 +219,44 @@
             }
 
         });
+        console.log(participantRates);
         json[0][itemColumn] = "Item";
         json[0][2] = "Description";
-        json[0][quantityColumn] = "Qty";
+        json[0][quantityColumn] = "Unit";
+        json[0][quantityColumn - 1] = "Qty";
         json[0][displayRatesColumn] = "RATES";
-        json[1][displayRatesColumn] = $('.qs-company-name').text() + " GHC "+$('.boq-contract-sum').text();
+        json[1][displayRatesColumn] = $('.qs-company-name').text() + "\n GHC "+$('.boq-contract-sum').text().trim();
         listOfParticipants.forEach(function (participantName, index){
-            json[1].push(participantName + " GHC "+ participantTotalBids[index]+ " ");
+            json[1][displayRatesColumn + (index + 1)] = "\n "+ participantName+ " \n " + " \n GHC "+ participantTotalBids[index]+ " ";
         });
 
         excelTable = new Handsontable(document.getElementById('boq-excel'), {
             data: json,
             startRows: 5,
             startCols: 3,
-            stretchH: 'all',
+            // stretchH: 'all',
             rowHeaders: true,
             colHeaders: true,
             fixedColumnsLeft: 3,
-            colWidths: [30, 20, 500],
-            width: function () { return calculateScreenWidth(); },
-            height: function () { return calculateScreenHeight(); },
-            mergeCells: [{row:0, col: parseInt($('.rate_column').text() - 1), rowspan: 1, colspan: listOfParticipants.length}],
+            fixedRowsTop: 2,
+            // colWidths: [60, 20, 550, 60, 60],
+            colWidths: function (index) {
+                if (index === 0) {
+                    return 60
+                } else if (index == 1) {
+                    return 550
+                } else if (index == 2) {
+                    return 60
+                } else if (index == 3) {
+                    return 60
+                } else {
+                    return 100
+                }
+
+            },
+            // width: function () { return calculateScreenWidth(); },
+            // height: function () { return calculateScreenHeight(); },
+            mergeCells: [{row:0, col: parseInt($('.rate_column').text() - 1), rowspan: 1, colspan: listOfParticipants.length + 1}],
             cells: function(row, col, prop){
                 var cellProperties = {};
                 rateColumn = parseInt($('.rate_column').text());

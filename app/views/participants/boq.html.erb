@@ -37,14 +37,8 @@
     <span class="boq_id">
         <%= @participant.boq.id %>
     </span>
+    <span class="participant_id"><%= @participant.id %></span>
     <span class="sheet-name"></span>
-
-<script>
-var container = $('#boq-excel');
-var excelData = JSON.parse($('.content-boq').text());
-displaySheet(excelData, 0);
- 
-</script>
 
 <% end %>
 

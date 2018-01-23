@@ -28,7 +28,7 @@ class RatesController < ApplicationController
   # POST /rates.json
   def create
     @rate = Rate.new(rate_params) 
-    old_rate = Rate.where(participant_id: @rate.participant_id).where(boq_id: @rate.boq_id).where(row_number: @rate.row_number).first
+    old_rate = Rate.where(participant_id: @rate.participant_id).where(boq_id: @rate.boq_id).where(row_number: @rate.row_number).where(sheet_name: @rate.sheet_name).first
     puts old_rate.nil?
     puts @rate.inspect
     if old_rate.nil?
