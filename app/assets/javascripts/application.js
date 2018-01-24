@@ -49,3 +49,4 @@
 //= require excel
 //= require participants
 //= require bids
+//= require compare_bids

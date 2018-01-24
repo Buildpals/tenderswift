@@ -56,27 +56,7 @@ class Participant < ApplicationRecord
   end
 
   def bid
-    sum = 0
-
-    request_for_tender.boq.items.each do |item|
-      filled_item = FilledItem.find_by(participant: self, item: item)
-
-      if filled_item
-        rate = filled_item.rate
-      else
-        rate = 0
-      end
-
-      if item.quantity.present?
-        amount = rate * item.quantity
-      else
-        amount = rate
-      end
-
-      sum += amount
-    end
-
-    sum
+    total_bid
   end
 
   def bid_difference
