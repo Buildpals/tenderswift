@@ -116,4 +116,12 @@ class RequestForTender < ApplicationRecord
     disqualified_participants
   end
 
+  def budget_currency_symbol
+    if budget_currency == 'USD'
+      return '$'
+    else
+      return 'GH₵'
+    end
+  end
+
 end

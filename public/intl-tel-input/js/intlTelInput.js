@@ -84,7 +84,7 @@
             if (this.options.nationalMode) {
                 this.options.autoHideDialCode = false;
             }
-            // if separateDialCode then doesn't make sense to A) insert dial code into input (autoHideDialCode), and B) display national numbers (because we're displaying the country dial code next to them)
+            // if separateDialCode then doesn't make sense to A) insert dial code into input (autoHideDialCode), and B) displaySeet national numbers (because we're displaying the country dial code next to them)
             if (this.options.separateDialCode) {
                 this.options.autoHideDialCode = this.options.nationalMode = false;
             }

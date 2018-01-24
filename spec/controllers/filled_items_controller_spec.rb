@@ -87,7 +87,7 @@ RSpec.describe FilledItemsController, type: :controller do
     end
 
     context "with invalid params" do
-      it "returns a success response (i.e. to display the 'new' template)" do
+      it "returns a success response (i.e. to displaySeet the 'new' template)" do
         post :create, params: {filled_item: invalid_attributes}, session: valid_session
         expect(response).to be_success
       end
@@ -115,7 +115,7 @@ RSpec.describe FilledItemsController, type: :controller do
     end
 
     context "with invalid params" do
-      it "returns a success response (i.e. to display the 'edit' template)" do
+      it "returns a success response (i.e. to displaySeet the 'edit' template)" do
         filled_item = FilledItem.create! valid_attributes
         put :update, params: {id: filled_item.to_param, filled_item: invalid_attributes}, session: valid_session
         expect(response).to be_success

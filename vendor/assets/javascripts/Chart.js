@@ -3891,7 +3891,7 @@ module.exports = function(Chart) {
 			var aspectRatio = (options.maintainAspectRatio && me.aspectRatio) || null;
 
 			// the canvas render width and height will be casted to integers so make sure that
-			// the canvas display style uses the same integer values to avoid blurring effect.
+			// the canvas displaySheet style uses the same integer values to avoid blurring effect.
 			var newWidth = Math.floor(helpers.getMaximumWidth(canvas));
 			var newHeight = Math.floor(aspectRatio? newWidth / aspectRatio : helpers.getMaximumHeight(canvas));
 
@@ -5859,7 +5859,7 @@ module.exports = function(Chart) {
 		canvas.width = width * pixelRatio;
 		chart.ctx.scale(pixelRatio, pixelRatio);
 
-		// If no style has been set on the canvas, the render size is used as display size,
+		// If no style has been set on the canvas, the render size is used as displaySheet size,
 		// making the chart visually bigger, so let's enforce it to the "correct" values.
 		// See https://github.com/chartjs/Chart.js/issues/3575
 		canvas.style.height = height + 'px';
@@ -7169,7 +7169,7 @@ module.exports = function(Chart) {
 	 * @method IPlugin#resize
 	 * @desc Called after the chart as been resized.
 	 * @param {Chart.Controller} chart - The chart instance.
-	 * @param {Number} size - The new canvas display size (eq. canvas.style width & height).
+	 * @param {Number} size - The new canvas displaySheet size (eq. canvas.style width & height).
 	 * @param {Object} options - The plugin options.
 	 */
 	/**
@@ -7233,7 +7233,7 @@ module.exports = function(Chart) {
 			// actual label
 			labelString: '',
 
-			// display property
+			// displaySheet property
 			display: false
 		},
 
@@ -7618,7 +7618,7 @@ module.exports = function(Chart) {
 			return rawValue;
 		},
 
-		// Used to get the value to display in the tooltip for the data at the given index
+		// Used to get the value to displaySheet in the tooltip for the data at the given index
 		// function getLabelForIndex(index, datasetIndex)
 		getLabelForIndex: helpers.noop,
 
@@ -8026,7 +8026,7 @@ module.exports = function(Chart) {
 			 * @interface INumericTickGenerationOptions
 			 */
 			/**
-			 * The maximum number of ticks to display
+			 * The maximum number of ticks to displaySheet
 			 * @name INumericTickGenerationOptions#maxTicks
 			 * @type Number
 			 */
@@ -8159,8 +8159,8 @@ module.exports = function(Chart) {
 			/**
 			 * Formatter for value labels
 			 * @method Chart.Ticks.formatters.values
-			 * @param value the value to display
-			 * @return {String|Array} the label to display
+			 * @param value the value to displaySheet
+			 * @return {String|Array} the label to displaySheet
 			 */
 			values: function(value) {
 				return helpers.isArray(value) ? value : '' + value;
@@ -9691,7 +9691,7 @@ module.exports = function(Chart) {
 	 * been performed. This method uses the computed style of `element` but returns undefined
 	 * if the computed style is not expressed in pixels. That can happen in some cases where
 	 * `element` has a size relative to its parent and this last one is not yet displayed,
-	 * for example because of `display: none` on a parent node.
+	 * for example because of `displaySheet: none` on a parent node.
 	 * @see https://developer.mozilla.org/en-US/docs/Web/CSS/used_value
 	 * @returns {Number} Size in pixels or undefined if unknown.
 	 */
@@ -9702,7 +9702,7 @@ module.exports = function(Chart) {
 	}
 
 	/**
-	 * Initializes the canvas style and render size without modifying the canvas display size,
+	 * Initializes the canvas style and render size without modifying the canvas displaySheet size,
 	 * since responsiveness is handled by the controller.resize() method. The config is used
 	 * to determine the aspect ratio to apply in case no explicit height has been specified.
 	 */
@@ -9727,7 +9727,7 @@ module.exports = function(Chart) {
 			}
 		};
 
-		// Force canvas to display as block to avoid extra space caused by inline
+		// Force canvas to displaySheet as block to avoid extra space caused by inline
 		// elements, which would interfere with the responsive resize process.
 		// https://github.com/chartjs/Chart.js/issues/2538
 		style.display = style.display || 'block';
@@ -9776,7 +9776,7 @@ module.exports = function(Chart) {
 		var iframe = document.createElement('iframe');
 		iframe.className = 'chartjs-hidden-iframe';
 		iframe.style.cssText =
-			'display:block;'+
+			'displaySheet:block;'+
 			'overflow:hidden;'+
 			'border:0;'+
 			'margin:0;'+
@@ -10364,7 +10364,7 @@ module.exports = function(Chart) {
 			padding: 10,
 			// Generates labels shown in the legend
 			// Valid properties to return:
-			// text : text to display
+			// text : text to displaySheet
 			// fillStyle : fill of coloured box
 			// strokeStyle: stroke of coloured box
 			// hidden : if this legend item refers to a hidden item
@@ -12480,7 +12480,7 @@ module.exports = function(Chart) {
 	 * Helper for generating axis labels.
 	 * @param options {ITimeGeneratorOptions} the options for generation
 	 * @param dataRange {IRange} the data range
-	 * @param niceRange {IRange} the pretty range to display
+	 * @param niceRange {IRange} the pretty range to displaySheet
 	 * @return {Number[]} ticks
 	 */
 	function generateTicks(options, dataRange, niceRange) {

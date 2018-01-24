@@ -14580,22 +14580,22 @@ body {
 /**
  * Fix for bootstrap styles
  */
-/* line 32, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 32, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable .table th, .handsontable .table td {
   border-top: none;
 }
 
-/* line 36, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 36, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable tr {
   background: #fff;
 }
 
-/* line 40, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 40, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable td {
   background-color: inherit;
 }
 
-/* line 44, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 44, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .table caption + thead tr:first-child th,
 .table caption + thead tr:first-child td,
 .table colgroup + thead tr:first-child th,
@@ -14606,31 +14606,31 @@ body {
 }
 
 /* table-bordered */
-/* line 54, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 54, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable .table-bordered {
   border: 0;
   border-collapse: separate;
 }
 
-/* line 59, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 59, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable .table-bordered th,
 .handsontable .table-bordered td {
   border-left: none;
 }
 
-/* line 64, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 64, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable .table-bordered th:first-child,
 .handsontable .table-bordered td:first-child {
   border-left: 1px solid #CCCCCC;
 }
 
-/* line 69, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 69, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
   line-height: 21px;
   padding: 0 4px;
 }
 
-/* line 74, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 74, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .col-lg-1.handsontable, .col-lg-10.handsontable, .col-lg-11.handsontable, .col-lg-12.handsontable,
 .col-lg-2.handsontable, .col-lg-3.handsontable, .col-lg-4.handsontable, .col-lg-5.handsontable, .col-lg-6.handsontable, .col-lg-7.handsontable, .col-lg-8.handsontable, .col-lg-9.handsontable,
 .col-md-1.handsontable, .col-md-10.handsontable, .col-md-11.handsontable, .col-md-12.handsontable,
@@ -14643,27 +14643,27 @@ body {
   padding-right: 0;
 }
 
-/* line 86, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 86, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .table-striped > tbody > tr:nth-of-type(even) {
   background-color: #FFF;
 }
 
-/* line 89, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 89, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable {
   position: relative;
 }
 
-/* line 93, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 93, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable .hide {
   display: none;
 }
 
-/* line 96, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 96, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable .relative {
   position: relative;
 }
 
-/* line 100, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 100, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable.htAutoSize {
   visibility: hidden;
   left: -99000px;
@@ -14671,12 +14671,12 @@ body {
   top: -99000px;
 }
 
-/* line 107, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 107, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable .wtHider {
   width: 0;
 }
 
-/* line 111, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 111, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable .wtSpreader {
   position: relative;
   width: 0;
@@ -14684,7 +14684,7 @@ body {
   height: auto;
 }
 
-/* line 117, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 117, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable table,
 .handsontable tbody,
 .handsontable thead,
@@ -14698,13 +14698,13 @@ body {
   -moz-box-sizing: content-box;
 }
 
-/* line 130, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 130, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable input,
 .handsontable textarea {
   min-height: initial;
 }
 
-/* line 135, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 135, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable table.htCore {
   border-collapse: separate;
   /* it must be separate, otherwise there are offset miscalculations in WebKit: http://stackoverflow.com/questions/2655987/border-collapse-differences-in-ff-and-webkit */
@@ -14727,17 +14727,17 @@ body {
   max-height: none;
 }
 
-/* line 156, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 156, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable col {
   width: 50px;
 }
 
-/* line 160, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 160, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable col.rowHeader {
   width: 50px;
 }
 
-/* line 164, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 164, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable th,
 .handsontable td {
   border-top-width: 0;
@@ -14758,25 +14758,25 @@ body {
   background-clip: padding-box;
 }
 
-/* line 184, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 184, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable td.htInvalid {
   background-color: #ff4c42 !important;
   /*gives priority over td.area selection background*/
 }
 
-/* line 188, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 188, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable td.htNoWrap {
   white-space: nowrap;
 }
 
-/* line 192, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 192, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable th:last-child {
   /*Foundation framework fix*/
   border-right: 1px solid #CCC;
   border-bottom: 1px solid #CCC;
 }
 
-/* line 198, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 198, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable tr:first-child th.htNoFrame,
 .handsontable th:first-child.htNoFrame,
 .handsontable th.htNoFrame {
@@ -14785,7 +14785,7 @@ body {
   border-color: #FFF;
 }
 
-/* line 206, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 206, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable th:first-child,
 .handsontable th:nth-child(2),
 .handsontable td:first-of-type,
@@ -14794,24 +14794,24 @@ body {
   border-left: 1px solid #CCC;
 }
 
-/* line 214, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 214, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable.htRowHeaders thead tr th:nth-child(2) {
   border-left: 1px solid #CCC;
 }
 
-/* line 218, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 218, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable tr:first-child th,
 .handsontable tr:first-child td {
   border-top: 1px solid #CCC;
 }
 
-/* line 223, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 223, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .ht_master:not(.innerBorderLeft):not(.emptyColumns) ~ .handsontable tbody tr th,
 .ht_master:not(.innerBorderLeft):not(.emptyColumns) ~ .handsontable:not(.ht_clone_top) thead tr th:first-child {
   border-right-width: 0;
 }
 
-/* line 228, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 228, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .ht_master:not(.innerBorderTop) thead tr:last-child th,
 .ht_master:not(.innerBorderTop) ~ .handsontable thead tr:last-child th,
 .ht_master:not(.innerBorderTop) thead tr.lastChild th,
@@ -14819,7 +14819,7 @@ body {
   border-bottom-width: 0;
 }
 
-/* line 235, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 235, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable th {
   background-color: #f3f3f3;
   color: #222;
@@ -14828,29 +14828,29 @@ body {
   white-space: nowrap;
 }
 
-/* line 243, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 243, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable thead th {
   padding: 0;
 }
 
-/* line 247, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 247, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable th.active {
   background-color: #CCC;
 }
 
-/* line 250, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 250, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable thead th .relative {
   padding: 2px 4px;
 }
 
 /* selection */
-/* line 255, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 255, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable tbody th.ht__highlight,
 .handsontable thead th.ht__highlight {
   background-color: #dcdcdc;
 }
 
-/* line 259, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 259, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable.ht__selection--columns thead th.ht__highlight,
 .handsontable.ht__selection--rows tbody th.ht__highlight {
   background-color: #8eb0e7;
@@ -14859,7 +14859,7 @@ body {
 
 /* plugins */
 /* row + column resizer*/
-/* line 268, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 268, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable .manualColumnResizer {
   position: fixed;
   top: 0;
@@ -14869,7 +14869,7 @@ body {
   height: 25px;
 }
 
-/* line 277, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 277, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable .manualRowResizer {
   position: fixed;
   left: 0;
@@ -14879,7 +14879,7 @@ body {
   width: 50px;
 }
 
-/* line 286, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 286, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable .manualColumnResizer:hover,
 .handsontable .manualColumnResizer.active,
 .handsontable .manualRowResizer:hover,
@@ -14887,7 +14887,7 @@ body {
   background-color: #AAB;
 }
 
-/* line 293, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 293, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable .manualColumnResizerGuide {
   position: fixed;
   right: 0;
@@ -14899,7 +14899,7 @@ body {
   margin-left: 5px;
 }
 
-/* line 304, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 304, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable .manualRowResizerGuide {
   position: fixed;
   left: 0;
@@ -14911,25 +14911,25 @@ body {
   margin-top: 5px;
 }
 
-/* line 315, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 315, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable .manualColumnResizerGuide.active,
 .handsontable .manualRowResizerGuide.active {
   display: block;
   z-index: 199;
 }
 
-/* line 321, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 321, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable .columnSorting {
   position: relative;
 }
 
-/* line 325, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 325, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable .columnSorting:hover {
   text-decoration: underline;
   cursor: pointer;
 }
 
-/* line 330, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 330, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable .columnSorting.ascending::after {
   content: '\25B2';
   color: #5f5f5f;
@@ -14937,7 +14937,7 @@ body {
   right: -15px;
 }
 
-/* line 337, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 337, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable .columnSorting.descending::after {
   content: '\25BC';
   color: #5f5f5f;
@@ -14946,18 +14946,18 @@ body {
 }
 
 /* border line */
-/* line 346, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 346, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable .wtBorder {
   position: absolute;
   font-size: 0;
 }
 
-/* line 350, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 350, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable .wtBorder.hidden {
   display: none !important;
 }
 
-/* line 354, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 354, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable td.area {
   /* FF3.6+ */
   /* Chrome,Safari4+ */
@@ -14973,20 +14973,20 @@ body {
 }
 
 /* fill handle */
-/* line 367, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 367, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable .wtBorder.corner {
   font-size: 0;
   cursor: crosshair;
 }
 
-/* line 372, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 372, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable .htBorder.htFillBorder {
   background: red;
   width: 1px;
   height: 1px;
 }
 
-/* line 378, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 378, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontableInput {
   border: none;
   outline-width: 0;
@@ -15006,7 +15006,7 @@ body {
   /*overwrite styles potentionally made by a framework*/
 }
 
-/* line 396, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 396, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontableInputHolder {
   position: absolute;
   top: 0;
@@ -15014,7 +15014,7 @@ body {
   z-index: 100;
 }
 
-/* line 403, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 403, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .htSelectEditor {
   -webkit-appearance: menulist-button !important;
   position: absolute;
@@ -15024,17 +15024,17 @@ body {
 /*
 TextRenderer readOnly cell
 */
-/* line 413, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 413, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable .htDimmed {
   color: #777;
 }
 
-/* line 417, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 417, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable .htSubmenu {
   position: relative;
 }
 
-/* line 421, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 421, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable .htSubmenu :after {
   content: '\25B6';
   color: #777;
@@ -15045,22 +15045,22 @@ TextRenderer readOnly cell
 /*
 TextRenderer horizontal alignment
 */
-/* line 432, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 432, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable .htLeft {
   text-align: left;
 }
 
-/* line 435, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 435, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable .htCenter {
   text-align: center;
 }
 
-/* line 438, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 438, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable .htRight {
   text-align: right;
 }
 
-/* line 441, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 441, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable .htJustify {
   text-align: justify;
 }
@@ -15068,17 +15068,17 @@ TextRenderer horizontal alignment
 /*
 TextRenderer vertical alignment
 */
-/* line 447, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 447, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable .htTop {
   vertical-align: top;
 }
 
-/* line 450, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 450, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable .htMiddle {
   vertical-align: middle;
 }
 
-/* line 453, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 453, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable .htBottom {
   vertical-align: bottom;
 }
@@ -15086,7 +15086,7 @@ TextRenderer vertical alignment
 /*
 TextRenderer placeholder value
 */
-/* line 461, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 461, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable .htPlaceholder {
   color: #999;
 }
@@ -15094,7 +15094,7 @@ TextRenderer placeholder value
 /*
 AutocompleteRenderer down arrow
 */
-/* line 469, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 469, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable .htAutocompleteArrow {
   float: right;
   font-size: 10px;
@@ -15104,12 +15104,12 @@ AutocompleteRenderer down arrow
   text-align: center;
 }
 
-/* line 478, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 478, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable td .htAutocompleteArrow:hover {
   color: #777;
 }
 
-/* line 482, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 482, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable td.area .htAutocompleteArrow {
   color: #d3d3d3;
 }
@@ -15117,18 +15117,18 @@ AutocompleteRenderer down arrow
 /*
 CheckboxRenderer
 */
-/* line 489, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 489, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable .htCheckboxRendererInput {
   display: inline-block;
   vertical-align: middle;
 }
 
-/* line 493, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 493, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable .htCheckboxRendererInput.noValue {
   opacity: 0.5;
 }
 
-/* line 496, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 496, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable .htCheckboxRendererLabel {
   cursor: pointer;
   display: inline-block;
@@ -15141,43 +15141,43 @@ CheckboxRenderer
   }
   to {
     opacity: 0;
-    /*display: none;*/
+    /*displaySeet: none;*/
   }
 }
 @keyframes opacity-hide {
   from {
-    /*display: block;*/
+    /*displaySeet: block;*/
     opacity: 1;
   }
   to {
     opacity: 0;
-    /*display: none;*/
+    /*displaySeet: none;*/
   }
 }
 @-webkit-keyframes opacity-show {
   from {
     opacity: 0;
-    /*display: none;*/
+    /*displaySeet: none;*/
   }
   to {
     opacity: 1;
-    /*display: block;*/
+    /*displaySeet: block;*/
   }
 }
 @keyframes opacity-show {
   from {
     opacity: 0;
-    /*display: none;*/
+    /*displaySeet: none;*/
   }
   to {
     opacity: 1;
-    /*display: block;*/
+    /*displaySeet: block;*/
   }
 }
 /**
  * Handsontable in Handsontable
  */
-/* line 547, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 547, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable .handsontable.ht_clone_top .wtHider {
   padding: 0 0 5px 0;
 }
@@ -15185,12 +15185,12 @@ CheckboxRenderer
 /**
 * Autocomplete Editor
 */
-/* line 554, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 554, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable .autocompleteEditor.handsontable {
   padding-right: 17px;
 }
 
-/* line 557, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 557, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable .autocompleteEditor.handsontable.htMacScroll {
   padding-right: 15px;
 }
@@ -15198,19 +15198,19 @@ CheckboxRenderer
 /**
  * Handsontable listbox theme
  */
-/* line 566, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 566, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable.listbox {
   margin: 0;
 }
 
-/* line 570, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 570, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable.listbox .ht_master table {
   border: 1px solid #ccc;
   border-collapse: separate;
   background: white;
 }
 
-/* line 576, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 576, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable.listbox th,
 .handsontable.listbox tr:first-child th,
 .handsontable.listbox tr:last-child th,
@@ -15219,53 +15219,53 @@ CheckboxRenderer
   border-color: transparent;
 }
 
-/* line 584, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 584, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable.listbox th,
 .handsontable.listbox td {
   white-space: nowrap;
   text-overflow: ellipsis;
 }
 
-/* line 590, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 590, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable.listbox td.htDimmed {
   cursor: default;
   color: inherit;
   font-style: inherit;
 }
 
-/* line 596, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 596, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable.listbox .wtBorder {
   visibility: hidden;
 }
 
-/* line 600, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 600, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable.listbox tr td.current,
 .handsontable.listbox tr:hover td {
   background: #eee;
 }
 
-/* line 605, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 605, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .ht_clone_top {
   z-index: 101;
 }
 
-/* line 609, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 609, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .ht_clone_left {
   z-index: 102;
 }
 
-/* line 613, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 613, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .ht_clone_top_left_corner,
 .ht_clone_bottom_left_corner {
   z-index: 103;
 }
 
-/* line 618, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 618, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .ht_clone_debug {
   z-index: 103;
 }
 
-/* line 622, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 622, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable td.htSearchResult {
   background: #fcedd9;
   color: #583707;
@@ -15274,53 +15274,53 @@ CheckboxRenderer
 /*
 Cell borders
 */
-/* line 630, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 630, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .htBordered {
   /*box-sizing: border-box !important;*/
   border-width: 1px;
 }
 
-/* line 634, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 634, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .htBordered.htTopBorderSolid {
   border-top-style: solid;
   border-top-color: #000;
 }
 
-/* line 638, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 638, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .htBordered.htRightBorderSolid {
   border-right-style: solid;
   border-right-color: #000;
 }
 
-/* line 642, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 642, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .htBordered.htBottomBorderSolid {
   border-bottom-style: solid;
   border-bottom-color: #000;
 }
 
-/* line 646, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 646, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .htBordered.htLeftBorderSolid {
   border-left-style: solid;
   border-left-color: #000;
 }
 
-/* line 651, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 651, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable tbody tr th:nth-last-child(2) {
   border-right: 1px solid #CCC;
 }
 
-/* line 655, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 655, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable thead tr:nth-last-child(2) th.htGroupIndicatorContainer {
   border-bottom: 1px solid #CCC;
   padding-bottom: 5px;
 }
 
-/* line 661, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 661, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .ht_clone_top_left_corner thead tr th:nth-last-child(2) {
   border-right: 1px solid #CCC;
 }
 
-/* line 665, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 665, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .htCollapseButton {
   width: 10px;
   height: 10px;
@@ -15335,7 +15335,7 @@ Cell borders
   position: relative;
 }
 
-/* line 679, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 679, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .htCollapseButton:after {
   content: "";
   height: 300%;
@@ -15348,7 +15348,7 @@ Cell borders
   bottom: 10px;
 }
 
-/* line 692, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 692, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 thead .htCollapseButton {
   right: 5px;
   position: absolute;
@@ -15356,7 +15356,7 @@ thead .htCollapseButton {
   background: #fff;
 }
 
-/* line 699, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 699, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 thead .htCollapseButton:after {
   height: 1px;
   width: 700%;
@@ -15364,7 +15364,7 @@ thead .htCollapseButton:after {
   top: 4px;
 }
 
-/* line 706, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 706, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable tr th .htExpandButton {
   position: absolute;
   width: 10px;
@@ -15380,18 +15380,18 @@ thead .htCollapseButton:after {
   display: none;
 }
 
-/* line 721, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 721, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable thead tr th .htExpandButton {
   /*left: 5px;*/
   top: 5px;
 }
 
-/* line 726, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 726, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable tr th .htExpandButton.clickable {
   display: block;
 }
 
-/* line 730, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 730, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .collapsibleIndicator {
   position: absolute;
   top: 50%;
@@ -15411,24 +15411,24 @@ thead .htCollapseButton:after {
   background: #eee;
 }
 
-/* line 749, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 749, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable col.hidden {
   width: 0 !important;
 }
 
-/* line 753, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 753, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable table tr th.lightRightBorder {
   border-right: 1px solid #E6E6E6;
 }
 
-/* line 757, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 757, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable tr.hidden,
 .handsontable tr.hidden td,
 .handsontable tr.hidden th {
   display: none;
 }
 
-/* line 763, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 763, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .ht_master,
 .ht_clone_left,
 .ht_clone_top,
@@ -15436,18 +15436,18 @@ thead .htCollapseButton:after {
   overflow: hidden;
 }
 
-/* line 770, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 770, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .ht_master .wtHolder {
   overflow: auto;
 }
 
-/* line 774, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 774, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .ht_clone_left .wtHolder {
   overflow-x: hidden;
   overflow-y: auto;
 }
 
-/* line 779, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 779, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .ht_clone_top .wtHolder,
 .ht_clone_bottom .wtHolder {
   overflow-x: auto;
@@ -15455,12 +15455,12 @@ thead .htCollapseButton:after {
 }
 
 /*WalkontableDebugOverlay*/
-/* line 788, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 788, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .wtDebugHidden {
   display: none;
 }
 
-/* line 792, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 792, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .wtDebugVisible {
   display: block;
   -webkit-animation-duration: 0.5s;
@@ -15502,7 +15502,7 @@ thead .htCollapseButton:after {
  Handsontable Mobile Text Editor stylesheet
 
  */
-/* line 839, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 839, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable.mobile,
 .handsontable.mobile .wtHolder {
   -webkit-touch-callout: none;
@@ -15514,7 +15514,7 @@ thead .htCollapseButton:after {
   -webkit-overflow-scrolling: touch;
 }
 
-/* line 851, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 851, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .htMobileEditorContainer {
   display: none;
   position: absolute;
@@ -15530,14 +15530,14 @@ thead .htCollapseButton:after {
   -webkit-text-size-adjust: none;
 }
 
-/* line 866, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 866, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .topLeftSelectionHandle:not(.ht_master .topLeftSelectionHandle),
 .topLeftSelectionHandle-HitArea:not(.ht_master .topLeftSelectionHandle-HitArea) {
   z-index: 9999;
 }
 
 /* Initial left/top coordinates - overwritten when actual position is set */
-/* line 872, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 872, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .topLeftSelectionHandle,
 .topLeftSelectionHandle-HitArea,
 .bottomRightSelectionHandle,
@@ -15546,12 +15546,12 @@ thead .htCollapseButton:after {
   top: -10000px;
 }
 
-/* line 880, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 880, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .htMobileEditorContainer.active {
   display: block;
 }
 
-/* line 884, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 884, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .htMobileEditorContainer .inputs {
   position: absolute;
   right: 210pt;
@@ -15561,7 +15561,7 @@ thead .htCollapseButton:after {
   height: 34pt;
 }
 
-/* line 893, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 893, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .htMobileEditorContainer .inputs textarea {
   font-size: 13pt;
   border: 1px solid #a1a1a1;
@@ -15576,7 +15576,7 @@ thead .htCollapseButton:after {
   padding: 7pt;
 }
 
-/* line 908, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 908, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .htMobileEditorContainer .cellPointer {
   position: absolute;
   top: -13pt;
@@ -15588,12 +15588,12 @@ thead .htCollapseButton:after {
   border-bottom: 13pt solid #ebebeb;
 }
 
-/* line 920, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 920, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .htMobileEditorContainer .cellPointer.hidden {
   display: none;
 }
 
-/* line 924, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 924, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .htMobileEditorContainer .cellPointer:before {
   content: '';
   display: block;
@@ -15607,7 +15607,7 @@ thead .htCollapseButton:after {
   border-bottom: 13pt solid #f8f8f8;
 }
 
-/* line 938, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 938, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .htMobileEditorContainer .moveHandle {
   position: absolute;
   top: 10pt;
@@ -15618,7 +15618,7 @@ thead .htCollapseButton:after {
   z-index: 9999;
 }
 
-/* line 948, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 948, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .htMobileEditorContainer .moveHandle:after {
   content: "..\A..\A..\A..";
   white-space: pre;
@@ -15629,7 +15629,7 @@ thead .htCollapseButton:after {
   color: #ebebeb;
 }
 
-/* line 958, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 958, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .htMobileEditorContainer .positionControls {
   width: 205pt;
   position: absolute;
@@ -15638,14 +15638,14 @@ thead .htCollapseButton:after {
   bottom: 0;
 }
 
-/* line 966, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 966, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .htMobileEditorContainer .positionControls > div {
   width: 50pt;
   height: 100%;
   float: left;
 }
 
-/* line 972, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 972, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .htMobileEditorContainer .positionControls > div:after {
   content: " ";
   display: block;
@@ -15655,7 +15655,7 @@ thead .htCollapseButton:after {
   line-height: 50pt;
 }
 
-/* line 981, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 981, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .htMobileEditorContainer .leftButton:after,
 .htMobileEditorContainer .rightButton:after,
 .htMobileEditorContainer .upButton:after,
@@ -15665,7 +15665,7 @@ thead .htCollapseButton:after {
   margin: 21pt 0 0 21pt;
 }
 
-/* line 990, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 990, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .htMobileEditorContainer .leftButton:after {
   border-top: 2px solid #288ffe;
   border-left: 2px solid #288ffe;
@@ -15674,12 +15674,12 @@ thead .htCollapseButton:after {
   /*margin-left: 20pt;*/
 }
 
-/* line 997, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 997, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .htMobileEditorContainer .leftButton:active:after {
   border-color: #cfcfcf;
 }
 
-/* line 1001, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 1001, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .htMobileEditorContainer .rightButton:after {
   border-top: 2px solid #288ffe;
   border-left: 2px solid #288ffe;
@@ -15688,12 +15688,12 @@ thead .htCollapseButton:after {
   /*margin-left: 10pt;*/
 }
 
-/* line 1008, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 1008, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .htMobileEditorContainer .rightButton:active:after {
   border-color: #cfcfcf;
 }
 
-/* line 1012, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 1012, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .htMobileEditorContainer .upButton:after {
   /*border-top: 2px solid #cfcfcf;*/
   border-top: 2px solid #288ffe;
@@ -15703,12 +15703,12 @@ thead .htCollapseButton:after {
   /*margin-left: 15pt;*/
 }
 
-/* line 1020, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 1020, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .htMobileEditorContainer .upButton:active:after {
   border-color: #cfcfcf;
 }
 
-/* line 1024, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 1024, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .htMobileEditorContainer .downButton:after {
   border-top: 2px solid #288ffe;
   border-left: 2px solid #288ffe;
@@ -15717,12 +15717,12 @@ thead .htCollapseButton:after {
   /*margin-left: 15pt;*/
 }
 
-/* line 1031, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 1031, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .htMobileEditorContainer .downButton:active:after {
   border-color: #cfcfcf;
 }
 
-/* line 1035, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 1035, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable.hide-tween {
   -webkit-animation: opacity-hide 0.3s;
   animation: opacity-hide 0.3s;
@@ -15730,7 +15730,7 @@ thead .htCollapseButton:after {
   -webkit-animation-fill-mode: forwards;
 }
 
-/* line 1042, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 1042, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable.show-tween {
   -webkit-animation: opacity-show 0.3s;
   animation: opacity-show 0.3s;
@@ -15742,7 +15742,7 @@ thead .htCollapseButton:after {
  * Pikaday
  * Copyright © 2014 David Bushell | BSD & MIT license | http://dbushell.com/
  */
-/* line 1055, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 1055, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .pika-single {
   z-index: 9999;
   display: block;
@@ -15758,49 +15758,49 @@ thead .htCollapseButton:after {
 clear child float (pika-lendar), using the famous micro clearfix hack
 http://nicolasgallagher.com/micro-clearfix-hack/
 */
-/* line 1070, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 1070, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .pika-single:before,
 .pika-single:after {
   content: " ";
   display: table;
 }
 
-/* line 1075, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 1075, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .pika-single:after {
   clear: both;
 }
 
-/* line 1076, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 1076, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .pika-single {
   *zoom: 1;
 }
 
-/* line 1078, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 1078, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .pika-single.is-hidden {
   display: none;
 }
 
-/* line 1082, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 1082, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .pika-single.is-bound {
   position: absolute;
   -webkit-box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.5);
           box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.5);
 }
 
-/* line 1087, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 1087, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .pika-lendar {
   float: left;
   width: 240px;
   margin: 8px;
 }
 
-/* line 1093, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 1093, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .pika-title {
   position: relative;
   text-align: center;
 }
 
-/* line 1098, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 1098, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .pika-label {
   display: inline-block;
   *display: inline;
@@ -15815,7 +15815,7 @@ http://nicolasgallagher.com/micro-clearfix-hack/
   background-color: #fff;
 }
 
-/* line 1111, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 1111, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .pika-title select {
   cursor: pointer;
   position: absolute;
@@ -15827,7 +15827,7 @@ http://nicolasgallagher.com/micro-clearfix-hack/
   opacity: 0;
 }
 
-/* line 1122, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 1122, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .pika-prev,
 .pika-next {
   display: block;
@@ -15851,13 +15851,13 @@ http://nicolasgallagher.com/micro-clearfix-hack/
   *top: 0;
 }
 
-/* line 1145, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 1145, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .pika-prev:hover,
 .pika-next:hover {
   opacity: 1;
 }
 
-/* line 1150, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 1150, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .pika-prev,
 .is-rtl .pika-next {
   float: left;
@@ -15865,7 +15865,7 @@ http://nicolasgallagher.com/micro-clearfix-hack/
   *left: 0;
 }
 
-/* line 1157, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 1157, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .pika-next,
 .is-rtl .pika-prev {
   float: right;
@@ -15873,20 +15873,20 @@ http://nicolasgallagher.com/micro-clearfix-hack/
   *right: 0;
 }
 
-/* line 1164, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 1164, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .pika-prev.is-disabled,
 .pika-next.is-disabled {
   cursor: default;
   opacity: .2;
 }
 
-/* line 1170, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 1170, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .pika-select {
   display: inline-block;
   *display: inline;
 }
 
-/* line 1175, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 1175, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .pika-table {
   width: 100%;
   border-collapse: collapse;
@@ -15894,14 +15894,14 @@ http://nicolasgallagher.com/micro-clearfix-hack/
   border: 0;
 }
 
-/* line 1182, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 1182, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .pika-table th,
 .pika-table td {
   width: 14.285714285714286%;
   padding: 0;
 }
 
-/* line 1188, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 1188, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .pika-table th {
   color: #999;
   font-size: 12px;
@@ -15910,7 +15910,7 @@ http://nicolasgallagher.com/micro-clearfix-hack/
   text-align: center;
 }
 
-/* line 1196, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 1196, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .pika-button {
   cursor: pointer;
   display: block;
@@ -15929,19 +15929,19 @@ http://nicolasgallagher.com/micro-clearfix-hack/
   background: #f5f5f5;
 }
 
-/* line 1213, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 1213, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .pika-week {
   font-size: 11px;
   color: #999;
 }
 
-/* line 1218, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 1218, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .is-today .pika-button {
   color: #33aaff;
   font-weight: bold;
 }
 
-/* line 1223, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 1223, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .is-selected .pika-button {
   color: #fff;
   font-weight: bold;
@@ -15951,12 +15951,12 @@ http://nicolasgallagher.com/micro-clearfix-hack/
   border-radius: 3px;
 }
 
-/* line 1231, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 1231, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .is-inrange .pika-button {
   background: #D5E9F7;
 }
 
-/* line 1235, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 1235, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .is-startrange .pika-button {
   color: #fff;
   background: #6CB31D;
@@ -15965,7 +15965,7 @@ http://nicolasgallagher.com/micro-clearfix-hack/
   border-radius: 3px;
 }
 
-/* line 1242, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 1242, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .is-endrange .pika-button {
   color: #fff;
   background: #33aaff;
@@ -15974,7 +15974,7 @@ http://nicolasgallagher.com/micro-clearfix-hack/
   border-radius: 3px;
 }
 
-/* line 1249, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 1249, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .is-disabled .pika-button,
 .is-outside-current-month .pika-button {
   pointer-events: none;
@@ -15983,7 +15983,7 @@ http://nicolasgallagher.com/micro-clearfix-hack/
   opacity: .3;
 }
 
-/* line 1257, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 1257, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .pika-button:hover {
   color: #fff;
   background: #ff8000;
@@ -15993,18 +15993,18 @@ http://nicolasgallagher.com/micro-clearfix-hack/
 }
 
 /* styling for abbr */
-/* line 1265, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 1265, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .pika-table abbr {
   border-bottom: none;
   cursor: help;
 }
 
-/* line 1270, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 1270, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .htCommentCell {
   position: relative;
 }
 
-/* line 1274, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 1274, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .htCommentCell:after {
   content: '';
   position: absolute;
@@ -16014,14 +16014,14 @@ http://nicolasgallagher.com/micro-clearfix-hack/
   border-top: 6px solid black;
 }
 
-/* line 1283, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 1283, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .htComments {
   display: none;
   z-index: 1059;
   position: absolute;
 }
 
-/* line 1289, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 1289, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .htCommentTextArea {
   -webkit-box-shadow: rgba(0, 0, 0, 0.117647) 0 1px 3px, rgba(0, 0, 0, 0.239216) 0 1px 2px;
           box-shadow: rgba(0, 0, 0, 0.117647) 0 1px 3px, rgba(0, 0, 0, 0.239216) 0 1px 2px;
@@ -16038,7 +16038,7 @@ http://nicolasgallagher.com/micro-clearfix-hack/
   -webkit-appearance: none;
 }
 
-/* line 1305, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 1305, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .htCommentTextArea:focus {
   -webkit-box-shadow: rgba(0, 0, 0, 0.117647) 0 1px 3px, rgba(0, 0, 0, 0.239216) 0 1px 2px, inset 0 0 0 1px #5292f7;
           box-shadow: rgba(0, 0, 0, 0.117647) 0 1px 3px, rgba(0, 0, 0, 0.239216) 0 1px 2px, inset 0 0 0 1px #5292f7;
@@ -16048,7 +16048,7 @@ http://nicolasgallagher.com/micro-clearfix-hack/
 /*!
  * Handsontable ContextMenu
  */
-/* line 1313, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 1313, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .htContextMenu {
   display: none;
   position: absolute;
@@ -16056,7 +16056,7 @@ http://nicolasgallagher.com/micro-clearfix-hack/
   /* needs to be higher than 1050 - z-index for Twitter Bootstrap modal (#1569) */
 }
 
-/* line 1319, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 1319, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .htContextMenu .ht_clone_top,
 .htContextMenu .ht_clone_left,
 .htContextMenu .ht_clone_corner,
@@ -16064,19 +16064,19 @@ http://nicolasgallagher.com/micro-clearfix-hack/
   display: none;
 }
 
-/* line 1326, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 1326, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .htContextMenu table.htCore {
   border: 1px solid #ccc;
   border-bottom-width: 2px;
   border-right-width: 2px;
 }
 
-/* line 1332, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 1332, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .htContextMenu .wtBorder {
   visibility: hidden;
 }
 
-/* line 1336, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 1336, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .htContextMenu table tbody tr td {
   background: white;
   border-width: 0;
@@ -16087,24 +16087,24 @@ http://nicolasgallagher.com/micro-clearfix-hack/
   text-overflow: ellipsis;
 }
 
-/* line 1346, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 1346, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .htContextMenu table tbody tr td:first-child {
   border: 0;
 }
 
-/* line 1350, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 1350, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .htContextMenu table tbody tr td.htDimmed {
   font-style: normal;
   color: #323232;
 }
 
-/* line 1355, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 1355, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .htContextMenu table tbody tr td.current,
 .htContextMenu table tbody tr td.zeroclipboard-is-hover {
   background: #f3f3f3;
 }
 
-/* line 1360, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 1360, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .htContextMenu table tbody tr td.htSeparator {
   border-top: 1px solid #bbb;
   height: 0;
@@ -16112,43 +16112,43 @@ http://nicolasgallagher.com/micro-clearfix-hack/
   cursor: default;
 }
 
-/* line 1367, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 1367, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .htContextMenu table tbody tr td.htDisabled {
   color: #999;
   cursor: default;
 }
 
-/* line 1372, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 1372, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .htContextMenu table tbody tr td.htDisabled:hover {
   background: #fff;
   color: #999;
   cursor: default;
 }
 
-/* line 1378, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 1378, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .htContextMenu table tbody tr.htHidden {
   display: none;
 }
 
-/* line 1382, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 1382, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .htContextMenu table tbody tr td .htItemWrapper {
   margin-left: 10px;
   margin-right: 6px;
 }
 
-/* line 1387, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 1387, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .htContextMenu table tbody tr td div span.selected {
   margin-top: -2px;
   position: absolute;
   left: 4px;
 }
 
-/* line 1393, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 1393, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .htContextMenu .ht_master .wtHolder {
   overflow: hidden;
 }
 
-/* line 1396, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 1396, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 textarea#HandsontableCopyPaste {
   position: fixed !important;
   bottom: 100% !important;
@@ -16156,25 +16156,25 @@ textarea#HandsontableCopyPaste {
   outline: 0 none !important;
 }
 
-/* line 1402, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 1402, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .htRowHeaders .ht_master.innerBorderLeft ~ .ht_clone_top_left_corner th:nth-child(2),
 .htRowHeaders .ht_master.innerBorderLeft ~ .ht_clone_left td:first-of-type {
   border-left: 0 none;
 }
 
-/* line 1406, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 1406, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable .wtHider {
   position: relative;
 }
 
-/* line 1409, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 1409, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable.ht__manualColumnMove.after-selection--columns thead th.ht__highlight {
   cursor: move;
   cursor: -webkit-grab;
   cursor: grab;
 }
 
-/* line 1415, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 1415, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable.ht__manualColumnMove.on-moving--columns,
 .handsontable.ht__manualColumnMove.on-moving--columns thead th.ht__highlight {
   cursor: move;
@@ -16182,12 +16182,12 @@ textarea#HandsontableCopyPaste {
   cursor: grabbing;
 }
 
-/* line 1422, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 1422, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable.ht__manualColumnMove.on-moving--columns .manualColumnResizer {
   display: none;
 }
 
-/* line 1425, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 1425, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable .ht__manualColumnMove--guideline,
 .handsontable .ht__manualColumnMove--backlight {
   position: absolute;
@@ -16195,7 +16195,7 @@ textarea#HandsontableCopyPaste {
   display: none;
 }
 
-/* line 1431, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 1431, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable .ht__manualColumnMove--guideline {
   background: #757575;
   width: 2px;
@@ -16204,7 +16204,7 @@ textarea#HandsontableCopyPaste {
   z-index: 105;
 }
 
-/* line 1438, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 1438, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable .ht__manualColumnMove--backlight {
   background: #343434;
   background: rgba(52, 52, 52, 0.25);
@@ -16213,25 +16213,25 @@ textarea#HandsontableCopyPaste {
   pointer-events: none;
 }
 
-/* line 1445, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 1445, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable.on-moving--columns.show-ui .ht__manualColumnMove--guideline,
 .handsontable.on-moving--columns .ht__manualColumnMove--backlight {
   display: block;
 }
 
-/* line 1449, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 1449, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable .wtHider {
   position: relative;
 }
 
-/* line 1452, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 1452, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable.ht__manualRowMove.after-selection--rows tbody th.ht__highlight {
   cursor: move;
   cursor: -webkit-grab;
   cursor: grab;
 }
 
-/* line 1458, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 1458, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable.ht__manualRowMove.on-moving--rows,
 .handsontable.ht__manualRowMove.on-moving--rows tbody th.ht__highlight {
   cursor: move;
@@ -16239,12 +16239,12 @@ textarea#HandsontableCopyPaste {
   cursor: grabbing;
 }
 
-/* line 1465, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 1465, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable.ht__manualRowMove.on-moving--rows .manualRowResizer {
   display: none;
 }
 
-/* line 1468, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 1468, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable .ht__manualRowMove--guideline,
 .handsontable .ht__manualRowMove--backlight {
   position: absolute;
@@ -16252,7 +16252,7 @@ textarea#HandsontableCopyPaste {
   display: none;
 }
 
-/* line 1474, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 1474, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable .ht__manualRowMove--guideline {
   background: #757575;
   height: 2px;
@@ -16261,7 +16261,7 @@ textarea#HandsontableCopyPaste {
   z-index: 105;
 }
 
-/* line 1481, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 1481, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable .ht__manualRowMove--backlight {
   background: #343434;
   background: rgba(52, 52, 52, 0.25);
@@ -16270,7 +16270,7 @@ textarea#HandsontableCopyPaste {
   pointer-events: none;
 }
 
-/* line 1488, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.css */
+/* line 1488, /home/peter/RubymineProjects/ds02_server/vendor/assets/stylesheets/handsontable.full.min.css */
 .handsontable.on-moving--rows.show-ui .ht__manualRowMove--guideline,
 .handsontable.on-moving--rows .ht__manualRowMove--backlight {
   display: block;
@@ -16392,7 +16392,7 @@ Loading Spinner
 ***************************************/
 /* line 90, /home/peter/RubymineProjects/ds02_server/app/assets/stylesheets/application.scss */
 #spinner {
-  /*display: none;*/
+  /*displaySeet: none;*/
   position: fixed;
   top: 45%;
   left: 45%;

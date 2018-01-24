@@ -87,7 +87,7 @@ RSpec.describe AnswerBoxesController, type: :controller do
     end
 
     context "with invalid params" do
-      it "returns a success response (i.e. to display the 'new' template)" do
+      it "returns a success response (i.e. to displaySeet the 'new' template)" do
         post :create, params: {answer_box: invalid_attributes}, session: valid_session
         expect(response).to be_success
       end
@@ -115,7 +115,7 @@ RSpec.describe AnswerBoxesController, type: :controller do
     end
 
     context "with invalid params" do
-      it "returns a success response (i.e. to display the 'edit' template)" do
+      it "returns a success response (i.e. to displaySeet the 'edit' template)" do
         answer_box = AnswerBox.create! valid_attributes
         put :update, params: {id: answer_box.to_param, answer_box: invalid_attributes}, session: valid_session
         expect(response).to be_success

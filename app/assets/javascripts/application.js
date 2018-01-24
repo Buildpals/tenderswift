@@ -25,7 +25,8 @@
 //= require cocoon
 
 
-//= require handsontable.full
+//= require xlsx.full.min
+//= require handsontable.full.min
 //= require lodash
 //= require underscore.string
 //= require moment

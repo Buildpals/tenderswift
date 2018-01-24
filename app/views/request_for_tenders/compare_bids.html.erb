@@ -17,54 +17,24 @@
 <div class="container-fluid" style="padding-left: 0px; padding-right: 15px;">
   <div class="row">
     <div class="col-md-12">
-
       <%= content_tag :div,
                       id: 'boq-excel',
                       data: {
-                          participants: @participants.as_json(include: :rates),
+                          participants: @participants.sort_by(&:total_bid).as_json(include: :rates),
                           boq: @boq.workbook_data,
                           contract_sum: @boq.contract_sum,
                           qs_company_name: @boq.request_for_tender.quantity_surveyor.company_name,
+                          currency: @request.budget_currency_symbol,
+                          boq_contract_sum: @boq.contract_sum
                       } do %>
       <% end %>
+    </div>
 
-      <div class="boq-contract-sum">
-        <%= @boq.contract_sum %>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="buttons" id="boq-buttons">
+        </div>
       </div>
-      <div class="qs-company-name">
-        <%= @boq.request_for_tender.quantity_surveyor.company_name %>
-      </div>
-
-      <span class="item_column">
-                <%= get_index_of_alphabet(@boq.item_column.to_s) %>
-      </span>
-
-      <span class="rate_column">
-                <%= get_index_of_alphabet(@boq.rate_column.to_s) %>
-            </span>
-      <span class="quantity_column">
-                <%= get_index_of_alphabet(@boq.quantity_column.to_s) %>
-            </span>
-      <span class="amount_column">
-                <%= get_index_of_alphabet(@boq.amount_column.to_s) %>
-            </span>
-      <span class="unit_column">
-                <%= get_index_of_alphabet(@boq.unit_column.to_s) %>
-            </span>
-      <span class="boq_id">
-                <%= @boq.id %>
-            </span>
-
-      <div class="buttons">
-      </div>
-
-      <span class="sheet-name"></span>
-
     </div>
   </div>
 </div>
-
-
-<script src="//rawgit.com/SheetJS/js-xlsx/master/dist/xlsx.full.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/handsontable/0.34.5/handsontable.min.js"></script>
-<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/handsontable/0.34.5/handsontable.min.css"/>

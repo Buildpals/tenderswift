@@ -95,6 +95,7 @@ class RequestForTendersController < ApplicationController
     @participants = @request.participants
     #I need all the rates for each contractor
     @rates = Rate.where(boq_id: @boq.id)
+    render layout: 'compare_bids'
   end
 
 
