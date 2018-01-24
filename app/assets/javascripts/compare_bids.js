@@ -101,20 +101,18 @@ function process_wb (wb, sheetidx) {
   return to_json(wb)[sheet]
 }
 
-function make_buttons (data, sheetnames) {
-  const $buttons = $('.buttons')
-  $buttons.html('')
-  sheetnames.forEach(function (s, idx) {
+function make_buttons (boqElement) {
+  let data = JSON.parse(boqElement.dataset.boq)
+  data.SheetNames.forEach(function (s, idx) {
+    // create buttton
     const button = $('<button/>').attr({type: 'button', name: 'btn' + idx, text: s})
     button.append(s)
     button.addClass('btn btn-small btn-primary m-2')
     button.click(function () {
-      displaySheet(data, idx)
+      displaySheet(boqElement, idx)
     })
-    $buttons.each(function (index, element) {
-      $(this).append(button)
-      $(this).append('<br/>')
-    })
+    console.log(button)
+    $(boqElement).after(button)
   })
 }
 
@@ -287,7 +285,6 @@ function displaySheet (boqElement, sheetIndex) {
   let boqContractSum = parseFloat(boqElement.dataset.boqContractSum)
   let participants = JSON.parse(boqElement.dataset.participants)
 
-
   let excelTable = new Handsontable(boqElement, {
     data: data(workbookData, sheetIndex, currency, qsCompanyName, boqContractSum, participants),
     dataSchema: dataSchema(participants),
@@ -304,12 +301,11 @@ function displaySheet (boqElement, sheetIndex) {
     colWidths: colWidths,
     readOnly: true
   })
-
-  make_buttons(workbookData, workbookData.SheetNames)
 }
 
 function displayBoq(boqElement) {
   displaySheet(boqElement, 0)
+  make_buttons(boqElement)
 }
 
 
