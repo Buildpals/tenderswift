@@ -70,49 +70,6 @@
       <%= form.file_field :document, id: 'upload-boq', class: 'form-control-file btn btn-sm btn-primary'%>
     </div>
 
-
-    <!-- Setting Quantity Modal -->
-    <div class="modal fade" id="qunatityColumnModal" tabindex="-1" role="dialog" aria-labelledby="qunatityColumnModallLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="qunatityColumnModalLabel">Before you proceed there are a few things you have to tell us.</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <%= form.fields_for :boq do |boq_field| %>
-                        <p>Which of the columns contain the 'Item' field in your Bill of Quantity?</p>
-                        <%= boq_field.select :item_column, ('A'...'Z').collect { |i| [i,i] }, { selected: 'A' }, { class: 'form-control' } %>
-                        <br/>
-
-
-                        <p>Which of the columns contain the 'Quantity' field in your Bill of Quantity?</p> 
-                        <%= boq_field.select :quantity_column, ('A'...'Z').collect { |i| [i,i] }, { selected: 'D' }, { class: 'form-control' } %>
-                        <br/>
-
-                        <p>Which of the columns contain the 'Unit' field in your Bill of Quantity?</p>
-                        <%= boq_field.select :unit_column, ('A'...'Z').collect { |i| [i,i] }, { selected: 'E' }, { class: 'form-control' } %>
-                        <br/>
-                        
-                        <p>Which of the columns contain the 'Rate' field in your Bill of Quantity?</p> 
-                        <%= boq_field.select :rate_column, ('A'...'Z').collect { |i| [i,i] }, { selected: 'F' }, { class: 'form-control' } %>
-                        <br/>
-
-                        <p>Which of the columns contain the 'Amount' field in your Bill of Quantity?</p>
-                        <%= boq_field.select :amount_column, ('A'...'Z').collect { |i| [i,i] }, { selected: 'G' }, { class: 'form-control' } %>
-                        <br/>
-                        <p class="text-muted small">Don't remind me of this again. <%= boq_field.check_box :remind_me %></p>
-                    <% end %>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" id="set-quantity-column" class="btn btn-secondary">Save changes</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
   <%= render 'layouts/create_tender_navigation', location: 'bottom', request: @request, form: form %>
 <% end %>
 
@@ -245,10 +202,6 @@ $(document).ready(function(e){
     }
     
     displaySheet(0);
-    var remind_me = <%= @request.boq.remind_me %>;
-    if(remind_me != true){
-        $('#qunatityColumnModal').modal('show');
-    }
 
     function setContractSumAtBackend(){
         $.ajax({
@@ -269,24 +222,6 @@ $(document).ready(function(e){
     }
     $('.btn.btn-primary.next-button').click( function(e){
         setContractSumAtBackend();
-        /*
-        $.ajax({
-            url: "/quantity_surveyor_rates/",
-            type: "POST",
-            data: { 
-                quantity_surveyor_rates: {
-                        boq_id: parseInt($('.boq_id').text()),
-                        rate_data: qsRates.toString(),
-                        quantity_surveyor_id: parseInt($('.quantity_surveyor_id').text()),
-                    }
-                },
-            success: function(response){
-                console.log(response);
-            },
-            error: function(response){
-                console.log(response);
-            }
-        }); */
     });
 
     $('.nav-item.nav-link').click (function(e){

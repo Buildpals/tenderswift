@@ -10,7 +10,7 @@
       </div>
       <div class="modal-body" style="color:#000;">
           <span class="mute-text"><p>By awarding the contract to <span class="winner-name"></span>, you are selecting 
-          <span class="winner-name"></span> as the winner of this tendering process. Therefore disqualifying every other contractor that placed a bid. </p>
+            <span class="winner-name"></span> as the winner of this tendering process</span>. Therefore disqualifying every other contractor that placed a bid. </p>
           <p>The emails you drafted will be sent to the respective contractors.<p>
         <p class="alert alert-info">This cannot be reversed. Are you sure you want to do this?</p> 
       </div>
@@ -49,6 +49,11 @@ function displayWinnerName(){
 
 //Confirm who is winning the bid 
 $('#confirm-winner').click( function(e){
+    $('#loadingModal').modal({
+        backdrop: 'static',
+        keyboard: false
+    });
+    $('#loadingModal').modal('show');
     $.ajax({
       url: "/requests/set_winner/"+<%= @request.id %>+"/"+participantId,
       type: "POST",
@@ -71,11 +76,6 @@ $('#confirm-winner').click( function(e){
 
 
 $('#alertModal').on('hidden.bs.modal', function (e) {
-  $('#loadingModal').modal({
-    backdrop: 'static',
-    keyboard: false
-  });
-  $('#loadingModal').modal('show');
 });
 
 
