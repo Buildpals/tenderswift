@@ -2,7 +2,7 @@
   <canvas id="barChart" class="mb-2"></canvas>
 </div>
 
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
 
 <br/>
 <br/>
@@ -29,5 +29,32 @@
 
 
 <script>
-
+var ctx = document.getElementById('barChart').getContext('2d');
+var participants = [];
+var participantContractSum = [];
+<% @request.participants.each do |participant| %>
+    var name = "<%= participant.company_name %>"
+    participants.push(name);
+    participantContractSum.push(parseFloat("<%= participant.total_bid %>"));
+<% end %>
+var myBarChart = new Chart(ctx, {
+    type: 'horizontalBar',
+    data: {
+      labels: participants,
+      datasets: [
+        {
+          label: "Total Sum of bids",
+          backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850", "#E9967A", "#FFFF00", "#808000", "#008080", "#FF00FF", "#F08080"],
+          data: participantContractSum
+        }
+      ]
+    },
+    options: {
+      legend: { display: false },
+      title: {
+        display: true,
+        text: 'Summary of Bids'
+      }
+    }
+});
 </script>
