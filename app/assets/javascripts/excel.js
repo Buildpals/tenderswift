@@ -34,6 +34,8 @@ $(document).on('turbolinks:load', function () {
         }
     }
 
+    var contractSum = 0.0;
+
     function make_buttons (data, sheetnames) {
         var $buttons = $('.buttons');
         $buttons.html("");
@@ -44,7 +46,8 @@ $(document).on('turbolinks:load', function () {
             button.click(function() {
                 $('.sheet-name').text("");
                 $('.sheet-name').text(s);
-                displaySheet(data, idx); 
+                contractSum = 0.0;
+                displaySheet(data, idx);
             });
             $buttons.each(function(index, element) {
                 $(this).append(button);
@@ -53,7 +56,6 @@ $(document).on('turbolinks:load', function () {
         });
     };
 
-    var contractSum = 0.0;
     var contractorRates = [];
     var isRatesLoaded = false;
 
