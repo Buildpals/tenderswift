@@ -90,10 +90,14 @@ class RequestForTendersController < ApplicationController
 
   def compare_bids
     @request = RequestForTender.find(params[:id])
-    @boq = @request.boq
-    @participants = @request.participants
-    #I need all the rates for each contractor
-    @rates = Rate.where(boq_id: @boq.id)
+    if @request.deadline_over?
+        @boq = @request.boq
+        @participants = @request.participants
+        #I need all the rates for each contractor
+        @rates = Rate.where(boq_id: @boq.id)
+    else
+        redirect_to request_for_tenders_path
+    end
   end
 
 

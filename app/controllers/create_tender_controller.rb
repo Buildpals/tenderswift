@@ -10,7 +10,7 @@ class CreateTenderController < ApplicationController
     unless@request.submitted?
         @next_path = edit_tender_documents_path(@request)
     else
-        redirect_to controller: :request_for_tenders, action: :index
+        redirect_to request_for_tenders_path
     end
   end
 
