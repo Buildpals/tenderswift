@@ -19,9 +19,6 @@
 
 <% content_for :nav_tabs do %>
     <nav class="nav">
-      <a class="nav-item nav-link <%= 'active' if action_name == 'messages' %>" href="<%= participants_messages_path(@participant) %>">
-        Messages
-      </a>
       <a class="nav-item nav-link <%= 'active' if action_name == 'project_information' %>" href="<%= participants_project_information_path(@participant) %>">
         1. Project Information
       </a>

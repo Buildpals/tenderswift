@@ -8,7 +8,7 @@ class BidsController < ApplicationController
 
   def boq
     @request = @participant.request_for_tender
-    gon.jbuilder
+    #gon.jbuilder
   end
 
   def questionnaire
