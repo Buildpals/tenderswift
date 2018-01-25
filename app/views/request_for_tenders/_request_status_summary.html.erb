@@ -28,7 +28,11 @@
             <div class="col-sm-2"><strong class="text-muted">Bids</strong></div>
             <div class="col-sm-4"><strong class="text-muted">Participating</strong></div>
             <div class="col-sm-3"><strong class="text-muted">Read</strong></div>
-            <div class="col-sm-3"><strong class="text-muted">Time left</strong></div>
+            <% if @request.deadline_over? %>
+                <div class="col-sm-3"><strong class="text-muted">Time Closed</strong></div>
+            <% else %>
+                <div class="col-sm-3"><strong class="text-muted">Time Left</strong></div>
+            <% end %>
             <div class="col-sm-2"><%= @request.participants.bid_list.count %></div>
             <div class="col-sm-4"><%= @request.participants.participating_list.count %></div>
             <div class="col-sm-3"><%= @request.participants.read_list.count %>/<%= @request.participants.count %></div>

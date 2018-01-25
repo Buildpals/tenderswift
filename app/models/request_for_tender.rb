@@ -92,7 +92,7 @@ class RequestForTender < ApplicationRecord
   end
 
   def time_left
-    distance_of_time_in_words(Time.current, deadline)
+    distance_of_time_in_words_to_now(deadline)
   end
 
   def deadline_over?
