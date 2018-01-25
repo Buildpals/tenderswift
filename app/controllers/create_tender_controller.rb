@@ -7,7 +7,11 @@ class CreateTenderController < ApplicationController
   DEFAULT_BROADCAST_CONTENT = "If you have any questions you can reply me here".freeze
 
   def edit_tender_information
-    @next_path = edit_tender_documents_path(@request)
+    unless@request.submitted?
+        @next_path = edit_tender_documents_path(@request)
+    else
+        redirect_to controller: :request_for_tenders, action: :index
+    end
   end
 
   def update_tender_information
