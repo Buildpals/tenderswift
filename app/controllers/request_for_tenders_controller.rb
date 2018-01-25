@@ -31,7 +31,6 @@ class RequestForTendersController < ApplicationController
     @request.quantity_surveyor = current_quantity_surveyor
     @request.create_blank_boq
     @request.save!
-    create_chat_room_for @request
     redirect_to edit_tender_information_path @request
   end
 

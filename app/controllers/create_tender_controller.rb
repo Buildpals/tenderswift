@@ -127,19 +127,9 @@ class CreateTenderController < ApplicationController
   end
 
   def send_emails_to_participants
-    create_chat_room_for @request if @request.chatroom.nil?
-
-    # Create default broadcast message for the request
-    broadcast = BroadcastMessage.new
-    broadcast.content = DEFAULT_BROADCAST_CONTENT
-    broadcast.chatroom = @request.chatroom
-    broadcast.save!
-
     @request.participants.each do |participant|
       ParticipantMailer.request_for_tender_email(participant, @request).deliver_later
     end
-
-    BroadcastEmailJob.perform_later(broadcast) # Send another mail about the default broadcast message
 
     @request.update(submitted: true)
   end
