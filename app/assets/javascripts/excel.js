@@ -42,11 +42,10 @@ $(document).on('turbolinks:load', function () {
         sheetnames.forEach(function(s,idx) {
             var button= $('<button/>').attr({ type:'button', name:'btn' +idx, text:s });
             button.append('<h5>' + s + '</h5>');
-            button.addClass("col-md-2 btn btn-light excel-nav");
+            button.addClass("col-md-2 btn btn-primary excel-nav");
             button.click(function() {
                 $('.sheet-name').text("");
                 $('.sheet-name').text(s);
-                contractSum = 0.0;
                 displaySheet(data, idx);
             });
             $buttons.each(function(index, element) {
@@ -64,10 +63,10 @@ $(document).on('turbolinks:load', function () {
         if(!json) json = [];
             json.forEach(function(r) { if(json[0].length < r.length) json[0].length = r.length; });
 
-        var rateColumn = parseInt($('.rate_column').text()) - 1;
-        var amountColumn = parseInt($('.amount_column').text()) -1;
+        var rateColumn = parseInt($('.rate_column').text());
+        var amountColumn = parseInt($('.amount_column').text());
         var itemColumn = parseInt($('.item_column').text());
-        var quantityColumn = parseInt($('.quantity_column').text()) -1;
+        var quantityColumn = parseInt($('.quantity_column').text());
 
         if(sheetidx == 0){
             $('.sheet-name').text(data.SheetNames[0]);
@@ -93,11 +92,11 @@ $(document).on('turbolinks:load', function () {
             height: function () { return calculateScreenHeight(); },
             cells: function(row, col, prop){
                 var cellProperties = {};
-                rateColumn = parseInt($('.rate_column').text()) - 1;
+                rateColumn = parseInt($('.rate_column').text());
                 if(col !== rateColumn){
-                cellProperties.readOnly = 'true';
-                cellProperties.contextMenu = 'true';
-            }
+                    cellProperties.readOnly = 'true';
+                    cellProperties.contextMenu = 'true';
+                }
             return cellProperties;
             },
             afterInit: function(){
@@ -108,7 +107,6 @@ $(document).on('turbolinks:load', function () {
                         rate: {
                                 boq_id: parseInt($('.boq_id').text()),
                                 participant_id: parseInt($('.participant_id').text())
-                                //sheet_name: data.SheetNames[sheetidx]
                                 }
                         },
                     success: function(response){ 
@@ -174,8 +172,8 @@ $(document).on('turbolinks:load', function () {
                                         }
                                 },
                             success: function(response){
-                                console.log(quantityColumn);
                                 quantity = json[row][quantityColumn];
+                                console.log(quantity);
                                 rate = json[row][rateColumn];
                                 json[row][amountColumn] = quantity * rate;
 

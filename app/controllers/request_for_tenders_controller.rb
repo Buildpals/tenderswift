@@ -31,7 +31,6 @@ class RequestForTendersController < ApplicationController
     @request.quantity_surveyor = current_quantity_surveyor
     @request.create_blank_boq
     @request.save!
-    create_chat_room_for @request
     redirect_to edit_tender_information_path @request
   end
 
@@ -86,16 +85,20 @@ class RequestForTendersController < ApplicationController
       render json: request
     else
       render json: request.errors.messages
-    end  
+    end
   end
 
   def compare_bids
     @request = RequestForTender.find(params[:id])
-    @boq = @request.boq
-    @participants = @request.participants
-    #I need all the rates for each contractor
-    @rates = Rate.where(boq_id: @boq.id)
-    render layout: 'compare_bids'
+    if @request.deadline_over?
+        @boq = @request.boq
+        @participants = @request.participants
+        #I need all the rates for each contractor
+        @rates = Rate.where(boq_id: @boq.id)
+        render layout: 'compare_bids'
+    else
+        redirect_to request_for_tenders_path
+    end
   end
 
 

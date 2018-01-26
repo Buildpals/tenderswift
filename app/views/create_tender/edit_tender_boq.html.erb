@@ -5,15 +5,12 @@
               local: true,
               id: 'request-form' do |form| %>
 
-  <%= render 'layouts/create_tender_navigation', location: 'top', request: @request, form: form %>
+    <%= render 'layouts/create_tender_navigation', location: 'top', request: @request, form: form %>
 
-  <p class="text-center">Contract Sum: <strong>GHC </strong><span class="contract-sum"></span></p>
+    <p class="text-center">Contract Sum: <strong>GHC </strong><span class="contract-sum"></span></p>
 
-  <p class="text-muted small">
+    <p class="text-muted small">
         Upload the Bill of Quantities for the project or create one using the templates provided.
-        <button type="button" class="btn btn-info pull-right" data-toggle="modal" data-target="#qunatityColumnModal">
-            Describe Boq
-        </button>
     </p>
 
     <%= form.text_field :project_name, type: 'hidden' %>

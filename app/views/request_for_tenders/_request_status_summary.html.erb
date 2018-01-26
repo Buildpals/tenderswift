@@ -5,9 +5,6 @@
   <ul class="list-group list-group-flush">
     <li class="list-group-item bg-primary">
       <div class="col-sm-12 request-controls" style="padding: 5px;">
-        <%= link_to 'Edit request', edit_tender_information_path(@request), class: 'btn btn-sm btn-light' %>
-        <%= link_to 'Extend deadline', edit_tender_information_path(@request), class: 'btn btn-sm btn-light' %>
-        <%= link_to 'Invite more contractors', edit_tender_participants_path(@request), class: 'btn btn-sm btn-light' %>
         <!--<div class="dropdown float-right">-->
           <!--<button class="btn btn-sm btn-light dropdown-toggle" type="button" id="request_actions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
             <!--Actions-->
@@ -28,7 +25,11 @@
             <div class="col-sm-2"><strong class="text-muted">Bids</strong></div>
             <div class="col-sm-4"><strong class="text-muted">Participating</strong></div>
             <div class="col-sm-3"><strong class="text-muted">Read</strong></div>
-            <div class="col-sm-3"><strong class="text-muted">Time left</strong></div>
+            <% if @request.deadline_over? %>
+                <div class="col-sm-3"><strong class="text-muted">Time Closed</strong></div>
+            <% else %>
+                <div class="col-sm-3"><strong class="text-muted">Time Left</strong></div>
+            <% end %>
             <div class="col-sm-2"><%= @request.participants.bid_list.count %></div>
             <div class="col-sm-4"><%= @request.participants.participating_list.count %></div>
             <div class="col-sm-3"><%= @request.participants.read_list.count %>/<%= @request.participants.count %></div>
