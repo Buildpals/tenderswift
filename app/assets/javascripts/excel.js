@@ -154,10 +154,11 @@ $(document).on('turbolinks:load', function () {
                     let col = change[1];
                     let oldVal = change[2];
                     let newVal = change[3];
+                    console.log(row);
                     if($('.sheet-name').text() == ""){ //if there is nothing here then it's on the first sheet
                         $('.sheet-name').text(data.SheetNames[0]);   
                     }
-                    if(newVal != "" && typeof json[row][quantityColumn] != 'undefined'){ //make sure user has typed something and there is a value in a quantity column
+                    if(newVal != "" && typeof json[row][quantityColumn] != 'undefined'){ //make sure user has typed something and there is a value in the quantity column
                         $.ajax({
                             url: "/rates/",
                             type: "POST",
@@ -187,6 +188,9 @@ $(document).on('turbolinks:load', function () {
                                 console.log(response);
                             }
                         });
+                    }else{
+                        json[row][rateColumn] = "";
+                        excelTable.loadData(json);
                     }
                 });
             },
