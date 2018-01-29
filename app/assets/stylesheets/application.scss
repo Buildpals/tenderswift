@@ -149,8 +149,10 @@ Final Email to Shortlisted Participants
 }
 
 .email-body{
-  padding: 1%;
+  padding: 8px;
   color: #000;
+  max-height: 350px;
+  overflow-y: scroll;
 }
 
 .winner-name{
@@ -162,7 +164,7 @@ Final Email to Shortlisted Participants
 }
 
 .final-message{
-  padding: 1%;
+  padding: 8px;
 }
 
 #final-email-message{

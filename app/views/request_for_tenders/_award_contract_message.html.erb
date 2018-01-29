@@ -2,22 +2,30 @@
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header alert alert-success">
-        <p><strong>Great! </strong> Now draft an email to be sent to <span class="winner-name"></span>
-          informing them of their successful bid.</p>
-        <h5 class="modal-title" id="finalMessageModalLabel"></h5>
+        <h5 class="modal-title" id="finalMessageModalLabel">
+          Draft Winner's Email
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
       <div class="modal-body">
+        <p>
+          <strong>Great! </strong>
+          Now draft an email to be sent to <span class="winner-name"></span>
+          informing them of their successful bid.
+        </p>
         <div class="final-message email-body" contenteditable="true">
           <span>
-            Dear Sir/Madam. 
+            Dear Sir/Madam.
             <br/>
             <p>On behalf of <span class="replace">(Client Name)</span>, I am pleased to accept your bid for the above project. Please find attached the documents listed below which shall be deemed to form and to be read and to be construed as part of the Contract:</p>
             <ul>
               <li class="replace">List Attached contract documents</li>
             </ul>
             <p>The contract will commence on Insert Date, and per above the value of the contract, for the full life of the contract shall be exclusive of VAT.   The contract completion date is <span>(Date of Completion)</span>.</p>
-            <p>Please confirm receipt of this contract award letter at the following address  by return in order to act as an acknowledgement of receipt of this contract award letter. </p>
-            <p>Furthermore no action should be taken by your company at this time in respect of this contract until the official contract start date. <span class="replace">(Consultant Name)</span> accept no responsibility or liability for any actions which you may take based on the information detailed in this letter.</p>
+            <p>Please confirm receipt of this contract award letter at the following address  by return in order to act as an acknowledgment of receipt of this contract award letter. </p>
+            <p>Furthermore, no action should be taken by your company at this time in respect of this contract until the official contract start date. <span class="replace">(Consultant Name)</span> accept no responsibility or liability for any actions which you may take based on the information detailed in this letter.</p>
             <p>Any such actions and their financial consequences will be entirely at your own risk. </p>
             <p>Please do not hesitate to contact us directly should you have any questions about the content of this letter. </p>
             <p>Yours faithfully.
@@ -26,6 +34,7 @@
         </div>
       </div>
       <div class="modal-footer">
+        <a href="#disqualifiedContractorsModal" class="btn btn-info pull-left"  data-toggle="modal" data-dismiss="modal">< Back</a>
         <a href="#alertModal" class="btn btn-success pull-right"  data-toggle="modal" data-dismiss="modal">Next ></a>
       </div>
     </div>
