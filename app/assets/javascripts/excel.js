@@ -75,7 +75,7 @@ $(document).on('turbolinks:load', function () {
         json.forEach(function(row){
             remove(row, row[amountColumn]);
             remove(row, row[rateColumn]);
-            if(row[itemColumn] == 'Item' || row[itemColumn] == 'item'){
+            if(row[itemColumn] == 'Item' || row[itemColumn] == 'item' || row[itemColumn] == 'ITEM'){
                 row.push('Rate');
                 row.push('Amount');
             }
@@ -158,7 +158,7 @@ $(document).on('turbolinks:load', function () {
                     if($('.sheet-name').text() == ""){ //if there is nothing here then it's on the first sheet
                         $('.sheet-name').text(data.SheetNames[0]);   
                     }
-                    if(newVal != "" && typeof json[row][quantityColumn] != 'undefined'){ //make sure user has typed something and there is a value in the quantity column
+                    if(newVal != "" && typeof json[row][quantityColumn] != 'undefined' && !isNaN(json[row][quantityColumn])){ //make sure user has typed something and there is a number value in the quantity column
                         $.ajax({
                             url: "/rates/",
                             type: "POST",
