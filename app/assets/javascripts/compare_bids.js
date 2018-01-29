@@ -194,6 +194,7 @@ function data (workBookData, sheetidx, currency, qsCompanyName, boqContractSum, 
     participants.forEach(function (participant) {
       let rate = participant.rates.find(function (rate) {
         return (rate.row_number - 1) === rowNumber
+          && rate.sheet_name === workBookData.SheetNames[sheetidx]
       })
 
       if (rate) {
