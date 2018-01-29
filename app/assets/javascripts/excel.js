@@ -88,8 +88,7 @@ $(document).on('turbolinks:load', function () {
             stretchH: 'all',
             rowHeaders: true,
             colHeaders: true,
-            width: function () { return calculateScreenWidth(); },
-            height: function () { return calculateScreenHeight(); },
+            width: '90%',
             cells: function(row, col, prop){
                 var cellProperties = {};
                 rateColumn = parseInt($('.rate_column').text());
