@@ -9,8 +9,10 @@ class ParticipantsController < ApplicationController
                                          :results,
                                          :show_boq, :disqualify]
 
+  before_action :set_read_time, only: [ :project_information,
+                                        :boq, :questionnaire]
+
   def messages
-    @participant.update(status: 'read', request_read_time: Time.current) if @participant.not_read?
   end
 
   def project_information
@@ -125,6 +127,10 @@ class ParticipantsController < ApplicationController
     else
       @participant = Participant.find_by(auth_token: params[:id])
     end
+  end
+
+  def set_read_time
+    @participant.update(status: 'read', request_read_time: Time.current) if @participant.not_read?
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.
