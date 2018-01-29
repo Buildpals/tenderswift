@@ -96,7 +96,10 @@ class RequestForTendersController < ApplicationController
         #I need all the rates for each contractor
         @rates = Rate.where(boq_id: @boq.id)
     else
-        redirect_to request_for_tenders_path
+        redirect_to request_for_tenders_path, notice: 'In accordance with tender
+                                                    fairness, you cannot access
+                                                    the bids until the deadline
+                                                    is past.'
     end
   end
 
