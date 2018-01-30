@@ -25,52 +25,19 @@
 <% end %>
 
 <% content_for :action_items do %>
-    <%= form_with(model: @participant, local: true, id: 'participant-form') do |form| %>
-        <input type="hidden" name="commit" value="save_rating">
+  <div class="mt-2 ml-auto">
+    <%= render 'layouts/rating_bar', participant: @participant %>
+  </div>
 
-        <div class="btn-group btn-group-sm" data-toggle="buttons">
-          <% if @participant.rating == -1 %>
-              <label class="btn btn-success">
-                <%= form.radio_button :rating, '0', {id: 'rating_remove', autocomplete: 'off'} %>
-                Add
-              </label>
-          <% else %>
-              <label class="btn btn-danger">
-                <%= form.radio_button :rating, '-1', {id: 'rating_remove', autocomplete: 'off'} %>
-                Remove
-              </label>
-          <% end %>
-          <label class="btn btn-light">
-            <%= form.radio_button :rating, '1', {id: 'rating1', autocomplete: 'off'} %>
-            <span class="fa fa-star text-secondary <%= 'text-warning' if @participant.rating >= 1 %>"></span>
-          </label>
-          <label class="btn btn-light">
-            <%= form.radio_button :rating, '2', {id: 'rating2', autocomplete: 'off'} %>
-            <span class="fa fa-star text-secondary <%= 'text-warning' if @participant.rating >= 2 %>"></span>
-          </label>
-          <label class="btn btn-light">
-            <%= form.radio_button :rating, '3', {id: 'rating3', autocomplete: 'off'} %>
-            <span class="fa fa-star text-secondary <%= 'text-warning' if @participant.rating >= 3 %>"></span>
-          </label>
-          <label class="btn btn-light">
-            <%= form.radio_button :rating, '4', {id: 'rating4', autocomplete: 'off'} %>
-            <span class="fa fa-star text-secondary <%= 'text-warning' if @participant.rating >= 4 %>"></span>
-          </label>
-          <label class="btn btn-light">
-            <%= form.radio_button :rating, '5', {id: 'rating5', autocomplete: 'off'} %>
-            <span class="fa fa-star text-secondary <%= 'text-warning' if @participant.rating >= 5 %>"></span>
-          </label>
-        </div>
-    <% end %>
-
-    <script type="text/javascript" charset="utf-8">
-        $(document).ready(function() {
-            $('input[type=radio][name="participant[rating]"]').change(function() {
-                console.log("Saving...");
-                $('#participant-form').submit();
-            });
-        });
-    </script>
+  <% if @participant.disqualified %>
+    <%= button_to "Add to Shortlist",
+                  { action: 'undo_disqualify', controller: 'participants' },
+                  { class: 'btn btn-sm btn-success mt-2 ml-2' } %>
+  <% else %>
+    <%= button_to "Disqualify",
+                  { action: 'disqualify', controller: 'participants' },
+                  { class: 'btn btn-sm btn-danger mt-2 ml-2' } %>
+  <% end %>
 <% end %>
 
 

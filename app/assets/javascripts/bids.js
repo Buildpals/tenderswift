@@ -1,37 +1,16 @@
 $(document).on("turbolinks:load", function () {
-    if ($(".bids.boq").length === 0) return;
+  if ($(".bids, .request_for_tenders.show").length === 0) return;
 
-    let boq = new App.Boq();
-    let bidReviewSettings = {
-        contextMenu: ['undo', 'redo', 'cut', 'copy'],
-        columns: [
-            {
-                data: 'name',
-                renderer: boq.labelRenderer,
-                readOnly: true
-            },
-            {
-                data: 'description',
-                className: 'htLeft',
-                readOnly: true
-            },
-            {
-                data: 'quantity',
-                readOnly: true
-            },
-            {
-                data: 'unit',
-                readOnly: true
-            },
-            {
-                data: 'filled_item.rate',
-                readOnly: true
-            },
-            {
-                data: 'amount',
-                readOnly: true
-            }
-        ]
-    };
-    boq.render(gon.boq, bidReviewSettings);
+  $('input[type=radio][name="rating"]').change(function() {
+    $(this).parent().parent().parent().submit()
+  });
 });
+
+
+$(document).ready(function () {
+  if ($(".bids, .request_for_tenders.show").length === 0) return;
+
+  $('input[type=radio][name="rating"]').change(function() {
+    $(this).parent().parent().parent().submit()
+  });
+})

@@ -7,7 +7,8 @@ class ParticipantsController < ApplicationController
                                          :boq,
                                          :questionnaire,
                                          :results,
-                                         :show_boq, :disqualify]
+                                         :show_boq,
+                                         :disqualify, :undo_disqualify, :rate]
 
   def messages
     @participant.update(status: 'read', request_read_time: Time.current) if @participant.not_read?
@@ -56,7 +57,7 @@ class ParticipantsController < ApplicationController
       if @participant.update(participant_params)
         format.html {
           if params[:commit] == 'save_rating'
-            redirect_to participant_boq_path(@participant), notice: 'Participant was successfully updated.'
+            redirect_to bid_boq_path(@participant), notice: 'Participant was successfully updated.'
           else
             redirect_to @participant, notice: 'Participant was successfully updated.'
           end
@@ -70,19 +71,32 @@ class ParticipantsController < ApplicationController
   end
 
   def disqualify
-    respond_to do |format|
-      if @participant.update(participant_params)
-        format.html {
-          if params[:commit] == 'save_rating'
-            redirect_to @participant.request_for_tender
-          else
-            redirect_to @participant.request_for_tender, notice: 'Participant was successfully updated.'
-          end
-        }
-        format.json {render :show, status: :ok, location: @participant}
-      else
-        format.json {render json: @participant.errors, status: :unprocessable_entity}
-      end
+    if @participant.update(disqualified: true)
+      redirect_back fallback_location: bid_boq_path(@participant),
+                  notice: "#{@participant.company_name} has been disqualified"
+    else
+      redirect_back fallback_location: root_path,
+                  notice: "An error occurred while trying to disqualify #{@participant.company_name}"
+    end
+  end
+
+  def undo_disqualify
+    if @participant.update(disqualified: false)
+      redirect_back fallback_location: bid_boq_path(@participant),
+                  notice: "#{@participant.company_name} has been re-added to the shortlist"
+    else
+      redirect_back fallback_location: bid_boq_path(@participant),
+                  notice: "An error occurred while trying to re-add #{@participant.company_name} to shortlist"
+    end
+  end
+
+  def rate
+    if @participant.update(rating: params[:rating])
+      redirect_back fallback_location: bid_boq_path(@participant),
+                    notice: "The rating for #{@participant.company_name} has been updated"
+    else
+      redirect_back fallback_location: bid_boq_path(@participant),
+                    notice: "An error occurred while trying to update the rating for #{@participant.company_name}"
     end
   end
 

@@ -8,13 +8,12 @@
     <th>Company</th>
     <th>Bid</th>
     <th>Difference</th>
-    <th>Bid time</th>
     <th>Rating</th>
-    <th></th>
+    <th colspan="2"></th>
   </tr>
   </thead>
   <tbody>
-  <% @request.participants.bid_list.where('rating < 0').order(rating: :desc).each do |participant| %>
+  <% @request.participants.bid_list.where('disqualified = true').order(rating: :desc).each do |participant| %>
       <% unless !@request.winner.nil? && @request.winner.auth_token.eql?(participant.auth_token) %>
         <tr>
           <td>
@@ -29,12 +28,36 @@
             <%= @request.contract_sum_currency %> <%= participant.bid_difference %>
             <small>(<%= participant.bid_difference_as_percentage %>)</small>
           </td>
-          <td><small><%= participant.bid_submission_time.to_formatted_s(:short) %></small></td>
           <td>
-            <span class="text-danger">Disqualified</span>
+            <%= render 'layouts/rating_bar', participant: participant %>
           </td>
           <td>
             <%= link_to 'View bid', bid_boq_path(participant) %>
+          </td>
+          <td>
+            <div class="dropdown">
+              <button class="btn btn-sm btn-light dropdown-toggle" type="button" id="actions_<% participant.id %>" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Actions
+              </button>
+              <div class="dropdown-menu" aria-labelledby="actions_<% participant.id %>">
+                <% if @request.winner.nil? %>
+                  <% if participant.disqualified %>
+                    <%= button_to "Add to Shortlist",
+                                  { action: 'undo_disqualify', controller: 'participants', id: participant.auth_token },
+                                  { class: 'dropdown-item remove-con-btn' } %>
+                  <% else %>
+                    <%= button_to "Disqualify",
+                                  { action: 'disqualify', controller: 'participants', id: participant.auth_token },
+                                  { class: 'dropdown-item remove-con-btn' } %>
+                  <% end %>
+                  <button class="dropdown-item text-success accept" type="button">
+                    Award Contract
+                    <span class="<%= participant.company_name %>" style="display: none;"></span>
+                    <span class="<%= participant.id %>" style="display: none;"></span>
+                  </button>
+                <% end %>
+              </div>
+            </div>
           </td>
         </tr>
       <% end %>

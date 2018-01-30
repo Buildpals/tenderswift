@@ -2,7 +2,7 @@ class Participant < ApplicationRecord
   include HasProject
 
   include ActionView::Helpers::DateHelper
-  include  ActionView::Helpers::NumberHelper
+  include ActionView::Helpers::NumberHelper
 
   has_secure_token :auth_token
 
@@ -41,6 +41,13 @@ class Participant < ApplicationRecord
   validates :company_name, presence: true
 
   validates :phone_number, presence: true
+
+
+  validates :rating, numericality: {
+      only_integer: true,
+      greater_than_or_equal_to: 0,
+      less_than_or_equal_to: 5
+  }
 
   def to_param
     auth_token

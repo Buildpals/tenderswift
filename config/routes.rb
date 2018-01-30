@@ -58,9 +58,15 @@ Rails.application.routes.draw do
       to: 'request_for_tenders#notify_disqualified_contractors',
       as: 'notify_disqualified_contractors'
 
-  patch '/participants/disqualify/:id/',
+
+  post '/participants/disqualify/:id/',
       to: 'participants#disqualify'
 
+  post '/participants/undo_disqualify/:id/',
+        to: 'participants#undo_disqualify'
+
+  post '/participants/rate/:id/',
+       to: 'participants#rate'
 
   patch '/boqs/contract_sum/:id',
       to: 'boqs#contract_sum',

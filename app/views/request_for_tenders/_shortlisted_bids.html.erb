@@ -8,15 +8,12 @@
     <th>Company</th>
     <th>Bid</th>
     <th>Difference</th>
-    <th>Bid time</th>
     <th>Rating</th>
-    <th></th>
-    <th></th>
-    <th><th>
+    <th colspan="2"></th>
   </tr>
   </thead>
   <tbody>
-  <% @request.participants.bid_list.where('rating >= 0').order(rating: :desc).each do |participant| %>
+  <% @request.participants.bid_list.where('disqualified = false').order(rating: :desc).each do |participant| %>
       <% unless !@request.winner.nil? && @request.winner.auth_token.eql?(participant.auth_token) %>
         <tr>
           <td>
@@ -31,50 +28,39 @@
             <%= @request.contract_sum_currency %> 
             <small>(<%= participant.bid_difference_as_percentage %>)</small>
           </td>
-          <td><small><%= participant.bid_submission_time.to_formatted_s(:short) %></small></td>
           <td>
-            <% participant.rating.times do %>
-              <span class="fa fa-star text-warning"></span>
-            <% end %>
+            <%= render 'layouts/rating_bar', participant: participant %>
           </td>
           <td>
-            <%= link_to 'View bid', bid_boq_path(participant)%>
+            <%= link_to 'View bid', bid_boq_path(participant) %>
           </td>
-          <% if @request.winner.nil? %>
-            <td>
-              <button type="button" class="btn btn-danger btn-award-contract remove-con-btn">Disqualify
-                <span class="<%= participant.auth_token %>"></span>
+          <td>
+            <div class="dropdown">
+              <button class="btn btn-sm btn-light dropdown-toggle" type="button" id="actions_<% participant.id %>" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Actions
               </button>
-            </td>
-            <td class="params">
-              <button type="button" class="btn btn-success btn-award-contract accept" data-toggle="modal" data-target="#disqualifiedContractorsModal">Award contract
-                <span class="<%= participant.company_name %>"></span>
-                <span class="<%= participant.id %>"></span>
-              </button>
-            </td>
-          <% end %>
+              <div class="dropdown-menu" aria-labelledby="actions_<% participant.id %>">
+                <% if @request.winner.nil? %>
+                  <% if participant.disqualified %>
+                    <%= button_to "Add to Shortlist",
+                                  { action: 'undo_disqualify', controller: 'participants', id: participant.auth_token },
+                                  { class: 'dropdown-item remove-con-btn' } %>
+                  <% else %>
+                    <%= button_to "Disqualify",
+                                  { action: 'disqualify', controller: 'participants', id: participant.auth_token },
+                                  { class: 'dropdown-item remove-con-btn' } %>
+                  <% end %>
+                  <button class="dropdown-item text-success accept" type="button">
+                    Award Contract
+                    <span class="<%= participant.company_name %>" style="display: none;"></span>
+                    <span class="<%= participant.id %>" style="display: none;"></span>
+                  </button>
+                <% end %>
+              </div>
+            </div>
+          </td>
+        </tr>
     <% end %>
-      </tr>
   <% end %>
   </tbody>
 </table>
-
-<script type="text/javascript" charset="utf-8">
-  $('.remove-con-btn').click(function(e){
-      e.preventDefault();
-      var participantId = $(this)[0].children[0].className;
-      console.log(participantId);
-      $.ajax({
-      url: "/participants/disqualify/"+participantId,
-      type: "PATCH",
-      data: {
-        participant: { rating: "-1" }
-      },
-      success: function(response){
-      },
-      error: function(response){ 
-        console.log(response);
-      }
-    });
-  })
-</script>
