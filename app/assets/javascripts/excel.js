@@ -46,6 +46,7 @@ $(document).on('turbolinks:load', function () {
             button.click(function() {
                 $('.sheet-name').text("");
                 $('.sheet-name').text(s);
+                $('#boq-excel').text("");
                 displaySheet(data, idx);
             });
             $buttons.each(function(index, element) {
