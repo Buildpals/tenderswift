@@ -1,71 +1,81 @@
-<div class="card mb-4">
-  <div class="card-body">
-    <h4 class="card-title mt-0"><%= @participant.project_name %></h4>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-9 mx-auto">
+      <div class="tab-content mt-4">
 
-    <p>
-      <%= @participant.project_location %>
-    </p>
+        <div class="card mb-4">
+          <div class="card-body">
+            <h4 class="card-title mt-0"><%= @participant.project_name %></h4>
 
-    <small>
-      <strong>Contract Sum&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong>&nbsp;&nbsp;
-      <%= @participant.contract_sum_currency %>
-      <%= @participant.contract_sum %>
-    </small>
+            <p>
+              <%= @participant.project_location %>
+            </p>
 
-    <small>
-      <p class="mb-1">
-        <strong>Project Consultant&nbsp;</strong>&nbsp;&nbsp;
-        <%= @participant.project_owners_company_name %>
-      </p>
-    </small>
-  </div>
+            <small>
+              <strong>Contract Sum&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong>&nbsp;&nbsp;
+              <%= @participant.contract_sum_currency %>
+              <%= @participant.contract_sum %>
+            </small>
+
+            <small>
+              <p class="mb-1">
+                <strong>Project Consultant&nbsp;</strong>&nbsp;&nbsp;
+                <%= @participant.project_owners_company_name %>
+              </p>
+            </small>
+          </div>
 
 
-  <ul class="list-group list-group-flush">
-    <li class="list-group-item">
-      <div class="row">
-        <div class="col-lg-4">
-          <strong>Time left</strong>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <div class="row">
+                <div class="col-lg-4">
+                  <strong>Time left</strong>
+                </div>
+                <div class="col-lg-8">
+                  <strong>End date</strong>
+                </div>
+                <div class="col-lg-4">
+                  <%= @participant.time_left %>
+                </div>
+                <div class="col-lg-8">
+                  <%= @participant.project_deadline.to_formatted_s(:long) %>
+                  <span class="ml-3">(UTC+00:00)</span>
+                </div>
+
+              </div>
+            </li>
+          </ul>
         </div>
-        <div class="col-lg-8">
-          <strong>End date</strong>
-        </div>
-        <div class="col-lg-4">
-          <%= @participant.time_left %>
-        </div>
-        <div class="col-lg-8">
-          <%= @participant.project_deadline.to_formatted_s(:long) %>
-          <span class="ml-3">(UTC+00:00)</span>
+
+        <div class="card mb-4">
+
+          <div class="card-header">
+            Project Description
+          </div>
+          <div class="card-body">
+            <p class="mb-1">
+              <%= simple_format @participant.project_description %>
+            </p>
+          </div>
+
+
+          <div class="card-header">
+            Project Documents
+          </div>
+          <ul class="list-group list-group-flush">
+            <% @participant.project_documents.each do |project_document| %>
+              <li class="list-group-item d-flex w-100 justify-content-between">
+                <%= project_document.document.file.filename %>
+                <%= link_to 'Download', project_document.document.url, target: '_blank',
+                            class: 'btn btn-sm btn-light' %>
+              </li>
+            <% end %>
+          </ul>
+
         </div>
 
       </div>
-    </li>
-  </ul>
-</div>
-
-<div class="card mb-4">
-
-  <div class="card-header">
-    Project Description
+    </div>
   </div>
-  <div class="card-body">
-    <p class="mb-1">
-      <%= simple_format @participant.project_description %>
-    </p>
-  </div>
-
-
-  <div class="card-header">
-    Project Documents
-  </div>
-  <ul class="list-group list-group-flush">
-    <% @participant.project_documents.each do |project_document| %>
-        <li class="list-group-item d-flex w-100 justify-content-between">
-          <%= project_document.document.file.filename %>
-          <%= link_to 'Download', project_document.document.url, target: '_blank',
-                      class: 'btn btn-sm btn-light' %>
-        </li>
-    <% end %>
-  </ul>
-
 </div>
