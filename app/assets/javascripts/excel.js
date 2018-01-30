@@ -112,7 +112,7 @@ $(document).on('turbolinks:load', function () {
                         //console.log(response);
                         if (response.length > 0){
                             for(i=0; i < response.length; i++){
-                                result = response[i];
+                                var result = response[i];
                                 const contractorRate = new Object();
                                 contractorRate.quantity = result.quantity;
                                 contractorRate.value = result.value;
@@ -121,9 +121,9 @@ $(document).on('turbolinks:load', function () {
                                 contractorRate.participantId = result.participant_id;
                                 contractorRates.push(contractorRate);
                                 if(contractorRate.sheetName == $('.sheet-name').text()){
-                                    row_number = parseInt(response[i].row_number) - 1;
-                                    quantity = json[row_number][quantityColumn];
-                                    rate = parseFloat(response[i].value);
+                                    var row_number = parseInt(response[i].row_number) - 1;
+                                    var quantity = json[row_number][quantityColumn];
+                                    var rate = parseFloat(response[i].value);
                                     json[row_number][rateColumn] = rate;
                                     json[row_number][amountColumn] = parseInt(quantity) * parseFloat(rate);
                                     excelTable.loadData(json);
@@ -132,7 +132,7 @@ $(document).on('turbolinks:load', function () {
                             }
 
                             if(!isRatesLoaded){
-                                for(i=0; i < contractorRates.length; i++){
+                                for(var i=0; i < contractorRates.length; i++){
                                     isRatesLoaded = true;
                                     contractSum = contractSum + ( contractorRates[i].value * contractorRates[i].quantity );
                                 }
@@ -150,13 +150,15 @@ $(document).on('turbolinks:load', function () {
             afterChange: function(changes, source) {
                 $.each(changes, function (index, change) {
                     let row = change[0];
-                    let col = change[1];
-                    let oldVal = change[2];
+                    //let col = change[1];
+                    //let oldVal = change[2];
                     let newVal = change[3];
                     console.log(row);
                     if($('.sheet-name').text() == ""){ //if there is nothing here then it's on the first sheet
                         $('.sheet-name').text(data.SheetNames[0]);   
                     }
+                    json[row][rateColumn] = Math.abs(json[row][rateColumn]);
+
                     if(newVal != "" && typeof json[row][quantityColumn] != 'undefined' && !isNaN(json[row][quantityColumn])){ //make sure user has typed something and there is a number value in the quantity column
                         $.ajax({
                             url: "/rates/",
@@ -168,13 +170,12 @@ $(document).on('turbolinks:load', function () {
                                         row_number: parseInt(row) + 1,
                                         participant_id: parseInt($('.participant_id').text()),
                                         quantity: parseFloat(json[row][quantityColumn]),
-                                        value: newVal
+                                        value: Math.abs(parseFloat(newVal))
                                         }
                                 },
                             success: function(response){
-                                quantity = json[row][quantityColumn];
-                                console.log(quantity);
-                                rate = json[row][rateColumn];
+                                var quantity = json[row][quantityColumn];
+                                var rate = parseFloat(json[row][rateColumn]);
                                 json[row][amountColumn] = quantity * rate;
 
                                 contractSum = contractSum + json[row][amountColumn];
