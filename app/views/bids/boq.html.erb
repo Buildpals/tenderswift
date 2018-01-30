@@ -12,22 +12,31 @@
 
 <div class="buttons row">
 </div>
+
 <span class="rate_column">
-                <%= get_index_of_alphabet(@participant.boq.rate_column.to_s) %>
-            </span>
+  <%= get_index_of_alphabet(@participant.boq.rate_column.to_s) %>
+</span>
+
 <span class="quantity_column">
-                <%= get_index_of_alphabet(@participant.boq.quantity_column.to_s) %>
-            </span>
+  <%= get_index_of_alphabet(@participant.boq.quantity_column.to_s) %>
+</span>
+
 <span class="amount_column">
-                <%= get_index_of_alphabet(@participant.boq.amount_column.to_s) %>
-            </span>
+  <%= get_index_of_alphabet(@participant.boq.amount_column.to_s) %>
+</span>
+
 <span class="item_column">
-                <%= get_index_of_alphabet(@participant.boq.item_column.to_s) %>
-            </span>
+  <%= get_index_of_alphabet(@participant.boq.item_column.to_s) %>
+</span>
+
 <span class="boq_id">
-                <%= @participant.boq.id %>
-            </span>
-<span class="participant_id"><%= @participant.id %></span>
+  <%= @participant.boq.id %>
+</span>
+
+<span class="participant_id">
+  <%= @participant.id %>
+</span>
+
 <span class="sheet-name"></span>
 
 
@@ -87,10 +96,10 @@
         if(!json) json = [];
             json.forEach(function(r) { if(json[0].length < r.length) json[0].length = r.length; });
 
-        var rateColumn = parseInt($('.rate_column').text()) - 1;
-        var amountColumn = parseInt($('.amount_column').text()) -1;
+        var rateColumn = parseInt($('.rate_column').text());
+        var amountColumn = parseInt($('.amount_column').text());
         var itemColumn = parseInt($('.item_column').text());
-        var quantityColumn = parseInt($('.quantity_column').text()) -1;
+        var quantityColumn = parseInt($('.quantity_column').text());
 
         if(sheetidx == 0){
             $('.sheet-name').text(data.SheetNames[0]);
@@ -99,6 +108,7 @@
         json.forEach(function(row){
             remove(row, row[amountColumn]);
             remove(row, row[rateColumn]);
+            console.log(row);
             if(row[itemColumn] == 'Item' || row[itemColumn] == 'item'){
                 row.push('Rate');
                 row.push('Amount');
@@ -114,7 +124,6 @@
             colHeaders: true,
             cells: function(row, col, prop){
                 var cellProperties = {};
-                rateColumn = parseInt($('.rate_column').text()) - 1;
                 cellProperties.readOnly = 'true';
                 cellProperties.contextMenu = 'true';
                 return cellProperties;

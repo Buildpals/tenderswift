@@ -274,7 +274,6 @@ ActiveRecord::Schema.define(version: 20180129220639) do
     t.string "budget_currency", default: "USD", null: false
     t.string "contract_sum"
     t.string "contract_sum_currency", default: "USD", null: false
-    t.string "currency"
     t.index ["country_id"], name: "index_request_for_tenders_on_country_id"
     t.index ["quantity_surveyor_id"], name: "index_request_for_tenders_on_quantity_surveyor_id"
   end
