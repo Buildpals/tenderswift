@@ -22,19 +22,25 @@
       </p>
     </div>
 
+  <div class="form-row">
+    <div class="col-sm-12">
+      <%= form.label :currency, required: true %> *
+    </div>
+
+    <div class="form-group col-sm-6">
+      <%= form.select :currency, [['USD - United States Dollar', 'USD' ], ['GHS - Ghanaian Cedi', 'GHS' ]],
+                      {},
+                      {
+                          class: 'form-control form-control-sm',
+                          data: {'save-on-change': true}
+                      }
+      %>
+    </div>
+  </div>
+
     <div class="form-row">
       <div class="col-sm-12">
         <%= form.label :contract_sum %>
-      </div>
-
-      <div class="form-group col-sm-1">
-        <%= form.select :contract_sum_currency, [%w(USD USD), %w(GHS GHS)],
-                        {},
-                        {
-                            class: 'form-control form-control-sm',
-                            data: {'save-on-change': true}
-                        }
-        %>
       </div>
       <div class="form-group col-sm-6">
         <%= form.select :contract_sum, [['0 - 75,000', '0 - 75,000'],
