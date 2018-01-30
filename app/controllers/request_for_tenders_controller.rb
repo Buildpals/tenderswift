@@ -97,7 +97,10 @@ class RequestForTendersController < ApplicationController
         @rates = Rate.where(boq_id: @boq.id)
         render layout: 'compare_bids'
     else
-        redirect_to request_for_tenders_path
+        redirect_to request_for_tenders_path, notice: 'In accordance with tender
+                                                    fairness, you cannot access
+                                                    the bids until the deadline
+                                                    is past.'
     end
   end
 

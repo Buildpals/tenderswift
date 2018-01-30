@@ -75,4 +75,12 @@ class Participant < ApplicationRecord
     return ' - ' unless project_budget
     number_to_percentage 100 * (bid_difference / project_budget.to_d)
   end
+
+  def calculate_contract_sum
+    contract_sum = 0.0
+    rates.each do |rate|
+      contract_sum += (rate.value.to_f * rate.quantity.to_f)
+    end
+    contract_sum
+  end
 end

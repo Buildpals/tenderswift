@@ -7,10 +7,12 @@ class CreateTenderController < ApplicationController
   DEFAULT_BROADCAST_CONTENT = "If you have any questions you can reply me here".freeze
 
   def edit_tender_information
-    unless@request.submitted?
-        @next_path = edit_tender_documents_path(@request)
+    if @request.submitted?
+      redirect_to request_for_tenders_path, notice: 'A tender cannot
+                                            be edited once it\'s sent out
+                                            to contractors'
     else
-        redirect_to request_for_tenders_path
+      @next_path = edit_tender_documents_path(@request)
     end
   end
 
