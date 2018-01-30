@@ -50,7 +50,7 @@
                                   { action: 'disqualify', controller: 'participants', id: participant.auth_token },
                                   { class: 'dropdown-item remove-con-btn' } %>
                   <% end %>
-                  <button class="dropdown-item text-success accept" type="button">
+                  <button class="dropdown-item text-success btn-award-contract accept" type="button" data-toggle="modal" data-target="#disqualifiedContractorsModal">
                     Award Contract
                     <span class="<%= participant.company_name %>" style="display: none;"></span>
                     <span class="<%= participant.id %>" style="display: none;"></span>
