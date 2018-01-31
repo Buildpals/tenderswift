@@ -67,8 +67,10 @@
             <% @participant.project_documents.each do |project_document| %>
               <li class="list-group-item d-flex w-100 justify-content-between">
                 <%= project_document.document.file.filename %>
-                <%= link_to 'Download', project_document.document.url, target: '_blank',
-                            class: 'btn btn-sm btn-light' %>
+                <% if @participant.status.eql?('participating') %>
+                  <%= link_to 'Download', project_document.document.url, target: '_blank',
+                              class: 'btn btn-sm btn-light' %>
+                <% end %>
               </li>
             <% end %>
           </ul>

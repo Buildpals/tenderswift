@@ -1,6 +1,10 @@
+require 'digest/sha2'
+
 class DecisionMailer < ApplicationMailer
 
   default from: "projects@buildpals.com"
+
+  default "Message-ID"=>"#{Digest::SHA2.hexdigest(Time.now.to_i.to_s)}@buildpals.com"
 
   def notify_disqualified(disqualified_contractor, request, body)
     @disqualified_contractor = disqualified_contractor
