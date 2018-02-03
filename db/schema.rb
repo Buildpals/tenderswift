@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180130131120) do
+ActiveRecord::Schema.define(version: 20180130091449) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -176,7 +176,7 @@ ActiveRecord::Schema.define(version: 20180130131120) do
     t.string "company_name"
     t.string "phone_number"
     t.integer "rating", default: 0, null: false
-    t.decimal "total_bid", default: "0.0"
+    t.float "total_bid", default: 0.0
     t.boolean "disqualified", default: false, null: false
     t.index ["auth_token"], name: "index_participants_on_auth_token", unique: true
     t.index ["request_for_tender_id"], name: "index_participants_on_request_for_tender_id"
@@ -249,7 +249,7 @@ ActiveRecord::Schema.define(version: 20180130131120) do
   create_table "rates", force: :cascade do |t|
     t.bigint "boq_id"
     t.string "sheet_name"
-    t.decimal "value"
+    t.integer "value"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "participant_id"

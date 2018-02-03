@@ -24,6 +24,21 @@
       </div>
     </div>
 
+  <div class="form-row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <%= form.label :currency %> *
+        <%= form.select :currency, [['USD - United States Dollar', 'USD' ], ['GHS - Ghanaian Cedi', 'GHS' ]],
+                        {},
+                        {
+                            id: :request_for_tender_currency,
+                            class: 'form-control form-control-sm',
+                        }
+        %>
+      </div>
+    </div>
+  </div>
+
     <div class="form-row">
       <div class="col-md-8" id="request_for_tender_deadline">
         <div class="form-group">

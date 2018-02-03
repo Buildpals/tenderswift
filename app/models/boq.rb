@@ -3,7 +3,6 @@ class Boq < ApplicationRecord
 
   has_many :rates
 
-
   def name
       self.request_for_tender.project_name
   end
