@@ -8,86 +8,71 @@
     <%= render 'layouts/create_tender_navigation', location: 'top', request: @request, form: form %>
 
     <p class="text-muted small ">
-      Please in this general information about the project you are creating a request for tender here.
+      Please enter the following details about the project.
     </p>
 
-
-    <div class="form-group">
-      <%= form.label :project_name %>
-      <%= form.text_field :project_name, id: :request_project_name,
-                          class: 'form-control form-control-sm', data: {'save-on-change': true, toggle: 'tooltip', placement: 'right', title: 'Eg. Proposed residential building for Mrs. Diana Aduboat. '} %>
-      <p class="text-muted small">
-        Example: Purchases of office supplies; Construction of sawmill;
-        Railroad engineering works;
-      </p>
-    </div>
-
     <div class="form-row">
-      <div class="col-sm-12">
-        <%= form.label :contract_sum %>
-      </div>
-
-      <div class="form-group col-sm-1">
-        <%= form.select :contract_sum_currency, [%w(USD USD), %w(GHS GHS)],
-                        {},
-                        {
-                            class: 'form-control form-control-sm',
-                            data: {'save-on-change': true}
-                        }
-        %>
-      </div>
-      <div class="form-group col-sm-6">
-        <%= form.select :contract_sum, [['0 - 75,000', '0 - 75,000'],
-                                        ['75,000 - 200,000', '75,000 - 200,000'],
-                                        ['200,000 - 500,000', '200,000 - 500,000'],
-                                        ['above 500,000', 'above 500,000']],
-                        {},
-                        {
-                            id: :request_contract_sum, class: 'form-control form-control-sm',
-                            data: {'save-on-change': true}
-                        }
-        %>
-      </div>
-
-    </div>
-
-    <div class="form-row">
-      <div class="col-sm-12">
-        <%= form.label :deadline %>
-      </div>
-
-      <div class="form-group col-sm-6">
-        <%= form.datetime_select :deadline, { ampm: true, order: [:day, :month, :year] }, {
-            id: :request_deadline
-        } %>
+      <div class="col-md-12">
+        <div class="form-group">
+          <%= form.label :project_name %>
+          <%= form.text_field :project_name, id: :request_for_tender_project_name,
+                              class: 'form-control form-control-sm' %>
+          <small class="form-text text-muted">
+            Example: Proposed residential building for Mrs. Comfort Adu-Boateng
+          </small>
+        </div>
       </div>
     </div>
 
     <div class="form-row">
-      <div class="col-sm-12">
-        <%= form.label :country %>
-      </div>
-      <div class="form-group col-sm-2">
-        <%= form.collection_select :country_id, Country.all, :id, :name, {}, {id: :request_country,
-                                                                              class: 'form-control form-control-sm', data: {'save-on-change': true}} %>
+      <div class="col-md-8" id="request_for_tender_deadline">
+        <div class="form-group">
+          <%= form.label :deadline, 'Tender deadline' %> <br>
+          <%= form.datetime_select :deadline, { ampm: true, order: [:day, :month, :year] }, {} %>
+          <strong>GMT</strong>
+          <small class="form-text text-muted">
+            Deadline by which all contractors must submit their tender for this project
+          </small>
+        </div>
       </div>
     </div>
+
 
     <div class="form-row">
-      <div class="col-sm-12">
-        <%= form.label :city %>
-      </div>
-      <div class="form-group col-sm-5">
-        <%= form.text_field :city, id: :request_city,
-                            class: 'form-control form-control-sm', data: {'save-on-change': true} %>
+      <div class="col-md-4">
+        <div class="form-group">
+          <%= form.label :country %>
+          <%= form.collection_select :country_id, Country.all, :id, :name, {},
+                                     { id: :request_for_tender_country,
+                                       class: 'form-control form-control-sm', data: {'save-on-change': true}} %>
+        </div>
       </div>
     </div>
 
-    <div class="form-group">
-      <%= form.label :description %>
-      <%= form.text_area :description, id: :request_description, rows: 3,
-                         class: 'form-control form-control-sm', data: {'save-on-change': true, toggle: 'tooltip', placement: 'top', title: 'Eg. The structure is a one-storey building skeleton frames faculty with solid sandcrete walls as partitions. It covers an area of 478 sqm. The project is funded by Mrs Aduboat. '} %>
+
+  <div class="form-row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <%= form.label :city, 'City/Town' %>
+        <%= form.text_field :city, id: :request_for_tender_city, class: 'form-control form-control-sm' %>
+      </div>
     </div>
+  </div>
+
+
+  <div class="form-row">
+    <div class="col-md-12">
+      <div class="form-group">
+        <%= form.label :description %>
+        <%= form.text_area :description, id: :request_for_tender_description, rows: 3,
+                           class: 'form-control form-control-sm'  %>
+        <small class="form-text text-muted">
+          Example: The structure is a one-storey skeleton frames facility with solid sandcrete block walls as partitions. It covers
+          an area of 478sqm
+        </small>
+      </div>
+    </div>
+  </div>
 
     <%= render 'layouts/create_tender_navigation', location: 'bottom', request: @request, form: form %>
 <% end %>
