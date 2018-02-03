@@ -57,7 +57,7 @@ function differenceValueRenderer (instance, td, row, col, prop, value, cellPrope
   } else if (rate > fifteenPercentagePlus) {
     td.style.fontStyle = 'bold'
     td.className = 'make-me-red'
-  } else if (rate <= quantitySurveyorRate && rate > fivePercentageMinus) {
+  } else if (rate <= quantitySurveyorRate && rate >= fivePercentageMinus) {
     td.style.fontStyle = 'italic'
     td.className = 'make-me-green'
   } else if (rate >= fivePercentageMinus && rate >= fifteenPercentageMinus) {
@@ -66,7 +66,14 @@ function differenceValueRenderer (instance, td, row, col, prop, value, cellPrope
   } else if (rate < fifteenPercentageMinus) {
     td.style.fontStyle = 'bold'
     td.className = 'make-me-red'
+  } else if (rate == fifteenPercentageMinus || rate == fifteenPercentagePlus){
+      td.style.fontStyle = 'bold'
+      td.className = 'make-me-orange'
+  } else if (rate == fivePercentageMinus || rate == fivePercentagePlus){
+      td.style.fontStyle = 'bold'
+      td.className = 'make-me-orange'
   }
+
 
   td.setAttribute('style', 'text-align: right')
 
