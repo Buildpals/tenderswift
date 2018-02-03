@@ -27,10 +27,13 @@ class RequestForTendersController < ApplicationController
     country = Country.first
     @request = RequestForTender.new(project_name: 'Untitled Project',
                                     country: country,
-                                    deadline: Time.current + 7.days)
+                                    deadline: Time.current + 1.month)
     @request.quantity_surveyor = current_quantity_surveyor
     @request.create_blank_boq
     @request.save!
+    @request.project_name = "Untitled Project ##{@request.id}"
+    @request.save!
+
     redirect_to edit_tender_information_path @request
   end
 
