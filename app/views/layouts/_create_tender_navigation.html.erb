@@ -8,10 +8,11 @@
     <div class="align-self-center">
       <h1>
         <%= 'General Information' if action_name == 'edit_tender_information' %>
-        <%= 'Project Documents' if action_name == 'edit_tender_documents' %>
+        <%= 'Tender Documents' if action_name == 'edit_tender_documents' %>
         <%= 'Bill Of Quantities' if action_name == 'edit_tender_boq' %>
-        <%= 'Requirements' if action_name == 'edit_tender_questionnaire' %>
-        <%= 'Preview & Send' if action_name == 'edit_tender_participants' %>
+        <%= 'Tender Requirements' if action_name == 'edit_tender_questionnaire' %>
+        <%= 'Payment Method' if action_name == 'edit_tender_payment_method' %>
+        <%= 'Participants' if action_name == 'edit_tender_participants' %>
       </h1>
     </div>
   <% end %>

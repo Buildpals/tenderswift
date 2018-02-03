@@ -32,19 +32,22 @@
           <div class="col-md-3">
             <nav class="nav nav-pills flex-column">
               <a class="nav-item nav-link <%= 'active' if action_name == 'edit_tender_information' %>" href="<%= edit_tender_information_path(@request) %>">
-                1. Project Information
-              </a>
-              <a class="nav-item nav-link <%= 'active' if action_name == 'edit_tender_documents' %>" href="<%= edit_tender_documents_path(@request) %>">
-                2. Project Documents
+                1. General Information
               </a>
               <a class="nav-item nav-link <%= 'active' if action_name == 'edit_tender_boq' %>" href="<%= edit_tender_boq_path(@request) %>">
-                3. Bill Of Quantities
+                2. Bill Of Quantities
+              </a>
+              <a class="nav-item nav-link <%= 'active' if action_name == 'edit_tender_documents' %>" href="<%= edit_tender_documents_path(@request) %>">
+                3. Tender Documents
               </a>
               <a class="nav-item nav-link <%= 'active' if action_name == 'edit_tender_questionnaire' %>" href="<%= edit_tender_questionnaire_path(@request) %>">
-                4. Requirements
+                4. Tender Requirements
+              </a>
+              <a class="nav-item nav-link <%= 'active' if action_name == 'edit_tender_payment_method' %>" href="#">
+                5. Payment Method
               </a>
               <a class="nav-item nav-link <%= 'active' if action_name == 'edit_tender_participants' %>" href="<%= edit_tender_participants_path(@request) %>">
-                5. Preview & Send
+                6. Participants
               </a>
              <div class="nav-item nav-link ">
              </div>

@@ -12,14 +12,14 @@ class CreateTenderController < ApplicationController
                                             be edited once it\'s sent out
                                             to contractors'
     else
-      @next_path = edit_tender_documents_path(@request)
+      @next_path = edit_tender_boq_path(@request)
     end
   end
 
   def update_tender_information
     if @request.update(request_params)
       if params[:commit] == 'Next'
-        redirect_to edit_tender_documents_path(@request)
+        redirect_to edit_tender_boq_path(@request)
       else
         redirect_to edit_tender_information_path(@request)
       end
@@ -29,29 +29,8 @@ class CreateTenderController < ApplicationController
   end
 
 
-  def edit_tender_documents
-    @next_path = edit_tender_boq_path(@request)
-
-    5.times {@request.project_documents.build} if @request.project_documents.empty?
-  end
-
-  def update_tender_documents
-    if @request.update(request_params)
-      if params[:commit] == 'Back'
-        redirect_to edit_tender_information_path(@request)
-      elsif params[:commit] == 'Next'
-        redirect_to edit_tender_boq_path(@request)
-      else
-        redirect_to edit_tender_documents_path(@request)
-      end
-    else
-      render :edit_tender_documents
-    end
-  end
-
-
   def edit_tender_boq
-    @next_path = edit_tender_questionnaire_path(@request)
+    @next_path = edit_tender_documents_path(@request)
     #@request.build_excel
     #gon.jbuilder
   end
@@ -59,14 +38,35 @@ class CreateTenderController < ApplicationController
   def update_tender_boq
     if @request.update(request_params)
       if params[:commit] == 'Back'
-        redirect_to edit_tender_documents_path(@request)
+        redirect_to edit_tender_information_path(@request)
       elsif params[:commit] == 'Next'
-        redirect_to edit_tender_questionnaire_path(@request)
+        redirect_to edit_tender_documents_path(@request)
       else
         redirect_to edit_tender_boq_path(@request)
       end
     else
       render :edit_tender_boq
+    end
+  end
+
+
+  def edit_tender_documents
+    @next_path = edit_tender_questionnaire_path(@request)
+
+    5.times {@request.project_documents.build} if @request.project_documents.empty?
+  end
+
+  def update_tender_documents
+    if @request.update(request_params)
+      if params[:commit] == 'Back'
+        redirect_to edit_tender_boq_path(@request)
+      elsif params[:commit] == 'Next'
+        redirect_to edit_tender_questionnaire_path(@request)
+      else
+        redirect_to edit_tender_documents_path(@request)
+      end
+    else
+      render :edit_tender_documents
     end
   end
 
@@ -80,7 +80,7 @@ class CreateTenderController < ApplicationController
   def update_tender_questionnaire
     if @request.update(request_params)
       if params[:commit] == 'Back'
-        redirect_to edit_tender_boq_path(@request)
+        redirect_to edit_tender_documents_path(@request)
       elsif params[:commit] == 'Next'
         redirect_to edit_tender_participants_path(@request)
       else
