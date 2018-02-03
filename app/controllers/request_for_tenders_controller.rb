@@ -141,16 +141,13 @@ class RequestForTendersController < ApplicationController
   def request_params
     params.require(:request_for_tender)
           .permit(:project_name,
+                  :currency,
                   :deadline,
                   :country_id,
                   :city,
                   :description,
-                  :budget_currency,
-                  :budget,
                   :final_email_message,
                   :notify_disqualified_contractors_message,
-                  :contract_sum,
-                  :contract_sum_currency,
                   project_documents_attributes: [:id,
                                                  :document,
                                                  :_destroy],

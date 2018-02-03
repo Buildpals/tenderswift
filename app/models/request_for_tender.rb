@@ -1,8 +1,6 @@
 class RequestForTender < ApplicationRecord
   include ActionView::Helpers::DateHelper
 
-  monetize :budget_cents, with_model_currency: :currency
-
   scope :submitted, -> {where(submitted: true)}
   scope :not_submitted, -> {where(submitted: false)}
 
@@ -40,7 +38,6 @@ class RequestForTender < ApplicationRecord
   has_one :chatroom, dependent: :destroy
 
   validates :project_name, presence: true
-
   validates :deadline, presence: true
 
   def name
