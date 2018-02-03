@@ -5,24 +5,26 @@
               local: true,
               id: 'request-form' do |form| %>
 
-    <%= render 'layouts/create_tender_navigation', location: 'top', request: @request, form: form %>
+  <%= render 'layouts/create_tender_navigation', location: 'top', request: @request, form: form %>
 
-    <%= form.text_field :project_name, type: 'hidden' %>
+  <%= render 'request_for_tender_errors' %>
 
-    <p class="text-muted small">
-      Using the form below, add the requirements you have for the contractors who are going to bid on this project.
-    </p>
+  <%= form.text_field :project_name, type: 'hidden' %>
 
-    <div class="form-group mt-3">
-      <ul class="list-group list-group-flush nested-forms">
-        <%= form.fields_for :questions do |question| %>
-            <%= render 'question_fields', f: question %>
-        <% end %>
-        <li class="d-flex w-100 justify-content-between">
-          <%= link_to_add_association 'ADD ANOTHER REQUIREMENT', form, :questions, class: 'btn btn btn-sm btn-block btn-primary my-1' %>
-        </li>
-      </ul>
-    </div>
+  <p class="text-muted small">
+    Using the form below, add the requirements you have for the contractors who are going to bid on this project.
+  </p>
 
-    <%= render 'layouts/create_tender_navigation', location: 'bottom', request: @request, form: form %>
+  <div class="form-group mt-3">
+    <ul class="list-group list-group-flush nested-forms">
+      <%= form.fields_for :questions do |question| %>
+        <%= render 'question_fields', f: question %>
+      <% end %>
+      <li class="d-flex w-100 justify-content-between">
+        <%= link_to_add_association 'ADD ANOTHER REQUIREMENT', form, :questions, class: 'btn btn btn-sm btn-block btn-primary my-1' %>
+      </li>
+    </ul>
+  </div>
+
+  <%= render 'layouts/create_tender_navigation', location: 'bottom', request: @request, form: form %>
 <% end %>

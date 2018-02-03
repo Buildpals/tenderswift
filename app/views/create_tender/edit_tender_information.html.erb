@@ -5,45 +5,32 @@
               local: true,
               id: 'request-form' do |form| %>
 
-    <%= render 'layouts/create_tender_navigation', location: 'top', request: @request, form: form %>
+  <%= render 'layouts/create_tender_navigation', location: 'top', request: @request, form: form %>
 
+  <%= render 'request_for_tender_errors' %>
 
-  <% if @request.errors.any? %>
-    <div id="error_explanation">
-      <h2>
-        <%= pluralize(@request.errors.count, "error") %> prohibited
-        this article from being saved:
-      </h2>
-      <ul>
-        <% @request.errors.full_messages.each do |msg| %>
-          <li><%= msg %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
+  <p class="text-muted small ">
+    Please enter the following details about the project.
+  </p>
 
-    <p class="text-muted small ">
-      Please enter the following details about the project.
-    </p>
-
-    <div class="form-row">
-      <div class="col-md-12">
-        <div class="form-group">
-          <%= form.label :project_name %>
-          <%= form.text_field :project_name, id: :request_for_tender_project_name,
-                              class: 'form-control form-control-sm' %>
-          <small class="form-text text-muted">
-            Example: Proposed residential building for Mrs. Comfort Adu-Boateng
-          </small>
-        </div>
+  <div class="form-row">
+    <div class="col-md-12">
+      <div class="form-group">
+        <%= form.label :project_name %>
+        <%= form.text_field :project_name, id: :request_for_tender_project_name,
+                            class: 'form-control form-control-sm' %>
+        <small class="form-text text-muted">
+          Example: Proposed residential building for Mrs. Comfort Adu-Boateng
+        </small>
       </div>
     </div>
+  </div>
 
   <div class="form-row">
     <div class="col-md-6">
       <div class="form-group">
         <%= form.label :currency %>
-        <%= form.select :currency, [['USD - United States Dollar', 'USD' ], ['GHS - Ghanaian Cedi', 'GHS' ]],
+        <%= form.select :currency, [['USD - United States Dollar', 'USD'], ['GHS - Ghanaian Cedi', 'GHS']],
                         {},
                         {
                             id: :request_for_tender_currency,
@@ -54,30 +41,30 @@
     </div>
   </div>
 
-    <div class="form-row">
-      <div class="col-md-8" id="request_for_tender_deadline">
-        <div class="form-group">
-          <%= form.label :deadline, 'Tender deadline' %> <br>
-          <%= form.datetime_select :deadline, { ampm: true, order: [:day, :month, :year] }, {} %>
-          <strong>GMT</strong>
-          <small class="form-text text-muted">
-            Deadline by which all contractors must submit their tender for this project
-          </small>
-        </div>
+  <div class="form-row">
+    <div class="col-md-8" id="request_for_tender_deadline">
+      <div class="form-group">
+        <%= form.label :deadline, 'Tender deadline' %> <br>
+        <%= form.datetime_select :deadline, {ampm: true, order: [:day, :month, :year]}, {} %>
+        <strong>GMT</strong>
+        <small class="form-text text-muted">
+          Deadline by which all contractors must submit their tender for this project
+        </small>
       </div>
     </div>
+  </div>
 
 
-    <div class="form-row">
-      <div class="col-md-4">
-        <div class="form-group">
-          <%= form.label :country %>
-          <%= form.collection_select :country_id, Country.all, :id, :name, {},
-                                     { id: :request_for_tender_country,
-                                       class: 'form-control form-control-sm', data: {'save-on-change': true}} %>
-        </div>
+  <div class="form-row">
+    <div class="col-md-4">
+      <div class="form-group">
+        <%= form.label :country %>
+        <%= form.collection_select :country_id, Country.all, :id, :name, {},
+                                   {id: :request_for_tender_country,
+                                    class: 'form-control form-control-sm', data: {'save-on-change': true}} %>
       </div>
     </div>
+  </div>
 
 
   <div class="form-row">
@@ -95,14 +82,15 @@
       <div class="form-group">
         <%= form.label :description %>
         <%= form.text_area :description, id: :request_for_tender_description, rows: 3,
-                           class: 'form-control form-control-sm'  %>
+                           class: 'form-control form-control-sm' %>
         <small class="form-text text-muted">
-          Example: The structure is a one-storey skeleton frames facility with solid sandcrete block walls as partitions. It covers
+          Example: The structure is a one-storey skeleton frames facility with solid sandcrete block walls as
+          partitions. It covers
           an area of 478sqm
         </small>
       </div>
     </div>
   </div>
 
-    <%= render 'layouts/create_tender_navigation', location: 'bottom', request: @request, form: form %>
+  <%= render 'layouts/create_tender_navigation', location: 'bottom', request: @request, form: form %>
 <% end %>

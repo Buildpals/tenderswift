@@ -5,28 +5,30 @@
               local: true,
               id: 'request-form' do |form| %>
 
-    <%= render 'layouts/create_tender_navigation', location: 'top', request: @request, form: form %>
+  <%= render 'layouts/create_tender_navigation', location: 'top', request: @request, form: form %>
 
-    <p class="text-muted small">
-      Upload any documents that you want the contractor to use in deciding his bid.
-      <br>
-      <strong>
-        NB. Do not upload the bill of quantities here.
-        It should be uploaded in step "2. Bill Of Quantites" instead.
-      </strong>
-    </p>
+  <%= render 'request_for_tender_errors' %>
 
-    <div class="form-group mt-3">
-      <ul class="list-group list-group-flush nested-forms">
-        <%= form.fields_for :project_documents do |project_document| %>
-            <%= render 'project_document_fields', f: project_document %>
-        <% end %>
-        <li class="d-flex w-100 justify-content-between">
-          <%= link_to_add_association 'ADD NEW DOCUMENT', form, :project_documents, class: 'btn btn-sm btn-block btn-primary my-1' %>
-        </li>
-      </ul>
-    </div>
+  <p class="text-muted small">
+    Upload any documents that you want the contractor to use in deciding his bid.
+    <br>
+    <strong>
+      NB. Do not upload the bill of quantities here.
+      It should be uploaded in step "2. Bill Of Quantites" instead.
+    </strong>
+  </p>
+
+  <div class="form-group mt-3">
+    <ul class="list-group list-group-flush nested-forms">
+      <%= form.fields_for :project_documents do |project_document| %>
+        <%= render 'project_document_fields', f: project_document %>
+      <% end %>
+      <li class="d-flex w-100 justify-content-between">
+        <%= link_to_add_association 'ADD NEW DOCUMENT', form, :project_documents, class: 'btn btn-sm btn-block btn-primary my-1' %>
+      </li>
+    </ul>
+  </div>
 
 
-    <%= render 'layouts/create_tender_navigation', location: 'bottom', request: @request, form: form %>
+  <%= render 'layouts/create_tender_navigation', location: 'bottom', request: @request, form: form %>
 <% end %>

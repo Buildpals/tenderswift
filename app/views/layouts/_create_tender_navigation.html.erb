@@ -7,12 +7,12 @@
   <% if location == 'top' %>
     <div class="align-self-center">
       <h1>
-        <%= 'General Information' if action_name == 'edit_tender_information' %>
-        <%= 'Tender Documents' if action_name == 'edit_tender_documents' %>
-        <%= 'Bill Of Quantities' if action_name == 'edit_tender_boq' %>
-        <%= 'Tender Requirements' if action_name == 'edit_tender_questionnaire' %>
-        <%= 'Payment Method' if action_name == 'edit_tender_payment_method' %>
-        <%= 'Participants' if action_name == 'edit_tender_participants' %>
+        <%= 'General Information' if action_name.in? %w(edit_tender_information update_tender_information) %>
+        <%= 'Tender Documents' if action_name.in? %w(edit_tender_documents update_tender_documents) %>
+        <%= 'Bill Of Quantities' if action_name.in? %w(edit_tender_boq update_tender_boq) %>
+        <%= 'Tender Requirements' if action_name.in? %w(edit_tender_questionnaire update_tender_questionnaire) %>
+        <%= 'Payment Method' if action_name.in? %w(edit_tender_payment_method update_tender_payment_method) %>
+        <%= 'Participants' if action_name.in? %w(edit_tender_participants update_tender_participants) %>
       </h1>
     </div>
   <% end %>
@@ -26,7 +26,7 @@
 
     <% if action_name == 'edit_tender_participants' %>
       <%= form.submit 'Send to Participants', class: 'btn btn-secondary text-uppercase',
-                      data: { confirm: 'Send out this request for tender means all listed participants will immediately have access to this particular Request For Tender and as a result can start placing their bids. Are you sure you want to do so?'} %>
+                      data: {confirm: 'Send out this request for tender means all listed participants will immediately have access to this particular Request For Tender and as a result can start placing their bids. Are you sure you want to do so?'} %>
     <% else %>
       <%= form.submit 'Next', class: 'btn btn-primary next-button text-uppercase' %>
     <% end %>
