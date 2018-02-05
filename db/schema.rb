@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180130131120) do
+ActiveRecord::Schema.define(version: 20180205125838) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -274,9 +274,29 @@ ActiveRecord::Schema.define(version: 20180130131120) do
     t.string "budget_currency", default: "USD", null: false
     t.string "contract_sum"
     t.string "contract_sum_currency", default: "USD", null: false
-    t.string "currency", default: "USD", null: false
     t.index ["country_id"], name: "index_request_for_tenders_on_country_id"
     t.index ["quantity_surveyor_id"], name: "index_request_for_tenders_on_quantity_surveyor_id"
+  end
+
+  create_table "tender_transactions", force: :cascade do |t|
+    t.string "customer_number"
+    t.decimal "amount"
+    t.string "transaction_id"
+    t.string "voucher_code"
+    t.string "network_code"
+    t.integer "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "transactions", force: :cascade do |t|
+    t.string "customer_number", limit: 10
+    t.decimal "amount"
+    t.string "transaction_code"
+    t.string "voucher_code"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "network_code"
   end
 
   create_table "winners", force: :cascade do |t|
