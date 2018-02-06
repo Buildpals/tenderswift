@@ -10,6 +10,10 @@ class TenderTransaction < ApplicationRecord
 
   CLIENT_ID = 15.freeze
 
+  belongs_to :participant
+
+  belongs_to :request_for_tender
+
   def self.secret_key
     SECRET_KEY
   end

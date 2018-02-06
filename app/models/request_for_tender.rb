@@ -37,6 +37,8 @@ class RequestForTender < ApplicationRecord
 
   has_one :chatroom, dependent: :destroy
 
+  has_many :tender_transactions
+
   validates :project_name, presence: true
   validates :deadline, presence: true
 

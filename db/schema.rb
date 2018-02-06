@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180205131323) do
+ActiveRecord::Schema.define(version: 20180206101223) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -287,6 +287,10 @@ ActiveRecord::Schema.define(version: 20180205131323) do
     t.integer "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "participant_id"
+    t.bigint "request_for_tender_id"
+    t.index ["participant_id"], name: "index_tender_transactions_on_participant_id"
+    t.index ["request_for_tender_id"], name: "index_tender_transactions_on_request_for_tender_id"
   end
 
   create_table "winners", force: :cascade do |t|
@@ -325,6 +329,8 @@ ActiveRecord::Schema.define(version: 20180205131323) do
   add_foreign_key "quantity_surveyor_rates", "quantity_surveyors"
   add_foreign_key "questions", "request_for_tenders"
   add_foreign_key "rates", "participants"
+  add_foreign_key "tender_transactions", "participants"
+  add_foreign_key "tender_transactions", "request_for_tenders"
   add_foreign_key "winners", "request_for_tenders"
   add_foreign_key "workbooks", "request_for_tenders"
 end
