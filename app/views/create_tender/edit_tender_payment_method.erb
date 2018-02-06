@@ -1,0 +1,91 @@
+<%= form_with model: @request,
+              scope: :request_for_tender,
+              url: update_tender_payment_method_path(@request),
+              method: :patch,
+              local: true,
+              id: 'request-form' do |form| %>
+  <%= render 'layouts/create_tender_navigation', location: 'top', request: @request, form: form %>
+
+  <%= render 'request_for_tender_errors' %>
+
+  <div class="form-row">
+    <div class="col-md-12">
+        <%= form.label :selling_price %> (GHC)
+    </div>
+    <div class="col-md-2">
+      <div class="form-group">
+        <%= form.text_field :selling_price, id: :request_for_tender_selling_price,
+                            class: 'form-control form-control-sm' %>
+      </div>
+    </div>
+      <div class="col-md-12">
+        <small class="form-text text-muted">
+          Please note all sales will incur a service charge of 15% of
+          the total selling price.
+        </small>
+      </div>
+  </div>
+
+  <br>
+  <hr>
+  <p class="text-muted small ">
+    Please provide us with your Bank Account details,
+    and how frequently you want your money sent to you
+  </p>
+
+
+  <div class="form-row">
+    <div class="col-md-4">
+      <div class="form-group">
+        <%= form.label :bank_name %>
+        <%= form.text_field :bank_name, id: :request_for_tender_bank_name,
+                            class: 'form-control form-control-sm' %>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="col-md-4">
+      <div class="form-group">
+        <%= form.label :branch %>
+        <%= form.text_field :branch, id: :request_for_tender_bank_branch,
+                            class: 'form-control form-control-sm' %>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="form-row">
+    <div class="col-md-4">
+      <div class="form-group">
+        <%= form.label :account_name %>
+        <%= form.text_field :account_name, id: :request_for_tender_account_name,
+                            class: 'form-control form-control-sm' %>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="form-row">
+    <div class="col-md-4">
+      <div class="form-group">
+        <%= form.label :account_number %>
+        <%= form.text_field :account_number, id: :request_for_tender_account_nunber,
+                            class: 'form-control form-control-sm' %>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="form-row">
+    <div class="col-md-4">
+      <div class="form-group">
+        <%= form.label :frequency_of_receiving_sales %>
+        <%= form.select :frequency_of_receiving_sales, {'Monthly': 'Monthly', 'Bi-weekly': 'Bi-weekly', 'Weekly': 'Weekly' }, {},
+                        { id: :request_for_tender_frequency_of_receiving_sales, class: 'form-control form-control-sm' } %>
+      </div>
+    </div>
+  </div>
+
+  <%= render 'layouts/create_tender_navigation', location: 'bottom', request: @request, form: form %>
+<% end %>
