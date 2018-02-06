@@ -171,6 +171,7 @@ class CreateTenderController < ApplicationController
                 :currency,
                 :contract_sum,
                 :selling_price,
+                :withdrawal_frequency,
                 project_documents_attributes: [:id,
                                                :document,
                                                :_destroy],
