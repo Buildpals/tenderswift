@@ -98,6 +98,15 @@ class CreateTenderController < ApplicationController
   end
 
   def update_tender_payment_method
+    if @request.update(request_params)
+      if params[:commit] == 'Back'
+        redirect_to edit_tender_questionnaire_path(@request)
+      elsif params[:commit] == 'Next'
+        redirect_to edit_tender_participants_path(@request)
+      else
+        redirect_to edit_tender_payment_method_path(@request)
+      end
+    end
   end
 
 
@@ -161,6 +170,7 @@ class CreateTenderController < ApplicationController
                 :budget,
                 :currency,
                 :contract_sum,
+                :selling_price,
                 project_documents_attributes: [:id,
                                                :document,
                                                :_destroy],

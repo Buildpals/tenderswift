@@ -26,6 +26,10 @@
       </div>
   </div>
 
+  <p class="qs-company-name">
+    <%= @request.quantity_surveyor.company_name %>
+  </p>
+
   <br>
   <hr>
   <p class="text-muted small ">
@@ -80,8 +84,8 @@
   <div class="form-row">
     <div class="col-md-4">
       <div class="form-group">
-        <%= form.label :frequency_of_receiving_sales %>
-        <%= form.select :frequency_of_receiving_sales, {'Monthly': 'Monthly', 'Bi-weekly': 'Bi-weekly', 'Weekly': 'Weekly' }, {},
+        <%= form.label :withdrawal_frequency %>
+        <%= form.select :withdrawal_frequency, {'Monthly': 'Monthly', 'Bi-weekly': 'Bi-weekly', 'Weekly': 'Weekly' }, {},
                         { id: :request_for_tender_frequency_of_receiving_sales, class: 'form-control form-control-sm' } %>
       </div>
     </div>
@@ -89,3 +93,31 @@
 
   <%= render 'layouts/create_tender_navigation', location: 'bottom', request: @request, form: form %>
 <% end %>
+
+<script>
+
+  function storeBankDetailsInLocalStorage() {
+      var company_name = $('.qs-company-name').text();
+      localStorage.setItem(company_name+ '-bankname', $('#request_for_tender_bank_name').val());
+      localStorage.setItem(company_name+ '-branch', $('#request_for_tender_bank_branch').val());
+      localStorage.setItem(company_name+ '-account_name', $('#request_for_tender_account_name').val());
+      localStorage.setItem(company_name+ '-account_number', $('#request_for_tender_account_nunber').val());
+  }
+
+  function pullBankDetailsFromLocalStorage() {
+      var company_name = $('.qs-company-name').text();
+      $('#request_for_tender_bank_name').val(localStorage.getItem(company_name+ '-bankname'));
+      $('#request_for_tender_bank_branch').val(localStorage.getItem(company_name+ '-branch'));
+      $('#request_for_tender_account_name').val(localStorage.getItem(company_name+ '-account_name'));
+      $('#request_for_tender_account_nunber').val(localStorage.getItem(company_name+ '-account_number'));
+  }
+
+  $('.next-button').click( function (e) {
+      console.log('clicked button');
+      storeBankDetailsInLocalStorage();
+  });
+
+  $(document).ready( function (e) {
+      pullBankDetailsFromLocalStorage();
+  });
+</script>
