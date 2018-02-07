@@ -15,6 +15,11 @@ class RequestForTender < ApplicationRecord
 
   has_one :winner
 
+  has_many :required_documents, dependent: :destroy, inverse_of: :request_for_tender
+  accepts_nested_attributes_for :required_documents,
+                                allow_destroy: true,
+                                reject_if: :all_blank
+
   has_many :questions, dependent: :destroy, inverse_of: :request_for_tender
   accepts_nested_attributes_for :questions,
                                 allow_destroy: true,

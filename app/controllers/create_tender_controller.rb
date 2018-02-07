@@ -74,7 +74,7 @@ class CreateTenderController < ApplicationController
   def edit_tender_questionnaire
     @next_path = edit_tender_participants_path(@request)
 
-    @request.questions.build if @request.questions.empty?
+    @request.required_documents.build if @request.required_documents.empty?
   end
 
   def update_tender_questionnaire
@@ -161,6 +161,9 @@ class CreateTenderController < ApplicationController
                                           :phone_number,
                                           :company_name,
                                           :_destroy],
+                required_documents_attributes: [:id,
+                                                :title,
+                                                :_destroy],
                 questions_attributes: [:id,
                                        :number,
                                        :title,
