@@ -90,6 +90,11 @@ class RequestForTender < ApplicationRecord
     end
   end
 
+  def contract_class
+    # TODO: Return proper contract class
+    'D1, K1'
+  end
+
   def time_left
     distance_of_time_in_words_to_now(deadline)
   end

@@ -1,6 +1,6 @@
 class RequestForTendersController < ApplicationController
   before_action :set_request, only: [:show,
-                                     :destroy]
+                                     :destroy, :portal]
 
   before_action :authenticate_quantity_surveyor!
 
@@ -20,6 +20,12 @@ class RequestForTendersController < ApplicationController
       @winner = Participant.find_by(auth_token: @request.winner.auth_token)
     end
     #gon.jbuilder
+  end
+
+
+  # GET /projects/public/1
+  def portal
+    render layout: 'portal'
   end
 
   # GET /requests/new

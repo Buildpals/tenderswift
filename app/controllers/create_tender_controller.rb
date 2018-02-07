@@ -118,8 +118,8 @@ class CreateTenderController < ApplicationController
   def update_tender_participants
     if @request.update(request_params)
       if params[:commit] == 'Back'
-        redirect_to edit_tender_payment_method_path(@request)
-      elsif params[:commit] == 'Send to Participants'
+        redirect_to edit_tender_questionnaire_path(@request)
+      elsif params[:commit] == 'Submit'
         email_participants
       else
         redirect_to edit_tender_participants_path
