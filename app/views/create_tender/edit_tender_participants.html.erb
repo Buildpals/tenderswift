@@ -25,8 +25,8 @@
             Preview Contractor's Portal
           </a>
         </div>
-        <%= text_field_tag :portal_link, 'https://www.buildpals.com/projects/sW185y67/ssnit-apartments',
-                           {id: :contractors_portal_link, class: 'form-control form-control-sm' } %>
+        <%= text_field_tag :portal_link, request_for_tender_portal_url(@request),
+                           {id: :contractors_portal_link, class: 'form-control form-control-sm', onclick: "this.select()" } %>
       </div>
     </div>
   </div>

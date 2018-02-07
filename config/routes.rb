@@ -26,6 +26,7 @@ Rails.application.routes.draw do
   get 'participants/:id/boq', to: 'participants#boq', as: 'participants_boq'
   get 'participants/:id/results', to: 'participants#results', as: 'participants_results'
 
+  get 'projects/public/:id', to: 'request_for_tenders#portal', as: 'request_for_tender_portal'
 
   get 'bids/:id', to: 'bids#boq', as: 'bid_boq'
   get 'bids/:id/messages', to: 'bids#messages', as: 'bid_messages'

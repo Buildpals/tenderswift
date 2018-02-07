@@ -1,0 +1,96 @@
+<% content_for :title do %>
+  <%= @request.project_owners_company_name %>
+<% end %>
+
+<% content_for :favicon do %>
+  <link rel="icon" type="image/png" href="<%= cloudinary_url(@request.project_owners_company_logo.full_public_id, format: 'png', height: 16, crop: :scale,) %>">
+<% end %>
+
+<% content_for :breadcrumbs do %>
+  <li class="breadcrumb-item">
+    <a href="#">
+      <%= @request.project_owners_company_name %>
+    </a>
+  </li>
+  <li class="breadcrumb-item active" aria-current="page">
+    <%= @request.project_name %>
+  </li>
+<% end %>
+
+<% content_for :nav_tabs do %>
+  <nav class="nav">
+    <a class="nav-item nav-link active" href="#">
+      1. Project Information
+    </a>
+    <a class="nav-item nav-link disabled" href="#" data-toggle="tooltip" data-placement="bottom"
+       data-html="true"
+       data-title="Not available until you have purchased this tender">
+      2. Tender Documents
+    </a>
+    <a class="nav-item nav-link disabled" href="#" data-toggle="tooltip" data-placement="bottom"
+       data-html="true"
+       data-title="Not available until you have purchased this tender">
+      3. Bill of Quantities
+    </a>
+    <a class="nav-item nav-link disabled" href="#" data-toggle="tooltip" data-placement="bottom"
+       data-html="true"
+       data-title="Not available until you have purchased this tender">
+      4. Tendering Results
+    </a>
+  </nav>
+<% end %>
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<%= render 'layouts/head' %>
+
+<body class="<%= controller_name %> <%= action_name %>">
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <%= link_to '#', class: 'navbar-brand' do %>
+    <%= cl_image_tag(@request.project_owners_company_logo.full_public_id,
+                     format: 'jpg', height: 28, crop: :scale,
+                     style: 'height: 28px; margin-top: 0px;',
+                     title: @request.project_owners_company_name,
+                     alt: @request.project_owners_company_name)
+    %>
+    <%= @request.project_owners_company_name %>
+  <% end %>
+
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item mr-3">
+        <%= link_to 'Purchase Tender Documents', '#',
+                    class: 'btn btn-secondary' %>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<div class="content">
+
+  <%= render 'layouts/page_head' %>
+
+  <%= yield %>
+
+</div>
+
+<%= render 'layouts/participants_footer' %>
+
+</body>
+</html>
+
+
+<script type="text/javascript" charset="utf-8">
+  $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+  })
+</script>
