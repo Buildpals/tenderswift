@@ -41,6 +41,7 @@
 
 
 //= require Chart
+//= require trix
 
 
 //= require boqs

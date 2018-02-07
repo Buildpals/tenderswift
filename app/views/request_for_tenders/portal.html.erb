@@ -82,9 +82,7 @@
             Tendering Instructions
           </div>
           <div class="card-body">
-            <p class="card-text">
-              <%= simple_format @request.tender_instructions %>
-            </p>
+            <%= simple_format @request.tender_instructions, {}, {wrapper_tag: 'div' } %>
           </div>
 
 
