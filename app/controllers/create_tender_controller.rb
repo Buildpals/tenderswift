@@ -152,6 +152,7 @@ class CreateTenderController < ApplicationController
                 :budget,
                 :currency,
                 :contract_sum,
+                :tender_instructions,
                 project_documents_attributes: [:id,
                                                :document,
                                                :_destroy],

@@ -11,19 +11,93 @@
 
   <%= form.text_field :project_name, type: 'hidden' %>
 
-  <p class="text-muted small">
-    Using the form below, add the requirements you have for the contractors who are going to bid on this project.
+  <div class="form-row mb-5">
+    <div class="col-md-12">
+      <div class="form-group">
+        <%= form.label :tender_instructions, class: 'pb-0 mb-0' %>
+        <small class="form-text text-muted mb-3">
+          Please enter the details of how contractors should tender for this project,
+          which may include bid security, class, etc
+        </small>
+        <%= form.text_area :tender_instructions, id: :request_for_tender_tender_instructions, rows: 5,
+                           class: 'form-control form-control-sm' %>
+      </div>
+    </div>
+  </div>
+
+
+  <p class="text-muted">
+    Required Documents
   </p>
 
-  <div class="form-group mt-3">
-    <ul class="list-group list-group-flush nested-forms">
-      <%= form.fields_for :questions do |question| %>
-        <%= render 'question_fields', f: question %>
-      <% end %>
-      <li class="d-flex w-100 justify-content-between">
-        <%= link_to_add_association 'ADD ANOTHER REQUIREMENT', form, :questions, class: 'btn btn btn-sm btn-block btn-primary my-1' %>
-      </li>
-    </ul>
+
+  <div class="form-group">
+
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" id="gridCheck">
+      <label class="form-check-label" for="gridCheck">
+        Tax Clearance Certificate
+      </label>
+    </div>
+
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" id="gridCheck">
+      <label class="form-check-label" for="gridCheck">
+        SSNIT Clearance Certificate
+      </label>
+    </div>
+
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" id="gridCheck">
+      <label class="form-check-label" for="gridCheck">
+        Labour Certificate
+      </label>
+    </div>
+
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" id="gridCheck">
+      <label class="form-check-label" for="gridCheck">
+        Power of attorney
+      </label>
+    </div>
+
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" id="gridCheck">
+      <label class="form-check-label" for="gridCheck">
+        Certificate of Incorporation
+      </label>
+    </div>
+
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" id="gridCheck">
+      <label class="form-check-label" for="gridCheck">
+        Certificate of Commencement
+      </label>
+    </div>
+
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" id="gridCheck">
+      <label class="form-check-label" for="gridCheck">
+        Works and Housing certificate
+      </label>
+    </div>
+
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" id="gridCheck">
+      <label class="form-check-label" for="gridCheck">
+        Financial statements  (3 years )
+      </label>
+    </div>
+
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" id="gridCheck">
+      <label class="form-check-label" for="gridCheck">
+        Bank Statement or evidence of Funding  (letter of credit)
+      </label>
+    </div>
+
+    <a href="#" class="btn btn-sm btn-primary ml-3 mt-2 mb-5">Add another required document</a>
+
   </div>
 
   <%= render 'layouts/create_tender_navigation', location: 'bottom', request: @request, form: form %>
