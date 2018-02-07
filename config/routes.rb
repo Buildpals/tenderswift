@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  resources :tender_transactions
+  resources :transactions
   resources :quantity_surveyor_rates
   resources :rates
   root to: 'welcome#index'
@@ -49,6 +51,11 @@ Rails.application.routes.draw do
   get '/request/compare/bids/:id',
      to: 'request_for_tenders#compare_bids',
      as: 'compare_bids'
+
+
+  get 'participants/complete_transaction/:transaction_id/:status/:message',
+      to: 'participants#complete_transaction',
+      as: 'participants_complete_transaction'
 
 
   post '/requests/send_out/:id',
