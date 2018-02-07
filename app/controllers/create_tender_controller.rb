@@ -101,7 +101,7 @@ class CreateTenderController < ApplicationController
     if @request.update(request_params)
       if params[:commit] == 'Back'
         redirect_to edit_tender_questionnaire_path(@request)
-      elsif params[:commit] == 'Send to Participants'
+      elsif params[:commit] == 'Submit'
         email_participants
       else
         redirect_to edit_tender_participants_path
