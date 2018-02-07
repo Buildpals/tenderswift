@@ -21,9 +21,8 @@
             Copy and send it to the contractors you would like to tender for this contract.
           </small>
 
-          <a href="https://www.buildpals.com/projects/sW185y67/ssnit-apartments" target="_blank" class="btn btn-link btn-sm">
-            Preview Contractor's Portal
-          </a>
+          <%= link_to 'Preview Contractor\'s Portal', request_for_tender_portal_url(@request), target: '_blank', class: 'btn btn-link btn-sm' %>
+
         </div>
         <%= text_field_tag :portal_link, request_for_tender_portal_url(@request),
                            {id: :contractors_portal_link, class: 'form-control form-control-sm', onclick: "this.select()" } %>
