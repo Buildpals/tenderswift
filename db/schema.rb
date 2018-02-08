@@ -281,6 +281,12 @@ ActiveRecord::Schema.define(version: 20180208104420) do
     t.string "account_name"
     t.string "account_number"
     t.text "tender_instructions"
+    t.decimal "selling_price", default: "0.0"
+    t.string "withdrawal_frequency"
+    t.string "bank_name"
+    t.string "branch_name"
+    t.string "account_name"
+    t.string "account_number"
     t.index ["country_id"], name: "index_request_for_tenders_on_country_id"
     t.index ["quantity_surveyor_id"], name: "index_request_for_tenders_on_quantity_surveyor_id"
   end

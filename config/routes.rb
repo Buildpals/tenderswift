@@ -1,7 +1,6 @@
 Rails.application.routes.draw do
 
   resources :tender_transactions
-  resources :transactions
   resources :quantity_surveyor_rates
   resources :rates
   root to: 'welcome#index'
@@ -18,6 +17,9 @@ Rails.application.routes.draw do
   get '/tender/:id/edit/questionnaire', to: 'create_tender#edit_tender_questionnaire', as: 'edit_tender_questionnaire'
   patch '/tender/:id/update/questionnaire', to: 'create_tender#update_tender_questionnaire', as: 'update_tender_questionnaire'
 
+  get '/tender/:id/edit/payment_method', to: 'create_tender#edit_tender_payment_method', as: 'edit_tender_payment_method'
+  patch '/tender/:id/update/payment_method', to: 'create_tender#update_tender_payment_method', as: 'update_tender_payment_method'
+
   get '/tender/:id/edit/participants', to: 'create_tender#edit_tender_participants', as: 'edit_tender_participants'
   patch '/tender/:id/update/participants', to: 'create_tender#update_tender_participants', as: 'update_tender_participants'
 
@@ -27,6 +29,8 @@ Rails.application.routes.draw do
   get 'participants/:id/questionnaire', to: 'participants#questionnaire', as: 'participants_questionnaire'
   get 'participants/:id/boq', to: 'participants#boq', as: 'participants_boq'
   get 'participants/:id/results', to: 'participants#results', as: 'participants_results'
+
+  get 'tender_transactions/complete_transaction', to: 'tender_transactions#complete_transaction', as: 'complete_transaction'
 
   get 'projects/public/:id', to: 'request_for_tenders#portal', as: 'request_for_tender_portal'
 
