@@ -36,6 +36,8 @@ class Participant < ApplicationRecord
 
   has_many :rates
 
+  has_one :tender_transaction
+
   validates :email, presence: true
 
   validates :company_name, presence: true

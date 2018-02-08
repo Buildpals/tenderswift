@@ -26,7 +26,7 @@ class TenderTransactionsController < ApplicationController
   def create
     payload = Hash.new
     tender_transaction_params.each { |k, v|
-      unless k.eql?('transaction_code')
+      unless k.eql?('participant_id') || k.eql?('request_for_tender_id')
         payload[k] = v
       end
     }
@@ -36,27 +36,18 @@ class TenderTransactionsController < ApplicationController
     payload['callback_url'] = TenderTransaction.call_back_url
     payload['client_id'] = TenderTransaction.client_id
     payload['description'] = TenderTransaction.description
+    payload['amount'] = RequestForTender.find(params[:tender_transaction][:request_for_tender_id]).selling_price
     payload = payload.sort_by{ |x, y| x}.to_h
     json_document = JSON.generate(payload)
     ruby_hash_representation = JSON.parse(json_document)
     message = TenderTransaction.create_message(ruby_hash_representation)
     authorization = TenderTransaction.auth_signature(message)
 
-    TenderTransaction.make_payment(authorization, payload)
+    results_url = TenderTransaction.make_payment(authorization, payload, tender_transaction_params)
 
-=begin
-    @tender_transaction = TenderTransaction.new(tender_transaction_params)
-
-    respond_to do |format|
-      if @tender_transaction.save
-        format.html { redirect_to @tender_transaction, notice: 'Tender transaction was successfully created.' }
-        format.json { render :show, status: :created, location: @tender_transaction }
-      else
-        format.html { render :new }
-        format.json { render json: @tender_transaction.errors, status: :unprocessable_entity }
-      end
+    unless results_url.eql?(':null')
+      redirect_to results_url
     end
-=end
 
   end
 
@@ -84,6 +75,22 @@ class TenderTransactionsController < ApplicationController
     end
   end
 
+  def complete_transaction
+    transaction_id = params['transaction_id']
+    status = params['status']
+    message = params['message']
+    transaction = TenderTransaction.find_by(transaction_id: transaction_id)
+    if status.eql?('SUCCESS')
+      transaction.status = 'success'
+      transaction.save!
+      redirect_to participants_questionnaire_url, notice: message
+    else
+      transaction.status = 'failed'
+      transaction.save!
+      redirect_to participants_project_information_url, notice: message
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_tender_transaction
@@ -92,6 +99,6 @@ class TenderTransactionsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def tender_transaction_params
-      params.require(:tender_transaction).permit(:customer_number, :amount, :transaction_id, :voucher_code, :network_code, :status)
+      params.require(:tender_transaction).permit(:customer_number, :amount, :transaction_id, :voucher_code, :network_code, :status, :participant_id, :request_for_tender_id)
     end
 end

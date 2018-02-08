@@ -17,14 +17,17 @@ class ParticipantsController < ApplicationController
   end
 
   def project_information
+    @tender_transaction = TenderTransaction.new
   end
 
   def boq
+    @tender_transaction = TenderTransaction.new
     @boq = @participant.boq
     #gon.jbuilder
   end
 
   def questionnaire
+    @tender_transaction = TenderTransaction.new
   end
 
   def results

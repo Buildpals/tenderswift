@@ -1,5 +1,6 @@
 class CreateTenderController < ApplicationController
   before_action :set_request, only: [:edit_tender_information, :edit_tender_documents, :edit_tender_boq, :edit_tender_questionnaire, :edit_tender_participants,
+                                     :edit_tender_payment_method, :update_tender_payment_method,
                                      :update_tender_information, :update_tender_documents, :update_tender_boq, :update_tender_questionnaire, :update_tender_participants]
 
   before_action :authenticate_quantity_surveyor!
@@ -72,9 +73,7 @@ class CreateTenderController < ApplicationController
 
 
   def edit_tender_questionnaire
-    @next_path = edit_tender_participants_path(@request)
-
-    @request.required_documents.build if @request.required_documents.empty?
+    @next_path = edit_tender_payment_method_path(@request)
   end
 
   def update_tender_questionnaire
@@ -82,12 +81,29 @@ class CreateTenderController < ApplicationController
       if params[:commit] == 'Back'
         redirect_to edit_tender_documents_path(@request)
       elsif params[:commit] == 'Next'
-        redirect_to edit_tender_participants_path(@request)
+        redirect_to edit_tender_payment_method_path(@request)
       else
         redirect_to edit_tender_questionnaire_path(@request)
       end
     else
       render :edit_tender_questionnaire
+    end
+  end
+
+
+  def edit_tender_payment_method
+    @next_path = edit_tender_participants_path(@request)
+  end
+
+  def update_tender_payment_method
+    if @request.update(request_params)
+      if params[:commit] == 'Back'
+        redirect_to edit_tender_questionnaire_path(@request)
+      elsif params[:commit] == 'Next'
+        redirect_to edit_tender_participants_path(@request)
+      else
+        redirect_to edit_tender_payment_method_path(@request)
+      end
     end
   end
 
@@ -100,7 +116,7 @@ class CreateTenderController < ApplicationController
   def update_tender_participants
     if @request.update(request_params)
       if params[:commit] == 'Back'
-        redirect_to edit_tender_questionnaire_path(@request)
+        redirect_to edit_tender_payment_method_path(@request)
       elsif params[:commit] == 'Submit'
         email_participants
       else
@@ -152,6 +168,12 @@ class CreateTenderController < ApplicationController
                 :budget,
                 :currency,
                 :contract_sum,
+                :selling_price,
+                :bank_name,
+                :branch_name,
+                :account_name,
+                :account_number,
+                :withdrawal_frequency,
                 :tender_instructions,
                 project_documents_attributes: [:id,
                                                :document,
