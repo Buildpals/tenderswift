@@ -6,9 +6,15 @@ class TenderTransaction < ApplicationRecord
 
   URL = 'https://korbaxchange.herokuapp.com/api/v1.0/collect/'.freeze
 
-  CALLBACK_URL = 'https://www.buildpals.com/participants/complete_transaction'.freeze
+  CALLBACK_URL = 'https://buildpals-development.herokuapp.com/tender_transactions/complete_transaction'.freeze
 
   CLIENT_ID = 15.freeze
+
+  enum status: {
+      pending: 0,
+      success: 1,
+      failed: 2
+  }
 
   belongs_to :participant
 
@@ -66,7 +72,7 @@ class TenderTransaction < ApplicationRecord
     authorization
   end
 
-  def self.make_payment(authorization, payload)
+  def self.make_payment(authorization, payload, params)
     uri = URI.parse(self.url)
     https = Net::HTTP.new(uri.host, uri.port)
     https.use_ssl = true
@@ -75,9 +81,14 @@ class TenderTransaction < ApplicationRecord
     req['Authorization'] = authorization
     req.body = JSON.generate(payload)
     res = https.request(req)
-    puts "Response #{res.code} #{res.message}: #{res.body}"
-    if res.code.eql?(200)
-      puts 'success please wait'
+    url_hash = res.body.split(',')[1]
+    url = url_hash.split('"').last
+    puts url
+    puts "Response #{res.code} #{res.message}: #{res.body}}"
+    if res.code.eql?('200')
+        tender_transaction = TenderTransaction.new(params)
+        tender_transaction.save!
+        return url
     end
   end
 
