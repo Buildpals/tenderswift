@@ -42,7 +42,6 @@ class TenderTransactionsController < ApplicationController
     ruby_hash_representation = JSON.parse(json_document)
     message = TenderTransaction.create_message(ruby_hash_representation)
     authorization = TenderTransaction.auth_signature(message)
-
     results_url = TenderTransaction.make_payment(authorization, payload, tender_transaction_params)
 
     unless results_url.eql?(':null')
