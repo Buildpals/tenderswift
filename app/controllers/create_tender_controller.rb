@@ -175,6 +175,7 @@ class CreateTenderController < ApplicationController
                 :account_number,
                 :withdrawal_frequency,
                 :tender_instructions,
+                :private,
                 project_documents_attributes: [:id,
                                                :document,
                                                :_destroy],

@@ -71,10 +71,9 @@
     <div class="col-md-12">
       <div class="form-group">
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" id="gridCheck" onclick="ShowHideDiv(this)">
-          <label class="form-check-label" for="gridCheck">
-            Limit access to portal
-          </label>
+          <%= form.check_box :private, id: :request_for_tender_private,
+                          class: 'form-check-input', onclick: 'ShowHideDiv(this)' %>
+          <%= form.label :private, 'Limit access to portal', class: 'form-check-label' %>
         </div>
       </div>
     </div>
@@ -113,4 +112,6 @@
     participantsDiv.style.display = chkPassport.checked ? 'block' : 'none'
     publicLinkDiv.style.display = chkPassport.checked ? 'none' : 'block'
   }
+
+  ShowHideDiv(document.getElementById('request_for_tender_private'))
 </script>
