@@ -83,8 +83,7 @@ class TenderTransaction < ApplicationRecord
     res = https.request(req)
     url_hash = res.body.split(',')[1]
     url = url_hash.split('"').last
-    puts url
-    puts "Response #{res.code} #{res.message}: #{res.body}}"
+    #puts "Response #{res.code} #{res.message}: #{res.body}}"
     if res.code.eql?('200')
         tender_transaction = TenderTransaction.new(params)
         tender_transaction.save!
