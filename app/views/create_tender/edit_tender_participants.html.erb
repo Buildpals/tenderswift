@@ -22,11 +22,13 @@
             Copy and send it to the contractors you would like to tender for this contract.
           </small>
 
-          <%= link_to 'Preview Contractor\'s Portal', request_for_tender_portal_url(@request), target: '_blank', class: 'btn btn-link btn-sm' %>
+          <%= link_to 'Preview Contractor\'s Portal', request_for_tender_portal_url(@request), target: '_blank',
+                      class: 'btn btn-link btn-sm' %>
         </div>
 
         <%= text_field_tag :portal_link, request_for_tender_portal_url(@request),
-                           {id: :contractors_portal_link, class: 'form-control form-control-sm', onclick: "this.select()" } %>
+                           {id: :contractors_portal_link, class: 'form-control form-control-sm',
+                            onclick: 'this.select()', readonly: true} %>
       </div>
     </div>
   </div>
@@ -35,13 +37,14 @@
   <div class="form-row mb-5" id="participantsDiv" style="display: none">
     <div class="col-md-12">
       <div class="form-group">
-        <%= form.label :participants, 'Allowed Participants', class: 'pb-0 mb-0' %>
+        <%= form.label :participants, 'Allowed participants', class: 'pb-0 mb-0' %>
 
         <div class="d-flex w-100 justify-content-between mb-3">
           <small class="form-text text-muted">
             Enter the company name, email and phone number of the companies you want to tender for this project.
             <br>
-            They will each be sent an email with a link where they can purchase the tender documents and submit their bid.
+            They will each be sent an email with a link where they can purchase the tender documents and submit their
+            bid.
           </small>
 
           <button type="button" class="btn btn-link btn-sm"
@@ -55,7 +58,8 @@
             <%= render 'participant_fields', f: participant %>
           <% end %>
           <li class="d-flex w-100 justify-content-between">
-            <%= link_to_add_association 'ADD ANOTHER PARTICIPANT', form, :participants, class: 'btn btn-sm btn-block btn-primary my-1' %>
+            <%= link_to_add_association 'ADD ANOTHER PARTICIPANT', form, :participants,
+                                        class: 'btn btn-sm btn-block btn-primary my-1' %>
           </li>
         </ul>
       </div>
@@ -103,10 +107,10 @@
 
 
 <script type="text/javascript">
-  function ShowHideDiv(chkPassport) {
-    var participantsDiv = document.getElementById("participantsDiv");
-    var publicLinkDiv = document.getElementById("publicLinkDiv");
-    participantsDiv.style.display = chkPassport.checked ? "block" : "none";
-    publicLinkDiv.style.display = chkPassport.checked ? "none" : "block";
+  function ShowHideDiv (chkPassport) {
+    var participantsDiv = document.getElementById('participantsDiv')
+    var publicLinkDiv = document.getElementById('publicLinkDiv')
+    participantsDiv.style.display = chkPassport.checked ? 'block' : 'none'
+    publicLinkDiv.style.display = chkPassport.checked ? 'none' : 'block'
   }
 </script>
