@@ -10,10 +10,11 @@
   <%= render 'request_for_tender_errors' %>
 
 
-  <div class="form-row mb-5">
+  <div class="form-row mb-5" id="publicLinkDiv" style="display: block">
     <div class="col-md-12">
       <div class="form-group">
         <%= form.label :contractors_portal_link, 'Link to contractor\'s portal', class: 'pb-0 mb-0' %>
+
         <div class="d-flex w-100 justify-content-between mb-3">
           <small class="form-text text-muted">
             The link below is where contractors can see and purchase this request for tender.
@@ -22,8 +23,8 @@
           </small>
 
           <%= link_to 'Preview Contractor\'s Portal', request_for_tender_portal_url(@request), target: '_blank', class: 'btn btn-link btn-sm' %>
-
         </div>
+
         <%= text_field_tag :portal_link, request_for_tender_portal_url(@request),
                            {id: :contractors_portal_link, class: 'form-control form-control-sm', onclick: "this.select()" } %>
       </div>
@@ -31,19 +32,24 @@
   </div>
 
 
-  <div class="form-row">
+  <div class="form-row mb-5" id="participantsDiv" style="display: none">
     <div class="col-md-12">
-
       <div class="form-group">
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" id="gridCheck">
-          <label class="form-check-label" for="gridCheck">
-            Limit access to portal
-          </label>
+        <%= form.label :participants, 'Allowed Participants', class: 'pb-0 mb-0' %>
+
+        <div class="d-flex w-100 justify-content-between mb-3">
+          <small class="form-text text-muted">
+            Enter the company name, email and phone number of the companies you want to tender for this project.
+            <br>
+            They will each be sent an email with a link where they can purchase the tender documents and submit their bid.
+          </small>
+
+          <button type="button" class="btn btn-link btn-sm"
+                  data-toggle="modal" data-target="#email-modal" data-dismiss="modal">
+            Preview email
+          </button>
         </div>
-      </div>
 
-      <div class="form-group">
         <ul class="list-group list-group-flush nested-forms">
           <%= form.fields_for :participants do |participant| %>
             <%= render 'participant_fields', f: participant %>
@@ -52,23 +58,24 @@
             <%= link_to_add_association 'ADD ANOTHER PARTICIPANT', form, :participants, class: 'btn btn-sm btn-block btn-primary my-1' %>
           </li>
         </ul>
+      </div>
+    </div>
+  </div>
 
-        <div class="form-text text-muted d-flex w-100 justify-content-between">
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" id="gridCheck">
-            <label class="form-check-label" for="gridCheck">
-              Email participants
-            </label>
-          </div>
 
-          <button type="button" class="btn btn-link btn-sm"
-                  data-toggle="modal" data-target="#email-modal" data-dismiss="modal">
-            Preview email
-          </button>
+  <div class="form-row">
+    <div class="col-md-12">
+      <div class="form-group">
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="gridCheck" onclick="ShowHideDiv(this)">
+          <label class="form-check-label" for="gridCheck">
+            Limit access to portal
+          </label>
         </div>
       </div>
     </div>
   </div>
+
 
   <%= render 'layouts/create_tender_navigation', location: 'bottom', request: @request, form: form %>
 <% end %>
@@ -93,3 +100,13 @@
     </div>
   </div>
 </div>
+
+
+<script type="text/javascript">
+  function ShowHideDiv(chkPassport) {
+    var participantsDiv = document.getElementById("participantsDiv");
+    var publicLinkDiv = document.getElementById("publicLinkDiv");
+    participantsDiv.style.display = chkPassport.checked ? "block" : "none";
+    publicLinkDiv.style.display = chkPassport.checked ? "none" : "block";
+  }
+</script>
