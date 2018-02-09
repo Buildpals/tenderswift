@@ -77,7 +77,7 @@ class TenderTransaction < ApplicationRecord
     if Rails.env.production?
       ENV['http_proxy'] = ENV["QUOTAGUARDSTATIC_URL"]
       proxy_address = ENV['http_proxy']
-      https = Net::HTTP.new(uri.host, '', proxy_address)
+      https = Net::HTTP.new(uri.host,nil, proxy_address)
       puts proxy_address
     else
       https = Net::HTTP.new(uri.host, uri.port)
