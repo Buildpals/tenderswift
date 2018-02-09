@@ -77,7 +77,7 @@ class TenderTransaction < ApplicationRecord
     if Rails.env.production?
       ENV['http_proxy'] = ENV["QUOTAGUARDSTATIC_URL"]
       proxy_address = ENV['http_proxy']
-      https = Net::HTTP.new(uri.host, uri.port, proxy_address)
+      https = Net::HTTP.new(uri.host, '', proxy_address)
       puts proxy_address
     else
       https = Net::HTTP.new(uri.host, uri.port)
@@ -89,7 +89,7 @@ class TenderTransaction < ApplicationRecord
     req['Authorization'] = authorization
     req.body = JSON.generate(payload)
     res = https.request(req)
-    #puts "Response #{res.code} #{res.message}: #{res.body}}"
+    puts "Response #{res.code} #{res.message}: #{res.body}}"
     if res.code.eql?('200')
       return_url_hash = res.body.split(',')[1]
       return_url = return_url_hash.split('"').last

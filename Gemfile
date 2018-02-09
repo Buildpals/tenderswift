@@ -38,6 +38,16 @@ gem 'cloudinary'
 
 gem 'creek'
 
+gem 'mime-types'
+
+gem 'netrc'
+
+gem 'http-accept'
+
+gem 'http-cookie'
+
+gem 'rest-client'
+
 # devise for authentication
 gem 'devise'
 
