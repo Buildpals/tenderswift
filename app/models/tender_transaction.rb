@@ -78,7 +78,7 @@ class TenderTransaction < ApplicationRecord
       ENV['http_proxy'] = ENV["QUOTAGUARDSTATIC_URL"]
       proxy_address = ENV['http_proxy']
       #http://ug2fv7zrmee9du:6m504-EjzXb_7ewayHAYRDlZtQ@us-east-static-04.quotaguard.com:9293
-      https = Net::HTTP.new(uri.host,nil, proxy_address, 9293)
+      https = Net::HTTP.new(uri.host, nil, proxy_address, nil)
       puts proxy_address
     else
       https = Net::HTTP.new(uri.host, uri.port)
