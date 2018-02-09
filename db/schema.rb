@@ -270,6 +270,7 @@ ActiveRecord::Schema.define(version: 20180208160923) do
     t.boolean "submitted", default: false
     t.bigint "quantity_surveyor_id"
     t.bigint "country_id"
+    t.string "currency", default: "USD", null: false
     t.bigint "budget_cents"
     t.string "budget_currency", default: "USD", null: false
     t.string "contract_sum"
