@@ -75,11 +75,14 @@ class TenderTransaction < ApplicationRecord
   def self.make_payment(authorization, payload, attributes)
     uri = URI.parse(self.url)
     if Rails.env.production?
-      proxy_address = ENV["QUOTAGUARDSTATIC_URL"]
+      ENV['http_proxy'] = ENV["QUOTAGUARDSTATIC_URL"]
+      proxy_address = ENV['http_proxy']
       https = Net::HTTP.new(uri.host, uri.port, proxy_address)
+      puts proxy_address
     else
       https = Net::HTTP.new(uri.host, uri.port)
     end
+
     https.use_ssl = true
     req = Net::HTTP::Post.new(uri)
     req['Content-Type'] = 'application/json'
