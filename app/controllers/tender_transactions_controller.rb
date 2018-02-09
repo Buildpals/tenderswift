@@ -82,6 +82,8 @@ class TenderTransactionsController < ApplicationController
     if status.eql?('SUCCESS')
       transaction.status = 'success'
       transaction.save!
+      participant = Participant.find(transaction.participant_id)
+      participant.update(status: 'participating')
       redirect_to participants_questionnaire_url, notice: message
     else
       transaction.status = 'failed'
