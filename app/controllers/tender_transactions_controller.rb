@@ -87,11 +87,11 @@ class TenderTransactionsController < ApplicationController
       transaction.save!
       participant = Participant.find(transaction.participant_id)
       participant.update(status: 'participating')
-      redirect_to participants_questionnaire_url, notice: message
+      redirect_to participants_questionnaire_url(participant), notice: message
     else
       transaction.status = 'failed'
       transaction.save!
-      redirect_to participants_project_information_url, notice: message
+      redirect_to participants_project_information_url(participant), notice: message
     end
   end
 
