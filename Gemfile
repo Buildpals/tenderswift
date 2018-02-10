@@ -46,7 +46,7 @@ gem 'http-accept'
 
 gem 'http-cookie'
 
-gem 'rest-client'
+gem 'faraday', '~> 0.14.0'
 
 # devise for authentication
 gem 'devise'
