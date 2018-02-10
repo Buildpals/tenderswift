@@ -79,9 +79,6 @@ class TenderTransactionsController < ApplicationController
     status = params['status']
     message = params['message']
     transaction = TenderTransaction.find_by(transaction_id: transaction_id)
-    transaction.attributes.each do |attr|
-      puts attr
-    end
     if status.eql?('SUCCESS')
       transaction.status = 'success'
       transaction.save!
