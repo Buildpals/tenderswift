@@ -42,7 +42,7 @@ class TenderTransactionsController < ApplicationController
     ruby_hash_representation = JSON.parse(json_document)
     message = TenderTransaction.create_message(ruby_hash_representation)
     authorization = TenderTransaction.auth_signature(message)
-    results_url = TenderTransaction.make_payment(authorization, payload, tender_transaction_params)
+    results_url = TenderTransaction.make_payment(authorization, payload, tender_transaction_params, current_time)
 
     unless results_url.eql?(':null')
       redirect_to results_url
@@ -79,6 +79,9 @@ class TenderTransactionsController < ApplicationController
     status = params['status']
     message = params['message']
     transaction = TenderTransaction.find_by(transaction_id: transaction_id)
+    transaction.attributes.each do |attr|
+      puts attr
+    end
     if status.eql?('SUCCESS')
       transaction.status = 'success'
       transaction.save!

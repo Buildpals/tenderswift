@@ -73,7 +73,7 @@ class TenderTransaction < ApplicationRecord
     authorization
   end
 
-  def self.make_payment(authorization, payload, attributes)
+  def self.make_payment(authorization, payload, attributes, transaction_id)
     uri = URI.parse(self.url)
     if Rails.env.production?
       conn = Faraday.new(:url => url, :proxy => "http://ug2fv7zrmee9du:6m504-EjzXb_7ewayHAYRDlZtQ@us-east-static-04.quotaguard.com:9293")
@@ -90,6 +90,7 @@ class TenderTransaction < ApplicationRecord
       return_url_hash = response.body.split(',')[0]
       return_url = return_url_hash.split('"').last
       tender_transaction = TenderTransaction.new(attributes)
+      tender_transaction.transaction_id = transaction_id
       tender_transaction.save!
       return return_url
     end
