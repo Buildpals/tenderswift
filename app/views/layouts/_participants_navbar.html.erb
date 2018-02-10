@@ -53,30 +53,33 @@
 <div class="modal fade" id="paymentModal" tabindex="-1" role="dialog" aria-labelledby="paymentModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <div class="modal-header">
+      <div class="modal-header pay-modal">
         <h5 class="modal-title" id="exampleModalLabel">Make Payment Of Tender Documents</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
+        <img src="http://res.cloudinary.com/surreal/image/upload/v1518296909/https___hubtel.com_wp-content_themes_hubtel_html_assets_images_buttons_image550-4_bnm4ie.png" width="100%">
+          <br/>
+          <br/>
           <%= form_with model: TenderTransaction.new, local: true, class: 'form-inline' do |form| %>
-          <%= form.label 'Mode Of Payment:', class: 'col-md-6' %>
-          <%= form.select :network_code, {'AIRTEL Money': 'AIR', 'MTN Mobile Money': 'MTN', 'TIGO CASH': 'TIG', 'VISA/ MASTER CARD': 'CRD', 'Vodafone Cash': 'VOD' }, {},
-                          { id: :participant_tender_transaction_network_code, class: 'form-control col-md-6 network-select' } %>
-          <br/>
-          <br/>
-          <%= form.label 'Mobile Money Number:', class: 'col-md-6 mobile-money-number'%>
-          <%= form.text_field :customer_number, id: :participant_tender_transaction_customer_number, class: 'form-control col-md-6 mobile-money-number' %>
-          <br/>
-          <br/>
-          <%= form.label 'Voucher Code:', class: 'col-md-6 voucher-code' %>
-          <%= form.text_field :voucher_code, id: :participant_tender_transaction_voucher_code, class: 'form-control col-md-6 voucher-code' %>
-          <br/>
-          <br/>
-          <%= form.text_field :request_for_tender_id, value: @participant.request_for_tender.id, id: :participant_tender_transaction_request_for_tender_id, type: 'hidden' %>
-          <%= form.text_field :participant_id, value: @participant.id, id: :participant_tender_transaction_participant_id, type: 'hidden' %>
-          <%= form.text_field :status, value: 'pending', id: :participant_tender_transaction_status, type: 'hidden' %>
+            <%= form.label 'Mode Of Payment:', class: 'col-md-6 pay-label' %>
+            <%= form.select :network_code, {'AIRTEL Money': 'AIR', 'MTN Mobile Money': 'MTN', 'TIGO CASH': 'TIG', 'VISA/ MASTER CARD': 'CRD', 'Vodafone Cash': 'VOD' }, {},
+                            { id: :participant_tender_transaction_network_code, class: 'form-control col-md-6 network-select' } %>
+            <br/>
+            <br/>
+            <%= form.label 'Mobile Money Number:', class: 'col-md-6 mobile-money-number pay-label'%>
+            <%= form.text_field :customer_number, id: :participant_tender_transaction_customer_number, class: 'form-control col-md-6 mobile-money-number' %>
+            <br/>
+            <br/>
+            <%= form.label 'Voucher Code:', class: 'col-md-6 voucher-code pay-label' %>
+            <%= form.text_field :voucher_code, id: :participant_tender_transaction_voucher_code, class: 'form-control col-md-6 voucher-code' %>
+            <br/>
+            <br/>
+            <%= form.text_field :request_for_tender_id, value: @participant.request_for_tender.id, id: :participant_tender_transaction_request_for_tender_id, type: 'hidden' %>
+            <%= form.text_field :participant_id, value: @participant.id, id: :participant_tender_transaction_participant_id, type: 'hidden' %>
+            <%= form.text_field :status, value: 'pending', id: :participant_tender_transaction_status, type: 'hidden' %>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
