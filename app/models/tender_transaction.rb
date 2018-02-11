@@ -87,13 +87,17 @@ class TenderTransaction < ApplicationRecord
       req.body = JSON.generate(payload)
     end
     if response.status.eql?(200)
-      return_url_hash = response.body.split(',')[0]
-      return_url = return_url_hash.split('"').last
+      response_hash = turn_response_to_hash(response.body)
       tender_transaction = TenderTransaction.new(attributes)
       tender_transaction.transaction_id = transaction_id
       tender_transaction.save!
-      return return_url
+      return response_hash['redirect_url']
     end
+  end
+  private
+
+  def self.turn_response_to_hash (response_body)
+    JSON.parse(response_body.gsub("'",'"').gsub('=>',':'))
   end
 
 end

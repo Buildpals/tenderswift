@@ -44,7 +44,13 @@ class TenderTransactionsController < ApplicationController
     authorization = TenderTransaction.auth_signature(message)
     results_url = TenderTransaction.make_payment(authorization, payload, tender_transaction_params, current_time)
 
-    unless results_url.eql?(':null')
+    if results_url.nil?
+      tender_transaction = TenderTransaction.find_by(transaction_id:
+                                                         current_time)
+      flash[:notice] = 'Please check your phone for a prompt to complete the
+                        transaction'
+      redirect_to participants_questionnaire_url tender_transaction.participant
+    else
       redirect_to results_url
     end
 
@@ -84,11 +90,13 @@ class TenderTransactionsController < ApplicationController
       transaction.save!
       participant = Participant.find(transaction.participant_id)
       participant.update(status: 'participating')
-      redirect_to participants_questionnaire_url(participant), notice: message
+      flash[:notice] = message
+      redirect_to participants_questionnaire_url(participant)
     else
       transaction.status = 'failed'
       transaction.save!
-      redirect_to participants_project_information_url(participant), notice: message
+      flash[:notice] = message
+      redirect_to participants_project_information_url(participant)
     end
   end
 
