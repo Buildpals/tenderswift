@@ -15,37 +15,17 @@
     Upload the Bill of Quantities for the project or create one using the templates provided.
   </p>
 
-  <%= form.text_field :project_name, type: 'hidden' %>
-
   <% if @request.boq %>
-    <div class="content-boq">
-      <%= @request.boq.workbook_data %>
-    </div>
+    <%= content_tag :div,
+                    id: 'boq-excel',
+                    data: {
+                        boq: @request.boq.workbook_data,
+                        qs_company_name: @request.project_owners_company_name,
+                        currency: @request.currency_symbol,
+                        boq_contract_sum: 10000
+                    } do %>
+    <% end %>
   <% end %>
-  <span class="rate_column">
-        <%= get_index_of_alphabet(@request.boq.rate_column.to_s) %>
-    </span>
-  <span class="quantity_column">
-        <%= get_index_of_alphabet(@request.boq.quantity_column.to_s) %>
-    </span>
-  <span class="amount_column">
-         <%= get_index_of_alphabet(@request.boq.amount_column.to_s) %>
-    </span>
-  <span class="item_column">
-         <%= get_index_of_alphabet(@request.boq.item_column.to_s) %>
-    </span>
-  <span class="boq_id">
-        <%= @request.boq.id %>
-    </span>
-  <span class="quantity_surveyor_id">
-        <%= @request.quantity_surveyor.id %>
-    </span>
-  <span class="sheet-name"></span>
-
-  <div id="boq-excel"></div>
-
-  <div class="buttons row"></div>
-
 
   <div class="mb-4 text-center">
     <% if @request.boq %>
@@ -66,171 +46,8 @@
     <%= form.fields_for :boq do |boq_field| %>
       <%= boq_field.text_field :workbook_data, id: 'workbook-data', type: 'hidden' %>
     <% end %>
-    <%= form.file_field :document, id: 'upload-boq', class: 'form-control-file btn btn-sm btn-primary' %>
+    <%= form.file_field :document, id: 'upload-boq', class: 'form-control-file btn btn-sm btn-primary'%>
   </div>
 
   <%= render 'layouts/create_tender_navigation', location: 'bottom', request: @request, form: form %>
 <% end %>
-
-
-
-<script src="//rawgit.com/SheetJS/js-xlsx/master/dist/xlsx.full.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/handsontable/0.34.5/handsontable.min.js"></script>
-<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/handsontable/0.34.5/handsontable.min.css">
-
-
-<script>
-
-  $('#set-quantity-column').click(function (e) {
-    //set the quantity column
-    $('#request-form').submit()
-    $('#qunatityColumnModal').modal('hide')
-  })
-
-  var rABS = true // true: readAsBinaryString ; false: readAsArrayBuffer
-  function handleFile (e) {
-    var files = e.target.files, f = files[0]
-    var reader = new FileReader()
-    reader.onload = function (e) {
-      var data = e.target.result
-      if (!rABS) data = new Uint8Array(data)
-      var workbook = XLSX.read(data, {type: rABS ? 'binary' : 'array'}) //read workbook
-      console.log(data)
-      var parsedJson = JSON.stringify(workbook)
-      $('#workbook-data').val(parsedJson)
-      parsedJson = JSON.parse(parsedJson)
-      $('#request-form').submit() //submit form to save json data in DB;
-    }
-    if (rABS) reader.readAsBinaryString(f) else reader.readAsArrayBuffer(f)
-  }
-
-  var uploadBoqButton = document.getElementById('upload-boq')
-  uploadBoqButton.addEventListener('change', handleFile, false)
-
-  $(document).ready(function (e) {
-    data = JSON.parse($('.content-boq').text())
-
-    var calculateScreenHeight = function () {
-      return window.innerHeight
-    }
-
-    var calculateScreenWidth = function () {
-      return window.innerWidth * 2 / 3
-    }
-
-    /* make the buttons for the sheet names for good navigation */
-    var make_buttons = function (sheetnames) {
-      var $buttons = $('.buttons')
-      $buttons.html('')
-      sheetnames.forEach(function (s, idx) {
-        var button = $('<button/>').attr({type: 'button', name: 'btn' + idx, text: s})
-        button.append('<h3>' + s + '</h3>')
-        button.addClass('col-md-2 btn btn-light excel-nav')
-        button.click(function () { displaySheet(idx) })
-        $buttons.each(function (index, element) {
-          $(this).append(button)
-          $(this).append('<br/>')
-        })
-      })
-    }
-
-    /* Turn workbook to json object */
-    function to_json (workbook) {
-      XLSX.SSF.load_table(workbook.SSF)
-      var result = {}
-      workbook.SheetNames.forEach(function (sheetName) {
-        var roa = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], {header: 1})
-        if (roa.length > 0) result[sheetName] = roa
-      })
-      return result
-    }
-
-    /* process workbook to be viewable with
-        handsontable. We can pass an index to tell
-        us where exactly we should start reading from. 
-    */
-    function process_wb (wb, sheetidx) {
-      last_wb = wb
-      var sheet = wb.SheetNames[sheetidx || 0]
-      var json = to_json(wb)[sheet]
-      return json
-    }
-
-    var container = document.getElementById('boq-excel')
-    var json
-    var excelTable
-    var qsRates = []
-    var rowNumbers = []
-    /*  Display Sheet to the screen
-    */
-    var displaySheet = function (sheetidx) {
-      var contractSum = 0.0
-      json = process_wb(data, sheetidx)
-      if (!json) json = []
-      json.forEach(function (r) { if (json[0].length < r.length) json[0].length = r.length })
-
-      excelTable = new Handsontable(document.getElementById('boq-excel'), {
-        data: json,
-        startRows: 5,
-        startCols: 3,
-        stretchH: 'all',
-        rowHeaders: true,
-        colHeaders: true,
-        width: function () { return calculateScreenWidth() },
-        height: function () { return calculateScreenHeight() },
-        afterInit: function () {
-          rateColumn = parseInt($('.rate_column').text())
-          quantityColumn = parseInt($('.quantity_column').text())
-          itemColumn = parseInt($('.item_column').text())
-          data.SheetNames.forEach(function (sheetname, index) {
-            json = process_wb(data, index)
-            json.forEach(function (row) {
-              if (row.length > 2) { // check row has at least two columns ie. quantity and rate or unit
-                if (!isNaN(row[rateColumn])) {
-                  //all qs rates are here
-                  qsRates.push(parseFloat(row[rateColumn]) + '--sheet--' + sheetname)
-                  if (!isNaN(row[rateColumn]) && !isNaN(row[quantityColumn])) { //make sure there is a valid number in the quantity column
-                    contractSum = contractSum + (parseFloat(row[rateColumn]) * parseFloat(row[quantityColumn]))
-                    console.log((parseFloat(row[rateColumn]) * parseFloat(row[quantityColumn])))
-                  }
-                }
-              }
-            })
-          })
-          $('.contract-sum').text(contractSum)
-        }
-      })
-      make_buttons(data.SheetNames)
-    }
-
-    displaySheet(0)
-
-    function setContractSumAtBackend () {
-      $.ajax({
-        url: '/boqs/contract_sum/' + parseInt($('.boq_id').text()) + '/',
-        type: 'PATCH',
-        data: {
-          boqs: {
-            contract_sum: parseFloat($('.contract-sum').text())
-          }
-        },
-        success: function (response) {
-          console.log(response)
-        },
-        error: function (response) {
-          console.log(response)
-        }
-      })
-    }
-
-    $('.btn.btn-primary.next-button').click(function (e) {
-      setContractSumAtBackend()
-    })
-
-    $('.nav-item.nav-link').click(function (e) {
-      setContractSumAtBackend()
-    })
-  })
-
-
-</script>

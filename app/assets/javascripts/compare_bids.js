@@ -162,6 +162,8 @@ function isHeader (row) {
 function data (workBookData, sheetidx, currency, qsCompanyName, boqContractSum, participants) {
   let json = process_wb(workBookData, sheetidx)
 
+  console.log('json', json)
+
   let objectData = [
     {
       'item': 'Item',
@@ -176,10 +178,15 @@ function data (workBookData, sheetidx, currency, qsCompanyName, boqContractSum, 
     'rate': `<div>${qsCompanyName}<br><span class="small">${currency}${boqContractSum.toLocaleString('en', { minimumFractionDigits: 2})}</span></div>`
   }
 
-  participants.forEach(function (participant) {
-    headerRow[participant.company_name] =
-      `<div>${participant.company_name} <br> <span class="small">${currency}${participant.total_bid.toLocaleString('en')}</span></div>`
-  })
+  if (participants.length === 0) {
+    headerRow['amount'] =
+      `<div>Amount<br><span class="small">${currency}${boqContractSum.toLocaleString('en', { minimumFractionDigits: 2})}</span></div>`
+  } else {
+    participants.forEach(function (participant) {
+      headerRow[participant.company_name] =
+        `<div>${participant.company_name} <br> <span class="small">${currency}${participant.total_bid.toLocaleString('en')}</span></div>`
+    })
+  }
 
   objectData.push(headerRow)
 
@@ -198,16 +205,22 @@ function data (workBookData, sheetidx, currency, qsCompanyName, boqContractSum, 
       'rate': row[4]
     }
 
-    participants.forEach(function (participant) {
-      let rate = participant.rates.find(function (rate) {
-        return (rate.row_number - 1) === rowNumber
-          && rate.sheet_name === workBookData.SheetNames[sheetidx]
-      })
 
-      if (rate) {
-        rowData[participant.company_name] = rate.value
-      }
-    })
+    if (participants.length === 0) {
+      rowData['amount'] = row[5]
+    } else {
+      participants.forEach(function (participant) {
+        let rate = participant.rates.find(function (rate) {
+          return (rate.row_number - 1) === rowNumber
+            && rate.sheet_name === workBookData.SheetNames[sheetidx]
+        })
+
+        if (rate) {
+          rowData[participant.company_name] = rate.value
+        }
+      })
+    }
+
     objectData.push(rowData)
   })
   return objectData
@@ -222,11 +235,15 @@ function dataSchema (participants) {
     'rate': null
   }
 
-  participants.forEach(function (participant) {
-    dataSchema[participant.company_name] = null
-  })
+  if (participants.length === 0) {
+    dataSchema['amount'] = null
+  } else {
+    participants.forEach(participant => dataSchema[participant.company_name] = null)
+  }
 
   dataSchema['last'] = null
+  console.log('dataSchema', dataSchema)
+
   return dataSchema
 }
 
@@ -259,16 +276,31 @@ function columns (participants) {
     }
   ]
 
-  participants.forEach(function (participant) {
+  if (participants.length === 0) {
     columns.push({
-      data: participant.company_name,
-      renderer: differenceValueRenderer
+      data: 'amount',
+      type: 'numeric',
+      numericFormat: {
+        pattern: '0,0.00',
+        culture: 'en-US' // this is the default culture, set up for USD
+      },
+      allowEmpty: false
     })
-  })
+  } else {
+    participants.forEach(participant => {
+      columns.push({
+        data: participant.company_name,
+        renderer: differenceValueRenderer
+      })
+    })
+  }
 
   columns.push({
     data: 'last'
   })
+
+  console.log('columns', columns)
+
   return columns
 }
 
@@ -287,11 +319,33 @@ function cells (row, col, prop) {
 }
 
 function displaySheet (boqElement, sheetIndex) {
-  let workbookData = JSON.parse(boqElement.dataset.boq)
-  let currency = boqElement.dataset.currency
-  let qsCompanyName = boqElement.dataset.qsCompanyName
-  let boqContractSum = parseFloat(boqElement.dataset.boqContractSum)
-  let participants = JSON.parse(boqElement.dataset.participants)
+  let workbookData
+  let currency
+  let qsCompanyName
+  let boqContractSum
+  let participants = []
+
+  workbookData = JSON.parse(boqElement.dataset.boq)
+  currency = boqElement.dataset.currency
+  qsCompanyName = boqElement.dataset.qsCompanyName
+  boqContractSum = parseFloat(boqElement.dataset.boqContractSum)
+
+  if (boqElement.dataset.participants) {
+    participants = JSON.parse(boqElement.dataset.participants)
+  }
+
+  if (!workbookData) console.log('workbookData was not supplied')
+  if (!currency) console.log('currency was not supplied')
+  if (!qsCompanyName) console.log('qsCompanyName was not supplied')
+  if (!boqContractSum) console.log('boqContractSum was not supplied')
+
+
+  console.log('workBookData', workbookData)
+  console.log('currency', currency)
+  console.log('qsCompanyName', qsCompanyName)
+  console.log('boqContractSum', boqContractSum)
+  console.log('participants', participants)
+
 
   let excelTable = new Handsontable(boqElement, {
     data: data(workbookData, sheetIndex, currency, qsCompanyName, boqContractSum, participants),

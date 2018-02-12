@@ -45,6 +45,7 @@
 
 
 //= require boqs
+//= require boqs2
 //= require registrations
 //= require create_tender
 //= require requests

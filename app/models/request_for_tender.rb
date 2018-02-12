@@ -47,6 +47,14 @@ class RequestForTender < ApplicationRecord
   validates :project_name, presence: true
   validates :deadline, presence: true
 
+  def currency_symbol
+    if currency == 'USD'
+      return '$'
+    else
+      return 'GH₵'
+    end
+  end
+
   def name
     "##{id} #{project_name}"
   end

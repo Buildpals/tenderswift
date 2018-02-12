@@ -56,7 +56,7 @@ module HasProject
   end
 
   def project_budget
-    request_for_tender.budget
+    return 0
   end
 
   def contract_sum_currency
