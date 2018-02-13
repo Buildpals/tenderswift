@@ -11,11 +11,7 @@ class TenderTransaction < ApplicationRecord
 
   CLIENT_ID = 15.freeze
 
-  enum status: {
-      pending: 0,
-      success: 1,
-      failed: 2
-  }
+  enum status: { pending: 0, success: 1, failed: 2 }
 
   belongs_to :participant
 
@@ -73,7 +69,10 @@ class TenderTransaction < ApplicationRecord
     authorization
   end
 
-  def self.make_payment(authorization, payload, attributes, transaction_id)
+
+  def self.make_payment(authorization, payload, customer_number,
+                        amount, voucher_code = nil,
+                        network_code, status, participant_id, request_for_tender_id,transaction_id)
     uri = URI.parse(self.url)
     if Rails.env.production?
       conn = Faraday.new(:url => url, :proxy => "http://ug2fv7zrmee9du:6m504-EjzXb_7ewayHAYRDlZtQ@us-east-static-04.quotaguard.com:9293")
@@ -86,15 +85,21 @@ class TenderTransaction < ApplicationRecord
       req.headers['Authorization'] = authorization
       req.body = JSON.generate(payload)
     end
-    if response.status.eql?(200)
-      response_hash = turn_response_to_hash(response.body)
-      tender_transaction = TenderTransaction.new(attributes)
-      tender_transaction.transaction_id = transaction_id
+    response_hash = turn_response_to_hash(response.body)
+    puts response_hash
+    if response_hash['success'] == true
+      tender_transaction = TenderTransaction.new(customer_number: customer_number,
+                                                 amount: amount, voucher_code: voucher_code,
+                                                 network_code: network_code, status: status,
+                                                 participant_id: participant_id,
+                                                 transaction_id: transaction_id)
+      tender_transaction.request_for_tender = RequestForTender.find(request_for_tender_id)
       tender_transaction.save!
       return response_hash['redirect_url']
+    else
+      return response_hash['error_message']
     end
   end
-  private
 
   def self.turn_response_to_hash (response_body)
     JSON.parse(response_body.gsub("'",'"').gsub('=>',':'))

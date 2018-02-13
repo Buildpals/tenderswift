@@ -1,5 +1,9 @@
 class TenderTransactionsController < ApplicationController
+  include TenderTransactionsHelper
+
   before_action :set_tender_transaction, only: [:show, :edit, :update, :destroy]
+
+  include ApplicationHelper
 
   # GET /tender_transactions
   # GET /tender_transactions.json
@@ -24,36 +28,31 @@ class TenderTransactionsController < ApplicationController
   # POST /tender_transactions
   # POST /tender_transactions.json
   def create
-    payload = Hash.new
-    tender_transaction_params.each { |k, v|
-      unless k.eql?('participant_id') || k.eql?('request_for_tender_id')
-        payload[k] = v
-      end
-    }
-    current_time = Time.new
-    current_time = current_time.to_i
-    payload['transaction_id'] = current_time
-    payload['callback_url'] = TenderTransaction.call_back_url
-    payload['client_id'] = TenderTransaction.client_id
-    payload['description'] = TenderTransaction.description
-    payload['amount'] = RequestForTender.find(params[:tender_transaction][:request_for_tender_id]).selling_price
-    payload = payload.sort_by{ |x, y| x}.to_h
-    json_document = JSON.generate(payload)
-    ruby_hash_representation = JSON.parse(json_document)
-    message = TenderTransaction.create_message(ruby_hash_representation)
-    authorization = TenderTransaction.auth_signature(message)
-    results_url = TenderTransaction.make_payment(authorization, payload, tender_transaction_params, current_time)
-
-    if results_url.nil?
+    payload = extract_payload(tender_transaction_params,
+                              params[:tender_transaction][:request_for_tender_id])
+    json_document = get_json_document(payload)
+    authorization_string = hmac_auth(json_document)
+    results = TenderTransaction.make_payment(authorization_string, payload,
+                                                 params[:tender_transaction][:customer_number],
+                                                 params[:tender_transaction][:amount],
+                                                 params[:tender_transaction][:voucher_code],
+                                                 params[:tender_transaction][:network_code],
+                                                 params[:tender_transaction][:status],
+                                                 params[:tender_transaction][:participant_id],
+                                                 params[:tender_transaction][:request_for_tender_id],
+                                                 payload['transaction_id'])
+    if results.nil?
       tender_transaction = TenderTransaction.find_by(transaction_id:
-                                                         current_time)
+                                                         payload['transaction_id'])
       flash[:notice] = 'Please check your phone for a prompt to complete the
                         transaction'
       redirect_to participants_questionnaire_url tender_transaction.participant
+    elsif working_url?(results)
+      redirect_to results
     else
-      redirect_to results_url
+      flash[:notice] = results
+      redirect_to participants_questionnaire_url tender_transaction.participant
     end
-
   end
 
   # PATCH/PUT /tender_transactions/1
@@ -61,11 +60,17 @@ class TenderTransactionsController < ApplicationController
   def update
     respond_to do |format|
       if @tender_transaction.update(tender_transaction_params)
-        format.html { redirect_to @tender_transaction, notice: 'Tender transaction was successfully updated.' }
+        format.html do
+          redirect_to @tender_transaction,
+                      notice: 'Tender transaction was successfully updated.'
+        end
         format.json { render :show, status: :ok, location: @tender_transaction }
       else
         format.html { render :edit }
-        format.json { render json: @tender_transaction.errors, status: :unprocessable_entity }
+        format.json do
+          render json: @tender_transaction.errors,
+                 status: :unprocessable_entity
+        end
       end
     end
   end
@@ -75,7 +80,10 @@ class TenderTransactionsController < ApplicationController
   def destroy
     @tender_transaction.destroy
     respond_to do |format|
-      format.html { redirect_to tender_transactions_url, notice: 'Tender transaction was successfully destroyed.' }
+      format.html do
+        redirect_to tender_transactions_url,
+                    notice: 'Tender transaction was successfully destroyed.'
+      end
       format.json { head :no_content }
     end
   end
@@ -101,13 +109,27 @@ class TenderTransactionsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_tender_transaction
-      @tender_transaction = TenderTransaction.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def tender_transaction_params
-      params.require(:tender_transaction).permit(:customer_number, :amount, :transaction_id, :voucher_code, :network_code, :status, :participant_id, :request_for_tender_id)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_tender_transaction
+    @tender_transaction = TenderTransaction.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def tender_transaction_params
+    params.require(:tender_transaction)
+          .permit(:customer_number,
+                  :amount,
+                  :transaction_id,
+                  :voucher_code,
+                  :network_code,
+                  :status,
+                  :participant_id,
+                  :request_for_tender_id,
+                  participant_attributes: %i[id
+                                             email
+                                             phone_number
+                                             company_name
+                                             _destroy])
+  end
 end
