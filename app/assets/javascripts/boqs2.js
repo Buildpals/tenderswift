@@ -1,12 +1,6 @@
 $(document).on('turbolinks:load', function () {
   if ($('.create_tender.edit_tender_boq').length === 0) return
 
-  let boqElement = document.getElementById('boq-excel')
-  displayBoq(boqElement)
-
-
-
-
 
   var rABS = true; // true: readAsBinaryString ; false: readAsArrayBuffer
   function handleFile(e) {
@@ -26,4 +20,8 @@ $(document).on('turbolinks:load', function () {
   }
   var uploadBoqButton = document.getElementById('upload-boq');
   uploadBoqButton.addEventListener('change', handleFile, false);
+
+
+  let boqElement = document.getElementById('boq-excel')
+  displayBoq(boqElement)
 })
