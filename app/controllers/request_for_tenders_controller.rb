@@ -23,6 +23,8 @@ class RequestForTendersController < ApplicationController
 
   # GET /projects/public/1
   def portal
+    @participant = Participant.new
+    @participant.build_tender_transaction
     render layout: 'portal'
   end
 

@@ -1,0 +1,2 @@
+class PrivateTenderTransaction < TenderTransaction
+end
