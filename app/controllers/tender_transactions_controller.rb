@@ -48,7 +48,8 @@ class TenderTransactionsController < ApplicationController
       tender_transaction = TenderTransaction.find_by(transaction_id:
                                                          current_time)
       flash[:notice] = 'Please check your phone for a prompt to complete the
-                        transaction'
+                        transaction.
+                        After responding to the prompt, refresh this page'
       redirect_to participants_questionnaire_url tender_transaction.participant
     else
       redirect_to results_url
