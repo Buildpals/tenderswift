@@ -36,7 +36,10 @@ class Participant < ApplicationRecord
 
   has_many :rates
 
-  has_one :tender_transaction
+  has_one :tender_transaction, dependent: :destroy
+  accepts_nested_attributes_for :tender_transaction,
+                                allow_destroy: true,
+                                reject_if: :all_blank
 
   validates :email, presence: true
 

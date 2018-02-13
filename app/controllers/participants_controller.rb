@@ -1,17 +1,21 @@
 class ParticipantsController < ApplicationController
-  before_action :set_participant, only: [:update, :destroy,
-                                         :show_interest_in_request_for_tender,
-                                         :show_disinterest_in_request_for_tender,
-                                         :messages,
-                                         :project_information,
-                                         :boq,
-                                         :questionnaire,
-                                         :results,
-                                         :show_boq,
-                                         :disqualify, :undo_disqualify, :rate]
+  before_action :set_participant, only: %i[update destroy
+                                          show_interest_in_request_for_tender
+                                          show_disinterest_in_request_for_tender
+                                          messages
+                                          project_information
+                                          boq
+                                          questionnaire
+                                          results
+                                          show_boq
+                                          disqualify undo_disqualify rate]
 
-  before_action :set_read_time, only: [ :project_information,
-                                        :boq, :questionnaire]
+  before_action :set_read_time, only: %i[project_information
+                                      boq questionnaire]
+
+  include TenderTransactionsHelper
+
+  include ApplicationHelper
 
   def messages
   end
@@ -134,6 +138,41 @@ class ParticipantsController < ApplicationController
     @participant.save!
   end
 
+  def pay_public_tender
+    @participant = Participant.new(email: params[:participant][:email],
+                                   company_name: params[:participant][:company_name],
+                                   phone_number: params[:participant][:phone_number])
+    @participant.request_for_tender_id = params[:participant][:request_for_tender_id]
+    @participant.save!
+    payload = extract_payload(params[:participant][:tender_transaction_attributes],
+                              params[:participant][:request_for_tender_id])
+    json_document = get_json_document(payload)
+    authorization_string = hmac_auth(json_document)
+    params[:participant][:tender_transaction_attributes][:participant_id] = @participant.id
+    puts params[:participant][:tender_transaction_attributes]
+    results = TenderTransaction.make_payment(authorization_string, payload,
+                                                 params[:participant][:tender_transaction_attributes][:customer_number],
+                                                 params[:participant][:tender_transaction_attributes][:amount],
+                                                 params[:participant][:tender_transaction_attributes][:voucher_code],
+                                                 params[:participant][:tender_transaction_attributes][:network_code],
+                                                 params[:participant][:tender_transaction_attributes][:status],
+                                                 @participant.id,
+                                                 @participant.request_for_tender.id,
+                                                 payload['transaction_id'])
+    if results.nil?
+      tender_transaction = TenderTransaction.find_by(transaction_id:
+                                                         payload['transaction_id'])
+      flash[:notice] = 'Please check your phone for a prompt to complete the transaction.
+                        After responding to the prompt, refresh this page'
+      redirect_to participants_questionnaire_url tender_transaction.participant
+    elsif working_url?(results)
+      redirect_to results
+    else
+      flash[:notice] = results
+      redirect_to participants_questionnaire_url @participant
+    end
+  end
+
   private
 
   # Use callbacks to share common setup or constraints between actions.
@@ -155,6 +194,8 @@ class ParticipantsController < ApplicationController
     params.require(:participant)
           .permit(:email,
                   :phone_number,
+                  :participant,
+                  :company_name,
                   :first_name,
                   :last_name,
                   :status,
@@ -167,10 +208,19 @@ class ParticipantsController < ApplicationController
                   :removed,
                   :comment,
                   :contract_sum,
-                  filled_items_attributes: [:id,
-                                            :email,
-                                            :phone_number,
-                                            :rate,
-                                            :_destroy])
+                  :request_for_tender_id,
+                  tender_transaction_attributes: %i[id
+                                                    customer_number
+                                                    amount
+                                                    transaction_id
+                                                    voucher_code
+                                                    network_code
+                                                    status
+                                                    request_for_tender_id],
+                  filled_items_attributes: %i[id
+                                              email
+                                              phone_number
+                                              rate
+                                              _destroy])
   end
 end
