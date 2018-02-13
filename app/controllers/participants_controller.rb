@@ -13,7 +13,9 @@ class ParticipantsController < ApplicationController
   before_action :set_read_time, only: %i[project_information
                                       boq questionnaire]
 
-  include TenderTransactionsHelper, ApplicationHelper
+  include TenderTransactionsHelper
+
+  include ApplicationHelper
 
   def messages
   end
