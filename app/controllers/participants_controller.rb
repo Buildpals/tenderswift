@@ -160,8 +160,8 @@ class ParticipantsController < ApplicationController
     if results.nil?
       tender_transaction = TenderTransaction.find_by(transaction_id:
                                                          payload['transaction_id'])
-      flash[:notice] = 'Please check your phone for a prompt to complete the
-                        transaction'
+      flash[:notice] = 'Please check your phone for a prompt to complete the transaction.
+                        After responding to the prompt, refresh this page'
       redirect_to participants_questionnaire_url tender_transaction.participant
     elsif working_url?(results)
       redirect_to results
