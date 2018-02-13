@@ -80,9 +80,6 @@ gem 'money-rails', '~>1'
 # Redis for ActionCable
 gem 'redis', '~> 3.0'
 
-# Datepicker
-gem 'bootstrap-datepicker-rails'
-
 # WYSIWYG Editor
 gem 'trix'
 

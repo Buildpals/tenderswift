@@ -18,6 +18,7 @@
   <% if @request.boq %>
     <%= content_tag :div,
                     id: 'boq-excel',
+                    class: 'hot handsontable htRowHeaders htColumnHeaders',
                     data: {
                         boq: @request.boq.workbook_data,
                         qs_company_name: @request.project_owners_company_name,

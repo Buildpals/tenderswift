@@ -9,41 +9,47 @@
 //
 // Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
 // about supported directives.
-//
+
 //= require rails-ujs
 //= require turbolinks
+
+
+// Boostrap 4 gem requirements
 //= require jquery3
-//= require jquery_ujs
-//= require_tree ./channels
 //= require popper
 //= require bootstrap-sprockets
-//= require bootstrap-datepicker
+
+
+// Broadcast channels
+// require_tree ./channels
+
+// Autosize textarea
 //= require autosize
+
+// Parsely
 //= require parsley
+
+// Jquery Are You Sure
 //= require jquery.are-you-sure
 //= require ays-beforeunload-shim
+
+// Cocoon
 //= require cocoon
 
 
+// SheetJS
 //= require xlsx.full.min
-//= require handsontable.full.min
-//= require lodash
-//= require underscore.string
-//= require moment
-//= require numeral
-//= require numeric
-//= require md5
-//= require jstat
-//= require formula
-//= require parser
-//= require ruleJS
-//= require handsontable.formula
 
+// Handsontable Pro
+//= require handsontable.full
 
+// Chartjs
 //= require Chart
+
+// Trix
 //= require trix
 
-
+//= require compare_bids
 //= require boqs
 //= require boqs2
 //= require registrations
@@ -52,4 +58,3 @@
 //= require excel
 //= require participants
 //= require bids
-//= require compare_bids

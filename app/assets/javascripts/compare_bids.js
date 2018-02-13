@@ -66,14 +66,13 @@ function differenceValueRenderer (instance, td, row, col, prop, value, cellPrope
   } else if (rate < fifteenPercentageMinus) {
     td.style.fontStyle = 'bold'
     td.className = 'make-me-red'
-  } else if (rate == fifteenPercentageMinus || rate == fifteenPercentagePlus){
-      td.style.fontStyle = 'bold'
-      td.className = 'make-me-orange'
-  } else if (rate == fivePercentageMinus || rate == fivePercentagePlus){
-      td.style.fontStyle = 'bold'
-      td.className = 'make-me-orange'
+  } else if (rate == fifteenPercentageMinus || rate == fifteenPercentagePlus) {
+    td.style.fontStyle = 'bold'
+    td.className = 'make-me-orange'
+  } else if (rate == fivePercentageMinus || rate == fivePercentagePlus) {
+    td.style.fontStyle = 'bold'
+    td.className = 'make-me-orange'
   }
-
 
   td.setAttribute('style', 'text-align: right')
 
@@ -97,6 +96,25 @@ function to_json (workbook) {
   const result = {}
   workbook.SheetNames.forEach(function (sheetName) {
     const roa = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], {header: 1})
+
+    /*	Get	worksheet	*/
+    let worksheet = workbook.Sheets[sheetName]
+    roa.forEach(function (row, rowNumber) {
+      // Skip the first row in the json because it is the header row
+      // and we have appended our own custom headerRow to objectData
+
+      let address_of_cell = `F${rowNumber + 1}`
+      /*	Find	desired	cell	*/
+      let desired_cell = worksheet[address_of_cell]
+
+      /*	Get	the	value	*/
+      let desired_value = (desired_cell ? desired_cell.f : undefined)
+
+      // row[5] = `=${desired_value}`
+      row[5] = ' =C9*E9'
+      console.log('desired_value', desired_value, row[5])
+    })
+
     if (roa.length > 0) result[sheetName] = roa
   })
   return result
@@ -118,7 +136,6 @@ function make_buttons (boqElement) {
     button.click(function () {
       displaySheet(boqElement, idx)
     })
-    console.log(button)
     $(boqElement).after(button)
   })
 }
@@ -162,8 +179,6 @@ function isHeader (row) {
 function data (workBookData, sheetidx, currency, qsCompanyName, boqContractSum, participants) {
   let json = process_wb(workBookData, sheetidx)
 
-  console.log('json', json)
-
   let objectData = [
     {
       'item': 'Item',
@@ -175,12 +190,12 @@ function data (workBookData, sheetidx, currency, qsCompanyName, boqContractSum, 
   ]
 
   let headerRow = {
-    'rate': `<div>${qsCompanyName}<br><span class="small">${currency}${boqContractSum.toLocaleString('en', { minimumFractionDigits: 2})}</span></div>`
+    'rate': `<div>${qsCompanyName}<br><span class="small">${currency}${boqContractSum.toLocaleString('en', {minimumFractionDigits: 2})}</span></div>`
   }
 
   if (participants.length === 0) {
     headerRow['amount'] =
-      `<div>Amount<br><span class="small">${currency}${boqContractSum.toLocaleString('en', { minimumFractionDigits: 2})}</span></div>`
+      `<div>Amount<br><span class="small">${currency}${boqContractSum.toLocaleString('en', {minimumFractionDigits: 2})}</span></div>`
   } else {
     participants.forEach(function (participant) {
       headerRow[participant.company_name] =
@@ -204,7 +219,6 @@ function data (workBookData, sheetidx, currency, qsCompanyName, boqContractSum, 
       'unit': row[3],
       'rate': row[4]
     }
-
 
     if (participants.length === 0) {
       rowData['amount'] = row[5]
@@ -242,8 +256,6 @@ function dataSchema (participants) {
   }
 
   dataSchema['last'] = null
-  console.log('dataSchema', dataSchema)
-
   return dataSchema
 }
 
@@ -298,9 +310,6 @@ function columns (participants) {
   columns.push({
     data: 'last'
   })
-
-  console.log('columns', columns)
-
   return columns
 }
 
@@ -334,18 +343,10 @@ function displaySheet (boqElement, sheetIndex) {
     participants = JSON.parse(boqElement.dataset.participants)
   }
 
-  if (!workbookData) console.log('workbookData was not supplied')
-  if (!currency) console.log('currency was not supplied')
-  if (!qsCompanyName) console.log('qsCompanyName was not supplied')
-  if (!boqContractSum) console.log('boqContractSum was not supplied')
-
-
-  console.log('workBookData', workbookData)
-  console.log('currency', currency)
-  console.log('qsCompanyName', qsCompanyName)
-  console.log('boqContractSum', boqContractSum)
-  console.log('participants', participants)
-
+  if (!workbookData) { console.log('workbookData was not supplied'); return }
+  if (!currency) { console.log('currency was not supplied'); return }
+  if (!qsCompanyName) { console.log('qsCompanyName was not supplied'); return }
+  if (!boqContractSum) { console.log('boqContractSum was not supplied'); return }
 
   let excelTable = new Handsontable(boqElement, {
     data: data(workbookData, sheetIndex, currency, qsCompanyName, boqContractSum, participants),
@@ -361,15 +362,17 @@ function displaySheet (boqElement, sheetIndex) {
     fixedRowsTop: 2,
     stretchH: 'last',
     colWidths: colWidths,
+    formulas: true,
     readOnly: true
   })
+
+  excelTable.render()
 }
 
-function displayBoq(boqElement) {
+function displayBoq (boqElement) {
   displaySheet(boqElement, 0)
   make_buttons(boqElement)
 }
-
 
 $(document).on('turbolinks:load', function () {
   if ($('.request_for_tenders.compare_bids').length === 0) return
