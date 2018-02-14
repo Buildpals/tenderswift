@@ -21,7 +21,7 @@
 
 
 // Broadcast channels
-// require_tree ./channels
+//= require_tree ./channels
 
 // Autosize textarea
 //= require autosize
@@ -50,7 +50,6 @@
 //= require trix
 
 //= require compare_bids
-//= require boqs
 //= require boqs2
 //= require registrations
 //= require create_tender
