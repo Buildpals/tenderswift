@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180209110744) do
+ActiveRecord::Schema.define(version: 20180214191759) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -274,15 +274,15 @@ ActiveRecord::Schema.define(version: 20180209110744) do
     t.string "budget_currency", default: "USD", null: false
     t.string "contract_sum"
     t.string "contract_sum_currency", default: "USD", null: false
-    t.string "currency", default: "USD", null: false
-    t.text "tender_instructions"
     t.decimal "selling_price", default: "0.0"
     t.string "withdrawal_frequency"
     t.string "bank_name"
     t.string "branch_name"
     t.string "account_name"
     t.string "account_number"
+    t.text "tender_instructions"
     t.boolean "private", default: false, null: false
+    t.string "currency", default: "USD", null: false
     t.index ["country_id"], name: "index_request_for_tenders_on_country_id"
     t.index ["quantity_surveyor_id"], name: "index_request_for_tenders_on_quantity_surveyor_id"
   end
@@ -299,13 +299,13 @@ ActiveRecord::Schema.define(version: 20180209110744) do
     t.string "customer_number"
     t.decimal "amount"
     t.string "transaction_id"
-    t.string "voucher_code"
     t.string "network_code"
     t.integer "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "participant_id"
     t.bigint "request_for_tender_id"
+    t.string "vodafone_voucher_code"
     t.index ["participant_id"], name: "index_tender_transactions_on_participant_id"
     t.index ["request_for_tender_id"], name: "index_tender_transactions_on_request_for_tender_id"
   end

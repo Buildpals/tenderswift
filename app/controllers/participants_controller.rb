@@ -147,13 +147,14 @@ class ParticipantsController < ApplicationController
     payload = extract_payload(params[:participant][:tender_transaction_attributes],
                               params[:participant][:request_for_tender_id])
     json_document = get_json_document(payload)
+    puts payload
     authorization_string = hmac_auth(json_document)
     params[:participant][:tender_transaction_attributes][:participant_id] = @participant.id
     puts params[:participant][:tender_transaction_attributes]
     results = TenderTransaction.make_payment(authorization_string, payload,
                                                  params[:participant][:tender_transaction_attributes][:customer_number],
                                                  params[:participant][:tender_transaction_attributes][:amount],
-                                                 params[:participant][:tender_transaction_attributes][:voucher_code],
+                                                 params[:participant][:tender_transaction_attributes][:vodafone_voucher_code],
                                                  params[:participant][:tender_transaction_attributes][:network_code],
                                                  params[:participant][:tender_transaction_attributes][:status],
                                                  @participant.id,
@@ -213,7 +214,7 @@ class ParticipantsController < ApplicationController
                                                     customer_number
                                                     amount
                                                     transaction_id
-                                                    voucher_code
+                                                    vodafone_voucher_code
                                                     network_code
                                                     status
                                                     request_for_tender_id],
