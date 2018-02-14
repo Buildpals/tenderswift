@@ -89,7 +89,7 @@ class TenderTransaction < ApplicationRecord
     puts response_hash
     if response_hash['success'] == true
       tender_transaction = TenderTransaction.new(customer_number: customer_number,
-                                                 amount: amount, voucher_code: voucher_code,
+                                                 amount: amount, vodafone_voucher_code: voucher_code,
                                                  network_code: network_code, status: status,
                                                  participant_id: participant_id,
                                                  transaction_id: transaction_id)
