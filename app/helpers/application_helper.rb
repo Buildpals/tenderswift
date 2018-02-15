@@ -58,12 +58,12 @@ module ApplicationHelper
   require 'net/http'
 
   def working_url?(url_str)
-    url = URI.parse(url_str)
-    Net::HTTP.start(url.host, url.port) do |http|
-      http.head(url.request_uri).code == '200'
+    uri = URI.parse(url_str)
+    if uri.kind_of?(URI::HTTP) || uri.kind_of?(URI::HTTPS)
+      true
+    else
+      false
     end
-  rescue
-    false
   end
 
 end
