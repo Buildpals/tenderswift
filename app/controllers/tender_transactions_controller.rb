@@ -41,18 +41,21 @@ class TenderTransactionsController < ApplicationController
                                                  params[:tender_transaction][:participant_id],
                                                  params[:tender_transaction][:request_for_tender_id],
                                                  payload['transaction_id'])
-    if results.nil?
+    @participant = Participant.find(params[:tender_transaction][:participant_id])
+    if results == true
       tender_transaction = TenderTransaction.find_by(transaction_id:
                                                          payload['transaction_id'])
       flash[:notice] = 'Please check your phone for a prompt to complete the
                         transaction.
                         After responding to the prompt, refresh this page'
       redirect_to participants_questionnaire_url tender_transaction.participant
-    elsif working_url?(results)
+    elsif !results.nil? && working_url?(results)
       redirect_to results
+    elsif results.nil?
+      redirect_to participants_questionnaire_url @participant
     else
       flash[:notice] = results
-      redirect_to participants_questionnaire_url tender_transaction.participant
+      redirect_to participants_questionnaire_url @participant
     end
   end
 
