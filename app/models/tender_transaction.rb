@@ -95,7 +95,13 @@ class TenderTransaction < ApplicationRecord
                                                  transaction_id: transaction_id)
       tender_transaction.request_for_tender = RequestForTender.find(request_for_tender_id)
       tender_transaction.save!
-      return response_hash['redirect_url']
+      if network_code.eql?('CRD')
+        return response_hash['redirect_url']
+      elsif !response_hash['results'].nil?
+        return response_hash['results']
+      else
+        return response_hash['details']
+      end
     else
       return response_hash['error_message']
     end

@@ -118,21 +118,21 @@
             </div>
             <div class="col-md-6">
               <%= form.text_field :company_name, id: :participant_company_name,
-                               class: 'form-control form-control-sm mb-2', placeholder: 'eg. Buildpals Inc' %>
+                               class: 'form-control form-control-sm mb-2', placeholder: 'eg. Buildpals Inc', required: true %>
             </div>
             <div class="col-md-6">
               <%= form.label 'Email:' %>
             </div>
             <div class="col-md-6">
               <%= form.email_field :email, id: :participant_email,
-                                class: 'form-control form-control-sm mb-2', placeholder: 'eg. qwerty@rocketmail.com' %>
+                                class: 'form-control form-control-sm mb-2', placeholder: 'eg. qwerty@rocketmail.com', required: true %>
             </div>
             <div class="col-md-6">
               <%= form.label 'Phone Number:' %>
             </div>
             <div class="col-md-6">
               <%= form.telephone_field :phone_number, id: :participant_phone_number,
-                                    class: 'form-control form-control-sm mb-2', placeholder: 'eg. 0508787892' %>
+                                    class: 'form-control form-control-sm mb-2', placeholder: 'eg. 0508787892', required: true%>
             </div>
           </div>
 
