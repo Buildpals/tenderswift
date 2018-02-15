@@ -29,7 +29,7 @@
           <li class="nav-item mr-3">
             <% link_to 'Purchase Tender Documents', @participant.accept_url,
                         class: 'btn btn-secondary' %>
-            <button class="btn btn-secondary btn-payment-modal" data-toggle="modal" data-target="#paymentModal"> Purchase Tender Documents for GHC <%= @participant.request_for_tender.selling_price %></button>
+            <button class="btn btn-secondary btn-payment-modal" data-toggle="modal" data-target="#paymentModal"> Purchase Tender Documents for GHC <%= format_price(@participant.request_for_tender.selling_price) %></button>
           </li>
       <% end %>
     </ul>
