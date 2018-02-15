@@ -95,7 +95,7 @@ class TenderTransaction < ApplicationRecord
                                                  transaction_id: transaction_id)
       tender_transaction.request_for_tender = RequestForTender.find(request_for_tender_id)
       tender_transaction.save!
-      return response_hash['redirect_url']
+      return true
     else
       return response_hash['error_message']
     end

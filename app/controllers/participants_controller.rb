@@ -160,7 +160,7 @@ class ParticipantsController < ApplicationController
                                                  @participant.id,
                                                  @participant.request_for_tender.id,
                                                  payload['transaction_id'])
-    if results.nil?
+    if results == true
       tender_transaction = TenderTransaction.find_by(transaction_id:
                                                          payload['transaction_id'])
       flash[:notice] = 'Please check your phone for a prompt to complete the transaction.

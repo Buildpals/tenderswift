@@ -20,7 +20,7 @@
           </div>
 
           <div class="form-group">
-            <%= f.email_field :email, placeholder: 'Email address', class: 'form-control', required: true %>
+            <%= f.email_field :email, placeholder: 'Email address', class: 'form-control', id: 'email-registration', required: true %>
           </div>
           <div class="form-group">
             <input type="tel" name="phone" id="phone_number_input" value="<%= resource.phone_number%>"
@@ -58,3 +58,13 @@
   </div>
 
 </div>
+
+<script>
+  var rules = {
+    required: true,
+    email: true
+  };
+
+  var result = approve.value($('#email-registration').val(), rules);
+  console.log(result);
+</script>
