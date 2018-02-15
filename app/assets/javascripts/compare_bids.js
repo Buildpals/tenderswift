@@ -112,7 +112,7 @@ function to_json (workbook) {
 
       // row[5] = `=${desired_value}`
       row[5] = ' =C9*E9'
-      console.log('desired_value', desired_value, row[5])
+      // console.log('desired_value', desired_value, row[5])
     })
 
     if (roa.length > 0) result[sheetName] = roa
@@ -222,6 +222,7 @@ function data (workBookData, sheetidx, currency, qsCompanyName, boqContractSum, 
 
     if (participants.length === 0) {
       rowData['amount'] = row[5]
+      console.log('amount', rowData['amount'], typeof rowData['amount'])
     } else {
       participants.forEach(function (participant) {
         let rate = participant.rates.find(function (rate) {
@@ -290,13 +291,13 @@ function columns (participants) {
 
   if (participants.length === 0) {
     columns.push({
-      data: 'amount',
-      type: 'numeric',
-      numericFormat: {
-        pattern: '0,0.00',
-        culture: 'en-US' // this is the default culture, set up for USD
-      },
-      allowEmpty: false
+      data: 'amount'
+      // type: 'numeric',
+      // numericFormat: {
+      //   pattern: '0,0.00',
+      //   culture: 'en-US' // this is the default culture, set up for USD
+      // },
+      // allowEmpty: false
     })
   } else {
     participants.forEach(participant => {
@@ -380,4 +381,3 @@ $(document).on('turbolinks:load', function () {
   let boqElement = document.getElementById('boq-excel')
   displayBoq(boqElement)
 })
-

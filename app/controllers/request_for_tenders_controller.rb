@@ -2,7 +2,7 @@ class RequestForTendersController < ApplicationController
   before_action :set_request, only: %i[show
                                        destroy portal]
 
-  before_action :authenticate_quantity_surveyor!
+  before_action :authenticate_quantity_surveyor!, except: %i[portal]
 
   DEFAULT_BROADCAST_CONTENT = 'If you have any questions you can reply me here'.freeze
 
@@ -61,11 +61,11 @@ class RequestForTendersController < ApplicationController
     @request = RequestForTender.new(request_params)
     respond_to do |format|
       if @request.save
-        format.html { redirect_to @request, notice: 'Request was successfully created.' }
-        format.json { render :show, status: :created, location: @request }
+        format.html {redirect_to @request, notice: 'Request was successfully created.'}
+        format.json {render :show, status: :created, location: @request}
       else
-        format.html { render :new }
-        format.json { render json: @request.errors, status: :unprocessable_entity }
+        format.html {render :new}
+        format.json {render json: @request.errors, status: :unprocessable_entity}
       end
     end
   end
@@ -75,12 +75,12 @@ class RequestForTendersController < ApplicationController
   def update
     respond_to do |format|
       if @request.update(request_params)
-        format.json { render :show, status: :ok, location: @request }
+        format.json {render :show, status: :ok, location: @request}
         format.js
       else
-        format.html { render :edit }
+        format.html {render :edit}
         format.js
-        format.json { render json: @request.errors, status: :unprocessable_entity }
+        format.json {render json: @request.errors, status: :unprocessable_entity}
       end
     end
   end
@@ -90,8 +90,8 @@ class RequestForTendersController < ApplicationController
   def destroy
     @request.destroy
     respond_to do |format|
-      format.html { redirect_to request_for_tenders_url, notice: 'Request was successfully destroyed.' }
-      format.json { head :no_content }
+      format.html {redirect_to request_for_tenders_url, notice: 'Request was successfully destroyed.'}
+      format.json {head :no_content}
     end
   end
 
@@ -155,23 +155,23 @@ class RequestForTendersController < ApplicationController
   # Never trust parameters from the scary internet, only allow the white list through.
   def request_params
     params.require(:request_for_tender)
-          .permit(:project_name,
-                  :currency,
-                  :deadline,
-                  :country_id,
-                  :city,
-                  :description,
-                  :final_email_message,
-                  :notify_disqualified_contractors_message,
-                  project_documents_attributes: %i[id
+        .permit(:project_name,
+                :currency,
+                :deadline,
+                :country_id,
+                :city,
+                :description,
+                :final_email_message,
+                :notify_disqualified_contractors_message,
+                project_documents_attributes: %i[id
                                                    document
                                                    _destroy],
-                  participants_attributes: %i[id
+                participants_attributes: %i[id
                                               email
                                               phone_number
                                               company_name
                                               _destroy],
-                  questions_attributes: %i[id
+                questions_attributes: %i[id
                                            number
                                            title
                                            description
@@ -179,7 +179,7 @@ class RequestForTendersController < ApplicationController
                                            can_attach_documents
                                            mandatory
                                            _destroy],
-                  excel_attributes: %i[id
+                excel_attributes: %i[id
                                        document])
   end
 end
