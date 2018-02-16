@@ -90,6 +90,10 @@ group :development, :test do
   gem 'capybara', '~> 2.13'
   gem 'rails-controller-testing'
   gem 'selenium-webdriver'
+
+  gem 'cucumber-rails', :require => false
+  # database_cleaner is not required, but highly recommended
+  gem 'database_cleaner'
 end
 
 group :development do

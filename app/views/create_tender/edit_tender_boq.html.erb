@@ -16,16 +16,32 @@
   </p>
 
   <% if @request.boq %>
-    <%= content_tag :div,
-                    id: 'boq-excel',
-                    class: 'hot handsontable htRowHeaders htColumnHeaders',
-                    data: {
-                        boq: @request.boq.workbook_data,
-                        qs_company_name: @request.project_owners_company_name,
-                        currency: @request.currency_symbol,
-                        boq_contract_sum: 10000
-                    } do %>
-    <% end %>
+    <ul class="nav nav-tabs" id="myTab">
+      <% JSON.parse(@request.boq.workbook_data)['SheetNames'].each_with_index do |sheet_name, index| %>
+        <li class="nav-item">
+          <a class="nav-link <%= 'active' if index == 0 %>" data-target="#sheet-<%= index %>" data-toggle="tab">
+            <%= sheet_name %>
+          </a>
+        </li>
+      <% end %>
+    </ul>
+
+    <div class="tab-content">
+      <% JSON.parse(@request.boq.workbook_data)['SheetNames'].each_with_index do |sheet_name, index| %>
+        <div class="tab-pane <%= 'active' if index == 0 %>" id="sheet-<%= index %>">
+          <%= content_tag :div,
+                          class: 'boq-excel hot handsontable htRowHeaders htColumnHeaders mb-5',
+                          data: {
+                              sheet_index: index,
+                              boq: @request.boq.workbook_data,
+                              qs_company_name: @request.project_owners_company_name,
+                              currency: @request.currency_symbol,
+                              boq_contract_sum: 10000
+                          } do %>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
   <% end %>
 
   <div class="mb-4 text-center">
@@ -47,7 +63,7 @@
     <%= form.fields_for :boq do |boq_field| %>
       <%= boq_field.text_field :workbook_data, id: 'workbook-data', type: 'hidden' %>
     <% end %>
-    <%= form.file_field :document, id: 'upload-boq', class: 'form-control-file btn btn-sm btn-primary'%>
+    <%= form.file_field :document, id: 'upload-boq', class: 'form-control-file btn btn-sm btn-primary' %>
   </div>
 
   <%= render 'layouts/create_tender_navigation', location: 'bottom', request: @request, form: form %>

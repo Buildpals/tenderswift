@@ -178,6 +178,7 @@ function isHeader (row) {
 
 function data (workBookData, sheetidx, currency, qsCompanyName, boqContractSum, participants) {
   let json = process_wb(workBookData, sheetidx)
+  console.log('workBookData', workBookData)
 
   let objectData = [
     {
@@ -367,17 +368,20 @@ function displaySheet (boqElement, sheetIndex) {
     readOnly: true
   })
 
-  excelTable.render()
+
+  $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+    excelTable.render()
+  })
+
+
 }
 
 function displayBoq (boqElement) {
-  displaySheet(boqElement, 0)
-  make_buttons(boqElement)
+  let sheetIndex = boqElement.dataset.sheetIndex
+  displaySheet(boqElement, sheetIndex)
 }
 
 $(document).on('turbolinks:load', function () {
   if ($('.request_for_tenders.compare_bids').length === 0) return
 
-  let boqElement = document.getElementById('boq-excel')
-  displayBoq(boqElement)
 })
