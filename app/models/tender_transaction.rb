@@ -1,6 +1,8 @@
 require 'faraday'
 class TenderTransaction < ApplicationRecord
 
+  #xchange.korbaweb.com
+
   SECRET_KEY = 'c610c0b75f1711a1c392c6a5d823390ee31e8c0ba40b9f2778570b249fa2c958'.freeze
 
   CLIENT_KEY = '8e10dd4fd8bf4dc6efc76a4560d7b77a216ae4a9'.freeze
@@ -83,13 +85,8 @@ class TenderTransaction < ApplicationRecord
       if network_code.eql?('CRD')
         return response_hash['redirect_url']
       elsif !response_hash['results'].nil?
-        if network_code.eql?('VOD')
-          new_tender_transaction = TenderTransaction.find(new_tender_transaction_id)
-          new_tender_transaction.participant.status = 'participating'
-          new_tender_transaction.participant.interested_declaration_time = Time.new
-          new_tender_transaction.participant.save!
-          new_tender_transaction.status = 'success'
-          new_tender_transaction.save!
+        if network_code.eql?('VOD') || network_code.eql?('CRD')
+          set_up_participant(new_tender_transaction_id)
         end
         return response_hash['results']
       else
@@ -101,6 +98,16 @@ class TenderTransaction < ApplicationRecord
   end
 
   private
+
+  def self.set_up_participant(new_tender_transaction_id)
+    new_tender_transaction = TenderTransaction.find(new_tender_transaction_id)
+    new_tender_transaction.participant.status = 'participating'
+    new_tender_transaction.participant.interested_declaration_time = Time.new
+    new_tender_transaction.participant.rating = 0
+    new_tender_transaction.participant.save!
+    new_tender_transaction.status = 'success'
+    new_tender_transaction.save!
+  end
 
   def self.turn_response_to_hash (response_body)
     JSON.parse(response_body.gsub("'",'"').gsub('=>',':'))

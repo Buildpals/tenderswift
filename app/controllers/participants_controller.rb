@@ -143,6 +143,7 @@ class ParticipantsController < ApplicationController
                                    company_name: params[:participant][:company_name],
                                    phone_number: params[:participant][:phone_number])
     @participant.request_for_tender_id = params[:participant][:request_for_tender_id]
+    @participant.request_read_time = Time.new
     @participant.save!
     payload = extract_payload(params[:participant][:tender_transaction_attributes],
                               params[:participant][:request_for_tender_id])

@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
 
-  resources :tender_transactions
   resources :quantity_surveyor_rates
   resources :rates
   root to: 'welcome#index'
@@ -102,6 +101,7 @@ Rails.application.routes.draw do
   resources :answer_boxes
   resources :questions
   resources :quantity_surveyors, only: [:edit, :update]
+  resources :tender_transactions, except: [:destroy, :index, :show, :new, :edit, :update]
   resources :messages, only: [:create]
 
 
