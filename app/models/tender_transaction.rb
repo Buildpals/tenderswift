@@ -86,6 +86,7 @@ class TenderTransaction < ApplicationRecord
         if network_code.eql?('VOD')
           new_tender_transaction = TenderTransaction.find(new_tender_transaction_id)
           new_tender_transaction.participant.status = 'participating'
+          new_tender_transaction.participant.interested_declaration_time = Time.new
           new_tender_transaction.participant.save!
           new_tender_transaction.status = 'success'
           new_tender_transaction.save!

@@ -89,11 +89,12 @@ class TenderTransactionsController < ApplicationController
     status = params['status']
     message = params['message']
     transaction = TenderTransaction.find_by(transaction_id: transaction_id)
+    participant = Participant.find(transaction.participant_id)
     if status.eql?('SUCCESS')
       transaction.status = 'success'
       transaction.save!
-      participant = Participant.find(transaction.participant_id)
-      participant.update(status: 'participating')
+      participant.update(status: 'participating',
+                         interested_declaration_time: Time.new)
       flash[:notice] = message
       redirect_to participants_questionnaire_url(participant)
     else
