@@ -163,7 +163,8 @@ class ParticipantsController < ApplicationController
     if !results.nil? && working_url?(results)
       redirect_to results
     else
-      flash[:notice] = results
+      flash[:notice] = results + '. Refresh this page after responding to the
+                                   prompt on your phone'
       redirect_to participants_questionnaire_url @participant
     end
   end
