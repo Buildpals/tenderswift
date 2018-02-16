@@ -73,31 +73,23 @@ class TenderTransaction < ApplicationRecord
   def self.make_payment(authorization, payload, customer_number,
                         amount, voucher_code = nil,
                         network_code, status, participant_id, request_for_tender_id,transaction_id)
-    uri = URI.parse(self.url)
-    if Rails.env.production?
-      conn = Faraday.new(:url => url, :proxy => "http://ug2fv7zrmee9du:6m504-EjzXb_7ewayHAYRDlZtQ@us-east-static-04.quotaguard.com:9293")
-    else
-      conn = Faraday.new(:url => url)
-    end
-    response = conn.post do |req|
-      req.url '/api/v1.0/collect/'
-      req.headers['Content-Type'] = 'application/json'
-      req.headers['Authorization'] = authorization
-      req.body = JSON.generate(payload)
-    end
+    conn = set_up_faraday
+    response = send_request_to_korbaweb(authorization, conn, payload)
     response_hash = turn_response_to_hash(response.body)
     puts response_hash
     if response_hash['success'] == true
-      tender_transaction = TenderTransaction.new(customer_number: customer_number,
-                                                 amount: amount, vodafone_voucher_code: voucher_code,
-                                                 network_code: network_code, status: status,
-                                                 participant_id: participant_id,
-                                                 transaction_id: transaction_id)
-      tender_transaction.request_for_tender = RequestForTender.find(request_for_tender_id)
-      tender_transaction.save!
+      new_tender_transaction_id = create_tender_transaction(amount, customer_number, network_code, participant_id,
+                                request_for_tender_id, status, transaction_id, voucher_code)
       if network_code.eql?('CRD')
         return response_hash['redirect_url']
       elsif !response_hash['results'].nil?
+        if network_code.eql?('VOD')
+          new_tender_transaction = TenderTransaction.find(new_tender_transaction_id)
+          new_tender_transaction.participant.status = 'participating'
+          new_tender_transaction.participant.save!
+          new_tender_transaction.status = 'success'
+          new_tender_transaction.save!
+        end
         return response_hash['results']
       else
         return response_hash['details']
@@ -107,8 +99,41 @@ class TenderTransaction < ApplicationRecord
     end
   end
 
+  private
+
   def self.turn_response_to_hash (response_body)
     JSON.parse(response_body.gsub("'",'"').gsub('=>',':'))
+  end
+
+  def self.create_tender_transaction(amount, customer_number, network_code, participant_id,
+                                    request_for_tender_id, status, transaction_id, voucher_code)
+    tender_transaction = TenderTransaction.new(customer_number: customer_number,
+                                               amount: amount, vodafone_voucher_code: voucher_code,
+                                               network_code: network_code, status: status,
+                                               participant_id: participant_id,
+                                               transaction_id: transaction_id)
+    tender_transaction.request_for_tender = RequestForTender.find(request_for_tender_id)
+    tender_transaction.save
+    tender_transaction.id
+  end
+
+  def self.send_request_to_korbaweb(authorization, conn, payload)
+    response = conn.post do |req|
+      req.url '/api/v1.0/collect/'
+      req.headers['Content-Type'] = 'application/json'
+      req.headers['Authorization'] = authorization
+      req.body = JSON.generate(payload)
+    end
+  end
+
+  def self.set_up_faraday
+    uri = URI.parse(self.url)
+    if Rails.env.production?
+      conn = Faraday.new(:url => url, :proxy => "http://ug2fv7zrmee9du:6m504-EjzXb_7ewayHAYRDlZtQ@us-east-static-04.quotaguard.com:9293")
+    else
+      conn = Faraday.new(:url => url)
+    end
+    conn
   end
 
 end
