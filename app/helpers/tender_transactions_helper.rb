@@ -30,4 +30,8 @@ module TenderTransactionsHelper
     authorization
   end
 
+  def format_price(selling_price)
+    '%.2f' %  selling_price
+  end
+
 end
