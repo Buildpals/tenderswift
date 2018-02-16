@@ -18,7 +18,7 @@
       <div class="form-group">
         <%= form.label :project_name %>
         <%= form.text_field :project_name, id: :request_for_tender_project_name,
-                            class: 'form-control form-control-sm' %>
+                            class: 'form-control form-control-sm', required: true %>
         <small class="form-text text-muted">
           Example: Proposed residential building for Mrs. Comfort Adu-Boateng
         </small>
@@ -71,7 +71,7 @@
     <div class="col-md-6">
       <div class="form-group">
         <%= form.label :city, 'City/Town' %>
-        <%= form.text_field :city, id: :request_for_tender_city, class: 'form-control form-control-sm' %>
+        <%= form.text_field :city, id: :request_for_tender_city, class: 'form-control form-control-sm', required: true %>
       </div>
     </div>
   </div>
@@ -82,7 +82,7 @@
       <div class="form-group">
         <%= form.label :description %>
         <%= form.text_area :description, id: :request_for_tender_description, rows: 3,
-                           class: 'form-control form-control-sm' %>
+                           class: 'form-control form-control-sm', required: true %>
         <small class="form-text text-muted">
           Example: The structure is a one-storey skeleton frames facility with solid sandcrete block walls as
           partitions. It covers

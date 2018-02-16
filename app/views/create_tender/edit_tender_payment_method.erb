@@ -15,7 +15,7 @@
     <div class="col-md-2">
       <div class="form-group">
         <%= form.text_field :selling_price, id: :request_for_tender_selling_price,
-                            class: 'form-control form-control-sm' %>
+                            class: 'form-control form-control-sm', required: true %>
       </div>
     </div>
       <div class="col-md-12">
@@ -44,7 +44,7 @@
       <div class="form-group">
         <%= form.label :bank_name %>
         <%= form.text_field :bank_name, id: :request_for_tender_bank_name,
-                            class: 'form-control form-control-sm' %>
+                            class: 'form-control form-control-sm', required: true %>
       </div>
     </div>
   </div>
@@ -54,7 +54,7 @@
       <div class="form-group">
         <%= form.label :branch_name %>
         <%= form.text_field :branch_name, id: :request_for_tender_bank_branch,
-                            class: 'form-control form-control-sm' %>
+                            class: 'form-control form-control-sm', required: true %>
       </div>
     </div>
   </div>
@@ -65,7 +65,7 @@
       <div class="form-group">
         <%= form.label :account_name %>
         <%= form.text_field :account_name, id: :request_for_tender_account_name,
-                            class: 'form-control form-control-sm' %>
+                            class: 'form-control form-control-sm', required: true%>
       </div>
     </div>
   </div>
@@ -76,7 +76,7 @@
       <div class="form-group">
         <%= form.label :account_number %>
         <%= form.text_field :account_number, id: :request_for_tender_account_nunber,
-                            class: 'form-control form-control-sm' %>
+                            class: 'form-control form-control-sm', required: true %>
       </div>
     </div>
   </div>
