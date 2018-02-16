@@ -42,6 +42,10 @@ class TenderTransactionsController < ApplicationController
                                                  params[:tender_transaction][:request_for_tender_id],
                                                  payload['transaction_id'])
     @participant = Participant.find(params[:tender_transaction][:participant_id])
+    @participant.interested_declaration_time = Time.new
+    @participant.request_read_time = Time.new
+    @participant.rating = 0
+    @participant.save!
     if !results.nil? && working_url?(results)
       redirect_to results
     else

@@ -83,9 +83,10 @@ class TenderTransaction < ApplicationRecord
       new_tender_transaction_id = create_tender_transaction(amount, customer_number, network_code, participant_id,
                                 request_for_tender_id, status, transaction_id, voucher_code)
       if network_code.eql?('CRD')
+        set_up_participant(new_tender_transaction_id)
         return response_hash['redirect_url']
       elsif !response_hash['results'].nil?
-        if network_code.eql?('VOD') || network_code.eql?('CRD')
+        if network_code.eql?('VOD')
           set_up_participant(new_tender_transaction_id)
         end
         return response_hash['results']
