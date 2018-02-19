@@ -13,7 +13,7 @@
         <br/>
         <%= form_with model: TenderTransaction.new, local: true, class: 'form-inline' do |form| %>
           <%= form.label 'Mode Of Payment:', class: 'col-md-6 pay-label' %>
-          <%= form.select :network_code, {'AIRTEL Money': 'AIR', 'MTN Mobile Money': 'MTN', 'TIGO CASH': 'TIG', 'VISA/ MASTER CARD': 'CRD', 'Vodafone Cash': 'VOD' }, {},
+          <%= form.select :network_code, {'AIRTEL Money': 'AIR', 'MTN Mobile Money': 'MTN', 'TIGO CASH': 'TIG', 'Vodafone Cash': 'VOD' }, {},
                           { id: :participant_tender_transaction_network_code, class: 'form-control col-md-6 network-select' } %>
           <br/>
           <br/>
