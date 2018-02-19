@@ -103,7 +103,9 @@ class TenderTransaction < ApplicationRecord
   def self.set_up_participant(new_tender_transaction_id)
     new_tender_transaction = TenderTransaction.find(new_tender_transaction_id)
     new_tender_transaction.participant.status = 'participating'
-    new_tender_transaction.participant.interested_declaration_time = Time.new
+    if new_tender_transaction.private?
+      new_tender_transaction.participant.interested_declaration_time = Time.new
+    end
     new_tender_transaction.participant.rating = 0
     new_tender_transaction.participant.save!
     new_tender_transaction.status = 'success'
