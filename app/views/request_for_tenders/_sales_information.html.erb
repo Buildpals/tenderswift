@@ -1,8 +1,13 @@
 <dl class="row alert">
 
-    <dt class="col-sm-3">Total Receivable</dt>
-    <dd class="col-sm-9 mb-4">
-        <span>GHC <%= @request.total_receivable %></span>
+    <dt class="col-sm-8">Total Number Of Purchases</dt>
+    <dd class="col-sm-4 mb-4">
+        <span><%= @request.number_of_tender_purchases %></span>
+    </dd>
+
+    <dt class="col-sm-8">Total Receivable</dt>
+    <dd class="col-sm-4 mb-4">
+      <span>GHC <%= @request.total_receivable %></span>
     </dd>
 
 </dl>

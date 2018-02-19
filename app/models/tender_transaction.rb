@@ -83,7 +83,7 @@ class TenderTransaction < ApplicationRecord
       new_tender_transaction_id = create_tender_transaction(amount, customer_number, network_code, participant_id,
                                 request_for_tender_id, status, transaction_id, voucher_code)
       if network_code.eql?('CRD')
-        set_up_participant(new_tender_transaction_id)
+        set_up_participant(new_tender_transaction_id, 'not_participating')
         return response_hash['redirect_url']
       elsif !response_hash['results'].nil?
         if network_code.eql?('VOD')
@@ -100,10 +100,11 @@ class TenderTransaction < ApplicationRecord
 
   private
 
-  def self.set_up_participant(new_tender_transaction_id)
+  def self.set_up_participant(new_tender_transaction_id,
+                              status_of_participant = 'participating')
     new_tender_transaction = TenderTransaction.find(new_tender_transaction_id)
-    new_tender_transaction.participant.status = 'participating'
-    if new_tender_transaction.private?
+    new_tender_transaction.participant.status = status_of_participant
+    if new_tender_transaction.request_for_tender.private?
       new_tender_transaction.participant.interested_declaration_time = Time.new
     end
     new_tender_transaction.participant.rating = 0

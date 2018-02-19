@@ -47,12 +47,15 @@ class TenderTransactionsController < ApplicationController
     @participant.rating = 0
     @participant.save!
     if !results.nil? && working_url?(results)
-      redirect_to results
+      link = "<a href=\"#{url_for(results)}\">here in</a>"
+      flash[:notice] = "Visit #{link}
+                        another tab to finish the paying with VISA/MASTER CARD.
+                        After paying come back and refresh this page."
     else
       flash[:notice] = results + '. Refresh this page after responding to the
-                                   prompt on your phone'
-      redirect_to participants_questionnaire_url @participant
+                                   prompt on your phone. Thank you!'
     end
+    redirect_to participants_questionnaire_url @participant
   end
 
   # PATCH/PUT /tender_transactions/1

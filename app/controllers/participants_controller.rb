@@ -164,12 +164,14 @@ class ParticipantsController < ApplicationController
                                                  @participant.request_for_tender.id,
                                                  payload['transaction_id'])
     if !results.nil? && working_url?(results)
-      redirect_to results
+      flash[:notice] = "Visit #{view_context.link_to('here in', results)}
+                        another tab to finish the paying with VISA/MASTER CARD.
+                        After paying come back and refresh this page."
     else
       flash[:notice] = results + '. Refresh this page after responding to the
-                                   prompt on your phone'
-      redirect_to participants_questionnaire_url @participant
+                                   prompt on your phone. Thank you!'
     end
+    redirect_to participants_questionnaire_url @participant
   end
 
   private

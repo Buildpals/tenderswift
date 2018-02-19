@@ -144,6 +144,10 @@ class RequestForTender < ApplicationRecord
     end
   end
 
+  def number_of_tender_purchases
+    self.tender_transactions.where(status: 'success').size
+  end
+
   def total_receivable
     number_of_transactions = 0
     self.tender_transactions.each do |tender_transaction|
