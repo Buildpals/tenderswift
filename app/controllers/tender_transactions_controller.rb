@@ -52,7 +52,7 @@ class TenderTransactionsController < ApplicationController
                         another tab to finish the paying with VISA/MASTER CARD.
                         After paying come back and refresh this page."
     else
-      flash[:notice] = results + '. Refresh this page after responding to the
+      flash[:notice] = results + '. Check your email after responding to the
                                    prompt on your phone. Thank you!'
     end
     redirect_to participants_questionnaire_url @participant
@@ -94,7 +94,6 @@ class TenderTransactionsController < ApplicationController
   def complete_transaction
     transaction_id = params['transaction_id']
     status = params['status']
-    message = params['message']
     transaction = TenderTransaction.find_by(transaction_id: transaction_id)
     participant = Participant.find(transaction.participant_id)
     if status.eql?('SUCCESS')
@@ -102,13 +101,10 @@ class TenderTransactionsController < ApplicationController
       transaction.save!
       participant.update(status: 'participating',
                          interested_declaration_time: Time.new, ratiing: 0)
-      flash[:notice] = message
-      redirect_to participants_questionnaire_url(participant)
+      TenderTransactionMailer.confrim_purchase(participant).deliver_now
     else
       transaction.status = 'failed'
       transaction.save!
-      flash[:notice] = message
-      redirect_to participants_project_information_url(participant)
     end
   end
 

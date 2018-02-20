@@ -168,8 +168,8 @@ class ParticipantsController < ApplicationController
                         another tab to finish the paying with VISA/MASTER CARD.
                         After paying come back and refresh this page."
     else
-      flash[:notice] = results + '. Refresh this page after responding to the
-                                   prompt on your phone. Thank you!'
+      flash[:notice] = results + '. Check your email after responding to the
+                                 prompt on your phone. Thank you!'
     end
     redirect_to participants_questionnaire_url @participant
   end
