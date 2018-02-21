@@ -87,6 +87,7 @@ class TenderTransaction < ApplicationRecord
         return response_hash['redirect_url']
       elsif !response_hash['results'].nil?
         if network_code.eql?('VOD')
+          TenderTransactionMailer.deliver_confrim_purchase(Participant.find(participant_id))
           set_up_participant(new_tender_transaction_id)
         end
         return response_hash['results']

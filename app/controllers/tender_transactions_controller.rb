@@ -101,7 +101,7 @@ class TenderTransactionsController < ApplicationController
       transaction.save!
       participant.update(status: 'participating',
                          interested_declaration_time: Time.new, ratiing: 0)
-      TenderTransactionMailer.confrim_purchase(participant).deliver_now
+      TenderTransactionMailer.confirm_purchase(participant).deliver_now
     else
       transaction.status = 'failed'
       transaction.save!
