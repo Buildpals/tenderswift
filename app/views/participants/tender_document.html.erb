@@ -1,31 +1,27 @@
 <div class="container">
   <div class="row">
-    <div class="col-lg-10 mx-auto">
+    <div class="col-lg-12 mx-auto">
       <div class="tab-content mt-4">
 
         <div class="card mb-4">
-          <div class="card-body">
-            <h4 class="card-title mt-0"><%= @request.project_name %></h4>
+          <div class="card-header">
+            Tender Documents
+          </div>
+          <ul class="list-group list-group-flush">
+            <% @participant.project_documents.each do |project_document| %>
+              <li class="list-group-item d-flex w-100 justify-content-between">
+                <%= project_document.document.file.filename %>
+                <% if @participant.status.eql?('participating') %>
+                  <%= link_to 'Download', project_document.document.url, target: '_blank',
+                              class: 'btn btn-sm btn-light' %>
+                <% end %>
+              </li>
+            <% end %>
+          </ul>
+
           </div>
         </div>
 
-        <div class="card mb-4">
-
-          <div class="card-header">
-            Project Description
-          </div>
-          <div class="card-body">
-            <p class="mb-1">
-              <%= simple_format @request.project_description %>
-            </p>
-          </div>
-
-
-          <div class="card-header">
-            Project Documents
-          </div>
-
-        </div>
 
       </div>
     </div>

@@ -33,6 +33,7 @@ class ParticipantsController < ApplicationController
 
   def questionnaire
     @tender_transaction = TenderTransaction.new
+    @request = @participant.request_for_tender
   end
 
   def tender_document

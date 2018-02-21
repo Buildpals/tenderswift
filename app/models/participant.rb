@@ -40,6 +40,7 @@ class Participant < ApplicationRecord
   accepts_nested_attributes_for :tender_transaction,
                                 allow_destroy: true,
                                 reject_if: :all_blank
+  has_many :required_document_uploads, dependent: :destroy
 
   validates :email, presence: true
 

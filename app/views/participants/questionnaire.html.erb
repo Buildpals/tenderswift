@@ -1,6 +1,6 @@
 <div class="container">
   <div class="row">
-    <div class="col-lg-10 mx-auto">
+    <div class="col-lg-12 mx-auto">
       <div class="tab-content mt-4">
 
         <% if @participant.status.in? %w(participating bid_made guest) %>
@@ -34,6 +34,24 @@
           </div>
 
         <% end %>
+
+        <div class="card-body">
+          <table class="table">
+            <tbody>
+            <% @request.required_documents.each_with_index do |required_document, index| %>
+              <tr>
+                  <th scope="row"><%= required_document.title %></th>
+                  <td><%= link_to 'View', '' %></td>
+                  <td>
+                    <%= form.fields_for required_document.required_document_uploads do |requires_dcoument_upload| %>
+
+                    <% end %>
+                  </td>
+              </tr>
+            <% end %>
+            </tbody>
+          </table>
+        </div>
 
       </div>
     </div>
