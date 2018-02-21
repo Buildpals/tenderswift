@@ -150,7 +150,6 @@ class CreateTenderController < ApplicationController
     @request.participants.each do |participant|
       ParticipantMailer.request_for_tender_email(participant, @request).deliver_later
     end
-
     @request.update(submitted: true)
   end
 
@@ -159,18 +158,19 @@ class CreateTenderController < ApplicationController
     params.require(:request_for_tender)
           .permit(:project_name,
                   :deadline,
-                  :country_id,
                   :city,
                   :description,
-                  :bill_of_quantities,
+                  :country,
                   :currency,
+                  :bill_of_quantities,
+                  :contract_sum_location,
+                  :tender_instructions,
                   :selling_price,
+                  :withdrawal_frequency,
                   :bank_name,
                   :branch_name,
                   :account_name,
                   :account_number,
-                  :withdrawal_frequency,
-                  :tender_instructions,
                   :private,
                   project_documents_attributes: %i[id
                                                    document

@@ -86,20 +86,6 @@ class RequestForTendersController < ApplicationController
     end
   end
 
-  def set_winner
-    request = RequestForTender.find(params[:id])
-    participant = Participant.find(params[:participant])
-    if request.winner = Winner.cast_participant(participant)
-      disqualified_message = params[:request_for_tender][:notify_disqualified_contractors_message]
-      winner_message = params[:request_for_tender][:final_email_message]
-      notify_disqualified_contractors(request, disqualified_message)
-      send_out_final_invitation(request, winner_message)
-      render json: request
-    else
-      render json: request.errors.messages
-    end
-  end
-
   def compare_bids
     @request = RequestForTender.find(params[:id])
     if @request.deadline_over?
@@ -118,26 +104,6 @@ class RequestForTendersController < ApplicationController
 
   private
 
-  # Use to create a chatroom for a request
-  def create_chat_room_for(request_for_tender)
-    chatroom = Chatroom.new
-    chatroom.request_for_tender = request_for_tender
-    chatroom.save!
-  end
-
-  # Notify all disqualified contractors
-  def notify_disqualified_contractors(request, body)
-    request.get_disqualified_contractors.each do |contractor|
-      DecisionMailer.notify_disqualified(contractor, request, body).deliver_now
-    end
-  end
-
-  # POST /requests/send_out/:id
-  # Send final inivitation out to shortlisted participants
-  def send_out_final_invitation(request, body)
-    DecisionMailer.award_contract(request, body).deliver_later
-  end
-
   # Use callbacks to share common setup or constraints between actions.
   def set_request
     @request = RequestForTender.find(params[:id])
@@ -146,16 +112,14 @@ class RequestForTendersController < ApplicationController
   # Never trust parameters from the scary internet, only allow the white list through.
   def request_params
     params.require(:request_for_tender)
-          .permit(:project_name,
-                  :currency,
-                  :deadline,
-                  :country,
-                  :city,
-                  :description,
-                  :bill_of_quantities,
-                  project_documents_attributes: %i[id
-                                                   document
-                                                   _destroy],
+          .permit(:deadline,
+                  :selling_price,
+                  :withdrawal_frequency,
+                  :bank_name,
+                  :branch_name,
+                  :account_name,
+                  :account_number,
+                  :private,
                   participants_attributes: %i[id
                                               email
                                               phone_number

@@ -35,18 +35,6 @@ Rails.application.routes.draw do
   get 'bids/:id/questionnaire', to: 'bids#questionnaire', as: 'bid_questionnaire'
   get 'bids/:id/information', to: 'bids#contractor_information', as: 'bid_contractor_information'
 
-  get '/show_interest_in_request_for_tender/:id',
-      to: 'participants#show_interest_in_request_for_tender',
-      as: 'show_interest_in_request_for_tender'
-
-  get '/show_disinterest_in_request_for_tender/:id',
-      to: 'participants#show_disinterest_in_request_for_tender',
-      as: 'show_disinterest_in_request_for_tender'
-
-  post '/requests/set_winner/:id/:participant',
-       to: 'request_for_tenders#set_winner',
-       as: 'request_for_tenders_set_winner'
-
   get '/request/compare/bids/:id',
       to: 'request_for_tenders#compare_bids',
       as: 'compare_bids'
@@ -54,14 +42,6 @@ Rails.application.routes.draw do
   get 'participants/complete_transaction/:transaction_id/:status/:message',
       to: 'participants#complete_transaction',
       as: 'participants_complete_transaction'
-
-  post '/requests/send_out/:id',
-       to: 'request_for_tenders#send_out_final_invitation',
-       as: 'request_send_out_final_invitation'
-
-  post '/requests/notify_disqualified_contractors/:id',
-       to: 'request_for_tenders#notify_disqualified_contractors',
-       as: 'notify_disqualified_contractors'
 
   post '/participants/disqualify/:id/',
        to: 'participants#disqualify'
@@ -71,14 +51,6 @@ Rails.application.routes.draw do
 
   post '/participants/rate/:id/',
        to: 'participants#rate'
-
-  patch '/boqs/contract_sum/:id',
-        to: 'boqs#contract_sum',
-        as: 'set_qs_contract_sum'
-
-  patch '/participants/contract_sum/:id',
-        to: 'participants#set_contract_sum',
-        as: 'set_participant_contract_sum'
 
   resources :quantity_surveyors, only: %i[edit update]
   resources :request_for_tenders
