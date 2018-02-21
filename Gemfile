@@ -69,9 +69,6 @@ gem 'country_select'
 # Cocoon
 gem 'cocoon'
 
-# Gon for passing rails variables to js
-gem 'gon'
-
 # RailsAdmin for an easy-to-use interface for managing the apps data
 gem 'rails_admin', '~> 1.2'
 
