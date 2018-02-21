@@ -1,58 +1,37 @@
 class RequestForTender < ApplicationRecord
   include ActionView::Helpers::DateHelper
 
-  scope :submitted, -> {where(submitted: true)}
-  scope :not_submitted, -> {where(submitted: false)}
+  scope :submitted, -> { where(submitted: true) }
+  scope :not_submitted, -> { where(submitted: false) }
 
-  has_one :boq, inverse_of: :request_for_tender, dependent: :destroy
-  accepts_nested_attributes_for :boq,
+  monetize :selling_price_subunit,
+           as: :selling_price,
+           with_model_currency: :currency
+
+  belongs_to :quantity_surveyor, inverse_of: :request_for_tenders
+
+  has_many :project_documents, dependent: :destroy, inverse_of: :request_for_tender
+  accepts_nested_attributes_for :project_documents,
                                 allow_destroy: true,
                                 reject_if: :all_blank
-
-  belongs_to :quantity_surveyor
-
-  belongs_to :country
-
-  has_one :winner
 
   has_many :required_documents, dependent: :destroy, inverse_of: :request_for_tender
   accepts_nested_attributes_for :required_documents,
                                 allow_destroy: true,
                                 reject_if: :all_blank
 
-  has_many :questions, dependent: :destroy, inverse_of: :request_for_tender
-  accepts_nested_attributes_for :questions,
-                                allow_destroy: true,
-                                reject_if: :all_blank
-
-  has_many :participants, dependent: :destroy
+  has_many :participants, dependent: :destroy, inverse_of: :request_for_tender
   accepts_nested_attributes_for :participants,
                                 allow_destroy: true,
                                 reject_if: :all_blank
 
-  has_many :project_documents, dependent: :destroy
-  accepts_nested_attributes_for :project_documents,
-                                allow_destroy: true,
-                                reject_if: :all_blank
-
-  has_one :excel, dependent: :destroy
-  accepts_nested_attributes_for :excel,
-                                allow_destroy: true,
-                                reject_if: :all_blank
-
-  has_one :chatroom, dependent: :destroy
-
-  has_many :tender_transactions
+  has_many :tender_transactions, dependent: :destroy, inverse_of: :request_for_tender
 
   validates :project_name, presence: true
   validates :deadline, presence: true
 
   def currency_symbol
-    if currency == 'USD'
-      return '$'
-    else
-      return 'GH₵'
-    end
+    currency == 'USD' ? '$' : 'GH₵'
   end
 
   def name
@@ -80,15 +59,15 @@ class RequestForTender < ApplicationRecord
   end
 
   def project_deadline
-    self.deadline
+    deadline
   end
 
   def project_description
-    self.description
+    description
   end
 
   def project_location
-    "#{city.present? ? city : 'N/A' }, #{country.name}"
+    "#{city.present? ? city : 'N/A'}, #{country}"
   end
 
   def status
@@ -116,17 +95,10 @@ class RequestForTender < ApplicationRecord
     Time.current > deadline
   end
 
-  def create_blank_boq
-    boq = Boq.new(request_for_tender: self)
-    #page = boq.pages.build(name: 'Sheet 1')
-    #30.times { |i| page.items.build(boq: boq, item_type: 'item', priority: i)}
-    boq.save!
-  end
-
   def get_disqualified_contractors
-    disqualified_participants = Array.new
-    self.participants.lazy.each do |participant|
-      unless self.winner.auth_token.eql?(participant.auth_token)
+    disqualified_participants = []
+    participants.lazy.each do |participant|
+      unless winner.auth_token.eql?(participant.auth_token)
         disqualified_participants.push(participant)
       end
     end
@@ -135,21 +107,23 @@ class RequestForTender < ApplicationRecord
 
   def budget_currency_symbol
     if budget_currency == 'USD'
-      return '$'
+      '$'
     else
-      return 'GH₵'
+      'GH₵'
     end
+  end
+
+  def contract_sum
+    # TODO: Fetch contract sum
+    100000
   end
 
   def total_receivable
     number_of_transactions = 0
     tender_instructions.each do |tender_transaction|
-      if tender_transaction.status.equal?('success')
-        number_of_transactions += 1
-      end
+      number_of_transactions += 1 if tender_transaction.status.equal?('success')
     end
     total_of_transactions = number_of_transactions * selling_price
     total_of_transactions - (15 / 100 * total_of_transactions)
   end
-
 end

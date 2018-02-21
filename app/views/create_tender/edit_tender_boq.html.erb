@@ -15,9 +15,9 @@
     Upload the Bill of Quantities for the project or create one using the templates provided.
   </p>
 
-  <% if @request.boq %>
+  <% if @request.bill_of_quantities %>
     <ul class="nav nav-tabs" id="myTab">
-      <% JSON.parse(@request.boq.workbook_data)['SheetNames'].each_with_index do |sheet_name, index| %>
+      <% JSON.parse(@request.bill_of_quantities)['SheetNames'].each_with_index do |sheet_name, index| %>
         <li class="nav-item">
           <a class="nav-link <%= 'active' if index == 0 %>" data-target="#sheet-<%= index %>" data-toggle="tab">
             <%= sheet_name %>
@@ -27,13 +27,13 @@
     </ul>
 
     <div class="tab-content">
-      <% JSON.parse(@request.boq.workbook_data)['SheetNames'].each_with_index do |sheet_name, index| %>
+      <% JSON.parse(@request.bill_of_quantities)['SheetNames'].each_with_index do |sheet_name, index| %>
         <div class="tab-pane <%= 'active' if index == 0 %>" id="sheet-<%= index %>">
           <%= content_tag :div,
                           class: 'boq-excel hot handsontable htRowHeaders htColumnHeaders mb-5',
                           data: {
                               sheet_index: index,
-                              boq: @request.boq.workbook_data,
+                              boq: @request.bill_of_quantities,
                               qs_company_name: @request.project_owners_company_name,
                               currency: @request.currency_symbol,
                               boq_contract_sum: 10000
@@ -45,7 +45,7 @@
   <% end %>
 
   <div class="mb-4 text-center">
-    <% if @request.boq %>
+    <% if @request.bill_of_quantities %>
       <p class="small">
         If you don't like the Bill Of Quantities above,
         <br>
@@ -60,10 +60,9 @@
         You'll be able to edit the bill of quantities after uploading it.
       </p>
     <% end %>
-    <%= form.fields_for :boq do |boq_field| %>
-      <%= boq_field.text_field :workbook_data, id: 'workbook-data', type: 'hidden' %>
-    <% end %>
-    <%= form.file_field :document, id: 'upload-boq', class: 'form-control-file btn btn-sm btn-primary' %>
+
+    <%= form.hidden_field :bill_of_quantities, id: 'workbook-data' %>
+    <%= file_field_tag :document, id: 'upload-boq', class: 'form-control-file btn btn-sm btn-primary' %>
   </div>
 
   <%= render 'layouts/create_tender_navigation', location: 'bottom', request: @request, form: form %>

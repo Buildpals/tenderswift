@@ -1,0 +1,108 @@
+<div class="container">
+  <div class="row">
+    <div class="col-lg-9 mx-auto">
+      <div class="tab-content mt-4">
+
+        <div class="card mb-4">
+          <div class="card-body">
+            <h4 class="card-title mt-0"><%= @request.project_name %></h4>
+            <h6 class="card-subtitle mb-2 text-muted"><%= @request.project_owners_company_name %></h6>
+
+            <div class="row mt-3">
+              <div class="col-md-6">
+                <dl class="row card-text">
+                  <dt class="col-sm-5">Contract Class</dt>
+                  <dd class="col-sm-7">
+                    <%= @request.contract_class %>
+                  </dd>
+
+                  <dt class="col-sm-5">Location</dt>
+                  <dd class="col-sm-7">
+                    <%= @request.project_location %>
+                  </dd>
+                </dl>
+              </div>
+              <div class="col-md-6">
+                <dl class="row card-text">
+                  <dt class="col-sm-5">Project Currency</dt>
+                  <dd class="col-sm-7">
+                    <% if @request.currency === 'USD' %>
+                      USD - United States Dollar
+                    <% elsif @request.currency === 'GHS' %>
+                      GHS - Ghanaian Cedi
+                    <% end %>
+                  </dd>
+                </dl>
+              </div>
+            </div>
+          </div>
+
+
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <div class="row">
+                <div class="col-lg-6">
+                  <strong>
+                    <% if @request.deadline_over? %>
+                      Time Closed
+                    <% else %>
+                      Time Left
+                    <% end %>
+                  </strong>
+                </div>
+                <div class="col-lg-6">
+                  <strong>End date</strong>
+                </div>
+                <div class="col-lg-6">
+                  <%= @request.time_left %>
+                </div>
+                <div class="col-lg-6">
+                  <%= @request.project_deadline.to_formatted_s(:long) %>
+                  <span class="ml-3">(UTC+00:00)</span>
+                </div>
+
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <div class="card mb-4">
+
+          <div class="card-header">
+            Project Description
+          </div>
+          <div class="card-body">
+            <p class="mb-1">
+              <%= simple_format @request.project_description %>
+            </p>
+          </div>
+
+
+          <div class="card-header">
+            Tendering Instructions
+          </div>
+          <div class="card-body">
+            <%= simple_format @request.tender_instructions, {}, {wrapper_tag: 'div' } %>
+          </div>
+
+
+          <div class="card-header">
+            Required Documents
+          </div>
+          <div class="card-body">
+            <p class="card-text">
+              You're expected to provide the following documents with this tender:
+            <ol>
+              <% @request.required_documents.each do |required_document| %>
+                <li> <%= required_document.title %> </li>
+              <% end %>
+            </ol>
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

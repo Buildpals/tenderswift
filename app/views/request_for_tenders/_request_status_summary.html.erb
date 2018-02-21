@@ -5,34 +5,23 @@
   <ul class="list-group list-group-flush">
     <li class="list-group-item bg-primary">
       <div class="col-sm-12 request-controls" style="padding: 5px;">
-        <!--<div class="dropdown float-right">-->
-          <!--<button class="btn btn-sm btn-light dropdown-toggle" type="button" id="request_actions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
-            <!--Actions-->
-          <!--</button>-->
-          <!--<ul class="dropdown-menu" aria-labelledby="request_actions">-->
-            <!--<button class="dropdown-item" type="button">Open report</button>-->
-            <!--<button class="dropdown-item" type="button">Copy</button>-->
-            <!--<button class="dropdown-item" type="button">Move to another folder</button>-->
-            <!--<button class="dropdown-item" type="button">Cancel request</button>-->
-          <!--</ul>-->
-        <!--</div>-->
       </div>
     </li>
     <li class="list-group-item">
       <div class="row" style="padding-top: 15px;">
         <div class="col-sm-8">
           <div class="row">
-            <div class="col-sm-2"><strong class="text-muted">Bids</strong></div>
-            <div class="col-sm-4"><strong class="text-muted">Participating</strong></div>
-            <div class="col-sm-3"><strong class="text-muted">Read</strong></div>
+            <div class="col-sm-2"><strong class="text-muted">Visits</strong></div>
+            <div class="col-sm-4"><strong class="text-muted">Purchases</strong></div>
+            <div class="col-sm-3"><strong class="text-muted">Submissions</strong></div>
             <% if @request.deadline_over? %>
                 <div class="col-sm-3"><strong class="text-muted">Time Closed</strong></div>
             <% else %>
                 <div class="col-sm-3"><strong class="text-muted">Time Left</strong></div>
             <% end %>
-            <div class="col-sm-2"><%= @request.participants.bid_list.count %></div>
-            <div class="col-sm-4"><%= @request.participants.participating_list.count %></div>
-            <div class="col-sm-3"><%= @request.participants.read_list.count %>/<%= @request.participants.count %></div>
+            <div class="col-sm-2"><%= @request.portal_visits %></div>
+            <div class="col-sm-4"><%= @request.participants.purchased.count %></div>
+            <div class="col-sm-3"><%= @request.participants.submitted.count %></div>
             <div class="col-sm-3"><%= @request.time_left %></div>
           </div>
         </div>

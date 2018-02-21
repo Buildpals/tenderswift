@@ -1,12 +1,12 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <%= link_to '#', class: 'navbar-brand' do %>
-      <%= cl_image_tag(@participant.project_owners_company_logo.full_public_id,
-                       format: 'jpg', height: 28, crop: :scale,
-                       style: 'height: 28px; margin-top: 0px;',
-                       title: @participant.project_owners_company_name,
-                       alt: @participant.project_owners_company_name)
-      %>
-      <%= @participant.project_owners_company_name %>
+    <%= cl_image_tag(@participant.project_owners_company_logo.full_public_id,
+                     format: 'jpg', height: 28, crop: :scale,
+                     style: 'height: 28px; margin-top: 0px;',
+                     title: @participant.project_owners_company_name,
+                     alt: @participant.project_owners_company_name)
+    %>
+    <%= @participant.project_owners_company_name %>
   <% end %>
 
 
@@ -17,36 +17,28 @@
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav ml-auto">
-      <% if @participant.status.in? %w(guest not_read read participating) %>
-          <li class="nav-item mr-3">
-            <%= link_to @participant.status.in?(%w(participating)) ? 'Exit tender process' : 'Decline invitation', @participant.decline_url,
-                        class: 'btn btn-link',
-                        data: {confirm: 'Declining this project means you will no longer be participating in tendering for this project. Are you sure you want to do so?'} %>
-          </li>
-      <% end %>
-
-      <% if @participant.status.in? %w(guest not_read read not_participating) %>
-          <li class="nav-item mr-3">
-            <% link_to 'Purchase Tender Documents', @participant.accept_url,
-                        class: 'btn btn-secondary' %>
-            <button class="btn btn-secondary btn-payment-modal" data-toggle="modal" data-target="#paymentModal"> Purchase Tender Documents for GHC <%= @participant.request_for_tender.selling_price %></button>
-          </li>
+      <% unless @participant.purchased? %>
+        <li class="nav-item mr-3">
+          <% link_to 'Purchase Tender Documents', @participant.accept_url,
+                     class: 'btn btn-secondary' %>
+          <button class="btn btn-secondary btn-payment-modal" data-toggle="modal" data-target="#paymentModal"> Purchase
+            Tender Documents for GHC <%= @participant.request_for_tender.selling_price %></button>
+        </li>
       <% end %>
     </ul>
   </div>
 
-
-  <% if @participant.status.in? %w(participating) %>
-      <%= form_with(model: @participant, local: true, class: 'form-inline') do |form| %>
-          <%= form.text_field :status, value: 'bid_made', id: :participant_phone_number, type: 'hidden' %>
-          <%= form.text_field :bid_submission_time, value: Time.current, id: :participant_phone_number, type: 'hidden' %>
-          <%= form.submit 'Submit Bid', data: {confirm: 'You cannot edit the Bill of Quantities after submitting your bid. Are you sure you want to submit your bid?'},
-                          class: 'btn btn-secondary my-2 my-sm-0 submit-your-bid' %>
-      <% end %>
-  <% end %>
-
-  <% if @participant.status.in? %w(bid_made) %>
+  <% if @participant.purchased? %>
+    <% if @participant.submitted? %>
       Bid submitted successfully
+    <% else %>
+      <%= form_with(model: @participant, local: true, class: 'form-inline') do |form| %>
+        <%= form.text_field :status, value: 'bid_made', id: :participant_phone_number, type: 'hidden' %>
+        <%= form.text_field :bid_submission_time, value: Time.current, id: :participant_phone_number, type: 'hidden' %>
+        <%= form.submit 'Submit Bid', data: {confirm: 'You cannot edit the Bill of Quantities after submitting your bid. Are you sure you want to submit your bid?'},
+                        class: 'btn btn-secondary my-2 my-sm-0 submit-your-bid' %>
+      <% end %>
+    <% end %>
   <% end %>
 </nav>
 

@@ -1,11 +1,11 @@
 class CreateTenderController < ApplicationController
-  before_action :set_request, only: [:edit_tender_information, :edit_tender_documents, :edit_tender_boq, :edit_tender_questionnaire, :edit_tender_participants,
-                                     :edit_tender_payment_method, :update_tender_payment_method,
-                                     :update_tender_information, :update_tender_documents, :update_tender_boq, :update_tender_questionnaire, :update_tender_participants]
+  before_action :set_request, only: %i[edit_tender_information edit_tender_documents edit_tender_boq edit_tender_questionnaire edit_tender_participants
+                                       edit_tender_payment_method update_tender_payment_method
+                                       update_tender_information update_tender_documents update_tender_boq update_tender_questionnaire update_tender_participants]
 
   before_action :authenticate_quantity_surveyor!
 
-  DEFAULT_BROADCAST_CONTENT = "If you have any questions you can reply me here".freeze
+  DEFAULT_BROADCAST_CONTENT = 'If you have any questions you can reply me here'.freeze
 
   def edit_tender_information
     if @request.submitted?
@@ -29,11 +29,10 @@ class CreateTenderController < ApplicationController
     end
   end
 
-
   def edit_tender_boq
     @next_path = edit_tender_documents_path(@request)
-    #@request.build_excel
-    #gon.jbuilder
+    # @request.build_excel
+    # gon.jbuilder
   end
 
   def update_tender_boq
@@ -50,11 +49,10 @@ class CreateTenderController < ApplicationController
     end
   end
 
-
   def edit_tender_documents
     @next_path = edit_tender_questionnaire_path(@request)
 
-    5.times {@request.project_documents.build} if @request.project_documents.empty?
+    5.times { @request.project_documents.build } if @request.project_documents.empty?
   end
 
   def update_tender_documents
@@ -70,7 +68,6 @@ class CreateTenderController < ApplicationController
       render :edit_tender_documents
     end
   end
-
 
   def edit_tender_questionnaire
     @next_path = edit_tender_payment_method_path(@request)
@@ -90,7 +87,6 @@ class CreateTenderController < ApplicationController
     end
   end
 
-
   def edit_tender_payment_method
     @next_path = edit_tender_participants_path(@request)
   end
@@ -107,11 +103,9 @@ class CreateTenderController < ApplicationController
     end
   end
 
-
   def edit_tender_participants
-    5.times {@request.participants.build} if @request.participants.empty?
+    5.times { @request.participants.build } if @request.participants.empty?
   end
-
 
   def update_tender_participants
     if @request.update(request_params)
@@ -163,52 +157,31 @@ class CreateTenderController < ApplicationController
   # Never trust parameters from the scary internet, only allow the white list through.
   def request_params
     params.require(:request_for_tender)
-        .permit(:project_name,
-                :deadline,
-                :country_id,
-                :city,
-                :description,
-                :budget_currency,
-                :budget,
-                :currency,
-                :contract_sum,
-                :selling_price,
-                :bank_name,
-                :branch_name,
-                :account_name,
-                :account_number,
-                :withdrawal_frequency,
-                :tender_instructions,
-                :private,
-                project_documents_attributes: [:id,
-                                               :document,
-                                               :_destroy],
-                participants_attributes: [:id,
-                                          :email,
-                                          :phone_number,
-                                          :company_name,
-                                          :_destroy],
-                required_documents_attributes: [:id,
-                                                :title,
-                                                :_destroy],
-                questions_attributes: [:id,
-                                       :number,
-                                       :title,
-                                       :description,
-                                       :question_type,
-                                       :can_attach_documents,
-                                       :mandatory,
-                                       :_destroy],
-                boq_attributes: [:id,
-                                 :workbook_data,
-                                 :quantity_column,
-                                 :amount_column,
-                                 :item_column,
-                                 :unit_column,
-                                 :rate_column,
-                                 :remind_me,
-                                 :_destroy],
-                excel_attributes: [:id,
-                                   :document])
+          .permit(:project_name,
+                  :deadline,
+                  :country_id,
+                  :city,
+                  :description,
+                  :bill_of_quantities,
+                  :currency,
+                  :selling_price,
+                  :bank_name,
+                  :branch_name,
+                  :account_name,
+                  :account_number,
+                  :withdrawal_frequency,
+                  :tender_instructions,
+                  :private,
+                  project_documents_attributes: %i[id
+                                                   document
+                                                   _destroy],
+                  participants_attributes: %i[id
+                                              email
+                                              phone_number
+                                              company_name
+                                              _destroy],
+                  required_documents_attributes: %i[id
+                                                    title
+                                                    _destroy])
   end
 end

@@ -10,9 +10,6 @@ class ParticipantsController < ApplicationController
                                           show_boq
                                           disqualify undo_disqualify rate]
 
-  before_action :set_read_time, only: %i[project_information
-                                      boq questionnaire]
-
   include TenderTransactionsHelper
 
   include ApplicationHelper
@@ -26,12 +23,13 @@ class ParticipantsController < ApplicationController
 
   def boq
     @tender_transaction = TenderTransaction.new
-    @boq = @participant.boq
-    #gon.jbuilder
   end
 
   def questionnaire
     @tender_transaction = TenderTransaction.new
+    @participant.request_for_tender.required_documents.each do |required_document|
+      required_document_upload = @participant.required_document_upload_for(required_document)
+    end
   end
 
   def results
@@ -181,13 +179,11 @@ class ParticipantsController < ApplicationController
     if params[:id].first(6) == 'guest-'
       request_for_tender = RequestForTender.find(params[:id][6..-1])
       @participant = GuestParticipant.new(request_for_tender)
+      @request = request_for_tender
     else
       @participant = Participant.find_by(auth_token: params[:id])
+      @request = @participant.request_for_tender
     end
-  end
-
-  def set_read_time
-    @participant.update(status: 'read', request_read_time: Time.current) if @participant.not_read?
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.
@@ -218,6 +214,9 @@ class ParticipantsController < ApplicationController
                                                     network_code
                                                     status
                                                     request_for_tender_id],
+                  required_document_uploads_attributes: %i[id
+                                                   document
+                                                   _destroy],
                   filled_items_attributes: %i[id
                                               email
                                               phone_number

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180221125840) do
+ActiveRecord::Schema.define(version: 20180221144831) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -133,7 +133,7 @@ ActiveRecord::Schema.define(version: 20180221125840) do
     t.string "account_number"
     t.boolean "private", default: false, null: false
     t.boolean "submitted", default: false
-    t.integer "portal_visits"
+    t.integer "portal_visits", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["quantity_surveyor_id"], name: "index_request_for_tenders_on_quantity_surveyor_id"

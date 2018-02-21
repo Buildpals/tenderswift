@@ -1,6 +1,5 @@
 require 'faraday'
 class TenderTransaction < ApplicationRecord
-
   SECRET_KEY = 'c610c0b75f1711a1c392c6a5d823390ee31e8c0ba40b9f2778570b249fa2c958'.freeze
 
   CLIENT_KEY = '8e10dd4fd8bf4dc6efc76a4560d7b77a216ae4a9'.freeze
@@ -9,13 +8,13 @@ class TenderTransaction < ApplicationRecord
 
   CALLBACK_URL = 'https://buildpals-development.herokuapp.com/tender/transactions/complete_transaction/'.freeze
 
-  CLIENT_ID = 15.freeze
+  CLIENT_ID = 15
 
   enum status: { pending: 0, success: 1, failed: 2 }
 
-  belongs_to :participant
+  belongs_to :participant, inverse_of: :tender_transaction
 
-  belongs_to :request_for_tender
+  belongs_to :request_for_tender, inverse_of: :tender_transactions
 
   def self.secret_key
     SECRET_KEY
@@ -53,11 +52,11 @@ class TenderTransaction < ApplicationRecord
     message = ''
     n = 0
     ruby_hash.each do |k, v|
-      if n.zero?
-        message = message + k.to_s + '=' + v.to_s
-      else
-        message = message + '&' + k.to_s + '=' + v.to_s
-      end
+      message = if n.zero?
+                  message + k.to_s + '=' + v.to_s
+                else
+                  message + '&' + k.to_s + '=' + v.to_s
+                end
       n += 1
     end
     message
@@ -69,15 +68,14 @@ class TenderTransaction < ApplicationRecord
     authorization
   end
 
-
   def self.make_payment(authorization, payload, customer_number,
                         amount, voucher_code = nil,
-                        network_code, status, participant_id, request_for_tender_id,transaction_id)
-    uri = URI.parse(self.url)
+                        network_code, status, participant_id, request_for_tender_id, transaction_id)
+    uri = URI.parse(url)
     if Rails.env.production?
-      conn = Faraday.new(:url => url, :proxy => "http://ug2fv7zrmee9du:6m504-EjzXb_7ewayHAYRDlZtQ@us-east-static-04.quotaguard.com:9293")
+      conn = Faraday.new(url: url, proxy: 'http://ug2fv7zrmee9du:6m504-EjzXb_7ewayHAYRDlZtQ@us-east-static-04.quotaguard.com:9293')
     else
-      conn = Faraday.new(:url => url)
+      conn = Faraday.new(url: url)
     end
     response = conn.post do |req|
       req.url '/api/v1.0/collect/'
@@ -101,8 +99,7 @@ class TenderTransaction < ApplicationRecord
     end
   end
 
-  def self.turn_response_to_hash (response_body)
-    JSON.parse(response_body.gsub("'",'"').gsub('=>',':'))
+  def self.turn_response_to_hash(response_body)
+    JSON.parse(response_body.tr("'", '"').gsub('=>', ':'))
   end
-
 end

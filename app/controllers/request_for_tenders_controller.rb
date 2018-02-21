@@ -9,17 +9,13 @@ class RequestForTendersController < ApplicationController
   # GET /requests
   # GET /requests.json
   def index
-    @requests = current_quantity_surveyor.request_for_tenders.order(updated_at: :desc)
+    @requests = current_quantity_surveyor
+                .request_for_tenders.order(updated_at: :desc)
   end
 
   # GET /requests/1
   # GET /requests/1.json
-  def show
-    unless @request.winner.nil?
-      @winner = Participant.find_by(auth_token: @request.winner.auth_token)
-    end
-    # gon.jbuilder
-  end
+  def show; end
 
   # GET /projects/public/1
   def portal
@@ -30,16 +26,12 @@ class RequestForTendersController < ApplicationController
 
   # GET /requests/new
   def new
-    country = Country.first
-    @request = RequestForTender.new(project_name: 'Untitled Project',
-                                    country: country,
-                                    deadline: Time.current + 1.month)
+    @request = RequestForTender.new
+
     @request.quantity_surveyor = current_quantity_surveyor
-    @request.create_blank_boq
-    @request.save!
-
     @request.project_name = "Untitled Project ##{@request.id}"
-
+    @request.country = 'Ghana'
+    @request.deadline = Time.current + 1.month
     @request.required_documents.build(title: 'Tax Clearance Certificate')
     @request.required_documents.build(title: 'SSNIT Clearance Certificate')
     @request.required_documents.build(title: 'Labour Certificate')
@@ -49,7 +41,6 @@ class RequestForTendersController < ApplicationController
     @request.required_documents.build(title: 'Works and Housing certificate')
     @request.required_documents.build(title: 'Financial statements (3 years )')
     @request.required_documents.build(title: 'Bank Statement or evidence of Funding (letter of credit)')
-
     @request.save!
 
     redirect_to edit_tender_information_path @request
@@ -61,11 +52,11 @@ class RequestForTendersController < ApplicationController
     @request = RequestForTender.new(request_params)
     respond_to do |format|
       if @request.save
-        format.html {redirect_to @request, notice: 'Request was successfully created.'}
-        format.json {render :show, status: :created, location: @request}
+        format.html { redirect_to @request, notice: 'Request was successfully created.' }
+        format.json { render :show, status: :created, location: @request }
       else
-        format.html {render :new}
-        format.json {render json: @request.errors, status: :unprocessable_entity}
+        format.html { render :new }
+        format.json { render json: @request.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -75,12 +66,12 @@ class RequestForTendersController < ApplicationController
   def update
     respond_to do |format|
       if @request.update(request_params)
-        format.json {render :show, status: :ok, location: @request}
+        format.json { render :show, status: :ok, location: @request }
         format.js
       else
-        format.html {render :edit}
+        format.html { render :edit }
         format.js
-        format.json {render json: @request.errors, status: :unprocessable_entity}
+        format.json { render json: @request.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -90,8 +81,8 @@ class RequestForTendersController < ApplicationController
   def destroy
     @request.destroy
     respond_to do |format|
-      format.html {redirect_to request_for_tenders_url, notice: 'Request was successfully destroyed.'}
-      format.json {head :no_content}
+      format.html { redirect_to request_for_tenders_url, notice: 'Request was successfully destroyed.' }
+      format.json { head :no_content }
     end
   end
 
@@ -155,31 +146,20 @@ class RequestForTendersController < ApplicationController
   # Never trust parameters from the scary internet, only allow the white list through.
   def request_params
     params.require(:request_for_tender)
-        .permit(:project_name,
-                :currency,
-                :deadline,
-                :country_id,
-                :city,
-                :description,
-                :final_email_message,
-                :notify_disqualified_contractors_message,
-                project_documents_attributes: %i[id
+          .permit(:project_name,
+                  :currency,
+                  :deadline,
+                  :country,
+                  :city,
+                  :description,
+                  :bill_of_quantities,
+                  project_documents_attributes: %i[id
                                                    document
                                                    _destroy],
-                participants_attributes: %i[id
+                  participants_attributes: %i[id
                                               email
                                               phone_number
                                               company_name
-                                              _destroy],
-                questions_attributes: %i[id
-                                           number
-                                           title
-                                           description
-                                           question_type
-                                           can_attach_documents
-                                           mandatory
-                                           _destroy],
-                excel_attributes: %i[id
-                                       document])
+                                              _destroy])
   end
 end

@@ -78,8 +78,4 @@ module HasProject
   def deadline_over?
     request_for_tender.deadline_over?
   end
-
-  def boq
-    request_for_tender.boq
-  end
 end

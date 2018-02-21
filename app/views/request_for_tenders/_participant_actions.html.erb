@@ -5,7 +5,7 @@
   </button>
   <div class="dropdown-menu" aria-labelledby="actions_
         <% participant.id %>">
-    <% if participant.status.in? %w(bid_made) %>
+    <% if participant.submitted %>
         <% if @request.deadline_over? %>
             <%= link_to 'View bid', bid_boq_path(participant), class: 'dropdown-item' %>
         <% else %>
@@ -20,11 +20,7 @@
         <% end %>
     <% end %>
 
-    <% if participant.status.in? %w(not_participating) %>
-        <button class="dropdown-item" type="button">View Reason</button>
-    <% end %>
-
-    <% if participant.status.in? %w(not_read) %>
+    <% unless participant.read %>
         <button class="dropdown-item" type="button">Change email</button>
     <% end %>
 

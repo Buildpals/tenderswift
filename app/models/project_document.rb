@@ -1,7 +1,7 @@
 class ProjectDocument < ApplicationRecord
   mount_uploader :document, DocumentUploader
 
-  belongs_to :request_for_tender
+  belongs_to :request_for_tender, inverse_of: :project_documents
 
   validate :check_file_extension
 

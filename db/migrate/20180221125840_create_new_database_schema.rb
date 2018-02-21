@@ -111,7 +111,7 @@ class CreateNewDatabaseSchema < ActiveRecord::Migration[5.1]
       t.string "account_number"
       t.boolean "private", default: false, null: false
       t.boolean "submitted", default: false
-      t.integer "portal_visits"
+      t.integer "portal_visits", default: 0, null: false
       t.datetime "created_at", null: false
       t.datetime "updated_at", null: false
     end
