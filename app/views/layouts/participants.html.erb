@@ -23,14 +23,17 @@
         1. Project Information
       </a>
       <% if @participant.status.in? %w(participating bid_made) %>
+        <a class="nav-item nav-link <%= 'active' if action_name == 'tender_documents' %>" href="<%= participants_tender_document_path(@participant) %>">
+          2. Tender Documents
+        </a>
         <a class="nav-item nav-link <%= 'active' if action_name == 'questionnaire' %>" href="<%= participants_questionnaire_path(@participant) %>">
-          2. Questionnaire
+          3. Questionnaire
         </a>
         <a class="nav-item nav-link <%= 'active' if action_name == 'boq' %>" href="<%= participants_boq_path(@participant) %>">
-          3. Bill of Quantities
+          4. Bill of Quantities
         </a>
         <a class="nav-item nav-link <%= 'active' if action_name == 'results' %>" href="<%= participants_results_path(@participant) %>">
-          4. Tendering Results
+          5. Tendering Results
         </a>
       <% else %>
         <a class="nav-item nav-link disabled" href="#" data-toggle="tooltip" data-placement="bottom"

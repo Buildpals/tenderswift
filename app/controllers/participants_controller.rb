@@ -6,6 +6,7 @@ class ParticipantsController < ApplicationController
                                           project_information
                                           boq
                                           questionnaire
+                                          tender_document
                                           results
                                           show_boq
                                           disqualify undo_disqualify rate]
@@ -32,6 +33,10 @@ class ParticipantsController < ApplicationController
 
   def questionnaire
     @tender_transaction = TenderTransaction.new
+  end
+
+  def tender_document
+    @request = @participant.request_for_tender
   end
 
   def results

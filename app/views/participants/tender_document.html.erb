@@ -1,0 +1,33 @@
+<div class="container">
+  <div class="row">
+    <div class="col-lg-10 mx-auto">
+      <div class="tab-content mt-4">
+
+        <div class="card mb-4">
+          <div class="card-body">
+            <h4 class="card-title mt-0"><%= @request.project_name %></h4>
+          </div>
+        </div>
+
+        <div class="card mb-4">
+
+          <div class="card-header">
+            Project Description
+          </div>
+          <div class="card-body">
+            <p class="mb-1">
+              <%= simple_format @request.project_description %>
+            </p>
+          </div>
+
+
+          <div class="card-header">
+            Project Documents
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
