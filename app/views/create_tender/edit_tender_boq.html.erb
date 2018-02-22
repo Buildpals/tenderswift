@@ -15,7 +15,7 @@
     Upload the Bill of Quantities for the project or create one using the templates provided.
   </p>
 
-  <% if @request.bill_of_quantities %>
+  <% if @request.bill_of_quantities.present? %>
     <ul class="nav nav-tabs" id="myTab">
       <% JSON.parse(@request.bill_of_quantities)['SheetNames'].each_with_index do |sheet_name, index| %>
         <li class="nav-item">
@@ -45,7 +45,7 @@
   <% end %>
 
   <div class="mb-4 text-center">
-    <% if @request.bill_of_quantities %>
+    <% if @request.bill_of_quantities.present? %>
       <p class="small">
         If you don't like the Bill Of Quantities above,
         <br>
