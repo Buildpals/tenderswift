@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180215120355) do
+ActiveRecord::Schema.define(version: 20180221124914) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -274,17 +274,28 @@ ActiveRecord::Schema.define(version: 20180215120355) do
     t.string "budget_currency", default: "USD", null: false
     t.string "contract_sum"
     t.string "contract_sum_currency", default: "USD", null: false
-    t.string "currency", default: "USD", null: false
-    t.text "tender_instructions"
     t.decimal "selling_price", default: "0.0"
     t.string "withdrawal_frequency"
     t.string "bank_name"
     t.string "branch_name"
     t.string "account_name"
     t.string "account_number"
+    t.text "tender_instructions"
     t.boolean "private", default: false, null: false
+    t.string "currency", default: "USD", null: false
     t.index ["country_id"], name: "index_request_for_tenders_on_country_id"
     t.index ["quantity_surveyor_id"], name: "index_request_for_tenders_on_quantity_surveyor_id"
+  end
+
+  create_table "required_document_uploads", force: :cascade do |t|
+    t.string "document"
+    t.bigint "participant_id"
+    t.bigint "required_document_id"
+    t.integer "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["participant_id"], name: "index_required_document_uploads_on_participant_id"
+    t.index ["required_document_id"], name: "index_required_document_uploads_on_required_document_id"
   end
 
   create_table "required_documents", force: :cascade do |t|
@@ -346,6 +357,8 @@ ActiveRecord::Schema.define(version: 20180215120355) do
   add_foreign_key "quantity_surveyor_rates", "quantity_surveyors"
   add_foreign_key "questions", "request_for_tenders"
   add_foreign_key "rates", "participants"
+  add_foreign_key "required_document_uploads", "participants"
+  add_foreign_key "required_document_uploads", "required_documents"
   add_foreign_key "required_documents", "request_for_tenders"
   add_foreign_key "tender_transactions", "participants"
   add_foreign_key "tender_transactions", "request_for_tenders"

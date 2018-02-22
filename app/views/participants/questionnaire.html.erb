@@ -35,19 +35,30 @@
 
         <% end %>
 
+        <%= form_with model: @require_document_upload,
+                      scope: :require_document_upload,
+                      url: upload_required_documents_path(@participant),
+                      method: :post,
+                      local: true,
+                      id: 'required-document-upload-form' do |form| %>
+
         <div class="card-body">
           <table class="table">
             <tbody>
-            <% @request.required_documents.each_with_index do |required_document, index| %>
+            <% @request.required_documents.each do |required_document| %>
+              <%= form.fields_for :required_document_uploads do |required| %>
               <tr>
                   <th scope="row"><%= required_document.title %></th>
                   <td><%= link_to 'View', '' %></td>
                   <td>
-                    <%= form.fields_for required_document.required_document_uploads do |requires_dcoument_upload| %>
-
-                    <% end %>
+                      <%= required.text_field :required_document_id, value: required_document.id, type: 'hidden' %>
+                      <%= required.file_field :document, class: 'form-control-file form-control-sm mb-2', data: { 'save-on-change': true } %>
                   </td>
               </tr>
+              <% end %>
+            <% end %>
+            <%= form.submit 'Save' %>
+
             <% end %>
             </tbody>
           </table>

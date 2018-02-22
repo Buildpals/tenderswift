@@ -1,25 +1,24 @@
 class ParticipantsController < ApplicationController
   before_action :set_participant, only: %i[update destroy
-                                          show_interest_in_request_for_tender
-                                          show_disinterest_in_request_for_tender
-                                          messages
-                                          project_information
-                                          boq
-                                          questionnaire
-                                          tender_document
-                                          results
-                                          show_boq
-                                          disqualify undo_disqualify rate]
+                                           show_interest_in_request_for_tender
+                                           show_disinterest_in_request_for_tender
+                                           messages
+                                           project_information
+                                           boq
+                                           questionnaire
+                                           tender_document
+                                           results
+                                           show_boq
+                                           disqualify undo_disqualify rate]
 
   before_action :set_read_time, only: %i[project_information
-                                      boq questionnaire]
+                                         boq questionnaire]
 
   include TenderTransactionsHelper
 
   include ApplicationHelper
 
-  def messages
-  end
+  def messages; end
 
   def project_information
     @tender_transaction = TenderTransaction.new
@@ -34,14 +33,15 @@ class ParticipantsController < ApplicationController
   def questionnaire
     @tender_transaction = TenderTransaction.new
     @request = @participant.request_for_tender
+    @required_document_upload = RequiredDocumentUpload.new
+    @request.required_documents.each { @participant.required_document_uploads.build }
   end
 
   def tender_document
     @request = @participant.request_for_tender
   end
 
-  def results
-  end
+  def results; end
 
   # POST /participants
   # POST /participants.json
@@ -68,13 +68,13 @@ class ParticipantsController < ApplicationController
     end
     respond_to do |format|
       if @participant.update(participant_params)
-        format.html {
+        format.html do
           if params[:commit] == 'save_rating'
             redirect_to bid_boq_path(@participant), notice: 'Participant was successfully updated.'
           else
             redirect_to @participant, notice: 'Participant was successfully updated.'
           end
-        }
+        end
         format.json {render :show, status: :ok, location: @participant}
       else
         format.html {render :edit}
@@ -117,7 +117,7 @@ class ParticipantsController < ApplicationController
   def show_interest_in_request_for_tender
     @participant.update(status: 'participating', interested_declaration_time: Time.current)
     redirect_to @participant,
-                notice: 'The project owner has been notified of your interest in the project. '+
+                notice: 'The project owner has been notified of your interest in the project. '\
                     'You\'ll find the Bid Requirements and Bill of Quantities when you scroll down this page.'
   end
 
@@ -224,6 +224,11 @@ class ParticipantsController < ApplicationController
                                                     network_code
                                                     status
                                                     request_for_tender_id],
+                  required_document_uploads_attributes: %i[id
+                                                           status
+                                                           document
+                                                           participant_id
+                                                           required_document_id],
                   filled_items_attributes: %i[id
                                               email
                                               phone_number
