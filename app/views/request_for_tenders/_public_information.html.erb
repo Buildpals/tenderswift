@@ -79,14 +79,6 @@
 
 
           <div class="card-header">
-            Tendering Instructions
-          </div>
-          <div class="card-body">
-            <%= simple_format @request.tender_instructions, {}, {wrapper_tag: 'div' } %>
-          </div>
-
-
-          <div class="card-header">
             Required Documents
           </div>
           <div class="card-body">
@@ -98,6 +90,14 @@
               <% end %>
             </ol>
             </p>
+          </div>
+
+
+          <div class="card-header">
+            Tendering Instructions
+          </div>
+          <div class="card-body">
+            <%= simple_format @request.tender_instructions, {}, {wrapper_tag: 'div' } %>
           </div>
 
         </div>
