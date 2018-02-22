@@ -52,10 +52,6 @@ class Participant < ApplicationRecord
     auth_token
   end
 
-  def filled_item(item)
-    filled_items.find_by(item_id: item.id) || FilledItem.new(item: item, participant: self)
-  end
-
   def required_document_upload_for(required_document)
     required_document_uploads.find_by(required_document_id: required_document.id) || required_document_uploads.build(required_document_id: required_document.id)
   end
