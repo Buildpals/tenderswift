@@ -1,6 +1,3 @@
 class Rate < ApplicationRecord
-
-    belongs_to :boq
-
-    belongs_to :participant
+    belongs_to :participant, inverse_of: :rates
 end

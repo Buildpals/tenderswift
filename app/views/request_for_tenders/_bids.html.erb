@@ -1,32 +1,11 @@
-<div class="graph mb-4">
+<div class="graph mb-5">
   <canvas id="barChart" class="mb-2"></canvas>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
-
-<br/>
-<br/>
-
 <%= render 'shortlisted_bids' %>
-
 <%= render 'disqualified_bids' %>
 
-<br/>
-<br/>
-
-<%= render 'winner_display' %>
-
-<%= render 'done' %>
-
-<%= render 'confirm_winner_of_bid' %>
-
 <%= render 'error_message_modal'%>
-
-<%= render 'notify_disqualified_contractors'%>
-
-<%= render 'award_contract_message' %>
-
-
 
 <script>
 var ctx = document.getElementById('barChart').getContext('2d');
@@ -35,7 +14,7 @@ var participantContractSum = [];
 <% @request.participants.each do |participant| %>
     var name = "<%= participant.company_name %>"
     participants.push(name);
-    participantContractSum.push(parseFloat("<%= participant.total_bid %>"));
+    participantContractSum.push(parseFloat("100000"));
 <% end %>
 var myBarChart = new Chart(ctx, {
     type: 'horizontalBar',

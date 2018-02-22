@@ -10,7 +10,10 @@
 
   <div class="form-row">
     <div class="col-md-12">
-        <%= form.label :selling_price %> (GHC)
+        <%= form.label :selling_price %> (<%= @request.currency %>)
+    </div>
+    <div class="col-md-1">
+      <%= @request.currency_symbol %>
     </div>
     <div class="col-md-2">
       <div class="form-group">
@@ -86,7 +89,7 @@
     <div class="col-md-4">
       <div class="form-group">
         <%= form.label :withdrawal_frequency %>
-        <%= form.select :withdrawal_frequency, {'Monthly': 'Monthly', 'Every Two Weeks': 'Every Two Weeks', 'Weekly': 'Weekly' }, {},
+        <%= form.select :withdrawal_frequency, {'Monthly': 'Monthly', 'Every 2 weeks': 'Every 2 weeks', 'Weekly': 'Weekly' }, {},
                         { id: :request_for_tender_frequency_of_receiving_sales, class: 'form-control form-control-sm' } %>
       </div>
     </div>
@@ -96,7 +99,6 @@
 <% end %>
 
 <script>
-
   function storeBankDetailsInLocalStorage() {
       var company_name = $('.qs-company-name').text();
       localStorage.setItem(company_name+ '-bankname', $('#request_for_tender_bank_name').val());

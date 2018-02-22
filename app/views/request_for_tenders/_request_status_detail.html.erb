@@ -19,21 +19,16 @@
 
   <div class="tab-content">
     <div role="tabpanel" class="tab-pane active" id="sales">
-
       <div class="card-body">
         <%= render 'sales_information' %>
       </div>
-
     </div>
-    <div role="tabpanel" class="tab-pane" id="bids">
 
+    <div role="tabpanel" class="tab-pane" id="bids">
       <div class="card-body">
         <% if @request.deadline_over? %>
-
             <%= render 'bids' %>
-
         <% else %>
-
             <p>
               In order to comply with the standards of tender fairness,
               bids will only be shown when the request deadline is reached.
@@ -42,22 +37,18 @@
             <p class="text-center">
               <%= @request.time_left %> left to request deadline.
             </p>
-
         <% end %>
       </div>
-
     </div>
+
     <div role="tabpanel" class="tab-pane" id="contractors">
-
       <%= render 'contractors' %>
-
     </div>
-    <div role="tabpanel" class="tab-pane" id="request_details">
 
+    <div role="tabpanel" class="tab-pane" id="request_details">
       <div class="card-body">
         <%= render 'request_information' %>
       </div>
-
     </div>
   </div>
 </div>

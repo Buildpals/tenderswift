@@ -6,53 +6,42 @@ class Participant < ApplicationRecord
 
   has_secure_token :auth_token
 
-  enum status: {
-      not_read: 0,
-      read: 1,
-      not_participating: 2,
-      participating: 3,
-      bid_made: 4
-  }
+  scope :purchased, -> { where(purchased: true) }
+  scope :not_purchased, -> { where(purchased: false) }
 
-  scope :not_read_list, -> {where(status: 0)}
-  scope :read_list, -> {where(status: [1, 2, 3, 4, 5])}
-  scope :not_participating_list, -> {where(status: 2)}
-  scope :participating_list, -> {where(status: [3, 4])}
-  scope :bid_list, -> {where(status: 4)}
+  scope :submitted, -> { where(submitted: true) }
+  scope :not_submitted, -> { where(submitted: false) }
 
-  belongs_to :request_for_tender
+  scope :read, -> { where(read: true) }
+  scope :not_read, -> { where(read: false) }
 
-  has_many :filled_items, dependent: :destroy
-  accepts_nested_attributes_for :filled_items,
+  scope :disqualified, -> { where(disqualified: true) }
+  scope :not_disqualified, -> { where(disqualified: false) }
+
+  belongs_to :request_for_tender, inverse_of: :participants
+
+  has_many :required_document_uploads, inverse_of: :participant
+  accepts_nested_attributes_for :required_document_uploads,
                                 allow_destroy: true,
                                 reject_if: :all_blank
 
-  has_many :items, through: :filled_items
+  has_many :other_document_uploads, inverse_of: :participant
+  accepts_nested_attributes_for :other_document_uploads,
+                                allow_destroy: true,
+                                reject_if: :all_blank
 
-  has_many :answer_boxes, inverse_of: :participant
-  has_many :questions, through: :answer_boxes
+  has_many :required_documents, through: :required_document_uploads
 
-  has_many :messages
+  has_many :rates, inverse_of: :participant
 
-  has_many :rates
-
-  has_one :tender_transaction, dependent: :destroy
+  has_one :tender_transaction, inverse_of: :participant, dependent: :destroy
   accepts_nested_attributes_for :tender_transaction,
                                 allow_destroy: true,
                                 reject_if: :all_blank
 
   validates :email, presence: true
-
   validates :company_name, presence: true
-
   validates :phone_number, presence: true
-
-
-  validates :rating, numericality: {
-      only_integer: true,
-      greater_than_or_equal_to: 0,
-      less_than_or_equal_to: 5
-  }
 
   def to_param
     auth_token
@@ -62,13 +51,12 @@ class Participant < ApplicationRecord
     filled_items.find_by(item_id: item.id) || FilledItem.new(item: item, participant: self)
   end
 
-  def answer_box_for(question)
-    answer_box = answer_boxes.find_by(question: question, participant: self) || answer_boxes.build(question: question, participant: self)
-    answer_box
+  def required_document_upload_for(required_document)
+    required_document_uploads.find_by(required_document_id: required_document.id) || required_document_uploads.build(required_document_id: required_document.id)
   end
 
   def bid
-    total_bid
+    100000
   end
 
   def bid_difference

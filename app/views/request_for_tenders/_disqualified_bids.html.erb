@@ -2,7 +2,7 @@
   <h5>Disqualified Bids</h5>
 </div>
 
-<table class="table table-striped table-hover">
+<table class="table table-striped table-hover mb-5">
   <thead class="thead-light">
   <tr>
     <th>Company</th>
@@ -13,54 +13,45 @@
   </tr>
   </thead>
   <tbody>
-  <% @request.participants.bid_list.where('disqualified = true').order(rating: :desc).each do |participant| %>
-      <% unless !@request.winner.nil? && @request.winner.auth_token.eql?(participant.auth_token) %>
-        <tr>
-          <td>
+  <% @request.participants.disqualified.where('disqualified = true').order(rating: :desc).each do |participant| %>
+    <tr>
+      <td>
             <span data-toggle="tooltip" data-placement="top" title="<%= participant.email %>">
                 <%= participant.name %>
             </span>
-          </td>
-          <td>
-            <%= @request.contract_sum_currency %> <%= participant.bid %>
-          </td>
-          <td>
-            <%= @request.contract_sum_currency %> <%= participant.bid_difference %>
-            <small>(<%= participant.bid_difference_as_percentage %>)</small>
-          </td>
-          <td>
-            <%= render 'layouts/rating_bar', participant: participant %>
-          </td>
-          <td>
-            <%= link_to 'View bid', bid_boq_path(participant) %>
-          </td>
-          <td>
-            <div class="dropdown">
-              <button class="btn btn-sm btn-light dropdown-toggle" type="button" id="actions_<% participant.id %>" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Actions
-              </button>
-              <div class="dropdown-menu" aria-labelledby="actions_<% participant.id %>">
-                <% if @request.winner.nil? %>
-                  <% if participant.disqualified %>
-                    <%= button_to "Add to Shortlist",
-                                  { action: 'undo_disqualify', controller: 'participants', id: participant.auth_token },
-                                  { class: 'dropdown-item remove-con-btn' } %>
-                  <% else %>
-                    <%= button_to "Disqualify",
-                                  { action: 'disqualify', controller: 'participants', id: participant.auth_token },
-                                  { class: 'dropdown-item remove-con-btn' } %>
-                  <% end %>
-                  <button class="dropdown-item text-success btn-award-contract accept" type="button" data-toggle="modal" data-target="#disqualifiedContractorsModal">
-                    Award Contract
-                    <span class="<%= participant.company_name %>" style="display: none;"></span>
-                    <span class="<%= participant.id %>" style="display: none;"></span>
-                  </button>
-                <% end %>
-              </div>
-            </div>
-          </td>
-        </tr>
-      <% end %>
+      </td>
+      <td>
+        <%= @request.currency_symbol %> <%= participant.bid %>
+      </td>
+      <td>
+        <%= @request.currency_symbol %> <%= participant.bid_difference %>
+        <small>(<%= participant.bid_difference_as_percentage %>)</small>
+      </td>
+      <td>
+        <%= render 'layouts/rating_bar', participant: participant %>
+      </td>
+      <td>
+        <%= link_to 'View bid', bid_boq_path(participant) %>
+      </td>
+      <td>
+        <div class="dropdown">
+          <button class="btn btn-sm btn-light dropdown-toggle" type="button" id="actions_<% participant.id %>" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Actions
+          </button>
+          <div class="dropdown-menu" aria-labelledby="actions_<% participant.id %>">
+            <% if participant.disqualified %>
+              <%= button_to "Add to Shortlist",
+                            { action: 'undo_disqualify', controller: 'participants', id: participant.auth_token },
+                            { class: 'dropdown-item remove-con-btn' } %>
+            <% else %>
+              <%= button_to "Disqualify",
+                            { action: 'disqualify', controller: 'participants', id: participant.auth_token },
+                            { class: 'dropdown-item remove-con-btn' } %>
+            <% end %>
+          </div>
+        </div>
+      </td>
+    </tr>
   <% end %>
   </tbody>
 </table>

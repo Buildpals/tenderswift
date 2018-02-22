@@ -1,24 +1,20 @@
 class ParticipantsController < ApplicationController
   before_action :set_participant, only: %i[update destroy
-                                          show_interest_in_request_for_tender
-                                          show_disinterest_in_request_for_tender
-                                          messages
-                                          project_information
-                                          boq
-                                          questionnaire
-                                          results
-                                          show_boq
-                                          disqualify undo_disqualify rate]
-
-  before_action :set_read_time, only: %i[project_information
-                                      boq questionnaire]
+                                           show_interest_in_request_for_tender
+                                           show_disinterest_in_request_for_tender
+                                           messages
+                                           project_information
+                                           boq
+                                           questionnaire
+                                           results
+                                           show_boq
+                                           disqualify undo_disqualify rate]
 
   include TenderTransactionsHelper
 
   include ApplicationHelper
 
-  def messages
-  end
+  def messages; end
 
   def project_information
     @tender_transaction = TenderTransaction.new
@@ -26,16 +22,16 @@ class ParticipantsController < ApplicationController
 
   def boq
     @tender_transaction = TenderTransaction.new
-    @boq = @participant.boq
-    #gon.jbuilder
   end
 
   def questionnaire
     @tender_transaction = TenderTransaction.new
+    @participant.request_for_tender.required_documents.each do |required_document|
+      required_document_upload = @participant.required_document_upload_for(required_document)
+    end
   end
 
-  def results
-  end
+  def results; end
 
   # POST /participants
   # POST /participants.json
@@ -44,11 +40,11 @@ class ParticipantsController < ApplicationController
 
     respond_to do |format|
       if @participant.save
-        format.html {redirect_to @participant, notice: 'Participant was successfully created.'}
-        format.json {render :show, status: :created, location: @participant}
+        format.html { redirect_to @participant, notice: 'Participant was successfully created.' }
+        format.json { render :show, status: :created, location: @participant }
       else
-        format.html {render :new}
-        format.json {render json: @participant.errors, status: :unprocessable_entity}
+        format.html { render :new }
+        format.json { render json: @participant.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -56,23 +52,19 @@ class ParticipantsController < ApplicationController
   # PATCH/PUT /participants/1
   # PATCH/PUT /participants/1.json
   def update
-    rates = @participant.rates.where(boq: @participant.request_for_tender.boq)
-    unless rates.nil?
-      @participant.total_bid = @participant.calculate_contract_sum
-    end
     respond_to do |format|
       if @participant.update(participant_params)
-        format.html {
+        format.html do
           if params[:commit] == 'save_rating'
             redirect_to bid_boq_path(@participant), notice: 'Participant was successfully updated.'
           else
             redirect_to @participant, notice: 'Participant was successfully updated.'
           end
-        }
-        format.json {render :show, status: :ok, location: @participant}
+        end
+        format.json { render :show, status: :ok, location: @participant }
       else
-        format.html {render :edit}
-        format.json {render json: @participant.errors, status: :unprocessable_entity}
+        format.html { render :edit }
+        format.json { render json: @participant.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -80,20 +72,20 @@ class ParticipantsController < ApplicationController
   def disqualify
     if @participant.update(disqualified: true)
       redirect_back fallback_location: bid_boq_path(@participant),
-                  notice: "#{@participant.company_name} has been disqualified"
+                    notice: "#{@participant.company_name} has been disqualified"
     else
       redirect_back fallback_location: root_path,
-                  notice: "An error occurred while trying to disqualify #{@participant.company_name}"
+                    notice: "An error occurred while trying to disqualify #{@participant.company_name}"
     end
   end
 
   def undo_disqualify
     if @participant.update(disqualified: false)
       redirect_back fallback_location: bid_boq_path(@participant),
-                  notice: "#{@participant.company_name} has been re-added to the shortlist"
+                    notice: "#{@participant.company_name} has been re-added to the shortlist"
     else
       redirect_back fallback_location: bid_boq_path(@participant),
-                  notice: "An error occurred while trying to re-add #{@participant.company_name} to shortlist"
+                    notice: "An error occurred while trying to re-add #{@participant.company_name} to shortlist"
     end
   end
 
@@ -107,35 +99,14 @@ class ParticipantsController < ApplicationController
     end
   end
 
-  # GET /show_interest_in_request_for_tender/1
-  def show_interest_in_request_for_tender
-    @participant.update(status: 'participating', interested_declaration_time: Time.current)
-    redirect_to @participant,
-                notice: 'The project owner has been notified of your interest in the project. '+
-                    'You\'ll find the Bid Requirements and Bill of Quantities when you scroll down this page.'
-  end
-
-  # GET /show_disinterest_in_request_for_tender/1
-  def show_disinterest_in_request_for_tender
-    @participant.update(status: 'not_participating', interested_declaration_time: Time.current)
-    redirect_to @participant,
-                notice: 'Thank you for your time. You\'ll not receive anymore emails about this project.'
-  end
-
   # DELETE /participants/1
   # DELETE /participants/1.json
   def destroy
     @participant.destroy
     respond_to do |format|
-      format.html {redirect_to participants_url, notice: 'Participant was successfully destroyed.'}
-      format.json {head :no_content}
+      format.html { redirect_to participants_url, notice: 'Participant was successfully destroyed.' }
+      format.json { head :no_content }
     end
-  end
-
-  def set_contract_sum
-    set_participant
-    @participant.contract_sum = params[:contract_sum]
-    @participant.save!
   end
 
   def pay_public_tender
@@ -143,9 +114,7 @@ class ParticipantsController < ApplicationController
                                    company_name: params[:participant][:company_name],
                                    phone_number: params[:participant][:phone_number])
     @participant.request_for_tender_id = params[:participant][:request_for_tender_id]
-    @participant.interested_declaration_time = Time.new
-    @participant.rating = 0
-    @participant.request_read_time = Time.new
+    @participant.purchase_time = Time.current
     @participant.save!
     payload = extract_payload(params[:participant][:tender_transaction_attributes],
                               params[:participant][:request_for_tender_id])
@@ -181,35 +150,29 @@ class ParticipantsController < ApplicationController
     if params[:id].first(6) == 'guest-'
       request_for_tender = RequestForTender.find(params[:id][6..-1])
       @participant = GuestParticipant.new(request_for_tender)
+      @request = request_for_tender
     else
       @participant = Participant.find_by(auth_token: params[:id])
+      @request = @participant.request_for_tender
     end
-  end
-
-  def set_read_time
-    @participant.update(status: 'read', request_read_time: Time.current) if @participant.not_read?
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def participant_params
     params.require(:participant)
-          .permit(:email,
-                  :phone_number,
-                  :participant,
+          .permit(:request_for_tender_id,
                   :company_name,
-                  :first_name,
-                  :last_name,
-                  :status,
+                  :phone_number,
+                  :email,
                   :rating,
-                  :bid_submission_time,
-                  :request_read_time,
-                  :interested,
-                  :interested_declaration_time,
-                  :declination_reason,
-                  :removed,
-                  :comment,
-                  :contract_sum,
-                  :request_for_tender_id,
+                  :purchased,
+                  :submitted,
+                  :purchase_time,
+                  :submitted_time,
+                  :read,
+                  :rating,
+                  :disqualified,
+                  :notes,
                   tender_transaction_attributes: %i[id
                                                     customer_number
                                                     amount
@@ -218,10 +181,11 @@ class ParticipantsController < ApplicationController
                                                     network_code
                                                     status
                                                     request_for_tender_id],
-                  filled_items_attributes: %i[id
-                                              email
-                                              phone_number
-                                              rate
-                                              _destroy])
+                  other_document_uploads_attributes: %i[id
+                                                        document
+                                                        _destroy],
+                  required_document_uploads_attributes: %i[id
+                                                           document
+                                                           _destroy])
   end
 end

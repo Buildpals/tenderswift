@@ -9,46 +9,35 @@
 
   <%= render 'request_for_tender_errors' %>
 
-  <p class="text-center">Contract Sum: <strong>GHC </strong><span class="contract-sum"></span></p>
+  <p>Contract Sum: <strong>GHC </strong><span class="contract-sum"></span></p>
+
+  <div class="mb-4 d-flex w-100 justify-content-end">
+    <%= form.hidden_field :bill_of_quantities, id: 'workbook-data' %>
+
+    <% if @request.bill_of_quantities.present? %>
+      <label for="exampleFormControlFile1" class="mr-2">Replace File</label>
+    <% else %>
+      <label for="exampleFormControlFile1"  class="mr-2">Upload File</label>
+    <% end %>
+    <%= file_field_tag :document, id: 'upload-boq', class: 'form-control-file' %>
+  </div>
 
   <p class="text-muted small">
     Upload the Bill of Quantities for the project or create one using the templates provided.
   </p>
 
-  <% if @request.boq %>
+  <% if @request.bill_of_quantities.present? %>
     <%= content_tag :div,
-                    id: 'boq-excel',
-                    class: 'hot handsontable htRowHeaders htColumnHeaders',
+                    id: 'bill_of_quantities',
+                    class: 'mb-5',
                     data: {
-                        boq: @request.boq.workbook_data,
+                        boq: @request.bill_of_quantities,
                         qs_company_name: @request.project_owners_company_name,
                         currency: @request.currency_symbol,
                         boq_contract_sum: 10000
                     } do %>
     <% end %>
   <% end %>
-
-  <div class="mb-4 text-center">
-    <% if @request.boq %>
-      <p class="small">
-        If you don't like the Bill Of Quantities above,
-        <br>
-        you can upload a different one using the button below.
-      </p>
-    <% else %>
-      <p class="text-center text-muted small">
-        Upload a bill of quantities by choosing an excel file from your computer using the 'Choose File' button,
-        <br>
-        and clicking the 'Save' button thereafter.
-        <br>
-        You'll be able to edit the bill of quantities after uploading it.
-      </p>
-    <% end %>
-    <%= form.fields_for :boq do |boq_field| %>
-      <%= boq_field.text_field :workbook_data, id: 'workbook-data', type: 'hidden' %>
-    <% end %>
-    <%= form.file_field :document, id: 'upload-boq', class: 'form-control-file btn btn-sm btn-primary'%>
-  </div>
 
   <%= render 'layouts/create_tender_navigation', location: 'bottom', request: @request, form: form %>
 <% end %>

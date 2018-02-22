@@ -69,9 +69,6 @@ gem 'country_select'
 # Cocoon
 gem 'cocoon'
 
-# Gon for passing rails variables to js
-gem 'gon'
-
 # RailsAdmin for an easy-to-use interface for managing the apps data
 gem 'rails_admin', '~> 1.2'
 
@@ -90,6 +87,10 @@ group :development, :test do
   gem 'capybara', '~> 2.13'
   gem 'rails-controller-testing'
   gem 'selenium-webdriver'
+
+  gem 'cucumber-rails', :require => false
+  # database_cleaner is not required, but highly recommended
+  gem 'database_cleaner'
 end
 
 group :development do

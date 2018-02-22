@@ -1,65 +1,68 @@
 class RequestForTender < ApplicationRecord
   include ActionView::Helpers::DateHelper
 
-  monetize :selling_price, as: 'price'
+  scope :submitted, -> { where(submitted: true) }
+  scope :not_submitted, -> { where(submitted: false) }
 
-  scope :submitted, -> {where(submitted: true)}
-  scope :not_submitted, -> {where(submitted: false)}
+  monetize :selling_price_subunit,
+           as: :selling_price,
+           with_model_currency: :currency
 
-  has_one :boq, inverse_of: :request_for_tender, dependent: :destroy
-  accepts_nested_attributes_for :boq,
+  belongs_to :quantity_surveyor, inverse_of: :request_for_tenders
+
+  has_many :project_documents, dependent: :destroy, inverse_of: :request_for_tender
+  accepts_nested_attributes_for :project_documents,
                                 allow_destroy: true,
                                 reject_if: :all_blank
-
-  belongs_to :quantity_surveyor
-
-  belongs_to :country
-
-  has_one :winner
 
   has_many :required_documents, dependent: :destroy, inverse_of: :request_for_tender
   accepts_nested_attributes_for :required_documents,
                                 allow_destroy: true,
                                 reject_if: :all_blank
 
-  has_many :questions, dependent: :destroy, inverse_of: :request_for_tender
-  accepts_nested_attributes_for :questions,
-                                allow_destroy: true,
-                                reject_if: :all_blank
-
-  has_many :participants, dependent: :destroy
+  has_many :participants, dependent: :destroy, inverse_of: :request_for_tender
   accepts_nested_attributes_for :participants,
                                 allow_destroy: true,
                                 reject_if: :all_blank
 
-  has_many :project_documents, dependent: :destroy
-  accepts_nested_attributes_for :project_documents,
-                                allow_destroy: true,
-                                reject_if: :all_blank
-
-  has_one :excel, dependent: :destroy
-  accepts_nested_attributes_for :excel,
-                                allow_destroy: true,
-                                reject_if: :all_blank
-
-  has_one :chatroom, dependent: :destroy
-
-  has_many :tender_transactions
-
+  has_many :tender_transactions, dependent: :destroy, inverse_of: :request_for_tender
 
   validates :project_name, presence: true
   validates :deadline, presence: true
 
+
+  def self.create_new(quantity_surveyor)
+    new_request_for_tender = self.new
+    new_request_for_tender.quantity_surveyor = quantity_surveyor
+    new_request_for_tender.project_name = 'Untitled Project'
+    new_request_for_tender.country_code = 'GH'
+    new_request_for_tender.deadline = Time.current + 1.month
+    new_request_for_tender.required_documents.build(title: 'Tax Clearance Certificate')
+    new_request_for_tender.required_documents.build(title: 'SSNIT Clearance Certificate')
+    new_request_for_tender.required_documents.build(title: 'Labour Certificate')
+    new_request_for_tender.required_documents.build(title: 'Power of attorney')
+    new_request_for_tender.required_documents.build(title: 'Certificate of Incorporation')
+    new_request_for_tender.required_documents.build(title: 'Certificate of Commencement')
+    new_request_for_tender.required_documents.build(title: 'Works and Housing certificate')
+    new_request_for_tender.required_documents.build(title: 'Financial statements (3 years )')
+    new_request_for_tender.required_documents.build(title: 'Bank Statement or evidence of Funding (letter of credit)')
+    new_request_for_tender.save!
+    new_request_for_tender.project_name = "Untitled Project ##{new_request_for_tender.id}"
+    new_request_for_tender.save!
+    new_request_for_tender
+  end
+
   def currency_symbol
-    if currency == 'USD'
-      return '$'
-    else
-      return 'GH₵'
-    end
+    currency == 'USD' ? '$' : 'GH₵'
   end
 
   def name
     "##{id} #{project_name}"
+  end
+
+  def country
+    c = ISO3166::Country[country_code]
+    c.translations[I18n.locale.to_s] || c.name
   end
 
   def project_owners_name
@@ -83,15 +86,15 @@ class RequestForTender < ApplicationRecord
   end
 
   def project_deadline
-    self.deadline
+    deadline
   end
 
   def project_description
-    self.description
+    description
   end
 
   def project_location
-    "#{city.present? ? city : 'N/A' }, #{country.name}"
+    "#{city.present? ? city : 'N/A'}, #{country}"
   end
 
   def status
@@ -119,29 +122,19 @@ class RequestForTender < ApplicationRecord
     Time.current > deadline
   end
 
-  def create_blank_boq
-    boq = Boq.new(request_for_tender: self)
-    #page = boq.pages.build(name: 'Sheet 1')
-    #30.times { |i| page.items.build(boq: boq, item_type: 'item', priority: i)}
-    boq.save!
-  end
-
   def get_disqualified_contractors
-    disqualified_participants = Array.new
-    self.participants.lazy.each do |participant|
-      unless self.winner.auth_token.eql?(participant.auth_token)
+    disqualified_participants = []
+    participants.lazy.each do |participant|
+      unless winner.auth_token.eql?(participant.auth_token)
         disqualified_participants.push(participant)
       end
     end
     disqualified_participants
   end
 
-  def budget_currency_symbol
-    if budget_currency == 'USD'
-      return '$'
-    else
-      return 'GH₵'
-    end
+  def contract_sum
+    # TODO: Fetch contract sum
+    100000
   end
 
   def number_of_tender_purchases
@@ -150,13 +143,10 @@ class RequestForTender < ApplicationRecord
 
   def total_receivable
     number_of_transactions = 0
-    self.tender_transactions.each do |tender_transaction|
-      if tender_transaction.status.equal?('success')
-        number_of_transactions += 1
-      end
+    tender_instructions.each do |tender_transaction|
+      number_of_transactions += 1 if tender_transaction.status.equal?('success')
     end
     total_of_transactions = number_of_transactions * selling_price
     total_of_transactions - (15 / 100 * total_of_transactions)
   end
-
 end

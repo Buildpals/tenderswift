@@ -6,7 +6,6 @@ class RatesController < ApplicationController
   def index
     @rate = Rate.new(rate_params)
     @rates = Rate.where(participant_id: @rate.participant_id).where(boq_id: @rate.boq_id)
-    #@rates = Rate.where(participant_id: @rate.participant_id).where(boq_id: @rate.boq_id).where(sheet_name: @rate.sheet_name)
     render json: @rates
   end
 

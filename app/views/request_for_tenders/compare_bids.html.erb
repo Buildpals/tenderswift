@@ -17,16 +17,18 @@
 <div class="container-fluid" style="padding-left: 0px; padding-right: 15px;">
   <div class="row">
     <div class="col-md-12">
-      <%= content_tag :div,
-                      id: 'boq-excel',
-                      data: {
-                          participants: @participants.sort_by(&:total_bid).as_json(include: :rates),
-                          boq: @boq.workbook_data,
-                          contract_sum: @boq.contract_sum,
-                          qs_company_name: @boq.request_for_tender.quantity_surveyor.company_name,
-                          currency: @request.budget_currency_symbol,
-                          boq_contract_sum: @boq.contract_sum
-                      } do %>
+      <% if @request.bill_of_quantities.present? %>
+        <%= content_tag :div,
+                        id: 'bill_of_quantities',
+                        class: 'mb-5',
+                        data: {
+                            participants: @participants.as_json(include: :rates),
+                            boq: @request.bill_of_quantities,
+                            qs_company_name: @request.project_owners_company_name,
+                            currency: @request.currency_symbol,
+                            boq_contract_sum: 10000
+                        } do %>
+        <% end %>
       <% end %>
     </div>
   </div>

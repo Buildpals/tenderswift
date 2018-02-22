@@ -3,35 +3,30 @@
     <div class="col-lg-9 mx-auto">
       <div class="tab-content mt-4">
 
-        <% if @participant.status.in? %w(participating bid_made guest) %>
 
-          <div class="card mb-4">
-            <div class="card-header">
-              Requirements
-            </div>
-            <% @participant.request_for_tender.questions.each do |question| %>
-              <div class="card-body">
 
-                <%= question.title %>
-                <p class="text-muted small"><%= question.description %></p>
+        <%= form_with model: @participant,
+                      scope: :participant,
+                      url: update_tender_participants_path(@participant),
+                      method: :patch,
+                      local: true,
+                      id: 'participants-form' do |form| %>
 
-                <%= form_with(model: @participant.answer_box_for(question), local: true) do |form| %>
-                  <%= form.hidden_field :participant_id, value: @participant.id %>
-                  <%= form.hidden_field :question_id, value: question.id %>
-                  <%= form.text_field :answer, id: :answer_answer, class: 'form-control form-control-sm mb-2' %>
-                  <div class="nested-forms mb-5">
-                    <%= form.fields_for :answer_documents do |answer_document| %>
-                      <%= render 'answer_document_fields', f: answer_document %>
-                    <% end %>
-                    <div class="d-flex w-100 justify-content-between mt-3">
-                      <%= link_to_add_association 'Add document', form, :answer_documents, class: 'btn btn-sm btn-primary' %>
-                      <%= form.submit 'Save', class: 'btn btn-sm btn-primary' %>
-                    </div>
-                  </div>
-                <% end %>
-              </div>
-            <% end %>
+          <p class="text-muted small">
+            Upload required documents that the client has requested
+          </p>
+
+          <div class="form-group mt-3">
+            <ul class="list-group list-group-flush nested-forms">
+              <%= form.fields_for :required_document_uploads do |required_document_upload| %>
+                <%= render 'required_document_upload_fields', f: required_document_upload %>
+              <% end %>
+              <li class="d-flex w-100 justify-content-between">
+                <%= link_to_add_association 'ADD NEW DOCUMENT', form, :required_document_uploads, class: 'btn btn-sm btn-block btn-primary my-1' %>
+              </li>
+            </ul>
           </div>
+
 
         <% end %>
 

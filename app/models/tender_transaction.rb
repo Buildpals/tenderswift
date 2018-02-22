@@ -11,13 +11,13 @@ class TenderTransaction < ApplicationRecord
 
   CALLBACK_URL = 'https://buildpals-development.herokuapp.com/tender/transactions/complete_transaction/'.freeze
 
-  CLIENT_ID = 15.freeze
+  CLIENT_ID = 15
 
   enum status: { pending: 0, success: 1, failed: 2 }
 
-  belongs_to :participant
+  belongs_to :participant, inverse_of: :tender_transaction
 
-  belongs_to :request_for_tender
+  belongs_to :request_for_tender, inverse_of: :tender_transactions
 
   def self.secret_key
     SECRET_KEY
@@ -55,11 +55,11 @@ class TenderTransaction < ApplicationRecord
     message = ''
     n = 0
     ruby_hash.each do |k, v|
-      if n.zero?
-        message = message + k.to_s + '=' + v.to_s
-      else
-        message = message + '&' + k.to_s + '=' + v.to_s
-      end
+      message = if n.zero?
+                  message + k.to_s + '=' + v.to_s
+                else
+                  message + '&' + k.to_s + '=' + v.to_s
+                end
       n += 1
     end
     message
@@ -70,7 +70,6 @@ class TenderTransaction < ApplicationRecord
     authorization = "HMAC #{CLIENT_KEY}:#{digest}"
     authorization
   end
-
 
   def self.make_payment(authorization, payload, customer_number,
                         amount, voucher_code = nil,
@@ -147,5 +146,4 @@ class TenderTransaction < ApplicationRecord
     end
     conn
   end
-
 end

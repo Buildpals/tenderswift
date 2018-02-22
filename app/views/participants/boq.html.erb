@@ -1,40 +1,12 @@
-<script src="//rawgit.com/SheetJS/js-xlsx/master/dist/xlsx.full.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/handsontable/0.34.5/handsontable.min.js"></script>
-<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/handsontable/0.34.5/handsontable.min.css"/>
-
-<% if @participant.status.in? %w(participating bid_made) %>
-    <div id="boq-excel">
-    </div>
-
-    <div class="content-boq">
-        <%= @participant.boq.workbook_data %>
-    </div>
-
-    <div class="buttons row">
-    </div>
-    <div class="row pull-right">
-        <p>Contract Sum:  <strong>GH </strong></p>
-        <div class="contract-sum">
-        </div>
-    </div>
-
-    <span class="rate_column">
-        <%= get_index_of_alphabet(@participant.boq.rate_column.to_s) %>
-    </span>
-    <span class="quantity_column">
-        <%= get_index_of_alphabet(@participant.boq.quantity_column.to_s) %>
-    </span>
-    <span class="amount_column">
-         <%= get_index_of_alphabet(@participant.boq.amount_column.to_s) %>
-    </span>
-    <span class="item_column">
-         <%= get_index_of_alphabet(@participant.boq.item_column.to_s) %>
-    </span>
-    <span class="boq_id">
-        <%= @participant.boq.id %>
-    </span>
-    <span class="participant_id"><%= @participant.id %></span>
-    <span class="sheet-name"></span>
-
+<% if @participant.request_for_tender.bill_of_quantities.present? %>
+  <%= content_tag :div,
+                  id: 'bill_of_quantities',
+                  class: 'mb-5',
+                  data: {
+                      boq: @participant.request_for_tender.bill_of_quantities,
+                      qs_company_name: @participant.request_for_tender.project_owners_company_name,
+                      currency: @participant.request_for_tender.currency_symbol,
+                      boq_contract_sum: 10000
+                  } do %>
+  <% end %>
 <% end %>
-

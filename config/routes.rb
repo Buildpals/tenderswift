@@ -1,7 +1,4 @@
 Rails.application.routes.draw do
-
-  resources :quantity_surveyor_rates
-  resources :rates
   root to: 'welcome#index'
 
   get '/tender/:id/edit', to: 'create_tender#edit_tender_information', as: 'edit_tender_information'
@@ -22,7 +19,6 @@ Rails.application.routes.draw do
   get '/tender/:id/edit/participants', to: 'create_tender#edit_tender_participants', as: 'edit_tender_participants'
   patch '/tender/:id/update/participants', to: 'create_tender#update_tender_participants', as: 'update_tender_participants'
 
-
   get 'participants/:id', to: 'participants#messages', as: 'participants_messages'
   get 'participants/:id/project_information', to: 'participants#project_information', as: 'participants_project_information'
   get 'participants/:id/questionnaire', to: 'participants#questionnaire', as: 'participants_questionnaire'
@@ -32,8 +28,6 @@ Rails.application.routes.draw do
 
   get 'tender/transactions/complete_transaction/', to: 'tender_transactions#complete_transaction', as: 'complete_transaction'
 
-
-
   get 'projects/public/:id', to: 'request_for_tenders#portal', as: 'request_for_tender_portal'
 
   get 'bids/:id', to: 'bids#boq', as: 'bid_boq'
@@ -41,69 +35,28 @@ Rails.application.routes.draw do
   get 'bids/:id/questionnaire', to: 'bids#questionnaire', as: 'bid_questionnaire'
   get 'bids/:id/information', to: 'bids#contractor_information', as: 'bid_contractor_information'
 
-  get '/show_interest_in_request_for_tender/:id',
-      to: 'participants#show_interest_in_request_for_tender',
-      as: 'show_interest_in_request_for_tender'
-
-  get '/show_disinterest_in_request_for_tender/:id',
-      to: 'participants#show_disinterest_in_request_for_tender',
-      as: 'show_disinterest_in_request_for_tender'
-
-
-  post '/requests/set_winner/:id/:participant',
-      to: 'request_for_tenders#set_winner',
-      as: 'request_for_tenders_set_winner'
-
   get '/request/compare/bids/:id',
-     to: 'request_for_tenders#compare_bids',
-     as: 'compare_bids'
-
+      to: 'request_for_tenders#compare_bids',
+      as: 'compare_bids'
 
   get 'participants/complete_transaction/:transaction_id/:status/:message',
       to: 'participants#complete_transaction',
       as: 'participants_complete_transaction'
 
-
-  post '/requests/send_out/:id',
-      to: 'request_for_tenders#send_out_final_invitation',
-      as: 'request_send_out_final_invitation'
-
-  post '/requests/notify_disqualified_contractors/:id',
-      to: 'request_for_tenders#notify_disqualified_contractors',
-      as: 'notify_disqualified_contractors'
-
-
   post '/participants/disqualify/:id/',
-      to: 'participants#disqualify'
+       to: 'participants#disqualify'
 
   post '/participants/undo_disqualify/:id/',
-        to: 'participants#undo_disqualify'
+       to: 'participants#undo_disqualify'
 
   post '/participants/rate/:id/',
        to: 'participants#rate'
 
-  patch '/boqs/contract_sum/:id',
-      to: 'boqs#contract_sum',
-      as: 'set_qs_contract_sum'
-
-  patch '/participants/contract_sum/:id',
-      to: 'participants#set_contract_sum',
-      as: 'set_participant_contract_sum'
-
-  resources :items
-  resources :pages
+  resources :quantity_surveyors, only: %i[edit update]
   resources :request_for_tenders
-  resources :boqs
   resources :participants
-  resources :filled_items
-  resources :broadcast_messages, only: [:create]
-  resources :messages
-  resources :answer_boxes
-  resources :questions
-  resources :quantity_surveyors, only: [:edit, :update]
-  resources :tender_transactions, except: [:destroy, :index, :show, :new, :edit, :update]
-  resources :messages, only: [:create]
-
+  resources :tender_transactions
+  resources :rates
 
   devise_for :quantity_surveyors
   devise_for :admins

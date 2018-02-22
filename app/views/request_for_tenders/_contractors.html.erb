@@ -1,28 +1,16 @@
 <div class="card-body">
   <div class="d-flex w-100 justify-content-between">
     <%= link_to 'Invite more contractors', edit_tender_participants_path(@request), class: 'btn btn-sm btn-light' %>
-
-    <button class="btn btn-sm btn-light">Add a bid manually</button>
   </div>
 </div>
 
 
 <div id="accordion" role="tablist">
   <div class="card">
-
-    <%= render 'bid_made_contractors' %>
-
-    <%= render 'want_to_bid_contractors' %>
-
-    <%= render 'not_participating_contractors' %>
-
-    <%= render 'read_contractors' %>
-
-    <%= render 'not_read_contractors' %>
-
     <%= render 'all_contractors' %>
+    <%= render 'purchased_contractors' %>
 
-
+    <%= render 'submitted_contractors' %>
   </div>
 </div>
 
