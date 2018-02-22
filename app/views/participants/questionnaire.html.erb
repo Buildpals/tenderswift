@@ -3,36 +3,53 @@
     <div class="col-lg-12 mx-auto">
       <div class="tab-content mt-4">
 
-        <%= form_with model: @require_document_upload,
-                      scope: :require_document_upload,
-                      url: upload_required_documents_path(@participant),
+        <%= form_with model: @participant,
+                      scope: :participant,
                       method: :post,
+                      url: participants_upload_required_documents_path(@participant),
                       local: true,
                       id: 'required-document-upload-form' do |form| %>
 
-        <div class="card-body">
-          <table class="table">
-            <tbody>
-            <% @request.required_documents.each do |required_document| %>
-              <%= form.fields_for :required_document_uploads do |required| %>
-              <tr>
-                  <th scope="row"><%= required_document.title %></th>
-                  <td><%= link_to 'View', '' %></td>
+          <div class="card-body">
+            <table class="table">
+
+              <tbody>
+              <%= form.fields_for :required_document_uploads do |required_document_upload| %>
+                <tr>
+
                   <td>
-                      <%= required.text_field :required_document_id, value: required_document.id, type: 'hidden' %>
-                      <%= required.file_field :document, class: 'form-control-file form-control-sm mb-2', data: { 'save-on-change': true } %>
+                    <%= required_document_upload.object.required_document.title  %>
                   </td>
-              </tr>
-              <% end %>
-            <% end %>
-            <%= form.submit 'Save' %>
 
-            <% end %>
-            </tbody>
-          </table>
-        </div>
+                  <% if required_document_upload.object.document? %>
+                    <td>
+                      <%= link_to 'View', required_document_upload.object.document.url, target: '_blank' %>
+                    </td>
+                    <td>
+                      <%= required_document_upload.file_field :document, class: 'form-control-file form-control-sm mb-2', data: {'save-on-change': true} %>
+                    </td>
+                  <% else %>
+                    <td></td>
+                    <td>
+                      <%= required_document_upload.file_field :document, class: 'form-control-file form-control-sm mb-2', data: {'save-on-change': true} %>
+                    </td>
+                  <% end %>
 
+                </tr>
+                <% end %>
+                <% if @participant.request_for_tender.required_documents.size > 7 %>
+                  <%= form.submit 'Save', class: 'pull-right btn btn-success' %>
+                <% end %>
+              </tbody>
+            </table>
+            <%= form.submit 'Save', class: 'pull-right btn btn-success' %>
+          </div>
+        <% end %>
       </div>
     </div>
   </div>
 </div>
+
+<script>
+  $('.submit-your-bid').attr('disabled', 'disabled');
+</script>
