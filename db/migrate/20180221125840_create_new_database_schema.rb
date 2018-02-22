@@ -98,12 +98,12 @@ class CreateNewDatabaseSchema < ActiveRecord::Migration[5.1]
       t.datetime "deadline"
       t.string "city"
       t.string "description"
-      t.string "country"
+      t.string "country_code"
       t.string "currency", default: "USD", null: false
       t.text "bill_of_quantities"
       t.string "contract_sum_location"
       t.text "tender_instructions"
-      t.integer "selling_price_subunit"
+      t.integer "selling_price_subunit", default: 10000, null: false
       t.string "withdrawal_frequency"
       t.string "bank_name"
       t.string "branch_name"

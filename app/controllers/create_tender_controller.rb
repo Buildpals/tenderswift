@@ -4,17 +4,12 @@ class CreateTenderController < ApplicationController
                                        update_tender_information update_tender_documents update_tender_boq update_tender_questionnaire update_tender_participants]
 
   before_action :authenticate_quantity_surveyor!
+  before_action :check_if_submitted
 
   DEFAULT_BROADCAST_CONTENT = 'If you have any questions you can reply me here'.freeze
 
   def edit_tender_information
-    if @request.submitted?
-      redirect_to request_for_tenders_path, notice: 'A tender cannot
-                                            be edited once it\'s sent out
-                                            to contractors'
-    else
-      @next_path = edit_tender_boq_path(@request)
-    end
+    @next_path = edit_tender_boq_path(@request)
   end
 
   def update_tender_information
@@ -127,6 +122,14 @@ class CreateTenderController < ApplicationController
 
   private
 
+  def check_if_submitted
+    if @request.submitted?
+      redirect_to request_for_tenders_path, notice: 'A tender cannot
+                                            be edited once it\'s sent out
+                                            to contractors'
+    end
+  end
+
   def email_participants
     if @request.submitted?
       redirect_to @request,
@@ -160,7 +163,7 @@ class CreateTenderController < ApplicationController
                   :deadline,
                   :city,
                   :description,
-                  :country,
+                  :country_code,
                   :currency,
                   :bill_of_quantities,
                   :contract_sum_location,

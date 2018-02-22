@@ -57,17 +57,14 @@
     </div>
   </div>
 
-
   <div class="form-row">
     <div class="col-md-4">
       <div class="form-group">
         <%= form.label :country %>
-        <%= form.select :country,
-                        [['Ghana', 'Ghana'],
-                         ['Nigeria', 'Nigeria']],
-                        {},
-                        {id: :request_for_tender_country,
-                         class: 'form-control form-control-sm', data: {'save-on-change': true}} %>
+        <%= form.country_select :country_code,
+                                { priority_countries: %w(GH US) },
+                                { id: :request_for_tender_country,
+                                 class: 'form-control form-control-sm' } %>
       </div>
     </div>
   </div>

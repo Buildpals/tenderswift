@@ -30,12 +30,39 @@ class RequestForTender < ApplicationRecord
   validates :project_name, presence: true
   validates :deadline, presence: true
 
+
+  def self.create_new(quantity_surveyor)
+    new_request_for_tender = self.new
+    new_request_for_tender.quantity_surveyor = quantity_surveyor
+    new_request_for_tender.project_name = 'Untitled Project'
+    new_request_for_tender.country_code = 'GH'
+    new_request_for_tender.deadline = Time.current + 1.month
+    new_request_for_tender.required_documents.build(title: 'Tax Clearance Certificate')
+    new_request_for_tender.required_documents.build(title: 'SSNIT Clearance Certificate')
+    new_request_for_tender.required_documents.build(title: 'Labour Certificate')
+    new_request_for_tender.required_documents.build(title: 'Power of attorney')
+    new_request_for_tender.required_documents.build(title: 'Certificate of Incorporation')
+    new_request_for_tender.required_documents.build(title: 'Certificate of Commencement')
+    new_request_for_tender.required_documents.build(title: 'Works and Housing certificate')
+    new_request_for_tender.required_documents.build(title: 'Financial statements (3 years )')
+    new_request_for_tender.required_documents.build(title: 'Bank Statement or evidence of Funding (letter of credit)')
+    new_request_for_tender.save!
+    new_request_for_tender.project_name = "Untitled Project ##{new_request_for_tender.id}"
+    new_request_for_tender.save!
+    new_request_for_tender
+  end
+
   def currency_symbol
     currency == 'USD' ? '$' : 'GH₵'
   end
 
   def name
     "##{id} #{project_name}"
+  end
+
+  def country
+    c = ISO3166::Country[country_code]
+    c.translations[I18n.locale.to_s] || c.name
   end
 
   def project_owners_name

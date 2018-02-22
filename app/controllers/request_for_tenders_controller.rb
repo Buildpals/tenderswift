@@ -26,23 +26,7 @@ class RequestForTendersController < ApplicationController
 
   # GET /requests/new
   def new
-    @request = RequestForTender.new
-
-    @request.quantity_surveyor = current_quantity_surveyor
-    @request.project_name = "Untitled Project ##{@request.id}"
-    @request.country = 'Ghana'
-    @request.deadline = Time.current + 1.month
-    @request.required_documents.build(title: 'Tax Clearance Certificate')
-    @request.required_documents.build(title: 'SSNIT Clearance Certificate')
-    @request.required_documents.build(title: 'Labour Certificate')
-    @request.required_documents.build(title: 'Power of attorney')
-    @request.required_documents.build(title: 'Certificate of Incorporation')
-    @request.required_documents.build(title: 'Certificate of Commencement')
-    @request.required_documents.build(title: 'Works and Housing certificate')
-    @request.required_documents.build(title: 'Financial statements (3 years )')
-    @request.required_documents.build(title: 'Bank Statement or evidence of Funding (letter of credit)')
-    @request.save!
-
+    @request = RequestForTender.create_new(current_quantity_surveyor)
     redirect_to edit_tender_information_path @request
   end
 
