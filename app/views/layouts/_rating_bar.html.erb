@@ -3,7 +3,7 @@
   <div class="btn-group btn-group-sm" data-toggle="buttons">
     <label class="btn btn-light">
       <%= form.radio_button :rating, '1', {id: 'rating1', autocomplete: 'off'} %>
-      <% if participant.rating >= 1 %>
+      <% if participant.rating? && participant.rating >= 1 %>
         <span class="fa fa-star text-secondary"></span>
       <% else %>
         <span class="fa fa-star-o text-secondary"></span>
@@ -11,7 +11,7 @@
     </label>
     <label class="btn btn-light">
       <%= form.radio_button :rating, '2', {id: 'rating2', autocomplete: 'off'} %>
-      <% if participant.rating >= 2 %>
+      <% if participant.rating? && participant.rating >= 2 %>
         <span class="fa fa-star text-secondary"></span>
       <% else %>
         <span class="fa fa-star-o text-secondary"></span>
@@ -19,7 +19,7 @@
     </label>
     <label class="btn btn-light">
       <%= form.radio_button :rating, '3', {id: 'rating3', autocomplete: 'off'} %>
-      <% if participant.rating >= 3 %>
+      <% if participant.rating? && participant.rating >= 3 %>
         <span class="fa fa-star text-secondary"></span>
       <% else %>
         <span class="fa fa-star-o text-secondary"></span>
@@ -27,7 +27,7 @@
     </label>
     <label class="btn btn-light">
       <%= form.radio_button :rating, '4', {id: 'rating4', autocomplete: 'off'} %>
-      <% if participant.rating >= 4 %>
+      <% if participant.rating? && participant.rating >= 4 %>
         <span class="fa fa-star text-secondary"></span>
       <% else %>
         <span class="fa fa-star-o text-secondary"></span>
@@ -35,7 +35,7 @@
     </label>
     <label class="btn btn-light">
       <%= form.radio_button :rating, '5', {id: 'rating5', autocomplete: 'off'} %>
-      <% if participant.rating == 5 %>
+      <% if participant.rating? && participant.rating == 5 %>
         <span class="fa fa-star text-secondary"></span>
       <% else %>
         <span class="fa fa-star-o text-secondary"></span>

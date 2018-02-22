@@ -16,7 +16,7 @@ var participantContractSum = [];
 <% @request.participants.each do |participant| %>
     var name = "<%= participant.company_name %>"
     participants.push(name);
-    participantContractSum.push(parseFloat("<%= participant.total_bid %>"));
+    participantContractSum.push(parseFloat("100000"));
 <% end %>
 var myBarChart = new Chart(ctx, {
     type: 'horizontalBar',

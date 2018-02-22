@@ -7,12 +7,49 @@
 
 import Vue from 'vue'
 import App from '../app.vue'
+import TurbolinksAdapter from 'vue-turbolinks'
+import VueResource from 'vue-resource'
+import BootstrapVue from 'bootstrap-vue'
+
+Vue.use(TurbolinksAdapter)
+Vue.use(VueResource)
+Vue.use(BootstrapVue);
 
 document.addEventListener('turbolinks:load', () => {
-  const el = document.body.appendChild(document.createElement('hello'))
+  Vue.http.headers.common['X-CSRF-Token'] = document.querySelector('meta[name="csrf-token"').getAttribute('content')
+  const boqElement = document.getElementById('bill_of_quantities')
+
+
+  let workbookData
+  let currency
+  let qsCompanyName
+  let boqContractSum
+  let participants = []
+
+  workbookData = JSON.parse(boqElement.dataset.boq)
+  currency = boqElement.dataset.currency
+  qsCompanyName = boqElement.dataset.qsCompanyName
+  boqContractSum = parseFloat(boqElement.dataset.boqContractSum)
+
+  if (boqElement.dataset.participants) {
+    participants = JSON.parse(boqElement.dataset.participants)
+  }
+
+  if (!workbookData) { console.log('workbookData was not supplied'); return }
+  if (!currency) { console.log('currency was not supplied'); return }
+  if (!qsCompanyName) { console.log('qsCompanyName was not supplied'); return }
+  if (!boqContractSum) { console.log('boqContractSum was not supplied'); return }
   const app = new Vue({
-    el,
-    render: h => h(App)
+    el: boqElement,
+    render: h => h(App, {
+      props: {
+        workbookData: workbookData,
+        currency: currency,
+        qsCompanyName: qsCompanyName,
+        boqContractSum: boqContractSum,
+        participants: participants,
+      }
+    })
   })
 
   console.log(app)

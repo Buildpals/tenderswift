@@ -73,10 +73,9 @@ class RequestForTendersController < ApplicationController
   def compare_bids
     @request = RequestForTender.find(params[:id])
     if @request.deadline_over?
-      @boq = @request.boq
       @participants = @request.participants
       # I need all the rates for each contractor
-      @rates = Rate.where(boq_id: @boq.id)
+      @rates = Rate.where(participant: @participant)
       render layout: 'compare_bids'
     else
       redirect_to request_for_tenders_path, notice: 'In accordance with tender

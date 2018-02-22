@@ -56,7 +56,7 @@ class Participant < ApplicationRecord
   end
 
   def bid
-    total_bid
+    100000
   end
 
   def bid_difference

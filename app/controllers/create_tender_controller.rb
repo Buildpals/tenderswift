@@ -4,7 +4,7 @@ class CreateTenderController < ApplicationController
                                        update_tender_information update_tender_documents update_tender_boq update_tender_questionnaire update_tender_participants]
 
   before_action :authenticate_quantity_surveyor!
-  before_action :check_if_submitted
+  # before_action :check_if_submitted
 
   DEFAULT_BROADCAST_CONTENT = 'If you have any questions you can reply me here'.freeze
 

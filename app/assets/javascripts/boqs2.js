@@ -24,8 +24,4 @@ $(document).on('turbolinks:load', function () {
 
   var uploadBoqButton = document.getElementById('upload-boq')
   uploadBoqButton.addEventListener('change', handleFile, false)
-
-  $('.boq-excel').each(function () {
-    displayBoq(this)
-  })
 })

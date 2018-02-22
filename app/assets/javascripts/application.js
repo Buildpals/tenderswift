@@ -40,9 +40,6 @@
 // SheetJS
 //= require xlsx.full.min
 
-// Handsontable Pro
-//= require handsontable.full
-
 // Chartjs
 //= require Chart
 
