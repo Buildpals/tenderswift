@@ -63,7 +63,7 @@
                     <span style="color:#555555;font-family:Arial;font-size:14px">
                       <strong>
                         If you are considering to participate on this request, please
-                        <a style="font-family:Arial;color:#FFA726" href="<%= participant.accept_url %>">
+                        <a style="font-family:Arial;color:#FFA726" href="<%= participants_project_information_url(participant) %>">
                           click here
                         </a>
                         so I will know to wait for your bid.
@@ -78,19 +78,6 @@
                         let me know.
                       </a>
                     </span>
-                  </p>
-
-
-                  <p>
-                    <br>
-                    <a style="display:inline-block;color:#212121;border:1px solid #c79d00;border-radius:5px;background:#ffce12;font-family:Arial;font-size:14px;padding:10px 20px 10px 20px;margin-bottom:5px;font-weight:bold;text-decoration:none;text-transform:uppercase;white-space:nowrap"
-                       href="<%= participant.accept_url %>">
-                      Want to participate
-                    </a>
-                    <a style="display:inline-block;color:#777777;border:1px solid #b7b7b7;border-radius:5px;background:#cfcfcf;font-family:Arial;font-size:14px;padding:10px 20px 10px 20px;margin-bottom:5px;font-weight:bold;text-decoration:none;text-transform:uppercase;white-space:nowrap"
-                       href="<%= participant.decline_url %>">
-                      Don't want to participate
-                    </a>
                   </p>
 
                   <p><br></p>

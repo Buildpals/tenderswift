@@ -143,7 +143,7 @@ class RequestForTender < ApplicationRecord
 
   def total_receivable
     number_of_transactions = 0
-    tender_instructions.each do |tender_transaction|
+    tender_transactions.each do |tender_transaction|
       number_of_transactions += 1 if tender_transaction.status.equal?('success')
     end
     total_of_transactions = number_of_transactions * selling_price

@@ -19,8 +19,6 @@
     <ul class="navbar-nav ml-auto">
       <% unless @participant.purchased? %>
         <li class="nav-item mr-3">
-          <% link_to 'Purchase Tender Documents', @participant.accept_url,
-                     class: 'btn btn-secondary' %>
           <button class="btn btn-secondary btn-payment-modal" data-toggle="modal" data-target="#paymentModal"> Purchase
             Tender Documents for GHC <%= @participant.request_for_tender.selling_price %></button>
         </li>

@@ -39,6 +39,11 @@ class Participant < ApplicationRecord
                                 allow_destroy: true,
                                 reject_if: :all_blank
 
+  has_many :required_document_uploads, dependent: :destroy
+  accepts_nested_attributes_for :required_document_uploads,
+                                allow_destroy: true,
+                                reject_if: :all_blank
+
   validates :email, presence: true
   validates :company_name, presence: true
   validates :phone_number, presence: true

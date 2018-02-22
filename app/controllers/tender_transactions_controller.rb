@@ -100,8 +100,8 @@ class TenderTransactionsController < ApplicationController
     if status.eql?('SUCCESS')
       transaction.status = 'success'
       transaction.save!
-      participant.update(status: 'participating',
-                         interested_declaration_time: Time.new, ratiing: 0)
+      participant.update(purchased: true,
+                         purchase_time: Time.current)
       flash[:notice] = message
       redirect_to participants_questionnaire_url(participant)
     else

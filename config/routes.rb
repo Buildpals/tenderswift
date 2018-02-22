@@ -1,4 +1,17 @@
 Rails.application.routes.draw do
+
+  get 'required_document_uploads/new'
+
+  get 'required_document_uploads/create'
+
+  get 'required_document_uploads/index'
+
+  get 'required_document_uploads/show'
+
+  get 'required_document_uploads/edit'
+
+  get 'required_document_uploads/delete'
+
   root to: 'welcome#index'
 
   get '/tender/:id/edit', to: 'create_tender#edit_tender_information', as: 'edit_tender_information'
@@ -21,6 +34,8 @@ Rails.application.routes.draw do
 
   get 'participants/:id', to: 'participants#messages', as: 'participants_messages'
   get 'participants/:id/project_information', to: 'participants#project_information', as: 'participants_project_information'
+  get 'participants/:id/tender_document', to: 'participants#tender_document', as: 'participants_tender_document'
+  post 'required_document_uploads/:id', to: 'required_document_uploads#create', as: 'upload_required_documents'
   get 'participants/:id/questionnaire', to: 'participants#questionnaire', as: 'participants_questionnaire'
   get 'participants/:id/boq', to: 'participants#boq', as: 'participants_boq'
   get 'participants/:id/results', to: 'participants#results', as: 'participants_results'

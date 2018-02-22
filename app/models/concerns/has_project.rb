@@ -9,16 +9,6 @@ module HasProject
     end
   end
 
-  def decline_url
-    Rails.application.routes.url_helpers
-        .show_disinterest_in_request_for_tender_path(self)
-  end
-
-  def accept_url
-    Rails.application.routes.url_helpers
-        .show_interest_in_request_for_tender_path(self)
-  end
-
   def project_owners_name
     request_for_tender.project_owners_name
   end

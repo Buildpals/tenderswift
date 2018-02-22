@@ -1,34 +1,36 @@
 <div class="container">
   <div class="row">
-    <div class="col-lg-9 mx-auto">
+    <div class="col-lg-12 mx-auto">
       <div class="tab-content mt-4">
 
-
-
-        <%= form_with model: @participant,
-                      scope: :participant,
-                      url: update_tender_participants_path(@participant),
-                      method: :patch,
+        <%= form_with model: @require_document_upload,
+                      scope: :require_document_upload,
+                      url: upload_required_documents_path(@participant),
+                      method: :post,
                       local: true,
-                      id: 'participants-form' do |form| %>
+                      id: 'required-document-upload-form' do |form| %>
 
-          <p class="text-muted small">
-            Upload required documents that the client has requested
-          </p>
-
-          <div class="form-group mt-3">
-            <ul class="list-group list-group-flush nested-forms">
-              <%= form.fields_for :required_document_uploads do |required_document_upload| %>
-                <%= render 'required_document_upload_fields', f: required_document_upload %>
+        <div class="card-body">
+          <table class="table">
+            <tbody>
+            <% @request.required_documents.each do |required_document| %>
+              <%= form.fields_for :required_document_uploads do |required| %>
+              <tr>
+                  <th scope="row"><%= required_document.title %></th>
+                  <td><%= link_to 'View', '' %></td>
+                  <td>
+                      <%= required.text_field :required_document_id, value: required_document.id, type: 'hidden' %>
+                      <%= required.file_field :document, class: 'form-control-file form-control-sm mb-2', data: { 'save-on-change': true } %>
+                  </td>
+              </tr>
               <% end %>
-              <li class="d-flex w-100 justify-content-between">
-                <%= link_to_add_association 'ADD NEW DOCUMENT', form, :required_document_uploads, class: 'btn btn-sm btn-block btn-primary my-1' %>
-              </li>
-            </ul>
-          </div>
+            <% end %>
+            <%= form.submit 'Save' %>
 
-
-        <% end %>
+            <% end %>
+            </tbody>
+          </table>
+        </div>
 
       </div>
     </div>

@@ -1,0 +1,2 @@
+module RequiredDocumentUploadsHelper
+end

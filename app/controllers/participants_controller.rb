@@ -1,11 +1,9 @@
 class ParticipantsController < ApplicationController
   before_action :set_participant, only: %i[update destroy
-                                           show_interest_in_request_for_tender
-                                           show_disinterest_in_request_for_tender
-                                           messages
                                            project_information
                                            boq
                                            questionnaire
+                                           tender_document
                                            results
                                            show_boq
                                            disqualify undo_disqualify rate]
@@ -26,9 +24,16 @@ class ParticipantsController < ApplicationController
 
   def questionnaire
     @tender_transaction = TenderTransaction.new
+    @request = @participant.request_for_tender
+    @required_document_upload = RequiredDocumentUpload.new
+    @request.required_documents.each { @participant.required_document_uploads.build }
     @participant.request_for_tender.required_documents.each do |required_document|
       required_document_upload = @participant.required_document_upload_for(required_document)
     end
+  end
+
+  def tender_document
+    @request = @participant.request_for_tender
   end
 
   def results; end

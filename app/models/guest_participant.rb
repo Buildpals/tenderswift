@@ -136,14 +136,6 @@ class GuestParticipant
     AnswerBox.new
   end
 
-  def decline_url
-    ''
-  end
-
-  def accept_url
-    ''
-  end
-
   def bid
     0
   end
