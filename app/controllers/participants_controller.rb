@@ -6,6 +6,7 @@ class ParticipantsController < ApplicationController
                                            tender_document
                                            results
                                            show_boq
+                                           required_document_uploads
                                            disqualify undo_disqualify rate]
 
   include TenderTransactionsHelper
@@ -26,9 +27,11 @@ class ParticipantsController < ApplicationController
     @tender_transaction = TenderTransaction.new
     @request = @participant.request_for_tender
     @required_document_upload = RequiredDocumentUpload.new
-    @request.required_documents.each { @participant.required_document_uploads.build }
-    @participant.request_for_tender.required_documents.each do |required_document|
-      required_document_upload = @participant.required_document_upload_for(required_document)
+    @request.required_documents.each do |required_document|
+      if @participant.required_document_uploads.find_by(required_document: required_document).nil?
+        puts @participant.required_document_uploads
+        @participant.required_document_uploads.build(required_document: required_document)
+      end
     end
   end
 
@@ -148,6 +151,13 @@ class ParticipantsController < ApplicationController
     redirect_to participants_questionnaire_url @participant
   end
 
+  def required_document_uploads
+    unless @participant.update(participant_params)
+      flash[:notice] = 'Please provide all required files.'
+    end
+    redirect_to participants_questionnaire_url
+  end
+
   private
 
   # Use callbacks to share common setup or constraints between actions.
@@ -191,6 +201,8 @@ class ParticipantsController < ApplicationController
                                                         _destroy],
                   required_document_uploads_attributes: %i[id
                                                            document
+                                                           required_document_id
+                                                           participant_id
                                                            _destroy])
   end
 end
