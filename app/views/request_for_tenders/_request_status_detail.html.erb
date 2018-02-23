@@ -2,7 +2,10 @@
   <div class="card-header">
     <ul class="nav nav-tabs card-header-tabs" role="tablist">
       <li role="presentation" class="nav-item">
-        <a href="#contractors" class="nav-link active" aria-controls="profile" role="tab" data-toggle="tab">Contractors</a>
+        <a href="#sales" class="nav-link active" aria-controls="saleoftenders" role="tab" data-toggle="tab">Sales</a>
+      </li>
+      <li role="presentation" class="nav-item">
+        <a href="#contractors" class="nav-link" aria-controls="profile" role="tab" data-toggle="tab">Contractors</a>
       </li>
       <li role="presentation" class="nav-item">
         <a href="#bids" class="nav-link" aria-controls="home" role="tab" data-toggle="tab">Bids</a>
@@ -15,7 +18,11 @@
   </div>
 
   <div class="tab-content">
-    <div role="tabpanel" class="tab-pane active" id="contractors">
+    <div role="tabpanel" class="tab-pane active" id="sales">
+      <%= render 'sales_information' %>
+    </div>
+
+    <div role="tabpanel" class="tab-pane" id="contractors">
       <%= render 'contractors' %>
     </div>
 
@@ -37,9 +44,7 @@
     </div>
 
     <div role="tabpanel" class="tab-pane" id="request_details">
-      <div class="card-body">
-        <%= render 'request_information' %>
-      </div>
+      <%= render 'request_information' %>
     </div>
   </div>
 </div>

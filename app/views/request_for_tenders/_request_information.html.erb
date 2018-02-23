@@ -1,25 +1,27 @@
-<dl class="row">
+<div class="card-body">
+  <dl class="row">
 
-  <dt class="col-sm-3">Published</dt>
-  <dd class="col-sm-9 mb-4">
-    <%= @request.created_at.to_formatted_s(:long) %>
-    <span class="text-muted ml-3">(UTC+00:00)</span>
-  </dd>
+    <dt class="col-sm-3">Published</dt>
+    <dd class="col-sm-9 mb-4">
+      <%= @request.created_at.to_formatted_s(:long) %>
+      <span class="text-muted ml-3">(UTC+00:00)</span>
+    </dd>
 
-  <dt class="col-sm-3">Due date</dt>
-  <dd class="col-sm-9 mb-4">
-    <%= @request.deadline.to_formatted_s(:long) %>
-    <span class="text-muted ml-3">(UTC+00:00)</span>
-  </dd>
+    <dt class="col-sm-3">Due date</dt>
+    <dd class="col-sm-9 mb-4">
+      <%= @request.deadline.to_formatted_s(:long) %>
+      <span class="text-muted ml-3">(UTC+00:00)</span>
+    </dd>
 
-  <dt class="col-sm-3 text-truncate">Contract Sum</dt>
-  <dd class="col-sm-9 mb-4">
-    <%= @request.currency_symbol %> <%= @request.contract_sum %>
-  </dd>
+    <dt class="col-sm-3 text-truncate">Contract Sum</dt>
+    <dd class="col-sm-9 mb-4">
+      <%= @request.currency_symbol %> <%= @request.contract_sum %>
+    </dd>
 
-  <dt class="col-sm-3 text-truncate">Description</dt>
-  <dd class="col-sm-9 mb-4">
-    <%= simple_format @request.description %>
-  </dd>
+    <dt class="col-sm-3 text-truncate">Description</dt>
+    <dd class="col-sm-9 mb-4">
+      <%= simple_format @request.description %>
+    </dd>
 
-</dl>
+  </dl>
+</div>

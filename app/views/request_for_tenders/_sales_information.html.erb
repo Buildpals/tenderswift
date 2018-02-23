@@ -1,13 +1,208 @@
-<dl class="row alert">
-
-    <dt class="col-sm-8">Total Number Of Purchases</dt>
-    <dd class="col-sm-4 mb-4">
-        <span><%= @request.number_of_tender_purchases %></span>
+<div class="card-body">
+  <dl class="row">
+    <dt class="col-sm-3">Number of purchases</dt>
+    <dd class="col-sm-8 mb-4">
+      <span><%= @request.number_of_tender_purchases %></span>
     </dd>
 
-    <dt class="col-sm-8">Total Receivable</dt>
-    <dd class="col-sm-4 mb-4">
-      <span>GHC <%= @request.total_receivable %></span>
+    <dt class="col-sm-3">Total receivable</dt>
+    <dd class="col-sm-8 mb-4">
+      <span><%= @request.currency_symbol %> <%= @request.total_receivable %></span>
     </dd>
 
-</dl>
+    <dt class="col-sm-3">Current selling price</dt>
+    <dd class="col-sm-8 mb-4">
+      <span><%= @request.currency_symbol %> <%= @request.selling_price %></span>
+    </dd>
+  </dl>
+
+  <hr>
+
+  <p>The total receivable will be paid into the following account</p>
+  <div class="d-flex w-100 justify-content-between">
+    <dl class="row">
+      <dt class="col-sm-3">Bank name</dt>
+      <dd class="col-sm-8 mb-4">
+        <span><%= @request.bank_name %></span>
+      </dd>
+
+      <dt class="col-sm-3">Branch name</dt>
+      <dd class="col-sm-8 mb-4">
+        <span><%= @request.branch_name %></span>
+      </dd>
+
+      <dt class="col-sm-3">Account name</dt>
+      <dd class="col-sm-8 mb-4">
+        <span><%= @request.account_name %></span>
+      </dd>
+
+      <dt class="col-sm-3">Account number</dt>
+      <dd class="col-sm-8 mb-4">
+        <span><%= @request.account_number %></span>
+      </dd>
+
+      <dt class="col-sm-3">Withdrawal frequency</dt>
+      <dd class="col-sm-8 mb-4">
+        <span><%= @request.withdrawal_frequency %></span>
+      </dd>
+    </dl>
+
+    <div>
+      <button type="button" class="btn btn-sm btn-light float-right"
+              data-toggle="modal" data-target="#payment_info-modal" data-dismiss="modal">
+        Edit payment Information
+      </button>
+    </div>
+  </div>
+
+
+
+</div>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="payment_info-modal" tabindex="-1" role="dialog" aria-labelledby="payment_info-modal-label" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="payment_info-modal-label">
+          Edit Payment Info
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" style="height: 500px; overflow: scroll">
+        <%= form_with model: @request,
+                      scope: :request_for_tender,
+                      url: update_tender_payment_method_path(@request),
+                      method: :patch,
+                      local: true,
+                      id: 'request-form' do |form| %>
+
+          <%= render 'create_tender/request_for_tender_errors' %>
+
+          <div class="form-row">
+            <div class="col-md-12">
+              <%= form.label :selling_price, 'Current Selling Price' %>
+            </div>
+            <div class="col-md-1">
+              <%= @request.currency_symbol %>
+            </div>
+            <div class="col-md-2">
+              <div class="form-group">
+                <%= form.text_field :selling_price, id: :request_for_tender_selling_price,
+                                    class: 'form-control form-control-sm', required: true %>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <small class="form-text text-muted">
+                Please note all sales will incur a service charge of 15% of
+                the total selling price.
+              </small>
+            </div>
+          </div>
+
+          <p class="qs-company-name">
+            <%= @request.quantity_surveyor.company_name %>
+          </p>
+
+          <br>
+          <hr>
+          <label>Bank Details</label>
+          <p class="text-muted small ">
+            Please provide us with your Bank Account details,
+            and how frequently you want your money sent to you
+          </p>
+
+
+          <div class="form-row">
+            <div class="col-md-4">
+              <div class="form-group">
+                <%= form.label :bank_name %>
+                <%= form.text_field :bank_name, id: :request_for_tender_bank_name,
+                                    class: 'form-control form-control-sm', required: true %>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="col-md-4">
+              <div class="form-group">
+                <%= form.label :branch_name %>
+                <%= form.text_field :branch_name, id: :request_for_tender_bank_branch,
+                                    class: 'form-control form-control-sm', required: true %>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="form-row">
+            <div class="col-md-4">
+              <div class="form-group">
+                <%= form.label :account_name %>
+                <%= form.text_field :account_name, id: :request_for_tender_account_name,
+                                    class: 'form-control form-control-sm', required: true%>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="form-row">
+            <div class="col-md-4">
+              <div class="form-group">
+                <%= form.label :account_number %>
+                <%= form.text_field :account_number, id: :request_for_tender_account_nunber,
+                                    class: 'form-control form-control-sm', required: true %>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="form-row">
+            <div class="col-md-4">
+              <div class="form-group">
+                <%= form.label :withdrawal_frequency %>
+                <%= form.select :withdrawal_frequency, {'Monthly': 'Monthly', 'Every 2 weeks': 'Every 2 weeks', 'Weekly': 'Weekly' }, {},
+                                { id: :request_for_tender_frequency_of_receiving_sales, class: 'form-control form-control-sm' } %>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="w-100 d-flex justify-content-end">
+            <%= form.submit 'Save', class: 'btn btn-primary next-button text-uppercase' %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+  function storeBankDetailsInLocalStorage() {
+    var company_name = $('.qs-company-name').text();
+    localStorage.setItem(company_name+ '-bankname', $('#request_for_tender_bank_name').val());
+    localStorage.setItem(company_name+ '-branch', $('#request_for_tender_bank_branch').val());
+    localStorage.setItem(company_name+ '-account_name', $('#request_for_tender_account_name').val());
+    localStorage.setItem(company_name+ '-account_number', $('#request_for_tender_account_nunber').val());
+  }
+
+  function pullBankDetailsFromLocalStorage() {
+    var company_name = $('.qs-company-name').text();
+    $('#request_for_tender_bank_name').val(localStorage.getItem(company_name+ '-bankname'));
+    $('#request_for_tender_bank_branch').val(localStorage.getItem(company_name+ '-branch'));
+    $('#request_for_tender_account_name').val(localStorage.getItem(company_name+ '-account_name'));
+    $('#request_for_tender_account_nunber').val(localStorage.getItem(company_name+ '-account_number'));
+  }
+
+  $('.next-button').click( function (e) {
+    storeBankDetailsInLocalStorage();
+  });
+
+  $(document).ready( function (e) {
+    pullBankDetailsFromLocalStorage();
+  });
+</script>
