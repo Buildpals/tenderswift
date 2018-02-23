@@ -18,17 +18,15 @@
   <div class="row">
     <div class="col-md-12">
       <% if @request.bill_of_quantities.present? %>
-        <%= content_tag :div,
-                        id: 'bill_of_quantities',
-                        class: 'mb-5',
-                        data: {
-                            participants: @participants.as_json(include: :rates),
-                            boq: @request.bill_of_quantities,
-                            qs_company_name: @request.project_owners_company_name,
-                            currency: @request.currency_symbol,
-                            boq_contract_sum: 10000
-                        } do %>
-        <% end %>
+        <div id='hello' class="mb-5">
+          <comparison-boq
+          :participants="<%= @participants.to_json(include: :rates) %>"
+          :workbook-data="<%= @request.bill_of_quantities %>"
+          currency="<%= @request.currency_symbol %>"
+          qs-company-name="<%= @request.project_owners_company_name %>"
+          boq-contract-sum="<%= 100000 %>"
+          ></comparison-boq>
+        </div>
       <% end %>
     </div>
   </div>

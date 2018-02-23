@@ -9,35 +9,45 @@
 
   <%= render 'request_for_tender_errors' %>
 
-  <p>Contract Sum: <strong>GHC </strong><span class="contract-sum"></span></p>
-
-  <div class="mb-4 d-flex w-100 justify-content-end">
-    <%= form.hidden_field :bill_of_quantities, id: 'workbook-data' %>
-
-    <% if @request.bill_of_quantities.present? %>
-      <label for="exampleFormControlFile1" class="mr-2">Replace File</label>
-    <% else %>
-      <label for="exampleFormControlFile1"  class="mr-2">Upload File</label>
-    <% end %>
-    <%= file_field_tag :document, id: 'upload-boq', class: 'form-control-file' %>
-  </div>
-
   <p class="text-muted small">
-    Upload the Bill of Quantities for the project or create one using the templates provided.
+    Please upload your completely FILLED Bill Of Quantities in .xls or .xlsx format
+    <br>
+
+    <strong>
+      NB. The 1st, 2nd, 3rd, 4th, 5th and 6th columns of your BOQ should be Item, Description, Qty, Unit, Rate and
+      Amount respectively.
+    </strong>
+    <br>
+
+    <strong>
+      Please note that your rates and contract sum are private, and will NEVER be displayed to any contractor
+    </strong>
   </p>
 
   <% if @request.bill_of_quantities.present? %>
-    <%= content_tag :div,
-                    id: 'bill_of_quantities',
-                    class: 'mb-5',
-                    data: {
-                        boq: @request.bill_of_quantities,
-                        qs_company_name: @request.project_owners_company_name,
-                        currency: @request.currency_symbol,
-                        boq_contract_sum: 10000
-                    } do %>
-    <% end %>
+    <div id='hello' class="mb-5">
+      <uploaded-boq
+      :workbook-data="<%= @request.bill_of_quantities %>"
+      currency="<%= @request.currency_symbol %>"
+      qs-company-name="<%= @request.project_owners_company_name %>"
+      boq-contract-sum="<%= 100000 %>"
+      ></uploaded-boq>
+    </div>
   <% end %>
+
+  <div class="mb-4 d-flex w-100 justify-content-between">
+    <div>
+      <%= form.label :bill_of_quantities,
+                     @request.bill_of_quantities.present? ? 'Replace' : 'Upload' %>
+      <%= form.hidden_field :bill_of_quantities, id: 'workbook-data' %>
+      <%= file_field_tag :document, id: 'upload-boq', class: 'form-control-file' %>
+    </div>
+
+    <p>
+      Contract Sum: <strong><%= @request.currency_symbol %></strong>
+      <span class="contract-sum"></span>
+    </p>
+  </div>
 
   <%= render 'layouts/create_tender_navigation', location: 'bottom', request: @request, form: form %>
 <% end %>

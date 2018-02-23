@@ -47,7 +47,6 @@
 //= require trix
 
 //= require compare_bids
-//= require boqs2
 //= require registrations
 //= require create_tender
 //= require requests
