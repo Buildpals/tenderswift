@@ -1,7 +1,7 @@
 <div class="card-header" role="tab" id="headingAll">
   <h5 class="mb-0">
     <a class="collapsed text-primary" data-toggle="collapse" href="#collapseAll" aria-expanded="false" aria-controls="collapseAll">
-      All Contractors
+      Invited Contractors
       <small>
       <span class="badge badge-pill badge-primary">
         <%= @request.participants.count %>
@@ -12,6 +12,9 @@
 </div>
 <div id="collapseAll" class="collapse show" role="tabpanel" aria-labelledby="headingAll" data-parent="#accordion">
   <div class="card-body">
+    <div class="d-flex w-100 justify-content-end mb-2">
+      <%= link_to 'Invite more contractors', edit_tender_participants_path(@request), class: 'btn btn-sm btn-light' %>
+    </div>
     <ul class="list-group">
       <% @request.participants.each do |participant| %>
           <li class="list-group-item">

@@ -1,13 +1,7 @@
-<div class="card-body">
-  <div class="d-flex w-100 justify-content-between">
-    <%= link_to 'Invite more contractors', edit_tender_participants_path(@request), class: 'btn btn-sm btn-light' %>
-  </div>
-</div>
-
-
 <div id="accordion" role="tablist">
   <div class="card">
-    <%= render 'all_contractors' %>
+    <%= render 'invited_contractors' if @request.private? %>
+
     <%= render 'purchased_contractors' %>
 
     <%= render 'submitted_contractors' %>
