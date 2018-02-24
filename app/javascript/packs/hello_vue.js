@@ -58,8 +58,9 @@ import TurbolinksAdapter from 'vue-turbolinks';
 import BootstrapVue from 'bootstrap-vue'
 import Vue from 'vue/dist/vue.esm'
 
-import UploadedBoq from '../uploadedBoq'
-import ComparisonBoq from '../comparisonBoq'
+import UploadBoq from '../uploadBoq/uploadBoq'
+import RateFillingBoq from '../rateFillingBoq/rateFillingBoq'
+import ComparisonBoq from '../comparisonBoq/comparisonBoq'
 
 Vue.use(TurbolinksAdapter)
 Vue.use(BootstrapVue);
@@ -71,7 +72,8 @@ document.addEventListener('turbolinks:load', () => {
       message: "Can you say hello?"
     },
     components: {
-      UploadedBoq,
+      UploadBoq,
+      RateFillingBoq,
       ComparisonBoq
     }
   })

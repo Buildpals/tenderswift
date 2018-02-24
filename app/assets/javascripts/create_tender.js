@@ -40,7 +40,6 @@ $(document).on('turbolinks:load', function () {
       console.log(data)
       var parsedJson = JSON.stringify(workbook)
       $('#workbook-data').val(parsedJson)
-      parsedJson = JSON.parse(parsedJson)
       $('#request-form').submit() //submit form to save json data in DB;
     }
     if (rABS) {

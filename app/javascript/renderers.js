@@ -1,5 +1,10 @@
 import Handsontable from 'handsontable';
 import XLSX from 'xlsx';
+import XLSX_CALC from 'xlsx-calc';
+import formulajs from 'formulajs';
+
+// import your calc functions lib
+XLSX_CALC.import_functions(formulajs);
 
 function strip_tags (input, allowed) {
   const tags = /<\/?([a-z][a-z0-9]*)\b[^>]*>/gi,
@@ -110,27 +115,18 @@ export function to_json (workbook) {
   XLSX.SSF.load_table(workbook.SSF)
   const result = {}
   workbook.SheetNames.forEach(function (sheetName) {
-    const roa = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], {header: 1})
-
-    /*	Get	worksheet	*/
-    let worksheet = workbook.Sheets[sheetName]
-    roa.forEach(function (row, rowNumber) {
-      // Skip the first row in the json because it is the header row
-      // and we have appended our own custom headerRow to objectData
-
-      let address_of_cell = `F${rowNumber + 1}`
-      /*	Find	desired	cell	*/
-      let desired_cell = worksheet[address_of_cell]
-
-      /*	Get	the	value	*/
-      let desired_value = (desired_cell ? desired_cell.f : undefined)
-
-      // row[5] = `=${desired_value}`
-      row[5] = ' =C9*E9'
-      // console.log('desired_value', desired_value, row[5])
-    })
+    const roa = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], {
+        header:[ "item","description","quantity","unit","rate","amount" ],
+        raw: true,
+        blankrows: true
+      })
 
     if (roa.length > 0) result[sheetName] = roa
   })
   return result
+}
+
+export function recalculateFormulas(workbook) {
+  XLSX_CALC(workbook)
+  return workbook
 }
