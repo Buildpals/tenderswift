@@ -65,7 +65,8 @@
               pattern: '0,0.00',
               culture: 'en-US'
             },
-            allowEmpty: false
+            allowEmpty: false,
+            readOnly: false
           },
           {
             data: 'amount',
@@ -80,7 +81,7 @@
             data: 'last'
           }
         ],
-        height: window.innerHeight - (42 + 85 + 78),
+        height: window.innerHeight - (42 + 190),
         mergeCells: []
       }
     },
@@ -104,7 +105,7 @@
           height: this.height,
           stretchH: 'last',
           colWidths: this.colWidths,
-          readOnly: false,
+          readOnly: true,
           afterChange: this.afterChange
         })
       },
