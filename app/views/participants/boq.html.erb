@@ -1,5 +1,5 @@
 <% if @participant.request_for_tender.bill_of_quantities.present? %>
-  <div id='hello' class="mb-5">
+  <div id='hello'>
     <rate-filling-boq
     :workbook-data="<%= @participant.request_for_tender.bill_of_quantities %>"
     currency="<%= @participant.request_for_tender.currency_symbol %>"

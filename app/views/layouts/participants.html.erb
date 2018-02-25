@@ -18,7 +18,7 @@
 <% end %>
 
 <% content_for :nav_tabs do %>
-    <nav class="nav">
+    <nav class="nav justify-content-center">
       <a class="nav-item nav-link <%= 'active' if action_name == 'project_information' %>" href="<%= participants_project_information_path(@participant) %>">
         1. Project Information
       </a>
@@ -38,22 +38,22 @@
       <% else %>
         <a class="nav-item nav-link disabled" href="#" data-toggle="tooltip" data-placement="bottom"
            data-html="true"
-           data-title="This information is not available until you have purchased this tender">
+           data-title="Not available until you have purchased this tender">
           2. Tender Documents
         </a>
         <a class="nav-item nav-link disabled" href="#" data-toggle="tooltip" data-placement="bottom"
            data-html="true"
-           data-title="This information is not available until you have purchased this tender">
+           data-title="Not available until you have purchased this tender">
           3. Questionnaire
         </a>
         <a class="nav-item nav-link disabled" href="#" data-toggle="tooltip" data-placement="bottom"
            data-html="true"
-           data-title="This information is not available until you have purchased this tender">
+           data-title="Not available until you have purchased this tender">
           4. Bill of Quantities
         </a>
         <a class="nav-item nav-link disabled" href="#" data-toggle="tooltip" data-placement="bottom"
            data-html="true"
-           data-title="This information is not available until you have purchased this tender">
+           data-title="Not available until you have purchased this tender">
           5. Tendering Results
         </a>
       <% end %>
@@ -78,7 +78,7 @@
 
     </div>
 
-    <%= render 'layouts/participants_footer' %>
+    <%= render 'layouts/participants_footer' unless action_name == 'boq' %>
 
   </body>
 </html>
