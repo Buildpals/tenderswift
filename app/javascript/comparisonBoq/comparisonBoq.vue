@@ -5,20 +5,20 @@
         <div id="example-container" class="wrapper" v-if="index === currentIndex">
           <HotTable :root="'test-hot'"
                     :colHeaders="true"
-                    :dataSchema="dataSchema()"
-                    :columns="columns()"
+                    :dataSchema="dataSchema(participants)"
+                    :columns="columns(participants)"
                     :cells="cells"
-                    :mergeCells="mergeCells()"
+                    :mergeCells="mergeCells(participants)"
                     :startRows="100"
                     :rowHeaders="true"
                     :minSpareRows="1"
                     :height="height()"
-                    :fixedRowsTop="1"
+                    :fixedRowsTop="2"
                     :stretchH="'last'"
                     :colWidths="colWidths"
                     :formulas="true"
                     :readOnly="true"
-                    :data="data(workbookData, index, currency, boqContractSum)" />
+                    :data="data(workbookData, 0, currency, qsCompanyName, boqContractSum, participants)" />
         </div>
       </b-tab>
     </b-tabs>
@@ -31,22 +31,26 @@
     rowHeaderRenderer,
     descriptionRenderer,
     itemRenderer,
+    differenceValueRenderer,
+    companyHeaderRenderer,
     isHeader,
     process_wb
-  } from 'renderers'
+  } from '../renderers'
 
   export default {
     props: [
       'workbookData',
       'currency',
       'qsCompanyName',
-      'boqContractSum'
+      'boqContractSum',
+      'participants'
     ],
     components: {
       HotTable
     },
     data () {
       return {
+        message: "Hello Vue!",
         currentIndex: false
       }
     },
@@ -54,8 +58,8 @@
       logIt (tab_index) {
         this.currentIndex = tab_index
       },
-      data (workBookData, sheetIndex, currency, boqContractSum) {
-        let json = process_wb(workBookData, sheetIndex)
+      data (workBookData, sheetidx, currency, qsCompanyName, boqContractSum, participants) {
+        let json = process_wb(workBookData, sheetidx)
         console.log('workBookData', workBookData)
 
         let objectData = [
@@ -64,10 +68,25 @@
             'description': 'Description',
             'quantity': 'Qty',
             'unit': 'Unit',
-            'rate': `Rates (${currency})`,
-            'amount': 'Amount'
+            'rate': `Rates (${currency})`
           }
         ]
+
+        let headerRow = {
+          'rate': `<div>${qsCompanyName}<br><span class="small">${currency}${boqContractSum.toLocaleString('en', {minimumFractionDigits: 2})}</span></div>`
+        }
+
+        if (participants.length === 0) {
+          headerRow['amount'] =
+            `<div>Amount<br><span class="small">${currency}${boqContractSum.toLocaleString('en', {minimumFractionDigits: 2})}</span></div>`
+        } else {
+          participants.forEach(function (participant) {
+            headerRow[participant.company_name] =
+              `<div>${participant.company_name} <br> <span class="small">${currency}${(100001).toLocaleString('en')}</span></div>`
+          })
+        }
+
+        objectData.push(headerRow)
 
         json.forEach(function (row, rowNumber) {
           // Skip the first row in the json because it is the header row
@@ -84,29 +103,55 @@
             'rate': row[4]
           }
 
-          rowData['amount'] = row[5]
-          console.log('amount', rowData['amount'], typeof rowData['amount'])
+          if (participants.length === 0) {
+            rowData['amount'] = row[5]
+            console.log('amount', rowData['amount'], typeof rowData['amount'])
+          } else {
+            participants.forEach(function (participant) {
+              let rate = participant.rates.find(function (rate) {
+                return (rate.row_number - 1) === rowNumber
+                  && rate.sheet_name === workBookData.SheetNames[sheetidx]
+              })
+
+              if (rate) {
+                rowData[participant.company_name] = rate.value
+              }
+            })
+          }
 
           objectData.push(rowData)
         })
         return objectData
       },
-      mergeCells () {
-        return []
+      mergeCells (participants) {
+        return [
+          {row: 0, col: 0, rowspan: 2, colspan: 1},
+          {row: 0, col: 1, rowspan: 2, colspan: 1},
+          {row: 0, col: 2, rowspan: 2, colspan: 1},
+          {row: 0, col: 3, rowspan: 2, colspan: 1},
+          {row: 0, col: 4, rowspan: 1, colspan: participants.length + 1}
+        ]
       },
-      dataSchema () {
-        return {
+      dataSchema (participants) {
+        let dataSchema = {
           'item': null,
           'description': null,
           'quantity': null,
           'unit': null,
-          'rate': null,
-          'amount': null,
-          'last': null
+          'rate': null
         }
+
+        if (participants.length === 0) {
+          dataSchema['amount'] = null
+        } else {
+          participants.forEach(participant => dataSchema[participant.company_name] = null)
+        }
+
+        dataSchema['last'] = null
+        return dataSchema
       },
-      columns () {
-        return [
+      columns (participants) {
+        let columns = [
           {
             data: 'item',
             renderer: itemRenderer
@@ -131,8 +176,11 @@
               culture: 'en-US' // this is the default culture, set up for USD
             },
             allowEmpty: false
-          },
-          {
+          }
+        ]
+
+        if (participants.length === 0) {
+          columns.push({
             data: 'amount'
             // type: 'numeric',
             // numericFormat: {
@@ -140,18 +188,29 @@
             //   culture: 'en-US' // this is the default culture, set up for USD
             // },
             // allowEmpty: false
-          },
-          {
-            data: 'last'
-          }
-        ]
+          })
+        } else {
+          participants.forEach(participant => {
+            columns.push({
+              data: participant.company_name,
+              renderer: differenceValueRenderer
+            })
+          })
+        }
+
+        columns.push({
+          data: 'last'
+        })
+        return columns
       },
       cells (row, col, prop) {
         const cellProperties = {}
 
         if (row === 0) {
           cellProperties.renderer = rowHeaderRenderer
-        }  else if (row > 1 && col === 1) {
+        } else if (row === 1 && prop !== 'last') {
+          cellProperties.renderer = companyHeaderRenderer
+        } else if (row > 1 && col === 1) {
           cellProperties.renderer = descriptionRenderer
         }
 

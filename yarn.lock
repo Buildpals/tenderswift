@@ -898,7 +898,7 @@ bcrypt-pbkdf@^1.0.0:
   dependencies:
     tweetnacl "^0.14.3"
 
-bessel@^0.2.0:
+bessel@0.2.0, bessel@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/bessel/-/bessel-0.2.0.tgz#13cb39cd29233219ec2da725e0ba0c66fb46b6f2"
   dependencies:
@@ -1900,6 +1900,10 @@ detect-node@^2.0.3:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/detect-node/-/detect-node-2.0.3.tgz#a2033c09cc8e158d37748fbde7507832bd6ce127"
 
+diff@~1.0.3:
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/diff/-/diff-1.0.8.tgz#343276308ec991b7bc82267ed55bc1411f971666"
+
 diffie-hellman@^5.0.0:
   version "5.0.2"
   resolved "https://registry.yarnpkg.com/diffie-hellman/-/diffie-hellman-5.0.2.tgz#b5835739270cfe26acf632099fded2a07f209e5e"
@@ -2291,6 +2295,10 @@ extsprintf@^1.2.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/extsprintf/-/extsprintf-1.4.0.tgz#e2689f8f356fad62cca65a3a91c5df5f9551692f"
 
+eyes@>=0.1.6:
+  version "0.1.8"
+  resolved "https://registry.yarnpkg.com/eyes/-/eyes-0.1.8.tgz#62cf120234c683785d902348a800ef3e0cc20bc0"
+
 fast-deep-equal@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/fast-deep-equal/-/fast-deep-equal-1.0.0.tgz#96256a3bc975595eb36d82e9929d060d893439ff"
@@ -2438,6 +2446,15 @@ form-data@~2.3.1:
     asynckit "^0.4.0"
     combined-stream "1.0.6"
     mime-types "^2.1.12"
+
+formulajs@^1.0.8:
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/formulajs/-/formulajs-1.0.8.tgz#8c35d164f368a5ffb1a7abcf5075cf8de5e6070e"
+  dependencies:
+    bessel "0.2.0"
+    jStat "1.0.6"
+    numeral "1.5.3"
+    numeric "1.2.6"
 
 forwarded@~0.1.2:
   version "0.1.2"
@@ -3347,6 +3364,13 @@ isurl@^1.0.0-alpha5:
     has-to-string-tag-x "^1.2.0"
     is-object "^1.0.1"
 
+jStat@1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/jStat/-/jStat-1.0.6.tgz#b37804b9b4b6efe7fde00d308fd699afc971d558"
+  dependencies:
+    uglify-js "1.2.3"
+    vows "0.7.x"
+
 jStat@^1.7.0:
   version "1.7.1"
   resolved "https://registry.yarnpkg.com/jStat/-/jStat-1.7.1.tgz#e636dd87d72b305c060dfcc901de1732d15130c1"
@@ -4079,6 +4103,14 @@ numbro@1.11.0:
 numbro@^1.11.0:
   version "1.11.1"
   resolved "https://registry.yarnpkg.com/numbro/-/numbro-1.11.1.tgz#e0d9ba0ddfc3ad5ac01d9558a49383db214f04be"
+
+numeral@1.5.3:
+  version "1.5.3"
+  resolved "https://registry.yarnpkg.com/numeral/-/numeral-1.5.3.tgz#a4c3eba68239580509f818267c77243bce43ff62"
+
+numeric@1.2.6:
+  version "1.2.6"
+  resolved "https://registry.yarnpkg.com/numeric/-/numeric-1.2.6.tgz#765b02bef97988fcf880d4eb3f36b80fa31335aa"
 
 oauth-sign@~0.8.1, oauth-sign@~0.8.2:
   version "0.8.2"
@@ -6129,6 +6161,10 @@ uglify-es@^3.3.4:
     commander "~2.13.0"
     source-map "~0.6.1"
 
+uglify-js@1.2.3:
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/uglify-js/-/uglify-js-1.2.3.tgz#3b0ce6631a28dcaa64302b893123b20876bdc536"
+
 uglify-js@^2.8.29:
   version "2.8.29"
   resolved "https://registry.yarnpkg.com/uglify-js/-/uglify-js-2.8.29.tgz#29c5733148057bb4e1f75df35b7a9cb72e6a59dd"
@@ -6326,6 +6362,13 @@ vm-browserify@0.0.4:
 voc@:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/voc/-/voc-1.1.0.tgz#d1a08aeff66646bf17cdba2e47c935a7a9b0218b"
+
+vows@0.7.x:
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/vows/-/vows-0.7.0.tgz#dd0065f110ba0c0a6d63e844851c3208176d5867"
+  dependencies:
+    diff "~1.0.3"
+    eyes ">=0.1.6"
 
 vue-functional-data-merge@^2.0.3:
   version "2.0.4"
@@ -6548,6 +6591,10 @@ wrap-ansi@^2.0.0:
 wrappy@1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/wrappy/-/wrappy-1.0.2.tgz#b5243d8f3ec1aa35f1364605bc0d1036e30ab69f"
+
+xlsx-calc@^0.3.5:
+  version "0.3.5"
+  resolved "https://registry.yarnpkg.com/xlsx-calc/-/xlsx-calc-0.3.5.tgz#d7fb32eff28910e233ed994a9640395819702dd4"
 
 xlsx@^0.12.2:
   version "0.12.2"

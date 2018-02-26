@@ -10,28 +10,27 @@
   <%= render 'request_for_tender_errors' %>
 
   <p class="text-muted small">
-    Please upload your completely FILLED Bill Of Quantities in .xls or .xlsx format
+    Please upload your completely FILLED Bill Of Quantities in .xls or .xlsx format.
     <br>
 
     <strong>
-      NB. The 1st, 2nd, 3rd, 4th, 5th and 6th columns of your BOQ should be Item, Description, Qty, Unit, Rate and
-      Amount respectively.
+      NB: Columns A, B, C, D, E and F should be Item, Description, Qty, Unit, Rate and Amount respectively.
     </strong>
     <br>
 
     <strong>
-      Please note that your rates and contract sum are private, and will NEVER be displayed to any contractor
+      Please note that your rates and contract sum are private, and will NEVER be displayed to any contractor.
     </strong>
   </p>
 
   <% if @request.bill_of_quantities.present? %>
     <div id='hello' class="mb-5">
-      <uploaded-boq
+      <upload-boq
       :workbook-data="<%= @request.bill_of_quantities %>"
       currency="<%= @request.currency_symbol %>"
       qs-company-name="<%= @request.project_owners_company_name %>"
       boq-contract-sum="<%= 100000 %>"
-      ></uploaded-boq>
+      ></upload-boq>
     </div>
   <% end %>
 

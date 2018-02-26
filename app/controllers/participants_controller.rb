@@ -8,7 +8,8 @@ class ParticipantsController < ApplicationController
                                            results
                                            show_boq
                                            required_document_uploads
-                                           disqualify undo_disqualify rate]
+                                           disqualify undo_disqualify rate
+                                           save_rates]
 
   include TenderTransactionsHelper
 
@@ -87,6 +88,15 @@ class ParticipantsController < ApplicationController
         format.html { render :edit }
         format.json { render json: @participant.errors, status: :unprocessable_entity }
       end
+    end
+  end
+
+  def save_rates
+    if @participant.save_rates(params[:rates])
+      render json: @participant.to_json(include: :rates), status: :ok,
+             location: @participant
+    else
+      render json: @participant.errors, status: :unprocessable_entity
     end
   end
 

@@ -56,22 +56,28 @@
 //
 import TurbolinksAdapter from 'vue-turbolinks';
 import BootstrapVue from 'bootstrap-vue'
+import VueResource from 'vue-resource'
 import Vue from 'vue/dist/vue.esm'
 
-import UploadedBoq from '../uploadedBoq'
-import ComparisonBoq from '../comparisonBoq'
+import UploadBoq from '../uploadBoq/uploadBoq'
+import RateFillingBoq from '../rateFillingBoq/rateFillingBoq'
+import ComparisonBoq from '../comparisonBoq/comparisonBoq'
 
 Vue.use(TurbolinksAdapter)
 Vue.use(BootstrapVue);
+Vue.use(VueResource);
 
 document.addEventListener('turbolinks:load', () => {
+  Vue.http.headers.common['X-CSRF-Token'] = document.querySelector('meta[name="csrf-token"').getAttribute('content')
+
   const app = new Vue({
     el: '#hello',
     data: {
       message: "Can you say hello?"
     },
     components: {
-      UploadedBoq,
+      UploadBoq,
+      RateFillingBoq,
       ComparisonBoq
     }
   })
