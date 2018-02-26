@@ -6,13 +6,9 @@ class BidsController < ApplicationController
 
   before_action :set_participant, only: %i[show questionnaire]
 
-  def show
-    @participant = Participant.find_by_auth_token(params[:id])
-  end
+  def show; end
 
-  def questionnaire
-    @participant = Participant.find_by_auth_token(params[:id])
-  end
+  def questionnaire; end
 
   def pdf_viewer; end
 
