@@ -15,7 +15,7 @@ class RequiredDocumentUpload < ApplicationRecord
     return unless document
     accepted_formats = %w(.pdf .jpeg .png .jpg)
     unless document.file.nil?
-      return if accepted_formats.include? File.extname(document.file.path)
+      return if accepted_formats.include? File.extname(document.filename)
       errors.add(:document, :invalid, message: 'The uploaded document should be
                                                 a PDF or an Image. Thank you!')
     end

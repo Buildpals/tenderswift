@@ -17,7 +17,7 @@
     </ul>
     <a class="btn btn-outline-warning mr-sm-2 my-sm-0" href="#">Back</a>
     <%= form_with(model: @required_document_upload, url: update_bid_url, local: true, class: 'form-inline') do |form| %>
-      <%= form.text_field :status, value: 'approve', id: :required_document_upload_id, type: 'hidden' %>
+      <%= form.text_field :status, value: 'approved', id: :required_document_upload_id, type: 'hidden' %>
       <%= form.submit 'Approve', class: 'btn btn-outline-success mr-sm-2 my-sm-0' %>
     <% end %>
     <%= form_with(model: @required_document_upload, url: update_bid_url, local: true, class: 'form-inline') do |form| %>

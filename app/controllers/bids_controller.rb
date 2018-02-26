@@ -1,6 +1,8 @@
 class BidsController < ApplicationController
+  layout 'file_viewer', only: %i[pdf_viewer image_viewer]
 
-  layout "file_viewer", only: [:pdf_viewer]
+  before_action :mark_required_document_as_read, only: %i[image_viewer
+                                                          pdf_viewer]
   def show
     @participant = Participant.find_by_auth_token(params[:id])
   end
@@ -9,23 +11,35 @@ class BidsController < ApplicationController
     @participant = Participant.find_by_auth_token(params[:id])
   end
 
-  def pdf_viewer
-    @participant = Participant.find_by_auth_token(params[:participant_id])
-    @required_document_upload = RequiredDocumentUpload.find(
-      params[:id]
-    )
-  end
+  def pdf_viewer; end
 
-  def image_viewer
-    @participant = Participant.find_by_auth_token(params[:id])
-    @required_document_upload = RequiredDocumentUpload.find(
-      params[:id]
-    )
-  end
+  def image_viewer; end
+
+  def boq; end
 
   def update
     @required_document_upload = RequiredDocumentUpload.find(params[:id])
     @required_document_upload.update(bid_params)
+    redirect_to bid_questionnaire_url(@required_document_upload.participant)
+  end
+
+  private
+
+  def mark_required_document_as_read
+    set_participant
+    set_required_document_upload
+    @required_document_upload.read = true
+    @required_document_upload.save!
+  end
+
+  def set_participant
+    @participant = Participant.find_by_auth_token(params[:participant_id])
+  end
+
+  def set_required_document_upload
+    @required_document_upload = RequiredDocumentUpload.find(
+      params[:id]
+    )
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.
