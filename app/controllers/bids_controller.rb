@@ -3,6 +3,9 @@ class BidsController < ApplicationController
 
   before_action :mark_required_document_as_read, only: %i[image_viewer
                                                           pdf_viewer]
+
+  before_action :set_participant, only: %i[show questionnaire]
+
   def show
     @participant = Participant.find_by_auth_token(params[:id])
   end
@@ -18,7 +21,9 @@ class BidsController < ApplicationController
   def boq; end
 
   def update
-    @required_document_upload = RequiredDocumentUpload.find(params[:id])
+    @required_document_upload = RequiredDocumentUpload.find(
+      params[:required_document_upload_id]
+    )
     @required_document_upload.update(bid_params)
     redirect_to bid_questionnaire_url(@required_document_upload.participant)
   end
@@ -33,12 +38,12 @@ class BidsController < ApplicationController
   end
 
   def set_participant
-    @participant = Participant.find_by_auth_token(params[:participant_id])
+    @participant = Participant.find_by_auth_token(params[:id])
   end
 
   def set_required_document_upload
     @required_document_upload = RequiredDocumentUpload.find(
-      params[:id]
+      params[:required_document_upload_id]
     )
   end
 

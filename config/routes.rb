@@ -34,9 +34,9 @@ Rails.application.routes.draw do
   get 'projects/public/:id', to: 'request_for_tenders#portal', as: 'request_for_tender_portal'
 
   get 'bids/:id/show', to: 'bids#show', as: 'view_bid'
-  get 'bids/:id/pdf_viewer/:participant_id', to: 'bids#pdf_viewer', as: 'view_pdf'
-  get 'bids/:id/image_viewer/:participant_id', to: 'bids#image_viewer', as: 'view_image'
-  patch 'bids/update/:id', to: 'bids#update', as: 'update_bid'
+  get 'bids/:id/pdf_viewer/:required_document_upload_id', to: 'bids#pdf_viewer', as: 'view_pdf'
+  get 'bids/:id/image_viewer/:required_document_upload_id', to: 'bids#image_viewer', as: 'view_image'
+  patch 'bids/update/:required_document_upload_id', to: 'bids#update', as: 'update_bid'
   get 'bids/:id', to: 'bids#boq', as: 'bid_boq'
   get 'bids/:id/messages', to: 'bids#messages', as: 'bid_messages'
   get 'bids/:id/questionnaire', to: 'bids#questionnaire', as: 'bid_questionnaire'

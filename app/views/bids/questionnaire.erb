@@ -25,9 +25,9 @@
                   </td>
                   <td>
                     <% if required_document_upload.document.format == "pdf" %>
-                      <%= link_to 'View', view_pdf_path(required_document_upload.id, @participant) %>
+                      <%= link_to 'View', view_pdf_path(@participant, required_document_upload.id) %>
                     <% else %>
-                      <%= link_to 'View', view_image_path(required_document_upload.id, @participant) %>
+                      <%= link_to 'View', view_image_path(@participant, required_document_upload.id) %>
                     <% end %>
                   </td>
                   <td>
