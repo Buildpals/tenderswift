@@ -1,12 +1,7 @@
 <template>
   <div id="app" class="spreadsheet-tabs">
-    <div class="w-100 d-flex justify-content-end">
-      <div>
-        <button class="btn btn-sm btn-primary" @click="saveRates">Save</button>
-      </div>
-    </div>
-    <b-tabs end no-fade @input="logIt">
-      <b-tab :title="sheetName" v-for="(sheetName, index) in workbookData.SheetNames">
+    <b-tabs small end no-fade @input="logIt">
+      <b-tab :title="sheetName" v-for="(sheetName, index) in workbook.SheetNames">
         <div id="example-container" class="wrapper" v-if="index === currentIndex">
             <rate-filling-boq-sheet v-on:edit="updateWorkbook"
                                     :workbook="workbook"
@@ -16,6 +11,11 @@
             </rate-filling-boq-sheet>
         </div>
       </b-tab>
+      <div class="d-flex justify-content-end" slot="tabs">
+        <div>
+          <button class="btn btn-sm btn-primary ml-auto my-1" @click="saveRates">Save</button>
+        </div>
+      </div>
     </b-tabs>
   </div>
 </template>
@@ -30,6 +30,7 @@
     props: [
       'participantId',
       'workbookData',
+      'rates',
       'currency',
       'qsCompanyName',
       'boqContractSum'
@@ -40,8 +41,18 @@
     data () {
       return {
         currentIndex: false,
-        workbook: recalculateFormulas(this.workbookData)
+        workbook: {
+          SheetNames: []
+        }
       }
+    },
+    created () {
+      this.rates.forEach(rate => {
+        let cellAddress = `E${ rate.row }`
+        this.workbookData.Sheets[rate.sheet][cellAddress].v = rate.value
+      })
+      recalculateFormulas(this.workbookData)
+      this.$set(this, 'workbook', this.workbookData)
     },
     methods: {
       logIt (tab_index) {

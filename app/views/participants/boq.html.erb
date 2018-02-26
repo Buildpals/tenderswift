@@ -2,6 +2,7 @@
   <div id='hello'>
     <rate-filling-boq
     participant-id="<%= @participant.auth_token %>"
+    :rates="<%= @participant.rates.to_json %>"
     :workbook-data="<%= @participant.request_for_tender.bill_of_quantities %>"
     currency="<%= @participant.request_for_tender.currency_symbol %>"
     qs-company-name="<%= @participant.request_for_tender.project_owners_company_name %>"
