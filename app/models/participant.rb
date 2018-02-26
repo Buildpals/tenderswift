@@ -52,7 +52,7 @@ class Participant < ApplicationRecord
   end
 
   def bid
-    100000
+    100_000
   end
 
   def bid_difference
@@ -71,5 +71,24 @@ class Participant < ApplicationRecord
       contract_sum += (rate.value.to_f * rate.quantity.to_f)
     end
     contract_sum
+  end
+
+  def save_rates(rate_updates)
+    transaction do
+      rate_updates.each do |rate_update|
+        rate = rates.find_by(sheet: rate_update[:sheet],
+                             row: rate_update[:row])
+        if rate
+          rate.update!(value: rate_update[:value])
+        else
+          rates.build(sheet: rate_update[:sheet],
+                      row: rate_update[:row],
+                      value: rate_update[:value])
+        end
+        save!
+      end
+      return true
+    end
+    false
   end
 end

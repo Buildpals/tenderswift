@@ -140,12 +140,13 @@
         if (source === 'loadData') return
 
         changes.forEach((change) => {
-          let row = change[0];
-          let col = change[1];
-          let oldVal = change[2];
-          let newVal = change[3];
+          let sheet = this.workbook.SheetNames[this.sheetIndex]
+          let row = change[0]
+          let col = change[1]
+          let oldVal = change[2]
+          let newVal = change[3]
 
-          this.$emit('edit', row, col, oldVal, newVal)
+          this.$emit('edit', sheet, row, col, oldVal, newVal)
         })
 
       }

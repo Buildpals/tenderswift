@@ -1,5 +1,10 @@
 <template>
   <div id="app" class="spreadsheet-tabs">
+    <div class="w-100 d-flex justify-content-end">
+      <div>
+        <button class="btn btn-sm btn-primary" @click="saveRates">Save</button>
+      </div>
+    </div>
     <b-tabs end no-fade @input="logIt">
       <b-tab :title="sheetName" v-for="(sheetName, index) in workbookData.SheetNames">
         <div id="example-container" class="wrapper" v-if="index === currentIndex">
@@ -23,6 +28,7 @@
 
   export default {
     props: [
+      'participantId',
       'workbookData',
       'currency',
       'qsCompanyName',
@@ -41,15 +47,41 @@
       logIt (tab_index) {
         this.currentIndex = tab_index
       },
-      updateWorkbook (row, col, oldVal, newVal) {
+      updateWorkbook (sheet, row, col, oldVal, newVal) {
         let cellAddress = `E${ row + 1 }`
 
         let temp = Object.assign({}, this.workbook)
-
-        temp.Sheets['Sheet1'][cellAddress].v = newVal
+        temp.Sheets[sheet][cellAddress].v = newVal
         recalculateFormulas(temp)
 
         this.workbook = {...temp}
+      },
+      saveRates() {
+        let rates = []
+        Object.keys(this.workbook.Sheets).forEach(sheetName => {
+          let sheet = this.workbook.Sheets[sheetName]
+
+          Object.keys(sheet)
+            .filter(cellAddress => {
+              return cellAddress[0] === 'E' && (typeof sheet[cellAddress].v === 'number')
+            })
+            .forEach(cellAddress => {
+                rates.push({
+                  sheet: sheetName,
+                  row: cellAddress.slice(1),
+                  value: sheet[cellAddress].v
+                })
+          })
+        })
+
+        console.log('saving rates...', rates)
+        this.$http.post(`/participants/save_rates/${this.participantId}`, {rates: rates})
+          .then(response => {
+            console.log(response)
+          })
+          .catch(error => {
+            console.error(error.message)
+          })
       }
     }
   }

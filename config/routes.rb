@@ -67,11 +67,13 @@ Rails.application.routes.draw do
   post '/participants/rate/:id/',
        to: 'participants#rate'
 
+  post 'participants/save_rates/:id/',
+       to: 'participants#save_rates'
+
   resources :quantity_surveyors, only: %i[edit update]
   resources :request_for_tenders
   resources :participants
   resources :tender_transactions
-  resources :rates
 
   devise_for :quantity_surveyors
   devise_for :admins
