@@ -21,23 +21,35 @@ class ParticipantsController < ApplicationController
   end
 
   def boq
-    @tender_transaction = TenderTransaction.new
+    if @participant.purchased?
+      @tender_transaction = TenderTransaction.new
+    else
+      redirect_to participants_project_information_path(@participant)
+    end
   end
 
   def questionnaire
-    @tender_transaction = TenderTransaction.new
-    @request = @participant.request_for_tender
-    @required_document_upload = RequiredDocumentUpload.new
-    @request.required_documents.each do |required_document|
-      if @participant.required_document_uploads.find_by(required_document: required_document).nil?
-        puts @participant.required_document_uploads
-        @participant.required_document_uploads.build(required_document: required_document)
+    if @participant.purchased?
+      @tender_transaction = TenderTransaction.new
+      @request = @participant.request_for_tender
+      @required_document_upload = RequiredDocumentUpload.new
+      @request.required_documents.each do |required_document|
+        if @participant.required_document_uploads.find_by(required_document: required_document).nil?
+          puts required_document.id
+          @participant.required_document_uploads.build(required_document: required_document)
+        end
       end
+    else
+      redirect_to participants_project_information_url(@participant)
     end
   end
 
   def tender_document
-    @request = @participant.request_for_tender
+    if @participant.purchased?
+      @request = @participant.request_for_tender
+    else
+      redirect_to participants_project_information_url(@participant)
+    end
   end
 
   def results; end
@@ -154,7 +166,9 @@ class ParticipantsController < ApplicationController
 
   def required_document_uploads
     unless @participant.update(participant_params)
-      flash[:notice] = 'Please provide all required files.'
+      puts @participant.errors.full_messages
+      flash[:notice] = 'Please provide all required files.
+        Files should be either PDF\'s of Images'
     end
     redirect_to participants_questionnaire_url
   end
