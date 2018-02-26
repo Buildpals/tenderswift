@@ -1,0 +1,47 @@
+<script src="//mozilla.github.io/pdf.js/build/pdf.js"></script>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-12 mx-auto">
+      <div class="tab-content mt-4">
+
+        <div class="card-header">
+          Documents
+        </div>
+
+
+          <div class="card-body">
+            <table class="table">
+
+              <tbody>
+              <% @participant.required_document_uploads.each do |required_document_upload| %>
+                <tr>
+
+                  <td>
+                    <%= required_document_upload.required_document.title  %>
+                  </td>
+                  <td>
+                    <% if required_document_upload.document.format == "pdf" %>
+                      <%= link_to 'View', view_pdf_path(required_document_upload.id, @participant) %>
+                    <% else %>
+                      <%= link_to 'View', required_document_upload.document.url, target: '_blank' %>
+                    <% end %>
+                  </td>
+                  <td>
+                    Check/UnChecked/Issue
+                  </td>
+                  <td></td>
+                  <td>
+                    <%= link_to 'Download', required_document_upload.document.url, target: '_blank',
+                                class: 'btn btn-sm btn-light' %>
+                  </td>
+
+                </tr>
+              <% end %>
+
+              </tbody>
+            </table>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>

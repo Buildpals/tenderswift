@@ -3,6 +3,7 @@ class ParticipantsController < ApplicationController
                                            project_information
                                            boq
                                            questionnaire
+                                           messages
                                            tender_document
                                            results
                                            show_boq

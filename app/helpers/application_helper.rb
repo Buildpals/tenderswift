@@ -54,6 +54,10 @@ module ApplicationHelper
     end
   end
 
+  def pdf?(path)
+    true if "pdf".include? File.extname(path)
+  end
+
 
   require 'net/http'
 
@@ -65,5 +69,6 @@ module ApplicationHelper
       false
     end
   end
+
 
 end
