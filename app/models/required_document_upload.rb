@@ -4,7 +4,7 @@ class RequiredDocumentUpload < ApplicationRecord
   belongs_to :participant, inverse_of: :required_document_uploads
   belongs_to :required_document, inverse_of: :required_document_uploads
 
-  validate :check_file_extension
+  validate :check_file_extension, on: :create
 
   validates :document, presence: true
 
