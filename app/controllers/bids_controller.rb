@@ -16,11 +16,20 @@ class BidsController < ApplicationController
 
   def boq; end
 
+  def contractor_information; end
+
   def update
     @required_document_upload = RequiredDocumentUpload.find(
       params[:required_document_upload_id]
     )
     @required_document_upload.update(bid_params)
+    if @required_document_upload.status.eql?('approved')
+      flash[:notice] = "You have successfully approved the
+        #{@required_document_upload.required_document.title}"
+    else
+      flash[:notice] = "#{@required_document_upload.required_document.title}
+        was rejected"
+    end
     redirect_to bid_questionnaire_url(@required_document_upload.participant)
   end
 
