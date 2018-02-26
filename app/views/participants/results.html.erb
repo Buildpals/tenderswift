@@ -24,7 +24,7 @@
                       <%= participant.name %>
                     </td>
                     <td class="d-flex w-100 justify-content-end">
-                      <%= @participant.contract_sum_currency %> <%= participant.bid %>
+                      <%= @participant.request_for_tender.currency_symbol %> <%= participant.bid %>
                     </td>
                   </tr>
                 <% end %>

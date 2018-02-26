@@ -23,10 +23,10 @@
         1. Project Information
       </a>
       <% if @participant.purchased? %>
-        <a class="nav-item nav-link <%= 'active' if action_name == 'tender_document' %>" href="<%= participants_tender_document_path(@participant) %>">
+        <a class="nav-item nav-link <%= 'active' if action_name == 'tender_documents' %>" href="<%= participants_tender_documents_path(@participant) %>">
           2. Tender Documents
         </a>
-        <a class="nav-item nav-link <%= 'active' if action_name == 'questionnaire' %>" href="<%= participants_questionnaire_path(@participant) %>">
+        <a class="nav-item nav-link <%= 'active' if action_name == 'required_documents' %>" href="<%= participants_required_documents_path(@participant) %>">
           3. Required Documents
         </a>
         <a class="nav-item nav-link <%= 'active' if action_name == 'boq' %>" href="<%= participants_boq_path(@participant) %>">

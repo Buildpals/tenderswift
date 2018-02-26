@@ -1,7 +1,7 @@
 <div class="d-flex w-100 justify-content-between mb-2">
   <h5>Submitted</h5>
   <% if @request.deadline_over? %>
-    <%= link_to 'Compare Bill of Quantities', compare_bids_path(@request), class: 'btn btn-sm btn-secondary' %>
+    <%= link_to 'Compare Bill of Quantities', compare_boq_path(@request), class: 'btn btn-sm btn-secondary' %>
   <% else %>
     <div data-toggle="tooltip" data-placement="bottom"
          data-html="true"
@@ -43,28 +43,13 @@
         <small>(<%= participant.bid_difference_as_percentage %>)</small>
       </td>
       <td>
-        <%= render 'layouts/rating_bar', participant: participant %>
+        <%= participant.rating? ? participant.rating : 'Not rated' %>
       </td>
       <td>
-        <%= link_to 'View bid', bid_boq_path(participant) %>
+        <%= link_to 'View bid', bid_required_documents_path(participant) %>
       </td>
       <td>
-        <div class="dropdown">
-          <button class="btn btn-sm btn-light dropdown-toggle" type="button" id="actions_<% participant.id %>" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Actions
-          </button>
-          <div class="dropdown-menu" aria-labelledby="actions_<% participant.id %>">
-            <% if participant.disqualified %>
-              <%= button_to "Add to Shortlist",
-                            { action: 'undo_disqualify', controller: 'participants', id: participant.auth_token },
-                            { class: 'dropdown-item remove-con-btn' } %>
-            <% else %>
-              <%= button_to "Disqualify",
-                            { action: 'disqualify', controller: 'participants', id: participant.auth_token },
-                            { class: 'dropdown-item remove-con-btn' } %>
-            <% end %>
-          </div>
-        </div>
+        <%= button_to 'Disqualify', disqualify_bid_path(participant), { class: 'btn btn-sm btn-light' } %>
       </td>
     </tr>
   <% end %>

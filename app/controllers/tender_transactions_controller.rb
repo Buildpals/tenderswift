@@ -55,7 +55,7 @@ class TenderTransactionsController < ApplicationController
       flash[:notice] = results + '. Check your email after responding to the
                                    prompt on your phone. Thank you!'
     end
-    redirect_to participants_questionnaire_url @participant
+    redirect_to participants_required_documents_url @participant
   end
 
   # PATCH/PUT /tender_transactions/1

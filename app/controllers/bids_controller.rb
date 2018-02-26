@@ -4,33 +4,79 @@ class BidsController < ApplicationController
   before_action :mark_required_document_as_read, only: %i[image_viewer
                                                           pdf_viewer]
 
-  before_action :set_participant, only: %i[show questionnaire]
+  before_action :set_participant, only: %i[required_documents
+                                           boq
+                                           other_documents
+                                           compare_boq
+                                           disqualify
+                                           undo_disqualify
+                                           rate]
 
-  def show; end
+  before_action :set_participant, only: %i[required_documents boq other_documents
+                                           compare_boq]
 
-  def questionnaire; end
+  def required_documents; end
+
+  def boq; end
+
+  def other_documents; end
 
   def pdf_viewer; end
 
   def image_viewer; end
 
-  def boq; end
-
-  def contractor_information; end
+  def compare_boq
+    if @participant.request_for_tender.deadline_over?
+      render layout: 'compare_boq'
+    else
+      redirect_to request_for_tenders_path, notice: 'In accordance with tender
+                                                  fairness, you cannot access
+                                                  the bids until the deadline
+                                                  is past.'
+    end
+  end
 
   def update
-    @required_document_upload = RequiredDocumentUpload.find(
-      params[:required_document_upload_id]
-    )
+    set_required_document_upload
     @required_document_upload.update(bid_params)
-    if @required_document_upload.status.eql?('approved')
-      flash[:notice] = "You have successfully approved the
-        #{@required_document_upload.required_document.title}"
+    flash[:notice] = if @required_document_upload.status.eql?('approved')
+                       "You have successfully approved the
+                         #{@required_document_upload.required_document.title}"
+                     else
+                       "#{@required_document_upload.required_document.title}
+                         was rejected"
+                     end
+    redirect_to bid_required_documents_url(@required_document_upload.participant)
+  end
+
+  def disqualify
+    if @participant.update(disqualified: true)
+      redirect_back fallback_location: bid_required_documents_path(@participant),
+                    notice: "#{@participant.company_name} has been disqualified"
     else
-      flash[:notice] = "#{@required_document_upload.required_document.title}
-        was rejected"
+      redirect_back fallback_location: root_path,
+                    notice: "An error occurred while trying to disqualify #{@participant.company_name}"
     end
-    redirect_to bid_questionnaire_url(@required_document_upload.participant)
+  end
+
+  def undo_disqualify
+    if @participant.update(disqualified: false)
+      redirect_back fallback_location: bid_required_documents_path(@participant),
+                    notice: "#{@participant.company_name} has been re-added to the shortlist"
+    else
+      redirect_back fallback_location: bid_required_documents_path(@participant),
+                    notice: "An error occurred while trying to re-add #{@participant.company_name} to shortlist"
+    end
+  end
+
+  def rate
+    if @participant.update(rating: params[:rating])
+      redirect_back fallback_location: bid_required_documents_path(@participant),
+                    notice: "The rating for #{@participant.company_name} has been updated"
+    else
+      redirect_back fallback_location: bid_required_documents_path(@participant),
+                    notice: "An error occurred while trying to update the rating for #{@participant.company_name}"
+    end
   end
 
   private
@@ -38,8 +84,7 @@ class BidsController < ApplicationController
   def mark_required_document_as_read
     set_participant
     set_required_document_upload
-    @required_document_upload.read = true
-    @required_document_upload.save!
+    @required_document_upload.update!(read: true)
   end
 
   def set_participant
@@ -47,9 +92,8 @@ class BidsController < ApplicationController
   end
 
   def set_required_document_upload
-    @required_document_upload = RequiredDocumentUpload.find(
-      params[:required_document_upload_id]
-    )
+    @required_document_upload =
+      RequiredDocumentUpload.find(params[:required_document_upload_id])
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.

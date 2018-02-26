@@ -1,27 +1,16 @@
-<div class="dropdown">
-  <button class="btn btn-sm btn-light dropdown-toggle" type="button" id="actions_
-        <% participant.id %>" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    Actions
-  </button>
-  <div class="dropdown-menu" aria-labelledby="actions_
-        <% participant.id %>">
-    <% if participant.submitted %>
-        <% if @request.deadline_over? %>
-            <%= link_to 'View bid', view_bid_path(participant), class: 'dropdown-item' %>
-        <% else %>
-            <div data-toggle="tooltip" data-placement="bottom"
-                 data-html="true"
-                 data-title="<p>In order to comply with the standards of tender fairness,
+<% if participant.submitted? %>
+  <% if @request.deadline_over? %>
+    <%= link_to 'View bid', bid_required_documents_path(participant), class: 'dropdown-item' %>
+  <% else %>
+    <div data-toggle="tooltip" data-placement="bottom"
+         data-html="true"
+         data-title="<p>In order to comply with the standards of tender fairness,
                  bids will only be shown when the request deadline is reached.<p>
                 <p class='text-center request-countdown'><%= @request.time_left %> left to request deadline.</p>">
 
-              <button class="dropdown-item disabled" type="button">View bid</button>
-            </div>
-        <% end %>
-    <% end %>
-
-    <% unless participant.read %>
-        <button class="dropdown-item" type="button">Change email</button>
-    <% end %>
-  </div>
-</div>
+      <button class="dropdown-item disabled" type="button">View bid</button>
+    </div>
+  <% end %>
+<% else %>
+  Waiting for bid
+<% end %>
