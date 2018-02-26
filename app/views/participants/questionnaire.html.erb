@@ -27,10 +27,12 @@
                     </td>
                     <td>
                       <%= required_document_upload.file_field :document, class: 'form-control-file form-control-sm mb-2', data: {'save-on-change': true} %>
+                      <%= required_document_upload.text_field :required_document_id, value: required_document_upload.object.required_document.id, type: 'hidden' %>
                     </td>
                   <% else %>
                     <td></td>
                     <td>
+                      <%= required_document_upload.text_field :required_document_id, value: required_document_upload.object.required_document.id, type: 'hidden' %>
                       <%= required_document_upload.file_field :document, class: 'form-control-file form-control-sm mb-2', data: {'save-on-change': true} %>
                     </td>
                   <% end %>
