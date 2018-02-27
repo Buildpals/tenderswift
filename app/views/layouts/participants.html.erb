@@ -32,8 +32,13 @@
         <a class="nav-item nav-link <%= 'active' if action_name == 'boq' %>" href="<%= participants_boq_path(@participant) %>">
           4. Bill of Quantities
         </a>
+
+        <a class="nav-item nav-link <%= 'active' if action_name == 'other_document' %>" href="<%= participant_other_documents_path(@participant) %>">
+          5. Other Documents
+        </a>
+
         <a class="nav-item nav-link <%= 'active' if action_name == 'results' %>" href="<%= participants_results_path(@participant) %>">
-          5. Tendering Results
+          6. Tendering Results
         </a>
       <% else %>
         <a class="nav-item nav-link disabled" href="#" data-toggle="tooltip" data-placement="bottom"

@@ -8,6 +8,7 @@ class ParticipantsController < ApplicationController
                                            results
                                            show_boq
                                            required_document_uploads
+                                           other_document
                                            disqualify undo_disqualify rate]
 
   include TenderTransactionsHelper
@@ -51,6 +52,8 @@ class ParticipantsController < ApplicationController
       redirect_to participants_project_information_url(@participant)
     end
   end
+
+  def other_document; end
 
   def results; end
 
