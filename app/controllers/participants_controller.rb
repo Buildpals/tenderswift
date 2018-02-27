@@ -53,7 +53,8 @@ class ParticipantsController < ApplicationController
     end
   end
 
-  def other_document; end
+  def other_document
+  end
 
   def results; end
 
