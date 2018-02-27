@@ -167,8 +167,7 @@ class ParticipantsController < ApplicationController
   def required_document_uploads
     unless @participant.update(participant_params)
       puts @participant.errors.full_messages
-      flash[:notice] = 'Please provide all required files.
-        Files should be either PDF\'s of Images'
+      flash[:notice] = 'File should be either a PDF of an Image'
     end
     redirect_to participants_questionnaire_url
   end

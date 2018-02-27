@@ -14,36 +14,38 @@
 
               <tbody>
               <% @participant.required_document_uploads.each do |required_document_upload| %>
-                <tr>
+                <% unless required_document_upload.document.url.nil? %>
+                  <tr>
 
-                  <td>
-                    <% if required_document_upload.read? %>
-                      <%= required_document_upload.required_document.title  %>
+                    <td>
+                      <% if required_document_upload.read? %>
+                        <%= required_document_upload.required_document.title  %>
+                        <% else %>
+                        <strong><%= required_document_upload.required_document.title  %></strong>
+                      <% end %>
+                    </td>
+                    <td>
+                      <% if required_document_upload.document.format == "pdf" %>
+                        <%= link_to 'View', view_pdf_path(@participant, required_document_upload.id) %>
                       <% else %>
-                      <strong><%= required_document_upload.required_document.title  %></strong>
-                    <% end %>
-                  </td>
-                  <td>
-                    <% if required_document_upload.document.format == "pdf" %>
-                      <%= link_to 'View', view_pdf_path(@participant, required_document_upload.id) %>
-                    <% else %>
-                      <%= link_to 'View', view_image_path(@participant, required_document_upload.id) %>
-                    <% end %>
-                  </td>
-                  <td>
-                    <% if required_document_upload.status.eql?('approved') %>
-                      <i class="fa fa-check document-approve"></i>
-                    <% else %>
-                      <i class="fa fa-exclamation-triangle document-issue"></i>
-                    <% end %>
-                  </td>
-                  <td></td>
-                  <td>
-                    <%= link_to 'Download', required_document_upload.document.url, target: '_blank',
-                                class: 'btn btn-sm btn-light' %>
-                  </td>
+                        <%= link_to 'View', view_image_path(@participant, required_document_upload.id) %>
+                      <% end %>
+                    </td>
+                    <td>
+                      <% if required_document_upload.status.eql?('approved') %>
+                        <i class="fa fa-check document-approve"></i>
+                      <% else %>
+                        <i class="fa fa-exclamation-triangle document-issue"></i>
+                      <% end %>
+                    </td>
+                    <td></td>
+                    <td>
+                      <%= link_to 'Download', required_document_upload.document.url, target: '_blank',
+                                  class: 'btn btn-sm btn-light' %>
+                    </td>
 
-                </tr>
+                  </tr>
+                <% end %>
               <% end %>
 
               </tbody>
