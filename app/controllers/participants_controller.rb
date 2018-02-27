@@ -7,8 +7,8 @@ class ParticipantsController < ApplicationController
                                            results
                                            show_boq
                                            required_document_uploads
-                                           disqualify undo_disqualify rate
-                                           save_rates]
+                                           other_documents
+                                           disqualify undo_disqualify rate]
 
   include TenderTransactionsHelper
 
@@ -48,6 +48,9 @@ class ParticipantsController < ApplicationController
     else
       redirect_to participants_project_information_url(@participant)
     end
+  end
+
+  def other_documents
   end
 
   def results; end
@@ -138,8 +141,7 @@ class ParticipantsController < ApplicationController
   def required_document_uploads
     unless @participant.update(participant_params)
       puts @participant.errors.full_messages
-      flash[:notice] = 'Please provide all required files.
-        Files should be either PDF\'s of Images'
+      flash[:notice] = 'File should be either a PDF of an Image'
     end
     redirect_to participants_required_documents_url
   end
