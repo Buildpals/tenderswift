@@ -12,6 +12,7 @@
         <span>Page: <span id="page_num"></span> / <span id="page_count"></span></span>
       </div>
       <div class="card-body text-center">
+        <i class="loader fa fa-spinner center-block" style="font-size: 10em;"></i>
         <canvas id="the-canvas"></canvas>
       </div>
     </div>
@@ -107,8 +108,8 @@
   PDFJS.getDocument(url).then(function(pdfDoc_) {
     pdfDoc = pdfDoc_;
     document.getElementById('page_count').textContent = pdfDoc.numPages;
-
     // Initial/first page rendering
     renderPage(pageNum);
+    $('.loader').css('display', 'none');
   });
 </script>
