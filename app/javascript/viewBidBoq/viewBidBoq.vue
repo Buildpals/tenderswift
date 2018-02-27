@@ -1,27 +1,22 @@
 <template>
-  <div id="app" class="spreadsheet-tabs">
-    <b-tabs small end no-fade @input="logIt">
-      <b-tab :title="sheetName" v-for="(sheetName, index) in workbook.SheetNames">
-        <div id="example-container" class="wrapper" v-if="index === currentIndex">
-            <rate-filling-boq-sheet v-on:edit="updateWorkbook"
-                                    :workbook="workbook"
-                                    :sheet-index="index"
-                                    :currency="currency"
-                                    :boqContractSum="boqContractSum">
-            </rate-filling-boq-sheet>
-        </div>
-      </b-tab>
-      <div class="d-flex justify-content-end" slot="tabs">
-        <div>
-          <button class="btn btn-sm btn-primary ml-auto my-1" @click="saveRates">Save</button>
-        </div>
-      </div>
-    </b-tabs>
-  </div>
+    <div id="app" class="spreadsheet-tabs">
+        <b-tabs small end no-fade @input="logIt">
+            <b-tab :title="sheetName" v-for="(sheetName, index) in workbook.SheetNames">
+                <div id="example-container" class="wrapper" v-if="index === currentIndex">
+                    <view-bid-boq-sheet v-on:edit="updateWorkbook"
+                                        :workbook="workbook"
+                                        :sheet-index="index"
+                                        :currency="currency"
+                                        :boqContractSum="boqContractSum">
+                    </view-bid-boq-sheet>
+                </div>
+            </b-tab>
+        </b-tabs>
+    </div>
 </template>
 
 <script>
-  import RateFillingBoqSheet from './rateFillingBoqSheet'
+  import ViewBidBoqSheet from './viewBidBoqSheet'
   import {
     recalculateFormulas
   } from '../renderers'
@@ -36,7 +31,7 @@
       'boqContractSum'
     ],
     components: {
-      RateFillingBoqSheet
+      ViewBidBoqSheet
     },
     data () {
       return {
@@ -67,12 +62,12 @@
               return cellAddress[0] === 'E' && (typeof sheet[cellAddress].v === 'number')
             })
             .forEach(cellAddress => {
-                rates.push({
-                  sheet: sheetName,
-                  row: cellAddress.slice(1),
-                  value: sheet[cellAddress].v
-                })
-          })
+              rates.push({
+                sheet: sheetName,
+                row: cellAddress.slice(1),
+                value: sheet[cellAddress].v
+              })
+            })
         })
 
         console.log('saving rates...', rates)

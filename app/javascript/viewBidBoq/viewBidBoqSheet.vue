@@ -80,7 +80,7 @@
             data: 'last'
           }
         ],
-        height: window.innerHeight - (42 + 85 + 78),
+        height: window.innerHeight - (42 + 190),
         mergeCells: []
       }
     },
@@ -104,8 +104,7 @@
           height: this.height,
           stretchH: 'last',
           colWidths: this.colWidths,
-          readOnly: true,
-          afterChange: this.afterChange
+          readOnly: true
         })
       },
       updateTable () {
@@ -134,19 +133,6 @@
         } else {
           return 100
         }
-      },
-      afterChange (changes, source) {
-        if (source === 'loadData') return
-
-        changes.forEach((change) => {
-          let row = change[0];
-          let col = change[1];
-          let oldVal = change[2];
-          let newVal = change[3];
-
-          this.$emit('edit', row, col, oldVal, newVal)
-        })
-
       }
     }
   }

@@ -61,6 +61,7 @@ import Vue from 'vue/dist/vue.esm'
 
 import UploadBoq from '../uploadBoq/uploadBoq'
 import RateFillingBoq from '../rateFillingBoq/rateFillingBoq'
+import ViewBidBoq from '../viewBidBoq/viewBidBoq'
 import ComparisonBoq from '../comparisonBoq/comparisonBoq'
 
 Vue.use(TurbolinksAdapter)
@@ -78,6 +79,7 @@ document.addEventListener('turbolinks:load', () => {
     components: {
       UploadBoq,
       RateFillingBoq,
+      ViewBidBoq,
       ComparisonBoq
     }
   })

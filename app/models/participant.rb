@@ -91,4 +91,25 @@ class Participant < ApplicationRecord
     end
     false
   end
+
+  def workbook
+    workbook = JSON.parse(request_for_tender.bill_of_quantities)
+    workbook = strip_qs_rates(workbook)
+    rates.each do |rate|
+      cell_address = "E#{rate.row}"
+      workbook['Sheets'][rate.sheet][cell_address]['v'] = rate.value
+    end
+    workbook.to_json
+  end
+
+  private
+
+  def strip_qs_rates(workbook)
+    workbook['Sheets'].each_value do |sheet|
+      sheet.keys
+           .select { |cell_address| (cell_address[0] == 'E') && (sheet[cell_address]['v'].is_a? Numeric) }
+           .each { |cell_address| sheet[cell_address]['v'] = '' }
+    end
+    workbook
+  end
 end
