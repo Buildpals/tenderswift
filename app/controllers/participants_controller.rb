@@ -9,6 +9,7 @@ class ParticipantsController < ApplicationController
                                            show_boq
                                            required_document_uploads
                                            other_document
+                                           other_document_upload
                                            disqualify undo_disqualify rate]
 
   include TenderTransactionsHelper
@@ -53,7 +54,14 @@ class ParticipantsController < ApplicationController
     end
   end
 
-  def other_document
+  def other_document; end
+
+  def other_document_upload
+    unless @participant.update(participant_params)
+      puts @participant.errors.full_messages
+      flash[:notice] = 'File should be either a PDF of an Image'
+    end
+    redirect_to participant_other_documents_url(@participant)
   end
 
   def results; end
@@ -215,6 +223,7 @@ class ParticipantsController < ApplicationController
                                                     status
                                                     request_for_tender_id],
                   other_document_uploads_attributes: %i[id
+                                                        name
                                                         document
                                                         _destroy],
                   required_document_uploads_attributes: %i[id

@@ -2,29 +2,35 @@
   <div class="row">
     <div class="col-lg-12 mx-auto">
       <div class="tab-content mt-4">
-        <table class="table">
-          <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-          </tr>
-          <tr>
-            <th scope="row">2</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-          </tr>
-          <tr>
-            <th scope="row">3</th>
-            <td>Larry</td>
-            <td>the Bird</td>
-            <td>@twitter</td>
-          </tr>
-          </tbody>
-        </table>
+        <%= form_with model: @participant,
+                      scope: :participant,
+                      url: participant_other_documents_upload_path(@participant),
+                      method: :patch,
+                      local: true,
+                      id: 'participant-other-documents-form' do |form| %>
+          <div class="form-row mb-5">
+            <div class="col-md-12">
+              <div class="form-group">
+                <%= form.label :other_documents, 'Other Documents', class: 'pb-0 mb-0'  %>
+                <small class="form-text text-muted mb-3">
+                  Please add other documents you want the Surveyor to have
+                </small>
+                <ul class="list-group list-group-flush nested-forms">
+                  <%= form.fields_for :other_document_uploads do |other_document| %>
+                    <%= render 'other_document_upload_fields', f: other_document %>
+                  <% end %>
+                  <li class="d-flex w-100 justify-content-between">
+                    <%= link_to_add_association 'Add another document', form, :other_document_uploads,
+                                                class: 'btn btn-sm btn-block btn-primary' %>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <%= form.submit 'Save', class: 'pull-right btn btn-success' %>
+        <% end %>
       </div>
     </div>
   </div>
 </div>
+

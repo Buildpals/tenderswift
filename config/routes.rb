@@ -27,6 +27,7 @@ Rails.application.routes.draw do
   get 'participants/:id/questionnaire', to: 'participants#questionnaire', as: 'participants_questionnaire'
   get 'participants/:id/boq', to: 'participants#boq', as: 'participants_boq'
   get 'participants/:id/other/documents', to: 'participants#other_document', as: 'participant_other_documents'
+  patch 'participants/:id/other_documents', to: 'participants#other_document_upload', as: 'participant_other_documents_upload'
   get 'participants/:id/results', to: 'participants#results', as: 'participants_results'
   post 'participants/pay_public_tender/', to: 'participants#pay_public_tender', as: 'pay_public_tender'
 
