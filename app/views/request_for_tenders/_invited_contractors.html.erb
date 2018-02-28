@@ -1,0 +1,159 @@
+<div class="card-header" role="tab" id="headingAll">
+  <h5 class="mb-0">
+    <a class="collapsed text-primary" data-toggle="collapse" href="#collapseAll" aria-expanded="false" aria-controls="collapseAll">
+      Invited Contractors
+      <small>
+      <span class="badge badge-pill badge-primary">
+        <%= @request.participants.count %>
+      </span>
+      </small>
+    </a>
+  </h5>
+</div>
+<div id="collapseAll" class="collapse show" role="tabpanel" aria-labelledby="headingAll" data-parent="#accordion">
+  <div class="card-body">
+    <div class="d-flex w-100 justify-content-end mb-2">
+      <button type="button" class="btn btn-sm btn-light"
+              data-toggle="modal" data-target="#participants-modal" data-dismiss="modal">
+        Invite more contractors
+      </button>
+    </div>
+    <ul class="list-group">
+      <% @request.participants.each do |participant| %>
+        <li class="list-group-item w-100 d-flex justify-content-between">
+          <div>
+            <%= participant.name %>
+            <br>
+            <small>
+              <a href="mailto:<%= participant.project_owners_email %>?subject=<%= "re: Invitation to Tender for #{participant.project_name}" %>"
+                 target="_blank">
+                <span class="fa fa-user"></span>
+                <%= participant.email %>
+              </a>
+              (<%= participant.phone_number %>)
+            </small>
+          </div>
+          <div>
+            <%= render 'participant_actions', participant: participant %>
+          </div>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="participants-modal" tabindex="-1" role="dialog" aria-labelledby="participants-modal-label" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="participants-modal-label">
+          Edit Participants
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" style="height: 500px; overflow: scroll">
+          <%= form_with model: @request,
+                        scope: :request_for_tender,
+                        url: update_tender_participants_path(@request),
+                        method: :patch,
+                        local: true,
+                        id: 'request-form' do |form| %>
+
+            <%= render 'create_tender/request_for_tender_errors' %>
+
+
+            <div class="form-row mb-5" id="publicLinkDiv" style="display: block">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <%= form.label :contractors_portal_link, 'Link to contractor\'s portal', class: 'pb-0 mb-0' %>
+
+                  <div class="d-flex w-100 justify-content-between mb-3">
+                    <small class="form-text text-muted">
+                      The link below is where contractors can see and purchase this request for tender.
+                      <br>
+                      Copy and send it to the contractors you would like to tender for this contract.
+                    </small>
+
+                    <%= link_to 'Preview Contractor\'s Portal', request_for_tender_portal_url(@request), target: '_blank',
+                                class: 'btn btn-link btn-sm' %>
+                  </div>
+
+                  <%= text_field_tag :portal_link, request_for_tender_portal_url(@request),
+                                     {id: :contractors_portal_link, class: 'form-control form-control-sm',
+                                      onclick: 'this.select()', readonly: true} %>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="form-row mb-5" id="participantsDiv" style="display: none">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <%= form.label :participants, 'Allowed participants', class: 'pb-0 mb-0' %>
+
+                  <div class="d-flex w-100 justify-content-between mb-3">
+                    <small class="form-text text-muted">
+                      Enter the company name, email and phone number of the companies you want to tender for this project.
+                      <br>
+                      They will each be sent an email with a link where they can purchase the tender documents and submit their
+                      bid.
+                    </small>
+
+                    <button type="button" class="btn btn-link btn-sm"
+                            data-toggle="modal" data-target="#email-modal" data-dismiss="modal">
+                      Preview email
+                    </button>
+                  </div>
+
+                  <ul class="list-group list-group-flush nested-forms">
+                    <%= form.fields_for :participants do |participant| %>
+                      <%= render 'participant_fields', f: participant %>
+                    <% end %>
+                    <li class="d-flex w-100 justify-content-between">
+                      <%= link_to_add_association 'ADD ANOTHER PARTICIPANT', form, :participants,
+                                                  class: 'btn btn-sm btn-block btn-primary my-1' %>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="form-row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <div class="form-check">
+                    <%= form.check_box :private, id: :request_for_tender_private,
+                                       class: 'form-check-input', onclick: 'ShowHideDiv(this)' %>
+                    <%= form.label :private, 'Limit access to portal', class: 'form-check-label' %>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+
+            <div class="w-100 d-flex justify-content-end">
+              <%= form.submit 'Save', class: 'btn btn-primary next-button text-uppercase' %>
+              <%= form.submit 'Submit', class: 'btn btn-secondary text-uppercase',
+                              data: {confirm: 'Send out this request for tender means all listed participants will immediately have access to this particular Request For Tender and as a result can start placing their bids. Are you sure you want to do so?'} %>
+            </div>
+          <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  function ShowHideDiv (chkPassport) {
+    var participantsDiv = document.getElementById('participantsDiv')
+    var publicLinkDiv = document.getElementById('publicLinkDiv')
+    participantsDiv.style.display = chkPassport.checked ? 'block' : 'none'
+    publicLinkDiv.style.display = chkPassport.checked ? 'none' : 'block'
+  }
+
+  ShowHideDiv(document.getElementById('request_for_tender_private'))
+</script>

@@ -1,9 +1,9 @@
 <div class="container">
   <div class="row">
-    <div class="col-lg-12 mx-auto">
+    <div class="col-lg-9 mx-auto">
       <div class="tab-content mt-4">
 
-        <% if @participant.deadline_over? && @participant.status != 'guest' %>
+        <% if @participant.deadline_over? %>
 
           <div class="card">
             <div class="card-header">
@@ -18,13 +18,13 @@
                 </tr>
                 </thead>
                 <tbody>
-                <% @participant.request_for_tender.participants.bid_list.order(company_name: :desc).each do |participant| %>
+                <% @participant.request_for_tender.participants.submitted.order(company_name: :desc).each do |participant| %>
                   <tr>
                     <td>
                       <%= participant.name %>
                     </td>
                     <td class="d-flex w-100 justify-content-end">
-                      <%= @participant.contract_sum_currency %> <%= participant.bid %>
+                      <%= @participant.request_for_tender.currency_symbol %> <%= participant.bid %>
                     </td>
                   </tr>
                 <% end %>

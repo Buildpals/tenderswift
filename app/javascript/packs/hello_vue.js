@@ -5,18 +5,18 @@
 // like app/views/layouts/application.html.erb.
 // All it does is render <div>Hello Vue</div> at the bottom of the page.
 
-import Vue from 'vue'
-import App from '../app.vue'
-
-document.addEventListener('DOMContentLoaded', () => {
-  const el = document.body.appendChild(document.createElement('hello'))
-  const app = new Vue({
-    el,
-    render: h => h(App)
-  })
-
-  console.log(app)
-})
+// import Vue from 'vue'
+// import App from '../app.vue'
+//
+// document.addEventListener('DOMContentLoaded', () => {
+//   const el = document.body.appendChild(document.createElement('hello'))
+//   const app = new Vue({
+//     el,
+//     render: h => h(App)
+//   })
+//
+//   console.log(app)
+// })
 
 
 // The above code uses Vue without the compiler, which means you cannot
@@ -54,18 +54,33 @@ document.addEventListener('DOMContentLoaded', () => {
 //
 // Then uncomment the code block below:
 //
-// import TurbolinksAdapter from 'vue-turbolinks';
-// import Vue from 'vue/dist/vue.esm'
-// import App from '../app.vue'
-//
-// Vue.use(TurbolinksAdapter)
-//
-// document.addEventListener('turbolinks:load', () => {
-//   const app = new Vue({
-//     el: '#hello',
-//     data: {
-//       message: "Can you say hello?"
-//     },
-//     components: { App }
-//   })
-// })
+import TurbolinksAdapter from 'vue-turbolinks';
+import BootstrapVue from 'bootstrap-vue'
+import VueResource from 'vue-resource'
+import Vue from 'vue/dist/vue.esm'
+
+import UploadBoq from '../uploadBoq/uploadBoq'
+import RateFillingBoq from '../rateFillingBoq/rateFillingBoq'
+import ViewBidBoq from '../viewBidBoq/viewBidBoq'
+import ComparisonBoq from '../comparisonBoq/comparisonBoq'
+
+Vue.use(TurbolinksAdapter)
+Vue.use(BootstrapVue);
+Vue.use(VueResource);
+
+document.addEventListener('turbolinks:load', () => {
+  Vue.http.headers.common['X-CSRF-Token'] = document.querySelector('meta[name="csrf-token"').getAttribute('content')
+
+  const app = new Vue({
+    el: '#hello',
+    data: {
+      message: "Can you say hello?"
+    },
+    components: {
+      UploadBoq,
+      RateFillingBoq,
+      ViewBidBoq,
+      ComparisonBoq
+    }
+  })
+})

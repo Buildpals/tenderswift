@@ -2,21 +2,18 @@ class ParticipantsController < ApplicationController
   before_action :set_participant, only: %i[update destroy
                                            project_information
                                            boq
-                                           questionnaire
-                                           messages
-                                           tender_document
+                                           required_documents
+                                           tender_documents
                                            results
                                            show_boq
                                            required_document_uploads
-                                           other_document
+                                           other_documents
                                            other_document_upload
                                            disqualify undo_disqualify rate]
 
   include TenderTransactionsHelper
 
   include ApplicationHelper
-
-  def messages; end
 
   def project_information
     @tender_transaction = TenderTransaction.new
@@ -30,7 +27,7 @@ class ParticipantsController < ApplicationController
     end
   end
 
-  def questionnaire
+  def required_documents
     if @participant.purchased?
       @tender_transaction = TenderTransaction.new
       @request = @participant.request_for_tender
@@ -46,7 +43,7 @@ class ParticipantsController < ApplicationController
     end
   end
 
-  def tender_document
+  def tender_documents
     if @participant.purchased?
       @request = @participant.request_for_tender
     else
@@ -54,7 +51,8 @@ class ParticipantsController < ApplicationController
     end
   end
 
-  def other_document; end
+  def other_documents
+  end
 
   def other_document_upload
     unless @participant.update(participant_params)
@@ -87,13 +85,7 @@ class ParticipantsController < ApplicationController
   def update
     respond_to do |format|
       if @participant.update(participant_params)
-        format.html do
-          if params[:commit] == 'save_rating'
-            redirect_to bid_boq_path(@participant), notice: 'Participant was successfully updated.'
-          else
-            redirect_to @participant, notice: 'Participant was successfully updated.'
-          end
-        end
+        format.html { redirect_to @participant, notice: 'Participant was successfully updated.' }
         format.json { render :show, status: :ok, location: @participant }
       else
         format.html { render :edit }
@@ -102,33 +94,12 @@ class ParticipantsController < ApplicationController
     end
   end
 
-  def disqualify
-    if @participant.update(disqualified: true)
-      redirect_back fallback_location: bid_boq_path(@participant),
-                    notice: "#{@participant.company_name} has been disqualified"
+  def save_rates
+    if @participant.save_rates(params[:rates])
+      render json: @participant.to_json(include: :rates), status: :ok,
+             location: @participant
     else
-      redirect_back fallback_location: root_path,
-                    notice: "An error occurred while trying to disqualify #{@participant.company_name}"
-    end
-  end
-
-  def undo_disqualify
-    if @participant.update(disqualified: false)
-      redirect_back fallback_location: bid_boq_path(@participant),
-                    notice: "#{@participant.company_name} has been re-added to the shortlist"
-    else
-      redirect_back fallback_location: bid_boq_path(@participant),
-                    notice: "An error occurred while trying to re-add #{@participant.company_name} to shortlist"
-    end
-  end
-
-  def rate
-    if @participant.update(rating: params[:rating])
-      redirect_back fallback_location: bid_boq_path(@participant),
-                    notice: "The rating for #{@participant.company_name} has been updated"
-    else
-      redirect_back fallback_location: bid_boq_path(@participant),
-                    notice: "An error occurred while trying to update the rating for #{@participant.company_name}"
+      render json: @participant.errors, status: :unprocessable_entity
     end
   end
 
@@ -157,23 +128,23 @@ class ParticipantsController < ApplicationController
     params[:participant][:tender_transaction_attributes][:participant_id] = @participant.id
     puts params[:participant][:tender_transaction_attributes]
     results = TenderTransaction.make_payment(authorization_string, payload,
-                                                 params[:participant][:tender_transaction_attributes][:customer_number],
-                                                 params[:participant][:tender_transaction_attributes][:amount],
-                                                 params[:participant][:tender_transaction_attributes][:vodafone_voucher_code],
-                                                 params[:participant][:tender_transaction_attributes][:network_code],
-                                                 params[:participant][:tender_transaction_attributes][:status],
-                                                 @participant.id,
-                                                 @participant.request_for_tender.id,
-                                                 payload['transaction_id'])
+                                             params[:participant][:tender_transaction_attributes][:customer_number],
+                                             params[:participant][:tender_transaction_attributes][:amount],
+                                             params[:participant][:tender_transaction_attributes][:vodafone_voucher_code],
+                                             params[:participant][:tender_transaction_attributes][:network_code],
+                                             params[:participant][:tender_transaction_attributes][:status],
+                                             @participant.id,
+                                             @participant.request_for_tender.id,
+                                             payload['transaction_id'])
     if !results.nil? && working_url?(results)
       flash[:notice] = "Visit #{view_context.link_to('here in', results)}
                         another tab to finish the paying with VISA/MASTER CARD.
                         After paying come back and refresh this page."
     else
-      flash[:notice] = results + '. Refresh this page after responding to the
-                                   prompt on your phone. Thank you!'
+      flash[:notice] = results + '. Check your email after responding to the
+                                 prompt on your phone. Thank you!'
     end
-    redirect_to participants_questionnaire_url @participant
+    redirect_to participants_required_documents_url @participant
   end
 
   def required_document_uploads
@@ -181,7 +152,7 @@ class ParticipantsController < ApplicationController
       puts @participant.errors.full_messages
       flash[:notice] = 'File should be either a PDF of an Image'
     end
-    redirect_to participants_questionnaire_url
+    redirect_to participants_required_documents_url
   end
 
   private

@@ -2,14 +2,6 @@
 # yarn lockfile v1
 
 
-"@handsontable/formulajs@^1.2.3":
-  version "1.2.3"
-  resolved "https://registry.yarnpkg.com/@handsontable/formulajs/-/formulajs-1.2.3.tgz#a98b98bc3d23832730646e3bbd6194413f8faade"
-  dependencies:
-    bessel "^0.2.0"
-    jStat "^1.7.0"
-    numbro "^1.11.0"
-
 "@rails/webpacker@^3.2.2":
   version "3.2.2"
   resolved "https://registry.yarnpkg.com/@rails/webpacker/-/webpacker-3.2.2.tgz#6d60e1cf729dc2ccc52053c9b6b8d30c9a48a297"
@@ -67,6 +59,13 @@ acorn@^4.0.3:
 acorn@^5.0.0:
   version "5.4.1"
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-5.4.1.tgz#fdc58d9d17f4a4e98d102ded826a9b9759125102"
+
+adler-32@~1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/adler-32/-/adler-32-1.2.0.tgz#6a3e6bf0a63900ba15652808cb15c6813d1a5f25"
+  dependencies:
+    exit-on-epipe "~1.0.1"
+    printj "~1.1.0"
 
 ajv-keywords@^3.1.0:
   version "3.1.0"
@@ -891,7 +890,7 @@ bcrypt-pbkdf@^1.0.0:
   dependencies:
     tweetnacl "^0.14.3"
 
-bessel@^0.2.0:
+bessel@0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/bessel/-/bessel-0.2.0.tgz#13cb39cd29233219ec2da725e0ba0c66fb46b6f2"
   dependencies:
@@ -1219,6 +1218,13 @@ center-align@^0.1.1:
     align-text "^0.1.3"
     lazy-cache "^1.0.3"
 
+cfb@~1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/cfb/-/cfb-1.0.4.tgz#d7253209aa20c026fb83225725b677506d1ee4cb"
+  dependencies:
+    commander "^2.12.1"
+    printj "~1.1.1"
+
 chalk@1.1.3, chalk@^1.0.0, chalk@^1.1.1, chalk@^1.1.3:
   version "1.1.3"
   resolved "https://registry.yarnpkg.com/chalk/-/chalk-1.1.3.tgz#a8115c55e4a702fe4d150abd3872822a7e09fc98"
@@ -1359,6 +1365,13 @@ code-point-at@^1.0.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/code-point-at/-/code-point-at-1.1.0.tgz#0d070b4d043a5bea33a2f1a40e2edb3d9a4ccf77"
 
+codepage@~1.12.1:
+  version "1.12.2"
+  resolved "https://registry.yarnpkg.com/codepage/-/codepage-1.12.2.tgz#fd4424448c8bf1db5d7e01f9ecf9e8346582a195"
+  dependencies:
+    commander "~2.14.1"
+    exit-on-epipe "~1.0.1"
+
 collection-visit@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/collection-visit/-/collection-visit-1.0.0.tgz#4bc0373c164bc3291b4d368c829cf1a80a59dca0"
@@ -1429,7 +1442,7 @@ combined-stream@1.0.6, combined-stream@^1.0.5, combined-stream@~1.0.5:
   dependencies:
     delayed-stream "~1.0.0"
 
-commander@^2.9.0:
+commander@^2.12.1, commander@^2.9.0, commander@~2.14.1:
   version "2.14.1"
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.14.1.tgz#2235123e37af8ca3c65df45b026dbd357b01b9aa"
 
@@ -1563,6 +1576,13 @@ cosmiconfig@^2.1.0, cosmiconfig@^2.1.1:
     os-homedir "^1.0.1"
     parse-json "^2.2.0"
     require-from-string "^1.1.0"
+
+crc-32@~1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/crc-32/-/crc-32-1.2.0.tgz#cb2db6e29b88508e32d9dd0ec1693e7b41a18208"
+  dependencies:
+    exit-on-epipe "~1.0.1"
+    printj "~1.1.0"
 
 create-ecdh@^4.0.0:
   version "4.0.0"
@@ -1872,6 +1892,10 @@ detect-node@^2.0.3:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/detect-node/-/detect-node-2.0.3.tgz#a2033c09cc8e158d37748fbde7507832bd6ce127"
 
+diff@~1.0.3:
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/diff/-/diff-1.0.8.tgz#343276308ec991b7bc82267ed55bc1411f971666"
+
 diffie-hellman@^5.0.0:
   version "5.0.2"
   resolved "https://registry.yarnpkg.com/diffie-hellman/-/diffie-hellman-5.0.2.tgz#b5835739270cfe26acf632099fded2a07f209e5e"
@@ -2135,6 +2159,10 @@ execa@^0.7.0:
     signal-exit "^3.0.0"
     strip-eof "^1.0.0"
 
+exit-on-epipe@~1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/exit-on-epipe/-/exit-on-epipe-1.0.1.tgz#0bdd92e87d5285d267daa8171d0eb06159689692"
+
 expand-brackets@^0.1.4:
   version "0.1.5"
   resolved "https://registry.yarnpkg.com/expand-brackets/-/expand-brackets-0.1.5.tgz#df07284e342a807cd733ac5af72411e581d1177b"
@@ -2258,6 +2286,10 @@ extsprintf@1.3.0:
 extsprintf@^1.2.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/extsprintf/-/extsprintf-1.4.0.tgz#e2689f8f356fad62cca65a3a91c5df5f9551692f"
+
+eyes@>=0.1.6:
+  version "0.1.8"
+  resolved "https://registry.yarnpkg.com/eyes/-/eyes-0.1.8.tgz#62cf120234c683785d902348a800ef3e0cc20bc0"
 
 fast-deep-equal@^1.0.0:
   version "1.0.0"
@@ -2407,9 +2439,22 @@ form-data@~2.3.1:
     combined-stream "1.0.6"
     mime-types "^2.1.12"
 
+formulajs@^1.0.8:
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/formulajs/-/formulajs-1.0.8.tgz#8c35d164f368a5ffb1a7abcf5075cf8de5e6070e"
+  dependencies:
+    bessel "0.2.0"
+    jStat "1.0.6"
+    numeral "1.5.3"
+    numeric "1.2.6"
+
 forwarded@~0.1.2:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/forwarded/-/forwarded-0.1.2.tgz#98c23dab1175657b8c0573e8ceccd91b0ff18c84"
+
+frac@~1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/frac/-/frac-1.1.2.tgz#3d74f7f6478c88a1b5020306d747dc6313c74d0b"
 
 fragment-cache@^0.2.1:
   version "0.2.1"
@@ -2623,17 +2668,7 @@ handle-thing@^1.2.5:
   version "1.2.5"
   resolved "https://registry.yarnpkg.com/handle-thing/-/handle-thing-1.2.5.tgz#fd7aad726bf1a5fd16dfc29b2f7a6601d27139c4"
 
-handsontable-pro@^1.16.0:
-  version "1.16.0"
-  resolved "https://registry.yarnpkg.com/handsontable-pro/-/handsontable-pro-1.16.0.tgz#bb7806aafeb45cc7757998a8c47cfda534e6833e"
-  dependencies:
-    handsontable "0.36.0"
-    hot-formula-parser "^2.3.1"
-    moment "2.20.1"
-    numbro "1.11.0"
-    pikaday "1.5.1"
-
-handsontable@0.36.0, handsontable@^0.36.0:
+handsontable@^0.36.0:
   version "0.36.0"
   resolved "https://registry.yarnpkg.com/handsontable/-/handsontable-0.36.0.tgz#12cb7d939c1c962ff82801ecc265968af2cfd200"
   dependencies:
@@ -2809,13 +2844,6 @@ home-or-tmp@^2.0.0:
 hosted-git-info@^2.1.4:
   version "2.5.0"
   resolved "https://registry.yarnpkg.com/hosted-git-info/-/hosted-git-info-2.5.0.tgz#6d60e34b3abbc8313062c3b798ef8d901a07af3c"
-
-hot-formula-parser@^2.3.1:
-  version "2.3.3"
-  resolved "https://registry.yarnpkg.com/hot-formula-parser/-/hot-formula-parser-2.3.3.tgz#a7f3f8d2d8ea8d68c409c2df4e362f29e37b604d"
-  dependencies:
-    "@handsontable/formulajs" "^1.2.3"
-    tiny-emitter "^2.0.1"
 
 hpack.js@^2.1.6:
   version "2.1.6"
@@ -3311,9 +3339,12 @@ isurl@^1.0.0-alpha5:
     has-to-string-tag-x "^1.2.0"
     is-object "^1.0.1"
 
-jStat@^1.7.0:
-  version "1.7.1"
-  resolved "https://registry.yarnpkg.com/jStat/-/jStat-1.7.1.tgz#e636dd87d72b305c060dfcc901de1732d15130c1"
+jStat@1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/jStat/-/jStat-1.0.6.tgz#b37804b9b4b6efe7fde00d308fd699afc971d558"
+  dependencies:
+    uglify-js "1.2.3"
+    vows "0.7.x"
 
 js-base64@^2.1.8, js-base64@^2.1.9:
   version "2.4.3"
@@ -4040,9 +4071,13 @@ numbro@1.11.0:
   version "1.11.0"
   resolved "https://registry.yarnpkg.com/numbro/-/numbro-1.11.0.tgz#39aa17b358b4682aec8ca0d5755f35c5d9ce8f9e"
 
-numbro@^1.11.0:
-  version "1.11.1"
-  resolved "https://registry.yarnpkg.com/numbro/-/numbro-1.11.1.tgz#e0d9ba0ddfc3ad5ac01d9558a49383db214f04be"
+numeral@1.5.3:
+  version "1.5.3"
+  resolved "https://registry.yarnpkg.com/numeral/-/numeral-1.5.3.tgz#a4c3eba68239580509f818267c77243bce43ff62"
+
+numeric@1.2.6:
+  version "1.2.6"
+  resolved "https://registry.yarnpkg.com/numeric/-/numeric-1.2.6.tgz#765b02bef97988fcf880d4eb3f36b80fa31335aa"
 
 oauth-sign@~0.8.1, oauth-sign@~0.8.2:
   version "0.8.2"
@@ -4917,6 +4952,10 @@ prettier@^1.7.0:
   version "1.10.2"
   resolved "https://registry.yarnpkg.com/prettier/-/prettier-1.10.2.tgz#1af8356d1842276a99a5b5529c82dd9e9ad3cc93"
 
+printj@~1.1.0, printj@~1.1.1:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/printj/-/printj-1.1.2.tgz#d90deb2975a8b9f600fb3a1c94e3f4c53c78a222"
+
 private@^0.1.6, private@^0.1.7:
   version "0.1.8"
   resolved "https://registry.yarnpkg.com/private/-/private-0.1.8.tgz#2381edb3689f7a53d653190060fcf822d2f368ff"
@@ -5759,6 +5798,12 @@ sprintf-js@~1.0.2:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/sprintf-js/-/sprintf-js-1.0.3.tgz#04e6926f662895354f3dd015203633b857297e2c"
 
+ssf@~0.10.2:
+  version "0.10.2"
+  resolved "https://registry.yarnpkg.com/ssf/-/ssf-0.10.2.tgz#65b2b4fcdfd967bc8e8383a41349009893115976"
+  dependencies:
+    frac "~1.1.2"
+
 sshpk@^1.7.0:
   version "1.13.1"
   resolved "https://registry.yarnpkg.com/sshpk/-/sshpk-1.13.1.tgz#512df6da6287144316dc4c18fe1cf1d940739be3"
@@ -5988,10 +6033,6 @@ timers-browserify@^2.0.4:
   dependencies:
     setimmediate "^1.0.4"
 
-tiny-emitter@^2.0.1:
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/tiny-emitter/-/tiny-emitter-2.0.2.tgz#82d27468aca5ade8e5fd1e6d22b57dd43ebdfb7c"
-
 tmp@^0.0.33:
   version "0.0.33"
   resolved "https://registry.yarnpkg.com/tmp/-/tmp-0.0.33.tgz#6d34335889768d21b2bcda0aa277ced3b1bfadf9"
@@ -6082,6 +6123,10 @@ uglify-es@^3.3.4:
   dependencies:
     commander "~2.13.0"
     source-map "~0.6.1"
+
+uglify-js@1.2.3:
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/uglify-js/-/uglify-js-1.2.3.tgz#3b0ce6631a28dcaa64302b893123b20876bdc536"
 
 uglify-js@^2.8.29:
   version "2.8.29"
@@ -6281,13 +6326,16 @@ voc@:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/voc/-/voc-1.1.0.tgz#d1a08aeff66646bf17cdba2e47c935a7a9b0218b"
 
+vows@0.7.x:
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/vows/-/vows-0.7.0.tgz#dd0065f110ba0c0a6d63e844851c3208176d5867"
+  dependencies:
+    diff "~1.0.3"
+    eyes ">=0.1.6"
+
 vue-functional-data-merge@^2.0.3:
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/vue-functional-data-merge/-/vue-functional-data-merge-2.0.4.tgz#b045ca57097f31446db6de15c87642b6e88ca7c2"
-
-vue-handsontable-official@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/vue-handsontable-official/-/vue-handsontable-official-1.1.0.tgz#255209a10c0598ae0be9c0a4d7200c2d44f51752"
 
 vue-hot-reload-api@^2.2.0:
   version "2.2.4"
@@ -6502,6 +6550,22 @@ wrap-ansi@^2.0.0:
 wrappy@1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/wrappy/-/wrappy-1.0.2.tgz#b5243d8f3ec1aa35f1364605bc0d1036e30ab69f"
+
+xlsx-calc@^0.3.5:
+  version "0.3.5"
+  resolved "https://registry.yarnpkg.com/xlsx-calc/-/xlsx-calc-0.3.5.tgz#d7fb32eff28910e233ed994a9640395819702dd4"
+
+xlsx@^0.12.2:
+  version "0.12.2"
+  resolved "https://registry.yarnpkg.com/xlsx/-/xlsx-0.12.2.tgz#04e3814499ec74fe3b1439b733adab84e6a0ecc9"
+  dependencies:
+    adler-32 "~1.2.0"
+    cfb "~1.0.4"
+    codepage "~1.12.1"
+    commander "~2.14.1"
+    crc-32 "~1.2.0"
+    exit-on-epipe "~1.0.1"
+    ssf "~0.10.2"
 
 xtend@^4.0.0, xtend@^4.0.1, xtend@~4.0.1:
   version "4.0.1"

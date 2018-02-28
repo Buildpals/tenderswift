@@ -1,0 +1,32 @@
+<% content_for :breadcrumbs do %>
+  <li class="breadcrumb-item">
+    <a href="<%= root_path %>">
+      Home
+    </a>
+  </li>
+  <li class="breadcrumb-item active" aria-current="page">
+    <a href="<%= request_for_tender_path(@participant.request_for_tender) %>">
+      <%= @participant.request_for_tender.project_name %>
+    </a>
+  </li>
+  <li class="breadcrumb-item active" aria-current="page">
+    Compare Bids
+  </li>
+<% end %>
+
+<div class="container-fluid" style="padding-left: 0px; padding-right: 15px;">
+  <div class="row">
+    <div class="col-md-12">
+      <div id='hello'>
+        <rate-filling-boq
+        participant-id="<%= @participant.auth_token %>"
+        :rates="<%= @participant.rates.to_json %>"
+        :workbook-data="<%= @participant.request_for_tender.comparison_workbook %>"
+        currency="<%= @participant.request_for_tender.currency_symbol %>"
+        qs-company-name="<%= @participant.request_for_tender.project_owners_company_name %>"
+        boq-contract-sum="<%= 100000 %>"
+        ></rate-filling-boq>
+      </div>
+    </div>
+  </div>
+</div>

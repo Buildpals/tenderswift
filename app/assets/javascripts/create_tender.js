@@ -25,36 +25,30 @@ $(document).on('turbolinks:load', function () {
   })
 })
 
-// $(document).on('turbolinks:load', function () {
-//   if ($('.create_tender.edit_tender_boq').length === 0) return
-//
-//   let boq = new App.Boq()
-//   let itemsEditingSettings = {
-//     contextMenu: ['row_above', 'row_below', 'remove_row', 'undo', 'redo', 'cut', 'copy'],
-//     columns: [
-//       {
-//         data: 'name',
-//         renderer: boq.labelRenderer
-//       },
-//       {
-//         data: 'description',
-//         className: 'htLeft'
-//       },
-//       {
-//         data: 'quantity',
-//       },
-//       {
-//         data: 'unit'
-//       },
-//       {
-//         data: 'rate'
-//       },
-//       {
-//         data: 'amount',
-//         readOnly: true
-//       }
-//     ],
-//     editRates: true
-//   }
-//   boq.render(gon.boq, itemsEditingSettings)
-// })
+
+$(document).on('turbolinks:load', function () {
+  if ($('.create_tender.edit_tender_boq').length === 0) return
+
+  var rABS = true // true: readAsBinaryString ; false: readAsArrayBuffer
+  function handleFile (e) {
+    var files = e.target.files, f = files[0]
+    var reader = new FileReader()
+    reader.onload = function (e) {
+      var data = e.target.result
+      if (!rABS) data = new Uint8Array(data)
+      var workbook = XLSX.read(data, {cellFormula: true, cellStyles: true, type: rABS ? 'binary' : 'array'}) //read workbook
+      console.log(data)
+      var parsedJson = JSON.stringify(workbook)
+      $('#workbook-data').val(parsedJson)
+      $('#request-form').submit() //submit form to save json data in DB;
+    }
+    if (rABS) {
+      reader.readAsBinaryString(f)
+    } else  {
+      reader.readAsArrayBuffer(f)
+    }
+  }
+
+  var uploadBoqButton = document.getElementById('upload-boq')
+  uploadBoqButton.addEventListener('change', handleFile, false)
+})

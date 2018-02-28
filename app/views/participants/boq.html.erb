@@ -1,12 +1,12 @@
 <% if @participant.request_for_tender.bill_of_quantities.present? %>
-  <%= content_tag :div,
-                  id: 'bill_of_quantities',
-                  class: 'mb-5',
-                  data: {
-                      boq: @participant.request_for_tender.bill_of_quantities,
-                      qs_company_name: @participant.request_for_tender.project_owners_company_name,
-                      currency: @participant.request_for_tender.currency_symbol,
-                      boq_contract_sum: 10000
-                  } do %>
-  <% end %>
+  <div id='hello'>
+    <rate-filling-boq
+    participant-id="<%= @participant.auth_token %>"
+    :rates="<%= @participant.rates.to_json %>"
+    :workbook-data="<%= @participant.workbook %>"
+    currency="<%= @participant.request_for_tender.currency_symbol %>"
+    qs-company-name="<%= @participant.request_for_tender.project_owners_company_name %>"
+    boq-contract-sum="<%= 100000 %>"
+    ></rate-filling-boq>
+  </div>
 <% end %>

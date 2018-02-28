@@ -5,10 +5,10 @@
         <a href="#sales" class="nav-link active" aria-controls="saleoftenders" role="tab" data-toggle="tab">Sales</a>
       </li>
       <li role="presentation" class="nav-item">
-        <a href="#bids" class="nav-link" aria-controls="home" role="tab" data-toggle="tab">Bids</a>
+        <a href="#contractors" class="nav-link" aria-controls="profile" role="tab" data-toggle="tab">Contractors</a>
       </li>
       <li role="presentation" class="nav-item">
-        <a href="#contractors" class="nav-link" aria-controls="profile" role="tab" data-toggle="tab">Contractors</a>
+        <a href="#bids" class="nav-link" aria-controls="home" role="tab" data-toggle="tab">Bids</a>
       </li>
       <li role="presentation" class="nav-item">
         <a href="#request_details" class="nav-link" aria-controls="messages" role="tab" data-toggle="tab">Request
@@ -19,9 +19,11 @@
 
   <div class="tab-content">
     <div role="tabpanel" class="tab-pane active" id="sales">
-      <div class="card-body">
-        <%= render 'sales_information' %>
-      </div>
+      <%= render 'sales_information' %>
+    </div>
+
+    <div role="tabpanel" class="tab-pane" id="contractors">
+      <%= render 'contractors' %>
     </div>
 
     <div role="tabpanel" class="tab-pane" id="bids">
@@ -41,14 +43,8 @@
       </div>
     </div>
 
-    <div role="tabpanel" class="tab-pane" id="contractors">
-      <%= render 'contractors' %>
-    </div>
-
     <div role="tabpanel" class="tab-pane" id="request_details">
-      <div class="card-body">
-        <%= render 'request_information' %>
-      </div>
+      <%= render 'request_information' %>
     </div>
   </div>
 </div>

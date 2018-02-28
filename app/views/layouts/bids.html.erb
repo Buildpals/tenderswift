@@ -12,14 +12,14 @@
 
 <% content_for :nav_tabs do %>
     <nav class="nav">
+      <a class="nav-item nav-link <%= 'active' if action_name == 'required_documents' %>" href="<%= bid_required_documents_path(@participant) %>">
+        1. Required Documents
+      </a>
       <a class="nav-item nav-link <%= 'active' if action_name == 'boq' %>" href="<%= bid_boq_path(@participant) %>">
-        Bill Of Quantities
+        2. Bill Of Quantities
       </a>
-      <a class="nav-item nav-link <%= 'active' if action_name == 'questionnaire' %>" href="<%= bid_questionnaire_path(@participant) %>">
-        Requirements
-      </a>
-      <a class="nav-item nav-link <%= 'active' if action_name == 'contractor_information' %>" href="<%= bid_contractor_information_path(@participant) %>">
-        Contractor Information
+      <a class="nav-item nav-link <%= 'active' if action_name == 'other_documents' %>" href="<%= bid_other_documents_path(@participant) %>">
+        3. Other Documents
       </a>
     </nav>
 <% end %>
@@ -30,13 +30,9 @@
   </div>
 
   <% if @participant.disqualified %>
-    <%= button_to "Add to Shortlist",
-                  { action: 'undo_disqualify', controller: 'participants' },
-                  { class: 'btn btn-sm btn-success mt-2 ml-2' } %>
+    <%= button_to 'Add to Shortlist', undo_disqualify_bid_path(@participant), { class: 'btn btn-sm btn-success mt-2 ml-2' } %>
   <% else %>
-    <%= button_to "Disqualify",
-                  { action: 'disqualify', controller: 'participants' },
-                  { class: 'btn btn-sm btn-danger mt-2 ml-2' } %>
+    <%= button_to 'Disqualify', disqualify_bid_path(@participant), { class: 'btn btn-sm btn-danger mt-2 ml-2' } %>
   <% end %>
 <% end %>
 

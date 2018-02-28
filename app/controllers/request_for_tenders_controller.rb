@@ -70,21 +70,6 @@ class RequestForTendersController < ApplicationController
     end
   end
 
-  def compare_bids
-    @request = RequestForTender.find(params[:id])
-    if @request.deadline_over?
-      @participants = @request.participants
-      # I need all the rates for each contractor
-      @rates = Rate.where(participant: @participant)
-      render layout: 'compare_bids'
-    else
-      redirect_to request_for_tenders_path, notice: 'In accordance with tender
-                                                  fairness, you cannot access
-                                                  the bids until the deadline
-                                                  is past.'
-    end
-  end
-
   private
 
   # Use callbacks to share common setup or constraints between actions.

@@ -1,6 +1,8 @@
 class RequestForTender < ApplicationRecord
   include ActionView::Helpers::DateHelper
 
+  BUILDPALS_CUT = 0.15
+
   scope :submitted, -> { where(submitted: true) }
   scope :not_submitted, -> { where(submitted: false) }
 
@@ -30,9 +32,8 @@ class RequestForTender < ApplicationRecord
   validates :project_name, presence: true
   validates :deadline, presence: true
 
-
   def self.create_new(quantity_surveyor)
-    new_request_for_tender = self.new
+    new_request_for_tender = new
     new_request_for_tender.quantity_surveyor = quantity_surveyor
     new_request_for_tender.project_name = 'Untitled Project'
     new_request_for_tender.country_code = 'GH'
@@ -134,11 +135,11 @@ class RequestForTender < ApplicationRecord
 
   def contract_sum
     # TODO: Fetch contract sum
-    100000
+    100_000
   end
 
   def number_of_tender_purchases
-    self.tender_transactions.where(status: 'success').size
+    tender_transactions.where(status: 'success').size
   end
 
   def total_receivable
@@ -147,6 +148,29 @@ class RequestForTender < ApplicationRecord
       number_of_transactions += 1 if tender_transaction.status.equal?('success')
     end
     total_of_transactions = number_of_transactions * selling_price
-    total_of_transactions - (15 / 100 * total_of_transactions)
+    total_of_transactions - (BUILDPALS_CUT * total_of_transactions)
+  end
+
+  def comparison_workbook
+    workbook = JSON.parse(bill_of_quantities)
+    participants.each_with_index do |participant, index|
+      participant.rates.each do |rate|
+        cell_address = "#{to_s26(index + 1 + 6)}#{rate.row}"
+        workbook['Sheets'][rate.sheet][cell_address] = { f: "=C#{rate.row}*#{rate.value}" }
+      end
+    end
+    workbook.to_json
+  end
+
+  def to_s26(q)
+    alpha26 = ('A'..'Z').to_a
+    return '' if q < 1
+    s = ''
+    loop do
+      q, r = (q - 1).divmod(26)
+      s.prepend(alpha26[r])
+      break if q.zero?
+    end
+    s
   end
 end

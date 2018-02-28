@@ -1,5 +1,5 @@
-<div class="d-flex w-100 justify-content-between mb-2 form-inline">
-  <h5>Disqualified Bids</h5>
+<div class="d-flex w-100 justify-content-between mb-2">
+  <h5>Disqualified</h5>
 </div>
 
 <table class="table table-striped table-hover mb-5">
@@ -21,35 +21,21 @@
             </span>
       </td>
       <td>
-        <%= @request.currency_symbol %> <%= participant.bid %>
+        <%= @request.currency_symbol %>
+        <%= participant.bid %>
       </td>
       <td>
-        <%= @request.currency_symbol %> <%= participant.bid_difference %>
+        <%= @request.currency_symbol %>
         <small>(<%= participant.bid_difference_as_percentage %>)</small>
       </td>
       <td>
-        <%= render 'layouts/rating_bar', participant: participant %>
+        <%= participant.rating? ? participant.rating : 'Not rated' %>
       </td>
       <td>
-        <%= link_to 'View bid', bid_boq_path(participant) %>
+        <%= link_to 'View bid', bid_required_documents_path(participant) %>
       </td>
       <td>
-        <div class="dropdown">
-          <button class="btn btn-sm btn-light dropdown-toggle" type="button" id="actions_<% participant.id %>" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Actions
-          </button>
-          <div class="dropdown-menu" aria-labelledby="actions_<% participant.id %>">
-            <% if participant.disqualified %>
-              <%= button_to "Add to Shortlist",
-                            { action: 'undo_disqualify', controller: 'participants', id: participant.auth_token },
-                            { class: 'dropdown-item remove-con-btn' } %>
-            <% else %>
-              <%= button_to "Disqualify",
-                            { action: 'disqualify', controller: 'participants', id: participant.auth_token },
-                            { class: 'dropdown-item remove-con-btn' } %>
-            <% end %>
-          </div>
-        </div>
+        <%= button_to 'Add to Shortlist', undo_disqualify_bid_path(participant), { class: 'btn btn-sm btn-light' } %>
       </td>
     </tr>
   <% end %>
