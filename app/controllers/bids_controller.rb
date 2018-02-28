@@ -4,7 +4,7 @@ class BidsController < ApplicationController
   before_action :mark_required_document_as_read, only: %i[image_viewer
                                                           pdf_viewer]
 
-  before_action :set_participant, only: %i[show questionnaire]
+  before_action :set_participant, only: %i[show questionnaire other_document]
 
   def show; end
 
@@ -13,6 +13,8 @@ class BidsController < ApplicationController
   def pdf_viewer; end
 
   def image_viewer; end
+
+  def other_document; end
 
   def boq; end
 
