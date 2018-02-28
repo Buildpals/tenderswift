@@ -12,25 +12,25 @@
           <table class="table">
 
             <tbody>
-            <% @participant.required_document_uploads.each do |required_document_upload| %>
+            <% @participant.other_document_uploads.each do |document_upload| %>
               <tr>
 
                 <td>
-                  <% if required_document_upload.read? %>
-                    <%= required_document_upload.required_document.title  %>
+                  <% if document_upload.read? %>
+                    <%= document_upload.name  %>
                   <% else %>
-                    <strong><%= required_document_upload.required_document.title  %></strong>
+                    <strong><%= document_upload.name  %></strong>
                   <% end %>
                 </td>
                 <td>
-                  <% if required_document_upload.document.format == "pdf" %>
-                    <%= link_to 'View', view_pdf_path(@participant, required_document_upload.id) %>
+                  <% if document_upload.document.format == "pdf" %>
+                    <%= link_to 'View', view_pdf_for_other_documents_path(@participant, document_upload.id) %>
                   <% else %>
-                    <%= link_to 'View', view_image_path(@participant, required_document_upload.id) %>
+                    <%= link_to 'View', view_image_for_other_documents_path(@participant, document_upload.id) %>
                   <% end %>
                 </td>
                 <td>
-                  <% if required_document_upload.status.eql?('approved') %>
+                  <% if document_upload.status.eql?('approved') %>
                     <i class="fa fa-check document-approve"></i>
                   <% else %>
                     <i class="fa fa-exclamation-triangle document-issue"></i>
@@ -38,7 +38,7 @@
                 </td>
                 <td></td>
                 <td>
-                  <%= link_to 'Download', required_document_upload.document.url, target: '_blank',
+                  <%= link_to 'Download', document_upload.document.url, target: '_blank',
                               class: 'btn btn-sm btn-light' %>
                 </td>
 
