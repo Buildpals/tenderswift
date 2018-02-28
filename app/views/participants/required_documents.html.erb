@@ -1,6 +1,6 @@
 <div class="container">
   <div class="row">
-    <div class="col-lg-9 mx-auto">
+    <div class="col-lg-12 mx-auto">
       <div class="tab-content mt-4">
 
         <%= form_with model: @participant,
@@ -39,9 +39,6 @@
 
                 </tr>
                 <% end %>
-                <% if @participant.request_for_tender.required_documents.size > 7 %>
-                  <%= form.submit 'Save', class: 'pull-right btn btn-success' %>
-                <% end %>
               </tbody>
             </table>
             <%= form.submit 'Save', class: 'pull-right btn btn-success' %>
@@ -51,6 +48,8 @@
     </div>
   </div>
 </div>
+
+<%= render 'other_documents' %>
 
 <script>
   $('.submit-your-bid').attr('disabled', 'disabled');

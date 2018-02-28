@@ -15,14 +15,26 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
     </ul>
-    <%= link_to 'Back', bid_required_documents_path(@required_document_upload.participant), class: 'btn btn-outline-warning mr-sm-2 my-sm-0' %>
-    <%= form_with(model: @required_document_upload, url: update_bid_url, local: true, class: 'form-inline') do |form| %>
-      <%= form.text_field :status, value: 'approved', id: :required_document_upload_id, type: 'hidden' %>
-      <%= form.submit 'Approve', class: 'btn btn-outline-success mr-sm-2 my-sm-0' %>
-    <% end %>
-    <%= form_with(model: @required_document_upload, url: update_bid_url, local: true, class: 'form-inline') do |form| %>
-      <%= form.text_field :status, value: 'issue', id: :required_document_upload_id, type: 'hidden' %>
-      <%= form.submit 'Mark Issue', class: 'btn btn-outline-danger mr-sm-2 my-sm-0' %>
+    <% if @required_document_upload %>
+      <%= link_to 'Back', bid_required_documents_path(@required_document_upload.participant), class: 'btn btn-outline-warning mr-sm-2 my-sm-0' %>
+      <%= form_with(model: @required_document_upload, url: update_bid_url, local: true, class: 'form-inline') do |form| %>
+        <%= form.text_field :status, value: 'approved', id: :required_document_upload_id, type: 'hidden' %>
+        <%= form.submit 'Approve', class: 'btn btn-outline-success mr-sm-2 my-sm-0' %>
+      <% end %>
+      <%= form_with(model: @required_document_upload, url: update_bid_url, local: true, class: 'form-inline') do |form| %>
+        <%= form.text_field :status, value: 'issue', id: :required_document_upload_id, type: 'hidden' %>
+        <%= form.submit 'Mark Issue', class: 'btn btn-outline-danger mr-sm-2 my-sm-0' %>
+      <% end %>
+    <% else %>
+      <%= link_to 'Back', bid_other_documents_path(@participant), class: 'btn btn-outline-warning mr-sm-2 my-sm-0' %>
+      <%= form_with(model: @other_document_upload, url: update_other_document_url, local: true, class: 'form-inline') do |form| %>
+        <%= form.text_field :status, value: 'approved', id: :required_document_upload_id, type: 'hidden' %>
+        <%= form.submit 'Approve', class: 'btn btn-outline-success mr-sm-2 my-sm-0' %>
+      <% end %>
+      <%= form_with(model: @other_document_upload, url: update_other_document_url, local: true, class: 'form-inline') do |form| %>
+        <%= form.text_field :status, value: 'issue', id: :required_document_upload_id, type: 'hidden' %>
+        <%= form.submit 'Mark Issue', class: 'btn btn-outline-danger mr-sm-2 my-sm-0' %>
+      <% end %>
     <% end %>
   </div>
 </nav>

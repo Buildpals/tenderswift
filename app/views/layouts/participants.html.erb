@@ -20,46 +20,41 @@
 <% content_for :nav_tabs do %>
     <nav class="nav justify-content-center">
       <a class="nav-item nav-link <%= 'active' if action_name == 'project_information' %>" href="<%= participants_project_information_path(@participant) %>">
-        1. Project Information
+          Project Information
       </a>
       <% if @participant.purchased? %>
         <a class="nav-item nav-link <%= 'active' if action_name == 'tender_documents' %>" href="<%= participants_tender_documents_path(@participant) %>">
-          2. Tender Documents
-        </a>
-        <a class="nav-item nav-link <%= 'active' if action_name == 'required_documents' %>" href="<%= participants_required_documents_path(@participant) %>">
-          3. Required Documents
+          Tender Documents
         </a>
         <a class="nav-item nav-link <%= 'active' if action_name == 'boq' %>" href="<%= participants_boq_path(@participant) %>">
-          4. Bill of Quantities
+          Bill of Quantities
         </a>
-
-        <a class="nav-item nav-link <%= 'active' if action_name == 'other_documents' %>" href="<%= participant_other_documents_path(@participant) %>">
-          5. Other Documents
+        <a class="nav-item nav-link <%= 'active' if action_name == 'required_documents' %>" href="<%= participants_required_documents_path(@participant) %>">
+          Upload Documents
         </a>
-
         <a class="nav-item nav-link <%= 'active' if action_name == 'results' %>" href="<%= participants_results_path(@participant) %>">
-          6. Tendering Results
+          Tendering Results
         </a>
       <% else %>
         <a class="nav-item nav-link disabled" href="#" data-toggle="tooltip" data-placement="bottom"
            data-html="true"
            data-title="Not available until you have purchased this tender">
-          2. Tender Documents
+          Tender Documents
         </a>
         <a class="nav-item nav-link disabled" href="#" data-toggle="tooltip" data-placement="bottom"
            data-html="true"
            data-title="Not available until you have purchased this tender">
-          3. Requirements
+          Bill of Quantities
         </a>
         <a class="nav-item nav-link disabled" href="#" data-toggle="tooltip" data-placement="bottom"
            data-html="true"
            data-title="Not available until you have purchased this tender">
-          4. Bill of Quantities
+          Upload Documents
         </a>
         <a class="nav-item nav-link disabled" href="#" data-toggle="tooltip" data-placement="bottom"
            data-html="true"
            data-title="Not available until you have purchased this tender">
-          5. Tendering Results
+          Tendering Results
         </a>
       <% end %>
     </nav>

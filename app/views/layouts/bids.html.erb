@@ -13,13 +13,13 @@
 <% content_for :nav_tabs do %>
     <nav class="nav">
       <a class="nav-item nav-link <%= 'active' if action_name == 'required_documents' %>" href="<%= bid_required_documents_path(@participant) %>">
-        1. Required Documents
+        Required Documents
       </a>
       <a class="nav-item nav-link <%= 'active' if action_name == 'boq' %>" href="<%= bid_boq_path(@participant) %>">
-        2. Bill Of Quantities
+        Bill Of Quantities
       </a>
       <a class="nav-item nav-link <%= 'active' if action_name == 'other_documents' %>" href="<%= bid_other_documents_path(@participant) %>">
-        3. Other Documents
+        Other Documents
       </a>
     </nav>
 <% end %>
