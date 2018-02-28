@@ -2,12 +2,11 @@ class GuestParticipant
   include HasProject
 
   include ActionView::Helpers::DateHelper
-  include  ActionView::Helpers::NumberHelper
+  include ActionView::Helpers::NumberHelper
 
   def initialize(request_for_tender)
     @request_for_tender = request_for_tender
   end
-
 
   def id
     'guest'
@@ -21,79 +20,57 @@ class GuestParticipant
     Participant.new
   end
 
-  def update(attributes)
+  def update(_attributes)
     self
   end
 
-  def request_for_tender
-    @request_for_tender
-  end
+  attr_reader :request_for_tender
 
   def company_name
     'Example Company Ltd'
-  end
-
-  def email
-    'example_participant@buildpals.com'
-  end
-
-  def first_name
-    'John'
-  end
-
-  def last_name
-    'Smith'
   end
 
   def phone_number
     '+233240000000'
   end
 
-  def interested_declaration_time
-    nil
-  end
-
-  def declination_reason
-    nil
-  end
-
-  def comment
-    nil
+  def email
+    'example_participant@buildpals.com'
   end
 
   def auth_token
     nil
   end
 
-  def rating
-    0
+  def purchased?
+    false
   end
 
-
-  def status
-    'guest'
+  def submitted
+    false
   end
 
-  def not_read?
-    true
-  end
+  def purchase_time; end
+
+  def submitted_time; end
 
   def read?
     false
   end
 
-  def not_participating?
+  def rating
+    0
+  end
+
+  def disqualified
     false
   end
 
-  def participating?
-    false
-  end
+  def notes; end
 
-  def bid_made?
-    false
-  end
+  def created_at; end
 
+  def updated_at; end
 
   def created_at
     request_for_tender.created_at
@@ -101,50 +78,5 @@ class GuestParticipant
 
   def updated_at
     request_for_tender.updated_at
-  end
-
-
-
-
-  def answer_boxes
-    AnswerBox.none
-  end
-
-  def items
-    FilledItem.none
-  end
-
-
-  def filled_items
-    FilledItem.none
-  end
-
-  def questions
-    Question.none
-  end
-
-  def messages
-    Message.none
-  end
-
-
-  def filled_item(item)
-    FilledItem.new
-  end
-
-  def answer_box_for(question)
-    AnswerBox.new
-  end
-
-  def bid
-    0
-  end
-
-  def bid_difference
-    project_budget
-  end
-
-  def bid_difference_as_percentage
-    number_to_percentage 0
   end
 end

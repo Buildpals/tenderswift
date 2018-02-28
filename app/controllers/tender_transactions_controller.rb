@@ -100,7 +100,7 @@ class TenderTransactionsController < ApplicationController
       transaction.status = 'success'
       transaction.save!
       participant.update(purchased: true, purchase_time: Time.current)
-      TenderTransactionMailer.confirm_purchase(participant).deliver_now
+      TenderTransactionMailer.confirm_purchase_email(participant).deliver_now
     else
       transaction.status = 'failed'
       transaction.save!
