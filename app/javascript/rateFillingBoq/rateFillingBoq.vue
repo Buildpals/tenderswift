@@ -11,10 +11,22 @@
             </rate-filling-boq-sheet>
         </div>
       </b-tab>
-      <div class="d-flex justify-content-end" slot="tabs">
-        <div>
-          <button class="btn btn-sm btn-primary ml-auto my-1" @click="saveRates">Save</button>
-        </div>
+      <div class="ml-auto" slot="tabs">
+          <div class="d-flex">
+              <div class="my-auto" v-if="saveStatus === 'saved'">
+                  <span class="fa fa-check fa-check-circle"></span>
+                  saved
+              </div>
+              <div class="my-auto text-warning" v-else-if="saveStatus === 'saving'">
+                  <span class="fa fa-spinner fa-spin"></span>
+                  saving...
+              </div>
+              <div class="my-auto text-danger" v-if="saveStatus === 'not_saved'">
+                  <span class="fa fa-exclamation-triangle"></span>
+                  not saved
+              </div>
+              <button class="btn btn-sm btn-primary ml-2 my-1" @click="saveRates">Save</button>
+          </div>
       </div>
     </b-tabs>
   </div>
@@ -41,6 +53,7 @@
     data () {
       return {
         currentIndex: false,
+        saveStatus: 'saved',
         workbook: recalculateFormulas(this.workbookData)
       }
     },
@@ -56,6 +69,7 @@
         recalculateFormulas(temp)
 
         this.workbook = {...temp}
+        this.saveStatus = 'not_saved'
       },
       saveRates() {
         let rates = []
@@ -76,11 +90,14 @@
         })
 
         console.log('saving rates...', rates)
+        this.saveStatus = 'saving'
         this.$http.post(`/participants/save_rates/${this.participantId}`, {rates: rates})
           .then(response => {
             console.log(response)
+            this.saveStatus = 'saved'
           })
           .catch(error => {
+            this.saveStatus = 'not_saved'
             console.error(error.message)
           })
       }

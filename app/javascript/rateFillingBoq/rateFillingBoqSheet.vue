@@ -81,7 +81,7 @@
             data: 'last'
           }
         ],
-        height: window.innerHeight - (42 + 190),
+        height: window.innerHeight - (42 + 120),
         mergeCells: []
       }
     },
