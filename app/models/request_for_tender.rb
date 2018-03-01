@@ -1,7 +1,7 @@
 class RequestForTender < ApplicationRecord
   include ActionView::Helpers::DateHelper
 
-  BUILDPALS_CUT = 0.15
+  BUILDPALS_CUT = 0.12
 
   scope :submitted, -> { where(submitted: true) }
   scope :not_submitted, -> { where(submitted: false) }
@@ -145,7 +145,7 @@ class RequestForTender < ApplicationRecord
   def total_receivable
     number_of_transactions = 0
     tender_transactions.each do |tender_transaction|
-      number_of_transactions += 1 if tender_transaction.status.equal?('success')
+      number_of_transactions += 1 if tender_transaction.status.eql?('success')
     end
     total_of_transactions = number_of_transactions * selling_price
     total_of_transactions - (BUILDPALS_CUT * total_of_transactions)
