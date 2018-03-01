@@ -4,35 +4,30 @@
       <div class="tab-content mt-4">
 
         <div class="card mb-4">
+
           <div class="card-body">
             <h4 class="card-title mt-0"><%= @request.project_name %></h4>
             <h6 class="card-subtitle mb-2 text-muted"><%= @request.project_owners_company_name %></h6>
 
             <div class="row mt-3">
-              <div class="col-md-6">
-                <dl class="row card-text">
-                  <dt class="col-sm-5">Contract Class</dt>
-                  <dd class="col-sm-7">
-                    <%= @request.contract_class %>
-                  </dd>
-
-                  <dt class="col-sm-5">Location</dt>
-                  <dd class="col-sm-7">
-                    <%= @request.project_location %>
-                  </dd>
-                </dl>
+              <div class="col-md-4">
+                <strong>Contract class</strong>
+                <br>
+                <%= @request.contract_class %>
               </div>
-              <div class="col-md-6">
-                <dl class="row card-text">
-                  <dt class="col-sm-5">Project Currency</dt>
-                  <dd class="col-sm-7">
-                    <% if @request.currency === 'USD' %>
-                      USD - United States Dollar
-                    <% elsif @request.currency === 'GHS' %>
-                      GHS - Ghanaian Cedi
-                    <% end %>
-                  </dd>
-                </dl>
+              <div class="col-md-4">
+                <strong>Location</strong>
+                <br>
+                <%= @request.project_location %>
+              </div>
+              <div class="col-md-4">
+                <strong>Project currency</strong>
+                <br>
+                <% if @request.currency === 'USD' %>
+                  USD - United States Dollar
+                <% elsif @request.currency === 'GHS' %>
+                  GHS - Ghanaian Cedi
+                <% end %>
               </div>
             </div>
           </div>
@@ -41,26 +36,23 @@
           <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <div class="row">
-                <div class="col-lg-6">
+                <div class="col-md-4">
                   <strong>
                     <% if @request.deadline_over? %>
-                      Time Closed
+                      Time closed
                     <% else %>
-                      Time Left
+                      Time left
                     <% end %>
                   </strong>
-                </div>
-                <div class="col-lg-6">
-                  <strong>End date</strong>
-                </div>
-                <div class="col-lg-6">
+                  <br>
                   <%= @request.time_left %>
                 </div>
-                <div class="col-lg-6">
+                <div class="col-md-8">
+                  <strong>End date</strong>
+                  <br>
                   <%= @request.project_deadline.to_formatted_s(:long) %>
                   <span class="ml-3">(UTC+00:00)</span>
                 </div>
-
               </div>
             </li>
           </ul>
