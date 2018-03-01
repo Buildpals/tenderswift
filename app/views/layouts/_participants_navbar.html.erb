@@ -14,30 +14,36 @@
     <span class="navbar-toggler-icon"></span>
   </button>
 
-
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mx-auto">
+      <li class="nav-item">
+        <%= @participant.project_name %>
+      </li>
+    </ul>
     <ul class="navbar-nav ml-auto">
       <% unless @participant.purchased? %>
         <li class="nav-item mr-3">
-          <button class="btn btn-secondary btn-payment-modal" data-toggle="modal" data-target="#paymentModal"> Purchase
-            Tender Documents for GHC <%= @participant.request_for_tender.selling_price %></button>
+          <button class="btn btn-secondary btn-payment-modal" data-toggle="modal" data-target="#paymentModal">
+            Purchase Tender Documents for GHC <%= @participant.request_for_tender.selling_price %></button>
         </li>
       <% end %>
     </ul>
-  </div>
 
-  <% if @participant.purchased? %>
-    <% if @participant.submitted? %>
-      Bid submitted successfully
-    <% else %>
-      <%= form_with(model: @participant, local: true, class: 'form-inline') do |form| %>
-        <%= form.text_field :status, value: 'bid_made', id: :participant_phone_number, type: 'hidden' %>
-        <%= form.text_field :bid_submission_time, value: Time.current, id: :participant_phone_number, type: 'hidden' %>
-        <%= form.submit 'Submit Bid', data: {confirm: 'You cannot edit the Bill of Quantities after submitting your bid. Are you sure you want to submit your bid?'},
-                        class: 'btn btn-secondary my-2 my-sm-0 submit-your-bid' %>
+    <% if @participant.purchased? %>
+      <% if @participant.submitted? %>
+        Bid submitted successfully
+      <% else %>
+        <%= form_with(model: @participant, local: true, class: 'form-inline') do |form| %>
+          <%= form.text_field :status, value: 'bid_made', id: :participant_phone_number, type: 'hidden' %>
+          <%= form.text_field :bid_submission_time, value: Time.current, id: :participant_phone_number, type: 'hidden' %>
+          <%= form.submit 'Submit Bid', data: {confirm: 'You cannot edit the Bill of Quantities after submitting your bid. Are you sure you want to submit your bid?'},
+                          class: 'btn btn-secondary my-2 my-sm-0 submit-your-bid' %>
+        <% end %>
       <% end %>
     <% end %>
-  <% end %>
+  </div>
+
+
 </nav>
 
 <%= render 'participants/private_participant_payment' %>

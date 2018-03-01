@@ -6,55 +6,44 @@
     <link rel="icon" type="image/png" href="<%= cloudinary_url(@participant.project_owners_company_logo.full_public_id, format: 'png', height: 16, crop: :scale,) %>">
 <% end %>
 
-<% content_for :breadcrumbs do %>
-    <li class="breadcrumb-item">
-      <a href="#">
-        <%= @participant.project_owners_company_name %>
-      </a>
-    </li>
-    <li class="breadcrumb-item active" aria-current="page">
-      <%= @participant.project_name %>
-    </li>
-<% end %>
-
 <% content_for :nav_tabs do %>
     <nav class="nav justify-content-center">
       <a class="nav-item nav-link <%= 'active' if action_name == 'project_information' %>" href="<%= participants_project_information_path(@participant) %>">
-          Project Information
+          1. Project Information
       </a>
       <% if @participant.purchased? %>
         <a class="nav-item nav-link <%= 'active' if action_name == 'tender_documents' %>" href="<%= participants_tender_documents_path(@participant) %>">
-          Tender Documents
+          2. Tender Documents
         </a>
         <a class="nav-item nav-link <%= 'active' if action_name == 'boq' %>" href="<%= participants_boq_path(@participant) %>">
-          Bill of Quantities
+          3. Bill of Quantities
         </a>
         <a class="nav-item nav-link <%= 'active' if action_name == 'required_documents' %>" href="<%= participants_required_documents_path(@participant) %>">
-          Upload Documents
+          4. Upload Documents
         </a>
         <a class="nav-item nav-link <%= 'active' if action_name == 'results' %>" href="<%= participants_results_path(@participant) %>">
-          Tendering Results
+          5. Tendering Results
         </a>
       <% else %>
         <a class="nav-item nav-link disabled" href="#" data-toggle="tooltip" data-placement="bottom"
            data-html="true"
            data-title="Not available until you have purchased this tender">
-          Tender Documents
+          2. Tender Documents
         </a>
         <a class="nav-item nav-link disabled" href="#" data-toggle="tooltip" data-placement="bottom"
            data-html="true"
            data-title="Not available until you have purchased this tender">
-          Bill of Quantities
+          3. Bill of Quantities
         </a>
         <a class="nav-item nav-link disabled" href="#" data-toggle="tooltip" data-placement="bottom"
            data-html="true"
            data-title="Not available until you have purchased this tender">
-          Upload Documents
+          4. Upload Documents
         </a>
         <a class="nav-item nav-link disabled" href="#" data-toggle="tooltip" data-placement="bottom"
            data-html="true"
            data-title="Not available until you have purchased this tender">
-          Tendering Results
+          5. Tendering Results
         </a>
       <% end %>
     </nav>
@@ -72,7 +61,7 @@
 
     <div class="content">
 
-      <%= render 'layouts/page_head' %>
+      <%= render 'layouts/participants_page_head' %>
 
       <%= yield %>
 
