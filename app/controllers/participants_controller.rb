@@ -58,7 +58,8 @@ class ParticipantsController < ApplicationController
     if @participant.update(participant_params)
       flash[:notice] = 'File successfully saved'
     else
-      flash[:notice] = 'File should be either a PDF of an Image'
+      flash[:notice] = 'File should be either a PDF of an Image.
+                        And please make sure you provide a name'
     end
     redirect_to participants_required_documents_url(@participant)
   end

@@ -5,6 +5,8 @@ class OtherDocumentUpload < ApplicationRecord
 
   validate :check_file_extension
 
+  validates :name, presence: true
+
   enum status: { issue: 0, approved: 1 }
 
   private
