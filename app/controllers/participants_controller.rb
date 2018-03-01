@@ -9,7 +9,7 @@ class ParticipantsController < ApplicationController
                                            required_document_uploads
                                            other_documents
                                            other_document_uploads
-                                           disqualify undo_disqualify rate]
+                                           save_rates]
 
   include TenderTransactionsHelper
 

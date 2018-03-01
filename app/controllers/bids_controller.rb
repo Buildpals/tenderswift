@@ -7,13 +7,9 @@ class BidsController < ApplicationController
   before_action :set_participant, only: %i[required_documents
                                            boq
                                            other_documents
-                                           compare_boq
                                            disqualify
                                            undo_disqualify
                                            rate]
-
-  before_action :set_participant, only: %i[required_documents boq other_documents
-                                           compare_boq]
 
   def required_documents; end
 
@@ -24,17 +20,6 @@ class BidsController < ApplicationController
   def pdf_viewer; end
 
   def image_viewer; end
-
-  def compare_boq
-    if @participant.request_for_tender.deadline_over?
-      render layout: 'compare_boq'
-    else
-      redirect_to request_for_tenders_path, notice: 'In accordance with tender
-                                                  fairness, you cannot access
-                                                  the bids until the deadline
-                                                  is past.'
-    end
-  end
 
   def update
     set_required_document_upload
