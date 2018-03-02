@@ -1,5 +1,5 @@
 <div class="d-flex w-100 justify-content-between mb-2">
-  <h5>Submitted</h5>
+  <h5>Bids</h5>
   <% if @request.deadline_over? %>
     <%= link_to 'Compare Bill of Quantities', compare_boq_path(@request), class: 'btn btn-sm btn-secondary' %>
   <% else %>
@@ -17,13 +17,19 @@
 </div>
 
 <table class="table table-striped table-hover mb-5">
-  <thead class="thead-light">
+  <thead>
   <tr>
     <th>Company</th>
-    <th>Bid</th>
+    <th>Contract sum</th>
     <th>Difference</th>
     <th>Rating</th>
     <th colspan="2"></th>
+  </tr>
+  </thead>
+
+  <thead class="thead-light">
+  <tr>
+    <th colspan="6">Submitted</th>
   </tr>
   </thead>
   <tbody>
@@ -48,8 +54,56 @@
       <td>
         <%= link_to 'View bid', bid_required_documents_path(participant) %>
       </td>
-      <td>
+      <td class="w-100 d-flex justify-content-center">
         <%= button_to 'Disqualify', disqualify_bid_path(participant), { class: 'btn btn-sm btn-light' } %>
+      </td>
+    </tr>
+  <% end %>
+  <% if @request.participants.not_disqualified.count < 1 %>
+    <tr>
+      <td colspan="6" class="text-center">
+        There are no submitted bids
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+
+  <thead class="thead-light">
+  <tr>
+    <th colspan="6">Disqualified</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @request.participants.disqualified.where('disqualified = true').order(rating: :desc).each do |participant| %>
+    <tr class="text-danger">
+      <td>
+            <span data-toggle="tooltip" data-placement="top" title="<%= participant.email %>">
+                <%= participant.name %>
+            </span>
+      </td>
+      <td>
+        <%= @request.currency_symbol %>
+        <%= participant.bid %>
+      </td>
+      <td>
+        <%= @request.currency_symbol %>
+        <small>(<%= participant.bid_difference_as_percentage %>)</small>
+      </td>
+      <td>
+        <%= participant.rating? ? participant.rating : 'Not rated' %>
+      </td>
+      <td>
+        <%= link_to 'View bid', bid_required_documents_path(participant) %>
+      </td>
+      <td class="w-100 d-flex justify-content-center">
+        <%= button_to 'Add to Shortlist', undo_disqualify_bid_path(participant), { class: 'btn btn-sm btn-light' } %>
+      </td>
+    </tr>
+  <% end %>
+  <% if @request.participants.disqualified.where('disqualified = true').count < 1 %>
+    <tr>
+      <td colspan="6" class="text-center">
+        There are no disqualified bids
       </td>
     </tr>
   <% end %>

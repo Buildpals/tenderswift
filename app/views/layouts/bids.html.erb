@@ -1,27 +1,32 @@
 <% content_for :breadcrumbs do %>
-    <li class="breadcrumb-item">
-      <a href="<%= request_for_tender_path(@participant.request_for_tender) %>">
-        <%= @participant.project_name.truncate(30) %>
-      </a>
-    </li>
-    <li class="breadcrumb-item active" aria-current="page">
-      <%= @participant.company_name.truncate(30) %> (<%= humanized_money_with_symbol @participant.bid %>)
-    </li>
+  <li class="breadcrumb-item">
+    <a href="<%= root_path %>">
+      Home
+    </a>
+  </li>
+  <li class="breadcrumb-item">
+    <a href="<%= request_for_tender_path(@participant.request_for_tender) %>">
+      <%= @participant.project_name.truncate(30) %>
+    </a>
+  </li>
+  <li class="breadcrumb-item active" aria-current="page">
+    <%= @participant.company_name.truncate(30) %> (<%= humanized_money_with_symbol @participant.bid %>)
+  </li>
 <% end %>
 
 
 <% content_for :nav_tabs do %>
-    <nav class="nav">
-      <a class="nav-item nav-link <%= 'active' if action_name == 'required_documents' %>" href="<%= bid_required_documents_path(@participant) %>">
-        Required Documents
-      </a>
-      <a class="nav-item nav-link <%= 'active' if action_name == 'boq' %>" href="<%= bid_boq_path(@participant) %>">
-        Bill Of Quantities
-      </a>
-      <a class="nav-item nav-link <%= 'active' if action_name == 'other_documents' %>" href="<%= bid_other_documents_path(@participant) %>">
-        Other Documents
-      </a>
-    </nav>
+  <nav class="nav">
+    <a class="nav-item nav-link <%= 'active' if action_name == 'required_documents' %>" href="<%= bid_required_documents_path(@participant) %>">
+      Required Documents
+    </a>
+    <a class="nav-item nav-link <%= 'active' if action_name == 'boq' %>" href="<%= bid_boq_path(@participant) %>">
+      Bill Of Quantities
+    </a>
+    <a class="nav-item nav-link <%= 'active' if action_name == 'other_documents' %>" href="<%= bid_other_documents_path(@participant) %>">
+      Other Documents
+    </a>
+  </nav>
 <% end %>
 
 <% content_for :action_items do %>
@@ -30,9 +35,9 @@
   </div>
 
   <% if @participant.disqualified %>
-    <%= button_to 'Add to Shortlist', undo_disqualify_bid_path(@participant), { class: 'btn btn-sm btn-success mt-2 ml-2' } %>
+    <%= button_to 'Add to Shortlist', undo_disqualify_bid_path(@participant), {class: 'btn btn-sm btn-success mt-2 ml-2'} %>
   <% else %>
-    <%= button_to 'Disqualify', disqualify_bid_path(@participant), { class: 'btn btn-sm btn-danger mt-2 ml-2' } %>
+    <%= button_to 'Disqualify', disqualify_bid_path(@participant), {class: 'btn btn-sm btn-danger mt-2 ml-2'} %>
   <% end %>
 <% end %>
 
