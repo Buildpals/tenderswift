@@ -1,6 +1,5 @@
 <template>
-  <div>
-    <div id="hot"></div>
+  <div id="hot">
   </div>
 </template>
 
@@ -11,11 +10,12 @@
     descriptionRenderer,
     itemRenderer,
     isHeader,
-    process_wb
+    process_wb_comparison
   } from '../renderers'
 
   export default {
     props: [
+      'participants',
       'workbook',
       'sheetIndex',
       'currency',
@@ -39,6 +39,7 @@
           'unit': null,
           'rate': null,
           'amount': null,
+          ...this.participants.map((participant, index) => `contractor_${index}`),
           'last': null
         },
         columns: [
@@ -76,6 +77,9 @@
             },
             allowEmpty: false
           },
+          ...this.participants.map((participant, index) => {
+            return {data: `contractor_${index}`, type: 'numeric', numericFormat: { pattern: '0,0.00', culture: 'en-US' }, allowEmpty: false}
+          }),
           {
             data: 'last'
           }
@@ -86,7 +90,7 @@
     },
     computed: {
       sheetData () {
-        return process_wb(this.workbook, this.sheetIndex)
+        return process_wb_comparison(this.workbook, this.sheetIndex, this.participants)
       }
     },
     methods: {

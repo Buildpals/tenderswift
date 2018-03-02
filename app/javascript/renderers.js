@@ -123,6 +123,30 @@ export function to_json (workbook) {
 
     if (roa.length > 0) result[sheetName] = roa
   })
+  console.log(result)
+  return result
+}
+
+export function process_wb_comparison (wb, sheetIndex, participants) {
+  const sheet = wb.SheetNames[sheetIndex || 0]
+  return to_json_comparison(wb, participants)[sheet]
+}
+
+export function to_json_comparison (workbook, participants) {
+  XLSX.SSF.load_table(workbook.SSF)
+  const result = {}
+  let header = [ "item","description","quantity","unit","rate","amount",
+    ...participants.map((participant, index) => `contractor_${index}`)]
+  workbook.SheetNames.forEach(function (sheetName) {
+    const roa = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], {
+      header: header,
+      raw: true,
+      blankrows: true
+    })
+
+    if (roa.length > 0) result[sheetName] = roa
+  })
+  console.log(result)
   return result
 }
 

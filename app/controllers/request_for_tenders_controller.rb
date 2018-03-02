@@ -1,6 +1,8 @@
 class RequestForTendersController < ApplicationController
   before_action :set_request, only: %i[show
-                                       destroy portal]
+                                       compare_boq
+                                       destroy
+                                       portal]
 
   before_action :authenticate_quantity_surveyor!, except: %i[portal]
 
@@ -28,6 +30,17 @@ class RequestForTendersController < ApplicationController
   def new
     @request = RequestForTender.create_new(current_quantity_surveyor)
     redirect_to edit_tender_information_path @request
+  end
+
+  def compare_boq
+    if @request.deadline_over?
+      render layout: 'compare_boq'
+    else
+      redirect_to request_for_tenders_path, notice: 'In accordance with tender
+                                                  fairness, you cannot access
+                                                  the bids until the deadline
+                                                  is past.'
+    end
   end
 
   # POST /requests

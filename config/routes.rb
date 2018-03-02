@@ -45,7 +45,8 @@ Rails.application.routes.draw do
   get '/bids/:id/image_viewer/:required_document_upload_id', to: 'bids#image_viewer', as: 'view_image'
   get '/bids/:id/pdf_viewer/other/:other_document_id', to: 'other_document_uploads#pdf_viewer', as: 'view_pdf_for_other_documents'
   get '/bids/:id/image_viewer/other/:other_document_id', to: 'other_document_uploads#image_viewer', as: 'view_image_for_other_documents'
-  get '/bids/:id/compare_boq', to: 'bids#compare_boq', as: 'compare_boq'
+
+  get '/request_for_tenders/:id/compare_boq', to: 'request_for_tenders#compare_boq', as: 'compare_boq'
 
   patch '/bids/update/:required_document_upload_id', to: 'bids#update', as: 'update_bid'
   patch '/bids/update/other/:other_document_id', to: 'other_document_uploads#update', as: 'update_other_document'
