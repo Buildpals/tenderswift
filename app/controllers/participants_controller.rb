@@ -9,6 +9,7 @@ class ParticipantsController < ApplicationController
                                            required_document_uploads
                                            other_documents
                                            other_document_uploads
+                                           rating
                                            save_rates]
 
   include TenderTransactionsHelper
@@ -101,6 +102,18 @@ class ParticipantsController < ApplicationController
              location: @participant
     else
       render json: @participant.errors, status: :unprocessable_entity
+    end
+  end
+
+  def rating
+    respond_to do |format|
+      if @participant.update(participant_params)
+        format.html { redirect_to bid_required_documents_url(@participant), notice: 'Participant was successfully updated.' }
+        format.json { render :show, status: :ok, location: @participant }
+      else
+        format.html { render :edit }
+        format.json { render json: @participant.errors, status: :unprocessable_entity }
+      end
     end
   end
 

@@ -30,9 +30,9 @@
   </div>
 
   <% if @participant.disqualified %>
-    <%= button_to 'Add to Shortlist', undo_disqualify_bid_path(@participant), { class: 'btn btn-sm btn-success mt-2 ml-2' } %>
+    <% button_to 'Add to Shortlist', undo_disqualify_bid_path(@participant), { class: 'btn btn-sm btn-success mt-2 ml-2' } %>
   <% else %>
-    <%= button_to 'Disqualify', disqualify_bid_path(@participant), { class: 'btn btn-sm btn-danger mt-2 ml-2' } %>
+    <% button_to 'Disqualify', disqualify_bid_path(@participant), { class: 'btn btn-sm btn-danger mt-2 ml-2' } %>
   <% end %>
 <% end %>
 
