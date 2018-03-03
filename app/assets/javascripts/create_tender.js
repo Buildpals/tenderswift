@@ -13,7 +13,7 @@ $(document).on('turbolinks:load', function () {
     $(this).find('input[type="submit"]').attr({ 'disabled': false });
   })
   $('#request-form').bind('clean.areYouSure', function () {
-    $(this).find('input[type="submit"]').attr({ 'disabled': true });
+    //$(this).find('input[type="submit"]').attr({ 'disabled': true });
   })
 
   $('.nested-forms').on('cocoon:after-insert', function (e, insertedItem) {
