@@ -76,12 +76,12 @@
       <div class="modal-body" style="height: 500px; overflow: scroll">
         <%= form_with model: @request,
                       scope: :request_for_tender,
-                      url: update_tender_payment_method_path(@request),
+                      url: update_payment_details_path(@request),
                       method: :patch,
                       local: true,
                       id: 'request-form' do |form| %>
 
-          <%= render 'create_tender/request_for_tender_errors' %>
+          <% render 'create_tender/request_for_tender_errors' %>
 
           <div class="form-row">
             <div class="col-md-12">
@@ -184,10 +184,10 @@
 <script>
   function storeBankDetailsInLocalStorage() {
     var company_name = $('.qs-company-name').text();
-    localStorage.setItem(company_name+ '-bankname', $('#request_for_tender_bank_name').val());
-    localStorage.setItem(company_name+ '-branch', $('#request_for_tender_bank_branch').val());
-    localStorage.setItem(company_name+ '-account_name', $('#request_for_tender_account_name').val());
-    localStorage.setItem(company_name+ '-account_number', $('#request_for_tender_account_nunber').val());
+    localStorage.setItem(company_name+ '-bankname', <%= @request.bank_name  %>);
+    localStorage.setItem(company_name+ '-branch', <%= @request.branch_name  %>);
+    localStorage.setItem(company_name+ '-account_name', <%= @request.account_name  %>);
+    localStorage.setItem(company_name+ '-account_number', <%= @request.account_number  %>);
   }
 
   function pullBankDetailsFromLocalStorage() {
@@ -203,6 +203,7 @@
   });
 
   $(document).ready( function (e) {
+    storeBankDetailsInLocalStorage();
     pullBankDetailsFromLocalStorage();
   });
 </script>
