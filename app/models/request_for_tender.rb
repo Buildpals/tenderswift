@@ -30,7 +30,12 @@ class RequestForTender < ApplicationRecord
   has_many :tender_transactions, dependent: :destroy, inverse_of: :request_for_tender
 
   validates :project_name, presence: true
-  validates :deadline, presence: true
+  validate :check_deadline
+
+  def check_deadline
+    return unless deadline
+    errors.add(:deadline, :invalid, message: 'Deadline cannot be in the past') if deadline < Date.today
+  end
 
   def self.create_new(quantity_surveyor)
     new_request_for_tender = new
