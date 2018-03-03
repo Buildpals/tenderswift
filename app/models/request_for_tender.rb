@@ -29,6 +29,8 @@ class RequestForTender < ApplicationRecord
 
   has_many :tender_transactions, dependent: :destroy, inverse_of: :request_for_tender
 
+  enum withdrawal_frequency: { Monthly: 0, Every_Two_Weeks: 1, Weekly: 2 }
+
   validates :project_name, presence: true
   validate :check_deadline
 
