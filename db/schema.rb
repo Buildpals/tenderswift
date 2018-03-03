@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180227133857) do
+ActiveRecord::Schema.define(version: 20180302120814) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -172,6 +172,7 @@ ActiveRecord::Schema.define(version: 20180227133857) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "vodafone_voucher_code"
+    t.string "card_url"
     t.index ["participant_id"], name: "index_tender_transactions_on_participant_id"
     t.index ["request_for_tender_id"], name: "index_tender_transactions_on_request_for_tender_id"
   end
