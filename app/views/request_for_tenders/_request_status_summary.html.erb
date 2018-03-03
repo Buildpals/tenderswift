@@ -14,12 +14,12 @@
     <li class="list-group-item">
       <div class="d-flex w-100 justify-content-between py-2">
         <div class="mx-3">
-          <div class="font-weight-bold text-muted"><%= @request.private? ? 'Invited' : 'Visited' %></div>
+          <div class="font-weight-bold text-muted"><%= @request.private? ? 'Invited' : 'Visits' %></div>
           <%= @request.private? ? @request.participants.count : @request.portal_visits %>
         </div>
         <div class="mx-3">
           <div class="font-weight-bold text-muted">Purchased</div>
-          <%= @request.participants.purchased.count %>
+          <%= @request.number_of_tender_purchases %>
           (<%= @request.currency_symbol %> <%= @request.total_receivable %>)
         </div>
         <div class="mx-3">
