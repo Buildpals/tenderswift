@@ -23,6 +23,9 @@ class RequestForTendersController < ApplicationController
   def portal
     @participant = Participant.new
     @participant.build_tender_transaction
+    @request = RequestForTender.find(params[:id])
+    @request.portal_visits += 1 unless @request.private
+    @request.save!
     render layout: 'portal'
   end
 

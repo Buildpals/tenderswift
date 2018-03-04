@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180227133857) do
+ActiveRecord::Schema.define(version: 20180303154550) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -128,7 +128,6 @@ ActiveRecord::Schema.define(version: 20180227133857) do
     t.string "contract_sum_location"
     t.text "tender_instructions"
     t.integer "selling_price_subunit", default: 10000, null: false
-    t.string "withdrawal_frequency"
     t.string "bank_name"
     t.string "branch_name"
     t.string "account_name"
@@ -138,6 +137,7 @@ ActiveRecord::Schema.define(version: 20180227133857) do
     t.integer "portal_visits", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "withdrawal_frequency"
     t.index ["quantity_surveyor_id"], name: "index_request_for_tenders_on_quantity_surveyor_id"
   end
 
@@ -172,6 +172,7 @@ ActiveRecord::Schema.define(version: 20180227133857) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "vodafone_voucher_code"
+    t.string "card_url"
     t.index ["participant_id"], name: "index_tender_transactions_on_participant_id"
     t.index ["request_for_tender_id"], name: "index_tender_transactions_on_request_for_tender_id"
   end

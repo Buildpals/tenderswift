@@ -30,6 +30,13 @@ var myBarChart = new Chart(ctx, {
       title: {
         display: true,
         text: 'Summary of Bids'
+      },
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero:true
+          }
+        }]
       }
     }
 });

@@ -15,6 +15,7 @@ Rails.application.routes.draw do
 
   get '/tender/:id/edit/payment_method', to: 'create_tender#edit_tender_payment_method', as: 'edit_tender_payment_method'
   patch '/tender/:id/update/payment_method', to: 'create_tender#update_tender_payment_method', as: 'update_tender_payment_method'
+  patch '/payment/details/:id', to: 'create_tender#update_payment_details', as: 'update_payment_details'
 
   get '/tender/:id/edit/participants', to: 'create_tender#edit_tender_participants', as: 'edit_tender_participants'
   patch '/tender/:id/update/participants', to: 'create_tender#update_tender_participants', as: 'update_tender_participants'
@@ -27,6 +28,7 @@ Rails.application.routes.draw do
   get '/participants/:id/boq', to: 'participants#boq', as: 'participants_boq'
   get '/participants/:id/other/documents', to: 'participants#other_documents', as: 'participant_other_documents'
   get '/participants/:id/results', to: 'participants#results', as: 'participants_results'
+  patch '/participants/:id/rating', to: 'participants#rating', as: 'participant_ratings'
 
   post '/participants/pay_public_tender/', to: 'participants#pay_public_tender', as: 'pay_public_tender'
   post '/participants/:id/required_document_uploads/', to: 'participants#required_document_uploads', as: 'participants_upload_required_documents'

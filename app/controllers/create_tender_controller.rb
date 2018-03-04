@@ -1,7 +1,7 @@
 class CreateTenderController < ApplicationController
   before_action :set_request, only: %i[edit_tender_information edit_tender_documents edit_tender_boq edit_tender_required_documents edit_tender_participants
                                        edit_tender_payment_method update_tender_payment_method
-                                       update_tender_information update_tender_documents update_tender_boq update_tender_required_documents update_tender_participants]
+                                       update_tender_information update_tender_documents update_tender_boq update_tender_required_documents update_tender_participants update_payment_details]
 
   before_action :authenticate_quantity_surveyor!
   # before_action :check_if_submitted
@@ -117,6 +117,15 @@ class CreateTenderController < ApplicationController
       end
     else
       render :edit_tender_participants
+    end
+  end
+
+  def update_payment_details
+    if @request.update(request_params)
+      redirect_to request_for_tender_path(@request)
+      flash[:notice] = 'Payment details has been changed successfully'
+    else
+      flash[:notice] = 'Payment details was not changed'
     end
   end
 
