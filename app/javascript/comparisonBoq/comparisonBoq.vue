@@ -42,42 +42,65 @@
       }
     },
     created () {
-      let newWorkBook = { ...this.workbookData }
+      let i = 6
+      this.participants.forEach((participant) => {
 
-      this.participants.forEach((participant, index) => {
+        let ratesHash = {}
+
+        let newRateColumn = String.fromCharCode(65 + i++)
+        let newAmountColumn = String.fromCharCode(65 + i++)
+
         participant.rates.forEach(rate => {
-          let cellAddress = `E${ rate.row }`
-          this.workbookData.Sheets[rate.sheet][cellAddress].v = rate.value
+          let newRateAddress = `${newRateColumn}${ rate.row }`
+          let newAmountAddress = `${newAmountColumn}${ rate.row }`
+          console.log('address', newRateAddress, newAmountAddress)
+          this.workbookData.Sheets[rate.sheet][newRateAddress] = { ...this.workbookData.Sheets[rate.sheet][`E${rate.row}`], v: rate.value}
+          this.workbookData.Sheets[rate.sheet][newAmountAddress] = { ...this.workbookData.Sheets[rate.sheet][`F${rate.row}`] }
+          this.workbookData.Sheets[rate.sheet][newAmountAddress].f = this.workbookData.Sheets[rate.sheet][newAmountAddress].f.replace(/(E)(\d+)/g, `${newRateColumn}$2`)
+
+          ratesHash[`E${rate.row}`] = rate
         })
 
-        recalculateFormulas(this.workbookData)
-
-        console.log('watchThis', newWorkBook.Sheets['Sheet1']['E8'])
-
-        // Fetch the calculated amounts and store them in an array or in the same workbook
-        let columnLetter = String.fromCharCode(65 + index + 6)
-
-        Object.keys(newWorkBook.Sheets).forEach(sheetName => {
-          let sheet = newWorkBook.Sheets[sheetName]
+        console.log(ratesHash)
+        let rates = []
+        Object.keys(this.workbook.Sheets).forEach(sheetName => {
+          let sheet = this.workbook.Sheets[sheetName]
 
           Object.keys(sheet)
             .forEach(cellAddress => {
 
-              let row = cellAddress.slice(1)
-              let amountAddress = `E${row}`
-              let destinationAddress = `${columnLetter}${row}`
 
-              if (sheet[amountAddress]) {
 
-                // newWorkBook.Sheets[sheetName][destinationAddress] = newWorkBook.Sheets[sheetName][amountAddress]
-                newWorkBook.Sheets[sheetName][destinationAddress] = this.workbookData.Sheets['Sheet1']['E8']
+              if (cellAddress[0] === 'E' && (typeof sheet[cellAddress].v === 'number')) {
+
+              } else {
 
               }
 
+
+              rates.push({
+                sheet: sheetName,
+                row: cellAddress.slice(1),
+                value: sheet[cellAddress].v
+              })
             })
         })
       })
-      this.$set(this, 'workbook', newWorkBook)
+
+
+
+
+
+
+
+
+
+
+
+
+
+      recalculateFormulas(this.workbookData)
+      this.$set(this, 'workbook', this.workbookData)
     },
     methods: {
       logIt (tab_index) {

@@ -32,17 +32,42 @@
     },
     data () {
       return {
-        dataSchema: {
+        height: window.innerHeight - (42 + 85 + 78),
+        mergeCells: []
+      }
+    },
+    computed: {
+      dataSchema () {
+        let participantKeys = {}
+        this.participants.forEach(participant => {
+          let amountKey = `amount (${participant.company_name})`
+          participantKeys[amountKey] = null
+        })
+        return {
           'item': null,
           'description': null,
           'quantity': null,
           'unit': null,
-          'rate': null,
           'amount': null,
-          ...this.participants.map((participant, index) => `contractor_${index}`),
+          ...participantKeys,
           'last': null
-        },
-        columns: [
+        }
+      },
+      columns () {
+        let participantKeys = []
+        this.participants.forEach(participant => {
+          let amountKey = `amount (${participant.company_name})`
+          participantKeys.push({
+            data: amountKey,
+            type: 'numeric',
+            numericFormat: {
+              pattern: '0,0.00',
+              culture: 'en-US'
+            },
+            allowEmpty: false
+          })
+        })
+        return [
           {
             data: 'item',
             renderer: itemRenderer
@@ -60,15 +85,6 @@
             renderer: itemRenderer
           },
           {
-            data: 'rate',
-            type: 'numeric',
-            numericFormat: {
-              pattern: '0,0.00',
-              culture: 'en-US'
-            },
-            allowEmpty: false
-          },
-          {
             data: 'amount',
             type: 'numeric',
             numericFormat: {
@@ -77,18 +93,12 @@
             },
             allowEmpty: false
           },
-          ...this.participants.map((participant, index) => {
-            return {data: `contractor_${index}`, type: 'numeric', numericFormat: { pattern: '0,0.00', culture: 'en-US' }, allowEmpty: false}
-          }),
+          ...participantKeys,
           {
             data: 'last'
           }
-        ],
-        height: window.innerHeight - (42 + 85 + 78),
-        mergeCells: []
-      }
-    },
-    computed: {
+        ]
+      },
       sheetData () {
         return process_wb_comparison(this.workbook, this.sheetIndex, this.participants)
       }

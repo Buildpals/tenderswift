@@ -123,7 +123,6 @@ export function to_json (workbook) {
 
     if (roa.length > 0) result[sheetName] = roa
   })
-  console.log(result)
   return result
 }
 
@@ -135,18 +134,28 @@ export function process_wb_comparison (wb, sheetIndex, participants) {
 export function to_json_comparison (workbook, participants) {
   XLSX.SSF.load_table(workbook.SSF)
   const result = {}
-  let header = [ "item","description","quantity","unit","rate","amount",
-    ...participants.map((participant, index) => `contractor_${index}`)]
+
+  let participantKeys = []
+  participants.forEach(participant => {
+    let rateKey = `rate (${participant.company_name})`
+    let amountKey = `amount (${participant.company_name})`
+    participantKeys.push(rateKey)
+    participantKeys.push(amountKey)
+  })
+
+  let header = [ "item","description","quantity","unit","rate","amount", ...participantKeys ]
+
   workbook.SheetNames.forEach(function (sheetName) {
-    const roa = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], {
+    let sheet = workbook.Sheets[sheetName]
+    const roa = XLSX.utils.sheet_to_json(sheet, {
       header: header,
       raw: true,
-      blankrows: true
+      blankrows: true,
+      range: "A1:J1873"
     })
 
     if (roa.length > 0) result[sheetName] = roa
   })
-  console.log(result)
   return result
 }
 
