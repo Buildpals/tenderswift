@@ -1,9 +1,10 @@
 <template>
   <div id="app" class="spreadsheet-tabs">
+    Contract Sum: <strong>{{ contractSum }}</strong>
     <b-tabs end no-fade @input="logIt">
       <b-tab :title="sheetName" v-for="(sheetName, index) in workbookData.SheetNames">
         <div id="example-container" class="wrapper" v-if="index === currentIndex">
-            <upload-boq-sheet v-on:edit="updateWorkbook"
+            <upload-boq-sheet v-on:setContractSumAddress="setContractSumAddress"
                               :workbook="workbook"
                               :sheet-index="index"
                               :currency="currency"
@@ -23,6 +24,7 @@
 
   export default {
     props: [
+      'requestForTenderId',
       'workbookData',
       'currency',
       'qsCompanyName',
@@ -34,22 +36,42 @@
     data () {
       return {
         currentIndex: false,
-        workbook: recalculateFormulas(this.workbookData)
+        workbook: recalculateFormulas(this.workbookData),
+        contractSum: ""
       }
     },
     methods: {
       logIt (tab_index) {
         this.currentIndex = tab_index
       },
-      updateWorkbook (row, col, oldVal, newVal) {
-        let cellAddress = `E${ row + 1 }`
+      setContractSumAddress (sheet, row, col) {
+        console.log('contractSumAddress', sheet, row, col)
 
-        let temp = Object.assign({}, this.workbook)
+        let columnLetter = String.fromCharCode(65 + col)
+        let cellAddress = `${columnLetter}${ row + 1 }`
+        console.log('contractSumAddress', sheet, cellAddress)
 
-        temp.Sheets['Sheet1'][cellAddress].v = newVal
-        recalculateFormulas(temp)
+        let contractSumValue = this.workbook.Sheets[sheet][cellAddress].v.toLocaleString('en', {minimumFractionDigits: 2})
+        this.contractSum = `${this.currency} ${contractSumValue} (${sheet}!${cellAddress})`
 
-        this.workbook = {...temp}
+        this.saveContractSumLocation(sheet, cellAddress)
+      },
+      saveContractSumLocation(sheet, cellAddress) {
+        console.log('saving contract_sum_address', sheet, cellAddress)
+        this.saveStatus = 'saving'
+        this.$http.patch(`/tender/${this.requestForTenderId}/update/contract_sum_address`, {
+            request_for_tender: {
+              contract_sum_address: { sheet: sheet, cellAddress: cellAddress }
+            }
+          })
+          .then(response => {
+            console.log(response)
+            this.saveStatus = 'saved'
+          })
+          .catch(error => {
+            this.saveStatus = 'not_saved'
+            console.error(error.message)
+          })
       }
     }
   }

@@ -89,7 +89,9 @@
             Tendering Instructions
           </div>
           <div class="card-body">
-            <%= simple_format @request.tender_instructions, {}, {wrapper_tag: 'div' } %>
+            <%= simple_format @request.tender_instructions,
+                              { class: 'formatted_content trix-content' },
+                              {wrapper_tag: 'div' } %>
           </div>
 
         </div>

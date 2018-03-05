@@ -26,6 +26,7 @@
   <% if @request.bill_of_quantities.present? %>
     <div id='hello' class="mb-5">
       <upload-boq
+      :request-for-tender-id="<%= @request.id %>"
       :workbook-data="<%= @request.bill_of_quantities %>"
       currency="<%= @request.currency_symbol %>"
       qs-company-name="<%= @request.project_owners_company_name %>"
@@ -34,18 +35,13 @@
     </div>
   <% end %>
 
-  <div class="mb-4 d-flex w-100 justify-content-between">
+  <div class="mb-4 d-flex w-100 justify-content-start">
     <div>
       <%= form.label :bill_of_quantities,
                      @request.bill_of_quantities.present? ? 'Replace' : 'Upload' %>
       <%= form.hidden_field :bill_of_quantities, id: 'workbook-data' %>
       <%= file_field_tag :document, id: 'upload-boq', class: 'form-control-file' %>
     </div>
-
-    <p>
-      Contract Sum: <strong><%= @request.currency_symbol %></strong>
-      <span class="contract-sum"></span>
-    </p>
   </div>
 
   <%= render 'layouts/create_tender_navigation', location: 'bottom', request: @request, form: form %>

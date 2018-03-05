@@ -11,30 +11,26 @@
   </h5>
 </div>
 <div id="collapseWantToBid" class="collapse" role="tabpanel" aria-labelledby="headingWantToBid" data-parent="#accordion">
-  <div class="card-body">
-    <ul class="list-group">
-      <% @request.participants.purchased.each do |participant| %>
-          <li class="list-group-item w-100 d-flex justify-content-between">
-            <div>
-              <%= participant.name %>
-              <br>
-              <small>
-                <a href="mailto:<%= participant.project_owners_email %>?subject=<%= "re: Invitation to Tender for #{participant.project_name}" %>"
-                   target="_blank">
-                  <span class="fa fa-user"></span>
-                  <%= participant.email %>
-                </a>
-                (<%= participant.phone_number %>)
-              </small>
-            </div>
-            <div>
-              <%= participant.purchase_time.to_formatted_s(:long) %>
-            </div>
-            <div>
-              <%= render 'participant_actions', participant: participant %>
-            </div>
-          </li>
-      <% end %>
-    </ul>
-  </div>
+  <ul class="list-group list-group-flush">
+    <% @request.participants.purchased.each do |participant| %>
+      <li class="list-group-item list-group-item-action flex-column align-items-start">
+        <div class="d-flex w-100 justify-content-between">
+          <div class="mb-1"><%= participant.name %></div>
+        </div>
+        <small class="text-muted">
+          <a href="mailto:<%= participant.project_owners_email %>?subject=<%= "re: Invitation to Tender for #{participant.project_name}" %>"
+             target="_blank">
+            <span class="fa fa-user"></span>
+            <%= participant.email %>
+          </a>
+          (<%= participant.phone_number %>)
+          <br>
+          Purchased on
+          <%= participant.purchase_time.to_formatted_s(:short) %>
+          for
+          <strong>GH₵ <%= participant.tender_transaction.amount %></strong>
+        </small>
+      </li>
+    <% end %>
+  </ul>
 </div>

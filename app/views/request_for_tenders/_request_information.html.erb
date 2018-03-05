@@ -1,27 +1,78 @@
-<div class="card-body">
-  <dl class="row">
-
-    <dt class="col-sm-3">Published</dt>
-    <dd class="col-sm-9 mb-4">
-      <%= @request.created_at.to_formatted_s(:long) %>
-      <span class="text-muted ml-3">(UTC+00:00)</span>
-    </dd>
-
-    <dt class="col-sm-3">Due date</dt>
-    <dd class="col-sm-9 mb-4">
-      <%= @request.deadline.to_formatted_s(:long) %>
-      <span class="text-muted ml-3">(UTC+00:00)</span>
-    </dd>
-
-    <dt class="col-sm-3 text-truncate">Contract Sum</dt>
-    <dd class="col-sm-9 mb-4">
-      <%= @request.currency_symbol %> <%= @request.contract_sum %>
-    </dd>
-
-    <dt class="col-sm-3 text-truncate">Description</dt>
-    <dd class="col-sm-9 mb-4">
+<div class="card" id="card-information">
+  <div class="card-header">
+    Project Information
+  </div>
+  <div class="card-body">
+    <h5 class="card-title"><%= @request.project_name %></h5>
+    <h6 class="card-subtitle mb-2 text-muted">
+      <%= @request.private? ? 'Private' : 'Public' %> tender
+      <br>
+      <%= @request.published_time.to_formatted_s(:long) %> - <%= @request.deadline.to_formatted_s(:long) %>
+    </h6>
+    <p class="card-text">
       <%= simple_format @request.description %>
-    </dd>
+    </p>
 
-  </dl>
+    <div class="row my-3">
+      <div class="col-md-4">
+        <strong>Contract class</strong>
+        <br>
+        <%= @request.contract_class %>
+      </div>
+      <div class="col-md-4">
+        <strong>Location</strong>
+        <br>
+        <%= @request.project_location %>
+      </div>
+      <div class="col-md-4">
+        <strong>Project currency</strong>
+        <br>
+        <% if @request.currency === 'USD' %>
+          USD - United States Dollar
+        <% elsif @request.currency === 'GHS' %>
+          GHS - Ghanaian Cedi
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="card-body">
+    <strong class="text-center">Tender Instructions</strong>
+    <hr>
+    <%= simple_format @request.tender_instructions,
+                      { class: 'formatted_content trix-content' },
+                      {wrapper_tag: 'div' } %>
+  </div>
+
+  <div class="card-body">
+    <strong class="text-center">Required Documents</strong>
+    <hr>
+    <p class="card-text">
+      All participating contractors are expected to provide the following documents with this tender:
+    <ol>
+      <% @request.required_documents.each do |required_document| %>
+        <li> <%= required_document.title %> </li>
+      <% end %>
+    </ol>
+    </p>
+  </div>
+
+
+  <div class="card-body">
+    <strong class="text-center">Bill Of Quantities</strong>
+    <hr>
+    <% if @request.bill_of_quantities.present? %>
+      <div id='hello'>
+        <upload-boq
+        :request-for-tender-id="<%= @request.id %>"
+        :workbook-data="<%= @request.bill_of_quantities %>"
+        currency="<%= @request.currency_symbol %>"
+        qs-company-name="<%= @request.project_owners_company_name %>"
+        boq-contract-sum="<%= 100000 %>"
+        ></upload-boq>
+      </div>
+    <% end %>
+  </div>
+
 </div>

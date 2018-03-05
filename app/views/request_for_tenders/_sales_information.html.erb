@@ -1,62 +1,73 @@
 <div class="card-body">
-  <dl class="row">
-    <dt class="col-sm-3">Number of purchases</dt>
-    <dd class="col-sm-8 mb-4">
-      <span><%= @request.number_of_tender_purchases %></span>
-    </dd>
+  <div class="row">
+    <div class="col-md-7">
 
-    <dt class="col-sm-3">Total receivable</dt>
-    <dd class="col-sm-8 mb-4">
-      <span><%= @request.currency_symbol %> <%= @request.total_receivable %></span>
-    </dd>
+      <div class="row">
+        <div class="col-md-4 mb-2">
+          <strong># of purchases</strong>
+          <br>
+          <%= @request.number_of_tender_purchases %>
+        </div>
 
-    <dt class="col-sm-3">Current selling price</dt>
-    <dd class="col-sm-8 mb-4">
-      <span><%= @request.currency_symbol %> <%= @request.selling_price %></span>
-    </dd>
-  </dl>
+        <div class="col-md-4 mb-2">
+          <strong>Amount receivable</strong>
+          <br>
+          GH₵ <%= @request.total_receivable %>
+        </div>
 
-  <hr>
+        <div class="col-md-4 mb-2">
+          <strong>Selling price</strong>
+          <br>
+          GH₵ <%= @request.selling_price %>
+        </div>
+      </div>
+      <hr>
+      <div class="w-100 d-flex justify-content-between align-items-baseline">
+        <p>The total receivable will be paid into the following account</p>
+        <button type="button" class="btn btn-sm btn-link"
+                data-toggle="modal" data-target="#payment_info-modal" data-dismiss="modal">
+          <span class="fa fa-pencil"></span> Edit
+        </button>
+      </div>
 
-  <p>The total receivable will be paid into the following account</p>
-  <div class="d-flex w-100 justify-content-between">
-    <dl class="row">
-      <dt class="col-sm-3">Bank name</dt>
-      <dd class="col-sm-8 mb-4">
-        <span><%= @request.bank_name %></span>
-      </dd>
+      <div class="row">
+        <div class="col-md-4 mb-2">
+          <strong>Bank name</strong>
+          <br>
+          <%= @request.bank_name %>
+        </div>
 
-      <dt class="col-sm-3">Branch name</dt>
-      <dd class="col-sm-8 mb-4">
-        <span><%= @request.branch_name %></span>
-      </dd>
+        <div class="col-md-4 mb-2">
+          <strong>Branch name</strong>
+          <br>
+          <%= @request.branch_name %>
+        </div>
 
-      <dt class="col-sm-3">Account name</dt>
-      <dd class="col-sm-8 mb-4">
-        <span><%= @request.account_name %></span>
-      </dd>
+        <div class="col-md-4 mb-2">
+          <strong>Account name</strong>
+          <br>
+          <%= @request.account_name %>
+        </div>
 
-      <dt class="col-sm-3">Account number</dt>
-      <dd class="col-sm-8 mb-4">
-        <span><%= @request.account_number %></span>
-      </dd>
+        <div class="col-md-4 mb-2">
+          <strong>Account number</strong>
+          <br>
+          <%= @request.account_number %>
+        </div>
 
-      <dt class="col-sm-3">Withdrawal frequency</dt>
-      <dd class="col-sm-8 mb-4">
-        <span><%= @request.withdrawal_frequency %></span>
-      </dd>
-    </dl>
+        <div class="col-md-8 mb-2">
+          <strong>Withdrawal frequency</strong>
+          <br>
+          <%= @request.withdrawal_frequency %>
+        </div>
+      </div>
 
-    <div>
-      <button type="button" class="btn btn-sm btn-light float-right"
-              data-toggle="modal" data-target="#payment_info-modal" data-dismiss="modal">
-        Edit payment Information
-      </button>
+
+    </div>
+    <div class="col-md-5">
+      <%= render 'contractors' %>
     </div>
   </div>
-
-
-
 </div>
 
 

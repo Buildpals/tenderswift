@@ -9,6 +9,7 @@ Rails.application.routes.draw do
 
   get '/tender/:id/edit/boq', to: 'create_tender#edit_tender_boq', as: 'edit_tender_boq'
   patch '/tender/:id/update/boq', to: 'create_tender#update_tender_boq', as: 'update_tender_boq'
+  patch '/tender/:id/update/contract_sum_address', to: 'create_tender#update_contract_sum_address'
 
   get '/tender/:id/edit/required_documents', to: 'create_tender#edit_tender_required_documents', as: 'edit_tender_required_documents'
   patch '/tender/:id/update/required_documents', to: 'create_tender#update_tender_required_documents', as: 'update_tender_required_documents'

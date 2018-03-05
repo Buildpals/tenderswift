@@ -1,10 +1,21 @@
 class CreateTenderController < ApplicationController
-  before_action :set_request, only: %i[edit_tender_information edit_tender_documents edit_tender_boq edit_tender_required_documents edit_tender_participants
-                                       edit_tender_payment_method update_tender_payment_method
-                                       update_tender_information update_tender_documents update_tender_boq update_tender_required_documents update_tender_participants update_payment_details]
+  before_action :set_request, only: %i[edit_tender_information
+                                       edit_tender_documents
+                                       edit_tender_boq
+                                       edit_tender_required_documents
+                                       edit_tender_participants
+                                       edit_tender_payment_method
+                                       update_tender_information
+                                       update_tender_documents
+                                       update_tender_boq
+                                       update_contract_sum_address
+                                       update_tender_required_documents
+                                       update_tender_payment_method
+                                       update_tender_participants
+                                       update_payment_details]
 
   before_action :authenticate_quantity_surveyor!
-  # before_action :check_if_submitted
+  # before_action :check_if_published
 
   DEFAULT_BROADCAST_CONTENT = 'If you have any questions you can reply me here'.freeze
 
@@ -31,16 +42,25 @@ class CreateTenderController < ApplicationController
   end
 
   def update_tender_boq
-    if @request.update(request_params)
-      if params[:commit] == 'Back'
-        redirect_to edit_tender_information_path(@request)
-      elsif params[:commit] == 'Next'
-        redirect_to edit_tender_documents_path(@request)
-      else
+      if @request.update(request_params)
+        if params[:commit] == 'Back'
+          redirect_to edit_tender_information_path(@request)
+        elsif params[:commit] == 'Next'
+          redirect_to edit_tender_documents_path(@request)
+        else
         redirect_to edit_tender_boq_path(@request)
-      end
-    else
+        end
+      else
       render :edit_tender_boq
+    end
+  end
+
+
+  def update_contract_sum_address
+    if @request.update(request_params)
+      render json: @request, status: :ok, location: @request
+    else
+      render json: @request.errors, status: :unprocessable_entity
     end
   end
 
@@ -131,16 +151,16 @@ class CreateTenderController < ApplicationController
 
   private
 
-  def check_if_submitted
-    if @request.submitted?
+  def check_if_published
+    if @request.published?
       redirect_to request_for_tenders_path, notice: 'A tender cannot
-                                            be edited once it\'s sent out
-                                            to contractors'
+                                          be edited once it\'s sent out
+                                          to contractors'
     end
   end
 
   def email_participants
-    if @request.submitted?
+    if @request.published?
       redirect_to @request,
                   notice: 'The participants of this request have been contacted already'
     elsif @request.participants.empty?
@@ -162,7 +182,7 @@ class CreateTenderController < ApplicationController
     @request.participants.each do |participant|
       ParticipantMailer.request_for_tender_email(participant, @request).deliver_later
     end
-    @request.update(submitted: true)
+    @request.update(published: true, published_time: Time.current)
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.
@@ -175,7 +195,7 @@ class CreateTenderController < ApplicationController
                   :country_code,
                   :currency,
                   :bill_of_quantities,
-                  :contract_sum_location,
+                  :contract_sum_address,
                   :tender_instructions,
                   :selling_price,
                   :withdrawal_frequency,

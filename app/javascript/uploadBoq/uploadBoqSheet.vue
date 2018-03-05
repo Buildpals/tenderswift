@@ -1,6 +1,11 @@
 <template>
   <div>
-    <div id="hot"></div>
+    <div class="w-100 d-flex justify-content-start">
+      <div class="formula-bar formula-bar-address">{{ selectedCellAddress }}</div>
+      <div class="formula-bar formula-bar-icon px-3">fx</div>
+      <div class="formula-bar formula-bar-contents">{{ selectedCellContents }}</div>
+    </div>
+    <div ref="hot"></div>
   </div>
 </template>
 
@@ -32,6 +37,8 @@
     },
     data () {
       return {
+        selectedCellAddress: "",
+        selectedCellContents: "",
         dataSchema: {
           'item': null,
           'description': null,
@@ -91,7 +98,8 @@
     },
     methods: {
       initTable () {
-        this.table = new Handsontable(this.$el, {
+        let self = this
+        this.table = new Handsontable(this.$refs.hot, {
           data: this.sheetData,
           dataSchema: this.dataSchema,
           columns: this.columns,
@@ -105,7 +113,39 @@
           stretchH: 'last',
           colWidths: this.colWidths,
           readOnly: true,
-          afterChange: this.afterChange
+          afterSelection: function (r, c, r2, c2, preventScrolling, selectionLayerLevel) {
+            let columnLetter = String.fromCharCode(65 + c)
+            let cellAddress = `${columnLetter}${ r + 1 }`
+            self.selectedCellAddress = cellAddress
+
+            let sheet = self.workbook.SheetNames[self.sheetIndex]
+            let formula = self.workbook.Sheets[sheet][cellAddress].f
+            let value = self.workbook.Sheets[sheet][cellAddress].v
+            if (formula) {
+              self.selectedCellContents = formula
+            } else {
+              self.selectedCellContents = value
+            }
+          },
+          contextMenu: {
+            callback: function (key, options) {
+              if (key === 'set_contract_sum_address') {
+                let option = options[0]
+                if (option.start.row === option.end.row && option.start.col === option.end.col) {
+                  let sheet = self.workbook.SheetNames[self.sheetIndex]
+                  self.$emit('setContractSumAddress', sheet, option.start.row, option.start.col)
+                } else {
+                  setTimeout(function () {
+                    // timeout is used to make sure the menu collapsed before alert is shown
+                    alert("Contract sum should only be found in one cell");
+                  }, 100);
+                }
+              }
+            },
+            items: {
+              "set_contract_sum_address": {name: 'Set contract sum address'}
+            }
+          }
         })
       },
       updateTable () {
@@ -134,19 +174,6 @@
         } else {
           return 100
         }
-      },
-      afterChange (changes, source) {
-        if (source === 'loadData') return
-
-        changes.forEach((change) => {
-          let row = change[0];
-          let col = change[1];
-          let oldVal = change[2];
-          let newVal = change[3];
-
-          this.$emit('edit', row, col, oldVal, newVal)
-        })
-
       }
     }
   }
@@ -157,5 +184,41 @@
 
   #test-hot {
     overflow: hidden;
+  }
+
+  .formula-bar {
+    box-sizing: content-box;
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+
+    border-right: 1px solid #CCC;
+    border-top: 1px solid #CCC;
+    border-left: 1px solid #CCC;
+    height: 22px;
+    empty-cells: show;
+    line-height: 21px;
+    padding: 0 4px 0 4px;
+    background-color: #FFF;
+    vertical-align: top;
+    overflow: hidden;
+    outline-width: 0;
+    white-space: pre-line;
+    background-clip: padding-box;
+
+    color: #777;
+  }
+
+  .formula-bar-address {
+    width: 80px;
+  }
+
+  .formula-bar-icon {
+    background-color: transparent;
+    border-right: transparent;
+    border-left: transparent;
+  }
+
+  .formula-bar-contents {
+    flex: 1 0 auto;
   }
 </style>

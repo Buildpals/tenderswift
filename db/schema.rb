@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180303154550) do
+ActiveRecord::Schema.define(version: 20180305072548) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -125,7 +125,6 @@ ActiveRecord::Schema.define(version: 20180303154550) do
     t.string "country_code"
     t.string "currency", default: "USD", null: false
     t.text "bill_of_quantities"
-    t.string "contract_sum_location"
     t.text "tender_instructions"
     t.integer "selling_price_subunit", default: 10000, null: false
     t.string "bank_name"
@@ -133,11 +132,13 @@ ActiveRecord::Schema.define(version: 20180303154550) do
     t.string "account_name"
     t.string "account_number"
     t.boolean "private", default: false, null: false
-    t.boolean "submitted", default: false
     t.integer "portal_visits", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "withdrawal_frequency"
+    t.text "contract_sum_address"
+    t.boolean "published", default: false, null: false
+    t.datetime "published_time"
     t.index ["quantity_surveyor_id"], name: "index_request_for_tenders_on_quantity_surveyor_id"
   end
 

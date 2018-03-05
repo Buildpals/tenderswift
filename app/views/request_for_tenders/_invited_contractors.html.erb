@@ -1,7 +1,7 @@
-<div class="card-header" role="tab" id="headingAll">
+<div class="card-header w-100 d-flex justify-content-between" role="tab" id="headingAll">
   <h5 class="mb-0">
     <a class="collapsed text-primary" data-toggle="collapse" href="#collapseAll" aria-expanded="false" aria-controls="collapseAll">
-      Invited Contractors
+      Invited
       <small>
       <span class="badge badge-pill badge-primary">
         <%= @request.participants.count %>
@@ -9,37 +9,29 @@
       </small>
     </a>
   </h5>
+  <button type="button" class="btn btn-sm btn-link"
+          data-toggle="modal" data-target="#participants-modal" data-dismiss="modal">
+    Edit
+  </button>
 </div>
 <div id="collapseAll" class="collapse show" role="tabpanel" aria-labelledby="headingAll" data-parent="#accordion">
-  <div class="card-body">
-    <div class="d-flex w-100 justify-content-end mb-2">
-      <button type="button" class="btn btn-sm btn-light"
-              data-toggle="modal" data-target="#participants-modal" data-dismiss="modal">
-        Invite more contractors
-      </button>
-    </div>
-    <ul class="list-group">
-      <% @request.participants.each do |participant| %>
-        <li class="list-group-item w-100 d-flex justify-content-between">
-          <div>
-            <%= participant.name %>
-            <br>
-            <small>
-              <a href="mailto:<%= participant.project_owners_email %>?subject=<%= "re: Invitation to Tender for #{participant.project_name}" %>"
-                 target="_blank">
-                <span class="fa fa-user"></span>
-                <%= participant.email %>
-              </a>
-              (<%= participant.phone_number %>)
-            </small>
-          </div>
-          <div>
-            <%= render 'participant_actions', participant: participant %>
-          </div>
-        </li>
-      <% end %>
-    </ul>
-  </div>
+  <ul class="list-group list-group-flush">
+    <% @request.participants.each do |participant| %>
+      <li class="list-group-item list-group-item-action flex-column align-items-start">
+        <div class="d-flex w-100 justify-content-between">
+          <div class="mb-1"><%= participant.name %></div>
+        </div>
+        <small class="text-muted">
+          <a href="mailto:<%= participant.project_owners_email %>?subject=<%= "re: Invitation to Tender for #{participant.project_name}" %>"
+             target="_blank">
+            <span class="fa fa-user"></span>
+            <%= participant.email %>
+          </a>
+          (<%= participant.phone_number %>)
+        </small>
+      </li>
+    <% end %>
+  </ul>
 </div>
 
 <!-- Modal -->
