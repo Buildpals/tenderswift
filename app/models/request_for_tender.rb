@@ -6,6 +6,8 @@ class RequestForTender < ApplicationRecord
   scope :submitted, -> { where(submitted: true) }
   scope :not_submitted, -> { where(submitted: false) }
 
+  serialize :contract_sum_address, Hash
+
   monetize :selling_price_subunit,
            as: :selling_price,
            with_model_currency: :currency
@@ -29,7 +31,7 @@ class RequestForTender < ApplicationRecord
 
   has_many :tender_transactions, dependent: :destroy, inverse_of: :request_for_tender
 
-  enum withdrawal_frequency: { Monthly: 0, Every_Two_Weeks: 1, Weekly: 2 }
+  enum withdrawal_frequency: { 'Monthly' => 0, 'Every two weeks' => 1, 'Weekly' => 2 }
 
   validates :project_name, presence: true
   validate :check_deadline
