@@ -67,6 +67,7 @@
         <upload-boq
         :request-for-tender-id="<%= @request.id %>"
         :workbook-data="<%= @request.bill_of_quantities %>"
+        :contract-sum-address="<%= @request.contract_sum_address.to_json %>"
         currency="<%= @request.currency_symbol %>"
         qs-company-name="<%= @request.project_owners_company_name %>"
         boq-contract-sum="<%= 100000 %>"

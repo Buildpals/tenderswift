@@ -195,7 +195,6 @@ class CreateTenderController < ApplicationController
                   :country_code,
                   :currency,
                   :bill_of_quantities,
-                  :contract_sum_address,
                   :tender_instructions,
                   :selling_price,
                   :withdrawal_frequency,
@@ -207,6 +206,7 @@ class CreateTenderController < ApplicationController
                   project_documents_attributes: %i[id
                                                    document
                                                    _destroy],
+                  contract_sum_address: %i[sheet cellAddress],
                   participants_attributes: %i[id
                                               email
                                               phone_number

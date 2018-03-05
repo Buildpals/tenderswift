@@ -34,7 +34,7 @@ class RequestForTender < ApplicationRecord
   enum withdrawal_frequency: { 'Monthly' => 0, 'Every two weeks' => 1, 'Weekly' => 2 }
 
   validates :project_name, presence: true
-  validate :check_deadline
+  # validate :check_deadline
 
   def check_deadline
     return unless deadline

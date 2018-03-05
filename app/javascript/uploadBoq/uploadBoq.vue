@@ -26,6 +26,7 @@
     props: [
       'requestForTenderId',
       'workbookData',
+      'contractSumAddress',
       'currency',
       'qsCompanyName',
       'boqContractSum'
@@ -37,7 +38,15 @@
       return {
         currentIndex: false,
         workbook: recalculateFormulas(this.workbookData),
-        contractSum: ""
+        contractSumSheet: this.contractSumAddress.sheet,
+        contractSumCellAddress: this.contractSumAddress.cellAddress
+      }
+    },
+    computed: {
+      contractSum () {
+        let contractSumValue = this.workbook.Sheets[this.contractSumSheet][this.contractSumCellAddress].v
+          .toLocaleString('en', {minimumFractionDigits: 2})
+        return `${this.currency} ${contractSumValue} (${this.contractSumSheet}!${this.contractSumCellAddress})`
       }
     },
     methods: {
@@ -45,15 +54,11 @@
         this.currentIndex = tab_index
       },
       setContractSumAddress (sheet, row, col) {
-        console.log('contractSumAddress', sheet, row, col)
-
         let columnLetter = String.fromCharCode(65 + col)
         let cellAddress = `${columnLetter}${ row + 1 }`
-        console.log('contractSumAddress', sheet, cellAddress)
 
-        let contractSumValue = this.workbook.Sheets[sheet][cellAddress].v.toLocaleString('en', {minimumFractionDigits: 2})
-        this.contractSum = `${this.currency} ${contractSumValue} (${sheet}!${cellAddress})`
-
+        this.contractSumSheet = sheet
+        this.contractSumCellAddress = cellAddress
         this.saveContractSumLocation(sheet, cellAddress)
       },
       saveContractSumLocation(sheet, cellAddress) {

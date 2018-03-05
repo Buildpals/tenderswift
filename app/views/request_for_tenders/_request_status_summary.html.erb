@@ -32,11 +32,11 @@
         </div>
         <div class="mx-3">
             <% if @request.deadline_over? %>
-              <div class="font-weight-bold text-muted">Time since deadline</div>
+              <div class="font-weight-bold text-muted">Ended</div>
               <%= @request.time_left %> ago
               <small>(<%= @request.deadline.to_formatted_s(:short) %>)</small>
             <% else %>
-              <div class="font-weight-bold text-muted">Time to deadline</div>
+              <div class="font-weight-bold text-muted">Ends on</div>
               <%= @request.time_left %>
               <small>(<%= @request.deadline.to_formatted_s(:short) %>)</small>
             <% end %>
