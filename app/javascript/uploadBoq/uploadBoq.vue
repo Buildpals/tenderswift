@@ -38,15 +38,19 @@
       return {
         currentIndex: false,
         workbook: recalculateFormulas(this.workbookData),
-        contractSumSheet: this.contractSumAddress.sheet,
-        contractSumCellAddress: this.contractSumAddress.cellAddress
+        contractSumSheet: this.contractSumAddress ? this.contractSumAddress.sheet : false,
+        contractSumCellAddress: this.contractSumAddress ? this.contractSumAddress.cellAddress : false
       }
     },
     computed: {
       contractSum () {
-        let contractSumValue = this.workbook.Sheets[this.contractSumSheet][this.contractSumCellAddress].v
-          .toLocaleString('en', {minimumFractionDigits: 2})
-        return `${this.currency} ${contractSumValue} (${this.contractSumSheet}!${this.contractSumCellAddress})`
+        if (this.contractSumSheet && this.contractSumSheet) {
+          let contractSumValue = this.workbook.Sheets[this.contractSumSheet][this.contractSumCellAddress].v
+            .toLocaleString('en', {minimumFractionDigits: 2})
+          return `${this.currency} ${contractSumValue} (${this.contractSumSheet}!${this.contractSumCellAddress})`
+        } else {
+          return ''
+        }
       }
     },
     methods: {

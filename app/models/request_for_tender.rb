@@ -3,8 +3,8 @@ class RequestForTender < ApplicationRecord
 
   BUILDPALS_CUT = 0.12
 
-  scope :submitted, -> { where(submitted: true) }
-  scope :not_submitted, -> { where(submitted: false) }
+  scope :published, -> { where(published: true) }
+  scope :not_published, -> { where(published: false) }
 
   serialize :contract_sum_address, Hash
 
@@ -108,8 +108,8 @@ class RequestForTender < ApplicationRecord
   end
 
   def status
-    if !submitted?
-      'not submitted'
+    if !published?
+      'not published'
     else
       if deadline.past?
         'ended'

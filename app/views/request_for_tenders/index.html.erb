@@ -6,7 +6,6 @@
 
 <div class="container">
   <div class="row">
-
     <div class="col-md-4 ml-md-auto mr-md-auto pt-4">
       <div class="ml-4 mb-2 text-center">
         <small style="color: rgb(169, 68, 66); font-size: 100%;">Unsent Request For Tender</small>
@@ -18,7 +17,7 @@
               Create Request For Tender
             </div>
           <% end %>
-          <% @requests.not_submitted.each do |request| %>
+          <% @requests.not_published.each do |request| %>
               <li class="list-group-item flex-row">
                 <div class="d-flex w-100 justify-content-between align-items-center">
                   <div class="primary-action">
@@ -46,36 +45,34 @@
 
 
     <div class="col-md-4 ml-md-auto mr-md-auto pt-4">
-      <% if @requests.submitted %>
-        <div class="ml-4 mb-2 text-center">
-          <small style="font-size: 100%;">Submitted Requests For Tender</small>
-        </div>
-        <div class="card">
-          <div class="list-group list-group-flush">
-            <% @requests.submitted.each do |request| %>
-              <% unless request.deadline.past? %>
-                <%= link_to request, class: 'list-group-item list-group-item-action flex-column align-items-start' do %>
-                  <div class="d-flex w-100 justify-content-between">
-                    <h5 class="mb-1">
-                      <%= request.project_name %>
-                    </h5>
-                    <small class="text-muted">
-                      <% if !request.submitted? %>
-                        <span class="badge badge-pill badge-secondary"><%= request.status %></span>
-                      <% else %>
-                        <span class="badge badge-pill badge-warning"><%= request.status %></span>
-                      <% end %>
-                    </small>
-                  </div>
+      <div class="ml-4 mb-2 text-center">
+        <small style="font-size: 100%;">Published Requests For Tender</small>
+      </div>
+      <div class="card">
+        <div class="list-group list-group-flush">
+          <% @requests.published.each do |request| %>
+            <% unless request.deadline.past? %>
+              <%= link_to request, class: 'list-group-item list-group-item-action flex-column align-items-start' do %>
+                <div class="d-flex w-100 justify-content-between">
+                  <h5 class="mb-1">
+                    <%= request.project_name %>
+                  </h5>
                   <small class="text-muted">
-                    <%= request.project_location %>
+                    <% if !request.published? %>
+                      <span class="badge badge-pill badge-secondary"><%= request.status %></span>
+                    <% else %>
+                      <span class="badge badge-pill badge-warning"><%= request.status %></span>
+                    <% end %>
                   </small>
-                  <% end %>
-                <% end %>
-              <% end %>              
-          </div>
+                </div>
+                <small class="text-muted">
+                  <%= request.project_location %>
+                </small>
+              <% end %>
+            <% end %>
+          <% end %>
         </div>
-      <% end %>
+      </div>
     </div>
 
 
@@ -85,7 +82,7 @@
       </div>
       <div class="card">
         <div class="list-group list-group-flush">
-          <% @requests.submitted.each do |request| %>
+          <% @requests.published.each do |request| %>
             <% if request.deadline.past? %>
               <%= link_to request, class: 'list-group-item list-group-item-action flex-column align-items-start' do %>
                 <div class="d-flex w-100 justify-content-between">
@@ -93,7 +90,7 @@
                     <%= request.project_name %>
                   </h5>
                   <small class="text-muted">
-                    <% if !request.submitted? %>
+                    <% if !request.published? %>
                       <span class="badge badge-pill badge-secondary"><%= request.status %></span>
                     <% elsif request.deadline.past? %>
                       <span class="badge badge-pill badge-success"><%= request.status %></span>

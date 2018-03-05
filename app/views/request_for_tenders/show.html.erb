@@ -9,13 +9,15 @@
     </li>
 <% end %>
 
-<div class="container-fluid">
+<div class="container">
   <div class="row pt-4">
 
-    <div class="col-lg-9 mx-auto mb-4">
+    <div class="col-xl-9 col-lg-11 mx-auto mb-4">
       <%= render 'request_status_summary' %>
 
       <%= render 'request_status_detail' %>
+
+      <%= render 'contractors' %>
 
       <%= render 'request_information' %>
     </div>

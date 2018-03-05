@@ -9,7 +9,11 @@
 
   <div class="row">
     <div class="col-lg-4 mx-auto mt-2">
-      <h2 class="text-center mb-4">Sign Up</h2>
+      <div class="text-center mb-4">
+        <h2>Sign up</h2>
+        or
+        <%= link_to 'sign in to your account',  new_quantity_surveyor_session_path %>
+      </div>
 
       <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
           <%= devise_error_messages! %>
