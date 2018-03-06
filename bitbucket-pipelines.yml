@@ -14,7 +14,7 @@ pipelines:
           - postgres
 
   branches:
-    development:
+    develop:
       - step:
           script: # Modify the commands below to build your repository.
             - export DATABASE_URL=postgresql://test_user:test_user_password@localhost/pipelines
