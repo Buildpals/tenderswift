@@ -44,60 +44,57 @@
     created () {
       let i = 6
       this.participants.forEach((participant) => {
-
-        let ratesHash = {}
+        console.log('======================================================')
 
         let newRateColumn = String.fromCharCode(65 + i++)
         let newAmountColumn = String.fromCharCode(65 + i++)
 
-        participant.rates.forEach(rate => {
-          let newRateAddress = `${newRateColumn}${ rate.row }`
-          let newAmountAddress = `${newAmountColumn}${ rate.row }`
-          console.log('address', newRateAddress, newAmountAddress)
-          this.workbookData.Sheets[rate.sheet][newRateAddress] = { ...this.workbookData.Sheets[rate.sheet][`E${rate.row}`], v: rate.value}
-          this.workbookData.Sheets[rate.sheet][newAmountAddress] = { ...this.workbookData.Sheets[rate.sheet][`F${rate.row}`] }
-          this.workbookData.Sheets[rate.sheet][newAmountAddress].f = this.workbookData.Sheets[rate.sheet][newAmountAddress].f.replace(/(E)(\d+)/g, `${newRateColumn}$2`)
-
-          ratesHash[`E${rate.row}`] = rate
-        })
-
-        console.log(ratesHash)
-        let rates = []
-        Object.keys(this.workbook.Sheets).forEach(sheetName => {
-          let sheet = this.workbook.Sheets[sheetName]
+        Object.keys(this.workbookData.Sheets).forEach(sheetName => {
+          let sheet = this.workbookData.Sheets[sheetName]
 
           Object.keys(sheet)
             .forEach(cellAddress => {
 
+              let column, row
+              let result = /^([E-F])(\d+)$/.exec(cellAddress)
 
+              if (result) {
+                column = result[1]
+                row = result[2]
 
-              if (cellAddress[0] === 'E' && (typeof sheet[cellAddress].v === 'number')) {
-
+                if (column === 'E') {
+                  let newRateAddress = `${newRateColumn}${ row }`
+                  let rate = participant.rates.find(r => {
+                    return r.sheet === sheetName && cellAddress === `E${ r.row }`
+                  })
+                  if (rate) {
+                    this.workbookData.Sheets[sheetName][newRateAddress] = {
+                      ...this.workbookData.Sheets[sheetName][cellAddress],
+                      v: rate.value
+                    }
+                  }  else {
+                    this.workbookData.Sheets[sheetName][newRateAddress] = {...this.workbookData.Sheets[sheetName][cellAddress]}
+                  }
+                  if (this.workbookData.Sheets[sheetName][newRateAddress].f) {
+                    this.workbookData.Sheets[sheetName][newRateAddress].f = this.workbookData.Sheets[sheetName][newRateAddress].f.replace(/(E)(\d+)/g, `${newRateColumn}$2`)
+                    this.workbookData.Sheets[sheetName][newRateAddress].f = this.workbookData.Sheets[sheetName][newRateAddress].f.replace(/(F)(\d+)/g, `${newAmountColumn}$2`)
+                  }
+                  console.log(cellAddress, this.workbookData.Sheets[sheetName][cellAddress], 'to', newRateAddress, this.workbookData.Sheets[sheetName][newRateAddress])
+                } else if (column === 'F') {
+                  let newAmountAddress = `${newAmountColumn}${ row }`
+                  this.workbookData.Sheets[sheetName][newAmountAddress] = { ...this.workbookData.Sheets[sheetName][cellAddress]}
+                  if (this.workbookData.Sheets[sheetName][newAmountAddress].f) {
+                    this.workbookData.Sheets[sheetName][newAmountAddress].f = this.workbookData.Sheets[sheetName][newAmountAddress].f.replace(/(E)(\d+)/g, `${newRateColumn}$2`)
+                    this.workbookData.Sheets[sheetName][newAmountAddress].f = this.workbookData.Sheets[sheetName][newAmountAddress].f.replace(/(F)(\d+)/g, `${newAmountColumn}$2`)
+                  }
+                  console.log(cellAddress, this.workbookData.Sheets[sheetName][cellAddress], 'to', newAmountAddress, this.workbookData.Sheets[sheetName][newAmountAddress])
+                }
               } else {
-
+                return
               }
-
-
-              rates.push({
-                sheet: sheetName,
-                row: cellAddress.slice(1),
-                value: sheet[cellAddress].v
-              })
             })
         })
       })
-
-
-
-
-
-
-
-
-
-
-
-
 
       recalculateFormulas(this.workbookData)
       this.$set(this, 'workbook', this.workbookData)

@@ -1,5 +1,11 @@
 <template>
-  <div id="hot">
+  <div>
+    <div class="w-100 d-flex justify-content-start">
+      <div class="formula-bar formula-bar-address">{{ selectedCellAddress }}</div>
+      <div class="formula-bar formula-bar-icon px-3">fx</div>
+      <div class="formula-bar formula-bar-contents">{{ selectedCellContents }}</div>
+    </div>
+    <div ref="hot"></div>
   </div>
 </template>
 
@@ -32,6 +38,8 @@
     },
     data () {
       return {
+        selectedCellAddress: "",
+        selectedCellContents: "",
         height: window.innerHeight - (42 + 85 + 78),
         mergeCells: []
       }
@@ -105,7 +113,8 @@
     },
     methods: {
       initTable () {
-        this.table = new Handsontable(this.$el, {
+        let self = this
+        this.table = new Handsontable(this.$refs.hot, {
           data: this.sheetData,
           dataSchema: this.dataSchema,
           columns: this.columns,
@@ -119,7 +128,27 @@
           stretchH: 'last',
           colWidths: this.colWidths,
           readOnly: true,
-          afterChange: this.afterChange
+          afterSelection: function (r, c, r2, c2, preventScrolling, selectionLayerLevel) {
+            let columnLetter, cellAddress
+            if(c > 3) {
+              columnLetter = String.fromCharCode(65 + c)
+              cellAddress = `${columnLetter}${ r + 1 }`
+            } else {
+              columnLetter = String.fromCharCode(65 + c)
+              cellAddress = `${columnLetter}${ r + 1 }`
+            }
+
+            self.selectedCellAddress = cellAddress
+
+            let sheet = self.workbook.SheetNames[self.sheetIndex]
+            let formula = self.workbook.Sheets[sheet][cellAddress].f
+            let value = self.workbook.Sheets[sheet][cellAddress].v
+            if (formula) {
+              self.selectedCellContents = formula
+            } else {
+              self.selectedCellContents = value
+            }
+          }
         })
       },
       updateTable () {
@@ -148,19 +177,6 @@
         } else {
           return 100
         }
-      },
-      afterChange (changes, source) {
-        if (source === 'loadData') return
-
-        changes.forEach((change) => {
-          let row = change[0];
-          let col = change[1];
-          let oldVal = change[2];
-          let newVal = change[3];
-
-          this.$emit('edit', row, col, oldVal, newVal)
-        })
-
       }
     }
   }
