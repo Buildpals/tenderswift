@@ -1,4 +1,4 @@
-image: buildpals/ds02_server
+image: buildpals/ds02_server:0.0.1
 clone:
   depth: full
 pipelines:
