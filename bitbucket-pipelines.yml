@@ -1,22 +1,16 @@
-image: ruby:2.4.1
-
+image: buildpals/ds02_server
+clone:
+  depth: full
 pipelines:
   default:
     - step:
         script: # Modify the commands below to build your repository.
-          - cd ~
-          - curl -sL https://deb.nodesource.com/setup_8.x -o nodesource_setup.sh
-          - bash nodesource_setup.sh
-          - apt-get install -y nodejs
-          - cd -
-          - curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
-          - echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
-          - apt-get update && apt-get install yarn
           - export DATABASE_URL=postgresql://test_user:test_user_password@localhost/pipelines
           - bundle install
           - rake db:setup
-          - rake db:test:prepare
-          - rspec
+          # - rake db:test:prepare
+          # - rspec
+          - git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git HEAD
         services:
           - postgres
 
