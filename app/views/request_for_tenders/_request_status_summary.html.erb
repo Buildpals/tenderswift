@@ -12,11 +12,15 @@
     </li>
     <li class="list-group-item">
       <div class="d-flex w-100 justify-content-between py-2">
-        <div class="mx-3">
+        <div class="mx-2">
+          <div class="font-weight-bold text-muted">Visits</div>
+          <%= @request.portal_visits %>
+        </div>
+        <div class="mx-2">
           <div class="font-weight-bold text-muted"><%= @request.private? ? 'Invited' : 'Visited' %></div>
           <%= @request.private? ? @request.participants.count : @request.portal_visits %>
         </div>
-        <div class="mx-3">
+        <div class="mx-2">
           <div class="font-weight-bold text-muted">Purchased</div>
           <%= @request.number_of_tender_purchases %>
         </div>

@@ -24,8 +24,14 @@ class RequestForTendersController < ApplicationController
     @participant = Participant.new
     @participant.build_tender_transaction
     @request = RequestForTender.find(params[:id])
-    @request.portal_visits += 1 unless @request.private
-    @request.save!
+    if cookies["#{@request.id}"].empty?
+      @request.portal_visits += 1
+      @request.save!
+      puts cookies.permanent["#{@request.id}"]
+      cookies.permanent["#{@request.id}"] = "visited"
+    end
+    puts cookies.permanent["#{@request.id}"]
+    #cookies.permanent["#{@request.id}"] = nil
     render layout: 'portal'
   end
 
