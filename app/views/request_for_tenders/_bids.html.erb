@@ -1,43 +1,24 @@
-<div class="graph mb-5">
-  <canvas id="barChart" class="mb-2"></canvas>
+<div class="d-flex w-100 justify-content-end mb-2">
+  <% if @request.deadline_over? %>
+    <%= link_to 'Compare Bill of Quantities', compare_boq_path(@request), class: 'btn btn-sm btn-secondary' %>
+  <% else %>
+    <div data-toggle="tooltip" data-placement="bottom"
+         data-html="true"
+         data-title="<p>In order to comply with the standards of tender fairness,
+                 bids will only be shown when the request deadline is reached.<p>
+                <p class='text-center request-countdown'><%= @request.time_left %> left to request deadline.</p>">
+
+      <button class="btn btn-secondary disabled" type="button">
+        Compare Bill of Quantities
+      </button>
+    </div>
+  <% end %>
 </div>
 
-<%= render 'bids_table' %>
-
-<script>
-var ctx = document.getElementById('barChart').getContext('2d');
-var participants = [];
-var participantContractSum = [];
-<% @request.participants.each do |participant| %>
-    var name = "<%= participant.company_name %>"
-    participants.push(name);
-    participantContractSum.push(parseFloat("100000"));
-<% end %>
-var myBarChart = new Chart(ctx, {
-    type: 'horizontalBar',
-    data: {
-      labels: participants,
-      datasets: [
-        {
-          label: "Total Sum of bids",
-          backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850", "#E9967A", "#FFFF00", "#808000", "#008080", "#FF00FF", "#F08080"],
-          data: participantContractSum
-        }
-      ]
-    },
-    options: {
-      legend: { display: false },
-      title: {
-        display: true,
-        text: 'Summary of Bids'
-      },
-      scales: {
-        xAxes: [{
-          ticks: {
-            beginAtZero:true
-          }
-        }]
-      }
-    }
-});
-</script>
+<bids-table
+:contract-sum-address="<%= @request.contract_sum_address.to_json %>"
+:participants-data="<%= @request.participants.to_json(include: :rates) %>"
+:workbook-data="<%= @request.bill_of_quantities %>"
+currency="<%= @request.currency_symbol %>"
+qs-company-name="<%= @request.project_owners_company_name %>"
+></bids-table>

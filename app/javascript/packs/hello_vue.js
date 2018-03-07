@@ -63,6 +63,7 @@ import UploadBoq from '../uploadBoq/uploadBoq'
 import RateFillingBoq from '../rateFillingBoq/rateFillingBoq'
 import ViewBidBoq from '../viewBidBoq/viewBidBoq'
 import ComparisonBoq from '../comparisonBoq/comparisonBoq'
+import BidsTable from '../bidsTable/bidsTable'
 
 Vue.use(TurbolinksAdapter)
 Vue.use(BootstrapVue);
@@ -80,7 +81,8 @@ document.addEventListener('turbolinks:load', () => {
       UploadBoq,
       RateFillingBoq,
       ViewBidBoq,
-      ComparisonBoq
+      ComparisonBoq,
+      BidsTable
     }
   })
 })
