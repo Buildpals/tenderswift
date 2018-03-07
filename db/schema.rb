@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180305072548) do
+ActiveRecord::Schema.define(version: 20180307121351) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -163,7 +163,6 @@ ActiveRecord::Schema.define(version: 20180305072548) do
   end
 
   create_table "tender_transactions", force: :cascade do |t|
-    t.bigint "participant_id"
     t.bigint "request_for_tender_id"
     t.string "customer_number"
     t.decimal "amount"
@@ -174,8 +173,10 @@ ActiveRecord::Schema.define(version: 20180305072548) do
     t.datetime "updated_at", null: false
     t.string "vodafone_voucher_code"
     t.string "card_url"
+    t.bigint "participant_id"
     t.index ["participant_id"], name: "index_tender_transactions_on_participant_id"
     t.index ["request_for_tender_id"], name: "index_tender_transactions_on_request_for_tender_id"
   end
 
+  add_foreign_key "tender_transactions", "participants"
 end

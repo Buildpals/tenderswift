@@ -76,8 +76,8 @@ class TenderTransaction < ApplicationRecord
                         network_code, status, participant_id, request_for_tender_id,transaction_id)
     conn = set_up_faraday
     response = send_request_to_korbaweb(authorization, conn, payload)
+    puts response.body
     response_hash = turn_response_to_hash(response.body)
-    puts response_hash
     if response_hash['success'] == true
       new_tender_transaction_id = create_tender_transaction(amount, customer_number, network_code, participant_id,
                                 request_for_tender_id, status, transaction_id, voucher_code)
@@ -85,9 +85,6 @@ class TenderTransaction < ApplicationRecord
         set_up_participant(new_tender_transaction_id)
         return response_hash['redirect_url']
       elsif !response_hash['results'].nil?
-        if network_code.eql?('VOD')
-          #set_up_participant(new_tender_transaction_id)
-        end
         return response_hash['results']
       else
         return response_hash['details']
@@ -109,19 +106,30 @@ class TenderTransaction < ApplicationRecord
   end
 
   def self.turn_response_to_hash (response_body)
-    JSON.parse(response_body.gsub("'",'"').gsub('=>',':'))
+    begin
+      JSON.parse(response_body.gsub("'",'"').gsub('=>',':'))
+    rescue JSON::ParserError
+      hash = {}
+      hash['error_message'] = 'Application Error'
+      return hash
+    end
   end
 
   def self.create_tender_transaction(amount, customer_number, network_code, participant_id,
                                     request_for_tender_id, status, transaction_id, voucher_code)
-    tender_transaction = TenderTransaction.new(customer_number: customer_number,
-                                               amount: amount, vodafone_voucher_code: voucher_code,
-                                               network_code: network_code, status: status,
-                                               participant_id: participant_id,
-                                               transaction_id: transaction_id)
-    tender_transaction.request_for_tender = RequestForTender.find(request_for_tender_id)
-    tender_transaction.save
-    tender_transaction.id
+    participant = Participant.find(participant_id)
+    if participant.tender_transaction.nil?
+      tender_transaction = TenderTransaction.new(customer_number: customer_number,
+                                                 amount: amount, vodafone_voucher_code: voucher_code,
+                                                 network_code: network_code, status: status,
+                                                 participant_id: participant_id,
+                                                 transaction_id: transaction_id)
+      tender_transaction.request_for_tender = RequestForTender.find(request_for_tender_id)
+      tender_transaction.save
+      tender_transaction.id
+    else
+      participant.tender_transaction.id
+    end
   end
 
   def self.send_request_to_korbaweb(authorization, conn, payload)
