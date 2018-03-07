@@ -36,20 +36,12 @@
 // Cocoon
 //= require cocoon
 
-
-// SheetJS
-//= require xlsx.full.min
-
-// Chartjs
-//= require Chart
-
 // Trix
 //= require trix
 
 //= require compare_bids
 //= require registrations
 //= require create_tender
-//= require requests
-//= require excel
+//= require request_for_tenders
 //= require participants
 //= require bids
