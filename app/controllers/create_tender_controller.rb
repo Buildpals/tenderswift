@@ -37,24 +37,21 @@ class CreateTenderController < ApplicationController
 
   def edit_tender_boq
     @next_path = edit_tender_documents_path(@request)
-    # @request.build_excel
-    # gon.jbuilder
   end
 
   def update_tender_boq
-      if @request.update(request_params)
-        if params[:commit] == 'Back'
-          redirect_to edit_tender_information_path(@request)
-        elsif params[:commit] == 'Next'
-          redirect_to edit_tender_documents_path(@request)
-        else
-        redirect_to edit_tender_boq_path(@request)
-        end
+    if @request.update(request_params)
+      if params[:commit] == 'Back'
+        redirect_to edit_tender_information_path(@request)
+      elsif params[:commit] == 'Next'
+        redirect_to edit_tender_documents_path(@request)
       else
+        redirect_to edit_tender_boq_path(@request)
+      end
+    else
       render :edit_tender_boq
     end
   end
-
 
   def update_contract_sum_address
     if @request.update(request_params)
