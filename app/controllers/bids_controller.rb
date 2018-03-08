@@ -11,6 +11,8 @@ class BidsController < ApplicationController
                                            undo_disqualify
                                            rate]
 
+  before_action :authenticate_quantity_surveyor!
+
   def required_documents; end
 
   def boq; end
