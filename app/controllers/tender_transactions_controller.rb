@@ -1,28 +1,14 @@
 class TenderTransactionsController < ApplicationController
   include TenderTransactionsHelper
 
-  before_action :set_tender_transaction, only: [:show, :edit, :update, :destroy]
+  before_action :set_tender_transaction, only: [:update, :destroy]
 
   include ApplicationHelper
 
-  # GET /tender_transactions
-  # GET /tender_transactions.json
-  def index
-    @tender_transactions = TenderTransaction.all
-  end
-
-  # GET /tender_transactions/1
-  # GET /tender_transactions/1.json
-  def show
-  end
 
   # GET /tender_transactions/new
   def new
     @tender_transaction = TenderTransaction.new
-  end
-
-  # GET /tender_transactions/1/edit
-  def edit
   end
 
   # POST /tender_transactions
@@ -74,19 +60,6 @@ class TenderTransactionsController < ApplicationController
                  status: :unprocessable_entity
         end
       end
-    end
-  end
-
-  # DELETE /tender_transactions/1
-  # DELETE /tender_transactions/1.json
-  def destroy
-    @tender_transaction.destroy
-    respond_to do |format|
-      format.html do
-        redirect_to tender_transactions_url,
-                    notice: 'Tender transaction was successfully destroyed.'
-      end
-      format.json { head :no_content }
     end
   end
 
