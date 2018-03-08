@@ -30,8 +30,6 @@ class RequestForTendersController < ApplicationController
       puts cookies.permanent["#{@request.id}"]
       cookies.permanent["#{@request.id}"] = "visited"
     end
-    puts cookies.permanent["#{@request.id}"]
-    #cookies.permanent["#{@request.id}"] = nil
     render layout: 'portal'
   end
 
@@ -96,7 +94,11 @@ class RequestForTendersController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_request
-    @request = RequestForTender.find(params[:id])
+    begin
+      @request = RequestForTender.find(params[:id])
+    rescue ActiveRecord::RecordNotFound
+      redirect_to root_path
+    end
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.
