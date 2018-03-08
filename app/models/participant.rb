@@ -5,8 +5,6 @@ class Participant < ApplicationRecord
   include ActionView::Helpers::NumberHelper
 
   has_secure_token :auth_token
-
-  scope :purchased, -> { where(purchased: true) }
   scope :not_purchased, -> { where(purchased: false) }
 
   scope :submitted, -> { where(submitted: true) }
@@ -35,6 +33,8 @@ class Participant < ApplicationRecord
   has_many :rates, inverse_of: :participant
 
   has_one :tender_transaction, inverse_of: :participant, dependent: :destroy
+  scope :purchased, -> { joins(:tender_transaction).where("tender_transactions.status = 1") }
+  scope :not_purchased, -> { joins(:tender_transaction).where("tender_transactions.status != 1") }
   accepts_nested_attributes_for :tender_transaction,
                                 allow_destroy: true,
                                 reject_if: :all_blank
