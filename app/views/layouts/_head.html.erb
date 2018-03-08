@@ -11,7 +11,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="theme-color" content="#2b3f57"/>
 
-
   <% if content_for :favicon %>
       <%= yield :favicon %>
   <% else %>
@@ -22,7 +21,6 @@
   <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   <%= javascript_pack_tag 'hello_vue' %>
   <%= stylesheet_pack_tag 'hello_vue' %>
-  <%= javascript_tag "window._token = '#{form_authenticity_token}'" %>
   <%= action_cable_meta_tag %>
 
   <link rel="stylesheet" href="/intl-tel-input/css/intlTelInput.css">
@@ -41,6 +39,9 @@
       display: block;
     }
   </style>
+
+  <script src="/intl-tel-input/js/intlTelInput.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/approvejs/3.1.2/approve.min.js"></script>
 
   <% if ENV['BUILDPALS_SERVER_NAME'] == 'production_server' %>
       <script>
@@ -104,9 +105,4 @@
         });
       </script>
   <% end %>
-
-
-
-  <script src="/intl-tel-input/js/intlTelInput.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/approvejs/3.1.2/approve.min.js"></script>
 </head>
