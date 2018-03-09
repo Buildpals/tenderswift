@@ -6,6 +6,8 @@ class OtherDocumentUploadsController < ApplicationController
 
   before_action :set_participant, only: %i[other_documents]
 
+  before_action :authenticate_quantity_surveyor!
+
 
   def other_documents
     render layout: 'bids'

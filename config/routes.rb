@@ -38,9 +38,6 @@ Rails.application.routes.draw do
   patch '/participants/:id/other_document_uploads/', to: 'participants#other_document_uploads', as: 'participant_other_documents_upload'
   post '/participants/save_rates/:id/', to: 'participants#save_rates'
   get '/tender/transactions/complete_transaction/', to: 'tender_transactions#complete_transaction', as: 'complete_transaction'
-  get '/participants/complete_transaction/:transaction_id/:status/:message',
-      to: 'participants#complete_transaction',
-      as: 'participants_complete_transaction'
 
   get '/bids/:id', to: 'bids#required_documents', as: 'bid_required_documents'
   get '/bids/:id/boq', to: 'bids#boq', as: 'bid_boq'
@@ -62,7 +59,7 @@ Rails.application.routes.draw do
   resources :quantity_surveyors, only: %i[edit update]
   resources :request_for_tenders
   resources :participants
-  resources :tender_transactions
+  resources :tender_transactions, only: %i[create update]
 
   devise_for :quantity_surveyors
   devise_for :admins

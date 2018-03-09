@@ -1,5 +1,7 @@
 class RequiredDocumentUploadsController < ApplicationController
 
+  before_action :authenticate_quantity_surveyor!
+
   def create
     puts params
   end

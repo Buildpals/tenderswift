@@ -24,8 +24,12 @@ class RequestForTendersController < ApplicationController
     @participant = Participant.new
     @participant.build_tender_transaction
     @request = RequestForTender.find(params[:id])
-    @request.portal_visits += 1 unless @request.private
-    @request.save!
+    if cookies["#{@request.id}"].empty?
+      @request.portal_visits += 1
+      @request.save!
+      puts cookies.permanent["#{@request.id}"]
+      cookies.permanent["#{@request.id}"] = "visited"
+    end
     render layout: 'portal'
   end
 
@@ -90,7 +94,11 @@ class RequestForTendersController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_request
-    @request = RequestForTender.find(params[:id])
+    begin
+      @request = RequestForTender.find(params[:id])
+    rescue ActiveRecord::RecordNotFound
+      redirect_to root_path
+    end
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.

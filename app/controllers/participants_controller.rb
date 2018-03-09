@@ -180,7 +180,11 @@ class ParticipantsController < ApplicationController
       @request = request_for_tender
     else
       @participant = Participant.find_by(auth_token: params[:id])
-      @request = @participant.request_for_tender
+      if @participant.nil?
+        redirect_to root_path
+      else
+        @request = @participant.request_for_tender
+      end
     end
   end
 
