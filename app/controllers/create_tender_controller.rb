@@ -115,6 +115,18 @@ class CreateTenderController < ApplicationController
     end
   end
 
+  def update_payment_details
+    # TODO: Consider moving this to the request_for_tenders controller
+    # where it will be more apprioprate
+    if @request.update(request_params)
+      redirect_to request_for_tender_path(@request)
+      flash[:notice] = 'Payment details has been changed successfully'
+    else
+      # TODO: Handle the errors for this action
+      flash[:notice] = 'Payment details was not changed'
+    end
+  end
+
   def edit_tender_participants
     5.times { @request.participants.build } if @request.participants.empty?
   end
@@ -134,15 +146,6 @@ class CreateTenderController < ApplicationController
       end
     else
       render :edit_tender_participants
-    end
-  end
-
-  def update_payment_details
-    if @request.update(request_params)
-      redirect_to request_for_tender_path(@request)
-      flash[:notice] = 'Payment details has been changed successfully'
-    else
-      flash[:notice] = 'Payment details was not changed'
     end
   end
 

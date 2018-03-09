@@ -9,12 +9,12 @@
       </small>
     </a>
   </h5>
-  <button type="button" class="btn btn-sm btn-link"
-          data-toggle="modal" data-target="#participants-modal" data-dismiss="modal">
-    Edit
-  </button>
+  <!--<button type="button" class="btn btn-sm btn-link"-->
+          <!--data-toggle="modal" data-target="#participants-modal" data-dismiss="modal">-->
+    <!--Edit-->
+  <!--</button>-->
 </div>
-<div id="collapseAll" class="collapse show" role="tabpanel" aria-labelledby="headingAll" data-parent="#accordion">
+<div id="collapseAll" class="collapse" role="tabpanel" aria-labelledby="headingAll" data-parent="#accordion">
   <ul class="list-group list-group-flush">
     <% @request.participants.each do |participant| %>
       <li class="list-group-item list-group-item-action flex-column align-items-start">
@@ -57,7 +57,7 @@
             <%= render 'create_tender/request_for_tender_errors' %>
 
 
-            <div class="form-row mb-5" id="publicLinkDiv" style="display: block">
+            <div class="form-row mb-5" id="publicLinkDiv" data-public-link-container style="display: block">
               <div class="col-md-12">
                 <div class="form-group">
                   <%= form.label :contractors_portal_link, 'Link to contractor\'s portal', class: 'pb-0 mb-0' %>
@@ -81,7 +81,7 @@
             </div>
 
 
-            <div class="form-row mb-5" id="participantsDiv" style="display: none">
+            <div class="form-row mb-5" id="participantsDiv" data-participants-div style="display: none">
               <div class="col-md-12">
                 <div class="form-group">
                   <%= form.label :participants, 'Allowed participants', class: 'pb-0 mb-0' %>
@@ -119,7 +119,8 @@
                 <div class="form-group">
                   <div class="form-check">
                     <%= form.check_box :private, id: :request_for_tender_private,
-                                       class: 'form-check-input', onclick: 'ShowHideDiv(this)' %>
+                                       data: { 'private-switch': true },
+                                       class: 'form-check-input' %>
                     <%= form.label :private, 'Limit access to portal', class: 'form-check-label' %>
                   </div>
                 </div>
@@ -138,14 +139,3 @@
     </div>
   </div>
 </div>
-
-<script type="text/javascript">
-  function ShowHideDiv (chkPassport) {
-    var participantsDiv = document.getElementById('participantsDiv')
-    var publicLinkDiv = document.getElementById('publicLinkDiv')
-    participantsDiv.style.display = chkPassport.checked ? 'block' : 'none'
-    publicLinkDiv.style.display = chkPassport.checked ? 'none' : 'block'
-  }
-
-  ShowHideDiv(document.getElementById('request_for_tender_private'))
-</script>
