@@ -5,8 +5,8 @@
     </a>
   </li>
   <li class="breadcrumb-item active" aria-current="page">
-    <a href="<%= request_for_tender_path(@request) %>">
-      <%= @request.project_name %>
+    <a href="<%= request_for_tender_path(@request_for_tender) %>">
+      <%= @request_for_tender.project_name %>
     </a>
   </li>
   <li class="breadcrumb-item active" aria-current="page">
@@ -17,13 +17,13 @@
 <div class="container-fluid" style="padding-left: 0px; padding-right: 15px;">
   <div class="row">
     <div class="col-md-12">
-      <% if @request.bill_of_quantities.present? %>
+      <% if @request_for_tender.bill_of_quantities.present? %>
         <div id='hello' class="mb-5">
           <comparison-boq
           :participants="<%= @participants.to_json(include: :rates) %>"
-          :workbook-data="<%= @request.bill_of_quantities %>"
-          currency="<%= @request.currency_symbol %>"
-          qs-company-name="<%= @request.project_owners_company_name %>"
+          :workbook-data="<%= @request_for_tender.bill_of_quantities %>"
+          currency="<%= @request_for_tender.currency_symbol %>"
+          qs-company-name="<%= @request_for_tender.project_owners_company_name %>"
           boq-contract-sum="<%= 100000 %>"
           ></comparison-boq>
         </div>

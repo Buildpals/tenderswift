@@ -4,7 +4,7 @@
       Submitted
       <small>
         <span class="badge badge-pill badge-success">
-          <%= @request.participants.submitted.count %>
+          <%= @request_for_tender.participants.submitted.count %>
         </span>
       </small>
     </a>
@@ -12,7 +12,7 @@
 </div>
 <div id="collapseBidMade" class="collapse" role="tabpanel" aria-labelledby="headingBidMade" data-parent="#accordion">
   <ul class="list-group list-group-flush">
-    <% @request.participants.submitted.each do |participant| %>
+    <% @request_for_tender.participants.submitted.each do |participant| %>
       <li class="list-group-item list-group-item-action flex-column align-items-start">
         <div class="d-flex w-100 justify-content-between">
           <div class="mb-1"><%= participant.name %></div>
@@ -29,14 +29,14 @@
           <small>Submitted on <%= participant.purchase_time.to_formatted_s(:short) %></small>
 
           <% if participant.submitted? %>
-            <% if @request.deadline_over? %>
+            <% if @request_for_tender.deadline_over? %>
               <%= link_to 'View bid', bid_required_documents_path(participant), class: 'card-link' %>
             <% else %>
               <div data-toggle="tooltip" data-placement="bottom"
                    data-html="true"
                    data-title="<p>In order to comply with the standards of tender fairness,
                  bids will only be shown when the request deadline is reached.<p>
-                <p class='text-center request-countdown'><%= @request.time_left %> left to request deadline.</p>">
+                <p class='text-center request-countdown'><%= @request_for_tender.time_left %> left to request deadline.</p>">
                 <button class="card-link disabled" type="button">View bid</button>
               </div>
             <% end %>

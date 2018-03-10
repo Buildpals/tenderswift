@@ -1,19 +1,19 @@
 <% content_for :title do %>
-  <%= @request.project_owners_company_name %>
+  <%= @request_for_tender.project_owners_company_name %>
 <% end %>
 
 <% content_for :favicon do %>
-  <link rel="icon" type="image/png" href="<%= cloudinary_url(@request.project_owners_company_logo.full_public_id, format: 'png', height: 16, crop: :scale,) %>">
+  <link rel="icon" type="image/png" href="<%= cloudinary_url(@request_for_tender.project_owners_company_logo.full_public_id, format: 'png', height: 16, crop: :scale,) %>">
 <% end %>
 
 <% content_for :breadcrumbs do %>
   <li class="breadcrumb-item">
     <a href="#">
-      <%= @request.project_owners_company_name %>
+      <%= @request_for_tender.project_owners_company_name %>
     </a>
   </li>
   <li class="breadcrumb-item active" aria-current="page">
-    <%= @request.project_name %>
+    <%= @request_for_tender.project_name %>
   </li>
 <% end %>
 
@@ -50,13 +50,13 @@
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <%= link_to '#', class: 'navbar-brand' do %>
-    <%= cl_image_tag(@request.project_owners_company_logo.full_public_id,
+    <%= cl_image_tag(@request_for_tender.project_owners_company_logo.full_public_id,
                      format: 'jpg', height: 28, crop: :scale,
                      style: 'height: 28px; margin-top: 0px;',
-                     title: @request.project_owners_company_name,
-                     alt: @request.project_owners_company_name)
+                     title: @request_for_tender.project_owners_company_name,
+                     alt: @request_for_tender.project_owners_company_name)
     %>
-    <%= @request.project_owners_company_name %>
+    <%= @request_for_tender.project_owners_company_name %>
   <% end %>
 
 
@@ -68,13 +68,13 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mx-auto">
       <li class="nav-item">
-        <%= @request.project_name %>
+        <%= @request_for_tender.project_name %>
       </li>
     </ul>
     <ul class="navbar-nav ml-auto">
       <li class="nav-item mr-3">
         <button class="btn btn-secondary btn-payment-modal" data-toggle="modal" data-target="#paymentModal">
-          Purchase Tender Documents for GHC <%= format_price(@request.selling_price) %>
+          Purchase Tender Documents for GHC <%= format_price(@request_for_tender.selling_price) %>
         </button>
       </li>
     </ul>
@@ -157,7 +157,7 @@
               <%= tender_transaction.text_field :vodafone_voucher_code, id: :participant_tender_transaction_voucher_code, class: 'form-control col-md-6 voucher-code' %>
               <br/>
               <br/>
-              <%= form.text_field :request_for_tender_id, value: @request.id, id: :participant_tender_transaction_request_for_tender_id, type: 'hidden' %>
+              <%= form.text_field :request_for_tender_id, value: @request_for_tender.id, id: :participant_tender_transaction_request_for_tender_id, type: 'hidden' %>
               <%= tender_transaction.text_field :status, value: 'pending', id: :participant_tender_transaction_status, type: 'hidden' %>
               </div>
               <div class="modal-footer">

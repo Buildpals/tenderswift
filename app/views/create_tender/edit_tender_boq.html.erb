@@ -1,11 +1,11 @@
-<%= form_with model: @request,
+<%= form_with model: @request_for_tender,
               scope: :request_for_tender,
-              url: update_tender_boq_path(@request),
+              url: update_tender_boq_path(@request_for_tender),
               method: :patch,
               local: true,
               id: 'request-form' do |form| %>
 
-  <%= render 'layouts/create_tender_navigation', location: 'top', request: @request, form: form %>
+  <%= render 'layouts/create_tender_navigation', location: 'top', request: @request_for_tender, form: form %>
 
   <%= render 'request_for_tender_errors' %>
 
@@ -25,14 +25,14 @@
     </strong>
   </p>
 
-  <% if @request.bill_of_quantities.present? %>
+  <% if @request_for_tender.bill_of_quantities.present? %>
     <div id='hello' class="mb-5">
       <upload-boq
-      :request-for-tender-id="<%= @request.id %>"
-      :workbook-data="<%= @request.bill_of_quantities %>"
-      :contract-sum-address="<%= @request.contract_sum_address.to_json %>"
-      currency="<%= @request.currency_symbol %>"
-      qs-company-name="<%= @request.project_owners_company_name %>"
+      :request-for-tender-id="<%= @request_for_tender.id %>"
+      :workbook-data="<%= @request_for_tender.bill_of_quantities %>"
+      :contract-sum-address="<%= @request_for_tender.contract_sum_address.to_json %>"
+      currency="<%= @request_for_tender.currency_symbol %>"
+      qs-company-name="<%= @request_for_tender.project_owners_company_name %>"
       boq-contract-sum="<%= 100000 %>"
       ></upload-boq>
     </div>
@@ -41,11 +41,11 @@
   <div class="mb-4 d-flex w-100 justify-content-start">
     <div>
       <%= form.label :bill_of_quantities,
-                     @request.bill_of_quantities.present? ? 'Replace' : 'Upload' %>
+                     @request_for_tender.bill_of_quantities.present? ? 'Replace' : 'Upload' %>
       <%= form.hidden_field :bill_of_quantities, id: 'workbook-data' %>
       <%= file_field_tag :document, id: 'upload-boq', class: 'form-control-file' %>
     </div>
   </div>
 
-  <%= render 'layouts/create_tender_navigation', location: 'bottom', request: @request, form: form %>
+  <%= render 'layouts/create_tender_navigation', location: 'bottom', request: @request_for_tender, form: form %>
 <% end %>

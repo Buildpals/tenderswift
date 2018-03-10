@@ -4,7 +4,7 @@
       Invited
       <small>
       <span class="badge badge-pill badge-primary">
-        <%= @request.participants.count %>
+        <%= @request_for_tender.participants.count %>
       </span>
       </small>
     </a>
@@ -16,7 +16,7 @@
 </div>
 <div id="collapseAll" class="collapse" role="tabpanel" aria-labelledby="headingAll" data-parent="#accordion">
   <ul class="list-group list-group-flush">
-    <% @request.participants.each do |participant| %>
+    <% @request_for_tender.participants.each do |participant| %>
       <li class="list-group-item list-group-item-action flex-column align-items-start">
         <div class="d-flex w-100 justify-content-between">
           <div class="mb-1"><%= participant.name %></div>
@@ -47,9 +47,9 @@
         </button>
       </div>
       <div class="modal-body" style="height: 500px; overflow: scroll">
-          <%= form_with model: @request,
+          <%= form_with model: @request_for_tender,
                         scope: :request_for_tender,
-                        url: update_tender_participants_path(@request),
+                        url: update_tender_participants_path(@request_for_tender),
                         method: :patch,
                         local: true,
                         id: 'request-form' do |form| %>
@@ -69,11 +69,11 @@
                       Copy and send it to the contractors you would like to tender for this contract.
                     </small>
 
-                    <%= link_to 'Preview Contractor\'s Portal', request_for_tender_portal_url(@request), target: '_blank',
+                    <%= link_to 'Preview Contractor\'s Portal', request_for_tender_portal_url(@request_for_tender), target: '_blank',
                                 class: 'btn btn-link btn-sm' %>
                   </div>
 
-                  <%= text_field_tag :portal_link, request_for_tender_portal_url(@request),
+                  <%= text_field_tag :portal_link, request_for_tender_portal_url(@request_for_tender),
                                      {id: :contractors_portal_link, class: 'form-control form-control-sm',
                                       onclick: 'this.select()', readonly: true} %>
                 </div>

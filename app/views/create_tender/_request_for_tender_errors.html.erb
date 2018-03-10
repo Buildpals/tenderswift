@@ -1,7 +1,7 @@
-<% if @request.errors.any? %>
+<% if @request_for_tender.errors.any? %>
   <div id="error_explanation">
     <ul>
-      <% @request.errors.full_messages.each do |msg| %>
+      <% @request_for_tender.errors.full_messages.each do |msg| %>
         <li><%= msg %></li>
       <% end %>
     </ul>

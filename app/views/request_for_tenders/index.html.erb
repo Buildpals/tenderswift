@@ -17,7 +17,7 @@
               Create Request For Tender
             </div>
           <% end %>
-          <% @requests.not_published.each do |request| %>
+          <% @request_for_tenders.not_published.each do |request| %>
               <li class="list-group-item flex-row">
                 <div class="d-flex w-100 justify-content-between align-items-center">
                   <div class="primary-action">
@@ -50,7 +50,7 @@
       </div>
       <div class="card">
         <div class="list-group list-group-flush">
-          <% @requests.published.each do |request| %>
+          <% @request_for_tenders.published.each do |request| %>
             <% unless request.deadline.past? %>
               <%= link_to request, class: 'list-group-item list-group-item-action flex-column align-items-start' do %>
                 <div class="d-flex w-100 justify-content-between">
@@ -82,7 +82,7 @@
       </div>
       <div class="card">
         <div class="list-group list-group-flush">
-          <% @requests.published.each do |request| %>
+          <% @request_for_tenders.published.each do |request| %>
             <% if request.deadline.past? %>
               <%= link_to request, class: 'list-group-item list-group-item-action flex-column align-items-start' do %>
                 <div class="d-flex w-100 justify-content-between">

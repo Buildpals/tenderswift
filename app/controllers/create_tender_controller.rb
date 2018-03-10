@@ -20,15 +20,15 @@ class CreateTenderController < ApplicationController
   DEFAULT_BROADCAST_CONTENT = 'If you have any questions you can reply me here'.freeze
 
   def edit_tender_information
-    @next_path = edit_tender_boq_path(@request)
+    @next_path = edit_tender_boq_path(@request_for_tender)
   end
 
   def update_tender_information
-    if @request.update(request_params)
+    if @request_for_tender.update(request_params)
       if params[:commit] == 'Next'
-        redirect_to edit_tender_boq_path(@request)
+        redirect_to edit_tender_boq_path(@request_for_tender)
       else
-        redirect_to edit_tender_information_path(@request)
+        redirect_to edit_tender_information_path(@request_for_tender)
       end
     else
       render :edit_tender_information
@@ -36,17 +36,17 @@ class CreateTenderController < ApplicationController
   end
 
   def edit_tender_boq
-    @next_path = edit_tender_documents_path(@request)
+    @next_path = edit_tender_documents_path(@request_for_tender)
   end
 
   def update_tender_boq
-    if @request.update(request_params)
+    if @request_for_tender.update(request_params)
       if params[:commit] == 'Back'
-        redirect_to edit_tender_information_path(@request)
+        redirect_to edit_tender_information_path(@request_for_tender)
       elsif params[:commit] == 'Next'
-        redirect_to edit_tender_documents_path(@request)
+        redirect_to edit_tender_documents_path(@request_for_tender)
       else
-        redirect_to edit_tender_boq_path(@request)
+        redirect_to edit_tender_boq_path(@request_for_tender)
       end
     else
       render :edit_tender_boq
@@ -54,27 +54,27 @@ class CreateTenderController < ApplicationController
   end
 
   def update_contract_sum_address
-    if @request.update(request_params)
-      render json: @request, status: :ok, location: @request
+    if @request_for_tender.update(request_params)
+      render json: @request_for_tender, status: :ok, location: @request_for_tender
     else
-      render json: @request.errors, status: :unprocessable_entity
+      render json: @request_for_tender.errors, status: :unprocessable_entity
     end
   end
 
   def edit_tender_documents
     @next_path = edit_tender_required_documents
 
-    5.times { @request.project_documents.build } if @request.project_documents.empty?
+    5.times { @request_for_tender.project_documents.build } if @request_for_tender.project_documents.empty?
   end
 
   def update_tender_documents
-    if @request.update(request_params)
+    if @request_for_tender.update(request_params)
       if params[:commit] == 'Back'
-        redirect_to edit_tender_boq_path(@request)
+        redirect_to edit_tender_boq_path(@request_for_tender)
       elsif params[:commit] == 'Next'
-        redirect_to edit_tender_required_documents_path(@request)
+        redirect_to edit_tender_required_documents_path(@request_for_tender)
       else
-        redirect_to edit_tender_documents_path(@request)
+        redirect_to edit_tender_documents_path(@request_for_tender)
       end
     else
       render :edit_tender_documents
@@ -82,17 +82,17 @@ class CreateTenderController < ApplicationController
   end
 
   def edit_tender_required_documents
-    @next_path = edit_tender_payment_method_path(@request)
+    @next_path = edit_tender_payment_method_path(@request_for_tender)
   end
 
   def update_tender_required_documents
-    if @request.update(request_params)
+    if @request_for_tender.update(request_params)
       if params[:commit] == 'Back'
-        redirect_to edit_tender_documents_path(@request)
+        redirect_to edit_tender_documents_path(@request_for_tender)
       elsif params[:commit] == 'Next'
-        redirect_to edit_tender_payment_method_path(@request)
+        redirect_to edit_tender_payment_method_path(@request_for_tender)
       else
-        redirect_to edit_tender_required_documents_path(@request)
+        redirect_to edit_tender_required_documents_path(@request_for_tender)
       end
     else
       render :edit_tender_required_documents
@@ -100,17 +100,17 @@ class CreateTenderController < ApplicationController
   end
 
   def edit_tender_payment_method
-    @next_path = edit_tender_participants_path(@request)
+    @next_path = edit_tender_participants_path(@request_for_tender)
   end
 
   def update_tender_payment_method
-    if @request.update(request_params)
+    if @request_for_tender.update(request_params)
       if params[:commit] == 'Back'
-        redirect_to edit_tender_required_documents_path(@request)
+        redirect_to edit_tender_required_documents_path(@request_for_tender)
       elsif params[:commit] == 'Next'
-        redirect_to edit_tender_participants_path(@request)
+        redirect_to edit_tender_participants_path(@request_for_tender)
       else
-        redirect_to edit_tender_payment_method_path(@request)
+        redirect_to edit_tender_payment_method_path(@request_for_tender)
       end
     end
   end
@@ -118,8 +118,8 @@ class CreateTenderController < ApplicationController
   def update_payment_details
     # TODO: Consider moving this to the request_for_tenders controller
     # where it will be more apprioprate
-    if @request.update(request_params)
-      redirect_to request_for_tender_path(@request)
+    if @request_for_tender.update(request_params)
+      redirect_to request_for_tender_path(@request_for_tender)
       flash[:notice] = 'Payment details has been changed successfully'
     else
       # TODO: Handle the errors for this action
@@ -128,15 +128,15 @@ class CreateTenderController < ApplicationController
   end
 
   def edit_tender_participants
-    5.times { @request.participants.build } if @request.participants.empty?
+    5.times { @request_for_tender.participants.build } if @request_for_tender.participants.empty?
   end
 
   def update_tender_participants
-    if @request.update(request_params)
+    if @request_for_tender.update(request_params)
       if params[:commit] == 'Back'
-        redirect_to edit_tender_payment_method_path(@request)
+        redirect_to edit_tender_payment_method_path(@request_for_tender)
       elsif params[:commit] == 'Submit'
-        if @request.private?
+        if @request_for_tender.private?
           email_participants
         else
           redirect_to request_for_tender_path
@@ -152,7 +152,7 @@ class CreateTenderController < ApplicationController
   private
 
   def check_if_published
-    if @request.published?
+    if @request_for_tender.published?
       redirect_to request_for_tenders_path, notice: 'A tender cannot
                                           be edited once it\'s sent out
                                           to contractors'
@@ -160,29 +160,29 @@ class CreateTenderController < ApplicationController
   end
 
   def email_participants
-    if @request.published?
-      redirect_to @request,
+    if @request_for_tender.published?
+      redirect_to @request_for_tender,
                   notice: 'The participants of this request have been contacted already'
-    elsif @request.participants.empty?
-      redirect_to edit_tender_participants_path(@request),
+    elsif @request_for_tender.participants.empty?
+      redirect_to edit_tender_participants_path(@request_for_tender),
                   alert: 'You did not specify any participants for the request.'
     else
       send_emails_to_participants
-      redirect_to @request, notice: 'An email has been sent to each participant of this request.'
+      redirect_to @request_for_tender, notice: 'An email has been sent to each participant of this request.'
     end
   end
 
   # Use callbacks to share common setup or constraints between actions.
   def set_request
-    @request = RequestForTender.find(params[:id])
-    @participant = GuestParticipant.new(@request)
+    @request_for_tender = RequestForTender.find(params[:id])
+    @participant = GuestParticipant.new(@request_for_tender)
   end
 
   def send_emails_to_participants
-    @request.participants.each do |participant|
-      ParticipantMailer.request_for_tender_email(participant, @request).deliver_later
+    @request_for_tender.participants.each do |participant|
+      ParticipantMailer.request_for_tender_email(participant, @request_for_tender).deliver_later
     end
-    @request.update(published: true, published_time: Time.current)
+    @request_for_tender.update(published: true, published_time: Time.current)
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.

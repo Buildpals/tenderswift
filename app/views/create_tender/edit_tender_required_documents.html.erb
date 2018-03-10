@@ -1,11 +1,11 @@
-<%= form_with model: @request,
+<%= form_with model: @request_for_tender,
               scope: :request_for_tender,
-              url: update_tender_required_documents_path(@request),
+              url: update_tender_required_documents_path(@request_for_tender),
               method: :patch,
               local: true,
               id: 'request-form' do |form| %>
 
-  <%= render 'layouts/create_tender_navigation', location: 'top', request: @request, form: form %>
+  <%= render 'layouts/create_tender_navigation', location: 'top', request: @request_for_tender, form: form %>
 
   <%= render 'request_for_tender_errors' %>
 
@@ -44,5 +44,5 @@
   </div>
 
 
-  <%= render 'layouts/create_tender_navigation', location: 'bottom', request: @request, form: form %>
+  <%= render 'layouts/create_tender_navigation', location: 'bottom', request: @request_for_tender, form: form %>
 <% end %>

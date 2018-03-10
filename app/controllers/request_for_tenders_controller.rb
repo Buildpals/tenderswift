@@ -10,37 +10,37 @@ class RequestForTendersController < ApplicationController
   # GET /requests.json
   def index
     redirect_to new_quantity_surveyor_registration_path unless quantity_surveyor_signed_in?
-    @requests = policy_scope(RequestForTender).order(updated_at: :desc)
+    @request_for_tenders = policy_scope(RequestForTender).order(updated_at: :desc)
   end
 
   # GET /requests/1
   # GET /requests/1.json
   def show
-    authorize @request
+    authorize @request_for_tender
   end
 
   # GET /projects/public/1
   def portal
     @participant = Participant.new
     @participant.build_tender_transaction
-    @request = RequestForTender.find(params[:id])
-    if cookies[@request.id.to_s].empty?
-      @request.portal_visits += 1
-      @request.save!
-      puts cookies.permanent[@request.id.to_s]
-      cookies.permanent[@request.id.to_s] = 'visited'
+    @request_for_tender = RequestForTender.find(params[:id])
+    if cookies[@request_for_tender.id.to_s].empty?
+      @request_for_tender.portal_visits += 1
+      @request_for_tender.save!
+      puts cookies.permanent[@request_for_tender.id.to_s]
+      cookies.permanent[@request_for_tender.id.to_s] = 'visited'
     end
     render layout: 'portal'
   end
 
   # GET /requests/new
   def new
-    @request = RequestForTender.create_new(current_quantity_surveyor)
-    redirect_to edit_tender_information_path @request
+    @request_for_tender = RequestForTender.create_new(current_quantity_surveyor)
+    redirect_to edit_tender_information_path @request_for_tender
   end
 
   def compare_boq
-    if @request.deadline_over?
+    if @request_for_tender.deadline_over?
       render layout: 'compare_boq'
     else
       redirect_to request_for_tenders_path, notice: 'In accordance with tender
@@ -53,14 +53,14 @@ class RequestForTendersController < ApplicationController
   # POST /requests
   # POST /requests.json
   def create
-    @request = RequestForTender.new(request_params)
+    @request_for_tender = RequestForTender.new(request_params)
     respond_to do |format|
-      if @request.save
-        format.html { redirect_to @request, notice: 'Request was successfully created.' }
-        format.json { render :show, status: :created, location: @request }
+      if @request_for_tender.save
+        format.html { redirect_to @request_for_tender, notice: 'Request was successfully created.' }
+        format.json { render :show, status: :created, location: @request_for_tender }
       else
         format.html { render :new }
-        format.json { render json: @request.errors, status: :unprocessable_entity }
+        format.json { render json: @request_for_tender.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -69,13 +69,13 @@ class RequestForTendersController < ApplicationController
   # PATCH/PUT /requests/1.json
   def update
     respond_to do |format|
-      if @request.update(request_params)
-        format.json { render :show, status: :ok, location: @request }
+      if @request_for_tender.update(request_params)
+        format.json { render :show, status: :ok, location: @request_for_tender }
         format.js
       else
         format.html { render :edit }
         format.js
-        format.json { render json: @request.errors, status: :unprocessable_entity }
+        format.json { render json: @request_for_tender.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -83,7 +83,7 @@ class RequestForTendersController < ApplicationController
   # DELETE /requests/1
   # DELETE /requests/1.json
   def destroy
-    @request.destroy
+    @request_for_tender.destroy
     respond_to do |format|
       format.html { redirect_to request_for_tenders_url, notice: 'Request was successfully destroyed.' }
       format.json { head :no_content }
@@ -94,7 +94,7 @@ class RequestForTendersController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_request
-    @request = RequestForTender.find(params[:id])
+    @request_for_tender = RequestForTender.find(params[:id])
   rescue ActiveRecord::RecordNotFound
     redirect_to root_path
   end

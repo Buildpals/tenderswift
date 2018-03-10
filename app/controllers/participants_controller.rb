@@ -31,9 +31,9 @@ class ParticipantsController < ApplicationController
   def required_documents
     if @participant.purchased?
       @tender_transaction = TenderTransaction.new
-      @request = @participant.request_for_tender
+      @request_for_tender = @participant.request_for_tender
       @required_document_upload = RequiredDocumentUpload.new
-      @request.required_documents.each do |required_document|
+      @request_for_tender.required_documents.each do |required_document|
         if @participant.required_document_uploads.find_by(required_document: required_document).nil?
           puts required_document.id
           @participant.required_document_uploads.build(required_document: required_document)
@@ -46,7 +46,7 @@ class ParticipantsController < ApplicationController
 
   def tender_documents
     if @participant.purchased?
-      @request = @participant.request_for_tender
+      @request_for_tender = @participant.request_for_tender
     else
       redirect_to participants_project_information_url(@participant)
     end
@@ -177,13 +177,13 @@ class ParticipantsController < ApplicationController
     if params[:id].first(6) == 'guest-'
       request_for_tender = RequestForTender.find(params[:id][6..-1])
       @participant = GuestParticipant.new(request_for_tender)
-      @request = request_for_tender
+      @request_for_tender = request_for_tender
     else
       @participant = Participant.find_by(auth_token: params[:id])
       if @participant.nil?
         redirect_to root_path
       else
-        @request = @participant.request_for_tender
+        @request_for_tender = @participant.request_for_tender
       end
     end
   end
