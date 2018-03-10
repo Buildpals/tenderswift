@@ -6,29 +6,29 @@ class RequestForTendersController < ApplicationController
 
   before_action :authenticate_quantity_surveyor!, except: %i[portal]
 
-  DEFAULT_BROADCAST_CONTENT = 'If you have any questions you can reply me here'.freeze
-
   # GET /requests
   # GET /requests.json
   def index
-    @requests = current_quantity_surveyor
-                .request_for_tenders.order(updated_at: :desc)
+    redirect_to new_quantity_surveyor_registration_path unless quantity_surveyor_signed_in?
+    @requests = policy_scope(RequestForTender).order(updated_at: :desc)
   end
 
   # GET /requests/1
   # GET /requests/1.json
-  def show; end
+  def show
+    authorize @request
+  end
 
   # GET /projects/public/1
   def portal
     @participant = Participant.new
     @participant.build_tender_transaction
     @request = RequestForTender.find(params[:id])
-    if cookies["#{@request.id}"].empty?
+    if cookies[@request.id.to_s].empty?
       @request.portal_visits += 1
       @request.save!
-      puts cookies.permanent["#{@request.id}"]
-      cookies.permanent["#{@request.id}"] = "visited"
+      puts cookies.permanent[@request.id.to_s]
+      cookies.permanent[@request.id.to_s] = 'visited'
     end
     render layout: 'portal'
   end
@@ -94,11 +94,9 @@ class RequestForTendersController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_request
-    begin
-      @request = RequestForTender.find(params[:id])
-    rescue ActiveRecord::RecordNotFound
-      redirect_to root_path
-    end
+    @request = RequestForTender.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    redirect_to root_path
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.
