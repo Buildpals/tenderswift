@@ -24,12 +24,7 @@ class RequestForTendersController < ApplicationController
     @participant = Participant.new
     @participant.build_tender_transaction
     @request_for_tender = RequestForTender.find(params[:id])
-    if cookies[@request_for_tender.id.to_s].empty?
-      @request_for_tender.portal_visits += 1
-      @request_for_tender.save!
-      puts cookies.permanent[@request_for_tender.id.to_s]
-      cookies.permanent[@request_for_tender.id.to_s] = 'visited'
-    end
+    increment_visit_count
     render layout: 'portal'
   end
 
@@ -91,6 +86,15 @@ class RequestForTendersController < ApplicationController
   end
 
   private
+
+  def increment_visit_count
+    cookie_name = "request-for-tender-#{@request_for_tender.id}"
+    return if cookies[cookie_name]
+
+    @request_for_tender.portal_visits += 1
+    @request_for_tender.save!
+    cookies.permanent[cookie_name] = 'visited'
+  end
 
   # Use callbacks to share common setup or constraints between actions.
   def set_request
