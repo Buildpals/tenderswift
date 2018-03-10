@@ -1,23 +1,24 @@
 <div class="card mb-4">
   <div class="card-header d-flex w-100 justify-content-between">
     <h5><%= @request.project_name %></h5>
-
-    <small class="text-muted">
-      <span class="badge badge-pill badge-secondary"><%= @request.private? ? 'private' : 'public' %> tender</span>
-    </small>
   </div>
   <ul class="list-group list-group-flush">
+    <li class="list-group-item small">
+      <% if @request.private? %>
+        <strong>Private tender</strong>
+        (all participants have to be invited via email here)
+      <% else %>
+        <strong>Public web address</strong>
+        <%= link_to request_for_tender_portal_url(@request), request_for_tender_portal_url(@request), target: '_blank' %>
+      <% end %>
+    </li>
+
     <li class="list-group-item bg-primary d-flex w-100 justify-content-end">
       <a href="#card-information" data-turbolinks="false" class="btn btn-sm btn-info">View project information</a>
     </li>
+
     <li class="list-group-item">
       <div class="d-flex w-100 justify-content-between py-2">
-        <div class="mx-2">
-          <% if !@request.private? %>
-            <div class="font-weight-bold text-muted">Visits</div>
-            <%= @request.portal_visits %>
-          <% end %>
-        </div>
         <div class="mx-2">
           <div class="font-weight-bold text-muted"><%= @request.private? ? 'Invited' : 'Visited' %></div>
           <%= @request.private? ? @request.participants.count : @request.portal_visits %>
@@ -30,8 +31,7 @@
           <div class="font-weight-bold text-muted">Submitted</div>
           <%= @request.participants.submitted.count %>
         </div>
-        <div class="mr-auto">
-        </div>
+        <div class="mr-auto"></div>
         <div class="mx-3">
           <div class="font-weight-bold text-muted">Published</div>
           <%= @request.published_time.to_formatted_s(:short) %>
