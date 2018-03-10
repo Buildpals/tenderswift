@@ -1,7 +1,5 @@
 Rails.application.routes.draw do
-  devise_scope :quantity_surveyor do
-    root to: 'devise/registrations#new'
-  end
+  root to: 'request_for_tenders#index'
 
   get '/tender/:id/edit', to: 'create_tender#edit_tender_information', as: 'edit_tender_information'
   patch '/tender/:id/update/project_information', to: 'create_tender#update_tender_information', as: 'update_tender_information'
