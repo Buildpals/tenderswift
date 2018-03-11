@@ -41,6 +41,116 @@ ActiveRecord::Schema.define(version: 20180307121351) do
     t.index ["unlock_token"], name: "index_admins_on_unlock_token", unique: true
   end
 
+  create_table "answer_boxes", force: :cascade do |t|
+    t.bigint "question_id"
+    t.bigint "participant_id"
+    t.string "answer"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["participant_id"], name: "index_answer_boxes_on_participant_id"
+    t.index ["question_id"], name: "index_answer_boxes_on_question_id"
+  end
+
+  create_table "answer_documents", force: :cascade do |t|
+    t.bigint "answer_box_id"
+    t.string "document"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["answer_box_id"], name: "index_answer_documents_on_answer_box_id"
+  end
+
+  create_table "boqs", force: :cascade do |t|
+    t.bigint "request_for_tender_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.text "workbook_data"
+    t.string "quantity_column", default: "C"
+    t.boolean "remind_me", default: false
+    t.string "rate_column", default: "E"
+    t.string "amount_column", default: "F"
+    t.float "contract_sum", default: 0.0
+    t.string "item_column", default: "A"
+    t.string "unit_column", default: "D"
+    t.index ["request_for_tender_id"], name: "index_boqs_on_request_for_tender_id"
+  end
+
+  create_table "broadcast_messages", force: :cascade do |t|
+    t.text "content"
+    t.bigint "chatroom_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["chatroom_id"], name: "index_broadcast_messages_on_chatroom_id"
+  end
+
+  create_table "chatrooms", force: :cascade do |t|
+    t.bigint "request_for_tender_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["request_for_tender_id"], name: "index_chatrooms_on_request_for_tender_id"
+  end
+
+  create_table "countries", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "excels", force: :cascade do |t|
+    t.string "document"
+    t.bigint "request_for_tender_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["request_for_tender_id"], name: "index_excels_on_request_for_tender_id"
+  end
+
+  create_table "filled_items", force: :cascade do |t|
+    t.bigint "participant_id"
+    t.bigint "item_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.decimal "rate", precision: 10, scale: 2
+    t.index ["item_id"], name: "index_filled_items_on_item_id"
+    t.index ["participant_id"], name: "index_filled_items_on_participant_id"
+  end
+
+  create_table "item_tags", id: false, force: :cascade do |t|
+    t.integer "item_id"
+    t.integer "tag_id"
+    t.index ["item_id"], name: "index_item_tags_on_item_id"
+    t.index ["tag_id"], name: "index_item_tags_on_tag_id"
+  end
+
+  create_table "items", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.string "rate"
+    t.string "amount"
+    t.bigint "section_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "unit"
+    t.integer "item_type"
+    t.float "priority"
+    t.bigint "boq_id"
+    t.bigint "page_id"
+    t.string "tag"
+    t.decimal "quantity", precision: 10, scale: 2
+    t.index ["boq_id"], name: "index_items_on_boq_id"
+    t.index ["page_id"], name: "index_items_on_page_id"
+    t.index ["section_id"], name: "index_items_on_section_id"
+  end
+
+  create_table "messages", force: :cascade do |t|
+    t.text "content"
+    t.bigint "broadcast_message_id"
+    t.bigint "participant_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "sender", default: 0
+    t.index ["broadcast_message_id"], name: "index_messages_on_broadcast_message_id"
+    t.index ["participant_id"], name: "index_messages_on_participant_id"
+  end
+
   create_table "other_document_uploads", force: :cascade do |t|
     t.bigint "participant_id"
     t.string "document"
@@ -50,6 +160,14 @@ ActiveRecord::Schema.define(version: 20180307121351) do
     t.string "name"
     t.boolean "read"
     t.index ["participant_id"], name: "index_other_document_uploads_on_participant_id"
+  end
+
+  create_table "pages", force: :cascade do |t|
+    t.string "name"
+    t.bigint "boq_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["boq_id"], name: "index_pages_on_boq_id"
   end
 
   create_table "participants", force: :cascade do |t|
@@ -72,12 +190,30 @@ ActiveRecord::Schema.define(version: 20180307121351) do
     t.index ["request_for_tender_id"], name: "index_participants_on_request_for_tender_id"
   end
 
+  create_table "participants_requests", id: false, force: :cascade do |t|
+    t.integer "participant_id"
+    t.integer "request_for_tender_id"
+    t.index ["participant_id"], name: "index_participants_requests_on_participant_id"
+    t.index ["request_for_tender_id"], name: "index_participants_requests_on_request_for_tender_id"
+  end
+
   create_table "project_documents", force: :cascade do |t|
     t.bigint "request_for_tender_id"
     t.string "document"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["request_for_tender_id"], name: "index_project_documents_on_request_for_tender_id"
+  end
+
+  create_table "quantity_surveyor_rates", force: :cascade do |t|
+    t.string "sheet_name"
+    t.float "rate"
+    t.bigint "quantity_surveyor_id"
+    t.bigint "boq_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["boq_id"], name: "index_quantity_surveyor_rates_on_boq_id"
+    t.index ["quantity_surveyor_id"], name: "index_quantity_surveyor_rates_on_quantity_surveyor_id"
   end
 
   create_table "quantity_surveyors", force: :cascade do |t|
@@ -103,6 +239,19 @@ ActiveRecord::Schema.define(version: 20180307121351) do
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_quantity_surveyors_on_email", unique: true
     t.index ["reset_password_token"], name: "index_quantity_surveyors_on_reset_password_token", unique: true
+  end
+
+  create_table "questions", force: :cascade do |t|
+    t.bigint "request_for_tender_id"
+    t.integer "number"
+    t.string "title"
+    t.text "description"
+    t.boolean "can_attach_documents"
+    t.boolean "mandatory"
+    t.text "choices"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["request_for_tender_id"], name: "index_questions_on_request_for_tender_id"
   end
 
   create_table "rates", force: :cascade do |t|
@@ -178,5 +327,33 @@ ActiveRecord::Schema.define(version: 20180307121351) do
     t.index ["request_for_tender_id"], name: "index_tender_transactions_on_request_for_tender_id"
   end
 
+  create_table "winners", force: :cascade do |t|
+    t.string "email"
+    t.string "first_name"
+    t.string "last_name"
+    t.string "company_name"
+    t.string "phone_number"
+    t.string "auth_token"
+    t.bigint "request_for_tender_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["request_for_tender_id"], name: "index_winners_on_request_for_tender_id"
+  end
+
+  create_table "workbooks", force: :cascade do |t|
+    t.text "text"
+    t.bigint "request_for_tender_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["request_for_tender_id"], name: "index_workbooks_on_request_for_tender_id"
+  end
+
+  add_foreign_key "answer_boxes", "questions"
+  add_foreign_key "answer_documents", "answer_boxes"
+  add_foreign_key "broadcast_messages", "chatrooms"
+  add_foreign_key "filled_items", "items"
+  add_foreign_key "items", "pages"
+  add_foreign_key "messages", "broadcast_messages"
+  add_foreign_key "quantity_surveyor_rates", "boqs"
   add_foreign_key "tender_transactions", "participants"
 end
