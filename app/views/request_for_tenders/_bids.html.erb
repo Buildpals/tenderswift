@@ -1,6 +1,7 @@
 <div class="d-flex w-100 justify-content-end mb-2">
   <% if @request_for_tender.deadline_over? %>
-    <%= link_to 'Compare Bill of Quantities', compare_boq_path(@request_for_tender), class: 'btn btn-sm btn-secondary' %>
+    <%= link_to 'Compare Bill of Quantities', compare_boq_path(@request_for_tender), target: '_blank',
+                class: 'btn btn-sm btn-secondary' %>
   <% else %>
     <div data-toggle="tooltip" data-placement="bottom"
          data-html="true"

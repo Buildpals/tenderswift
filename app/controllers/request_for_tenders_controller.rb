@@ -1,8 +1,9 @@
 class RequestForTendersController < ApplicationController
-  before_action :set_request, only: %i[show
-                                       compare_boq
-                                       destroy
-                                       portal]
+  before_action :set_request_for_tender, only: %i[show
+                                                  compare_boq
+                                                  update
+                                                  destroy
+                                                  portal]
 
   before_action :authenticate_quantity_surveyor!, except: %i[portal]
 
@@ -16,7 +17,6 @@ class RequestForTendersController < ApplicationController
   # GET /requests/1
   # GET /requests/1.json
   def show
-    authorize @request_for_tender
   end
 
   # GET /projects/public/1
@@ -30,7 +30,9 @@ class RequestForTendersController < ApplicationController
 
   # GET /requests/new
   def new
-    @request_for_tender = RequestForTender.create_new(current_quantity_surveyor)
+    @request_for_tender = current_quantity_surveyor.request_for_tenders.new
+    authorize @request_for_tender
+    @request_for_tender.setup_with_data
     redirect_to edit_tender_information_path @request_for_tender
   end
 
@@ -97,10 +99,9 @@ class RequestForTendersController < ApplicationController
   end
 
   # Use callbacks to share common setup or constraints between actions.
-  def set_request
+  def set_request_for_tender
     @request_for_tender = RequestForTender.find(params[:id])
-  rescue ActiveRecord::RecordNotFound
-    redirect_to root_path
+    authorize @request_for_tender
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.
