@@ -9,7 +9,7 @@ class TenderTransaction < ApplicationRecord
 
   URL = 'https://korbaxchange.herokuapp.com'.freeze
 
-  CALLBACK_URL = 'https://buildpals-development.herokuapp.com/tender/transactions/complete_transaction/'.freeze
+  CALLBACK_URL = 'https://tenderswift-production.herokuapp.com/tender/transactions/complete_transaction/'.freeze
 
   CLIENT_ID = 15
 

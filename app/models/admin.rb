@@ -5,5 +5,5 @@ class Admin < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable, :confirmable, :timeoutable, :lockable
 
 
-  validates :email, format: { with: /\A[a-z0-9._%+-]+@buildpals.com/i, message: "You can only sign up with an official Buildpals email" }
+  validates :email, format: { with: /\A[a-z0-9._%+-]+@tenderswift.com/i, message: "You can only sign up with an official TenderSwift email" }
 end

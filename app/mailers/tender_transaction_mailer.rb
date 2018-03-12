@@ -1,7 +1,7 @@
 class TenderTransactionMailer < ApplicationMailer
   helper ApplicationHelper
 
-  default from: 'projects@buildpals.com'
+  default from: 'projects@tenderswift.com'
 
   def confirm_purchase_email(participant)
     @participant = participant
