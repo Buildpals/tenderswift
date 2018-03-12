@@ -36,6 +36,9 @@
 // Cocoon
 //= require cocoon
 
+// SheetJS
+//= require xlsx.full.min
+
 // Trix
 //= require trix
 

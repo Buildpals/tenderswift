@@ -1,18 +1,18 @@
 class CreateTenderController < ApplicationController
-  before_action :set_request, only: %i[edit_tender_information
-                                       edit_tender_documents
-                                       edit_tender_boq
-                                       edit_tender_required_documents
-                                       edit_tender_participants
-                                       edit_tender_payment_method
-                                       update_tender_information
-                                       update_tender_documents
-                                       update_tender_boq
-                                       update_contract_sum_address
-                                       update_tender_required_documents
-                                       update_tender_payment_method
-                                       update_tender_participants
-                                       update_payment_details]
+  before_action :set_request_for_tender, only: %i[edit_tender_information
+                                                  edit_tender_documents
+                                                  edit_tender_boq
+                                                  edit_tender_required_documents
+                                                  edit_tender_participants
+                                                  edit_tender_payment_method
+                                                  update_tender_information
+                                                  update_tender_documents
+                                                  update_tender_boq
+                                                  update_contract_sum_address
+                                                  update_tender_required_documents
+                                                  update_tender_payment_method
+                                                  update_tender_participants
+                                                  update_payment_details]
 
   before_action :authenticate_quantity_surveyor!
   # before_action :check_if_published
@@ -173,9 +173,10 @@ class CreateTenderController < ApplicationController
   end
 
   # Use callbacks to share common setup or constraints between actions.
-  def set_request
+  def set_request_for_tender
     @request_for_tender = RequestForTender.find(params[:id])
     @participant = GuestParticipant.new(@request_for_tender)
+    authorize @request_for_tender
   end
 
   def send_emails_to_participants
