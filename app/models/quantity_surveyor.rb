@@ -19,7 +19,7 @@ class QuantitySurveyor < ApplicationRecord
                     length: { within: 5...100 },
                     format: EMAIL_REGEX
 
-  validates :phone_number, presence: true, uniqueness: true
+  validates :phone_number, presence: true
 
   def name
     "#{company_name} (#{email})"
