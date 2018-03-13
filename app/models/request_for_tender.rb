@@ -1,7 +1,7 @@
 class RequestForTender < ApplicationRecord
   include ActionView::Helpers::DateHelper
 
-  BUILDPALS_CUT = 0.12
+  TENDERSWIFT_CUT = 0.12
 
   scope :published, -> { where(published: true) }
   scope :not_published, -> { where(published: false) }
@@ -156,7 +156,7 @@ class RequestForTender < ApplicationRecord
       number_of_transactions += 1 if tender_transaction.status.eql?('success')
     end
     total_of_transactions = number_of_transactions * selling_price
-    total_of_transactions - (BUILDPALS_CUT * total_of_transactions)
+    total_of_transactions - (TENDERSWIFT_CUT * total_of_transactions)
   end
 
   def comparison_workbook

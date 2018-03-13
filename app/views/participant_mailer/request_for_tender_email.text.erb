@@ -1,18 +1,24 @@
+Hello <%= @participant.company_name %>,
 
-Hello,
 
-You have been invited to tender for a project on buildpals.com
+I am inviting you to participate on a request for tender below:
 
-Consultant: <%= @request_for_tender.quantity_surveyor.company_name %>
-Project Name: <%= @participant.project_name %>
-Deadline: <%= @participant.project_deadline.to_formatted_s(:long) %>
-Description:
+
+<%= @participant.project_name %>
+============================================================
 <%= @participant.project_description %>
+============================================================
+
+Click the link below to view more information about this request for tender and submit your bid through our online platform.
+NB: Please do not share this link with anyone as it is your unique private link that allows you to tender on this project. Anyone who gets it can submit a tender in your name.
+
+<%= participants_project_information_url(@participant) %>
 
 
-Click the link below to view the details of the project and submit your tender
-Please do not share this link with anyone as it is your unique private link
-that allows you to tender on this project. Anyone who gets it can submit a
-tender in your name.
+The deadline for submitting your bid is: <%= @participant.project_deadline.to_formatted_s(:long) %>
 
-<%= participant_url(@participant)  %>
+
+Kind regards,
+<%= @participant.project_owners_name %>
+<%= @participant.project_owners_company_name %>
+<%= @participant.project_owners_phone_number %>

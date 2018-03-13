@@ -141,5 +141,5 @@ Run `rails server`
 
 Now navigate to navigate to [https://localhost:3000](https://localhost:3000) in your browser to see the application 
 
-![BuildPals Inc](http://res.cloudinary.com/surreal/image/upload/c_scale,w_1920/v1508520493/Screenshot_from_2017-10-20_18-27-39_pntpta.png)
+![TenderSwift Inc](http://res.cloudinary.com/surreal/image/upload/c_scale,w_1920/v1508520493/Screenshot_from_2017-10-20_18-27-39_pntpta.png)
 
