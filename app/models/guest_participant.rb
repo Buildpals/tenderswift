@@ -35,7 +35,7 @@ class GuestParticipant
   end
 
   def email
-    'example_participant@tenderswift.com'
+    'example_participant@buildpals.com'
   end
 
   def auth_token

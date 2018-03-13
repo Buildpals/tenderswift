@@ -7,7 +7,7 @@ RSpec.describe Participant, type: :model do
 
     it '#checks if contractors contract sum is calculated properly' do
       qs = QuantitySurveyor.new(company_name: 'TenderSwift Inc',
-                                email: 'kwaku@tenderswift.com',
+                                email: 'kwaku@buildpals.com',
                                 phone_number: '0509825831', password: '1234567890')
       qs.save!
       request = RequestForTender.new(project_name: 'testing',

@@ -6,8 +6,8 @@ class AuthenMailer < Devise::Mailer
 
   def confirmation_instructions(record, token, opts={})
     headers["Custom-header"] = "Bar"
-    opts[:from] = 'projects@tenderswift.com'
-    opts[:reply_to] = 'projects@tenderswift.com'
+    opts[:from] = 'tenderswift@buildpals.com'
+    opts[:reply_to] = 'tenderswift@buildpals.com'
     super
   end
 end
