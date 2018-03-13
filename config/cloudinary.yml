@@ -1,18 +1,18 @@
 ---
 development:
-  cloud_name: surreal
+  cloud_name: tenderswift
   api_key: '435712641746925'
   api_secret: o1fM2wWJVRo1HWcErchDJVrzRVk
   enhance_image_tag: true
   static_image_support: false
 production:
-  cloud_name: surreal
+  cloud_name: tenderswift
   api_key: '435712641746925'
   api_secret: o1fM2wWJVRo1HWcErchDJVrzRVk
   enhance_image_tag: true
   static_image_support: true
 test:
-  cloud_name: surreal
+  cloud_name: tenderswift
   api_key: '435712641746925'
   api_secret: o1fM2wWJVRo1HWcErchDJVrzRVk
   enhance_image_tag: true

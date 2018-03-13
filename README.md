@@ -5,10 +5,10 @@ This project was created [Ruby On Rails 5]
 
 Below you'll find information on how to set the project up on your local machine. <br>
 
-![One](http://res.cloudinary.com/surreal/image/upload/v1508520901/Screenshot_from_2017-10-20_18-31-56_d5czcu.png)
-![Two](http://res.cloudinary.com/surreal/image/upload/v1508520901/Screenshot_from_2017-10-20_18-33-47_mmprkt.png)
-![Three](http://res.cloudinary.com/surreal/image/upload/v1508520901/Screenshot_from_2017-10-20_18-34-06_bnegys.png)
-![Four](http://res.cloudinary.com/surreal/image/upload/v1508520901/Screenshot_from_2017-10-20_18-34-11_dp0whw.png)
+![One](http://res.cloudinary.com/tenderswift/image/upload/v1508520901/Screenshot_from_2017-10-20_18-31-56_d5czcu.png)
+![Two](http://res.cloudinary.com/tenderswift/image/upload/v1508520901/Screenshot_from_2017-10-20_18-33-47_mmprkt.png)
+![Three](http://res.cloudinary.com/tenderswift/image/upload/v1508520901/Screenshot_from_2017-10-20_18-34-06_bnegys.png)
+![Four](http://res.cloudinary.com/tenderswift/image/upload/v1508520901/Screenshot_from_2017-10-20_18-34-11_dp0whw.png)
 
 
 ## System Dependencies
@@ -141,5 +141,5 @@ Run `rails server`
 
 Now navigate to navigate to [https://localhost:3000](https://localhost:3000) in your browser to see the application 
 
-![TenderSwift Inc](http://res.cloudinary.com/surreal/image/upload/c_scale,w_1920/v1508520493/Screenshot_from_2017-10-20_18-27-39_pntpta.png)
+![TenderSwift Inc](http://res.cloudinary.com/tenderswift/image/upload/c_scale,w_1920/v1508520493/Screenshot_from_2017-10-20_18-27-39_pntpta.png)
 
