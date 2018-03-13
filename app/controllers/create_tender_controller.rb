@@ -139,6 +139,7 @@ class CreateTenderController < ApplicationController
         if @request_for_tender.private?
           email_participants
         else
+          @request_for_tender.update(published: true, published_time: Time.current)
           redirect_to request_for_tender_path
         end
       else
@@ -168,6 +169,7 @@ class CreateTenderController < ApplicationController
                   alert: 'You did not specify any participants for the request.'
     else
       send_emails_to_participants
+      @request_for_tender.update(published: true, published_time: Time.current)
       redirect_to @request_for_tender, notice: 'An email has been sent to each participant of this request.'
     end
   end
@@ -183,7 +185,6 @@ class CreateTenderController < ApplicationController
     @request_for_tender.participants.each do |participant|
       ParticipantMailer.request_for_tender_email(participant, @request_for_tender).deliver_later
     end
-    @request_for_tender.update(published: true, published_time: Time.current)
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.
