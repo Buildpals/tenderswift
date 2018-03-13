@@ -97,9 +97,9 @@ Rails.application.configure do
   config.action_mailer.smtp_settings = {
       address: 'smtp.zoho.com',
       port: '465',
-      domain: 'tenderswift.com',
-      user_name: 'projects@tenderswift.com',
-      password: 'ilikethefactthatwearesecurityconcious',
+      domain: 'buildpals.com',
+      user_name: 'projects@buildpals.com',
+      password: 'buildpal$2017',
       authentication: :plain,
       enable_starttls_auto: true,
       tls: true
