@@ -9,7 +9,7 @@ class TenderTransaction < ApplicationRecord
 
   URL = 'https://korbaxchange.herokuapp.com'.freeze
 
-  CALLBACK_URL = 'https://buildpals-development.herokuapp.com/tender/transactions/complete_transaction/'.freeze
+  CALLBACK_URL = 'https://app.tenderswift.com/tender/transactions/complete_transaction/'.freeze
 
   CLIENT_ID = 15
 
@@ -144,7 +144,7 @@ class TenderTransaction < ApplicationRecord
   def self.set_up_faraday
     uri = URI.parse(self.url)
     if Rails.env.production?
-      conn = Faraday.new(:url => url, :proxy => "http://ug2fv7zrmee9du:6m504-EjzXb_7ewayHAYRDlZtQ@us-east-static-04.quotaguard.com:9293")
+      conn = Faraday.new(:url => url, :proxy => "http://cyodkufnwbjy91:HN5Nhvd1h34IuipMXYzDQ_07Bg@us-east-static-04.quotaguard.com:9293")
     else
       conn = Faraday.new(:url => url)
     end
