@@ -105,8 +105,8 @@ Rails.application.configure do
       tls: true
   }
 
-  config.action_mailer.default_url_options = { host: 'http://www.tenderswift.com/' }
+  config.action_mailer.default_url_options = { host: 'http://app.tenderswift.com/' }
 
-  config.web_socket_server_url = 'wss://www.tenderswift.com/cable'
-  config.action_cable.allowed_request_origins = %w(https://www.tenderswift.com http://www.tenderswift.com)
+  config.web_socket_server_url = 'wss://app.tenderswift.com/cable'
+  config.action_cable.allowed_request_origins = %w(https://app.tenderswift.com http://app.tenderswift.com)
 end
