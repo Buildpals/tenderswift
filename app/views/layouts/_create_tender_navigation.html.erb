@@ -25,8 +25,8 @@
     <%= form.submit 'Save', class: 'btn btn-primary next-button text-uppercase' %>
 
     <% if action_name == 'edit_tender_participants' %>
-      <%= form.submit 'Submit', class: 'btn btn-secondary text-uppercase',
-                      data: {confirm: 'Send out this request for tender means all listed participants will immediately have access to this particular Request For Tender and as a result can start placing their bids. Are you sure you want to do so?'} %>
+      <%= form.submit 'Publish', class: 'btn btn-secondary text-uppercase',
+                      data: {confirm: 'Publishing this request for tender means all listed participants will immediately have access to it, and can start placing their bids. Are you sure you want to do so?'} %>
     <% else %>
       <%= form.submit 'Next', class: 'btn btn-primary next-button text-uppercase' %>
     <% end %>

@@ -135,7 +135,7 @@ class CreateTenderController < ApplicationController
     if @request_for_tender.update(request_params)
       if params[:commit] == 'Back'
         redirect_to edit_tender_payment_method_path(@request_for_tender)
-      elsif params[:commit] == 'Submit'
+      elsif params[:commit] == 'Publish'
         if @request_for_tender.private?
           email_participants
         else
