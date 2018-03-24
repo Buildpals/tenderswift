@@ -54,4 +54,13 @@ RSpec.configure do |config|
   config.filter_rails_from_backtrace!
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
+
+  # Add Warden Test helpers for feature specs
+  # Allows you to call methods such as
+  #     login_as(quantity_surveyor)
+  # etc
+  config.include Warden::Test::Helpers, type: :feature
+
+  # Reset Warden after each test
+  config.after(type: :feature) { Warden.test_reset! }
 end
