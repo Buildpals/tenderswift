@@ -92,6 +92,7 @@ group :development, :test do
 
   gem 'rspec-rails', '~> 3.7'
   gem 'pundit-matchers', '~> 1.4.1'
+  gem 'factory_bot_rails'
 
   gem 'cucumber-rails', :require => false
   # database_cleaner is not required, but highly recommended
