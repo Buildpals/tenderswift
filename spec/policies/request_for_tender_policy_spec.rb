@@ -7,7 +7,7 @@ RSpec.describe RequestForTenderPolicy do
     described_class::Scope.new(quantity_surveyor, RequestForTender).resolve
   end
 
-  context 'being an owner of request_for_tender' do
+  context 'quantity_surveyor owns the request_for_tender' do
     let(:quantity_surveyor) { QuantitySurveyor.new(id: 1) }
     let(:request_for_tender) { RequestForTender.create(quantity_surveyor_id: 1) }
 
@@ -41,7 +41,7 @@ RSpec.describe RequestForTenderPolicy do
     it { is_expected.to permit_action(:destroy) }
   end
 
-  context 'not being an owner of request_for_tender' do
+  context 'quantity_surveyor does not own the request_for_tender' do
     let(:quantity_surveyor) { QuantitySurveyor.new(id: 1) }
     let(:request_for_tender) { RequestForTender.create(quantity_surveyor_id: 2) }
 
