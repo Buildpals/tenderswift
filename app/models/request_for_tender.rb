@@ -141,8 +141,8 @@ class RequestForTender < ApplicationRecord
     disqualified_participants
   end
 
-  def contract_sum
-    # TODO: Fetch contract sum
+  def tender_figure
+    # TODO: Fetch tender figure
     100_000
   end
 

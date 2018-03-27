@@ -9,7 +9,7 @@
                 <thead>
                 <tr>
                     <th>Company</th>
-                    <th class="text-right">Contract sum</th>
+                    <th class="text-right">Tender Figure</th>
                     <th class="text-right">Difference</th>
                     <th class="text-right">Rating</th>
                     <th colspan="2"></th>
