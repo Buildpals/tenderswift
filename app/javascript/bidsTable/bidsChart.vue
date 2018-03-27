@@ -78,7 +78,7 @@
             labels: [this.qsCompanyName, ...this.participants.map(participant => participant.company_name)],
             datasets: [
               {
-                label: 'Contract Sum',
+                label: 'Tender Figure',
                 backgroundColor: ['rgba(62, 149, 205, 0.5)', 'rgba(142, 94, 162, 0.5)', 'rgba(60, 186, 159, 0.5)', 'rgba(232, 195, 185, 0.5)', 'rgba(196, 88, 80, 0.5)',
                   'rgba(233, 150, 122, 0.5)', 'rgba(255, 255, 0, 0.5)', 'rgba(128, 128, 0, 0.5)', 'rgba(0, 128, 128, 0.5)', 'rgba(255, 0, 255, 0.5)', 'rgba(240, 128, 128, 0.5)'],
                 data: [this.qsContractSum, ...this.participants.map(participant => participant.contract_sum)]
@@ -112,7 +112,7 @@
         this.chart.data.labels = this.participants.map(participant => participant.company_name)
         this.chart.data.datasets = [
           {
-            label: 'Contract Sum',
+            label: 'Tender Figure',
             backgroundColor: ['rgba(62, 149, 205, 0.5)', 'rgba(142, 94, 162, 0.5)', 'rgba(60, 186, 159, 0.5)', 'rgba(232, 195, 185, 0.5)', 'rgba(196, 88, 80, 0.5)',
               'rgba(233, 150, 122, 0.5)', 'rgba(255, 255, 0, 0.5)', 'rgba(128, 128, 0, 0.5)', 'rgba(0, 128, 128, 0.5)', 'rgba(255, 0, 255, 0.5)', 'rgba(240, 128, 128, 0.5)'],
             data: this.participants.map(participant => participant.contract_sum)

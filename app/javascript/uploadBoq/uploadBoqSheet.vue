@@ -137,13 +137,13 @@
                 } else {
                   setTimeout(function () {
                     // timeout is used to make sure the menu collapsed before alert is shown
-                    alert("Contract sum should only be found in one cell");
+                    alert("Tender figure should only be found in one cell");
                   }, 100);
                 }
               }
             },
             items: {
-              "set_contract_sum_address": {name: 'Set contract sum address'}
+              "set_contract_sum_address": {name: 'Set as tender figure'}
             }
           }
         })

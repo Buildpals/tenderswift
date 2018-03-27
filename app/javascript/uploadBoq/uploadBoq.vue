@@ -1,6 +1,6 @@
 <template>
   <div id="app" class="spreadsheet-tabs">
-    Contract Sum: <strong>{{ contractSum }}</strong>
+    Estimated Tender Figure: <strong>{{ contractSum }}</strong>
     <b-tabs end no-fade @input="logIt">
       <b-tab :title="sheetName" v-for="(sheetName, index) in workbookData.SheetNames">
         <div id="example-container" class="wrapper" v-if="index === currentIndex">
