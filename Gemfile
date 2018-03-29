@@ -65,6 +65,9 @@ gem 'font-awesome-rails'
 # Dropdown Select for Country
 gem 'country_select'
 
+# Entering and validating international telephone numbers
+gem 'intl-tel-input-rails'
+
 # Cocoon
 gem 'cocoon'
 
