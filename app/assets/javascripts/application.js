@@ -42,6 +42,10 @@
 // Trix
 //= require trix
 
+// IntlTelInput
+//= require intlTelInput
+//= require libphonenumber/utils
+
 //= require compare_bids
 //= require registrations
 //= require create_tender

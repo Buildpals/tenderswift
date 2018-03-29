@@ -11,12 +11,11 @@ $(document).on("turbolinks:load", function () {
     let input = $("#phone_number_input");
     input.intlTelInput({
         initialCountry: "gh",
-        utilsScript: "/intl-tel-input/js/utils.js?10"
+        utilsScript: "/assets/libphonenumber/utils.js"
     });
 
-
     $("form").submit(function() {
-        var intlNumber = input.intlTelInput("getNumber");
+        let intlNumber = input.intlTelInput("getNumber");
         $("#quantity_surveyor_phone_number").val(intlNumber);
     });
 });

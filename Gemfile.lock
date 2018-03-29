@@ -152,6 +152,9 @@ GEM
     i18n (0.9.3)
       concurrent-ruby (~> 1.0)
     i18n_data (0.8.0)
+    intl-tel-input-rails (11.0.14)
+      railties (>= 3.1)
+      sass-rails
     jbuilder (2.7.0)
       activesupport (>= 4.2.0)
       multi_json (>= 1.2)
@@ -393,6 +396,7 @@ DEPENDENCIES
   font-awesome-rails
   http-accept
   http-cookie
+  intl-tel-input-rails
   jbuilder (~> 2.5)
   jquery-rails
   listen (>= 3.0.5, < 3.2)
