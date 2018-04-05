@@ -11,6 +11,9 @@ class ApplicationController < ActionController::Base
   def after_sign_in_path_for(user)
     if user.class.eql?(QuantitySurveyor)
       request_for_tenders_path
+    elsif user.class.eql?(Contractor)
+      #redirect to contractor dashboard
+
     else
       rails_admin.dashboard_path
     end

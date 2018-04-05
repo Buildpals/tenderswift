@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  resources :request_for_tenders
   root to: 'request_for_tenders#index'
 
   get '/tender/:id/edit', to: 'create_tender#edit_tender_information', as: 'edit_tender_information'
@@ -58,10 +57,12 @@ Rails.application.routes.draw do
   resources :quantity_surveyors, only: %i[edit update]
   resources :request_for_tenders
   resources :participants
+  resources :contractors
   resources :tender_transactions, only: %i[create update]
 
   devise_for :quantity_surveyors
   devise_for :admins
+  devise_for :contractors
 
   mount RailsAdmin::Engine => '/adonai', as: 'rails_admin'
 
