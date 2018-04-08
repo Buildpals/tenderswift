@@ -5,13 +5,10 @@ This project was created [Ruby On Rails 5]
 
 Below you'll find information on how to set the project up on your local machine. <br>
 
-![One](http://res.cloudinary.com/tenderswift/image/upload/v1508520901/Screenshot_from_2017-10-20_18-31-56_d5czcu.png)
-![Two](http://res.cloudinary.com/tenderswift/image/upload/v1508520901/Screenshot_from_2017-10-20_18-33-47_mmprkt.png)
-![Three](http://res.cloudinary.com/tenderswift/image/upload/v1508520901/Screenshot_from_2017-10-20_18-34-06_bnegys.png)
-![Four](http://res.cloudinary.com/tenderswift/image/upload/v1508520901/Screenshot_from_2017-10-20_18-34-11_dp0whw.png)
 
 
 ## System Dependencies
+
 
 ### Update and install dependencies
 First, we should update apt-get since this is the first time we will be using apt in this session. This will ensure that the local package cache is updated.
@@ -20,6 +17,7 @@ Run `sudo apt-get update`
 
 Now let's install the dependencies required for rbenv and Ruby with *[`apt-get`] : 
 `sudo apt-get install autoconf bison build-essential libssl-dev libyaml-dev libreadline6-dev zlib1g-dev libncurses5-dev libffi-dev libgdbm3 libgdbm-dev` in your terminal
+
 
 ### Install Rbenv
 Now we are ready to install rbenv. Let's clone the rbenv repository from git. You should complete these steps from the user account from which you plan to run Ruby.
@@ -80,7 +78,7 @@ Verify that Ruby was properly installed by checking your version number:
 
 `ruby -v`
 
-**Minimum version required is ruby 2.4x**
+**Minimum version required is ruby 2.4.x**
 
 
 ### Install Rails
@@ -95,6 +93,7 @@ rbenv works by creating a directory of shims, which point to the files used by t
 Verify that Rails has been installed properly by printing its version, with this command:
 
 `rails -v`
+
 
 ### Install JavaScript Runtime
 
@@ -121,25 +120,35 @@ Now we can use *[`apt-get`] to install Node.Js:
 Run `sudo apt-get install postgresql postgresql-contrib` <br>
 **Minimum version required is 9**
 
-### Clone Repo
-Clone repo with `git clone https://[username]@bitbucket.org/dreamstone/ds02_server.git` <br>
-**Replace [username] with your bitbucket username**
+
 
 ## Setting Up The Environment
 
-Change directory to repository and run `bundle install`
 
-Run `rails db:create`
+### Clone the Repository
+Clone the repo with 
+`git clone https://[username]@bitbucket.org/dreamstone/ds02_server.git`
+<br>
+**Replace [username] with your bitbucket username**
 
-Run `rails db:migrate`
 
-Run `rails db:setup`
+### Setup the app
+Change directory to the repository
+`cd ds02_server`
+ 
+Install the needed gems
+`bundle install`
 
-Run `rails server`
+Create the database
+`rails db:create`
 
-## It's that simple!!
+Run the migrations for the database
+`rails db:migrate`
 
-Now navigate to navigate to [https://localhost:3000](https://localhost:3000) in your browser to see the application 
+Run the test suite to verify that everything is working correctly
+`bundle exec rspec`
 
-![TenderSwift Inc](http://res.cloudinary.com/tenderswift/image/upload/c_scale,w_1920/v1508520493/Screenshot_from_2017-10-20_18-27-39_pntpta.png)
+If the test suite passes, you'll be ready to run the app in a local server:
+`rails server`
 
+Now navigate to navigate to [http://localhost:3000](http://localhost:3000) in your browser to see the application
