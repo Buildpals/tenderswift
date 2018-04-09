@@ -91,14 +91,11 @@
 
 <%= render 'layouts/participants_footer' %>
 
-</body>
-</html>
-
 
 <script type="text/javascript" charset="utf-8">
-  $(function () {
-    $('[data-toggle="tooltip"]').tooltip()
-  })
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
 </script>
 
 
@@ -125,46 +122,46 @@
             </div>
             <div class="col-md-6">
               <%= form.text_field :company_name, id: :participant_company_name,
-                               class: 'form-control form-control-sm mb-2', placeholder: 'eg. TenderSwift Inc', required: true %>
+                                  class: 'form-control form-control-sm mb-2', placeholder: 'eg. TenderSwift Inc', required: true %>
             </div>
             <div class="col-md-6">
               <%= form.label 'Email:' %>
             </div>
             <div class="col-md-6">
               <%= form.email_field :email, id: :participant_email,
-                                class: 'form-control form-control-sm mb-2', placeholder: 'eg. qwerty@rocketmail.com', required: true %>
+                                   class: 'form-control form-control-sm mb-2', placeholder: 'eg. qwerty@rocketmail.com', required: true %>
             </div>
             <div class="col-md-6">
               <%= form.label 'Phone Number:' %>
             </div>
             <div class="col-md-6">
               <%= form.telephone_field :phone_number, id: :participant_phone_number,
-                                    class: 'form-control form-control-sm mb-2', placeholder: 'eg. 0508787892', required: true%>
+                                       class: 'form-control form-control-sm mb-2', placeholder: 'eg. 0508787892', required: true%>
             </div>
           </div>
 
-            <%= form.fields_for :tender_transaction, @participant.tender_transaction do |tender_transaction| %>
-              <%= tender_transaction.label 'Mode Of Payment:', class: 'col-md-6 pay-label' %>
-              <%= tender_transaction.select :network_code, {'AIRTEL Money': 'AIR', 'MTN Mobile Money': 'MTN', 'TIGO CASH': 'TIG', 'Vodafone Cash': 'VOD' }, {},
-                              { id: :participant_tender_transaction_network_code, class: 'form-control col-md-6 network-select' } %>
-              <br/>
-              <br/>
-              <%= tender_transaction.label 'Mobile Money Number:', class: 'col-md-6 mobile-money-number pay-label'%>
-              <%= tender_transaction.text_field :customer_number, id: :participant_tender_transaction_customer_number, class: 'form-control col-md-6 mobile-money-number' %>
-              <br/>
-              <br/>
-              <%= tender_transaction.label 'Voucher Code:', class: 'col-md-6 voucher-code pay-label' %>
-              <%= tender_transaction.text_field :vodafone_voucher_code, id: :participant_tender_transaction_voucher_code, class: 'form-control col-md-6 voucher-code' %>
-              <br/>
-              <br/>
-              <%= form.text_field :request_for_tender_id, value: @request_for_tender.id, id: :participant_tender_transaction_request_for_tender_id, type: 'hidden' %>
-              <%= tender_transaction.text_field :status, value: 'pending', id: :participant_tender_transaction_status, type: 'hidden' %>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <% end %>
-          <%= submit_tag 'Process Payment', class: 'btn btn-primary' %>
+          <%= form.fields_for :tender_transaction, @participant.tender_transaction do |tender_transaction| %>
+            <%= tender_transaction.label 'Mode Of Payment:', class: 'col-md-6 pay-label' %>
+            <%= tender_transaction.select :network_code, {'AIRTEL Money': 'AIR', 'MTN Mobile Money': 'MTN', 'TIGO CASH': 'TIG', 'Vodafone Cash': 'VOD' }, {},
+                                          { id: :participant_tender_transaction_network_code, class: 'form-control col-md-6 network-select' } %>
+            <br/>
+            <br/>
+            <%= tender_transaction.label 'Mobile Money Number:', class: 'col-md-6 mobile-money-number pay-label'%>
+            <%= tender_transaction.text_field :customer_number, id: :participant_tender_transaction_customer_number, class: 'form-control col-md-6 mobile-money-number' %>
+            <br/>
+            <br/>
+            <%= tender_transaction.label 'Voucher Code:', class: 'col-md-6 voucher-code pay-label' %>
+            <%= tender_transaction.text_field :vodafone_voucher_code, id: :participant_tender_transaction_voucher_code, class: 'form-control col-md-6 voucher-code' %>
+            <br/>
+            <br/>
+            <%= form.text_field :request_for_tender_id, value: @request_for_tender.id, id: :participant_tender_transaction_request_for_tender_id, type: 'hidden' %>
+            <%= tender_transaction.text_field :status, value: 'pending', id: :participant_tender_transaction_status, type: 'hidden' %>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
           <% end %>
+          <%= submit_tag 'Process Payment', class: 'btn btn-primary' %>
+        <% end %>
         </div>
         </div>
   </div>
@@ -209,3 +206,6 @@
     });
 
 </script>
+
+</body>
+</html>

@@ -73,7 +73,7 @@ class RequestForTenderPolicy < ApplicationPolicy
   end
 
   def portal?
-    user.id == record.quantity_surveyor_id
+    true
   end
 
   def new?

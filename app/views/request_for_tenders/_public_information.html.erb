@@ -23,11 +23,7 @@
               <div class="col-md-4">
                 <strong>Project currency</strong>
                 <br>
-                <% if @request_for_tender.currency === 'USD' %>
-                  USD - United States Dollar
-                <% elsif @request_for_tender.currency === 'GHS' %>
-                  GHS - Ghanaian Cedi
-                <% end %>
+                <%= @request_for_tender.project_currency %>
               </div>
             </div>
           </div>
@@ -45,7 +41,7 @@
                     <% end %>
                   </strong>
                   <br>
-                  <%= @request_for_tender.time_left %>
+                  <%= @request_for_tender.time_to_deadline %>
                 </div>
                 <div class="col-md-8">
                   <strong>End date</strong>
@@ -91,7 +87,7 @@
           <div class="card-body">
             <%= simple_format @request_for_tender.tender_instructions,
                               { class: 'formatted_content trix-content' },
-                              {wrapper_tag: 'div' } %>
+                              { wrapper_tag: 'div' } %>
           </div>
 
         </div>

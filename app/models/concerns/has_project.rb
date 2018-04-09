@@ -62,7 +62,7 @@ module HasProject
   end
 
   def time_left
-    request_for_tender.time_left
+    request_for_tender.time_to_deadline
   end
 
   def deadline_over?

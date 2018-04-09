@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RequestForTender < ApplicationRecord
   include ActionView::Helpers::DateHelper
 
@@ -49,15 +51,15 @@ class RequestForTender < ApplicationRecord
     self.project_name = "Untitled Project ##{quantity_surveyor.request_for_tenders.count + 1}"
     self.country_code = 'GH'
     self.deadline = Time.current + 1.month
-    self.required_documents.build(title: 'Tax Clearance Certificate')
-    self.required_documents.build(title: 'SSNIT Clearance Certificate')
-    self.required_documents.build(title: 'Labour Certificate')
-    self.required_documents.build(title: 'Power of attorney')
-    self.required_documents.build(title: 'Certificate of Incorporation')
-    self.required_documents.build(title: 'Certificate of Commencement')
-    self.required_documents.build(title: 'Works and Housing certificate')
-    self.required_documents.build(title: 'Financial statements (3 years )')
-    self.required_documents.build(title: 'Bank Statement or evidence of Funding (letter of credit)')
+    required_documents.build(title: 'Tax Clearance Certificate')
+    required_documents.build(title: 'SSNIT Clearance Certificate')
+    required_documents.build(title: 'Labour Certificate')
+    required_documents.build(title: 'Power of attorney')
+    required_documents.build(title: 'Certificate of Incorporation')
+    required_documents.build(title: 'Certificate of Commencement')
+    required_documents.build(title: 'Works and Housing certificate')
+    required_documents.build(title: 'Financial statements (3 years )')
+    required_documents.build(title: 'Bank Statement or evidence of Funding (letter of credit)')
     save!
   end
 
@@ -98,6 +100,14 @@ class RequestForTender < ApplicationRecord
     deadline
   end
 
+  def project_currency
+    if currency == 'USD'
+      'USD - United States Dollar'
+    elsif currency == 'GHS'
+      'GHS - Ghanaian Cedi'
+    end
+  end
+
   def project_description
     description
   end
@@ -113,7 +123,7 @@ class RequestForTender < ApplicationRecord
       if deadline.past?
         'ended'
       else
-        "#{time_left} left"
+        "#{time_to_deadline} left"
       end
     end
   end
@@ -123,7 +133,7 @@ class RequestForTender < ApplicationRecord
     'D1, K1'
   end
 
-  def time_left
+  def time_to_deadline
     distance_of_time_in_words_to_now(deadline)
   end
 
