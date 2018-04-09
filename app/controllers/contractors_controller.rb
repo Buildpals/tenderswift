@@ -1,5 +1,7 @@
 class ContractorsController < ApplicationController
 
+  layout 'participants'
+
   before_action :set_contractor, only: [:dashboard]
 
   def dashboard
