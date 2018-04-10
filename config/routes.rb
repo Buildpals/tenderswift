@@ -1,7 +1,15 @@
+# frozen_string_literal: true
+
 Rails.application.routes.draw do
   devise_for :quantity_surveyors
   devise_for :admins
-  devise_for :contractors
+  devise_for :contractors, path: 'contractors', controllers: {
+    confirmations: 'contractors/confirmations',
+    passwords: 'contractors/passwords',
+    registrations: 'contractors/registrations',
+    sessions: 'contractors/sessions',
+    unlocks: 'contractors/unlocks'
+  }
 
   root to: 'request_for_tenders#index'
 
@@ -58,15 +66,12 @@ Rails.application.routes.draw do
   post '/bids/undo_disqualify/:id/', to: 'bids#undo_disqualify', as: 'undo_disqualify_bid'
   post '/bids/rate/:id/', to: 'bids#rate', as: 'rate_bid'
 
-
-  get '/contractor/dashboard/:id', to: 'contractors#dashboard', as: 'contractors_dashboard'
+  get '/contractor/dashboard', to: 'contractors#dashboard', as: 'contractors_dashboard'
 
   resources :quantity_surveyors, only: %i[edit update]
   resources :request_for_tenders
   resources :participants
   resources :tender_transactions, only: %i[create update]
-
-
 
   mount RailsAdmin::Engine => '/adonai', as: 'rails_admin'
 

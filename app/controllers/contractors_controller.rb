@@ -1,13 +1,9 @@
+# frozen_string_literal: true
+
 class ContractorsController < ApplicationController
 
-  before_action :set_contractor, only: [:dashboard]
+  before_action :authenticate_contractor!, only: [:dashboard]
 
-  def dashboard
-  end
+  def dashboard; end
 
-  private
-
-  def set_contractor
-    @contractor = Contractor.find(params[:id])
-  end
 end
