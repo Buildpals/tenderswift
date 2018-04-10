@@ -12,8 +12,8 @@ class ApplicationController < ActionController::Base
     if user.class.eql?(QuantitySurveyor)
       request_for_tenders_path
     elsif user.class.eql?(Contractor)
-      #redirect to contractor dashboard
-      contractors_dashboard_path(user.id)
+      # redirect to contractor dashboard
+      contractors_dashboard_path
     else
       rails_admin.dashboard_path
     end
@@ -23,12 +23,8 @@ class ApplicationController < ActionController::Base
     if user.class.eql?(QuantitySurveyor)
       request_for_tenders_path
     else
-      contractors_dashboard_path(user.id)
+      contractors_dashboard_path
     end
-  end
-
-  def after_inactive_sign_up_path_for(quantity_surveyor)
-    rails_admin.new_path
   end
 
   protected
