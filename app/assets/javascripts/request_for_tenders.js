@@ -52,9 +52,9 @@ $(document).on("turbolinks:load", function () {
   });
 
 
-  $('#participants-modal').on('show.bs.modal', function (e) {
+  $('#tenders-modal').on('show.bs.modal', function (e) {
     function ShowHideDiv (chkPassport) {
-      var participantsDiv = document.querySelector("[data-participants-div]")
+      var participantsDiv = document.querySelector("[data-tenders-div]")
       var publicLinkDiv = document.querySelector("[data-public-link-container]")
       participantsDiv.style.display = chkPassport.checked ? 'block' : 'none'
       publicLinkDiv.style.display = chkPassport.checked ? 'none' : 'block'

@@ -1,12 +1,12 @@
 <% if @tender.request_for_tender.bill_of_quantities.present? %>
   <div id='hello'>
-    <view-bid-boq
+    <rate-filling-boq
     participant-id="<%= @tender.auth_token %>"
     :rates="<%= @tender.rates.to_json %>"
     :workbook-data="<%= @tender.workbook %>"
     currency="<%= @tender.request_for_tender.currency_symbol %>"
     qs-company-name="<%= @tender.request_for_tender.project_owners_company_name %>"
     boq-contract-sum="<%= 100000 %>"
-    ></view-bid-boq>
+    ></rate-filling-boq>
   </div>
 <% end %>

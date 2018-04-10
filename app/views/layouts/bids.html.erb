@@ -5,25 +5,25 @@
     </a>
   </li>
   <li class="breadcrumb-item">
-    <a href="<%= request_for_tender_path(@participant.request_for_tender) %>">
-      <%= @participant.project_name.truncate(30) %>
+    <a href="<%= request_for_tender_path(@tender.request_for_tender) %>">
+      <%= @tender.project_name.truncate(30) %>
     </a>
   </li>
   <li class="breadcrumb-item active" aria-current="page">
-    <%= @participant.company_name.truncate(30) %> (<%= humanized_money_with_symbol @participant.bid %>)
+    <%= @tender.company_name.truncate(30) %> (<%= humanized_money_with_symbol @tender.bid %>)
   </li>
 <% end %>
 
 
 <% content_for :nav_tabs do %>
   <nav class="nav">
-    <a class="nav-item nav-link <%= 'active' if action_name == 'required_documents' %>" href="<%= bid_required_documents_path(@participant) %>">
+    <a class="nav-item nav-link <%= 'active' if action_name == 'required_documents' %>" href="<%= bid_required_documents_path(@tender) %>">
       Required Documents
     </a>
-    <a class="nav-item nav-link <%= 'active' if action_name == 'boq' %>" href="<%= bid_boq_path(@participant) %>">
+    <a class="nav-item nav-link <%= 'active' if action_name == 'boq' %>" href="<%= bid_boq_path(@tender) %>">
       Bill Of Quantities
     </a>
-    <a class="nav-item nav-link <%= 'active' if action_name == 'other_documents' %>" href="<%= bid_other_documents_path(@participant) %>">
+    <a class="nav-item nav-link <%= 'active' if action_name == 'other_documents' %>" href="<%= bid_other_documents_path(@tender) %>">
       Other Documents
     </a>
   </nav>
@@ -31,13 +31,13 @@
 
 <% content_for :action_items do %>
   <div class="mt-2 ml-auto">
-    <%= render 'layouts/rating_bar', participant: @participant %>
+    <%= render 'layouts/rating_bar', participant: @tender %>
   </div>
 
-  <% if @participant.disqualified %>
-    <%= button_to 'Add to Shortlist', undo_disqualify_bid_path(@participant), {class: 'btn btn-sm btn-success mt-2 ml-2'} %>
+  <% if @tender.disqualified %>
+    <%= button_to 'Add to Shortlist', undo_disqualify_bid_path(@tender), {class: 'btn btn-sm btn-success mt-2 ml-2'} %>
   <% else %>
-    <%= button_to 'Disqualify', disqualify_bid_path(@participant), {class: 'btn btn-sm btn-danger mt-2 ml-2'} %>
+    <%= button_to 'Disqualify', disqualify_bid_path(@tender), {class: 'btn btn-sm btn-danger mt-2 ml-2'} %>
   <% end %>
 <% end %>
 

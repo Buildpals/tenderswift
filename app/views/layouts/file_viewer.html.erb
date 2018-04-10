@@ -7,9 +7,9 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <% if @required_document_upload %>
-        <%= link_to 'Back', bid_required_documents_path(@required_document_upload.participant), class: 'btn btn-outline-warning mr-sm-2 my-sm-0' %>
+        <%= link_to 'Back', bid_required_documents_path(@required_document_upload.tender), class: 'btn btn-outline-warning mr-sm-2 my-sm-0' %>
       <% else %>
-        <%= link_to 'Back', bid_other_documents_path(@participant), class: 'btn btn-outline-warning mr-sm-2 my-sm-0' %>
+        <%= link_to 'Back', bid_other_documents_path(@tender), class: 'btn btn-outline-warning mr-sm-2 my-sm-0' %>
       <% end %>
     </ul>
     <% if @required_document_upload %>

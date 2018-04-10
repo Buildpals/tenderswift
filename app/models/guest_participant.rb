@@ -17,7 +17,7 @@ class GuestParticipant
   end
 
   def to_model
-    Participant.new
+    Tender.new
   end
 
   def update(_attributes)

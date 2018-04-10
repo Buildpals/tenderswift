@@ -1,4 +1,4 @@
-class ParticipantsController < ApplicationController
+class TendersController < ApplicationController
   before_action :set_participant, only: %i[update destroy
                                            project_information
                                            boq
@@ -21,34 +21,34 @@ class ParticipantsController < ApplicationController
   end
 
   def boq
-    if @participant.purchased?
+    if @tender.purchased?
       @tender_transaction = TenderTransaction.new
     else
-      redirect_to participants_project_information_path(@participant)
+      redirect_to participants_project_information_path(@tender)
     end
   end
 
   def required_documents
-    if @participant.purchased?
+    if @tender.purchased?
       @tender_transaction = TenderTransaction.new
-      @request_for_tender = @participant.request_for_tender
+      @request_for_tender = @tender.request_for_tender
       @required_document_upload = RequiredDocumentUpload.new
       @request_for_tender.required_documents.each do |required_document|
-        if @participant.required_document_uploads.find_by(required_document: required_document).nil?
+        if @tender.required_document_uploads.find_by(required_document: required_document).nil?
           puts required_document.id
-          @participant.required_document_uploads.build(required_document: required_document)
+          @tender.required_document_uploads.build(required_document: required_document)
         end
       end
     else
-      redirect_to participants_project_information_url(@participant)
+      redirect_to participants_project_information_url(@tender)
     end
   end
 
   def tender_documents
-    if @participant.purchased?
-      @request_for_tender = @participant.request_for_tender
+    if @tender.purchased?
+      @request_for_tender = @tender.request_for_tender
     else
-      redirect_to participants_project_information_url(@participant)
+      redirect_to participants_project_information_url(@tender)
     end
   end
 
@@ -56,100 +56,100 @@ class ParticipantsController < ApplicationController
   end
 
   def other_document_uploads
-    if @participant.update(participant_params)
+    if @tender.update(participant_params)
       flash[:notice] = 'File successfully saved'
     else
       flash[:notice] = 'File should be either a PDF of an Image.
                         And please make sure you provide a name'
     end
-    redirect_to participants_required_documents_url(@participant)
+    redirect_to participants_required_documents_url(@tender)
   end
 
   def results; end
 
-  # POST /participants
-  # POST /participants.json
+  # POST /tenders
+  # POST /tenders.json
   def create
-    @participant = Participant.new(participant_params)
+    @tender = Tender.new(participant_params)
 
     respond_to do |format|
-      if @participant.save
-        format.html { redirect_to @participant, notice: 'Participant was successfully created.' }
-        format.json { render :show, status: :created, location: @participant }
+      if @tender.save
+        format.html { redirect_to @tender, notice: 'Tender was successfully created.' }
+        format.json { render :show, status: :created, location: @tender }
       else
         format.html { render :new }
-        format.json { render json: @participant.errors, status: :unprocessable_entity }
+        format.json { render json: @tender.errors, status: :unprocessable_entity }
       end
     end
   end
 
-  # PATCH/PUT /participants/1
-  # PATCH/PUT /participants/1.json
+  # PATCH/PUT /tenders/1
+  # PATCH/PUT /tenders/1.json
   def update
     respond_to do |format|
-      if @participant.update(participant_params)
-        format.html { redirect_to @participant, notice: 'Participant was successfully updated.' }
-        format.json { render :show, status: :ok, location: @participant }
+      if @tender.update(participant_params)
+        format.html { redirect_to @tender, notice: 'Tender was successfully updated.' }
+        format.json { render :show, status: :ok, location: @tender }
       else
         format.html { render :edit }
-        format.json { render json: @participant.errors, status: :unprocessable_entity }
+        format.json { render json: @tender.errors, status: :unprocessable_entity }
       end
     end
   end
 
   def save_rates
-    if @participant.save_rates(params[:rates])
-      render json: @participant.to_json(include: :rates), status: :ok,
-             location: @participant
+    if @tender.save_rates(params[:rates])
+      render json: @tender.to_json(include: :rates), status: :ok,
+             location: @tender
     else
-      render json: @participant.errors, status: :unprocessable_entity
+      render json: @tender.errors, status: :unprocessable_entity
     end
   end
 
   def rating
     respond_to do |format|
-      if @participant.update(participant_params)
-        format.html { redirect_to bid_required_documents_url(@participant), notice: 'Participant was successfully updated.' }
-        format.json { render :show, status: :ok, location: @participant }
+      if @tender.update(participant_params)
+        format.html { redirect_to bid_required_documents_url(@tender), notice: 'Tender was successfully updated.' }
+        format.json { render :show, status: :ok, location: @tender }
       else
         format.html { render :edit }
-        format.json { render json: @participant.errors, status: :unprocessable_entity }
+        format.json { render json: @tender.errors, status: :unprocessable_entity }
       end
     end
   end
 
-  # DELETE /participants/1
-  # DELETE /participants/1.json
+  # DELETE /tenders/1
+  # DELETE /tenders/1.json
   def destroy
-    @participant.destroy
+    @tender.destroy
     respond_to do |format|
-      format.html { redirect_to participants_url, notice: 'Participant was successfully destroyed.' }
+      format.html { redirect_to participants_url, notice: 'Tender was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
 
   def pay_public_tender
-    @participant = Participant.new(email: params[:participant][:email],
-                                   company_name: params[:participant][:company_name],
-                                   phone_number: params[:participant][:phone_number])
-    @participant.request_for_tender_id = params[:participant][:request_for_tender_id]
-    @participant.purchase_time = Time.current
-    @participant.save!
-    payload = extract_payload(params[:participant][:tender_transaction_attributes],
-                              params[:participant][:request_for_tender_id])
+    @tender = Tender.new(email: params[:tender][:email],
+                         company_name: params[:tender][:company_name],
+                         phone_number: params[:tender][:phone_number])
+    @tender.request_for_tender_id = params[:tender][:request_for_tender_id]
+    @tender.purchase_time = Time.current
+    @tender.save!
+    payload = extract_payload(params[:tender][:tender_transaction_attributes],
+                              params[:tender][:request_for_tender_id])
     json_document = get_json_document(payload)
     puts payload
     authorization_string = hmac_auth(json_document)
-    params[:participant][:tender_transaction_attributes][:participant_id] = @participant.id
-    puts params[:participant][:tender_transaction_attributes]
+    params[:tender][:tender_transaction_attributes][:participant_id] = @tender.id
+    puts params[:tender][:tender_transaction_attributes]
     results = TenderTransaction.make_payment(authorization_string, payload,
-                                             params[:participant][:tender_transaction_attributes][:customer_number],
-                                             params[:participant][:tender_transaction_attributes][:amount],
-                                             params[:participant][:tender_transaction_attributes][:vodafone_voucher_code],
-                                             params[:participant][:tender_transaction_attributes][:network_code],
-                                             params[:participant][:tender_transaction_attributes][:status],
-                                             @participant.id,
-                                             @participant.request_for_tender.id,
+                                             params[:tender][:tender_transaction_attributes][:customer_number],
+                                             params[:tender][:tender_transaction_attributes][:amount],
+                                             params[:tender][:tender_transaction_attributes][:vodafone_voucher_code],
+                                             params[:tender][:tender_transaction_attributes][:network_code],
+                                             params[:tender][:tender_transaction_attributes][:status],
+                                             @tender.id,
+                                             @tender.request_for_tender.id,
                                              payload['transaction_id'])
     if !results.nil? && working_url?(results)
       flash[:notice] = "Visit #{view_context.link_to('here in', results)}
@@ -159,12 +159,12 @@ class ParticipantsController < ApplicationController
       flash[:notice] = results + '. Check your email after responding to the
                                  prompt on your phone. Thank you!'
     end
-    redirect_to participants_required_documents_url @participant
+    redirect_to participants_required_documents_url @tender
   end
 
   def required_document_uploads
-    unless @participant.update(participant_params)
-      puts @participant.errors.full_messages
+    unless @tender.update(participant_params)
+      puts @tender.errors.full_messages
       flash[:notice] = 'File should be either a PDF of an Image'
     end
     redirect_to participants_required_documents_url
@@ -176,21 +176,21 @@ class ParticipantsController < ApplicationController
   def set_participant
     if params[:id].first(6) == 'guest-'
       request_for_tender = RequestForTender.find(params[:id][6..-1])
-      @participant = GuestParticipant.new(request_for_tender)
+      @tender = GuestParticipant.new(request_for_tender)
       @request_for_tender = request_for_tender
     else
-      @participant = Participant.find_by(auth_token: params[:id])
-      if @participant.nil?
+      @tender = Tender.find_by(auth_token: params[:id])
+      if @tender.nil?
         redirect_to root_path
       else
-        @request_for_tender = @participant.request_for_tender
+        @request_for_tender = @tender.request_for_tender
       end
     end
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def participant_params
-    params.require(:participant)
+    params.require(:tender)
           .permit(:request_for_tender_id,
                   :company_name,
                   :phone_number,

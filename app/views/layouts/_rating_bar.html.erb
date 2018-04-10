@@ -1,9 +1,9 @@
-<%= form_with model: @participant,
+<%= form_with model: @tender,
               scope: :participant,
-              url: participant_ratings_url(@participant),
+              url: participant_ratings_url(@tender),
               method: :patch,
               local: true,
-              id: 'participant-rating-form' do |form| %>
+              id: '@tender-rating-form' do |form| %>
   <div class="row">
     <%= form.text_field :rating, class: 'form-control col-md-4', id: :participant_rating, placeholder: 'Rate Bid' %>
     <%= form.submit 'Rate', class: 'btn btn-secondary col-md-3' %>

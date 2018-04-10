@@ -26,7 +26,7 @@ class CreateNewDatabaseSchema < ActiveRecord::Migration[5.1]
       t.index ["unlock_token"], name: "index_admins_on_unlock_token", unique: true
     end
 
-    create_table "participants", force: :cascade do |t|
+    create_table "tenders", force: :cascade do |t|
       t.belongs_to "request_for_tender"
       t.string "company_name"
       t.string "phone_number"
@@ -47,7 +47,7 @@ class CreateNewDatabaseSchema < ActiveRecord::Migration[5.1]
       t.datetime "created_at", null: false
       t.datetime "updated_at", null: false
 
-      t.index ["auth_token"], name: "index_participants_on_auth_token", unique: true
+      t.index ["auth_token"], name: "index_tenders_on_auth_token", unique: true
     end
 
     create_table "project_documents", force: :cascade do |t|
@@ -83,7 +83,7 @@ class CreateNewDatabaseSchema < ActiveRecord::Migration[5.1]
     end
 
     create_table "rates", force: :cascade do |t|
-      t.belongs_to "participant"
+      t.belongs_to "tender"
       t.string "sheet"
       t.integer "row"
       t.decimal "value"
@@ -124,7 +124,7 @@ class CreateNewDatabaseSchema < ActiveRecord::Migration[5.1]
     end
 
     create_table "tender_transactions", force: :cascade do |t|
-      t.belongs_to "participant"
+      t.belongs_to "tender"
       t.belongs_to "request_for_tender"
       t.string "customer_number"
       t.decimal "amount"
@@ -138,7 +138,7 @@ class CreateNewDatabaseSchema < ActiveRecord::Migration[5.1]
 
     create_table "required_document_uploads", force: :cascade do |t|
       t.belongs_to "required_document"
-      t.belongs_to "participant"
+      t.belongs_to "tender"
       t.string "document"
       t.integer "status", null: false, default: 0
       t.datetime "created_at", null: false
@@ -146,7 +146,7 @@ class CreateNewDatabaseSchema < ActiveRecord::Migration[5.1]
     end
 
     create_table "other_document_uploads", force: :cascade do |t|
-      t.belongs_to "participant"
+      t.belongs_to "tender"
       t.string "document"
       t.integer "status", null: false, default: 0
       t.datetime "created_at", null: false

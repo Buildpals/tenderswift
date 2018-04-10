@@ -10,7 +10,7 @@
     </a>
   </h5>
   <!--<button type="button" class="btn btn-sm btn-link"-->
-          <!--data-toggle="modal" data-target="#participants-modal" data-dismiss="modal">-->
+          <!--data-toggle="modal" data-target="#tenders-modal" data-dismiss="modal">-->
     <!--Edit-->
   <!--</button>-->
 </div>
@@ -84,7 +84,7 @@
             <div class="form-row mb-5" id="participantsDiv" data-participants-div style="display: none">
               <div class="col-md-12">
                 <div class="form-group">
-                  <%= form.label :participants, 'Allowed participants', class: 'pb-0 mb-0' %>
+                  <%= form.label :tenders, 'Allowed tenders', class: 'pb-0 mb-0' %>
 
                   <div class="d-flex w-100 justify-content-between mb-3">
                     <small class="form-text text-muted">
@@ -101,11 +101,11 @@
                   </div>
 
                   <ul class="list-group list-group-flush nested-forms">
-                    <%= form.fields_for :participants do |participant| %>
+                    <%= form.fields_for :tenders do |participant| %>
                       <%= render 'participant_fields', f: participant %>
                     <% end %>
                     <li class="d-flex w-100 justify-content-between">
-                      <%= link_to_add_association 'ADD ANOTHER PARTICIPANT', form, :participants,
+                      <%= link_to_add_association 'ADD ANOTHER PARTICIPANT', form, :tenders,
                                                   class: 'btn btn-sm btn-block btn-primary my-1' %>
                     </li>
                   </ul>
@@ -132,7 +132,7 @@
             <div class="w-100 d-flex justify-content-end">
               <%= form.submit 'Save', class: 'btn btn-primary next-button text-uppercase' %>
               <%= form.submit 'Submit', class: 'btn btn-secondary text-uppercase',
-                              data: {confirm: 'Send out this request for tender means all listed participants will immediately have access to this particular Request For Tender and as a result can start placing their bids. Are you sure you want to do so?'} %>
+                              data: {confirm: 'Send out this request for tender means all listed tenders will immediately have access to this particular Request For Tender and as a result can start placing their bids. Are you sure you want to do so?'} %>
             </div>
           <% end %>
       </div>

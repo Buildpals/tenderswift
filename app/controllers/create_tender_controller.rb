@@ -163,21 +163,21 @@ class CreateTenderController < ApplicationController
   def email_participants
     if @request_for_tender.published?
       redirect_to @request_for_tender,
-                  notice: 'The participants of this request have been contacted already'
+                  notice: 'The tenders of this request have been contacted already'
     elsif @request_for_tender.participants.empty?
       redirect_to edit_tender_participants_path(@request_for_tender),
-                  alert: 'You did not specify any participants for the request.'
+                  alert: 'You did not specify any tenders for the request.'
     else
       send_emails_to_participants
       @request_for_tender.update(published: true, published_time: Time.current)
-      redirect_to @request_for_tender, notice: 'An email has been sent to each participant of this request.'
+      redirect_to @request_for_tender, notice: 'An email has been sent to each @tender of this request.'
     end
   end
 
   # Use callbacks to share common setup or constraints between actions.
   def set_request_for_tender
     @request_for_tender = RequestForTender.find(params[:id])
-    @participant = GuestParticipant.new(@request_for_tender)
+    @tender = GuestParticipant.new(@request_for_tender)
     authorize @request_for_tender
   end
 

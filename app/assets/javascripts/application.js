@@ -50,5 +50,5 @@
 //= require registrations
 //= require create_tender
 //= require request_for_tenders
-//= require participants
+//= require tenders.js
 //= require bids

@@ -4,7 +4,7 @@ class TenderTransactionMailer < ApplicationMailer
   default from: 'tenderswift@buildpals.com'
 
   def confirm_purchase_email(participant)
-    @participant = participant
-    mail(to: @participant.email, subject: 'Successful purchase of tender documents')
+    @tender = participant
+    mail(to: @tender.email, subject: 'Successful purchase of tender documents')
   end
 end

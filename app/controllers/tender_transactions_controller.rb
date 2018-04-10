@@ -27,10 +27,10 @@ class TenderTransactionsController < ApplicationController
                                                  params[:tender_transaction][:participant_id],
                                                  params[:tender_transaction][:request_for_tender_id],
                                                  payload['transaction_id'])
-    @participant = Participant.find(params[:tender_transaction][:participant_id])
-    @participant.purchase_time = Time.new
-    @participant.rating = 0
-    @participant.save!
+    @tender = Tender.find(params[:tender_transaction][:participant_id])
+    @tender.purchase_time = Time.new
+    @tender.rating = 0
+    @tender.save!
     if !results.nil? && working_url?(results)
       link = "<a href=\"#{url_for(results)}\">here in</a>"
       flash[:notice] = "Visit #{link}
@@ -40,7 +40,7 @@ class TenderTransactionsController < ApplicationController
       flash[:notice] = results + '. Check your email after responding to the
                                    prompt on your phone. Thank you!'
     end
-    redirect_to participants_required_documents_url @participant
+    redirect_to participants_required_documents_url @tender
   end
 
   # PATCH/PUT /tender_transactions/1
@@ -67,7 +67,7 @@ class TenderTransactionsController < ApplicationController
     transaction_id = params['transaction_id']
     status = params['status']
     transaction = TenderTransaction.find_by(transaction_id: transaction_id)
-    participant = Participant.find(transaction.participant_id)
+    participant = Tender.find(transaction.participant_id)
     if status.eql?('SUCCESS')
       transaction.status = 'success'
       transaction.save!

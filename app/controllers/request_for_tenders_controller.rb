@@ -21,8 +21,8 @@ class RequestForTendersController < ApplicationController
 
   # GET /projects/public/1
   def portal
-    @participant = Participant.new
-    @participant.build_tender_transaction
+    @tender = Tender.new
+    @tender.build_tender_transaction
     @request_for_tender = RequestForTender.find(params[:id])
     increment_visit_count
     render layout: 'portal'

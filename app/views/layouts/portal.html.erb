@@ -112,7 +112,7 @@
         <img src="http://res.cloudinary.com/tenderswift/image/upload/v1518296909/https___hubtel.com_wp-content_themes_hubtel_html_assets_images_buttons_image550-4_bnm4ie.png" width="100%">
         <br/>
         <br/>
-        <%= form_with model: @participant,
+        <%= form_with model: @tender,
                       url: pay_public_tender_path,
                       method: :post,
                       local: true, class: 'form-inline' do |form| %>
@@ -140,7 +140,7 @@
             </div>
           </div>
 
-          <%= form.fields_for :tender_transaction, @participant.tender_transaction do |tender_transaction| %>
+          <%= form.fields_for :tender_transaction, @tender.tender_transaction do |tender_transaction| %>
             <%= tender_transaction.label 'Mode Of Payment:', class: 'col-md-6 pay-label' %>
             <%= tender_transaction.select :network_code, {'AIRTEL Money': 'AIR', 'MTN Mobile Money': 'MTN', 'TIGO CASH': 'TIG', 'Vodafone Cash': 'VOD' }, {},
                                           { id: :participant_tender_transaction_network_code, class: 'form-control col-md-6 network-select' } %>

@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Participant, type: :model do
+RSpec.describe Tender, type: :model do
   describe 'Associations' do
     it { should belong_to(:request_for_tender) }
     it { should belong_to(:contractor) }

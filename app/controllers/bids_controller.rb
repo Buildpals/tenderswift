@@ -33,36 +33,36 @@ class BidsController < ApplicationController
                        "#{@required_document_upload.required_document.title}
                          was rejected"
                      end
-    redirect_to bid_required_documents_url(@required_document_upload.participant)
+    redirect_to bid_required_documents_url(@required_document_upload.tender)
   end
 
   def disqualify
-    if @participant.update(disqualified: true)
-      redirect_back fallback_location: bid_required_documents_path(@participant),
-                    notice: "#{@participant.company_name} has been disqualified"
+    if @tender.update(disqualified: true)
+      redirect_back fallback_location: bid_required_documents_path(@tender),
+                    notice: "#{@tender.company_name} has been disqualified"
     else
       redirect_back fallback_location: root_path,
-                    notice: "An error occurred while trying to disqualify #{@participant.company_name}"
+                    notice: "An error occurred while trying to disqualify #{@tender.company_name}"
     end
   end
 
   def undo_disqualify
-    if @participant.update(disqualified: false)
-      redirect_back fallback_location: bid_required_documents_path(@participant),
-                    notice: "#{@participant.company_name} has been re-added to the shortlist"
+    if @tender.update(disqualified: false)
+      redirect_back fallback_location: bid_required_documents_path(@tender),
+                    notice: "#{@tender.company_name} has been re-added to the shortlist"
     else
-      redirect_back fallback_location: bid_required_documents_path(@participant),
-                    notice: "An error occurred while trying to re-add #{@participant.company_name} to shortlist"
+      redirect_back fallback_location: bid_required_documents_path(@tender),
+                    notice: "An error occurred while trying to re-add #{@tender.company_name} to shortlist"
     end
   end
 
   def rate
-    if @participant.update(rating: params[:rating])
-      redirect_back fallback_location: bid_required_documents_path(@participant),
-                    notice: "The rating for #{@participant.company_name} has been updated"
+    if @tender.update(rating: params[:rating])
+      redirect_back fallback_location: bid_required_documents_path(@tender),
+                    notice: "The rating for #{@tender.company_name} has been updated"
     else
-      redirect_back fallback_location: bid_required_documents_path(@participant),
-                    notice: "An error occurred while trying to update the rating for #{@participant.company_name}"
+      redirect_back fallback_location: bid_required_documents_path(@tender),
+                    notice: "An error occurred while trying to update the rating for #{@tender.company_name}"
     end
   end
 
@@ -75,7 +75,7 @@ class BidsController < ApplicationController
   end
 
   def set_participant
-    @participant = Participant.find_by_auth_token(params[:id])
+    @tender = Tender.find_by_auth_token(params[:id])
   end
 
   def set_required_document_upload

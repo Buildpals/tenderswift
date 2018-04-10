@@ -1,4 +1,4 @@
-class Participant < ApplicationRecord
+class Tender < ApplicationRecord
   include HasProject
 
   include ActionView::Helpers::DateHelper
@@ -16,24 +16,24 @@ class Participant < ApplicationRecord
   scope :disqualified, -> { where(disqualified: true) }
   scope :not_disqualified, -> { where(disqualified: false) }
 
-  belongs_to :contractor, inverse_of: :participants
-  belongs_to :request_for_tender, inverse_of: :participants
+  belongs_to :contractor, inverse_of: :tenders
+  belongs_to :request_for_tender, inverse_of: :tenders
 
-  has_many :required_document_uploads, inverse_of: :participant
+  has_many :required_document_uploads, inverse_of: :tender
   accepts_nested_attributes_for :required_document_uploads,
                                 allow_destroy: true,
                                 reject_if: :all_blank
 
-  has_many :other_document_uploads, inverse_of: :participant
+  has_many :other_document_uploads, inverse_of: :tender
   accepts_nested_attributes_for :other_document_uploads,
                                 allow_destroy: true,
                                 reject_if: :all_blank
 
   has_many :required_documents, through: :required_document_uploads
 
-  has_many :rates, inverse_of: :participant
+  has_many :rates, inverse_of: :tender
 
-  has_one :tender_transaction, inverse_of: :participant, dependent: :destroy
+  has_one :tender_transaction, inverse_of: :tender, dependent: :destroy
   scope :purchased, -> { joins(:tender_transaction).where("tender_transactions.status = 1") }
   scope :not_purchased, -> { joins(:tender_transaction).where("tender_transactions.status != 1") }
   accepts_nested_attributes_for :tender_transaction,

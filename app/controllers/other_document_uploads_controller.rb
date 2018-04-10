@@ -27,7 +27,7 @@ class OtherDocumentUploadsController < ApplicationController
                        "#{@other_document_upload.name}
                          was rejected"
                      end
-    redirect_to bid_other_documents_url(@other_document_upload.participant)
+    redirect_to bid_other_documents_url(@other_document_upload.tender)
   end
 
   private
@@ -39,7 +39,7 @@ class OtherDocumentUploadsController < ApplicationController
   end
 
   def set_participant
-    @participant = Participant.find_by_auth_token(params[:id])
+    @tender = Tender.find_by_auth_token(params[:id])
   end
 
   def set_other_document_upload

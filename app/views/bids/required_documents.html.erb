@@ -13,7 +13,7 @@
             <table class="table">
 
               <tbody>
-              <% @participant.required_document_uploads.each do |required_document_upload| %>
+              <% @tender.required_document_uploads.each do |required_document_upload| %>
                 <% unless required_document_upload.document.url.nil? %>
                   <tr>
 
@@ -26,9 +26,9 @@
                     </td>
                     <td>
                       <% if required_document_upload.document.format == "pdf" %>
-                        <%= link_to 'View', view_pdf_path(@participant, required_document_upload.id) %>
+                        <%= link_to 'View', view_pdf_path(@tender, required_document_upload.id) %>
                       <% else %>
-                        <%= link_to 'View', view_image_path(@participant, required_document_upload.id) %>
+                        <%= link_to 'View', view_image_path(@tender, required_document_upload.id) %>
                       <% end %>
                     </td>
                     <td>

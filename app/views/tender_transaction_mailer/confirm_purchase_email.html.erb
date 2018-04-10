@@ -344,14 +344,14 @@
                       <tr style="line-height:0px;line-height:0px;">
                         <td style="padding-right: 0px; padding-left: 0px;" align="left"><![endif]-->
                     <div style="line-height:15px;font-size:1px">&#160;</div>
-                    <%= cl_image_tag(@participant.project_owners_company_logo.full_public_id,
+                    <%= cl_image_tag(@tender.project_owners_company_logo.full_public_id,
                                      format: 'jpg', width: 91, crop: :scale,
                                      class: 'left  autowidth  fullwidth',
                                      style: 'outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: block !important;border: 0;width: auto;float: none;height: 100%;max-height: 91px',
                                      align: 'left',
                                      border: 0,
-                                     title: @participant.project_owners_company_name,
-                                     alt: @participant.project_owners_company_name)
+                                     title: @tender.project_owners_company_name,
+                                     alt: @tender.project_owners_company_name)
                     %>
                     <div style="line-height:15px;font-size:1px">&#160;</div><!--[if mso]></td></tr></table><![endif]-->
                   </div>
@@ -516,9 +516,9 @@
                     <div style="color:#71777D;line-height:120%;font-family:'Lato', Tahoma, Verdana, Segoe, sans-serif; padding-right: 10px; padding-left: 10px; padding-top: 10px; padding-bottom: 25px;">
                       <div style="font-size:12px;line-height:14px;font-family:Lato, Tahoma, Verdana, Segoe, sans-serif;color:#71777D;text-align:left;">
                         <p style="margin: 0;font-size: 14px;line-height: 17px;text-align: center">
-                          You have purchased the following from <%= @participant.project_owners_company_name %>:
+                          You have purchased the following from <%= @tender.project_owners_company_name %>:
                           <br>
-                          <strong style="font-size: 1rem; margin-top: 0.5rem">Tender documents for "<%= @participant.project_name %>"</strong>
+                          <strong style="font-size: 1rem; margin-top: 0.5rem">Tender documents for "<%= @tender.project_name %>"</strong>
                         </p>
                       </div>
                     </div>
@@ -585,7 +585,7 @@
                     <div style="color:#000000;line-height:120%;font-family:'Lato', Tahoma, Verdana, Segoe, sans-serif; padding-right: 20px; padding-left: 20px; padding-top: 5px; padding-bottom: 5px;">
                       <div style="font-size:12px;line-height:14px;font-family:Lato, Tahoma, Verdana, Segoe, sans-serif;color:#000000;text-align:left;">
                         <p style="margin: 0;font-size: 14px;line-height: 17px">
-                          <strong><%= @participant.request_for_tender.currency_symbol %> <%= @participant.request_for_tender.selling_price %></strong>
+                          <strong><%= @tender.request_for_tender.currency_symbol %> <%= @tender.request_for_tender.selling_price %></strong>
                         </p>
                       </div>
                     </div>
@@ -634,7 +634,7 @@
                             <v:textbox inset="0,0,0,0">
                               <center
                                   style="color:#ffffff; font-family:'Lato', Tahoma, Verdana, Segoe, sans-serif; font-size:16px;"><![endif]-->
-                    <a href="<%= participants_project_information_url(@participant) %>" style="display: inline-block; text-decoration: none; color: #212529; background-color: #ffce12; border-radius: 4px; -webkit-border-radius: 4px; -moz-border-radius: 4px; max-width: 230px; width: 190px;width: auto; border-top: 0px solid transparent; border-right: 0px solid transparent; border-bottom: 0px solid transparent; border-left: 0px solid transparent; padding-top: 5px; padding-right: 20px; padding-bottom: 5px; padding-left: 20px; font-family: 'Lato', Tahoma, Verdana, Segoe, sans-serif; text-align: center; mso-border-alt: none;">
+                    <a href="<%= participants_project_information_url(@tender) %>" style="display: inline-block; text-decoration: none; color: #212529; background-color: #ffce12; border-radius: 4px; -webkit-border-radius: 4px; -moz-border-radius: 4px; max-width: 230px; width: 190px;width: auto; border-top: 0px solid transparent; border-right: 0px solid transparent; border-bottom: 0px solid transparent; border-left: 0px solid transparent; padding-top: 5px; padding-right: 20px; padding-bottom: 5px; padding-left: 20px; font-family: 'Lato', Tahoma, Verdana, Segoe, sans-serif; text-align: center; mso-border-alt: none;">
                       <span style="font-size:16px;line-height:32px;">Access Tender Documents</span>
                     </a>
                     <!--[if mso]></center></v:textbox></v:roundrect></td></tr></table><![endif]-->

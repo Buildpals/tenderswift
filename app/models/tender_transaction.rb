@@ -15,7 +15,7 @@ class TenderTransaction < ApplicationRecord
 
   enum status: { pending: 0, success: 1, failed: 2 }
 
-  belongs_to :participant, inverse_of: :tender_transaction
+  belongs_to :tender, inverse_of: :tender_transaction
 
   belongs_to :request_for_tender, inverse_of: :tender_transactions
 
@@ -98,9 +98,9 @@ class TenderTransaction < ApplicationRecord
 
   def self.set_up_participant(new_tender_transaction_id)
     new_tender_transaction = TenderTransaction.find(new_tender_transaction_id)
-    new_tender_transaction.participant.purchased = true
-    new_tender_transaction.participant.purchase_time = Time.current
-    new_tender_transaction.participant.save!
+    new_tender_transaction.tender.purchased = true
+    new_tender_transaction.tender.purchase_time = Time.current
+    new_tender_transaction.tender.save!
     new_tender_transaction.status = 'success'
     new_tender_transaction.save!
   end
@@ -117,7 +117,7 @@ class TenderTransaction < ApplicationRecord
 
   def self.create_tender_transaction(amount, customer_number, network_code, participant_id,
                                     request_for_tender_id, status, transaction_id, voucher_code)
-    participant = Participant.find(participant_id)
+    participant = Tender.find(participant_id)
     if participant.tender_transaction.nil?
       tender_transaction = TenderTransaction.new(customer_number: customer_number,
                                                  amount: amount, vodafone_voucher_code: voucher_code,

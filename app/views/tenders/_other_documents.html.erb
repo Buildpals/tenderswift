@@ -1,9 +1,9 @@
-<%= form_with model: @participant,
+<%= form_with model: @tender,
               scope: :participant,
-              url: participant_other_documents_upload_path(@participant),
+              url: participant_other_documents_upload_path(@tender),
               method: :patch,
               local: true,
-              id: 'participant-other-documents-form' do |form| %>
+              id: '@tender-other-documents-form' do |form| %>
   <div class="form-row mb-5">
     <div class="col-md-12">
       <div class="form-group">

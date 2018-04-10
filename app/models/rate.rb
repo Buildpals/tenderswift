@@ -1,3 +1,3 @@
 class Rate < ApplicationRecord
-    belongs_to :participant, inverse_of: :rates
+    belongs_to :tender, inverse_of: :rates
 end

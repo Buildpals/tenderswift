@@ -1,7 +1,7 @@
 class OtherDocumentUpload < ApplicationRecord
   mount_uploader :document, DocumentUploader
 
-  belongs_to :participant, inverse_of: :other_document_uploads
+  belongs_to :tender, inverse_of: :other_document_uploads
 
   validate :check_file_extension
 

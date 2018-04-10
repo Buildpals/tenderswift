@@ -26,13 +26,13 @@ class RequestForTender < ApplicationRecord
                                 allow_destroy: true,
                                 reject_if: :all_blank
 
-  has_many :participants, dependent: :destroy, inverse_of: :request_for_tender
-  accepts_nested_attributes_for :participants,
+  has_many :tenders, dependent: :destroy, inverse_of: :request_for_tender
+  accepts_nested_attributes_for :tenders,
                                 allow_destroy: true,
                                 reject_if: :all_blank
 
 
-  has_many :contractors, through: :participants
+  has_many :contractors, through: :tenders
 
   has_many :tender_transactions, dependent: :destroy, inverse_of: :request_for_tender
 

@@ -67,36 +67,14 @@ ActiveRecord::Schema.define(version: 20180410112008) do
   end
 
   create_table "other_document_uploads", force: :cascade do |t|
-    t.bigint "participant_id"
+    t.bigint "tender_id"
     t.string "document"
     t.integer "status", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "name"
     t.boolean "read"
-    t.index ["participant_id"], name: "index_other_document_uploads_on_participant_id"
-  end
-
-  create_table "participants", force: :cascade do |t|
-    t.bigint "request_for_tender_id"
-    t.string "company_name"
-    t.string "phone_number"
-    t.string "email", null: false
-    t.string "auth_token"
-    t.boolean "purchased", default: false, null: false
-    t.boolean "submitted", default: false, null: false
-    t.datetime "purchase_time"
-    t.datetime "submitted_time"
-    t.boolean "read", default: false, null: false
-    t.float "rating"
-    t.boolean "disqualified", default: false, null: false
-    t.text "notes"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.bigint "contractor_id"
-    t.index ["auth_token"], name: "index_participants_on_auth_token", unique: true
-    t.index ["contractor_id"], name: "index_participants_on_contractor_id"
-    t.index ["request_for_tender_id"], name: "index_participants_on_request_for_tender_id"
+    t.index ["tender_id"], name: "index_other_document_uploads_on_tender_id"
   end
 
   create_table "project_documents", force: :cascade do |t|
@@ -133,14 +111,14 @@ ActiveRecord::Schema.define(version: 20180410112008) do
   end
 
   create_table "rates", force: :cascade do |t|
-    t.bigint "participant_id"
+    t.bigint "tender_id"
     t.string "sheet"
     t.integer "row"
     t.decimal "value"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["participant_id"], name: "index_rates_on_participant_id"
     t.index ["row"], name: "index_rates_on_row"
+    t.index ["tender_id"], name: "index_rates_on_tender_id"
   end
 
   create_table "request_for_tenders", force: :cascade do |t|
@@ -171,14 +149,14 @@ ActiveRecord::Schema.define(version: 20180410112008) do
 
   create_table "required_document_uploads", force: :cascade do |t|
     t.bigint "required_document_id"
-    t.bigint "participant_id"
+    t.bigint "tender_id"
     t.string "document"
     t.integer "status", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "read", default: false
-    t.index ["participant_id"], name: "index_required_document_uploads_on_participant_id"
     t.index ["required_document_id"], name: "index_required_document_uploads_on_required_document_id"
+    t.index ["tender_id"], name: "index_required_document_uploads_on_tender_id"
   end
 
   create_table "required_documents", force: :cascade do |t|
@@ -200,11 +178,33 @@ ActiveRecord::Schema.define(version: 20180410112008) do
     t.datetime "updated_at", null: false
     t.string "vodafone_voucher_code"
     t.string "card_url"
-    t.bigint "participant_id"
-    t.index ["participant_id"], name: "index_tender_transactions_on_participant_id"
+    t.bigint "tender_id"
     t.index ["request_for_tender_id"], name: "index_tender_transactions_on_request_for_tender_id"
+    t.index ["tender_id"], name: "index_tender_transactions_on_tender_id"
   end
 
-  add_foreign_key "participants", "contractors"
-  add_foreign_key "tender_transactions", "participants"
+  create_table "tenders", force: :cascade do |t|
+    t.bigint "request_for_tender_id"
+    t.string "company_name"
+    t.string "phone_number"
+    t.string "email", null: false
+    t.string "auth_token"
+    t.boolean "purchased", default: false, null: false
+    t.boolean "submitted", default: false, null: false
+    t.datetime "purchase_time"
+    t.datetime "submitted_time"
+    t.boolean "read", default: false, null: false
+    t.float "rating"
+    t.boolean "disqualified", default: false, null: false
+    t.text "notes"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "contractor_id"
+    t.index ["auth_token"], name: "index_tenders_on_auth_token", unique: true
+    t.index ["contractor_id"], name: "index_tenders_on_contractor_id"
+    t.index ["request_for_tender_id"], name: "index_tenders_on_request_for_tender_id"
+  end
+
+  add_foreign_key "tender_transactions", "tenders"
+  add_foreign_key "tenders", "contractors"
 end

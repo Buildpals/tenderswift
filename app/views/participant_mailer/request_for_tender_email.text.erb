@@ -1,24 +1,24 @@
-Hello <%= @participant.company_name %>,
+Hello <%= @tender.company_name %>,
 
 
 I am inviting you to participate on a request for tender below:
 
 
-<%= @participant.project_name %>
+<%= @tender.project_name %>
 ============================================================
-<%= @participant.project_description %>
+<%= @tender.project_description %>
 ============================================================
 
 Click the link below to view more information about this request for tender and submit your bid through our online platform.
 NB: Please do not share this link with anyone as it is your unique private link that allows you to tender on this project. Anyone who gets it can submit a tender in your name.
 
-<%= participants_project_information_url(@participant) %>
+<%= participants_project_information_url(@tender) %>
 
 
-The deadline for submitting your bid is: <%= @participant.project_deadline.to_formatted_s(:long) %>
+The deadline for submitting your bid is: <%= @tender.project_deadline.to_formatted_s(:long) %>
 
 
 Kind regards,
-<%= @participant.project_owners_name %>
-<%= @participant.project_owners_company_name %>
-<%= @participant.project_owners_phone_number %>
+<%= @tender.project_owners_name %>
+<%= @tender.project_owners_company_name %>
+<%= @tender.project_owners_phone_number %>
