@@ -31,6 +31,9 @@ class RequestForTender < ApplicationRecord
                                 allow_destroy: true,
                                 reject_if: :all_blank
 
+
+  has_many :contractors, through: :participants
+
   has_many :tender_transactions, dependent: :destroy, inverse_of: :request_for_tender
 
   enum withdrawal_frequency: { 'Monthly' => 0, 'Every two weeks' => 1, 'Weekly' => 2 }

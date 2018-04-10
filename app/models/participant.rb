@@ -16,6 +16,7 @@ class Participant < ApplicationRecord
   scope :disqualified, -> { where(disqualified: true) }
   scope :not_disqualified, -> { where(disqualified: false) }
 
+  belongs_to :contractor, inverse_of: :participants
   belongs_to :request_for_tender, inverse_of: :participants
 
   has_many :required_document_uploads, inverse_of: :participant
