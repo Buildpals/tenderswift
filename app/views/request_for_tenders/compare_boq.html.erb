@@ -19,7 +19,7 @@
     <div class="col-md-12">
       <div id='hello'>
         <comparison-boq
-        :participants="<%= @request_for_tender.participants.to_json(include: :rates) %>"
+        :tenders="<%= @request_for_tender.tenders.to_json(include: :rates) %>"
         :workbook-data="<%= @request_for_tender.bill_of_quantities %>"
         currency="<%= @request_for_tender.currency_symbol %>"
         qs-company-name="<%= @request_for_tender.project_owners_company_name %>"

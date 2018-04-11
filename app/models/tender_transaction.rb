@@ -1,15 +1,16 @@
+# frozen_string_literal: true
+
 require 'faraday'
 class TenderTransaction < ApplicationRecord
+  # xchange.korbaweb.com
 
-  #xchange.korbaweb.com
+  SECRET_KEY = 'c610c0b75f1711a1c392c6a5d823390ee31e8c0ba40b9f2778570b249fa2c958'
 
-  SECRET_KEY = 'c610c0b75f1711a1c392c6a5d823390ee31e8c0ba40b9f2778570b249fa2c958'.freeze
+  CLIENT_KEY = '8e10dd4fd8bf4dc6efc76a4560d7b77a216ae4a9'
 
-  CLIENT_KEY = '8e10dd4fd8bf4dc6efc76a4560d7b77a216ae4a9'.freeze
+  URL = 'https://korbaxchange.herokuapp.com'
 
-  URL = 'https://korbaxchange.herokuapp.com'.freeze
-
-  CALLBACK_URL = 'https://tenderswift-production.herokuapp.com/tender/transactions/complete_transaction/'.freeze
+  CALLBACK_URL = 'https://tenderswift-production.herokuapp.com/tender/transactions/complete_transaction/'
 
   CLIENT_ID = 15
 
@@ -71,32 +72,54 @@ class TenderTransaction < ApplicationRecord
     authorization
   end
 
-  def self.make_payment(authorization, payload, customer_number,
-                        amount, voucher_code = nil,
-                        network_code, status, participant_id, request_for_tender_id,transaction_id)
-    conn = set_up_faraday
-    response = send_request_to_korbaweb(authorization, conn, payload)
-    puts response.body
-    response_hash = turn_response_to_hash(response.body)
-    if response_hash['success'] == true
-      new_tender_transaction_id = create_tender_transaction(amount, customer_number, network_code, participant_id,
-                                request_for_tender_id, status, transaction_id, voucher_code)
-      if network_code.eql?('CRD')
-        set_up_participant(new_tender_transaction_id)
-        return response_hash['redirect_url']
-      elsif !response_hash['results'].nil?
-        return response_hash['results']
+  def self.make_payment(authorization,
+                        payload,
+                        customer_number,
+                        amount,
+                        voucher_code = nil,
+                        network_code,
+                        status,
+                        tender_id,
+                        request_for_tender_id,
+                        transaction_id)
+
+    if Rails.env.production?
+      conn = set_up_faraday
+      response = send_request_to_korbaweb(authorization, conn, payload)
+      puts response.body
+      response_hash = turn_response_to_hash(response.body)
+      if response_hash['success'] == true
+        new_tender_transaction_id = create_tender_transaction(amount, customer_number,
+                                                              network_code,
+                                                              tender_id,
+                                                              request_for_tender_id,
+                                                              status,
+                                                              transaction_id,
+                                                              voucher_code)
+        if network_code.eql?('CRD')
+          set_up_tender(new_tender_transaction_id)
+          return response_hash['redirect_url']
+        elsif !response_hash['results'].nil?
+          return response_hash['results']
+        else
+          return response_hash['details']
+        end
       else
-        return response_hash['details']
+        return response_hash['error_message']
       end
     else
-      return response_hash['error_message']
+      new_tender_transaction_id = create_tender_transaction(amount, customer_number,
+                                                            network_code,
+                                                            tender_id,
+                                                            request_for_tender_id,
+                                                            status,
+                                                            transaction_id,
+                                                            voucher_code)
     end
+
   end
 
-  private
-
-  def self.set_up_participant(new_tender_transaction_id)
+  def self.set_up_tender(new_tender_transaction_id)
     new_tender_transaction = TenderTransaction.find(new_tender_transaction_id)
     new_tender_transaction.tender.purchased = true
     new_tender_transaction.tender.purchase_time = Time.current
@@ -105,30 +128,36 @@ class TenderTransaction < ApplicationRecord
     new_tender_transaction.save!
   end
 
-  def self.turn_response_to_hash (response_body)
-    begin
-      JSON.parse(response_body.gsub("'",'"').gsub('=>',':'))
-    rescue JSON::ParserError
-      hash = {}
-      hash['error_message'] = 'Application Error'
-      return hash
-    end
+  private
+
+  def self.turn_response_to_hash(response_body)
+    JSON.parse(response_body.tr("'", '"').gsub('=>', ':'))
+  rescue JSON::ParserError
+    hash = {}
+    hash['error_message'] = 'Application Error'
+    hash
   end
 
-  def self.create_tender_transaction(amount, customer_number, network_code, participant_id,
-                                    request_for_tender_id, status, transaction_id, voucher_code)
-    participant = Tender.find(participant_id)
-    if participant.tender_transaction.nil?
+  def self.create_tender_transaction(amount,
+                                     customer_number,
+                                     network_code,
+                                     tender_id,
+                                     request_for_tender_id,
+                                     status,
+                                     transaction_id,
+                                     voucher_code)
+    tender = Tender.find(tender_id)
+    if tender.tender_transaction.nil?
       tender_transaction = TenderTransaction.new(customer_number: customer_number,
                                                  amount: amount, vodafone_voucher_code: voucher_code,
                                                  network_code: network_code, status: status,
-                                                 participant_id: participant_id,
+                                                 tender_id: tender_id,
                                                  transaction_id: transaction_id)
       tender_transaction.request_for_tender = RequestForTender.find(request_for_tender_id)
       tender_transaction.save
       tender_transaction.id
     else
-      participant.tender_transaction.id
+      tender.tender_transaction.id
     end
   end
 
@@ -142,11 +171,11 @@ class TenderTransaction < ApplicationRecord
   end
 
   def self.set_up_faraday
-    uri = URI.parse(self.url)
+    uri = URI.parse(url)
     if Rails.env.production?
-      conn = Faraday.new(:url => url, :proxy => "http://cyodkufnwbjy91:HN5Nhvd1h34IuipMXYzDQ_07Bg@us-east-static-04.quotaguard.com:9293")
+      conn = Faraday.new(url: url, proxy: 'http://cyodkufnwbjy91:HN5Nhvd1h34IuipMXYzDQ_07Bg@us-east-static-04.quotaguard.com:9293')
     else
-      conn = Faraday.new(:url => url)
+      conn = Faraday.new(url: url)
     end
     conn
   end

@@ -30,22 +30,22 @@ Rails.application.routes.draw do
   patch '/tender/:id/update/payment_method', to: 'create_tender#update_tender_payment_method', as: 'update_tender_payment_method'
   patch '/payment/details/:id', to: 'create_tender#update_payment_details', as: 'update_payment_details'
 
-  get '/tender/:id/edit/tenders', to: 'create_tender#edit_tender_participants', as: 'edit_tender_participants'
-  patch '/tender/:id/update/tenders', to: 'create_tender#update_tender_participants', as: 'update_tender_participants'
+  get '/tender/:id/edit/tenders', to: 'create_tender#edit_tender_tenders', as: 'edit_tender_tenders'
+  patch '/tender/:id/update/tenders', to: 'create_tender#update_tender_tenders', as: 'update_tender_tenders'
 
   get '/projects/public/:id', to: 'request_for_tenders#portal', as: 'request_for_tender_portal'
 
-  get '/tenders/:id', to: 'tenders#project_information', as: 'participants_project_information'
-  get '/tenders/:id/tender_documents', to: 'tenders#tender_documents', as: 'participants_tender_documents'
-  get '/tenders/:id/required_documents', to: 'tenders#required_documents', as: 'participants_required_documents'
-  get '/tenders/:id/boq', to: 'tenders#boq', as: 'participants_boq'
-  get '/tenders/:id/other/documents', to: 'tenders#other_documents', as: 'participant_other_documents'
-  get '/tenders/:id/results', to: 'tenders#results', as: 'participants_results'
-  patch '/tenders/:id/rating', to: 'tenders#rating', as: 'participant_ratings'
+  get '/tenders/:id', to: 'tenders#project_information', as: 'tenders_project_information'
+  get '/tenders/:id/tender_documents', to: 'tenders#tender_documents', as: 'tenders_tender_documents'
+  get '/tenders/:id/required_documents', to: 'tenders#required_documents', as: 'tenders_required_documents'
+  get '/tenders/:id/boq', to: 'tenders#boq', as: 'tenders_boq'
+  get '/tenders/:id/other/documents', to: 'tenders#other_documents', as: 'tender_other_documents'
+  get '/tenders/:id/results', to: 'tenders#results', as: 'tenders_results'
+  patch '/tenders/:id/rating', to: 'tenders#rating', as: 'tender_ratings'
 
   post '/tenders/pay_public_tender/', to: 'tenders#pay_public_tender', as: 'pay_public_tender'
-  post '/tenders/:id/required_document_uploads/', to: 'tenders#required_document_uploads', as: 'participants_upload_required_documents'
-  patch '/tenders/:id/other_document_uploads/', to: 'tenders#other_document_uploads', as: 'participant_other_documents_upload'
+  post '/tenders/:id/required_document_uploads/', to: 'tenders#required_document_uploads', as: 'tenders_upload_required_documents'
+  patch '/tenders/:id/other_document_uploads/', to: 'tenders#other_document_uploads', as: 'tender_other_documents_upload'
   post '/tenders/save_rates/:id/', to: 'tenders#save_rates'
   get '/tender/transactions/complete_transaction/', to: 'tender_transactions#complete_transaction', as: 'complete_transaction'
 

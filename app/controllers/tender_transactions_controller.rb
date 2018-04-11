@@ -24,10 +24,10 @@ class TenderTransactionsController < ApplicationController
                                                  params[:tender_transaction][:vodafone_voucher_code],
                                                  params[:tender_transaction][:network_code],
                                                  params[:tender_transaction][:status],
-                                                 params[:tender_transaction][:participant_id],
+                                                 params[:tender_transaction][:tender_id],
                                                  params[:tender_transaction][:request_for_tender_id],
                                                  payload['transaction_id'])
-    @tender = Tender.find(params[:tender_transaction][:participant_id])
+    @tender = Tender.find(params[:tender_transaction][:tender_id])
     @tender.purchase_time = Time.new
     @tender.rating = 0
     @tender.save!
@@ -40,7 +40,7 @@ class TenderTransactionsController < ApplicationController
       flash[:notice] = results + '. Check your email after responding to the
                                    prompt on your phone. Thank you!'
     end
-    redirect_to participants_required_documents_url @tender
+    redirect_to tenders_required_documents_url @tender
   end
 
   # PATCH/PUT /tender_transactions/1
@@ -67,12 +67,12 @@ class TenderTransactionsController < ApplicationController
     transaction_id = params['transaction_id']
     status = params['status']
     transaction = TenderTransaction.find_by(transaction_id: transaction_id)
-    participant = Tender.find(transaction.participant_id)
+    tender = Tender.find(transaction.tender_id)
     if status.eql?('SUCCESS')
       transaction.status = 'success'
       transaction.save!
-      participant.update(purchased: true, purchase_time: Time.current)
-      TenderTransactionMailer.confirm_purchase_email(participant).deliver_now
+      tender.update(purchased: true, purchase_time: Time.current)
+      TenderTransactionMailer.confirm_purchase_email(tender).deliver_now
     else
       transaction.status = 'failed'
       transaction.save!
@@ -95,9 +95,9 @@ class TenderTransactionsController < ApplicationController
                   :vodafone_voucher_code,
                   :network_code,
                   :status,
-                  :participant_id,
+                  :tender_id,
                   :request_for_tender_id,
-                  participant_attributes: %i[id
+                  tender_attributes: %i[id
                                              email
                                              phone_number
                                              company_name

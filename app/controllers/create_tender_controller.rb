@@ -3,7 +3,7 @@ class CreateTenderController < ApplicationController
                                                   edit_tender_documents
                                                   edit_tender_boq
                                                   edit_tender_required_documents
-                                                  edit_tender_participants
+                                                  edit_tender_tenders
                                                   edit_tender_payment_method
                                                   update_tender_information
                                                   update_tender_documents
@@ -11,7 +11,7 @@ class CreateTenderController < ApplicationController
                                                   update_contract_sum_address
                                                   update_tender_required_documents
                                                   update_tender_payment_method
-                                                  update_tender_participants
+                                                  update_tender_tenders
                                                   update_payment_details]
 
   before_action :authenticate_quantity_surveyor!
@@ -100,7 +100,7 @@ class CreateTenderController < ApplicationController
   end
 
   def edit_tender_payment_method
-    @next_path = edit_tender_participants_path(@request_for_tender)
+    @next_path = edit_tender_tenders_path(@request_for_tender)
   end
 
   def update_tender_payment_method
@@ -108,7 +108,7 @@ class CreateTenderController < ApplicationController
       if params[:commit] == 'Back'
         redirect_to edit_tender_required_documents_path(@request_for_tender)
       elsif params[:commit] == 'Next'
-        redirect_to edit_tender_participants_path(@request_for_tender)
+        redirect_to edit_tender_tenders_path(@request_for_tender)
       else
         redirect_to edit_tender_payment_method_path(@request_for_tender)
       end
@@ -127,26 +127,26 @@ class CreateTenderController < ApplicationController
     end
   end
 
-  def edit_tender_participants
-    5.times { @request_for_tender.participants.build } if @request_for_tender.participants.empty?
+  def edit_tender_tenders
+    5.times { @request_for_tender.tenders.build } if @request_for_tender.tenders.empty?
   end
 
-  def update_tender_participants
+  def update_tender_tenders
     if @request_for_tender.update(request_params)
       if params[:commit] == 'Back'
         redirect_to edit_tender_payment_method_path(@request_for_tender)
       elsif params[:commit] == 'Publish'
         if @request_for_tender.private?
-          email_participants
+          email_tenders
         else
           @request_for_tender.update(published: true, published_time: Time.current)
           redirect_to request_for_tender_path
         end
       else
-        redirect_to edit_tender_participants_path
+        redirect_to edit_tender_tenders_path
       end
     else
-      render :edit_tender_participants
+      render :edit_tender_tenders
     end
   end
 
@@ -160,15 +160,15 @@ class CreateTenderController < ApplicationController
     end
   end
 
-  def email_participants
+  def email_tenders
     if @request_for_tender.published?
       redirect_to @request_for_tender,
                   notice: 'The tenders of this request have been contacted already'
-    elsif @request_for_tender.participants.empty?
-      redirect_to edit_tender_participants_path(@request_for_tender),
+    elsif @request_for_tender.tenders.empty?
+      redirect_to edit_tender_tenders_path(@request_for_tender),
                   alert: 'You did not specify any tenders for the request.'
     else
-      send_emails_to_participants
+      send_emails_to_tenders
       @request_for_tender.update(published: true, published_time: Time.current)
       redirect_to @request_for_tender, notice: 'An email has been sent to each @tender of this request.'
     end
@@ -181,9 +181,9 @@ class CreateTenderController < ApplicationController
     authorize @request_for_tender
   end
 
-  def send_emails_to_participants
-    @request_for_tender.participants.each do |participant|
-      ParticipantMailer.request_for_tender_email(participant, @request_for_tender).deliver_later
+  def send_emails_to_tenders
+    @request_for_tender.tenders.each do |tender|
+      ContractorMailer.request_for_tender_email(tender, @request_for_tender).deliver_later
     end
   end
 
@@ -209,7 +209,7 @@ class CreateTenderController < ApplicationController
                                                    document
                                                    _destroy],
                   contract_sum_address: %i[sheet cellAddress],
-                  participants_attributes: %i[id
+                  tenders_attributes: %i[id
                                               email
                                               phone_number
                                               company_name

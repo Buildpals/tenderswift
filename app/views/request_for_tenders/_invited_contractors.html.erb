@@ -4,7 +4,7 @@
       Invited
       <small>
       <span class="badge badge-pill badge-primary">
-        <%= @request_for_tender.participants.count %>
+        <%= @request_for_tender.tenders.count %>
       </span>
       </small>
     </a>
@@ -16,18 +16,18 @@
 </div>
 <div id="collapseAll" class="collapse" role="tabpanel" aria-labelledby="headingAll" data-parent="#accordion">
   <ul class="list-group list-group-flush">
-    <% @request_for_tender.participants.each do |participant| %>
+    <% @request_for_tender.tenders.each do |tender| %>
       <li class="list-group-item list-group-item-action flex-column align-items-start">
         <div class="d-flex w-100 justify-content-between">
-          <div class="mb-1"><%= participant.name %></div>
+          <div class="mb-1"><%= tender.name %></div>
         </div>
         <small class="text-muted">
-          <a href="mailto:<%= participant.project_owners_email %>?subject=<%= "re: Invitation to Tender for #{participant.project_name}" %>"
+          <a href="mailto:<%= tender.project_owners_email %>?subject=<%= "re: Invitation to Tender for #{tender.project_name}" %>"
              target="_blank">
             <span class="fa fa-user"></span>
-            <%= participant.email %>
+            <%= tender.email %>
           </a>
-          (<%= participant.phone_number %>)
+          (<%= tender.phone_number %>)
         </small>
       </li>
     <% end %>
@@ -35,11 +35,11 @@
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="participants-modal" tabindex="-1" role="dialog" aria-labelledby="participants-modal-label" aria-hidden="true">
+<div class="modal fade" id="tenders-modal" tabindex="-1" role="dialog" aria-labelledby="tenders-modal-label" aria-hidden="true">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="participants-modal-label">
+        <h5 class="modal-title" id="tenders-modal-label">
           Edit Participants
         </h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -49,7 +49,7 @@
       <div class="modal-body" style="height: 500px; overflow: scroll">
           <%= form_with model: @request_for_tender,
                         scope: :request_for_tender,
-                        url: update_tender_participants_path(@request_for_tender),
+                        url: update_tender_tenders_path(@request_for_tender),
                         method: :patch,
                         local: true,
                         id: 'request-form' do |form| %>
@@ -81,7 +81,7 @@
             </div>
 
 
-            <div class="form-row mb-5" id="participantsDiv" data-participants-div style="display: none">
+            <div class="form-row mb-5" id="tendersDiv" data-tenders-div style="display: none">
               <div class="col-md-12">
                 <div class="form-group">
                   <%= form.label :tenders, 'Allowed tenders', class: 'pb-0 mb-0' %>
@@ -101,8 +101,8 @@
                   </div>
 
                   <ul class="list-group list-group-flush nested-forms">
-                    <%= form.fields_for :tenders do |participant| %>
-                      <%= render 'participant_fields', f: participant %>
+                    <%= form.fields_for :tenders do |tender| %>
+                      <%= render 'tender_fields', f: tender %>
                     <% end %>
                     <li class="d-flex w-100 justify-content-between">
                       <%= link_to_add_association 'ADD ANOTHER PARTICIPANT', form, :tenders,

@@ -21,7 +21,7 @@
 
   export default {
     props: [
-      'participants',
+      'tenders',
       'workbook',
       'sheetIndex',
       'currency',
@@ -46,10 +46,10 @@
     },
     computed: {
       dataSchema () {
-        let participantKeys = {}
-        this.participants.forEach(participant => {
-          let amountKey = `amount (${participant.company_name})`
-          participantKeys[amountKey] = null
+        let tenderKeys = {}
+        this.tenders.forEach(tender => {
+          let amountKey = `amount (${tender.company_name})`
+          tenderKeys[amountKey] = null
         })
         return {
           'item': null,
@@ -57,15 +57,15 @@
           'quantity': null,
           'unit': null,
           'amount': null,
-          ...participantKeys,
+          ...tenderKeys,
           'last': null
         }
       },
       columns () {
-        let participantKeys = []
-        this.participants.forEach(participant => {
-          let amountKey = `amount (${participant.company_name})`
-          participantKeys.push({
+        let tenderKeys = []
+        this.tenders.forEach(tender => {
+          let amountKey = `amount (${tender.company_name})`
+          tenderKeys.push({
             data: amountKey,
             type: 'numeric',
             numericFormat: {
@@ -101,14 +101,14 @@
             },
             allowEmpty: false
           },
-          ...participantKeys,
+          ...tenderKeys,
           {
             data: 'last'
           }
         ]
       },
       sheetData () {
-        return process_wb_comparison(this.workbook, this.sheetIndex, this.participants)
+        return process_wb_comparison(this.workbook, this.sheetIndex, this.tenders)
       }
     },
     methods: {

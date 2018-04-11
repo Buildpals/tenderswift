@@ -1,6 +1,6 @@
 <%= form_with model: @tender,
-              scope: :participant,
-              url: participant_other_documents_upload_path(@tender),
+              scope: :tender,
+              url: tender_other_documents_upload_path(@tender),
               method: :patch,
               local: true,
               id: '@tender-other-documents-form' do |form| %>

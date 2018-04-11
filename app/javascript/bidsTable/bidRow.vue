@@ -1,31 +1,31 @@
 <template>
     <tr>
         <td>
-            <span data-toggle="tooltip" data-placement="top" :title="participant.email">
-                  {{ participant.company_name }}
+            <span data-toggle="tooltip" data-placement="top" :title="tender.email">
+                  {{ tender.company_name }}
             </span>
         </td>
         <td class="text-right">
             {{ currency }}
-            {{ participant.contract_sum.toLocaleString('en', {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}
+            {{ tender.contract_sum.toLocaleString('en', {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}
         </td>
         <td class="text-right">
             {{ currency }}
-            {{ contractSumDifference(qsContractSum, participant.contract_sum).toLocaleString('en', {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}
+            {{ contractSumDifference(qsContractSum, tender.contract_sum).toLocaleString('en', {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}
             <br>
             <small>
-                {{ contractSumDifferencePercentage(qsContractSum, participant.contract_sum).toLocaleString('percent', {minimumFractionDigits: 0}) }}%
+                {{ contractSumDifferencePercentage(qsContractSum, tender.contract_sum).toLocaleString('percent', {minimumFractionDigits: 0}) }}%
             </small>
         </td>
         <td class="text-right">
-            {{ participant.rating ? participant.rating.toLocaleString('en', {minimumFractionDigits: 2, maximumFractionDigits: 2}) : 'Not rated' }}
+            {{ tender.rating ? tender.rating.toLocaleString('en', {minimumFractionDigits: 2, maximumFractionDigits: 2}) : 'Not rated' }}
         </td>
         <td>
-            <a :href="`/bids/${participant.auth_token}`" class="btn btn-xs btn-link">View bid</a>
+            <a :href="`/bids/${tender.auth_token}`" class="btn btn-xs btn-link">View bid</a>
         </td>
         <td class="w-100 d-flex justify-content-center">
-            <button class="btn btn-sm btn-light" @click="undoDisqualifyBid(participant)" v-if="participant.disqualified">Add to Shortlist</button>
-            <button class="btn btn-sm btn-light" @click="disqualifyBid(participant)" v-else>Disqualify</button>
+            <button class="btn btn-sm btn-light" @click="undoDisqualifyBid(tender)" v-if="tender.disqualified">Add to Shortlist</button>
+            <button class="btn btn-sm btn-light" @click="disqualifyBid(tender)" v-else>Disqualify</button>
         </td>
     </tr>
 </template>
@@ -33,19 +33,19 @@
 <script>
   export default {
     props: [
-      'participant',
+      'tender',
       'currency',
       'qsContractSum'
     ],
     methods: {
-      contractSumDifference (qsContractSum, participantsContractSum) {
-        return (qsContractSum - participantsContractSum)
+      contractSumDifference (qsContractSum, tendersContractSum) {
+        return (qsContractSum - tendersContractSum)
       },
-      contractSumDifferencePercentage (qsContractSum, participantsContractSum) {
-        return  (( (qsContractSum - participantsContractSum) / qsContractSum ) * 100 )
+      contractSumDifferencePercentage (qsContractSum, tendersContractSum) {
+        return  (( (qsContractSum - tendersContractSum) / qsContractSum ) * 100 )
       },
-      undoDisqualifyBid (participant) {
-        this.$http.post(`/bids/undo_disqualify/${participant.auth_token}`, {})
+      undoDisqualifyBid (tender) {
+        this.$http.post(`/bids/undo_disqualify/${tender.auth_token}`, {})
           .then(response => {
             console.log(response)
             location.reload()
@@ -54,8 +54,8 @@
             console.error(error)
           })
       },
-      disqualifyBid (participant) {
-        this.$http.post(`/bids/disqualify/${participant.auth_token}`, {})
+      disqualifyBid (tender) {
+        this.$http.post(`/bids/disqualify/${tender.auth_token}`, {})
           .then(response => {
             console.log(response)
             location.reload()

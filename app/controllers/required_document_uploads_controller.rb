@@ -11,6 +11,6 @@ class RequiredDocumentUploadsController < ApplicationController
 
   def required_document_upload_params
     params.require(:required_document_upload).permit(:status, :required_document_id,
-                                                     :participant_id, :document)
+                                                     :tender_id, :document)
   end
 end

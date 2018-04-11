@@ -1,10 +1,10 @@
 module ApplicationHelper
-  def page_as_json(page, participant = nil)
+  def page_as_json(page, tender = nil)
     sheet_data = []
     page.sections.each do |section|
       create_section_header(section, sheet_data)
-      if participant
-        add_items_and_filled_items_to_section(section, sheet_data, participant)
+      if tender
+        add_items_and_filled_items_to_section(section, sheet_data, tender)
       else
         add_items_to_section(section, sheet_data)
       end
@@ -27,13 +27,13 @@ module ApplicationHelper
     end
   end
 
-  def add_items_and_filled_items_to_section(section, sheet_data, participant)
+  def add_items_and_filled_items_to_section(section, sheet_data, tender)
     section.items.each do |item|
       sheet_data.push(item: item.name,
                       description: item.description,
                       quantity: item.quantity,
                       unit: item.unit,
-                      filled_item:  participant.filled_item(item))
+                      filled_item:  tender.filled_item(item))
     end
   end
 

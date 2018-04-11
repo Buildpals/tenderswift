@@ -145,13 +145,13 @@ class RequestForTender < ApplicationRecord
   end
 
   def get_disqualified_contractors
-    disqualified_participants = []
-    participants.lazy.each do |participant|
-      unless winner.auth_token.eql?(participant.auth_token)
-        disqualified_participants.push(participant)
+    disqualified_tenders = []
+    tenders.lazy.each do |tender|
+      unless winner.auth_token.eql?(tender.auth_token)
+        disqualified_tenders.push(tender)
       end
     end
-    disqualified_participants
+    disqualified_tenders
   end
 
   def tender_figure
@@ -174,8 +174,8 @@ class RequestForTender < ApplicationRecord
 
   def comparison_workbook
     workbook = JSON.parse(bill_of_quantities)
-    participants.each_with_index do |participant, index|
-      participant.rates.each do |rate|
+    tenders.each_with_index do |tender, index|
+      tender.rates.each do |rate|
         cell_address = "#{to_s26(index + 1 + 6)}#{rate.row}"
         workbook['Sheets'][rate.sheet][cell_address] = { f: "=C#{rate.row}*#{rate.value}" }
       end

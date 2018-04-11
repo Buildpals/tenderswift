@@ -9,7 +9,7 @@
 
   export default {
     props: [
-      'participants',
+      'tenders',
       'currency',
       'qsContractSum',
       'qsCompanyName'
@@ -22,7 +22,7 @@
       this.chart.destroy()
     },
     watch: {
-      'participants': 'updateChart'
+      'tenders': 'updateChart'
     },
     data () {
       return {
@@ -75,13 +75,13 @@
         this.chart = new Chart(ctx, {
           type: 'horizontalBar',
           data: {
-            labels: [this.qsCompanyName, ...this.participants.map(participant => participant.company_name)],
+            labels: [this.qsCompanyName, ...this.tenders.map(tender => tender.company_name)],
             datasets: [
               {
                 label: 'Tender Figure',
                 backgroundColor: ['rgba(62, 149, 205, 0.5)', 'rgba(142, 94, 162, 0.5)', 'rgba(60, 186, 159, 0.5)', 'rgba(232, 195, 185, 0.5)', 'rgba(196, 88, 80, 0.5)',
                   'rgba(233, 150, 122, 0.5)', 'rgba(255, 255, 0, 0.5)', 'rgba(128, 128, 0, 0.5)', 'rgba(0, 128, 128, 0.5)', 'rgba(255, 0, 255, 0.5)', 'rgba(240, 128, 128, 0.5)'],
-                data: [this.qsContractSum, ...this.participants.map(participant => participant.contract_sum)]
+                data: [this.qsContractSum, ...this.tenders.map(tender => tender.contract_sum)]
               }
             ]
           },
@@ -109,13 +109,13 @@
         })
       },
       updateChart () {
-        this.chart.data.labels = this.participants.map(participant => participant.company_name)
+        this.chart.data.labels = this.tenders.map(tender => tender.company_name)
         this.chart.data.datasets = [
           {
             label: 'Tender Figure',
             backgroundColor: ['rgba(62, 149, 205, 0.5)', 'rgba(142, 94, 162, 0.5)', 'rgba(60, 186, 159, 0.5)', 'rgba(232, 195, 185, 0.5)', 'rgba(196, 88, 80, 0.5)',
               'rgba(233, 150, 122, 0.5)', 'rgba(255, 255, 0, 0.5)', 'rgba(128, 128, 0, 0.5)', 'rgba(0, 128, 128, 0.5)', 'rgba(255, 0, 255, 0.5)', 'rgba(240, 128, 128, 0.5)'],
-            data: this.participants.map(participant => participant.contract_sum)
+            data: this.tenders.map(tender => tender.contract_sum)
           }
         ]
         this.chart.update();

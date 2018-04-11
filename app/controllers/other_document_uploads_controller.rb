@@ -4,7 +4,7 @@ class OtherDocumentUploadsController < ApplicationController
   before_action :mark_other_document_as_read, only: %i[image_viewer
                                                        pdf_viewer]
 
-  before_action :set_participant, only: %i[other_documents]
+  before_action :set_tender, only: %i[other_documents]
 
   before_action :authenticate_quantity_surveyor!
 
@@ -33,12 +33,12 @@ class OtherDocumentUploadsController < ApplicationController
   private
 
   def mark_other_document_as_read
-    set_participant
+    set_tender
     set_other_document_upload
     @other_document_upload.update!(read: true)
   end
 
-  def set_participant
+  def set_tender
     @tender = Tender.find_by_auth_token(params[:id])
   end
 
@@ -51,7 +51,7 @@ class OtherDocumentUploadsController < ApplicationController
   def bid_params
     params.require(:other_document_upload)
           .permit(:name,
-                  :participant_id,
+                  :tender_id,
                   :document,
                   :status,
                   :read)

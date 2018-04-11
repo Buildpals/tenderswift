@@ -126,24 +126,24 @@ export function to_json (workbook) {
   return result
 }
 
-export function process_wb_comparison (wb, sheetIndex, participants) {
+export function process_wb_comparison (wb, sheetIndex, tenders) {
   const sheet = wb.SheetNames[sheetIndex || 0]
-  return to_json_comparison(wb, participants)[sheet]
+  return to_json_comparison(wb, tenders)[sheet]
 }
 
-export function to_json_comparison (workbook, participants) {
+export function to_json_comparison (workbook, tenders) {
   XLSX.SSF.load_table(workbook.SSF)
   const result = {}
 
-  let participantKeys = []
-  participants.forEach(participant => {
-    let rateKey = `rate (${participant.company_name})`
-    let amountKey = `amount (${participant.company_name})`
-    participantKeys.push(rateKey)
-    participantKeys.push(amountKey)
+  let tenderKeys = []
+  tenders.forEach(tender => {
+    let rateKey = `rate (${tender.company_name})`
+    let amountKey = `amount (${tender.company_name})`
+    tenderKeys.push(rateKey)
+    tenderKeys.push(amountKey)
   })
 
-  let header = [ "item","description","quantity","unit","rate","amount", ...participantKeys ]
+  let header = [ "item","description","quantity","unit","rate","amount", ...tenderKeys ]
 
   workbook.SheetNames.forEach(function (sheetName) {
     let sheet = workbook.Sheets[sheetName]

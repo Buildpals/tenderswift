@@ -3,7 +3,7 @@ module TenderTransactionsHelper
   def extract_payload (tender_transaction_params, request_for_tender_id)
     payload = {}
     tender_transaction_params.each { |k, v|
-      unless k.eql?('participant_id') || k.eql?('request_for_tender_id')
+      unless k.eql?('tender_id') || k.eql?('request_for_tender_id')
         payload[k] = v
       end
     }

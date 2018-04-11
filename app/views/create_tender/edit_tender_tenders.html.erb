@@ -1,6 +1,6 @@
 <%= form_with model: @request_for_tender,
               scope: :request_for_tender,
-              url: update_tender_participants_path(@request_for_tender),
+              url: update_tender_tenders_path(@request_for_tender),
               method: :patch,
               local: true,
               id: 'request-form' do |form| %>
@@ -34,7 +34,7 @@
   </div>
 
 
-  <div class="form-row mb-5" id="participantsDiv" style="display: none">
+  <div class="form-row mb-5" id="tendersDiv" style="display: none">
     <div class="col-md-12">
       <div class="form-group">
         <%= form.label :tenders, 'Allowed tenders', class: 'pb-0 mb-0' %>
@@ -54,8 +54,8 @@
         </div>
 
         <ul class="list-group list-group-flush nested-forms">
-          <%= form.fields_for :tenders do |participant| %>
-            <%= render 'participant_fields', f: participant %>
+          <%= form.fields_for :tenders do |tender| %>
+            <%= render 'tender_fields', f: tender %>
           <% end %>
           <li class="d-flex w-100 justify-content-between">
             <%= link_to_add_association 'ADD ANOTHER PARTICIPANT', form, :tenders,
@@ -97,7 +97,7 @@
         </button>
       </div>
       <div class="modal-body" style="height: 500px; overflow: scroll">
-        <%= render 'participant_mailer/participant_email_template', participant: @tender %>
+        <%= render 'contractor_mailer/tender_email_template', tender: @tender %>
       </div>
     </div>
   </div>
@@ -106,9 +106,9 @@
 
 <script type="text/javascript">
   function ShowHideDiv (chkPassport) {
-    var participantsDiv = document.getElementById('participantsDiv')
+    var tendersDiv = document.getElementById('tendersDiv')
     var publicLinkDiv = document.getElementById('publicLinkDiv')
-    participantsDiv.style.display = chkPassport.checked ? 'block' : 'none'
+    tendersDiv.style.display = chkPassport.checked ? 'block' : 'none'
     publicLinkDiv.style.display = chkPassport.checked ? 'none' : 'block'
   }
 

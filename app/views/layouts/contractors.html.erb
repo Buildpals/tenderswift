@@ -9,17 +9,17 @@
 
   <body class="<%= controller_name %> <%= action_name %>">
 
-    <%= render 'layouts/participants_navbar' %>
+    <%= render 'layouts/contractors_navbar' %>
 
     <div class="content">
 
-      <%= render 'layouts/participants_page_head' %>
+      <%= render 'layouts/contractors_page_head' %>
 
       <%= yield %>
 
     </div>
 
-    <%= render 'layouts/participants_footer' unless action_name == 'boq' %>
+    <%= render 'layouts/contractors_footer' unless action_name == 'boq' %>
 
     <script type="text/javascript" charset="utf-8">
         $(function () {

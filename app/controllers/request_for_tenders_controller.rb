@@ -115,7 +115,7 @@ class RequestForTendersController < ApplicationController
                   :account_name,
                   :account_number,
                   :private,
-                  participants_attributes: %i[id
+                  tenders_attributes: %i[id
                                               email
                                               phone_number
                                               company_name

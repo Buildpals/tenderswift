@@ -40,7 +40,7 @@
 
   export default {
     props: [
-      'participantId',
+      'tenderId',
       'workbookData',
       'rates',
       'currency',
@@ -91,7 +91,7 @@
 
         console.log('saving rates...', rates)
         this.saveStatus = 'saving'
-        this.$http.post(`/participants/save_rates/${this.participantId}`, {rates: rates})
+        this.$http.post(`/tenders/save_rates/${this.tenderId}`, {rates: rates})
           .then(response => {
             console.log(response)
             this.saveStatus = 'saved'

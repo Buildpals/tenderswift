@@ -1,7 +1,7 @@
 <% if @tender.request_for_tender.bill_of_quantities.present? %>
   <div id='hello'>
     <rate-filling-boq
-    participant-id="<%= @tender.auth_token %>"
+    tender-id="<%= @tender.auth_token %>"
     :rates="<%= @tender.rates.to_json %>"
     :workbook-data="<%= @tender.workbook %>"
     currency="<%= @tender.request_for_tender.currency_symbol %>"

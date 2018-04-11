@@ -4,7 +4,7 @@
       Submitted
       <small>
         <span class="badge badge-pill badge-success">
-          <%= @request_for_tender.participants.submitted.count %>
+          <%= @request_for_tender.tenders.submitted.count %>
         </span>
       </small>
     </a>
@@ -12,25 +12,25 @@
 </div>
 <div id="collapseBidMade" class="collapse" role="tabpanel" aria-labelledby="headingBidMade" data-parent="#accordion">
   <ul class="list-group list-group-flush">
-    <% @request_for_tender.participants.submitted.each do |participant| %>
+    <% @request_for_tender.tenders.submitted.each do |tender| %>
       <li class="list-group-item list-group-item-action flex-column align-items-start">
         <div class="d-flex w-100 justify-content-between">
-          <div class="mb-1"><%= participant.name %></div>
+          <div class="mb-1"><%= tender.name %></div>
         </div>
         <small class="text-muted">
-          <a href="mailto:<%= participant.project_owners_email %>?subject=<%= "re: Invitation to Tender for #{participant.project_name}" %>"
+          <a href="mailto:<%= tender.project_owners_email %>?subject=<%= "re: Invitation to Tender for #{tender.project_name}" %>"
              target="_blank">
             <span class="fa fa-user"></span>
-            <%= participant.email %>
+            <%= tender.email %>
           </a>
-          (<%= participant.phone_number %>)
+          (<%= tender.phone_number %>)
         </small>
         <div class="w-100 d-flex justify-content-between align-items-baseline">
-          <small>Submitted on <%= participant.purchase_time.to_formatted_s(:short) %></small>
+          <small>Submitted on <%= tender.purchase_time.to_formatted_s(:short) %></small>
 
-          <% if participant.submitted? %>
+          <% if tender.submitted? %>
             <% if @request_for_tender.deadline_over? %>
-              <%= link_to 'View bid', bid_required_documents_path(participant), class: 'card-link' %>
+              <%= link_to 'View bid', bid_required_documents_path(tender), class: 'card-link' %>
             <% else %>
               <div data-toggle="tooltip" data-placement="bottom"
                    data-html="true"

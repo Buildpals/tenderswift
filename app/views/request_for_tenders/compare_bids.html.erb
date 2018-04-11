@@ -20,7 +20,7 @@
       <% if @request_for_tender.bill_of_quantities.present? %>
         <div id='hello' class="mb-5">
           <comparison-boq
-          :participants="<%= @participants.to_json(include: :rates) %>"
+          :tenders="<%= @tenders.to_json(include: :rates) %>"
           :workbook-data="<%= @request_for_tender.bill_of_quantities %>"
           currency="<%= @request_for_tender.currency_symbol %>"
           qs-company-name="<%= @request_for_tender.project_owners_company_name %>"

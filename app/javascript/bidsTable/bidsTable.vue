@@ -1,6 +1,6 @@
 <template>
     <div>
-        <bids-chart :participants="participants"
+        <bids-chart :tenders="tenders"
                     :currency="currency"
                     :qs-company-name="qsCompanyName"
                     :qs-contract-sum="qsContractSum" />
@@ -22,9 +22,9 @@
                 </tr>
                 </thead>
                 <tbody>
-                <bid-row :participant="participant" :currency="currency"
+                <bid-row :tender="tender" :currency="currency"
                          :qs-contract-sum="qsContractSum"
-                         v-for="participant in shortListParticipants" />
+                         v-for="tender in shortListParticipants" />
                 <tr v-if="shortListParticipants.length === 0">
                     <td colspan="6" class="text-center">
                         There are no submitted bids
@@ -39,9 +39,9 @@
                 </thead>
                 <tbody>
                 <bid-row class="text-danger"
-                         :participant="participant" :currency="currency"
+                         :tender="tender" :currency="currency"
                          :qs-contract-sum="qsContractSum"
-                         v-for="participant in disqualifiedParticipants" />
+                         v-for="tender in disqualifiedParticipants" />
                 <tr v-if="disqualifiedParticipants.length === 0">
                     <td colspan="6" class="text-center">
                         There are no disqualified bids
@@ -62,7 +62,7 @@
 
   export default {
     props: [
-      'participantsData',
+      'tendersData',
       'contractSumAddress',
       'workbookData',
       'currency',
@@ -78,7 +78,7 @@
         workbook: {
           SheetNames: []
         },
-        participants: this.participantsData
+        tenders: this.tendersData
       }
     },
     computed: {
@@ -86,15 +86,15 @@
         return this.workbookData.Sheets[this.contractSumAddress.sheet][this.contractSumAddress.cellAddress].v
       },
       disqualifiedParticipants () {
-        return this.participants.filter(participant => participant.disqualified)
+        return this.tenders.filter(tender => tender.disqualified)
       },
       shortListParticipants () {
-        return this.participants.filter(participant => !participant.disqualified)
+        return this.tenders.filter(tender => !tender.disqualified)
       }
     },
     created () {
       let i = 6
-      this.participants.forEach((participant) => {
+      this.tenders.forEach((tender) => {
         let newRateColumn = String.fromCharCode(65 + i++)
         let newAmountColumn = String.fromCharCode(65 + i++)
 
@@ -113,7 +113,7 @@
 
                 if (column === 'E') {
                   let newRateAddress = `${newRateColumn}${ row }`
-                  let rate = participant.rates.find(r => {
+                  let rate = tender.rates.find(r => {
                     return r.sheet === sheetName && cellAddress === `E${ r.row }`
                   })
                   if (rate) {
@@ -146,7 +146,7 @@
       recalculateFormulas(this.workbookData)
 
       i = 6
-      this.participants.forEach((participant) => {
+      this.tenders.forEach((tender) => {
         let newRateColumn = String.fromCharCode(65 + i++)
         let newAmountColumn = String.fromCharCode(65 + i++)
         let sheet = this.contractSumAddress.sheet
@@ -158,7 +158,7 @@
         cellAddress = cellAddress.replace(/(F)(\d+)/g, `${newAmountColumn}$2`)
 
 
-        participant.contract_sum = this.workbookData.Sheets[sheet][cellAddress].v
+        tender.contract_sum = this.workbookData.Sheets[sheet][cellAddress].v
       })
 
       this.$set(this, 'workbook', this.workbookData)
@@ -167,11 +167,11 @@
       logIt (tab_index) {
         this.currentIndex = tab_index
       },
-      contractSumDifference (qsContractSum, participantsContractSum) {
-        return (qsContractSum - participantsContractSum)
+      contractSumDifference (qsContractSum, tendersContractSum) {
+        return (qsContractSum - tendersContractSum)
       },
-      contractSumDifferencePercentage (qsContractSum, participantsContractSum) {
-        return  (( (qsContractSum - participantsContractSum) / qsContractSum ) * 100 )
+      contractSumDifferencePercentage (qsContractSum, tendersContractSum) {
+        return  (( (qsContractSum - tendersContractSum) / qsContractSum ) * 100 )
       }
     }
   }

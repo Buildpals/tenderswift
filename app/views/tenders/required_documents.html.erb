@@ -3,9 +3,9 @@
     <div class="col-lg-9 mx-auto">
       <div class="tab-content mt-4">
         <%= form_with model: @tender,
-                      scope: :participant,
+                      scope: :tender,
                       method: :post,
-                      url: participants_upload_required_documents_path(@tender),
+                      url: tenders_upload_required_documents_path(@tender),
                       local: true,
                       id: 'required-document-upload-form' do |form| %>
 

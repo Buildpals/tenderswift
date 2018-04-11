@@ -1,5 +1,5 @@
 class TendersController < ApplicationController
-  before_action :set_participant, only: %i[update destroy
+  before_action :set_tender, only: %i[update destroy
                                            project_information
                                            boq
                                            required_documents
@@ -24,7 +24,7 @@ class TendersController < ApplicationController
     if @tender.purchased?
       @tender_transaction = TenderTransaction.new
     else
-      redirect_to participants_project_information_path(@tender)
+      redirect_to tenders_project_information_path(@tender)
     end
   end
 
@@ -40,7 +40,7 @@ class TendersController < ApplicationController
         end
       end
     else
-      redirect_to participants_project_information_url(@tender)
+      redirect_to tenders_project_information_url(@tender)
     end
   end
 
@@ -48,7 +48,7 @@ class TendersController < ApplicationController
     if @tender.purchased?
       @request_for_tender = @tender.request_for_tender
     else
-      redirect_to participants_project_information_url(@tender)
+      redirect_to tenders_project_information_url(@tender)
     end
   end
 
@@ -56,13 +56,13 @@ class TendersController < ApplicationController
   end
 
   def other_document_uploads
-    if @tender.update(participant_params)
+    if @tender.update(tender_params)
       flash[:notice] = 'File successfully saved'
     else
       flash[:notice] = 'File should be either a PDF of an Image.
                         And please make sure you provide a name'
     end
-    redirect_to participants_required_documents_url(@tender)
+    redirect_to tenders_required_documents_url(@tender)
   end
 
   def results; end
@@ -70,7 +70,7 @@ class TendersController < ApplicationController
   # POST /tenders
   # POST /tenders.json
   def create
-    @tender = Tender.new(participant_params)
+    @tender = Tender.new(tender_params)
 
     respond_to do |format|
       if @tender.save
@@ -87,7 +87,7 @@ class TendersController < ApplicationController
   # PATCH/PUT /tenders/1.json
   def update
     respond_to do |format|
-      if @tender.update(participant_params)
+      if @tender.update(tender_params)
         format.html { redirect_to @tender, notice: 'Tender was successfully updated.' }
         format.json { render :show, status: :ok, location: @tender }
       else
@@ -108,7 +108,7 @@ class TendersController < ApplicationController
 
   def rating
     respond_to do |format|
-      if @tender.update(participant_params)
+      if @tender.update(tender_params)
         format.html { redirect_to bid_required_documents_url(@tender), notice: 'Tender was successfully updated.' }
         format.json { render :show, status: :ok, location: @tender }
       else
@@ -123,7 +123,7 @@ class TendersController < ApplicationController
   def destroy
     @tender.destroy
     respond_to do |format|
-      format.html { redirect_to participants_url, notice: 'Tender was successfully destroyed.' }
+      format.html { redirect_to tenders_url, notice: 'Tender was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -140,7 +140,7 @@ class TendersController < ApplicationController
     json_document = get_json_document(payload)
     puts payload
     authorization_string = hmac_auth(json_document)
-    params[:tender][:tender_transaction_attributes][:participant_id] = @tender.id
+    params[:tender][:tender_transaction_attributes][:tender_id] = @tender.id
     puts params[:tender][:tender_transaction_attributes]
     results = TenderTransaction.make_payment(authorization_string, payload,
                                              params[:tender][:tender_transaction_attributes][:customer_number],
@@ -159,21 +159,21 @@ class TendersController < ApplicationController
       flash[:notice] = results + '. Check your email after responding to the
                                  prompt on your phone. Thank you!'
     end
-    redirect_to participants_required_documents_url @tender
+    redirect_to tenders_required_documents_url @tender
   end
 
   def required_document_uploads
-    unless @tender.update(participant_params)
+    unless @tender.update(tender_params)
       puts @tender.errors.full_messages
       flash[:notice] = 'File should be either a PDF of an Image'
     end
-    redirect_to participants_required_documents_url
+    redirect_to tenders_required_documents_url
   end
 
   private
 
   # Use callbacks to share common setup or constraints between actions.
-  def set_participant
+  def set_tender
     if params[:id].first(6) == 'guest-'
       request_for_tender = RequestForTender.find(params[:id][6..-1])
       @tender = GuestParticipant.new(request_for_tender)
@@ -189,7 +189,7 @@ class TendersController < ApplicationController
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.
-  def participant_params
+  def tender_params
     params.require(:tender)
           .permit(:request_for_tender_id,
                   :company_name,
@@ -219,7 +219,7 @@ class TendersController < ApplicationController
                   required_document_uploads_attributes: %i[id
                                                            document
                                                            required_document_id
-                                                           participant_id
+                                                           tender_id
                                                            _destroy])
   end
 end

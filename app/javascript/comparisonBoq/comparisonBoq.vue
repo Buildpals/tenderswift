@@ -4,7 +4,7 @@
       <b-tab :title="sheetName" v-for="(sheetName, index) in workbook.SheetNames">
         <div id="example-container" class="wrapper" v-if="index === currentIndex">
             <comparison-boq-sheet v-on:edit="updateWorkbook"
-                              :participants="participants"
+                              :tenders="tenders"
                               :workbook="workbook"
                               :sheet-index="index"
                               :currency="currency"
@@ -24,7 +24,7 @@
 
   export default {
     props: [
-      'participants',
+      'tenders',
       'workbookData',
       'currency',
       'qsCompanyName',
@@ -43,7 +43,7 @@
     },
     created () {
       let i = 6
-      this.participants.forEach((participant) => {
+      this.tenders.forEach((tender) => {
         console.log('======================================================')
 
         let newRateColumn = String.fromCharCode(65 + i++)
@@ -64,7 +64,7 @@
 
                 if (column === 'E') {
                   let newRateAddress = `${newRateColumn}${ row }`
-                  let rate = participant.rates.find(r => {
+                  let rate = tender.rates.find(r => {
                     return r.sheet === sheetName && cellAddress === `E${ r.row }`
                   })
                   if (rate) {

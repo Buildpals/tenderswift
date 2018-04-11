@@ -6,9 +6,9 @@
         <tbody>
         <tr>
           <td align="left" valign="top" width="91" style="padding:30px 20px 0px 20px">
-            <%= cl_image_tag(participant.project_owners_company_logo.full_public_id,
+            <%= cl_image_tag(tender.project_owners_company_logo.full_public_id,
                              format: 'jpg', width: 91, crop: :scale, 
-                             alt: participant.project_owners_company_name)
+                             alt: tender.project_owners_company_name)
             %>
           </td>
           <td align="left" valign="top" style="padding:60px 50px 60px 10px">
@@ -18,7 +18,7 @@
                 <td align="left" valign="top">
                   <p>
                     <span style="color:#555555;font-family:Arial;font-size:20px">
-                    Hello <%= participant.company_name %>,
+                    Hello <%= tender.company_name %>,
                     </span>
                   </p>
                   <p></p>
@@ -31,15 +31,15 @@
                   </p>
                   <p>
                     <span style="color:#555555;font-family:Arial;font-size:16px">
-                      <a style="font-family:Arial;color:#FFA726" href="<%= participants_project_information_url(participant) %>" target="_blank">
-                        <%= participant.project_name %>
+                      <a style="font-family:Arial;color:#FFA726" href="<%= tenders_project_information_url(tender) %>" target="_blank">
+                        <%= tender.project_name %>
                       </a>
                     </span>
                     <br>
 
                     <span style="color:#555555;font-family:Arial;font-size:14px">
                       The deadline for submitting your bid is:
-                      <%= participant.project_deadline.to_formatted_s(:long) %>
+                      <%= tender.project_deadline.to_formatted_s(:long) %>
                     </span>
                   </p>
 
@@ -53,7 +53,7 @@
                     <span style="color:#555555;font-family:Arial;font-size:14px">
                       <strong>Description of the request:</strong>
                       <br>
-                      <%= participant.project_description %>
+                      <%= tender.project_description %>
                     </span>
                   </p>
 
@@ -62,7 +62,7 @@
                   <p>
                     <span style="color:#555555;font-family:Arial;font-size:14px">
                       <strong>
-                        <a style="font-family:Arial;color:#FFA726" href="<%= participants_project_information_url(participant) %>">
+                        <a style="font-family:Arial;color:#FFA726" href="<%= tenders_project_information_url(tender) %>">
                           Click here
                         </a>
                         for the details of the project.
@@ -81,9 +81,9 @@
                   <p>
                     <span style="color:#555555;font-family:Arial;font-size:14px">
                       Kind regards,<br>
-                      <%= participant.project_owners_name %><br>
-                      <%= participant.project_owners_company_name %><br>
-                      <%= participant.project_owners_phone_number %><br>
+                      <%= tender.project_owners_name %><br>
+                      <%= tender.project_owners_company_name %><br>
+                      <%= tender.project_owners_phone_number %><br>
                     </span>
                   </p>
 

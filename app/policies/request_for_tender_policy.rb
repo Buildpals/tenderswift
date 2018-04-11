@@ -54,11 +54,11 @@ class RequestForTenderPolicy < ApplicationPolicy
     user.id == record.quantity_surveyor_id
   end
 
-  def edit_tender_participants?
+  def edit_tender_tenders?
     user.id == record.quantity_surveyor_id
   end
 
-  def update_tender_participants?
+  def update_tender_tenders?
     user.id == record.quantity_surveyor_id
   end
 
