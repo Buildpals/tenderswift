@@ -43,7 +43,7 @@ Rails.application.routes.draw do
   get '/tenders/:id/results', to: 'tenders#results', as: 'tenders_results'
   patch '/tenders/:id/rating', to: 'tenders#rating', as: 'tender_ratings'
 
-  post '/invitation_to_tender/:id/purchase', to: 'request_for_tenders#purchase_tender', as: 'purchase_tender'
+  post '/sign_up_and_purchase/:id', to: 'contractors#sign_up_and_purchase', as: 'sign_up_and_purchase'
 
   post '/tenders/:id/required_document_uploads/', to: 'tenders#required_document_uploads', as: 'tenders_upload_required_documents'
   patch '/tenders/:id/other_document_uploads/', to: 'tenders#other_document_uploads', as: 'tender_other_documents_upload'
