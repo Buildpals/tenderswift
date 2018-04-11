@@ -129,28 +129,6 @@ class TendersController < ApplicationController
     end
   end
 
-  def pay_public_tender
-    @contractor = Contractor.new(email: params[:tender][:email],
-                                 company_name: params[:tender][:company_name],
-                                 phone_number: params[:tender][:phone_number],
-                                 password: params[:tender][:password])
-    @tender = @contractor.tenders.build(request_for_tender_id: params[:tender][:request_for_tender_id],
-                                        customer_number: params[:tender][:tender_transaction_attributes][:customer_number],
-                                        amount: params[:tender][:tender_transaction_attributes][:amount],
-                                        transaction_id: params[:tender][:tender_transaction_attributes][:customer_number],
-                                        network_code: params[:tender][:tender_transaction_attributes][:network_code],
-                                        status: 'success',
-                                        vodafone_voucher_code: params[:tender][:tender_transaction_attributes][:vodafone_voucher_code],
-                                        purchased: true,
-                                        purchase_time: Time.current)
-
-    if @contractor.save
-      sign_in_and_redirect @contractor, notice: 'You have purchased this tender successfully'
-    else
-      render :'request_for_tenders/portal', layout: 'portal'
-    end
-  end
-
   def required_document_uploads
     unless @tender.update(tender_params)
       puts @tender.errors.full_messages
@@ -198,9 +176,7 @@ class TendersController < ApplicationController
                                                     amount
                                                     transaction_id
                                                     vodafone_voucher_code
-                                                    network_code
-                                                    status
-                                                    request_for_tender_id],
+                                                    network_code],
                   other_document_uploads_attributes: %i[id
                                                         name
                                                         document

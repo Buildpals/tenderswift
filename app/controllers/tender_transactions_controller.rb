@@ -14,6 +14,7 @@ class TenderTransactionsController < ApplicationController
   # POST /tender_transactions
   # POST /tender_transactions.json
   def create
+    @tender = Tender.find(params[:tender_transaction][:tender_id])
     payload = extract_payload(tender_transaction_params,
                               params[:tender_transaction][:request_for_tender_id])
     json_document = get_json_document(payload)
@@ -24,10 +25,8 @@ class TenderTransactionsController < ApplicationController
                                                  params[:tender_transaction][:vodafone_voucher_code],
                                                  params[:tender_transaction][:network_code],
                                                  params[:tender_transaction][:status],
-                                                 params[:tender_transaction][:tender_id],
-                                                 params[:tender_transaction][:request_for_tender_id],
+                                                 @tender,
                                                  payload['transaction_id'])
-    @tender = Tender.find(params[:tender_transaction][:tender_id])
     @tender.purchase_time = Time.new
     @tender.rating = 0
     @tender.save!

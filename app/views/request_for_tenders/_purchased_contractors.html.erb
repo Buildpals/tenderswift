@@ -21,14 +21,14 @@
           <a href="mailto:<%= tender.project_owners_email %>?subject=<%= "re: Invitation to Tender for #{tender.project_name}" %>"
              target="_blank">
             <span class="fa fa-user"></span>
-            <%= tender.email %>
+            <%= tender.contractor.email %>
           </a>
-          (<%= tender.phone_number %>)
+          (<%= tender.contractor.phone_number %>)
           <br>
           Purchased on
           <%= tender.purchase_time.to_formatted_s(:short) %>
           for
-          <strong>GH₵ <%= tender.tender_transaction.amount %></strong>
+          <strong>GH₵ <%= tender.amount %></strong>
         </small>
       </li>
     <% end %>

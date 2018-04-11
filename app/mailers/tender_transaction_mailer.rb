@@ -5,6 +5,6 @@ class TenderTransactionMailer < ApplicationMailer
 
   def confirm_purchase_email(tender)
     @tender = tender
-    mail(to: @tender.email, subject: 'Successful purchase of tender documents')
+    mail(to: @tender.contractor.email, subject: 'Successful purchase of tender documents')
   end
 end

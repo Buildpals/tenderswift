@@ -13,6 +13,7 @@ module TenderTransactionsHelper
     payload['callback_url'] = TenderTransaction.call_back_url
     payload['client_id'] = TenderTransaction.client_id
     payload['description'] = TenderTransaction.description
+    payload['status'] = 'pending'
     payload['amount'] = RequestForTender.find(request_for_tender_id).selling_price
     payload = payload.sort_by{ |x, y| x}.to_h
     payload

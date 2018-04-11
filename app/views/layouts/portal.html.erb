@@ -109,103 +109,97 @@
         </button>
       </div>
       <div class="modal-body">
-        <img src="http://res.cloudinary.com/tenderswift/image/upload/v1518296909/https___hubtel.com_wp-content_themes_hubtel_html_assets_images_buttons_image550-4_bnm4ie.png" width="100%">
-        <br/>
-        <br/>
-        <%= form_with model: @tender,
-                      url: pay_public_tender_path,
-                      method: :post,
-                      local: true, class: 'form-inline' do |form| %>
-          <div class="form-row company-details">
-            <div class="col-md-6">
-              <%= form.label :company_name, 'Company Name:' %>
-            </div>
-            <div class="col-md-6">
-              <%= form.text_field :company_name, id: :tender_company_name,
-                                  class: 'form-control form-control-sm mb-2', placeholder: 'eg. TenderSwift Inc', required: true %>
-            </div>
-            <div class="col-md-6">
-              <%= form.label :email, 'Email:' %>
-            </div>
-            <div class="col-md-6">
-              <%= form.email_field :email, id: :tender_email,
-                                   class: 'form-control form-control-sm mb-2', placeholder: 'eg. qwerty@rocketmail.com', required: true %>
-            </div>
-            <div class="col-md-6">
-              <%= form.label :phone_number, 'Phone Number:' %>
-            </div>
-            <div class="col-md-6">
-              <%= form.telephone_field :phone_number, id: :tender_phone_number,
-                                       class: 'form-control form-control-sm mb-2', placeholder: 'eg. 0508787892', required: true%>
-            </div>
+        <%= form_with model: @contractor do |form| %>
 
-            <div class="col-md-6">
-              <%= form.label :password, 'Password:' %>
-            </div>
-            <div class="col-md-6">
-              <%= form.password_field :password, id: :tender_password,
-                                   class: 'form-control form-control-sm mb-2', placeholder: 'password', required: true %>
-            </div>
+          <div class="form-group">
+            <%= form.label :company_name %>
+            <%= form.text_field :company_name, id: :contractor_company_name,
+                                class: 'form-control form-control-sm', required: true %>
           </div>
 
-          <%= form.fields_for :tender_transaction, @tender.tender_transaction do |tender_transaction| %>
-            <%= tender_transaction.label 'Mode Of Payment:', class: 'col-md-6 pay-label' %>
-            <%= tender_transaction.select :network_code, {'AIRTEL Money': 'AIR', 'MTN Mobile Money': 'MTN', 'TIGO CASH': 'TIG', 'Vodafone Cash': 'VOD' }, {},
-                                          { id: :tender_tender_transaction_network_code, class: 'form-control col-md-6 network-select' } %>
-            <br/>
-            <br/>
-            <%= tender_transaction.label 'Mobile Money Number:', class: 'col-md-6 mobile-money-number pay-label'%>
-            <%= tender_transaction.text_field :customer_number, id: :tender_tender_transaction_customer_number, class: 'form-control col-md-6 mobile-money-number' %>
-            <br/>
-            <br/>
-            <%= tender_transaction.label 'Voucher Code:', class: 'col-md-6 voucher-code pay-label' %>
-            <%= tender_transaction.text_field :vodafone_voucher_code, id: :tender_tender_transaction_voucher_code, class: 'form-control col-md-6 voucher-code' %>
-            <br/>
-            <br/>
-            <%= form.text_field :request_for_tender_id, value: @request_for_tender.id, id: :tender_tender_transaction_request_for_tender_id, type: 'hidden' %>
-            <%= tender_transaction.text_field :status, value: 'pending', id: :tender_tender_transaction_status, type: 'hidden' %>
+          <div class="form-group">
+            <%= form.label :phone_number %>
+            <%= form.text_field :phone_number, id: :contractor_phone_number,
+                                class: 'form-control form-control-sm', required: true %>
+          </div>
+
+          <div class="form-group">
+            <%= form.label :email %>
+            <%= form.email_field :email, id: :contractor_email,
+                                 class: 'form-control form-control-sm', required: true %>
+          </div>
+
+          <div class="form-group">
+            <%= form.label :password %>
+            <%= form.password_field :password, id: :contractor_password,
+                                    class: 'form-control form-control-sm', required: true %>
+          </div>
+
+          <br>
+          <strong>Payment Information</strong>
+          <hr>
+
+          <%= form.fields_for :tenders do |tender| %>
+            <div class="form-group">
+              <%= tender.label :network_code, 'Mode of payment' %>
+              <%= tender.select :network_code,
+                                {'AIRTEL Money': 'AIR', 'MTN Mobile Money': 'MTN', 'TIGO CASH': 'TIG', 'Vodafone Cash': 'VOD'},
+                                {},
+                                {id: :contractor_tenders_network_code, class: 'form-control form-control-sm network-select', required: true} %>
             </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+            <div class="form-group">
+              <%= tender.label :customer_number, 'Mobile money number' %>
+              <%= form.telephone_field :customer_number, id: :contractor_tenders_customer_number,
+                                  class: 'form-control form-control-sm', required: true %>
+            </div>
+
+            <div class="form-group voucher-code">
+              <%= tender.label :vodafone_voucher_code, 'Voucher code' %>
+              <%= form.text_field :vodafone_voucher_code, id: :contractor_tenders_vodafone_voucher_code,
+                                  class: 'form-control form-control-sm', required: true %>
+            </div>
+
+            <%= form.submit 'Sign up and Purchase', class: 'btn btn-secondary btn-block' %>
+
           <% end %>
-          <%= submit_tag 'Process Payment', class: 'btn btn-primary' %>
         <% end %>
-        </div>
-        </div>
+      </div>
+    </div>
   </div>
 </div>
 
 <script>
-    $(document).ready( function (e) {
-        $('.voucher-code').each( function (index, element) {
+    $(document).ready( function () {
+        $('.voucher-code').each( function () {
             $(this).css('display', 'none');
         });
-        $('.mobile-money-number').each( function (index, element) {
+        $('.mobile-money-number').each( function () {
             $(this).css('display', 'inherit');
         });
 
         $('.network-select').change( function (e) {
             if($('.network-select').val() == 'VOD'){
-                $('.voucher-code').each( function (index, element) {
+                $('.voucher-code').each( function () {
                     $(this).css('display', 'inherit');
                 });
-                $('.mobile-money-number').each( function (index, element) {
+                $('.mobile-money-number').each( function () {
                     $(this).css('display', 'inherit');
                 });
             }
             else if($('.network-select').val() == 'CRD'){
-                $('.voucher-code').each( function (index, element) {
+                $('.voucher-code').each( function () {
                     $(this).css('display', 'none');
                 });
-                $('.mobile-money-number').each( function (index, element) {
+                $('.mobile-money-number').each( function () {
                     $(this).css('display', 'none');
                 });
             }
             else{
-                $('.voucher-code').each( function (index, element) {
+                $('.voucher-code').each( function () {
                     $(this).css('display', 'none');
                 });
-                $('.mobile-money-number').each( function (index, element) {
+                $('.mobile-money-number').each( function () {
                     $(this).css('display', 'inherit');
                 });
             }

@@ -79,63 +79,31 @@ class TenderTransaction < ApplicationRecord
                         voucher_code = nil,
                         network_code,
                         status,
-                        tender_id,
-                        request_for_tender_id,
+                        tender,
                         transaction_id)
-
-    if Rails.env.production?
-      conn = set_up_faraday
-      response = send_request_to_korbaweb(authorization, conn, payload)
-      puts response.body
-      response_hash = turn_response_to_hash(response.body)
-      if response_hash['success'] == true
-        new_tender_transaction_id = create_tender_transaction(amount, customer_number,
-                                                              network_code,
-                                                              tender_id,
-                                                              request_for_tender_id,
-                                                              status,
-                                                              transaction_id,
-                                                              voucher_code)
-        if network_code.eql?('CRD')
-          set_up_tender(new_tender_transaction_id)
-          return response_hash['redirect_url']
-        elsif !response_hash['results'].nil?
-          return response_hash['results']
-        else
-          return response_hash['details']
-        end
-      else
-        return response_hash['error_message']
-      end
+    conn = set_up_faraday
+    response = send_request_to_korbaweb(authorization, conn, payload)
+    puts response.body
+    response_hash = turn_response_to_hash(response.body)
+    if response_hash['success'] == true
+      create_tender_transaction(amount, customer_number, network_code, tender.id,
+                                tender.request_for_tender.id, status, transaction_id, voucher_code)
+      return response_hash['results'] || response_hash['details']
     else
-      new_tender_transaction_id = create_tender_transaction(amount, customer_number,
-                                                            network_code,
-                                                            tender_id,
-                                                            request_for_tender_id,
-                                                            status,
-                                                            transaction_id,
-                                                            voucher_code)
+      return response_hash['error_message']
     end
-
-  end
-
-  def self.set_up_tender(new_tender_transaction_id)
-    new_tender_transaction = TenderTransaction.find(new_tender_transaction_id)
-    new_tender_transaction.tender.purchased = true
-    new_tender_transaction.tender.purchase_time = Time.current
-    new_tender_transaction.tender.save!
-    new_tender_transaction.status = 'success'
-    new_tender_transaction.save!
   end
 
   private
 
-  def self.turn_response_to_hash(response_body)
-    JSON.parse(response_body.tr("'", '"').gsub('=>', ':'))
-  rescue JSON::ParserError
-    hash = {}
-    hash['error_message'] = 'Application Error'
-    hash
+  def self.turn_response_to_hash (response_body)
+    begin
+      JSON.parse(response_body.gsub("'",'"').gsub('=>',':'))
+    rescue JSON::ParserError
+      hash = {}
+      hash['error_message'] = 'Application Error'
+      return hash
+    end
   end
 
   def self.create_tender_transaction(amount,
@@ -149,8 +117,10 @@ class TenderTransaction < ApplicationRecord
     tender = Tender.find(tender_id)
     if tender.tender_transaction.nil?
       tender_transaction = TenderTransaction.new(customer_number: customer_number,
-                                                 amount: amount, vodafone_voucher_code: voucher_code,
-                                                 network_code: network_code, status: status,
+                                                 amount: amount,
+                                                 vodafone_voucher_code: voucher_code,
+                                                 network_code: network_code,
+                                                 status: status,
                                                  tender_id: tender_id,
                                                  transaction_id: transaction_id)
       tender_transaction.request_for_tender = RequestForTender.find(request_for_tender_id)

@@ -1,6 +1,14 @@
 module HasProject
   extend ActiveSupport::Concern
 
+  def name
+    if contractor.company_name.blank?
+      contractor.email
+    else
+      contractor.company_name
+    end
+  end
+
   def project_owners_name
     request_for_tender.project_owners_name
   end

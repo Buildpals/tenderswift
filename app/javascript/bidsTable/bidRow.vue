@@ -1,7 +1,7 @@
 <template>
     <tr>
         <td>
-            <span data-toggle="tooltip" data-placement="top" :title="tender.email">
+            <span data-toggle="tooltip" data-placement="top" :title="tender.contractor.email">
                   {{ tender.company_name }}
             </span>
         </td>

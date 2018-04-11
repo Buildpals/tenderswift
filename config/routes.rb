@@ -43,7 +43,8 @@ Rails.application.routes.draw do
   get '/tenders/:id/results', to: 'tenders#results', as: 'tenders_results'
   patch '/tenders/:id/rating', to: 'tenders#rating', as: 'tender_ratings'
 
-  post '/tenders/pay_public_tender/', to: 'tenders#pay_public_tender', as: 'pay_public_tender'
+  post '/invitation_to_tender/:id/purchase', to: 'request_for_tenders#purchase_tender', as: 'purchase_tender'
+
   post '/tenders/:id/required_document_uploads/', to: 'tenders#required_document_uploads', as: 'tenders_upload_required_documents'
   patch '/tenders/:id/other_document_uploads/', to: 'tenders#other_document_uploads', as: 'tender_other_documents_upload'
   post '/tenders/save_rates/:id/', to: 'tenders#save_rates'
@@ -69,6 +70,7 @@ Rails.application.routes.draw do
   get '/contractors/dashboard', to: 'contractors#dashboard', as: 'contractors_dashboard'
 
   resources :quantity_surveyors, only: %i[edit update]
+  resources :contractors, only: %i[new create edit update]
   resources :request_for_tenders
   resources :tenders
   resources :tender_transactions, only: %i[create update]
