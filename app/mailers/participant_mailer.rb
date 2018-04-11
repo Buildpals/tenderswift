@@ -1,7 +1,7 @@
 require 'digest/sha2'
 
 class ParticipantMailer < ApplicationMailer
-  default from: 'tenderswift@buildpals.com'
+  default from: 'projects@buildpals.com'
 
   default 'Message-ID' => "#{Digest::SHA2.hexdigest(Time.now.to_i.to_s)}@buildpals.com"
 
