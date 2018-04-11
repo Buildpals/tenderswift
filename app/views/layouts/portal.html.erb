@@ -118,25 +118,33 @@
                       local: true, class: 'form-inline' do |form| %>
           <div class="form-row company-details">
             <div class="col-md-6">
-              <%= form.label 'Company Name:' %>
+              <%= form.label :company_name, 'Company Name:' %>
             </div>
             <div class="col-md-6">
               <%= form.text_field :company_name, id: :tender_company_name,
                                   class: 'form-control form-control-sm mb-2', placeholder: 'eg. TenderSwift Inc', required: true %>
             </div>
             <div class="col-md-6">
-              <%= form.label 'Email:' %>
+              <%= form.label :email, 'Email:' %>
             </div>
             <div class="col-md-6">
               <%= form.email_field :email, id: :tender_email,
                                    class: 'form-control form-control-sm mb-2', placeholder: 'eg. qwerty@rocketmail.com', required: true %>
             </div>
             <div class="col-md-6">
-              <%= form.label 'Phone Number:' %>
+              <%= form.label :phone_number, 'Phone Number:' %>
             </div>
             <div class="col-md-6">
               <%= form.telephone_field :phone_number, id: :tender_phone_number,
                                        class: 'form-control form-control-sm mb-2', placeholder: 'eg. 0508787892', required: true%>
+            </div>
+
+            <div class="col-md-6">
+              <%= form.label :password, 'Password:' %>
+            </div>
+            <div class="col-md-6">
+              <%= form.password_field :password, id: :tender_password,
+                                   class: 'form-control form-control-sm mb-2', placeholder: 'password', required: true %>
             </div>
           </div>
 

@@ -30,8 +30,8 @@ Rails.application.routes.draw do
   patch '/tender/:id/update/payment_method', to: 'create_tender#update_tender_payment_method', as: 'update_tender_payment_method'
   patch '/payment/details/:id', to: 'create_tender#update_payment_details', as: 'update_payment_details'
 
-  get '/tender/:id/edit/tenders', to: 'create_tender#edit_tender_tenders', as: 'edit_tender_tenders'
-  patch '/tender/:id/update/tenders', to: 'create_tender#update_tender_tenders', as: 'update_tender_tenders'
+  get '/tender/:id/edit/contractors', to: 'create_tender#edit_tender_contractors', as: 'edit_tender_contractors'
+  patch '/tender/:id/update/contractors', to: 'create_tender#update_tender_contractors', as: 'update_tender_contractors'
 
   get '/projects/public/:id', to: 'request_for_tenders#portal', as: 'request_for_tender_portal'
 
@@ -66,7 +66,7 @@ Rails.application.routes.draw do
   post '/bids/undo_disqualify/:id/', to: 'bids#undo_disqualify', as: 'undo_disqualify_bid'
   post '/bids/rate/:id/', to: 'bids#rate', as: 'rate_bid'
 
-  get '/contractor/dashboard', to: 'contractors#dashboard', as: 'contractors_dashboard'
+  get '/contractors/dashboard', to: 'contractors#dashboard', as: 'contractors_dashboard'
 
   resources :quantity_surveyors, only: %i[edit update]
   resources :request_for_tenders

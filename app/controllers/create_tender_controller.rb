@@ -3,7 +3,7 @@ class CreateTenderController < ApplicationController
                                                   edit_tender_documents
                                                   edit_tender_boq
                                                   edit_tender_required_documents
-                                                  edit_tender_tenders
+                                                  edit_tender_contractors
                                                   edit_tender_payment_method
                                                   update_tender_information
                                                   update_tender_documents
@@ -11,7 +11,7 @@ class CreateTenderController < ApplicationController
                                                   update_contract_sum_address
                                                   update_tender_required_documents
                                                   update_tender_payment_method
-                                                  update_tender_tenders
+                                                  update_tender_contractors
                                                   update_payment_details]
 
   before_action :authenticate_quantity_surveyor!
@@ -100,7 +100,7 @@ class CreateTenderController < ApplicationController
   end
 
   def edit_tender_payment_method
-    @next_path = edit_tender_tenders_path(@request_for_tender)
+    @next_path = edit_tender_contractors_path(@request_for_tender)
   end
 
   def update_tender_payment_method
@@ -108,7 +108,7 @@ class CreateTenderController < ApplicationController
       if params[:commit] == 'Back'
         redirect_to edit_tender_required_documents_path(@request_for_tender)
       elsif params[:commit] == 'Next'
-        redirect_to edit_tender_tenders_path(@request_for_tender)
+        redirect_to edit_tender_contractors_path(@request_for_tender)
       else
         redirect_to edit_tender_payment_method_path(@request_for_tender)
       end
@@ -127,11 +127,11 @@ class CreateTenderController < ApplicationController
     end
   end
 
-  def edit_tender_tenders
-    5.times { @request_for_tender.tenders.build } if @request_for_tender.tenders.empty?
+  def edit_tender_contractors
+    5.times { @request_for_tender.contractors.build } if @request_for_tender.contractors.empty?
   end
 
-  def update_tender_tenders
+  def update_tender_contractors
     if @request_for_tender.update(request_params)
       if params[:commit] == 'Back'
         redirect_to edit_tender_payment_method_path(@request_for_tender)
@@ -143,10 +143,10 @@ class CreateTenderController < ApplicationController
           redirect_to request_for_tender_path
         end
       else
-        redirect_to edit_tender_tenders_path
+        redirect_to edit_tender_contractors_path
       end
     else
-      render :edit_tender_tenders
+      render :edit_tender_contractors
     end
   end
 
@@ -165,7 +165,7 @@ class CreateTenderController < ApplicationController
       redirect_to @request_for_tender,
                   notice: 'The tenders of this request have been contacted already'
     elsif @request_for_tender.tenders.empty?
-      redirect_to edit_tender_tenders_path(@request_for_tender),
+      redirect_to edit_tender_contractors_path(@request_for_tender),
                   alert: 'You did not specify any tenders for the request.'
     else
       send_emails_to_tenders
@@ -209,7 +209,7 @@ class CreateTenderController < ApplicationController
                                                    document
                                                    _destroy],
                   contract_sum_address: %i[sheet cellAddress],
-                  tenders_attributes: %i[id
+                  contractors_attributes: %i[id
                                               email
                                               phone_number
                                               company_name

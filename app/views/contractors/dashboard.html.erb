@@ -30,19 +30,21 @@
       </div>
       <div class="card">
         <div class="list-group list-group-flush">
-            <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-              <div class="d-flex w-100 justify-content-between">
-                <h5 class="mb-1">
-                  Project Name
-                </h5>
+            <% current_contractor.tenders.purchased.each do |tender|%>
+              <a href="<%= tenders_project_information_path tender %>" class="list-group-item list-group-item-action flex-column align-items-start">
+                <div class="d-flex w-100 justify-content-between">
+                  <h5 class="mb-1">
+                    <%= tender.project_name %>
+                  </h5>
+                  <small class="text-muted">
+                    <span class="badge badge-pill badge-secondary"><%= tender.time_to_deadline %></span>
+                  </small>
+                </div>
                 <small class="text-muted">
-                  <span class="badge badge-pill badge-secondary">Status</span>
+                  <%= tender.project_location %>
                 </small>
-              </div>
-              <small class="text-muted">
-                Project Location
-              </small>
-            </a>
+              </a>
+            <% end %>
         </div>
       </div>
     </div>

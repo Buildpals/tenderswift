@@ -1,16 +1,18 @@
+# frozen_string_literal: true
+
 class TendersController < ApplicationController
   before_action :set_tender, only: %i[update destroy
-                                           project_information
-                                           boq
-                                           required_documents
-                                           tender_documents
-                                           results
-                                           show_boq
-                                           required_document_uploads
-                                           other_documents
-                                           other_document_uploads
-                                           rating
-                                           save_rates]
+                                      project_information
+                                      boq
+                                      required_documents
+                                      tender_documents
+                                      results
+                                      show_boq
+                                      required_document_uploads
+                                      other_documents
+                                      other_document_uploads
+                                      rating
+                                      save_rates]
 
   include TenderTransactionsHelper
 
@@ -52,8 +54,7 @@ class TendersController < ApplicationController
     end
   end
 
-  def other_documents
-  end
+  def other_documents; end
 
   def other_document_uploads
     if @tender.update(tender_params)
@@ -129,37 +130,25 @@ class TendersController < ApplicationController
   end
 
   def pay_public_tender
-    @tender = Tender.new(email: params[:tender][:email],
-                         company_name: params[:tender][:company_name],
-                         phone_number: params[:tender][:phone_number])
-    @tender.request_for_tender_id = params[:tender][:request_for_tender_id]
-    @tender.purchase_time = Time.current
-    @tender.save!
-    payload = extract_payload(params[:tender][:tender_transaction_attributes],
-                              params[:tender][:request_for_tender_id])
-    json_document = get_json_document(payload)
-    puts payload
-    authorization_string = hmac_auth(json_document)
-    params[:tender][:tender_transaction_attributes][:tender_id] = @tender.id
-    puts params[:tender][:tender_transaction_attributes]
-    results = TenderTransaction.make_payment(authorization_string, payload,
-                                             params[:tender][:tender_transaction_attributes][:customer_number],
-                                             params[:tender][:tender_transaction_attributes][:amount],
-                                             params[:tender][:tender_transaction_attributes][:vodafone_voucher_code],
-                                             params[:tender][:tender_transaction_attributes][:network_code],
-                                             params[:tender][:tender_transaction_attributes][:status],
-                                             @tender.id,
-                                             @tender.request_for_tender.id,
-                                             payload['transaction_id'])
-    if !results.nil? && working_url?(results)
-      flash[:notice] = "Visit #{view_context.link_to('here in', results)}
-                        another tab to finish the paying with VISA/MASTER CARD.
-                        After paying come back and refresh this page."
+    @contractor = Contractor.new(email: params[:tender][:email],
+                                 company_name: params[:tender][:company_name],
+                                 phone_number: params[:tender][:phone_number],
+                                 password: params[:tender][:password])
+    @tender = @contractor.tenders.build(request_for_tender_id: params[:tender][:request_for_tender_id],
+                                        customer_number: params[:tender][:tender_transaction_attributes][:customer_number],
+                                        amount: params[:tender][:tender_transaction_attributes][:amount],
+                                        transaction_id: params[:tender][:tender_transaction_attributes][:customer_number],
+                                        network_code: params[:tender][:tender_transaction_attributes][:network_code],
+                                        status: 'success',
+                                        vodafone_voucher_code: params[:tender][:tender_transaction_attributes][:vodafone_voucher_code],
+                                        purchased: true,
+                                        purchase_time: Time.current)
+
+    if @contractor.save
+      sign_in_and_redirect @contractor, notice: 'You have purchased this tender successfully'
     else
-      flash[:notice] = results + '. Check your email after responding to the
-                                 prompt on your phone. Thank you!'
+      render :'request_for_tenders/portal', layout: 'portal'
     end
-    redirect_to tenders_required_documents_url @tender
   end
 
   def required_document_uploads

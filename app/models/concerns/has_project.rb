@@ -1,14 +1,6 @@
 module HasProject
   extend ActiveSupport::Concern
 
-  def name
-    if company_name.blank?
-      email
-    else
-      company_name
-    end
-  end
-
   def project_owners_name
     request_for_tender.project_owners_name
   end
@@ -61,7 +53,7 @@ module HasProject
     request_for_tender.project_documents
   end
 
-  def time_left
+  def time_to_deadline
     request_for_tender.time_to_deadline
   end
 

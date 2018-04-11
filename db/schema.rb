@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180410112008) do
+ActiveRecord::Schema.define(version: 20180411064353) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -185,9 +185,6 @@ ActiveRecord::Schema.define(version: 20180410112008) do
 
   create_table "tenders", force: :cascade do |t|
     t.bigint "request_for_tender_id"
-    t.string "company_name"
-    t.string "phone_number"
-    t.string "email", null: false
     t.string "auth_token"
     t.boolean "purchased", default: false, null: false
     t.boolean "submitted", default: false, null: false
@@ -200,6 +197,12 @@ ActiveRecord::Schema.define(version: 20180410112008) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "contractor_id"
+    t.string "customer_number"
+    t.decimal "amount"
+    t.string "transaction_id"
+    t.string "network_code"
+    t.integer "status"
+    t.string "vodafone_voucher_code"
     t.index ["auth_token"], name: "index_tenders_on_auth_token", unique: true
     t.index ["contractor_id"], name: "index_tenders_on_contractor_id"
     t.index ["request_for_tender_id"], name: "index_tenders_on_request_for_tender_id"

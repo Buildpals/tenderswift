@@ -28,8 +28,8 @@ RSpec.describe RequestForTenderPolicy do
     it { is_expected.to permit_action(:edit_tender_payment_method) }
     it { is_expected.to permit_action(:update_tender_payment_method) }
     it { is_expected.to permit_action(:update_payment_details) }
-    it { is_expected.to permit_action(:edit_tender_participants) }
-    it { is_expected.to permit_action(:update_tender_participants) }
+    it { is_expected.to permit_action(:edit_tender_contractors) }
+    it { is_expected.to permit_action(:update_tender_contractors) }
 
     it { is_expected.to permit_action(:index) }
     it { is_expected.to permit_action(:show) }
@@ -61,8 +61,8 @@ RSpec.describe RequestForTenderPolicy do
     it { is_expected.not_to permit_action(:edit_tender_payment_method) }
     it { is_expected.not_to permit_action(:update_tender_payment_method) }
     it { is_expected.not_to permit_action(:update_payment_details) }
-    it { is_expected.not_to permit_action(:edit_tender_participants) }
-    it { is_expected.not_to permit_action(:update_tender_participants) }
+    it { is_expected.not_to permit_action(:edit_tender_contractors) }
+    it { is_expected.not_to permit_action(:update_tender_contractors) }
 
     it { is_expected.not_to permit_action(:index) }
     it { is_expected.not_to permit_action(:show) }
