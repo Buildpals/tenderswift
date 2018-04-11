@@ -71,39 +71,28 @@ class TenderTransaction < ApplicationRecord
     authorization
   end
 
-  def self.make_payment(authorization, payload, customer_number,
-                        amount, voucher_code = nil,
-                        network_code, status, participant_id, request_for_tender_id,transaction_id)
+  def self.make_payment(authorization,
+                        payload,
+                        customer_number,
+                        amount,
+                        voucher_code = nil,
+                        network_code,
+                        status,
+                        participant,transaction_id)
     conn = set_up_faraday
     response = send_request_to_korbaweb(authorization, conn, payload)
     puts response.body
     response_hash = turn_response_to_hash(response.body)
     if response_hash['success'] == true
-      new_tender_transaction_id = create_tender_transaction(amount, customer_number, network_code, participant_id,
-                                request_for_tender_id, status, transaction_id, voucher_code)
-      if network_code.eql?('CRD')
-        set_up_participant(new_tender_transaction_id)
-        return response_hash['redirect_url']
-      elsif !response_hash['results'].nil?
-        return response_hash['results']
-      else
-        return response_hash['details']
-      end
+      create_tender_transaction(amount, customer_number, network_code, participant.id,
+                                participant.request_for_tender.id, status, transaction_id, voucher_code)
+      return response_hash['results'] || response_hash['details']
     else
       return response_hash['error_message']
     end
   end
 
   private
-
-  def self.set_up_participant(new_tender_transaction_id)
-    new_tender_transaction = TenderTransaction.find(new_tender_transaction_id)
-    new_tender_transaction.participant.purchased = true
-    new_tender_transaction.participant.purchase_time = Time.current
-    new_tender_transaction.participant.save!
-    new_tender_transaction.status = 'success'
-    new_tender_transaction.save!
-  end
 
   def self.turn_response_to_hash (response_body)
     begin
@@ -115,13 +104,21 @@ class TenderTransaction < ApplicationRecord
     end
   end
 
-  def self.create_tender_transaction(amount, customer_number, network_code, participant_id,
-                                    request_for_tender_id, status, transaction_id, voucher_code)
+  def self.create_tender_transaction(amount,
+                                    customer_number,
+                                    network_code,
+                                    participant_id,
+                                    request_for_tender_id,
+                                    status,
+                                    transaction_id,
+                                    voucher_code)
     participant = Participant.find(participant_id)
     if participant.tender_transaction.nil?
       tender_transaction = TenderTransaction.new(customer_number: customer_number,
-                                                 amount: amount, vodafone_voucher_code: voucher_code,
-                                                 network_code: network_code, status: status,
+                                                 amount: amount,
+                                                 vodafone_voucher_code: voucher_code,
+                                                 network_code: network_code,
+                                                 status: status,
                                                  participant_id: participant_id,
                                                  transaction_id: transaction_id)
       tender_transaction.request_for_tender = RequestForTender.find(request_for_tender_id)

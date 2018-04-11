@@ -140,18 +140,18 @@ class ParticipantsController < ApplicationController
     json_document = get_json_document(payload)
     puts payload
     authorization_string = hmac_auth(json_document)
-    params[:participant][:tender_transaction_attributes][:participant_id] = @participant.id
-    puts params[:participant][:tender_transaction_attributes]
-    results = TenderTransaction.make_payment(authorization_string, payload,
+    # params[:participant][:tender_transaction_attributes][:participant_id] = @participant.id
+    # puts params[:participant][:tender_transaction_attributes]
+    results = TenderTransaction.make_payment(authorization_string,
+                                             payload,
                                              params[:participant][:tender_transaction_attributes][:customer_number],
                                              params[:participant][:tender_transaction_attributes][:amount],
                                              params[:participant][:tender_transaction_attributes][:vodafone_voucher_code],
                                              params[:participant][:tender_transaction_attributes][:network_code],
                                              params[:participant][:tender_transaction_attributes][:status],
-                                             @participant.id,
-                                             @participant.request_for_tender.id,
+                                             @participant,
                                              payload['transaction_id'])
-    if !results.nil? && working_url?(results)
+    if working_url?(results)
       flash[:notice] = "Visit #{view_context.link_to('here in', results)}
                         another tab to finish the paying with VISA/MASTER CARD.
                         After paying come back and refresh this page."
@@ -207,10 +207,8 @@ class ParticipantsController < ApplicationController
                   tender_transaction_attributes: %i[id
                                                     customer_number
                                                     amount
-                                                    transaction_id
                                                     vodafone_voucher_code
                                                     network_code
-                                                    status
                                                     request_for_tender_id],
                   other_document_uploads_attributes: %i[id
                                                         name

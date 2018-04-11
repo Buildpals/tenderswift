@@ -62,6 +62,7 @@ module ApplicationHelper
   require 'net/http'
 
   def working_url?(url_str)
+    return false if url_str.nil?
     uri = URI.parse(URI.encode(url_str))
     if uri.kind_of?(URI::HTTP) || uri.kind_of?(URI::HTTPS)
       true
