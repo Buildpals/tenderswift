@@ -5,7 +5,7 @@
               local: true,
               id: 'request-form' do |form| %>
 
-  <%= render 'layouts/create_tender_navigation', location: 'top', request: @request_for_tender, form: form %>
+  <%= render 'create_tender/create_tender_navigation', location: 'top', request: @request_for_tender, form: form %>
 
   <%= render 'request_for_tender_errors' %>
 
@@ -44,5 +44,5 @@
   </div>
 
 
-  <%= render 'layouts/create_tender_navigation', location: 'bottom', request: @request_for_tender, form: form %>
+  <%= render 'create_tender/create_tender_navigation', location: 'bottom', request: @request_for_tender, form: form %>
 <% end %>
