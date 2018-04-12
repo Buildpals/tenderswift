@@ -60,11 +60,11 @@ Rails.application.routes.draw do
   #################### Contractors Routes ##################
 
   devise_for :contractors, path: 'contractors', controllers: {
-      confirmations: 'contractors/confirmations',
-      passwords: 'contractors/passwords',
-      registrations: 'contractors/registrations',
-      sessions: 'contractors/sessions',
-      unlocks: 'contractors/unlocks'
+    confirmations: 'contractors/confirmations',
+    passwords: 'contractors/passwords',
+    registrations: 'contractors/registrations',
+    sessions: 'contractors/sessions',
+    unlocks: 'contractors/unlocks'
   }
 
   get '/contractors/dashboard', to: 'contractors#dashboard', as: :contractor_root
@@ -98,7 +98,14 @@ Rails.application.routes.draw do
 
   #################### Admin Routes ##################
 
-  devise_for :admins
+  devise_for :admins, path: 'admins', controllers: {
+    confirmations: 'admins/confirmations',
+    passwords: 'admins/passwords',
+    sessions: 'admins/sessions',
+    unlocks: 'admins/unlocks'
+  }
+
+  get '/adonai', to: 'request_for_tenders#index', as: :admin_root
 
   mount RailsAdmin::Engine => '/adonai', as: :rails_admin
   mount ActionCable.server => '/cable'
