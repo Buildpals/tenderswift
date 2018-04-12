@@ -33,7 +33,7 @@ Rails.application.routes.draw do
   get '/tender/:id/edit/contractors', to: 'create_tender#edit_tender_contractors', as: 'edit_tender_contractors'
   patch '/tender/:id/update/contractors', to: 'create_tender#update_tender_contractors', as: 'update_tender_contractors'
 
-  get '/projects/public/:id', to: 'request_for_tenders#portal', as: 'request_for_tender_portal'
+  get '/public_invitations_to_tender/:id', to: 'purchase_tender#portal', as: 'request_for_tender_portal'
 
   get '/tenders/:id', to: 'tenders#project_information', as: 'tenders_project_information'
   get '/tenders/:id/tender_documents', to: 'tenders#tender_documents', as: 'tenders_tender_documents'
@@ -43,7 +43,8 @@ Rails.application.routes.draw do
   get '/tenders/:id/results', to: 'tenders#results', as: 'tenders_results'
   patch '/tenders/:id/rating', to: 'tenders#rating', as: 'tender_ratings'
 
-  post '/invitation_to_tender/:id/purchase', to: 'request_for_tenders#purchase_tender', as: 'purchase_tender'
+  post '/signup_and_purchase/:id', to: 'purchase_tender#signup_and_purchase', as: 'signup_and_purchase'
+  post '/login_and_purchase/:id', to: 'purchase_tender#login_and_purchase', as: 'login_and_purchase'
 
   post '/tenders/:id/required_document_uploads/', to: 'tenders#required_document_uploads', as: 'tenders_upload_required_documents'
   patch '/tenders/:id/other_document_uploads/', to: 'tenders#other_document_uploads', as: 'tender_other_documents_upload'

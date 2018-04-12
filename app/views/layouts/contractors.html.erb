@@ -9,22 +9,16 @@
 
   <body class="<%= controller_name %> <%= action_name %>">
 
-    <%= render 'layouts/contractors_navbar' %>
+    <%= render 'contractors/navbar' %>
 
     <div class="content">
 
-      <%= render 'layouts/contractors_page_head' %>
+      <%= render 'contractors/page_head' %>
 
       <%= yield %>
 
     </div>
 
-    <%= render 'layouts/contractors_footer' unless action_name == 'boq' %>
-
-    <script type="text/javascript" charset="utf-8">
-        $(function () {
-            $('[data-toggle="tooltip"]').tooltip()
-        })
-    </script>
+    <%= render 'contractors/footer' unless action_name == 'boq' %>
   </body>
 </html>

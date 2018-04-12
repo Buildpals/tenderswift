@@ -1,30 +1,74 @@
 <% content_for :title do %>
-    <%= current_contractor.company_name %>
+  <%= @tender.project_name %> - TenderSwift
 <% end %>
+
+<% content_for :breadcrumbs do %>
+  <li class="breadcrumb-item">
+    <a href="<%= contractors_dashboard_path %>">
+      Home
+    </a>
+  </li>
+  <li class="breadcrumb-item active" aria-current="page">
+    <%= @tender.project_name %>
+  </li>
+<% end %>
+
+<% content_for :nav_tabs do %>
+  <nav class="nav justify-content-center">
+    <a class="nav-item nav-link <%= 'active' if action_name == 'project_information' %>" href="<%= tenders_project_information_path(@tender) %>">
+      1. Project Information
+    </a>
+    <% if @tender.purchased? %>
+      <a class="nav-item nav-link <%= 'active' if action_name == 'tender_documents' %>" href="<%= tenders_tender_documents_path(@tender) %>">
+        2. Tender Documents
+      </a>
+      <a class="nav-item nav-link <%= 'active' if action_name == 'boq' %>" href="<%= tenders_boq_path(@tender) %>">
+        3. Bill of Quantities
+      </a>
+      <a class="nav-item nav-link <%= 'active' if action_name == 'required_documents' %>" href="<%= tenders_required_documents_path(@tender) %>">
+        4. Upload Documents
+      </a>
+    <% else %>
+      <a class="nav-item nav-link disabled" href="#" data-toggle="tooltip" data-placement="bottom"
+         data-html="true"
+         data-title="Not available until you have purchased this tender">
+        2. Tender Documents
+      </a>
+      <a class="nav-item nav-link disabled" href="#" data-toggle="tooltip" data-placement="bottom"
+         data-html="true"
+         data-title="Not available until you have purchased this tender">
+        3. Bill of Quantities
+      </a>
+      <a class="nav-item nav-link disabled" href="#" data-toggle="tooltip" data-placement="bottom"
+         data-html="true"
+         data-title="Not available until you have purchased this tender">
+        4. Upload Documents
+      </a>
+    <% end %>
+  </nav>
+<% end %>
+
+
+
 
 <!DOCTYPE html>
 <html lang="en">
 
-  <%= render 'layouts/head' %>
+<%= render 'layouts/head' %>
 
-  <body class="<%= controller_name %> <%= action_name %>">
+<body class="<%= controller_name %> <%= action_name %>">
 
-    <%= render 'layouts/contractors_navbar' %>
+<%= render 'tenders/navbar' %>
 
-    <div class="content">
+<div class="content">
 
-      <%= render 'layouts/contractors_page_head' %>
+  <%= render 'tenders/page_head' %>
 
-      <%= yield %>
+  <%= yield %>
 
-    </div>
+</div>
 
-    <%= render 'layouts/contractors_footer' unless action_name == 'boq' %>
+<%= render 'tenders/footer' unless action_name == 'boq' %>
 
-    <script type="text/javascript" charset="utf-8">
-        $(function () {
-            $('[data-toggle="tooltip"]').tooltip()
-        })
-    </script>
-  </body>
+</body>
 </html>

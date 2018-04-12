@@ -18,6 +18,8 @@ class TendersController < ApplicationController
 
   include ApplicationHelper
 
+  before_action :authenticate_contractor!
+
   def project_information
     @tender_transaction = TenderTransaction.new
   end

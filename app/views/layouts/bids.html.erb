@@ -31,7 +31,7 @@
 
 <% content_for :action_items do %>
   <div class="mt-2 ml-auto">
-    <%= render 'layouts/rating_bar', tender: @tender %>
+    <%= render 'bids/rating_bar', tender: @tender %>
   </div>
 
   <% if @tender.disqualified %>

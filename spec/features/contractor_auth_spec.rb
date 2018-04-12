@@ -19,7 +19,7 @@ RSpec.feature 'Contractor Authentication', type: :feature do
     find('body').has_content?('Welcome! You have signed up successfully.')
   end
 
-  scenario 'Contractor sign in' do
+  scenario 'Contractor logs in' do
     visit '/contractors/sign_in'
 
     fill_in 'Email address', with: contractor.email

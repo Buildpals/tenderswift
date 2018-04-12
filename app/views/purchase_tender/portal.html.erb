@@ -1,0 +1,127 @@
+<% content_for :title do %>
+  <%= @request_for_tender.project_owners_company_name %>
+<% end %>
+
+<% content_for :favicon do %>
+  <link rel="icon" type="image/png" href="<%= cloudinary_url(@request_for_tender.project_owners_company_logo.full_public_id, format: 'png', height: 16, crop: :scale,) %>">
+<% end %>
+
+
+
+<% content_for :navbar do %>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <%= link_to '#', class: 'navbar-brand' do %>
+      <%= cl_image_tag(@request_for_tender.project_owners_company_logo.full_public_id,
+                       format: 'jpg', height: 28, crop: :scale,
+                       style: 'height: 28px; margin-top: 0px;',
+                       title: @request_for_tender.project_owners_company_name,
+                       alt: @request_for_tender.project_owners_company_name)
+      %>
+      <%= @request_for_tender.project_owners_company_name %>
+    <% end %>
+
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mx-auto">
+        <li class="nav-item">
+          <%= @request_for_tender.project_name %>
+        </li>
+      </ul>
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item mr-3">
+          <button class="btn btn-secondary btn-payment-modal" data-toggle="modal" data-target="#paymentModal">
+            Purchase Tender Documents for GHC <%= format_price(@request_for_tender.selling_price) %>
+          </button>
+        </li>
+      </ul>
+    </div>
+  </nav>
+<% end %>
+
+<% content_for :breadcrumbs do %>
+  <li class="breadcrumb-item">
+    <a href="#">
+      <%= @request_for_tender.project_owners_company_name %>
+    </a>
+  </li>
+  <li class="breadcrumb-item active" aria-current="page">
+    <%= @request_for_tender.project_name %>
+  </li>
+<% end %>
+
+<% content_for :nav_tabs do %>
+  <nav class="nav justify-content-center">
+    <a class="nav-item nav-link active" href="#">
+      1. Project Information
+    </a>
+    <a class="nav-item nav-link disabled" href="#" data-toggle="tooltip" data-placement="bottom"
+       data-html="true"
+       data-title="Not available until you have purchased this tender">
+      2. Tender Documents
+    </a>
+    <a class="nav-item nav-link disabled" href="#" data-toggle="tooltip" data-placement="bottom"
+       data-html="true"
+       data-title="Not available until you have purchased this tender">
+      3. Bill of Quantities
+    </a>
+    <a class="nav-item nav-link disabled" href="#" data-toggle="tooltip" data-placement="bottom"
+       data-html="true"
+       data-title="Not available until you have purchased this tender">
+      4. Upload Documents
+    </a>
+  </nav>
+<% end %>
+
+
+<div class="modal fade" id="paymentModal" tabindex="-1" role="dialog" aria-labelledby="paymentModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <ul class="nav nav-pills nav-justified border-bottom mb-3" id="pills-tab" role="tablist">
+        <li class="nav-item">
+          <a class="nav-link rounded-0 active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">
+            New User
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link rounded-0" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false">
+            I have an account
+          </a>
+        </li>
+      </ul>
+
+      <div class="tab-content" id="pills-tabContent">
+        <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-md-10 mx-auto pt-3 pb-5">
+                <%= render 'purchase_tender/sign_up_and_purchase_form' %>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-md-10 mx-auto pt-3 pb-5">
+                <%= render 'purchase_tender/login_and_purchase_form' %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript" charset="utf-8">
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
+</script>
+
+<%= render 'request_for_tenders/public_information' %>
