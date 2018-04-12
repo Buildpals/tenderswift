@@ -1,15 +1,17 @@
-class BidsController < ApplicationController
+# frozen_string_literal: true
+
+class BidsController < QuantitySurveyorsController
   layout 'file_viewer', only: %i[pdf_viewer image_viewer]
 
   before_action :mark_required_document_as_read, only: %i[image_viewer
                                                           pdf_viewer]
 
   before_action :set_tender, only: %i[required_documents
-                                           boq
-                                           other_documents
-                                           disqualify
-                                           undo_disqualify
-                                           rate]
+                                      boq
+                                      other_documents
+                                      disqualify
+                                      undo_disqualify
+                                      rate]
 
   before_action :authenticate_quantity_surveyor!
 

@@ -1,7 +1,13 @@
 # frozen_string_literal: true
 
-class PurchaseTenderController < ApplicationController
+class PurchaseTenderController < ContractorsController
   before_action :set_request_for_tender, only: %i[
+    portal
+    signup_and_purchase
+    login_and_purchase
+  ]
+
+  skip_before_action :authenticate_contractor!, only: %i[
     portal
     signup_and_purchase
     login_and_purchase

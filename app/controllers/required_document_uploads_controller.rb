@@ -1,11 +1,11 @@
-class RequiredDocumentUploadsController < ApplicationController
+# frozen_string_literal: true
 
+class RequiredDocumentUploadsController < ContractorsController
   before_action :authenticate_quantity_surveyor!
 
   def create
     puts params
   end
-
 
   private
 

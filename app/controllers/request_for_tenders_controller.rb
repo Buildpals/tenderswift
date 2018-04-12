@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class RequestForTendersController < ApplicationController
+class RequestForTendersController < QuantitySurveyorsController
   before_action :set_request_for_tender, only: %i[show
                                                   compare_boq
                                                   update

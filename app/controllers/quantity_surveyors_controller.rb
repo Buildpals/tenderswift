@@ -21,6 +21,12 @@ class QuantitySurveyorsController < ApplicationController
     end
   end
 
+  protected
+
+  def pundit_user
+    current_quantity_surveyor
+  end
+
   private
 
   # Use callbacks to share common setup or constraints between actions.
