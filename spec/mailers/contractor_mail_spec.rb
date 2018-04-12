@@ -1,27 +1,25 @@
+# frozen_string_literal: true
+
+require 'rails_helper'
+
 RSpec.describe ContractorMailer, type: :mailer do
   describe 'Invitation to tender' do
-    let(:user) { mock_model User, name: 'Lucas', email: 'lucas@email.com' }
-    let(:mail) { described_class.instructions(user).deliver_now }
+    let!(:quantity_surveyor) { FactoryBot.create(:quantity_surveyor) }
+    let!(:request_for_tender) { FactoryBot.build(:request_for_tender) }
+    let!(:tender) { FactoryBot.create(:tender) }
+
+    let(:mail) { ContractorMailer.request_for_tender_email(tender, request_for_tender).deliver_now }
 
     it 'renders the subject' do
-      expect(mail.subject).to eq('Instructions')
+      expect(mail.subject).to eq("Invitation to Tender for #{tender.project_name}")
     end
 
     it 'renders the receiver email' do
-      expect(mail.to).to eq([user.email])
+      expect(mail.to).to eq([tender.contractor.email])
     end
 
     it 'renders the sender email' do
-      expect(mail.from).to eq(['noreply@company.com'])
-    end
-
-    it 'assigns @name' do
-      expect(mail.body.encoded).to match(user.name)
-    end
-
-    it 'assigns @confirmation_url' do
-      expect(mail.body.encoded)
-          .to match("http://aplication_url/#{user.id}/confirmation")
+      expect(mail.from).to eq(['projects@buildpals.com'])
     end
   end
 end
