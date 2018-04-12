@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <%= link_to contractors_dashboard_path, class: 'navbar-brand' do %>
+  <%= link_to contractor_root_path, class: 'navbar-brand' do %>
     <img src="https://res.cloudinary.com/tenderswift/image/upload/c_scale,h_24/v1520926501/tenderswift-logo.png"
          alt="TenderSwift"
          class="d-inline-block align-top">
@@ -10,27 +10,6 @@
   </button>
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
-      <% if contractor_signed_in? %>
-
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle"
-             href="<%= request_for_tenders_path %>"
-             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Request For Tenders
-          </a>
-          <div class="dropdown-menu" aria-labelledby="request_for_tender_links">
-            <%= link_to request_for_tenders_path, class: 'dropdown-item' do %>
-              My Tender Requests <span class="sr-only">(current)</span>
-            <% end %>
-            <%= link_to new_request_for_tender_path, class: 'dropdown-item' do %>
-              Create New<span class="sr-only">(current)</span>
-            <% end %>
-          </div>
-        </li>
-
-      <% end %>
-    </ul>
     <ul class="navbar-nav ml-auto">
       <% if contractor_signed_in? %>
 

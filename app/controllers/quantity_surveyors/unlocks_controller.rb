@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Contractors::UnlocksController < Devise::UnlocksController
+class QuantitySurveyors::UnlocksController < Devise::UnlocksController
   include Accessible
 
   # GET /resource/unlock/new

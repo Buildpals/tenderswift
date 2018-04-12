@@ -154,7 +154,7 @@ class CreateTenderController < ApplicationController
 
   def check_if_published
     if @request_for_tender.published?
-      redirect_to request_for_tenders_path, notice: 'A tender cannot
+      redirect_to quantity_surveyor_root_path, notice: 'A tender cannot
                                           be edited once it\'s sent out
                                           to contractors'
     end

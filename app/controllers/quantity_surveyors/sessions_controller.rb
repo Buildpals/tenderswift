@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Contractors::SessionsController < Devise::SessionsController
+class QuantitySurveyors::SessionsController < Devise::SessionsController
   include Accessible
 
   skip_before_action :check_user, only: :destroy
@@ -29,7 +29,7 @@ class Contractors::SessionsController < Devise::SessionsController
   #   devise_parameter_sanitizer.permit(:sign_in, keys: [:attribute])
   # end
 
-  def after_sign_out_path_for(_contractor)
-    new_contractor_session_path
+  def after_sign_out_path_for(_quantity_surveyor)
+    new_quantity_surveyor_session_path
   end
 end

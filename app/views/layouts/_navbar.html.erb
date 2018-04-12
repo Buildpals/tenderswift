@@ -15,12 +15,12 @@
 
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle"
-           href="<%= request_for_tenders_path %>"
+           href="<%= quantity_surveyor_root_path %>"
            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Request For Tenders
         </a>
         <div class="dropdown-menu" aria-labelledby="request_for_tender_links">
-          <%= link_to request_for_tenders_path, class: 'dropdown-item' do %>
+          <%= link_to quantity_surveyor_root_path, class: 'dropdown-item' do %>
               My Tender Requests <span class="sr-only">(current)</span>
           <% end %>
           <%= link_to new_request_for_tender_path, class: 'dropdown-item' do %>

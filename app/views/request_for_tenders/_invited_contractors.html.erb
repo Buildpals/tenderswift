@@ -69,11 +69,11 @@
                       Copy and send it to the contractors you would like to tender for this contract.
                     </small>
 
-                    <%= link_to 'Preview Contractor\'s Portal', request_for_tender_portal_url(@request_for_tender), target: '_blank',
+                    <%= link_to 'Preview Contractor\'s Portal', purchase_tender_url(@request_for_tender), target: '_blank',
                                 class: 'btn btn-link btn-sm' %>
                   </div>
 
-                  <%= text_field_tag :portal_link, request_for_tender_portal_url(@request_for_tender),
+                  <%= text_field_tag :portal_link, purchase_tender_url(@request_for_tender),
                                      {id: :contractors_portal_link, class: 'form-control form-control-sm',
                                       onclick: 'this.select()', readonly: true} %>
                 </div>

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Contractors::PasswordsController < Devise::PasswordsController
+class QuantitySurveyors::PasswordsController < Devise::PasswordsController
   include Accessible
 
   # GET /resource/password/new

@@ -5,6 +5,7 @@ FactoryBot.define do
     sequence(:email) { |n| "test#{n}@example.com" }
     sequence(:phone_number) { |n| "024012345#{n}" }
     password 'password'
+    confirmed_at Time.current
 
     after :create do |q|
       q.update_column(:company_logo,

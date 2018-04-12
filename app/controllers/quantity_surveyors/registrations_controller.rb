@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Contractors::RegistrationsController < Devise::RegistrationsController
+class QuantitySurveyors::RegistrationsController < Devise::RegistrationsController
   include Accessible
 
   before_action :configure_sign_up_params, only: [:create]

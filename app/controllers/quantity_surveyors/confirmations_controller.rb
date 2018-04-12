@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Contractors::ConfirmationsController < Devise::ConfirmationsController
+class QuantitySurveyors::ConfirmationsController < Devise::ConfirmationsController
   include Accessible
 
   # GET /resource/confirmation/new
