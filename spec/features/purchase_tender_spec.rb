@@ -5,18 +5,19 @@ require 'rails_helper'
 RSpec.feature 'Contractor can purchase invitation_to_tender' do
   let!(:invitation_to_tender) { FactoryBot.create(:request_for_tender) }
   let!(:contractor) { FactoryBot.build(:contractor) }
+  let!(:signed_up_contractor) { FactoryBot.create(:contractor) }
 
   scenario 'as a new user' do
     visit request_for_tender_portal_path(invitation_to_tender)
 
-    fill_in 'Company name', with: contractor.company_name
-    fill_in 'Phone number', with: contractor.phone_number
-    fill_in 'Email', with: contractor.email
-    fill_in 'Password', with: contractor.password
+    fill_in :signup_company_name, with: contractor.company_name
+    fill_in :signup_phone_number, with: contractor.phone_number
+    fill_in :signup_email, with: contractor.email
+    fill_in :signup_password, with: contractor.password
 
-    select 'MTN Mobile Money', from: :network_code
-    fill_in :customer_number, with: contractor.phone_number
-    fill_in :vodafone_voucher_code, with: '123456'
+    select 'MTN Mobile Money', from: :signup_network_code
+    fill_in :signup_customer_number, with: contractor.phone_number
+    fill_in :signup_vodafone_voucher_code, with: '123456'
 
     click_button 'Sign up and Purchase'
 
@@ -25,9 +26,29 @@ RSpec.feature 'Contractor can purchase invitation_to_tender' do
     click_link invitation_to_tender.project_name
 
     should_have_invitation_to_tender_content
+
+    # Check if they show up on the QS dashboard with the right price
+    # Check if they can log out and login with the same credentials
   end
 
   scenario 'when they already have an account' do
+    visit request_for_tender_portal_path(invitation_to_tender)
+
+    fill_in :login_email, with: signed_up_contractor.email
+    fill_in :login_password, with: signed_up_contractor.password
+
+    select 'MTN Mobile Money', from: :login_network_code
+    fill_in :login_customer_number, with: signed_up_contractor.phone_number
+    fill_in :login_vodafone_voucher_code, with: '123456'
+
+    click_button 'Log in and Purchase'
+
+    should_find_request_for_tender_in_purchased_tenders
+
+    click_link invitation_to_tender.project_name
+
+    should_have_invitation_to_tender_content
+    # Check if they show up on the QS dashboard with the right price
   end
 
   scenario 'when they are already signed in' do
