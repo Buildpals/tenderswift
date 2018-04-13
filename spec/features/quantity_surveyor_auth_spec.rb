@@ -45,7 +45,6 @@ RSpec.feature 'QuantitySurveyor Authentication', type: :feature do
     click_button 'Log in'
 
     should_have_dashboard_content_for existing_quantity_surveyor
-    expect(page).to have_content 'Signed in successfully.'
   end
 end
 
