@@ -51,11 +51,12 @@ Rails.application.routes.draw do
   get '/bids/:id/pdf_viewer/other/:other_document_id', to: 'other_document_uploads#pdf_viewer', as: :view_pdf_for_other_documents
   get '/bids/:id/image_viewer/other/:other_document_id', to: 'other_document_uploads#image_viewer', as: :view_image_for_other_documents
 
-  patch '/bids/update/:required_document_upload_id', to: 'bids#update', as: :update_bid
-  patch '/bids/update/other/:other_document_id', to: 'other_document_uploads#update', as: :update_other_document
-  post '/bids/disqualify/:id/', to: 'bids#disqualify', as: :disqualify_bid
-  post '/bids/undo_disqualify/:id/', to: 'bids#undo_disqualify', as: :undo_disqualify_bid
-  post '/bids/rate/:id/', to: 'bids#rate', as: :rate_bid
+  patch '/bids/:required_document_upload_id/update_required_document', to: 'bids#update', as: :update_bid
+  patch '/bids/:other_document_id/update_other_document', to: 'other_document_uploads#update', as: :update_other_document
+
+  post '/bids/:id/disqualify', to: 'bids#disqualify', as: :disqualify_bid
+  post '/bids/:id/undo_disqualify', to: 'bids#undo_disqualify', as: :undo_disqualify_bid
+  post '/bids/:id//rate', to: 'bids#rate', as: :rate_bid
 
   #################### Contractors Routes ##################
 
@@ -89,7 +90,7 @@ Rails.application.routes.draw do
 
   post '/tenders/:id/required_document_uploads', to: 'tenders#required_document_uploads', as: :tenders_upload_required_documents
   patch '/tenders/:id/other_document_uploads', to: 'tenders#other_document_uploads', as: :tender_other_documents_upload
-  post '/tenders/save_rates/:id', to: 'tenders#save_rates'
+  post '/tenders//:id/save_rates', to: 'tenders#save_rates'
 
   get '/tender/transactions/complete_transaction', to: 'tender_transactions#complete_transaction', as: :complete_transaction
 
@@ -105,7 +106,8 @@ Rails.application.routes.draw do
     unlocks: 'admins/unlocks'
   }
 
-  get '/adonai', to: 'request_for_tenders#index', as: :admin_root
+  # TODO: Figure out controller and action for rails_admin
+  get '/adonai', to: 'welcome#index', as: :admin_root
 
   mount RailsAdmin::Engine => '/adonai', as: :rails_admin
   mount ActionCable.server => '/cable'
