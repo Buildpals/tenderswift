@@ -7,13 +7,16 @@ RSpec.feature 'Creating Request For Tender' do
   let!(:request_for_tender) { FactoryBot.build(:request_for_tender) }
 
   before do
-    login_as(quantity_surveyor)
+    login_as(quantity_surveyor, scope: :quantity_surveyor)
   end
 
   scenario 'with valid attributes' do
     visit '/'
 
+    expect(page).to have_content 'Create Request For Tender'
+
     click_link 'Create Request For Tender'
+
     expect(page).to have_content 'Untitled Project #'
     expect(page).to have_content 'General Information'
 

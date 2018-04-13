@@ -7,15 +7,15 @@ RSpec.feature 'Contractor can view an Invitation to Tender' do
   let!(:contractor) { FactoryBot.create(:contractor) }
 
   scenario 'before logging in' do
-    visit request_for_tender_portal_path(invitation_to_tender)
+    visit purchase_tender_path(invitation_to_tender)
 
     should_have_invitation_to_tender_content
   end
 
   scenario 'after logging in' do
-    login_as(contractor)
+    login_as(contractor, scope: :contractor)
 
-    visit request_for_tender_portal_path(invitation_to_tender)
+    visit purchase_tender_path(invitation_to_tender)
 
     should_have_invitation_to_tender_content
   end

@@ -19,7 +19,7 @@
               <%= f.label :full_name, class: 'col-sm-3 col-form-label' %>
 
               <div class="col-sm-9">
-                <%= f.text_field :full_name, placeholder: 'Your name', autofocus: true, class: 'form-control', required: true %>
+                <%= f.text_field :full_name, id: :quantity_surveyor_full_name, placeholder: 'Your name', autofocus: true, class: 'form-control', required: true %>
               </div>
             </div>
 
@@ -27,7 +27,7 @@
               <%= f.label :email, class: 'col-sm-3 col-form-label' %>
 
               <div class="col-sm-9">
-                <%= f.email_field :email, autofocus: true, class: 'form-control' %>
+                <%= f.email_field :email, id: :quantity_surveyor_email, autofocus: true, class: 'form-control' %>
               </div>
             </div>
 
@@ -35,9 +35,7 @@
               <%= f.label :phone_number, class: 'col-sm-3 col-form-label' %>
 
               <div class="col-sm-9">
-                <input type="tel" name="phone" id="phone_number_input" value="<%= @quantity_surveyor.phone_number %>"
-                       placeholder="Phone number" autocomplete="on" class="form-control" required>
-                <%= f.hidden_field :phone_number, id: 'quantity_surveyor_phone_number' %>
+                <%= f.telephone_field :phone_number, id: :quantity_surveyor_phone_number, placeholder: :phone_number, autocomplete: "on", class: 'form-control', required: true %>
               </div>
             </div>
 
@@ -45,7 +43,7 @@
               <%= f.label :company_name, class: 'col-sm-3 col-form-label' %>
 
               <div class="col-sm-9">
-                <%= f.text_field :company_name, placeholder: :company_name, autocomplete: "on", class: 'form-control', required: true %>
+                <%= f.text_field :company_name, id: :quantity_surveyor_company_name, placeholder: :company_name, autocomplete: "on", class: 'form-control', required: true %>
               </div>
             </div>
 
@@ -56,9 +54,9 @@
                 <% if f.object.company_logo? %>
                     <img class="img-fluid mb-2" style="height: 100px;"
                          src="<%= f.object.company_logo.url %>" alt="<%= f.object.company_logo.file.filename %>">
-                    <%= f.file_field :company_logo, placeholder: :company_logo, class: 'form-control-file' %>
+                    <%= f.file_field :company_logo, id: :quantity_surveyor_company_logo, placeholder: :company_logo, class: 'form-control-file' %>
                 <% else %>
-                    <%= f.file_field :company_logo, placeholder: :company_logo, class: 'form-control-file', required: true %>
+                    <%= f.file_field :company_logo, id: :quantity_surveyor_company_logo, placeholder: :company_logo, class: 'form-control-file', required: true %>
                 <% end %>
               </div>
             </div>

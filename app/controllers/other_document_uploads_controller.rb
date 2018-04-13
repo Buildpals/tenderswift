@@ -1,4 +1,6 @@
-class OtherDocumentUploadsController < ApplicationController
+# frozen_string_literal: true
+
+class OtherDocumentUploadsController < ContractorsController
   layout 'file_viewer', only: %i[pdf_viewer image_viewer]
 
   before_action :mark_other_document_as_read, only: %i[image_viewer
@@ -7,7 +9,6 @@ class OtherDocumentUploadsController < ApplicationController
   before_action :set_tender, only: %i[other_documents]
 
   before_action :authenticate_quantity_surveyor!
-
 
   def other_documents
     render layout: 'bids'

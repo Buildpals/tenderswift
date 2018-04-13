@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class RequestForTendersController < ApplicationController
+class RequestForTendersController < QuantitySurveyorsController
   before_action :set_request_for_tender, only: %i[show
                                                   compare_boq
                                                   update
@@ -26,7 +26,7 @@ class RequestForTendersController < ApplicationController
     if @request_for_tender.deadline_over?
       render layout: 'compare_boq'
     else
-      redirect_to request_for_tenders_path, notice: 'In accordance with tender
+      redirect_to quantity_surveyor_root_path, notice: 'In accordance with tender
                                                   fairness, you cannot access
                                                   the bids until the deadline
                                                   is past.'
@@ -62,8 +62,6 @@ class RequestForTendersController < ApplicationController
     end
   end
 
-  # DELETE /requests/1
-  # DELETE /requests/1.json
   def destroy
     @request_for_tender.destroy
     respond_to do |format|

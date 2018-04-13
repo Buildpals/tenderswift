@@ -8,7 +8,7 @@ RSpec.feature 'Contractor can purchase invitation_to_tender' do
   let!(:signed_up_contractor) { FactoryBot.create(:contractor) }
 
   scenario 'as a new user' do
-    visit request_for_tender_portal_path(invitation_to_tender)
+    visit purchase_tender_path(invitation_to_tender)
 
     fill_in :signup_company_name, with: contractor.company_name
     fill_in :signup_phone_number, with: contractor.phone_number
@@ -32,7 +32,7 @@ RSpec.feature 'Contractor can purchase invitation_to_tender' do
   end
 
   scenario 'when they already have an account' do
-    visit request_for_tender_portal_path(invitation_to_tender)
+    visit purchase_tender_path(invitation_to_tender)
 
     fill_in :login_email, with: signed_up_contractor.email
     fill_in :login_password, with: signed_up_contractor.password
@@ -52,8 +52,23 @@ RSpec.feature 'Contractor can purchase invitation_to_tender' do
   end
 
   scenario 'when they are already signed in' do
+    # login_as(contractor, scope: :contractor)
+    #
+    # visit purchase_tender_path(invitation_to_tender)
+    #
+    # select 'MTN Mobile Money', from: :logged_in_network_code
+    # fill_in :logged_in_customer_number, with: signed_up_contractor.phone_number
+    # fill_in :logged_in_vodafone_voucher_code, with: '123456'
+    #
+    # click_button 'Purchase'
+    #
+    # should_find_request_for_tender_in_purchased_tenders
+    #
+    # click_link invitation_to_tender.project_name
+    #
+    # should_have_invitation_to_tender_content
+    # # Check if they show up on the QS dashboard with the right price
   end
-
 
   private
 

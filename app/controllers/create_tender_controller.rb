@@ -1,4 +1,6 @@
-class CreateTenderController < ApplicationController
+# frozen_string_literal: true
+
+class CreateTenderController < QuantitySurveyorsController
   before_action :set_request_for_tender, only: %i[edit_tender_information
                                                   edit_tender_documents
                                                   edit_tender_boq
@@ -17,7 +19,7 @@ class CreateTenderController < ApplicationController
   before_action :authenticate_quantity_surveyor!
   # before_action :check_if_published
 
-  DEFAULT_BROADCAST_CONTENT = 'If you have any questions you can reply me here'.freeze
+  DEFAULT_BROADCAST_CONTENT = 'If you have any questions you can reply me here'
 
   def edit_tender_information
     @next_path = edit_tender_boq_path(@request_for_tender)
@@ -154,7 +156,7 @@ class CreateTenderController < ApplicationController
 
   def check_if_published
     if @request_for_tender.published?
-      redirect_to request_for_tenders_path, notice: 'A tender cannot
+      redirect_to quantity_surveyor_root_path, notice: 'A tender cannot
                                           be edited once it\'s sent out
                                           to contractors'
     end
@@ -210,10 +212,10 @@ class CreateTenderController < ApplicationController
                                                    _destroy],
                   contract_sum_address: %i[sheet cellAddress],
                   contractors_attributes: %i[id
-                                              email
-                                              phone_number
-                                              company_name
-                                              _destroy],
+                                             email
+                                             phone_number
+                                             company_name
+                                             _destroy],
                   required_documents_attributes: %i[id
                                                     title
                                                     _destroy])

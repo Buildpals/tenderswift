@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class TendersController < ApplicationController
+class TendersController < ContractorsController
   before_action :set_tender, only: %i[update destroy
                                       project_information
                                       boq

@@ -2,6 +2,7 @@
 
 class Contractors::SessionsController < Devise::SessionsController
   include Accessible
+
   skip_before_action :check_user, only: :destroy
 
   # before_action :configure_sign_in_params, only: [:create]
@@ -27,4 +28,8 @@ class Contractors::SessionsController < Devise::SessionsController
   # def configure_sign_in_params
   #   devise_parameter_sanitizer.permit(:sign_in, keys: [:attribute])
   # end
+
+  def after_sign_out_path_for(_contractor)
+    new_contractor_session_path
+  end
 end
