@@ -143,17 +143,11 @@ class TendersController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_tender
-    if params[:id].first(6) == 'guest-'
-      request_for_tender = RequestForTender.find(params[:id][6..-1])
-      @tender = GuestParticipant.new(request_for_tender)
-      @request_for_tender = request_for_tender
+    @tender = Tender.find_by(auth_token: params[:id])
+    if @tender.nil?
+      redirect_to root_path
     else
-      @tender = Tender.find_by(auth_token: params[:id])
-      if @tender.nil?
-        redirect_to root_path
-      else
-        @request_for_tender = @tender.request_for_tender
-      end
+      @request_for_tender = @tender.request_for_tender
     end
   end
 

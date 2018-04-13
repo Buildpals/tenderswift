@@ -177,7 +177,7 @@ class CreateTenderController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_request_for_tender
     @request_for_tender = RequestForTender.find(params[:id])
-    @tender = GuestParticipant.new(@request_for_tender)
+    @tender = Tender.build_fake_tender(@request_for_tender)
     authorize @request_for_tender
   end
 

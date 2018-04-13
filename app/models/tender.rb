@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Tender < ApplicationRecord
   include HasProject
 
@@ -96,6 +98,20 @@ class Tender < ApplicationRecord
       workbook['Sheets'][rate.sheet][cell_address]['v'] = rate.value
     end
     workbook.to_json
+  end
+
+  def self.build_fake_tender(request_for_tender)
+    contractor = Contractor.new(
+      company_name: 'Example Company Ltd',
+      phone_number: '+233240000000',
+      email: 'example_tender@buildpals.com'
+    )
+
+    Tender.new(
+      request_for_tender: request_for_tender,
+      contractor: contractor,
+      auth_token: 'auth_token'
+    )
   end
 
   private
