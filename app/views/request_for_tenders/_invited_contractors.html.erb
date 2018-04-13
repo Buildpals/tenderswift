@@ -101,11 +101,11 @@
                   </div>
 
                   <ul class="list-group list-group-flush nested-forms">
-                    <%= form.fields_for :tenders do |tender| %>
-                      <%= render 'tender_fields', f: tender %>
+                    <%= form.fields_for :contractors do |contractor| %>
+                      <%= render 'contractor_fields', f: contractor %>
                     <% end %>
                     <li class="d-flex w-100 justify-content-between">
-                      <%= link_to_add_association 'ADD ANOTHER PARTICIPANT', form, :tenders,
+                      <%= link_to_add_association 'ADD ANOTHER PARTICIPANT', form, :contractors,
                                                   class: 'btn btn-sm btn-block btn-primary my-1' %>
                     </li>
                   </ul>

@@ -1,5 +1,23 @@
-Welcome
+<div class="col-lg-8 mx-auto pt-4" id="notice-area">
+  <%= render 'layouts/notice' %>
+</div>
 
+<section id="banner" class="banner jumbotron text-center">
+  <div class="container pt-5">
 
-Login as quantity surveyor
-Login as contractor
+    <h1 class="jumbotron-heading">Tendering made easy</h1>
+    <p class="lead text-muted mt-2 mb-4">
+      A tender management tool for organizations to run and analyze
+      <br>
+      hundreds of tenders and bids with absolute ease.
+    </p>
+    <p>
+      <%= link_to "I'm a quantity surveyor",  new_quantity_surveyor_registration_path,
+                  class: 'btn btn-primary', style: 'width: 200px' %>
+
+      <%= link_to "I'm a contractor", new_contractor_registration_path,
+                  class: 'btn btn-primary', style: 'width: 200px' %>
+    </p>
+
+  </div>
+</section>

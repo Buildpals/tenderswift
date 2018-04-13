@@ -11,7 +11,7 @@ RSpec.feature 'Creating Request For Tender' do
   end
 
   scenario 'with valid attributes' do
-    visit '/'
+    visit quantity_surveyor_root_path
 
     expect(page).to have_content 'Create Request For Tender'
 
