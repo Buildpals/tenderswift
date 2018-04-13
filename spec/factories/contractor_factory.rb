@@ -2,7 +2,7 @@ FactoryBot.define do
   factory :contractor do
     sequence(:company_name) { |n| "Test #{n} Construction Limited" }
     sequence(:full_name) { |n| "Test Anane #{n}" }
-    sequence(:email) { |n| "test#{n}@example.com" }
+    sequence(:email) { |n| "test#{n}@gmail.com" }
     sequence(:phone_number) { |n| "024012345#{n}" }
     password 'password'
 
