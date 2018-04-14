@@ -43,12 +43,21 @@ class Tender < ApplicationRecord
            :project_owners_email,
            to: :request_for_tender
 
+  delegate :name,
+           :company_name,
+           :company_logo,
+           :phone_number,
+           :email,
+           to: :contractor,
+           prefix: :contractors
+
   def to_param
     "#{id}-#{project_name.parameterize}"
   end
 
   def required_document_upload_for(required_document)
-    required_document_uploads.find_by(required_document_id: required_document.id) || required_document_uploads.build(required_document_id: required_document.id)
+    required_document_uploads.find_by(required_document_id: required_document.id) ||
+      required_document_uploads.build(required_document_id: required_document.id)
   end
 
   def bid

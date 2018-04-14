@@ -29,7 +29,6 @@ class RequestForTender < ApplicationRecord
                                 allow_destroy: true,
                                 reject_if: :all_blank
 
-
   has_many :contractors, through: :tenders
   accepts_nested_attributes_for :contractors,
                                 allow_destroy: true,
@@ -38,6 +37,14 @@ class RequestForTender < ApplicationRecord
   has_many :tender_transactions, dependent: :destroy, inverse_of: :request_for_tender
 
   enum withdrawal_frequency: { 'Monthly' => 0, 'Every two weeks' => 1, 'Weekly' => 2 }
+
+  delegate :name,
+           :company_name,
+           :company_logo,
+           :phone_number,
+           :email,
+           to: :quantity_surveyor,
+           prefix: :project_owners
 
   validates :project_name, presence: true
   # validate :check_deadline
@@ -79,9 +86,6 @@ class RequestForTender < ApplicationRecord
     c = ISO3166::Country[country_code]
     c.translations[I18n.locale.to_s] || c.name
   end
-
-
-  delegate :name, :company_name, :company_logo, :phone_number, :email, to: :quantity_surveyor, prefix: :project_owners
 
   def project_currency
     if currency == 'USD'

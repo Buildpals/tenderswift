@@ -8,7 +8,7 @@ class ContractorMailer < ApplicationMailer
   def request_for_tender_email(tender, request_for_tender)
     @tender = tender
     @request_for_tender = request_for_tender
-    mail(to: @tender.contractor.email,
+    mail(to: @tender.contractors_email,
          subject: "Invitation to Tender for #{@tender.project_name}")
   end
 end

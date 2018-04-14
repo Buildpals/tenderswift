@@ -15,15 +15,15 @@
     <% @request_for_tender.tenders.purchased.each do |tender| %>
       <li class="list-group-item list-group-item-action flex-column align-items-start">
         <div class="d-flex w-100 justify-content-between">
-          <div class="mb-1"><%= tender.name %></div>
+          <div class="mb-1"><%= tender.contractors_company_name %></div>
         </div>
         <small class="text-muted">
           <a href="mailto:<%= tender.project_owners_email %>?subject=<%= "re: Invitation to Tender for #{tender.project_name}" %>"
              target="_blank">
             <span class="fa fa-user"></span>
-            <%= tender.contractor.email %>
+            <%= tender.contractors_email %>
           </a>
-          (<%= tender.contractor.phone_number %>)
+          (<%= tender.contractors_phone_number %>)
           <br>
           Purchased on
           <%= tender.purchase_time.to_formatted_s(:short) %>

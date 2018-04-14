@@ -39,4 +39,8 @@ class Contractor < ApplicationRecord
     )
     self
   end
+
+  def name
+    "#{company_name} (#{phone_number})"
+  end
 end
