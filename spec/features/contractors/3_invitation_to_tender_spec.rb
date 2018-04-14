@@ -36,9 +36,9 @@ RSpec.feature 'Invitation to tender' do
     expect(page).to have_content invitation_to_tender.project_currency
 
     expect(page).to have_content time_to_deadline(invitation_to_tender.deadline)
-    expect(page).to have_content invitation_to_tender.project_deadline.to_formatted_s(:long)
+    expect(page).to have_content invitation_to_tender.deadline.to_formatted_s(:long)
 
-    expect(page).to have_content invitation_to_tender.project_description
+    expect(page).to have_content invitation_to_tender.description
 
     invitation_to_tender.required_documents.each do |required_document|
       expect(page).to have_content required_document.title

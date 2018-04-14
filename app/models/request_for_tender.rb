@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class RequestForTender < ApplicationRecord
-
   TENDERSWIFT_CUT = 0.12
 
   scope :published, -> { where(published: true) }
@@ -81,29 +80,8 @@ class RequestForTender < ApplicationRecord
     c.translations[I18n.locale.to_s] || c.name
   end
 
-  def project_owners_name
-    quantity_surveyor.full_name
-  end
 
-  def project_owners_company_name
-    quantity_surveyor.company_name
-  end
-
-  def project_owners_company_logo
-    quantity_surveyor.company_logo
-  end
-
-  def project_owners_phone_number
-    quantity_surveyor.phone_number
-  end
-
-  def project_owners_email
-    quantity_surveyor.email
-  end
-
-  def project_deadline
-    deadline
-  end
+  delegate :name, :company_name, :company_logo, :phone_number, :email, to: :quantity_surveyor, prefix: :project_owners
 
   def project_currency
     if currency == 'USD'
@@ -111,10 +89,6 @@ class RequestForTender < ApplicationRecord
     elsif currency == 'GHS'
       'GHS - Ghanaian Cedi'
     end
-  end
-
-  def project_description
-    description
   end
 
   def project_location
@@ -170,6 +144,8 @@ class RequestForTender < ApplicationRecord
     end
     workbook.to_json
   end
+
+  private
 
   def to_s26(q)
     alpha26 = ('A'..'Z').to_a

@@ -1,11 +1,6 @@
 # frozen_string_literal: true
 
 class Tender < ApplicationRecord
-  include HasProject
-
-  include ActionView::Helpers::DateHelper
-  include ActionView::Helpers::NumberHelper
-
   scope :purchased, -> { where(purchased: true) }
   scope :not_purchased, -> { where(purchased: false) }
 
@@ -40,7 +35,13 @@ class Tender < ApplicationRecord
                                 allow_destroy: true,
                                 reject_if: :all_blank
 
-  delegate :deadline, to: :request_for_tender
+  delegate :project_name, :deadline, :description, :project_location, :project_currency, to: :request_for_tender
+  delegate :project_owners_name,
+           :project_owners_company_name,
+           :project_owners_company_logo,
+           :project_owners_phone_number,
+           :project_owners_email,
+           to: :request_for_tender
 
   def to_param
     "#{id}-#{project_name.parameterize}"
@@ -52,24 +53,6 @@ class Tender < ApplicationRecord
 
   def bid
     100_000
-  end
-
-  def bid_difference
-    return ' - ' unless project_budget
-    project_budget.to_d - bid
-  end
-
-  def bid_difference_as_percentage
-    return ' - ' unless project_budget
-    number_to_percentage 100 * (bid_difference / project_budget.to_d)
-  end
-
-  def calculate_contract_sum
-    contract_sum = 0.0
-    rates.each do |rate|
-      contract_sum += (rate.value.to_f * rate.quantity.to_f)
-    end
-    contract_sum
   end
 
   def save_rates(rate_updates)

@@ -6,7 +6,7 @@ I am inviting you to participate on a request for tender below:
 
 <%= @tender.project_name %>
 ============================================================
-<%= @tender.project_description %>
+<%= @tender.description %>
 ============================================================
 
 Click the link below to view more information about this request for tender and submit your bid through our online platform.
@@ -15,7 +15,7 @@ NB: Please do not share this link with anyone as it is your unique private link 
 <%= tenders_project_information_url(@tender) %>
 
 
-The deadline for submitting your bid is: <%= @tender.project_deadline.to_formatted_s(:long) %>
+The deadline for submitting your bid is: <%= @tender.deadline.to_formatted_s(:long) %>
 
 
 Kind regards,

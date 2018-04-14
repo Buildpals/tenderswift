@@ -155,7 +155,7 @@ RSpec.feature 'Creating request for tender' do
 
     # Deadline
     expect(page).to have_content 'May 10, 2018 15:00'
-    expect(page).to have_content request_for_tender.project_description
+    expect(page).to have_content request_for_tender.description
 
     request_for_tender.required_documents.each do |required_document|
       expect(page).to have_content required_document.title

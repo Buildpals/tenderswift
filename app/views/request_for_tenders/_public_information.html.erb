@@ -46,7 +46,7 @@
                 <div class="col-md-8">
                   <strong>End date</strong>
                   <br>
-                  <%= @request_for_tender.project_deadline.to_formatted_s(:long) %>
+                  <%= @request_for_tender.deadline.to_formatted_s(:long) %>
                   <span class="ml-3">(UTC+00:00)</span>
                 </div>
               </div>
@@ -61,7 +61,7 @@
           </div>
           <div class="card-body">
             <p class="mb-1">
-              <%= simple_format @request_for_tender.project_description %>
+              <%= simple_format @request_for_tender.description %>
             </p>
           </div>
 
