@@ -52,3 +52,32 @@ $(document).on('turbolinks:load', function () {
   var uploadBoqButton = document.getElementById('upload-boq')
   uploadBoqButton.addEventListener('change', handleFile, false)
 })
+
+$(document).on('turbolinks:load', function () {
+  if ($('.create_tender.edit_tender_contractors, .request_for_tender.show').length === 0) return
+
+    function storeBankDetailsInLocalStorage() {
+        var company_name = $('.qs-company-name').text();
+        localStorage.setItem(company_name+ '-bankname', $('#request_for_tender_bank_name').val());
+        localStorage.setItem(company_name+ '-branch', $('#request_for_tender_bank_branch').val());
+        localStorage.setItem(company_name+ '-account_name', $('#request_for_tender_account_name').val());
+        localStorage.setItem(company_name+ '-account_number', $('#request_for_tender_account_nunber').val());
+    }
+
+    function pullBankDetailsFromLocalStorage() {
+        var company_name = $('.qs-company-name').text();
+        $('#request_for_tender_bank_name').val(localStorage.getItem(company_name+ '-bankname'));
+        $('#request_for_tender_bank_branch').val(localStorage.getItem(company_name+ '-branch'));
+        $('#request_for_tender_account_name').val(localStorage.getItem(company_name+ '-account_name'));
+        $('#request_for_tender_account_nunber').val(localStorage.getItem(company_name+ '-account_number'));
+    }
+
+    $('.next-button').click( function (e) {
+        storeBankDetailsInLocalStorage();
+    });
+
+    $(document).ready( function (e) {
+        pullBankDetailsFromLocalStorage();
+    });
+})
+
