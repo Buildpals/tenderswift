@@ -77,7 +77,7 @@ class BidsController < QuantitySurveyorsController
   end
 
   def set_tender
-    @tender = Tender.find_by_auth_token(params[:id])
+    @tender = Tender.find(params[:id])
   end
 
   def set_required_document_upload

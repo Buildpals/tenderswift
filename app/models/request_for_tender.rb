@@ -147,16 +147,6 @@ class RequestForTender < ApplicationRecord
     Time.current > deadline
   end
 
-  def get_disqualified_contractors
-    disqualified_tenders = []
-    tenders.lazy.each do |tender|
-      unless winner.auth_token.eql?(tender.auth_token)
-        disqualified_tenders.push(tender)
-      end
-    end
-    disqualified_tenders
-  end
-
   def tender_figure
     # TODO: Fetch tender figure
     100_000

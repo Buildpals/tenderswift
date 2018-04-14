@@ -6,7 +6,6 @@ class Tender < ApplicationRecord
   include ActionView::Helpers::DateHelper
   include ActionView::Helpers::NumberHelper
 
-  has_secure_token :auth_token
   scope :purchased, -> { where(purchased: true) }
   scope :not_purchased, -> { where(purchased: false) }
 
@@ -42,7 +41,7 @@ class Tender < ApplicationRecord
                                 reject_if: :all_blank
 
   def to_param
-    auth_token
+    "#{id}-#{project_name.parameterize}"
   end
 
   def required_document_upload_for(required_document)
@@ -109,8 +108,7 @@ class Tender < ApplicationRecord
 
     Tender.new(
       request_for_tender: request_for_tender,
-      contractor: contractor,
-      auth_token: 'auth_token'
+      contractor: contractor
     )
   end
 

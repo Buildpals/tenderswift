@@ -143,7 +143,7 @@ class TendersController < ContractorsController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_tender
-    @tender = Tender.find_by(auth_token: params[:id])
+    @tender = Tender.find(auth_token: params[:id])
     if @tender.nil?
       redirect_to root_path
     else

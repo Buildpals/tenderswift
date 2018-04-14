@@ -40,7 +40,7 @@ class OtherDocumentUploadsController < ContractorsController
   end
 
   def set_tender
-    @tender = Tender.find_by_auth_token(params[:id])
+    @tender = Tender.find(params[:id])
   end
 
   def set_other_document_upload

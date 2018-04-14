@@ -1,7 +1,6 @@
 FactoryBot.define do
   factory :tender do
     request_for_tender
-    auth_token '123hgfhdhgdhdss'
     purchased false
     submitted false
     purchase_time Time.new

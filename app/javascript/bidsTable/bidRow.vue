@@ -21,7 +21,7 @@
             {{ tender.rating ? tender.rating.toLocaleString('en', {minimumFractionDigits: 2, maximumFractionDigits: 2}) : 'Not rated' }}
         </td>
         <td>
-            <a :href="`/bids/${tender.auth_token}`" class="btn btn-xs btn-link">View bid</a>
+            <a :href="`/bids/${tender.id}`" class="btn btn-xs btn-link">View bid</a>
         </td>
         <td class="w-100 d-flex justify-content-center">
             <button class="btn btn-sm btn-light" @click="undoDisqualifyBid(tender)" v-if="tender.disqualified">Add to Shortlist</button>
@@ -45,7 +45,7 @@
         return  (( (qsContractSum - tendersContractSum) / qsContractSum ) * 100 )
       },
       undoDisqualifyBid (tender) {
-        this.$http.post(`/bids/undo_disqualify/${tender.auth_token}`, {})
+        this.$http.post(`/bids/undo_disqualify/${tender.id}`, {})
           .then(response => {
             console.log(response)
             location.reload()
@@ -55,7 +55,7 @@
           })
       },
       disqualifyBid (tender) {
-        this.$http.post(`/bids/disqualify/${tender.auth_token}`, {})
+        this.$http.post(`/bids/disqualify/${tender.id}`, {})
           .then(response => {
             console.log(response)
             location.reload()
