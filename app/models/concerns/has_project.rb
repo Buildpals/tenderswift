@@ -61,10 +61,6 @@ module HasProject
     request_for_tender.project_documents
   end
 
-  def time_to_deadline
-    request_for_tender.time_to_deadline
-  end
-
   def deadline_over?
     request_for_tender.deadline_over?
   end

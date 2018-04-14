@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 module ApplicationHelper
+
+  include ActionView::Helpers::DateHelper
+
   require 'net/http'
 
   def working_url?(url_str)

@@ -19,7 +19,7 @@
                     <%= tender.project_name %>
                   </h5>
                   <small class="text-muted">
-                    <span class="badge badge-pill badge-secondary"><%= tender.time_to_deadline %></span>
+                    <span class="badge badge-pill badge-secondary"><%= time_to_deadline(tender.deadline) %></span>
                   </small>
                 </div>
                 <small class="text-muted">
@@ -45,7 +45,7 @@
                     <%= tender.project_name %>
                   </h5>
                   <small class="text-muted">
-                    <span class="badge badge-pill badge-secondary"><%= tender.time_to_deadline %></span>
+                    <span class="badge badge-pill badge-secondary"><%= time_to_deadline(tender.deadline) %></span>
                   </small>
                 </div>
                 <small class="text-muted">
@@ -71,7 +71,7 @@
                     <%= tender.project_name %>
                   </h5>
                   <small class="text-muted">
-                      <span class="badge badge-pill badge-secondary"><%= tender.time_to_deadline %></span>
+                      <span class="badge badge-pill badge-secondary"><%= time_to_deadline(tender.deadline) %></span>
                   </small>
                 </div>
                 <small class="text-muted">

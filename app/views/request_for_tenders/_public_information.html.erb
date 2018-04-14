@@ -41,7 +41,7 @@
                     <% end %>
                   </strong>
                   <br>
-                  <%= @request_for_tender.time_to_deadline %>
+                  <%= time_to_deadline(@request_for_tender.deadline) %>
                 </div>
                 <div class="col-md-8">
                   <strong>End date</strong>

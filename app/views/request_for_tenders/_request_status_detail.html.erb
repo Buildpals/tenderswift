@@ -32,7 +32,7 @@
             </p>
 
             <p class="text-center">
-              <%= @request_for_tender.time_to_deadline %> left to request deadline.
+              <%= time_to_deadline(@request_for_tender.deadline) %> left to request deadline.
             </p>
         <% end %>
       </div>

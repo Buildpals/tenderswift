@@ -40,6 +40,8 @@ class Tender < ApplicationRecord
                                 allow_destroy: true,
                                 reject_if: :all_blank
 
+  delegate :deadline, to: :request_for_tender
+
   def to_param
     "#{id}-#{project_name.parameterize}"
   end

@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class RequestForTender < ApplicationRecord
-  include ActionView::Helpers::DateHelper
 
   TENDERSWIFT_CUT = 0.12
 
@@ -137,10 +136,6 @@ class RequestForTender < ApplicationRecord
   def contract_class
     # TODO: Return proper contract class
     'D1, K1'
-  end
-
-  def time_to_deadline
-    distance_of_time_in_words_to_now(deadline)
   end
 
   def deadline_over?
