@@ -87,13 +87,11 @@ Card Shadows
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
 }
 
-
-
-
 .flash {
-  position: fixed;
-  right: 20px;
-  z-index: 1000;
+  position: absolute;
+  left: 50%;
+  top: 32px;
+  transform: translate(-50%);
 }
 
 
