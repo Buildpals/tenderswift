@@ -1,12 +1,13 @@
-module TenderTransactionsHelper
+# frozen_string_literal: true
 
-  def extract_payload (tender_transaction_params, request_for_tender_id)
+module TenderTransactionsHelper
+  def extract_payload(tender_transaction_params, request_for_tender_id)
     payload = {}
-    tender_transaction_params.each { |k, v|
+    tender_transaction_params.each do |k, v|
       unless k.eql?('tender_id') || k.eql?('request_for_tender_id')
         payload[k] = v
       end
-    }
+    end
     current_time = Time.new
     current_time = current_time.to_i
     payload['transaction_id'] = current_time
@@ -15,24 +16,20 @@ module TenderTransactionsHelper
     payload['description'] = TenderTransaction.description
     payload['status'] = 'pending'
     payload['amount'] = RequestForTender.find(request_for_tender_id).selling_price
-    payload = payload.sort_by{ |x, y| x}.to_h
-    payload
+    payload.sort_by { |x, _y| x }.to_h
   end
 
   def get_json_document(payload)
-    json_document = JSON.generate(payload)
-    json_document
+    JSON.generate(payload)
   end
 
   def hmac_auth(json_document)
     ruby_hash_representation = JSON.parse(json_document)
     message = TenderTransaction.create_message(ruby_hash_representation)
-    authorization = TenderTransaction.auth_signature(message)
-    authorization
+    TenderTransaction.auth_signature(message)
   end
 
   def format_price(selling_price)
-    '%.2f' %  selling_price
+    format('%.2f', selling_price)
   end
-
 end
