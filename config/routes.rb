@@ -106,9 +106,6 @@ Rails.application.routes.draw do
     unlocks: 'admins/unlocks'
   }
 
-  # TODO: Figure out controller and action for rails_admin
-  get '/adonai', to: 'welcome#index', as: :admin_root
-
   mount RailsAdmin::Engine => '/adonai', as: :rails_admin
   mount ActionCable.server => '/cable'
 end

@@ -41,10 +41,9 @@ RSpec.feature 'Contractor authentication', type: :feature do
 
     should_have_dashboard_content_for existing_contractor
   end
-end
 
-def should_have_dashboard_content_for(contractor)
-  expect(page).to have_content 'Home'
-  expect(page).to have_content contractor.company_name
+  def should_have_dashboard_content_for(contractor)
+    expect(page).to have_content 'Home'
+    expect(page).to have_content contractor.company_name
+  end
 end
-

@@ -58,17 +58,19 @@
 
 <body class="<%= controller_name %> <%= action_name %>">
 
-<%= render 'tenders/navbar' %>
+<%= render 'contractors/navbar' %>
+
+<%= render 'layouts/flash_messages' %>
 
 <div class="content">
 
-  <%= render 'tenders/page_head' %>
+  <%= render 'contractors/page_head' %>
 
   <%= yield %>
 
 </div>
 
-<%= render 'tenders/footer' unless action_name == 'boq' %>
+<%= render 'contractors/footer' unless action_name == 'boq' %>
 
 </body>
 </html>

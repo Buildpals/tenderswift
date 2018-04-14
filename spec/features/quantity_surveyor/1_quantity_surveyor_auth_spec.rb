@@ -41,11 +41,9 @@ RSpec.feature 'QuantitySurveyor authentication', type: :feature do
 
     should_have_dashboard_content_for existing_quantity_surveyor
   end
+
+  def should_have_dashboard_content_for(quantity_surveyor)
+    expect(page).to have_content 'Home'
+    expect(page).to have_content quantity_surveyor.company_name
+  end
 end
-
-def should_have_dashboard_content_for(quantity_surveyor)
-  expect(page).to have_content 'Home'
-  expect(page).to have_content quantity_surveyor.company_name
-end
-
-
