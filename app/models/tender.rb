@@ -35,7 +35,13 @@ class Tender < ApplicationRecord
                                 allow_destroy: true,
                                 reject_if: :all_blank
 
-  delegate :project_name, :deadline, :description, :project_location, :project_currency, to: :request_for_tender
+  delegate :project_name,
+           :deadline,
+           :description,
+           :project_location,
+           :project_currency,
+           to: :request_for_tender
+
   delegate :project_owners_name,
            :project_owners_company_name,
            :project_owners_company_logo,

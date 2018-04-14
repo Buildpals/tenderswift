@@ -1,8 +1,14 @@
+# frozen_string_literal: true
+
 class QuantitySurveyor < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
-  devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable
+  devise :database_authenticatable,
+         :registerable,
+         :recoverable,
+         :rememberable,
+         :trackable,
+         :validatable
 
   mount_uploader :company_logo, CompanyLogoUploader
 
@@ -10,7 +16,7 @@ class QuantitySurveyor < ApplicationRecord
 
   EMAIL_REGEX = /\A[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}\Z/i
 
-  EMAIL_MESSAGE = 'Please provide an correct email address with more than 5 characters'.freeze
+  EMAIL_MESSAGE = 'Please provide an correct email address with more than 5 characters'
 
   validates :company_name, presence: true
 

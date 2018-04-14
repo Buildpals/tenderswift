@@ -14,17 +14,23 @@ class RequestForTender < ApplicationRecord
 
   belongs_to :quantity_surveyor, inverse_of: :request_for_tenders
 
-  has_many :project_documents, dependent: :destroy, inverse_of: :request_for_tender
+  has_many :project_documents,
+           dependent: :destroy,
+           inverse_of: :request_for_tender
   accepts_nested_attributes_for :project_documents,
                                 allow_destroy: true,
                                 reject_if: :all_blank
 
-  has_many :required_documents, dependent: :destroy, inverse_of: :request_for_tender
+  has_many :required_documents,
+           dependent: :destroy,
+           inverse_of: :request_for_tender
   accepts_nested_attributes_for :required_documents,
                                 allow_destroy: true,
                                 reject_if: :all_blank
 
-  has_many :tenders, dependent: :destroy, inverse_of: :request_for_tender
+  has_many :tenders,
+           dependent: :destroy,
+           inverse_of: :request_for_tender
   accepts_nested_attributes_for :tenders,
                                 allow_destroy: true,
                                 reject_if: :all_blank
@@ -34,9 +40,13 @@ class RequestForTender < ApplicationRecord
                                 allow_destroy: true,
                                 reject_if: :all_blank
 
-  has_many :tender_transactions, dependent: :destroy, inverse_of: :request_for_tender
+  has_many :tender_transactions,
+           dependent: :destroy,
+           inverse_of: :request_for_tender
 
-  enum withdrawal_frequency: { 'Monthly' => 0, 'Every two weeks' => 1, 'Weekly' => 2 }
+  enum withdrawal_frequency: { 'Monthly' => 0,
+                               'Every two weeks' => 1,
+                               'Weekly' => 2 }
 
   delegate :name,
            :company_name,
@@ -51,11 +61,6 @@ class RequestForTender < ApplicationRecord
 
   def to_param
     "#{id}-#{project_name.parameterize}"
-  end
-
-  def check_deadline
-    return unless deadline
-    errors.add(:deadline, :invalid, message: 'Deadline cannot be in the past') if deadline < Date.today
   end
 
   def setup_with_data
@@ -150,6 +155,13 @@ class RequestForTender < ApplicationRecord
   end
 
   private
+
+  def check_deadline
+    return unless deadline
+    if deadline < Date.today
+      errors.add(:deadline, :invalid, message: 'Deadline cannot be in the past')
+    end
+  end
 
   def to_s26(q)
     alpha26 = ('A'..'Z').to_a

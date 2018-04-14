@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class OtherDocumentUpload < ApplicationRecord
   mount_uploader :document, DocumentUploader
 
@@ -13,13 +15,18 @@ class OtherDocumentUpload < ApplicationRecord
 
   def check_file_extension
     return unless document
-    accepted_formats = %w(.pdf .jpeg .png .jpg)
+
+    accepted_formats = %w[.pdf .jpeg .png .jpg]
+
     if document.file.nil?
       true
     else
       return if accepted_formats.include? File.extname(document.filename)
-      errors.add(:document, :invalid, message: 'The uploaded document should be
-                                                a PDF or an Image. Thank you!')
+      errors.add(
+        :document,
+        :invalid,
+        message: 'The uploaded document should be a PDF or an Image. Thank you!'
+      )
     end
   end
 end
