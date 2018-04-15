@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%= render 'layouts/head' %>
+
+<body class="<%= controller_name %> <%= action_name %>">
+
+<%= render 'quantity_surveyors/navbar' %>
+
+<%= render 'layouts/flash_messages' %>
+
+<div class="content">
+
+  <%= render 'quantity_surveyors/page_head' %>
+
+  <%= yield %>
+
+</div>
+
+<%= render 'quantity_surveyors/footer' %>
+
+</body>
+</html>

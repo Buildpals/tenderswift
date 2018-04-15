@@ -21,8 +21,8 @@ class QuantitySurveyor < ApplicationRecord
   validates :company_name, presence: true
 
   validates :email, presence: { message: EMAIL_MESSAGE },
-                    uniqueness: { message: EMAIL_MESSAGE, case_sensitive: false },
-                    length: { within: 5...100 },
+                    uniqueness: { message: EMAIL_MESSAGE,
+                                  case_sensitive: false },
                     format: EMAIL_REGEX
 
   validates :phone_number, presence: true

@@ -10,8 +10,23 @@ class Contractor < ApplicationRecord
          :trackable,
          :validatable
 
+  mount_uploader :company_logo, CompanyLogoUploader
+
   has_many :tenders, dependent: :destroy, inverse_of: :contractor
   has_many :request_for_tenders, through: :tenders
+
+  EMAIL_REGEX = /\A[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}\Z/i
+
+  EMAIL_MESSAGE = 'Please provide an correct email address with more than 5 characters'
+
+  validates :company_name, presence: true
+
+  validates :email, presence: { message: EMAIL_MESSAGE },
+                    uniqueness: { message: EMAIL_MESSAGE,
+                                  case_sensitive: false },
+                    format: EMAIL_REGEX
+
+  validates :phone_number, presence: true
 
   def self.create_and_purchase(request_for_tender,
                                signup_params,

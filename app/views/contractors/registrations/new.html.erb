@@ -18,10 +18,9 @@
         <div class="form-group">
           <%= f.email_field :email, placeholder: 'Email address', class: 'form-control', id: 'email-registration', required: true %>
         </div>
+
         <div class="form-group">
-          <input type="tel" name="phone" id="phone_number_input" value="<%= resource.phone_number%>"
-                 placeholder="Phone number" autocomplete="on" class="form-control" required>
-          <%= f.hidden_field :phone_number %>
+          <%= f.telephone_field :phone_number, placeholder: :phone_number, autocomplete: "on", class: 'form-control', required: true %>
         </div>
 
         <div class="form-group my-4">

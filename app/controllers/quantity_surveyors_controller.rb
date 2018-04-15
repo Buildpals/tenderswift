@@ -4,19 +4,22 @@ class QuantitySurveyorsController < ApplicationController
   before_action :set_quantity_surveyor, only: %i[edit update]
   before_action :authenticate_quantity_surveyor!
 
-  # GET /quantity_surveyors/1/edit
   def edit; end
 
-  # PATCH/PUT /quantity_surveyors/1
-  # PATCH/PUT /quantity_surveyors/1.json
   def update
     respond_to do |format|
       if @quantity_surveyor.update(quantity_surveyor_params)
-        format.html { redirect_to edit_quantity_surveyor_path(@quantity_surveyor), notice: 'Your account information was changed successfully.' }
+        format.html do
+          redirect_to edit_quantity_surveyor_path(@quantity_surveyor),
+                      notice: 'Your account information was changed successfully.'
+        end
         format.json { render :edit, status: :ok, location: @quantity_surveyor }
       else
         format.html { render :edit }
-        format.json { render json: @quantity_surveyor.errors, status: :unprocessable_entity }
+        format.json do
+          render json: @quantity_surveyor.errors,
+                 status: :unprocessable_entity
+        end
       end
     end
   end
