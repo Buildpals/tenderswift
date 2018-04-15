@@ -4,7 +4,7 @@
     tender-id="<%= @tender.id %>"
     :rates="<%= @tender.rates.to_json %>"
     :workbook-data="<%= @tender.workbook %>"
-    currency="<%= @tender.currency_symbol %>"
+    currency="<%= currency_symbol @tender %>"
     qs-company-name="<%= @tender.project_owners_company_name %>"
     boq-contract-sum="<%= 100000 %>"
     ></view-bid-boq>

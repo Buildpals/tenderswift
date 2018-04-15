@@ -13,6 +13,9 @@ RSpec.feature 'Creating request for tender' do
 
   scenario 'A quantity surveyor can publish a public request for tender successfully' do
     create_request_for_tender
+    should_see_new_request_for_tender_in_dashboard
+
+    go_to_project_information_page
     fill_in_project_information
 
     go_to_bill_of_quantities_page
@@ -36,6 +39,9 @@ RSpec.feature 'Creating request for tender' do
 
   scenario 'A quantity surveyor can publish a private request for tender successfully' do
     create_request_for_tender
+    should_see_new_request_for_tender_in_dashboard
+
+    go_to_project_information_page
     fill_in_project_information
 
     go_to_bill_of_quantities_page
@@ -56,6 +62,14 @@ RSpec.feature 'Creating request for tender' do
     quantity_surveyor_should_see_request_for_tender_on_monitor_page
     contractor_should_see_invitation_to_tender_on_purchase_page
     contractor_should_see_invitation_to_tender_on_their_dashboard
+  end
+
+  def should_see_new_request_for_tender_in_dashboard
+    # code here
+  end
+
+  def go_to_project_information_page
+    # code here
   end
 
   def fill_in_project_information
@@ -84,9 +98,9 @@ RSpec.feature 'Creating request for tender' do
   end
 
   def upload_bill_of_quantities
-    skip 'Spec not finished'
+    # TODO: 'Upload Bill of Quantities. Requires javascript'
+    # attach_file('Upload', Rails.root + 'spec/fixtures/bill_of_quantities.xlsx')
 
-    # TODO: 'Upload Bill of Quantities'
     # TODO: 'Check that tender figure for Bill of Quantities is correct'
   end
 
@@ -102,6 +116,12 @@ RSpec.feature 'Creating request for tender' do
 
   def upload_tender_documents
     skip 'Spec not finished'
+
+    page.all(:css, '.nested-fields').each do |el|
+      within el do
+        attach_file('input', Rails.root + 'spec/fixtures/bill_of_quantities.xlsx')
+      end
+    end
 
     # TODO: Upload tender documents
   end
@@ -137,9 +157,6 @@ RSpec.feature 'Creating request for tender' do
   end
 
   def publish_as_public_request_for_tender
-    skip 'Spec not finished'
-
-    # TODO: Set request for tender as public
     within '.top-navigation' do
       click_button 'Publish'
     end
@@ -148,7 +165,9 @@ RSpec.feature 'Creating request for tender' do
   def publish_as_private_request_for_tender
     skip 'Spec not finished'
 
-    # TODO: Set request for tender as private
+    check('Limit access to portal')
+
+
     # TODO: Add contractors to request for tender
     within '.top-navigation' do
       click_button 'Publish'

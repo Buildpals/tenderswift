@@ -27,9 +27,9 @@
       <div class="col-md-4">
         <strong>Project currency</strong>
         <br>
-        <% if @request_for_tender.currency === 'USD' %>
+        <% if currency_symbol @request_for_tender === 'USD' %>
           USD - United States Dollar
-        <% elsif @request_for_tender.currency === 'GHS' %>
+        <% elsif currency_symbol @request_for_tender  === 'GHS' %>
           GHS - Ghanaian Cedi
         <% end %>
       </div>
@@ -68,7 +68,7 @@
         :request-for-tender-id="<%= @request_for_tender.id %>"
         :workbook-data="<%= @request_for_tender.bill_of_quantities %>"
         :contract-sum-address="<%= @request_for_tender.contract_sum_address.to_json %>"
-        currency="<%= @request_for_tender.currency_symbol %>"
+        currency="<%= currency_symbol @request_for_tender %>"
         qs-company-name="<%= @request_for_tender.project_owners_company_name %>"
         boq-contract-sum="<%= 100000 %>"
         ></upload-boq>
