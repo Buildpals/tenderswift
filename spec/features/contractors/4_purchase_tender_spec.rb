@@ -19,8 +19,9 @@ RSpec.feature 'Purchasing a tender' do
 
     contractor_should_see_invitation_to_tender_content
 
-    # Check if they show up on the QS dashboard with the right price
-    # Check if they can log out and login with the same credentials
+    skip 'Spec not finished'
+    # TODO: check if they show up on the QS dashboard with the right price
+    # TODO: check if they can log out and login with the same credentials
   end
 
   scenario 'An existing contractor can log in and purchase a tender simultaneously' do
@@ -40,26 +41,13 @@ RSpec.feature 'Purchasing a tender' do
     click_link invitation_to_tender.project_name
 
     contractor_should_see_invitation_to_tender_content
-    # Check if they show up on the QS dashboard with the right price
+
+    skip 'Spec not finished'
+    # TODO: Check if they show up on the QS dashboard with the right price
   end
 
   scenario 'A logged in contractor can purchase a tender' do
-    # login_as(contractor, scope: :contractor)
-    #
-    # visit purchase_tender_path(invitation_to_tender)
-    #
-    # select 'MTN Mobile Money', from: :logged_in_network_code
-    # fill_in :logged_in_customer_number, with: signed_up_contractor.phone_number
-    # fill_in :logged_in_vodafone_voucher_code, with: '123456'
-    #
-    # click_button 'Purchase'
-    #
-    # should_find_request_for_tender_in_purchased_tenders
-    #
-    # click_link invitation_to_tender.project_name
-    #
-    # should_have_invitation_to_tender_content
-    # # Check if they show up on the QS dashboard with the right price
+    skip 'Not implemented'
   end
 
   def fill_in_signup_and_purchase_form

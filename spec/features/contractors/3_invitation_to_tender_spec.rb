@@ -3,9 +3,10 @@
 require 'rails_helper'
 
 RSpec.feature 'Invitation to tender' do
+  include RequestForTendersHelper
+
   let!(:invitation_to_tender) { FactoryBot.create(:request_for_tender) }
   let!(:contractor) { FactoryBot.create(:contractor) }
-  include RequestForTendersHelper
 
   context 'when logged in' do
     scenario 'A contractor can view the general project information of an invitation to tender' do

@@ -84,6 +84,8 @@ RSpec.feature 'Creating request for tender' do
   end
 
   def upload_bill_of_quantities
+    skip 'Spec not finished'
+
     # TODO: 'Upload Bill of Quantities'
     # TODO: 'Check that tender figure for Bill of Quantities is correct'
   end
@@ -99,6 +101,8 @@ RSpec.feature 'Creating request for tender' do
   end
 
   def upload_tender_documents
+    skip 'Spec not finished'
+
     # TODO: Upload tender documents
   end
 
@@ -108,6 +112,8 @@ RSpec.feature 'Creating request for tender' do
   end
 
   def upload_tender_instructions
+    skip 'Spec not finished'
+
     # TODO: Fill in tender instructions
   end
 
@@ -131,6 +137,8 @@ RSpec.feature 'Creating request for tender' do
   end
 
   def publish_as_public_request_for_tender
+    skip 'Spec not finished'
+
     # TODO: Set request for tender as public
     within '.top-navigation' do
       click_button 'Publish'
@@ -138,6 +146,8 @@ RSpec.feature 'Creating request for tender' do
   end
 
   def publish_as_private_request_for_tender
+    skip 'Spec not finished'
+
     # TODO: Set request for tender as private
     # TODO: Add contractors to request for tender
     within '.top-navigation' do
@@ -151,10 +161,8 @@ RSpec.feature 'Creating request for tender' do
     expect(page).to have_content project_location request_for_tender
     expect(page).to have_content project_currency request_for_tender
 
-    # Time to deadline
-    # TODO: expect(page).to have_content Time.current + 1.month
+    expect(page).to have_content time_to_deadline request_for_tender
 
-    # Deadline
     expect(page).to have_content 'May 10, 2018 15:00'
     expect(page).to have_content request_for_tender.description
 
@@ -162,14 +170,19 @@ RSpec.feature 'Creating request for tender' do
       expect(page).to have_content required_document.title
     end
 
+    skip 'Spec not finished'
     # TODO: expect(page).to have_content request_for_tender.tender_instructions
   end
 
   def contractor_should_see_invitation_to_tender_on_purchase_page
+
+    skip 'Spec not finished'
     # TODO: code here
   end
 
   def contractor_should_see_invitation_to_tender_on_their_dashboard
+
+    skip 'Spec not finished'
     # TODO: code here
   end
 

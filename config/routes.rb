@@ -84,7 +84,6 @@ Rails.application.routes.draw do
   get '/tenders/:id/tender_documents', to: 'tenders#tender_documents', as: :tenders_tender_documents
   get '/tenders/:id/required_documents', to: 'tenders#required_documents', as: :tenders_required_documents
   get '/tenders/:id/boq', to: 'tenders#boq', as: :tenders_boq
-  get '/tenders/:id/other/documents', to: 'tenders#other_documents', as: :tender_other_documents
   get '/tenders/:id/results', to: 'tenders#results', as: :tenders_results
   patch '/tenders/:id/rating', to: 'tenders#rating', as: :tender_ratings
 

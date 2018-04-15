@@ -48,6 +48,7 @@ class Tender < ApplicationRecord
            :contract_sum_address,
            :published,
            :published_time,
+           :project_documents,
            to: :request_for_tender
 
   delegate :project_owners_name,

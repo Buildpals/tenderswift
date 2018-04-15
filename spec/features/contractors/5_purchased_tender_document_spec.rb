@@ -14,36 +14,50 @@ RSpec.feature 'Purchased tender document' do
   scenario 'A contractor can view  the general information of their purchased tender document' do
     visit tenders_project_information_path(purchased_tender_document)
 
-    contractor_should_see_purchased_tender_document_content
+    contractor_should_see_project_information
   end
 
   scenario 'A contractor can view the tender documents of their purchased tender document' do
-    skip 'working on it'
+    visit tenders_tender_documents_path(purchased_tender_document)
+
+    skip 'Spec not finished: Need to create tender_documents in factory'
+
+    contractor_should_see_tender_documents
   end
 
   scenario 'A contractor can view the bill of quantities of their purchased tender document' do
-    skip 'working on it'
+    visit tenders_boq_path(purchased_tender_document)
+
+    skip 'Spec not finished'
   end
 
   scenario 'A contractor can upload the required documents for their purchased tender document' do
-    skip 'working on it'
+    visit tenders_required_documents_path(purchased_tender_document)
+
+    skip 'Spec not finished'
   end
 
   scenario 'A contractor can upload other documents for their purchased tender document' do
-    skip 'working on it'
+    visit tenders_required_documents_path(purchased_tender_document)
+
+    skip 'Spec not finished'
   end
 
   scenario 'A contractor can fill and submit their purchased tender document' do
-    skip 'working on it'
+    visit tenders_boq_path(purchased_tender_document)
+
+    skip 'Spec not finished'
   end
 
   scenario 'A contractor can see the tendering results of their purchased tender document' do
-    skip 'working on it'
+    skip 'Not implemented'
+
+    visit tenders_results_path(purchased_tender_document)
   end
 
   private
 
-  def contractor_should_see_purchased_tender_document_content
+  def contractor_should_see_project_information
     expect(page).to have_content purchased_tender_document.project_name
     expect(page).to have_content purchased_tender_document.project_owners_company_name
     expect(page).to have_content contract_class purchased_tender_document
@@ -60,5 +74,12 @@ RSpec.feature 'Purchased tender document' do
     end
 
     expect(page).to have_content purchased_tender_document.tender_instructions
+  end
+
+  def contractor_should_see_tender_documents
+    purchased_tender_document.project_documents.each do |project_document|
+      expect(page).to have_content project_document.document.file.filename
+      expect(page).to have_link project_document.document.file.filename
+    end
   end
 end

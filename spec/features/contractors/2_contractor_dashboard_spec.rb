@@ -14,6 +14,18 @@ RSpec.feature 'Contractor dashboard' do
       visit contractor_root_path
       expect(page).to have_content 'Invitations To Tender'
     end
+
+    scenario 'A contractor can view their private invitations to tender on their dashboard' do
+      skip 'Spec not finished'
+    end
+
+    scenario 'A contractor can view their purchased tender documents on their dashboard' do
+      skip 'Spec not finished'
+    end
+
+    scenario 'A contractor can view their submitted tender documents on their dashboard' do
+      skip 'Spec not finished'
+    end
   end
 
   context 'when logged out' do
