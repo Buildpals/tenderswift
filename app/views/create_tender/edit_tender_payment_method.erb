@@ -5,10 +5,10 @@
               local: true,
               id: 'request-form' do |form| %>
 
-  <%= render 'create_tender/create_tender_navigation', location: 'top', request: @request_for_tender, form: form %>
+  <%= render 'create_tender/create_tender_navigation', location: 'top', request_for_tender: @request_for_tender, form: form %>
 
   <%= render 'create_tender/payments_form', form: form %>
 
-  <%= render 'create_tender/create_tender_navigation', location: 'bottom', request: @request_for_tender, form: form %>
+  <%= render 'create_tender/create_tender_navigation', location: 'bottom', request_for_tender: @request_for_tender, form: form %>
 
 <% end %>
