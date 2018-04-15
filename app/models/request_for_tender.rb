@@ -75,54 +75,14 @@ class RequestForTender < ApplicationRecord
     required_documents.build(title: 'Certificate of Commencement')
     required_documents.build(title: 'Works and Housing certificate')
     required_documents.build(title: 'Financial statements (3 years )')
-    required_documents.build(title: 'Bank Statement or evidence of Funding (letter of credit)')
+    required_documents.build(
+      title: 'Bank Statement or evidence of Funding (letter of credit)'
+    )
     save!
-  end
-
-  def currency_symbol
-    currency == 'USD' ? '$' : 'GH₵'
   end
 
   def name
     "##{id} #{project_name}"
-  end
-
-  def country
-    c = ISO3166::Country[country_code]
-    c.translations[I18n.locale.to_s] || c.name
-  end
-
-  def project_currency
-    if currency == 'USD'
-      'USD - United States Dollar'
-    elsif currency == 'GHS'
-      'GHS - Ghanaian Cedi'
-    end
-  end
-
-  def project_location
-    "#{city.present? ? city : 'N/A'}, #{country}"
-  end
-
-  def status
-    if !published?
-      'not published'
-    else
-      if deadline.past?
-        'ended'
-      else
-        "#{time_to_deadline} left"
-      end
-    end
-  end
-
-  def contract_class
-    # TODO: Return proper contract class
-    'D1, K1'
-  end
-
-  def deadline_over?
-    Time.current > deadline
   end
 
   def tender_figure

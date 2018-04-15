@@ -38,8 +38,8 @@ class Tender < ApplicationRecord
   delegate :project_name,
            :deadline,
            :description,
-           :project_location,
-           :project_currency,
+           :country_code,
+           :city,
            to: :request_for_tender
 
   delegate :project_owners_name,

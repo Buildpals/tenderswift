@@ -23,7 +23,7 @@
 
     <div role="tabpanel" class="tab-pane" id="bids">
       <div class="card-body">
-        <% if @request_for_tender.deadline_over? %>
+        <% if deadline_over? @request_for_tender %>
             <%= render 'bids' %>
         <% else %>
             <p>
@@ -32,7 +32,7 @@
             </p>
 
             <p class="text-center">
-              <%= time_to_deadline(@request_for_tender.deadline) %> left to request deadline.
+              <%= time_to_deadline @request_for_tender %> left to request deadline.
             </p>
         <% end %>
       </div>

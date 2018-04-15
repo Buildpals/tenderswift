@@ -23,7 +23,7 @@ class RequestForTendersController < QuantitySurveyorsController
   end
 
   def compare_boq
-    if @request_for_tender.deadline_over?
+    if Time.current > @request_for_tender.deadline
       render layout: 'compare_boq'
     else
       redirect_to quantity_surveyor_root_path, notice: 'In accordance with tender

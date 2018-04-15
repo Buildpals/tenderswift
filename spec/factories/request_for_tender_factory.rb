@@ -3,15 +3,15 @@ FactoryBot.define do
     quantity_surveyor
     project_name "MyString"
     deadline "2018-03-24 08:32:51"
-    city "MyString"
+    city "Kumasi"
     description "MyString"
     country_code "GH"
     currency "MyString"
     bill_of_quantities "MyText"
     tender_instructions "MyText"
     selling_price_subunit 1
-    bank_name "MyString"
-    branch_name "MyString"
+    bank_name "Ecobank"
+    branch_name "A & C Mall"
     account_name "MyString"
     account_number "MyString"
     private false

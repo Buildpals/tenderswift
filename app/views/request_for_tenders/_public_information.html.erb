@@ -13,17 +13,17 @@
               <div class="col-md-4">
                 <strong>Contract class</strong>
                 <br>
-                <%= @request_for_tender.contract_class %>
+                <%= contract_class @request_for_tender %>
               </div>
               <div class="col-md-4">
                 <strong>Location</strong>
                 <br>
-                <%= @request_for_tender.project_location %>
+                <%= project_location @request_for_tender %>
               </div>
               <div class="col-md-4">
                 <strong>Project currency</strong>
                 <br>
-                <%= @request_for_tender.project_currency %>
+                <%= project_currency @request_for_tender %>
               </div>
             </div>
           </div>
@@ -34,14 +34,14 @@
               <div class="row">
                 <div class="col-md-4">
                   <strong>
-                    <% if @request_for_tender.deadline_over? %>
+                    <% if deadline_over? @request_for_tender %>
                       Time closed
                     <% else %>
                       Time left
                     <% end %>
                   </strong>
                   <br>
-                  <%= time_to_deadline(@request_for_tender.deadline) %>
+                  <%= time_to_deadline @request_for_tender %>
                 </div>
                 <div class="col-md-8">
                   <strong>End date</strong>

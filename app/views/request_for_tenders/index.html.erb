@@ -26,7 +26,7 @@
                         <%= request.project_name %>
                       </h5>
                       <small class="text-muted">
-                        <%= request.project_location %>
+                        <%= project_location @request_for_tender %>
                       </small>
                     <% end %>
                   </div>
@@ -82,25 +82,25 @@
       </div>
       <div class="card">
         <div class="list-group list-group-flush">
-          <% @request_for_tenders.published.each do |request| %>
-            <% if request.deadline.past? %>
-              <%= link_to request, class: 'list-group-item list-group-item-action flex-column align-items-start' do %>
+          <% @request_for_tenders.published.each do |request_for_tender| %>
+            <% if request_for_tender.deadline.past? %>
+              <%= link_to request_for_tender, class: 'list-group-item list-group-item-action flex-column align-items-start' do %>
                 <div class="d-flex w-100 justify-content-between">
                   <h5 class="mb-1">
-                    <%= request.project_name %>
+                    <%= request_for_tender.project_name %>
                   </h5>
                   <small class="text-muted">
-                    <% if !request.published? %>
-                      <span class="badge badge-pill badge-secondary"><%= request.status %></span>
-                    <% elsif request.deadline.past? %>
-                      <span class="badge badge-pill badge-success"><%= request.status %></span>
+                    <% if !request_for_tender.published? %>
+                      <span class="badge badge-pill badge-secondary"><%= status request_for_tender %></span>
+                    <% elsif request_for_tender.deadline.past? %>
+                      <span class="badge badge-pill badge-success"><%= status request_for_tender %></span>
                     <% else %>
-                      <span class="badge badge-pill badge-warning"><%= request.status %></span>
+                      <span class="badge badge-pill badge-warning"><%= status request_for_tender %></span>
                     <% end %>
                   </small>
                 </div>
                 <small class="text-muted">
-                  <%= request.project_location %>
+                  <%= project_location request_for_tender %>
                 </small>
               <% end %>
             <% end %>

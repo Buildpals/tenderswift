@@ -1,5 +1,5 @@
 <div class="d-flex w-100 justify-content-end mb-2">
-  <% if @request_for_tender.deadline_over? %>
+  <% if deadline_over? @request_for_tender %>
     <%= link_to 'Compare Bill of Quantities', compare_boq_path(@request_for_tender), target: '_blank',
                 class: 'btn btn-sm btn-secondary' %>
   <% else %>
@@ -7,7 +7,7 @@
          data-html="true"
          data-title="<p>In order to comply with the standards of tender fairness,
                  bids will only be shown when the request deadline is reached.<p>
-                <p class='text-center request-countdown'><%= time_to_deadline(@request_for_tender.deadline) %> left to request deadline.</p>">
+                <p class='text-center request-countdown'><%= time_to_deadline @request_for_tender %> left to request deadline.</p>">
 
       <button class="btn btn-secondary disabled" type="button">
         Compare Bill of Quantities

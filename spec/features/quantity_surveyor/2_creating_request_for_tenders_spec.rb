@@ -5,6 +5,7 @@ require 'rails_helper'
 RSpec.feature 'Creating request for tender' do
   let!(:quantity_surveyor) { FactoryBot.create(:quantity_surveyor) }
   let!(:request_for_tender) { FactoryBot.build(:request_for_tender) }
+  include RequestForTendersHelper
 
   background do
     login_as(quantity_surveyor, scope: :quantity_surveyor)
@@ -70,7 +71,7 @@ RSpec.feature 'Creating request for tender' do
     select 'Ghana', from: 'Country'
     fill_in 'City', with: request_for_tender.city
 
-    fill_in 'Description', with: request_for_tender.city
+    fill_in 'Description', with: request_for_tender.description
   end
 
   def create_request_for_tender
@@ -146,9 +147,9 @@ RSpec.feature 'Creating request for tender' do
 
   def quantity_surveyor_should_see_request_for_tender_on_monitor_page
     expect(page).to have_content request_for_tender.project_name
-    expect(page).to have_content request_for_tender.contract_class
-    expect(page).to have_content request_for_tender.project_location
-    expect(page).to have_content request_for_tender.project_currency
+    expect(page).to have_content contract_class @request_for_tender
+    expect(page).to have_content project_location request_for_tender
+    expect(page).to have_content project_currency request_for_tender
 
     # Time to deadline
     # TODO: expect(page).to have_content Time.current + 1.month

@@ -30,8 +30,4 @@ module ApplicationHelper
   def current_year
     Time.now.strftime('%Y')
   end
-
-  def time_to_deadline(deadline)
-    distance_of_time_in_words_to_now(deadline)
-  end
 end

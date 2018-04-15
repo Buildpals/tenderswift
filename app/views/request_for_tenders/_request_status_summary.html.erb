@@ -37,13 +37,13 @@
           <%= @request_for_tender.published_time.to_formatted_s(:short) %>
         </div>
         <div class="mx-3">
-            <% if @request_for_tender.deadline_over? %>
+            <% if deadline_over? @request_for_tender %>
               <div class="font-weight-bold text-muted">Ended</div>
-              <%= time_to_deadline(@request_for_tender.deadline) %> ago
+              <%= time_to_deadline @request_for_tender %> ago
               <small>(<%= @request_for_tender.deadline.to_formatted_s(:short) %>)</small>
             <% else %>
               <div class="font-weight-bold text-muted">Ends on</div>
-              <%= time_to_deadline(@request_for_tender.deadline) %>
+              <%= time_to_deadline @request_for_tender %>
               <small>(<%= @request_for_tender.deadline.to_formatted_s(:short) %>)</small>
             <% end %>
         </div>

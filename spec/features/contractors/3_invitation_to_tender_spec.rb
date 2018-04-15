@@ -5,6 +5,7 @@ require 'rails_helper'
 RSpec.feature 'Invitation to tender' do
   let!(:invitation_to_tender) { FactoryBot.create(:request_for_tender) }
   let!(:contractor) { FactoryBot.create(:contractor) }
+  include RequestForTendersHelper
 
   context 'when logged in' do
     scenario 'A contractor can view an invitation to tender' do
@@ -31,11 +32,11 @@ RSpec.feature 'Invitation to tender' do
   def contractor_should_see_invitation_to_tender_content
     expect(page).to have_content invitation_to_tender.project_name
     expect(page).to have_content invitation_to_tender.project_owners_company_name
-    expect(page).to have_content invitation_to_tender.contract_class
-    expect(page).to have_content invitation_to_tender.project_location
-    expect(page).to have_content invitation_to_tender.project_currency
+    expect(page).to have_content contract_class invitation_to_tender
+    expect(page).to have_content project_location invitation_to_tender
+    expect(page).to have_content project_currency invitation_to_tender
 
-    expect(page).to have_content time_to_deadline(invitation_to_tender.deadline)
+    expect(page).to have_content time_to_deadline invitation_to_tender
     expect(page).to have_content invitation_to_tender.deadline.to_formatted_s(:long)
 
     expect(page).to have_content invitation_to_tender.description

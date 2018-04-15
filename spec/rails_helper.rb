@@ -63,9 +63,6 @@ RSpec.configure do |config|
 
   # Reset Warden after each test
   config.after(type: :feature) { Warden.test_reset! }
-
-  # So we can use application helpers in our feature tests
-  config.include ApplicationHelper
 end
 
 

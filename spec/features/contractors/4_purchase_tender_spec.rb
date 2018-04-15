@@ -6,6 +6,7 @@ RSpec.feature 'Purchasing a tender' do
   let!(:invitation_to_tender) { FactoryBot.create(:request_for_tender) }
   let!(:contractor) { FactoryBot.build(:contractor) }
   let!(:signed_up_contractor) { FactoryBot.create(:contractor) }
+  include RequestForTendersHelper
 
   scenario 'A new contractor can sign up and purchase a tender simultaneously' do
     visit purchase_tender_path(invitation_to_tender)
@@ -82,11 +83,11 @@ RSpec.feature 'Purchasing a tender' do
   def contractor_should_see_invitation_to_tender_content
     expect(page).to have_content invitation_to_tender.project_name
     expect(page).to have_content invitation_to_tender.project_owners_company_name
-    expect(page).to have_content invitation_to_tender.contract_class
-    expect(page).to have_content invitation_to_tender.project_location
-    expect(page).to have_content invitation_to_tender.project_currency
+    expect(page).to have_content contract_class invitation_to_tender
+    expect(page).to have_content project_location invitation_to_tender
+    expect(page).to have_content project_currency invitation_to_tender
 
-    expect(page).to have_content time_to_deadline(invitation_to_tender.deadline)
+    expect(page).to have_content time_to_deadline invitation_to_tender
     expect(page).to have_content invitation_to_tender.deadline.to_formatted_s(:long)
 
     expect(page).to have_content invitation_to_tender.description
