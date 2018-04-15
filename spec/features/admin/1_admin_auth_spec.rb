@@ -15,16 +15,15 @@ RSpec.feature 'Admin authentication', type: :feature do
     should_have_dashboard_content_for existing_admin
   end
 
-  scenario 'An existing admin can log out successfully' do
+  scenario 'A logged in admin can log out successfully' do
     login_as(existing_admin, scope: :admin)
 
-    visit '/adonai'
+    visit rails_admin.dashboard_path
 
     click_link 'Log out'
 
     should_see_admin_sign_in_page
   end
-
 
   def should_have_dashboard_content_for(admin)
     expect(page).to have_content 'Ds02 Server Admin'
