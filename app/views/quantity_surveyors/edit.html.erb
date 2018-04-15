@@ -55,7 +55,7 @@
 
               <div class="col-sm-9">
                 <% if f.object.company_logo? %>
-                    <img class="img-fluid mb-2" style="height: 100px;"
+                    <img class="img-fluid mb-2" id="company_logo_image" style="height: 100px;"
                          src="<%= f.object.company_logo.url %>" alt="<%= f.object.company_logo.file.filename %>">
                     <%= f.file_field :company_logo, id: :quantity_surveyor_company_logo, placeholder: :company_logo, class: 'form-control-file' %>
                 <% else %>
