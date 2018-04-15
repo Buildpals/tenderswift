@@ -37,9 +37,17 @@ class Tender < ApplicationRecord
 
   delegate :project_name,
            :deadline,
+           :city,
            :description,
            :country_code,
-           :city,
+           :currency,
+           :bill_of_quantities,
+           :tender_instructions,
+           :selling_price,
+           :private,
+           :contract_sum_address,
+           :published,
+           :published_time,
            to: :request_for_tender
 
   delegate :project_owners_name,
