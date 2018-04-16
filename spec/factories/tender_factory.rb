@@ -16,5 +16,10 @@ FactoryBot.define do
     network_code 'VOD'
     status 'pending'
     vodafone_voucher_code '434335'
+
+    trait :purchased do
+      purchased true
+    end
+    factory :purchased_tender, traits: [:purchased]
   end
 end
