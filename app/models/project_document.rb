@@ -10,10 +10,11 @@ class ProjectDocument < ApplicationRecord
   private
 
   def check_file_extension
-    return unless document
+    return if document.file.nil?
 
+    extension = File.extname(document.file.path)
     accepted_formats = %w[.doc .docx .pdf .dwg .dxf]
-    return if accepted_formats.include? File.extname(document.file.path)
+    return if accepted_formats.include?(extension)
 
     errors.add(
       :document,

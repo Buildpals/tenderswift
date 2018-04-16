@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.feature 'Purchased tender document' do
   include RequestForTendersHelper
 
-  let!(:purchased_tender_document) { FactoryBot.create(:tender) }
+  let!(:purchased_tender_document) { FactoryBot.create(:purchased_tender_document) }
 
   background do
     login_as(purchased_tender_document.contractor, scope: :contractor)
@@ -19,9 +19,6 @@ RSpec.feature 'Purchased tender document' do
 
   scenario 'A contractor can view the tender documents of their purchased tender document' do
     visit tenders_tender_documents_path(purchased_tender_document)
-
-    skip 'Spec not finished: Need to create tender_documents in factory'
-
     contractor_should_see_tender_documents
   end
 
@@ -79,7 +76,11 @@ RSpec.feature 'Purchased tender document' do
   def contractor_should_see_tender_documents
     purchased_tender_document.project_documents.each do |project_document|
       expect(page).to have_content project_document.document.file.filename
-      expect(page).to have_link project_document.document.file.filename
+      # byebug
+
+      # page.should have_link('Edit user', :href => edit_users_path(@user))
+
+      expect(page).to have_link project_document.document.url
     end
   end
 end
