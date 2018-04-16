@@ -9,7 +9,15 @@ FactoryBot.define do
     description 'MyString'
     country_code 'GH'
     currency 'MyString'
-    bill_of_quantities 'MyText'
+
+    bill_of_quantities do
+      file = File.open(
+        Rails.root + 'spec/fixtures/bill_of_quantities.json',
+        'rb'
+      )
+      file.read
+    end
+
     tender_instructions 'MyText'
     selling_price_subunit 1
     bank_name 'Ecobank'

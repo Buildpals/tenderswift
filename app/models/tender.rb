@@ -41,7 +41,6 @@ class Tender < ApplicationRecord
            :description,
            :country_code,
            :currency,
-           :bill_of_quantities,
            :tender_instructions,
            :selling_price,
            :private,

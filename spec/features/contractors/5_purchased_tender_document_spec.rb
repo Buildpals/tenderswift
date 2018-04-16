@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.feature 'Purchased tender document' do
   include RequestForTendersHelper
 
-  let!(:purchased_tender_document) { FactoryBot.create(:purchased_tender_document) }
+  let!(:purchased_tender_document) { FactoryBot.create(:purchased_tender) }
 
   background do
     login_as(purchased_tender_document.contractor, scope: :contractor)
@@ -24,31 +24,26 @@ RSpec.feature 'Purchased tender document' do
 
   scenario 'A contractor can view the bill of quantities of their purchased tender document' do
     visit tenders_boq_path(purchased_tender_document)
-
-    skip 'Spec not finished'
+    contractor_should_see_bill_of_quantities
   end
 
   scenario 'A contractor can upload the required documents for their purchased tender document' do
-    visit tenders_required_documents_path(purchased_tender_document)
-
     skip 'Spec not finished'
+    visit tenders_required_documents_path(purchased_tender_document)
   end
 
   scenario 'A contractor can upload other documents for their purchased tender document' do
-    visit tenders_required_documents_path(purchased_tender_document)
-
     skip 'Spec not finished'
+    visit tenders_required_documents_path(purchased_tender_document)
   end
 
   scenario 'A contractor can fill and submit their purchased tender document' do
-    visit tenders_boq_path(purchased_tender_document)
-
     skip 'Spec not finished'
+    visit tenders_boq_path(purchased_tender_document)
   end
 
   scenario 'A contractor can see the tendering results of their purchased tender document' do
     skip 'Not implemented'
-
     visit tenders_results_path(purchased_tender_document)
   end
 
@@ -76,11 +71,12 @@ RSpec.feature 'Purchased tender document' do
   def contractor_should_see_tender_documents
     purchased_tender_document.project_documents.each do |project_document|
       expect(page).to have_content project_document.document.file.filename
-      # byebug
-
-      # page.should have_link('Edit user', :href => edit_users_path(@user))
-
-      expect(page).to have_link project_document.document.url
+      expect(page).to have_link 'Download', href: project_document.document.url
     end
+  end
+
+  def contractor_should_see_bill_of_quantities
+    expect(page.find('rate-filling-boq')[':workbook-data'])
+      .to eq(purchased_tender_document.workbook)
   end
 end
