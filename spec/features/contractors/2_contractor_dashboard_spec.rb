@@ -3,11 +3,11 @@
 require 'rails_helper'
 
 RSpec.feature 'Contractor dashboard' do
-  let!(:contractor) { FactoryBot.create(:contractor) }
+  let!(:tender) { FactoryBot.create(:tender) }
 
   context 'when logged in' do
     background do
-      login_as(contractor, scope: :contractor)
+      login_as(tender.contractor, scope: :contractor)
     end
 
     scenario 'A contractor can view their dashboard' do
@@ -16,7 +16,9 @@ RSpec.feature 'Contractor dashboard' do
     end
 
     scenario 'A contractor can view their private invitations to tender on their dashboard' do
-      skip 'Spec not finished'
+      visit contractor_root_path
+      # expect(tender.contractor.tenders).to be > 0
+      expect(page).to have_content tender.project_name
     end
 
     scenario 'A contractor can view their purchased tender documents on their dashboard' do
