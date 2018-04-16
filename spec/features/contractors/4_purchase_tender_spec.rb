@@ -3,9 +3,9 @@
 require 'rails_helper'
 
 RSpec.feature 'Purchasing a tender' do
-  let!(:invitation_to_tender) { FactoryBot.create(:request_for_tender) }
-  let!(:contractor) { FactoryBot.build(:contractor) }
-  let!(:signed_up_contractor) { FactoryBot.create(:contractor) }
+  let(:invitation_to_tender) { FactoryBot.create(:request_for_tender) }
+  let(:contractor) { FactoryBot.build(:contractor) }
+  let(:signed_up_contractor) { FactoryBot.create(:contractor) }
   include RequestForTendersHelper
 
   scenario 'A new contractor can sign up and purchase a tender simultaneously' do

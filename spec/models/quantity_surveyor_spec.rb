@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe QuantitySurveyor, type: :model do
-  let!(:tender) { FactoryBot.create(:tender) }
+  let(:tender) { FactoryBot.create(:tender) }
 
   describe 'Associations' do
     it { should have_many(:request_for_tenders) }

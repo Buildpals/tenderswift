@@ -3,8 +3,8 @@
 require 'rails_helper'
 
 RSpec.feature 'Creating request for tender' do
-  let!(:quantity_surveyor) { FactoryBot.create(:quantity_surveyor) }
-  let!(:request_for_tender) { FactoryBot.build(:request_for_tender) }
+  let(:quantity_surveyor) { FactoryBot.create(:quantity_surveyor) }
+  let(:request_for_tender) { FactoryBot.build(:request_for_tender) }
   include RequestForTendersHelper
 
   background do

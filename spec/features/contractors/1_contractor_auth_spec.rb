@@ -3,8 +3,8 @@
 require 'rails_helper'
 
 RSpec.feature 'Contractor authentication', type: :feature do
-  let!(:new_contractor) { FactoryBot.build(:contractor) }
-  let!(:existing_contractor) { FactoryBot.create(:contractor) }
+  let(:new_contractor) { FactoryBot.build(:contractor) }
+  let(:existing_contractor) { FactoryBot.create(:contractor) }
 
   scenario 'A new contractor can sign up successfully' do
     visit new_contractor_registration_path

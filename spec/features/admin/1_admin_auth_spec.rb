@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.feature 'Admin authentication', type: :feature do
-  let!(:existing_admin) { FactoryBot.create(:admin) }
+  let(:existing_admin) { FactoryBot.create(:admin) }
 
   scenario 'An existing admin can log in successfully' do
     visit new_admin_session_path

@@ -3,8 +3,8 @@
 require 'rails_helper'
 
 RSpec.feature 'QuantitySurveyor authentication', type: :feature do
-  let!(:new_quantity_surveyor) { FactoryBot.build(:quantity_surveyor) }
-  let!(:existing_quantity_surveyor) { FactoryBot.create(:quantity_surveyor) }
+  let(:new_quantity_surveyor) { FactoryBot.build(:quantity_surveyor) }
+  let(:existing_quantity_surveyor) { FactoryBot.create(:quantity_surveyor) }
 
   scenario 'A new quantity surveyor can sign up successfully' do
     visit new_quantity_surveyor_registration_path

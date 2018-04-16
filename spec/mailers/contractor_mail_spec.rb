@@ -4,7 +4,7 @@ require 'rails_helper'
 
 RSpec.describe ContractorMailer, type: :mailer do
   describe 'Invitation to tender' do
-    let!(:tender) { FactoryBot.build(:tender) }
+    let(:tender) { FactoryBot.build(:tender) }
 
     let(:mail) do
       ContractorMailer.request_for_tender_email(

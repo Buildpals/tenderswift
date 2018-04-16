@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.feature 'Purchased tender document' do
   include RequestForTendersHelper
 
-  let!(:purchased_tender_document) { FactoryBot.create(:purchased_tender) }
+  let(:purchased_tender_document) { FactoryBot.create(:purchased_tender) }
 
   background do
     login_as(purchased_tender_document.contractor, scope: :contractor)
