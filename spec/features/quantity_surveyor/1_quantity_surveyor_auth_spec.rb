@@ -58,7 +58,7 @@ RSpec.feature 'QuantitySurveyor authentication', type: :feature do
     expect(page).to have_content quantity_surveyor.company_name
     expect(page).to have_content 'Account Information'
     expect(page).to have_content 'Logout'
-    expect(page).to have_content 'Unsent Request For Tender'
+    expect(page).to have_content 'Unpublished Request For Tender'
     expect(page).to have_content 'Published Requests For Tender'
     expect(page).to have_content 'Closed Tenders'
   end
