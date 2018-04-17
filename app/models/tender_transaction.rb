@@ -83,7 +83,6 @@ class TenderTransaction < ApplicationRecord
                         transaction_id)
     conn = set_up_faraday
     response = send_request_to_korbaweb(authorization, conn, payload)
-    puts response.body
     response_hash = turn_response_to_hash(response.body)
     if response_hash['success'] == true
       create_tender_transaction(amount, customer_number, network_code, tender.id,

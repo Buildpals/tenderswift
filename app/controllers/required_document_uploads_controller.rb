@@ -3,9 +3,7 @@
 class RequiredDocumentUploadsController < ContractorsController
   before_action :authenticate_quantity_surveyor!
 
-  def create
-    puts params
-  end
+  def create; end
 
   private
 

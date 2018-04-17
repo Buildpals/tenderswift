@@ -39,7 +39,6 @@ class TendersController < ContractorsController
       @required_document_upload = RequiredDocumentUpload.new
       @request_for_tender.required_documents.each do |required_document|
         if @tender.required_document_uploads.find_by(required_document: required_document).nil?
-          puts required_document.id
           @tender.required_document_uploads.build(required_document: required_document)
         end
       end
@@ -133,7 +132,6 @@ class TendersController < ContractorsController
 
   def required_document_uploads
     unless @tender.update(tender_params)
-      puts @tender.errors.full_messages
       flash[:notice] = 'File should be either a PDF of an Image'
     end
     redirect_to tenders_required_documents_url
