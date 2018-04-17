@@ -4,7 +4,7 @@
       <div class="tab-content mt-4">
         <%= form_with model: @tender,
                       scope: :tender,
-                      method: :post,
+                      method: :patch,
                       url: tenders_upload_required_documents_path(@tender),
                       local: true,
                       id: 'required-document-upload-form' do |form| %>
