@@ -165,14 +165,14 @@ class CreateTenderController < QuantitySurveyorsController
   def email_tenders
     if @request_for_tender.published?
       redirect_to @request_for_tender,
-                  notice: 'The tenders of this request have been contacted already'
+                  notice: 'The contractors of this request have been contacted already'
     elsif @request_for_tender.tenders.empty?
       redirect_to edit_tender_contractors_path(@request_for_tender),
-                  alert: 'You did not specify any tenders for the request.'
+                  alert: 'You did not specify any contractors for the request.'
     else
       send_emails_to_tenders
       @request_for_tender.update(published: true, published_time: Time.current)
-      redirect_to @request_for_tender, notice: 'An email has been sent to each @tender of this request.'
+      redirect_to @request_for_tender, notice: 'An email has been sent to each contractor of this request.'
     end
   end
 

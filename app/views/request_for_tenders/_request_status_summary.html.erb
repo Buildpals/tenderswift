@@ -9,7 +9,9 @@
         (all tenders have to be invited via email here)
       <% else %>
         <strong>Public web address</strong>
-        <%= link_to purchase_tender_url(@request_for_tender), purchase_tender_url(@request_for_tender), target: '_blank' %>
+        <%= link_to purchase_tender_url(@request_for_tender), purchase_tender_url(@request_for_tender),
+                    target: '_blank',
+                    id: :public_web_address %>
       <% end %>
     </li>
 

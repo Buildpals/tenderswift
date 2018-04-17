@@ -80,7 +80,7 @@ end
 
 Capybara::Webkit.configure do |config|
   # Enable debug mode. Prints a log of everything the driver is doing.
-  config.debug = true
+  # config.debug = true
 
   # By default, requests to outside domains (anything besides localhost) will
   # result in a warning. Several methods allow you to change this behavior.

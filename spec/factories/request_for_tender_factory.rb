@@ -3,12 +3,12 @@
 FactoryBot.define do
   factory :request_for_tender do
     quantity_surveyor
-    project_name 'MyString'
-    deadline '2018-03-24 08:32:51'
+    project_name 'Proposed residential building for Mrs. Christina Love'
+    deadline { DateTime.current + 7.days }
     city 'Kumasi'
-    description 'MyString'
+    description 'The structure is a one-storey skeleton frames facility with solid sandcrete block walls as partitions. It covers an area of 478sqm'
     country_code 'GH'
-    currency 'MyString'
+    currency 'GHS'
 
     bill_of_quantities do
       file = File.open(
@@ -18,17 +18,17 @@ FactoryBot.define do
       file.read
     end
 
-    tender_instructions 'MyText'
+    tender_instructions 'Provide the required documents listed above'
     selling_price_subunit 1
     bank_name 'Ecobank'
     branch_name 'A & C Mall'
-    account_name 'MyString'
-    account_number 'MyString'
-    private false
+    account_name 'Christina Construction Services'
+    account_number '123456789123456'
+
     portal_visits 1
     withdrawal_frequency 1
     contract_sum_address nil
-    published false
+
     published_time '2018-03-24 08:32:51'
 
     after(:create) do |request_for_tender|
