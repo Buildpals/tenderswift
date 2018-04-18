@@ -48,7 +48,6 @@ class OtherDocumentUploadsController < ContractorsController
       OtherDocumentUpload.find(params[:other_document_id])
   end
 
-  # Never trust parameters from the scary internet, only allow the white list through.
   def bid_params
     params.require(:other_document_upload)
           .permit(:name,

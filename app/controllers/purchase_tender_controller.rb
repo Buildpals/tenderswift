@@ -59,8 +59,6 @@ class PurchaseTenderController < ContractorsController
     @request_for_tender = RequestForTender.find(params[:id])
   end
 
-  # Never trust parameters from the scary internet,
-  # only allow the white list through.
   def signup_params
     params.require(:signup)
           .permit(:company_name,

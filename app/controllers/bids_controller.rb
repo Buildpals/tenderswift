@@ -85,7 +85,6 @@ class BidsController < QuantitySurveyorsController
       RequiredDocumentUpload.find(params[:required_document_upload_id])
   end
 
-  # Never trust parameters from the scary internet, only allow the white list through.
   def bid_params
     params.require(:required_document_upload)
           .permit(:required_document_id,

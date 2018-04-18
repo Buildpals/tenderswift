@@ -176,7 +176,6 @@ class CreateTenderController < QuantitySurveyorsController
     end
   end
 
-  # Use callbacks to share common setup or constraints between actions.
   def set_request_for_tender
     @request_for_tender = RequestForTender.find(params[:id])
     @tender = Tender.build_fake_tender(@request_for_tender)
@@ -189,7 +188,6 @@ class CreateTenderController < QuantitySurveyorsController
     end
   end
 
-  # Never trust parameters from the scary internet, only allow the white list through.
   def request_params
     params.require(:request_for_tender)
           .permit(:project_name,

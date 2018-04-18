@@ -75,14 +75,11 @@ class RequestForTendersController < QuantitySurveyorsController
 
   private
 
-  # Use callbacks to share common setup or constraints between actions.
   def set_request_for_tender
     @request_for_tender = RequestForTender.find(params[:id])
     authorize @request_for_tender
   end
 
-  # Never trust parameters from the scary internet,
-  # only allow the white list through.
   def request_params
     params.require(:request_for_tender)
           .permit(:deadline,
