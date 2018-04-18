@@ -3,12 +3,10 @@
     <div class="col-lg-9 mx-auto">
       <div class="tab-content mt-4">
 
-<!--        <p class="small text-center">Upload all the required documents and any other documents here.</p>-->
-
         <%= form_with model: @tender,
                      scope: :tender,
                      method: :patch,
-                     url: tenders_upload_required_documents_path(@tender),
+                     url: tenders_save_contractors_documents_path(@tender),
                      local: true,
                      id: 'document-upload-form' do |f| %>
 

@@ -82,11 +82,11 @@ Rails.application.routes.draw do
 
   get '/tenders/:id', to: 'tenders#project_information', as: :tenders_project_information
   get '/tenders/:id/tender_documents', to: 'tenders#tender_documents', as: :tenders_tender_documents
-  get '/tenders/:id/required_documents', to: 'tenders#required_documents', as: :tenders_required_documents
+  get '/tenders/:id/contractors_documents', to: 'tenders#contractors_documents', as: :tenders_contractors_documents
   get '/tenders/:id/boq', to: 'tenders#boq', as: :tenders_boq
   get '/tenders/:id/results', to: 'tenders#results', as: :tenders_results
 
-  patch '/tenders/:id/required_document_uploads', to: 'tenders#required_document_uploads', as: :tenders_upload_required_documents
+  patch '/tenders/:id/save_contractors_documents', to: 'tenders#save_contractors_documents', as: :tenders_save_contractors_documents
   post '/tenders/:id/save_rates', to: 'tenders#save_rates'
 
   get '/tender/transactions/complete_transaction', to: 'tender_transactions#complete_transaction', as: :complete_transaction

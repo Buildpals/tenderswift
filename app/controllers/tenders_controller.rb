@@ -14,7 +14,7 @@ class TendersController < ContractorsController
 
   def boq; end
 
-  def required_documents
+  def contractors_documents
     @tender.build_required_document_uploads
   end
 
@@ -29,12 +29,12 @@ class TendersController < ContractorsController
     end
   end
 
-  def required_document_uploads
+  def save_contractors_documents
     if @tender.update(tender_params)
-      redirect_to tenders_required_documents_path
+      redirect_to tenders_contractors_documents_path(@tender)
     else
       flash[:notice] = 'There was an error while uploading the file'
-      render :required_documents
+      render :contractors_documents
     end
   end
 
