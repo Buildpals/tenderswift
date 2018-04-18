@@ -30,14 +30,34 @@ RSpec.feature 'Purchased tender document' do
   scenario 'A contractor can upload the required documents for their purchased tender document' do
     visit tenders_required_documents_path(purchased_tender_document)
     attach_file 'tender_required_document_uploads_attributes_0_document', 'spec/fixtures/upload_file.pdf'
-    click_button 'Save', match: :first
+    click_button 'Add', match: :first
     expect(page).to have_link 'View'
     # TODO: check that url is correct
   end
 
-  scenario 'A contractor can upload other documents for their purchased tender document' do
+  scenario 'A contractor can upload other documents for their purchased tender document', js: true do
     skip 'Spec not finished'
+
     visit tenders_required_documents_path(purchased_tender_document)
+
+    click_link 'Add another document'
+
+    within :css, '#required-documents' do
+      puts page.body
+
+      find(:xpath, "//input[@type='text']").set('Company Portfolio')
+      find(:xpath, "//input[@type='file']").set('Company Portfolio')
+
+
+      # attach_file 'input[type="file"]', 'spec/fixtures/upload_file.pdf'
+
+      puts page.body
+
+      click_button 'Add'
+    end
+
+    expect(page).to have_link 'View'
+    # TODO: check that url is correct
   end
 
   scenario 'A contractor can fill and submit their purchased tender document' do

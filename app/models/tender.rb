@@ -69,9 +69,12 @@ class Tender < ApplicationRecord
     "#{id}-#{project_name.parameterize}"
   end
 
-  def required_document_upload_for(required_document)
-    required_document_uploads.find_by(required_document_id: required_document.id) ||
-      required_document_uploads.build(required_document_id: required_document.id)
+  def build_required_document_uploads
+    request_for_tender.required_documents.each do |required_document|
+      next if required_document_uploads.find_by(required_document: required_document)
+
+      required_document_uploads.build(required_document: required_document)
+    end
   end
 
   def bid

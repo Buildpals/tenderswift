@@ -56,7 +56,7 @@ Rails.application.routes.draw do
 
   post '/bids/:id/disqualify', to: 'bids#disqualify', as: :disqualify_bid
   post '/bids/:id/undo_disqualify', to: 'bids#undo_disqualify', as: :undo_disqualify_bid
-  post '/bids/:id//rate', to: 'bids#rate', as: :rate_bid
+  post '/bids/:id/rate', to: 'bids#rate', as: :rate_bid
 
   #################### Contractors Routes ##################
 
@@ -85,11 +85,9 @@ Rails.application.routes.draw do
   get '/tenders/:id/required_documents', to: 'tenders#required_documents', as: :tenders_required_documents
   get '/tenders/:id/boq', to: 'tenders#boq', as: :tenders_boq
   get '/tenders/:id/results', to: 'tenders#results', as: :tenders_results
-  patch '/tenders/:id/rating', to: 'tenders#rating', as: :tender_ratings
 
   patch '/tenders/:id/required_document_uploads', to: 'tenders#required_document_uploads', as: :tenders_upload_required_documents
-  patch '/tenders/:id/other_document_uploads', to: 'tenders#other_document_uploads', as: :tender_other_documents_upload
-  post '/tenders//:id/save_rates', to: 'tenders#save_rates'
+  post '/tenders/:id/save_rates', to: 'tenders#save_rates'
 
   get '/tender/transactions/complete_transaction', to: 'tender_transactions#complete_transaction', as: :complete_transaction
 

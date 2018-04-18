@@ -2,54 +2,101 @@
   <div class="row">
     <div class="col-lg-9 mx-auto">
       <div class="tab-content mt-4">
+
+<!--        <p class="small text-center">Upload all the required documents and any other documents here.</p>-->
+
         <%= form_with model: @tender,
-                      scope: :tender,
-                      method: :patch,
-                      url: tenders_upload_required_documents_path(@tender),
-                      local: true,
-                      id: 'required-document-upload-form' do |form| %>
+                     scope: :tender,
+                     method: :patch,
+                     url: tenders_upload_required_documents_path(@tender),
+                     local: true,
+                     id: 'document-upload-form' do |f| %>
 
-          <div class="card-body">
-            <table class="table">
-
-              <tbody>
-              <%= form.fields_for :required_document_uploads do |required_document_upload| %>
-                <tr>
-
-                  <td>
-                    <%= required_document_upload.object.required_document.title  %>
-                  </td>
-
-                  <% if required_document_upload.object.document? %>
-                    <td>
-                      <%= link_to 'View', required_document_upload.object.document.url, target: '_blank' %>
-                    </td>
-                    <td>
-                      <%= required_document_upload.file_field :document, class: 'form-control-file form-control-sm mb-2', data: {'save-on-change': true} %>
-                      <%= required_document_upload.text_field :required_document_id, value: required_document_upload.object.required_document.id, type: 'hidden' %>
-                    </td>
-                  <% else %>
-                    <td></td>
-                    <td>
-                      <%= required_document_upload.text_field :required_document_id, value: required_document_upload.object.required_document.id, type: 'hidden' %>
-                      <%= required_document_upload.file_field :document, class: 'form-control-file form-control-sm mb-2', data: {'save-on-change': true} %>
-                    </td>
-                  <% end %>
-
-                </tr>
+          <% if @tender.errors.any? %>
+            <div id="error_explanation">
+              <ul>
+                <% @tender.errors.full_messages.each do |msg| %>
+                  <li><%= msg %></li>
                 <% end %>
-              </tbody>
-            </table>
-            <%= form.submit 'Save', class: 'pull-right btn btn-success' %>
+              </ul>
+            </div>
+          <% end %>
+
+          <p class="font-weight-bold">Upload required documents</p>
+          <hr>
+
+          <div id="required-documents" class="mb-5">
+            <%= f.fields_for :required_document_uploads do |required_document_upload| %>
+
+              <%= required_document_upload.hidden_field :required_document_id,
+                                                        value: required_document_upload.object.required_document_id %>
+
+              <% if required_document_upload.object.document? %>
+
+                <div class="form-row mb-2">
+                  <div class="col-sm-6">
+                    <%= required_document_upload.object.required_document.title %>
+                  </div>
+
+                  <div class="col-sm-4">
+                    <%= link_to 'View file', required_document_upload.object.document.url, target: '_blank', class: 'px-3' %>
+                  </div>
+
+                  <div class="col-sm-2">
+                    <%= link_to_remove_association f, class: 'btn close float-none' do %>
+                      <span aria-hidden="true">&times;</span>
+                    <% end %>
+                  </div>
+                </div>
+
+              <% else %>
+
+                <div class="form-row mb-2">
+                  <div class="col-sm-6">
+                    <%= required_document_upload.object.required_document.title %>
+                  </div>
+
+                  <div class="col-sm-4">
+                    <%= required_document_upload.file_field :document, class: 'form-control-file form-control-sm' %>
+                  </div>
+
+                  <div class="col-sm-2">
+                    <%= f.submit 'Add', class: 'btn btn-sm btn-primary' %>
+                  </div>
+                </div>
+
+              <% end %>
+
+            <% end %>
+          </div>
+
+          <p class="font-weight-bold">Add other documents</p>
+          <hr>
+
+          <div id="other-documents" class="nested-forms">
+            <%= f.fields_for :other_document_uploads do |other_document_upload| %>
+              <%= render 'other_document_upload_fields', f: other_document_upload %>
+            <% end %>
+          </div>
+
+
+          <%= link_to_add_association 'Add another document', f, :other_document_uploads,
+                                      class: 'btn btn-sm btn-block btn-primary mt-3',
+                                      data: {
+                                          'association-insertion-node': '#other-documents',
+                                          'association-insertion-method': 'after'
+                                      } %>
+
         <% end %>
-          <%= render 'other_documents' %>
-        </div>
+
       </div>
     </div>
   </div>
 </div>
+</div>
 
-
-<script>
-  $('.submit-your-bid').attr('disabled', 'disabled');
+<script type="text/javascript" charset="utf-8">
+    $('#other-documents').on('cocoon:after-remove', function(e, insertedItem) {
+        $('#document-upload-form').trigger('submit.rails');
+    });
 </script>
