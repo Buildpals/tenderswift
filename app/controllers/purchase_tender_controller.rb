@@ -5,6 +5,7 @@ class PurchaseTenderController < ContractorsController
     portal
     signup_and_purchase
     login_and_purchase
+    purchase
   ]
 
   skip_before_action :authenticate_contractor!, only: %i[
@@ -26,7 +27,7 @@ class PurchaseTenderController < ContractorsController
       sign_in_and_redirect @contractor,
                            notice: 'You have purchased this tender successfully'
     else
-      render 'portal'
+      render 'portal', alert: 'There was an error purchasing the tender'
     end
   end
 
@@ -38,11 +39,24 @@ class PurchaseTenderController < ContractorsController
       sign_in_and_redirect @contractor,
                            notice: 'You have purchased this tender successfully'
     else
-      render 'portal'
+      render 'portal', alert: 'There was an error purchasing the tender'
     end
   end
 
-  def purchase; end
+  def purchase
+    @purchase = TenderPurchaser.new(contractor: current_contractor,
+                                    request_for_tender: @request_for_tender,
+                                    phone_number: payment_params[:phone_number],
+                                    network_code: payment_params[:network_code],
+                                    voucher_code: payment_params[:vodafone_voucher_code])
+                               .purchase
+    if @purchase.success?
+      redirect_to contractor_root_path @purchase.contractor,
+                                       notice: 'You have purchased this tender successfully'
+    else
+      render 'portal', error: @purchase.error, alert: 'There was an error purchasing the tender'
+    end
+  end
 
   private
 
@@ -83,6 +97,12 @@ class PurchaseTenderController < ContractorsController
   def login_payment_params
     params.require(:login)
           .permit(:network_code,
+                  :customer_number,
+                  :vodafone_voucher_code)
+  end
+
+  def payment_params
+    params.permit(:network_code,
                   :customer_number,
                   :vodafone_voucher_code)
   end

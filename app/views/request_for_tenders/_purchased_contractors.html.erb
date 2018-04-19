@@ -1,6 +1,6 @@
-<div class="card-header text-warning" role="tab" id="headingWantToBid">
+<div class="card-header text-warning" role="tab" id="purchasedContractors">
   <h5 class="mb-0">
-    <a class="collapsed text-warning" data-toggle="collapse" href="#collapseWantToBid" aria-expanded="false" aria-controls="collapseWantToBid">
+    <a class="collapsed text-warning" data-toggle="collapse" href="#collapsePurchasedContractors" aria-expanded="false" aria-controls="collapsePurchasedContractors">
       Purchased
       <small>
       <span class="badge badge-pill badge-warning">
@@ -10,7 +10,7 @@
     </a>
   </h5>
 </div>
-<div id="collapseWantToBid" class="collapse" role="tabpanel" aria-labelledby="headingWantToBid" data-parent="#accordion">
+<div id="collapsePurchasedContractors" class="collapse" role="tabpanel" aria-labelledby="purchasedContractors" data-parent="#accordion">
   <ul class="list-group list-group-flush">
     <% @request_for_tender.tenders.purchased.each do |tender| %>
       <li class="list-group-item list-group-item-action flex-column align-items-start">

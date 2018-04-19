@@ -75,6 +75,7 @@ Rails.application.routes.draw do
   # Routes for purchase_tender
 
   get '/purchase_tender/:id', to: 'purchase_tender#portal', as: :purchase_tender
+  post '/purchase_tender/:id', to: 'purchase_tender#purchase', as: :purchase
   post '/purchase_tender/:id/signup_and_purchase', to: 'purchase_tender#signup_and_purchase', as: :signup_and_purchase
   post '/purchase_tender/:id/login_and_purchase', to: 'purchase_tender#login_and_purchase', as: :login_and_purchase
 
