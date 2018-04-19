@@ -9,7 +9,7 @@ RSpec.feature 'Invitation to tender' do
   let(:contractor) { FactoryBot.create(:contractor) }
 
   context 'when logged in' do
-    scenario 'A contractor can view the general project information of an invitation to tender' do
+    scenario 'should show a contractor the general project information of an invitation to tender' do
       visit purchase_tender_path(invitation_to_tender)
 
       contractor_should_see_invitation_to_tender_content
@@ -21,7 +21,7 @@ RSpec.feature 'Invitation to tender' do
       login_as(contractor, scope: :contractor)
     end
 
-    scenario 'A contractor can view the general project information of an invitation to tender' do
+    scenario 'should show a contractor the general project information of an invitation to tender' do
       visit purchase_tender_path(invitation_to_tender)
 
       contractor_should_see_invitation_to_tender_content

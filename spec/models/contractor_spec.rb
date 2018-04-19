@@ -11,7 +11,7 @@ RSpec.describe Contractor, type: :model do
   end
 
   describe 'Mailers' do
-    it 'sends invitation email' do
+    it 'should send invitation emails' do
       mail = ContractorMailer
              .request_for_tender_email(tender, tender.request_for_tender)
       expect { mail.deliver_now }.to change { ActionMailer::Base.deliveries.count }.by(1)

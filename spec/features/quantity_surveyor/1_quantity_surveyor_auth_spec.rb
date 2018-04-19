@@ -6,7 +6,7 @@ RSpec.feature 'QuantitySurveyor authentication', type: :feature do
   let(:new_quantity_surveyor) { FactoryBot.build(:quantity_surveyor) }
   let(:existing_quantity_surveyor) { FactoryBot.create(:quantity_surveyor) }
 
-  scenario 'A new quantity surveyor can sign up successfully' do
+  scenario 'should sign up a new quantity surveyor successfully' do
     visit new_quantity_surveyor_registration_path
 
     fill_in 'Your name', with: new_quantity_surveyor.full_name
@@ -33,7 +33,7 @@ RSpec.feature 'QuantitySurveyor authentication', type: :feature do
     expect(page).to have_css('#company_logo_image')
   end
 
-  scenario 'An existing quantity surveyor can log in successfully' do
+  scenario 'should log in an existing quantity surveyor successfully' do
     visit new_quantity_surveyor_session_path
 
     fill_in 'Email address', with: existing_quantity_surveyor.email
@@ -43,7 +43,7 @@ RSpec.feature 'QuantitySurveyor authentication', type: :feature do
     should_have_dashboard_content_for existing_quantity_surveyor
   end
 
-  scenario 'A logged in quantity_surveyor can log out successfully' do
+  scenario 'should log out a logged in quantity_surveyor successfully' do
     login_as(existing_quantity_surveyor, scope: :quantity_surveyor)
 
     visit quantity_surveyor_root_path

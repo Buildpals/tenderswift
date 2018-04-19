@@ -13,28 +13,23 @@ RSpec.feature 'Contractor dashboard' do
       login_as(tender.contractor, scope: :contractor)
     end
 
-    scenario 'A contractor can view their dashboard' do
-      visit contractor_root_path
-      expect(page).to have_content 'Invitations To Tender'
-    end
-
-    scenario 'A contractor can view their private invitations to tender on their dashboard' do
+    scenario 'should show the contractor their private invitations to tender' do
       visit contractor_root_path
       expect(page).to have_content tender.project_name
     end
 
-    scenario 'A contractor can view their purchased tender documents on their dashboard' do
+    scenario 'should show the contractor their purchased tender documents' do
       visit contractor_root_path
       expect(page).to have_content purchased_tender.project_name
     end
 
-    scenario 'A contractor can view their submitted tender documents on their dashboard' do
+    scenario 'should show the contractor their submitted tender documents' do
       skip 'Spec not finished'
     end
   end
 
   context 'when logged out' do
-    scenario 'A contractor is redirected to the login page' do
+    scenario 'should redirect the contractor to the login page' do
       visit contractor_root_path
 
       expect(page)

@@ -6,7 +6,7 @@ RSpec.feature 'Contractor authentication', type: :feature do
   let(:new_contractor) { FactoryBot.build(:contractor) }
   let(:existing_contractor) { FactoryBot.create(:contractor) }
 
-  scenario 'A new contractor can sign up successfully' do
+  scenario 'should sign up a new contractor successfully' do
     visit new_contractor_registration_path
 
     fill_in 'Your name', with: new_contractor.full_name
@@ -33,7 +33,7 @@ RSpec.feature 'Contractor authentication', type: :feature do
     expect(page).to have_css('#company_logo_image')
   end
 
-  scenario 'An existing contractor can log in successfully' do
+  scenario 'should log in an existing contractor successfully' do
     visit new_contractor_session_path
 
     fill_in 'Email address', with: existing_contractor.email
@@ -43,7 +43,7 @@ RSpec.feature 'Contractor authentication', type: :feature do
     should_have_dashboard_content_for existing_contractor
   end
 
-  scenario 'A logged in contractor can log out successfully' do
+  scenario 'should log out a logged in contractor successfully' do
     login_as(existing_contractor, scope: :contractor)
 
     visit contractor_root_path

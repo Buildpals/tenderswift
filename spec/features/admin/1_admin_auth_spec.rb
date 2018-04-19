@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.feature 'Admin authentication', type: :feature do
   let(:existing_admin) { FactoryBot.create(:admin) }
 
-  scenario 'An existing admin can log in successfully' do
+  scenario 'should login an existing admin successfully' do
     visit new_admin_session_path
 
     fill_in 'Email', with: existing_admin.email
@@ -15,7 +15,7 @@ RSpec.feature 'Admin authentication', type: :feature do
     should_have_dashboard_content_for existing_admin
   end
 
-  scenario 'A logged in admin can log out successfully' do
+  scenario 'should logout a logged in admin successfully' do
     login_as(existing_admin, scope: :admin)
 
     visit rails_admin.dashboard_path

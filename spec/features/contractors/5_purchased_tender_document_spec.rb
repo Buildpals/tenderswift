@@ -11,23 +11,23 @@ RSpec.feature 'Purchased tender document' do
     login_as(purchased_tender_document.contractor, scope: :contractor)
   end
 
-  scenario 'A contractor can view  the general information of their purchased tender document' do
+  scenario 'should show a contractor the general information of their purchased tender document' do
     visit tenders_project_information_path(purchased_tender_document)
 
     contractor_should_see_project_information
   end
 
-  scenario 'A contractor can view the tender documents of their purchased tender document' do
+  scenario 'should show a contractor the tender documents of their purchased tender document' do
     visit tenders_tender_documents_path(purchased_tender_document)
     contractor_should_see_tender_documents
   end
 
-  scenario 'A contractor can view the bill of quantities of their purchased tender document' do
+  scenario 'should show a contractor the bill of quantities of their purchased tender document' do
     visit tenders_boq_path(purchased_tender_document)
     contractor_should_see_bill_of_quantities
   end
 
-  scenario 'A contractor can upload the required documents for their purchased tender document' do
+  scenario 'should upload the required documents of a contractor\'s purchased tender document' do
     visit tenders_contractors_documents_path(purchased_tender_document)
     attach_file 'tender_required_document_uploads_attributes_0_document', 'spec/fixtures/upload_file.pdf'
     click_button 'Add', match: :first
@@ -35,7 +35,7 @@ RSpec.feature 'Purchased tender document' do
     # TODO: check that url is correct
   end
 
-  scenario 'A contractor can upload other documents for their purchased tender document', js: true do
+  scenario 'should upload other documents of a contractor\'s purchased tender document', js: true do
     skip 'Spec not finished'
 
     visit tenders_contractors_documents_path(purchased_tender_document)
@@ -60,12 +60,12 @@ RSpec.feature 'Purchased tender document' do
     # TODO: check that url is correct
   end
 
-  scenario 'A contractor can fill and submit their purchased tender document' do
+  scenario 'should allow a contractor to fill and submit their purchased tender document' do
     skip 'Spec not finished'
     visit tenders_boq_path(purchased_tender_document)
   end
 
-  scenario 'A contractor can see the tendering results of their purchased tender document' do
+  scenario 'should allow a contractor to see the tendering results of their purchased tender document' do
     skip 'Not implemented'
     visit tenders_results_path(purchased_tender_document)
   end
