@@ -15,12 +15,16 @@ RSpec.feature 'Contractor dashboard' do
 
     scenario 'should show the contractor their private invitations to tender' do
       visit contractor_root_path
-      expect(page).to have_content tender.project_name
+      within :css, '#invitations-to-tender' do
+        expect(page).to have_content tender.project_name
+      end
     end
 
     scenario 'should show the contractor their purchased tender documents' do
       visit contractor_root_path
-      expect(page).to have_content purchased_tender.project_name
+      within :css, '#purchased-tenders' do
+        expect(page).to have_content purchased_tender.project_name
+      end
     end
 
     scenario 'should show the contractor their submitted tender documents' do
