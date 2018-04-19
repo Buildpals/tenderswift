@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :tender do
     request_for_tender
@@ -20,6 +22,7 @@ FactoryBot.define do
     trait :purchased do
       purchased true
     end
+
     factory :purchased_tender, traits: [:purchased]
   end
 end

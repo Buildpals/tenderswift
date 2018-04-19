@@ -4,7 +4,9 @@ require 'rails_helper'
 
 RSpec.feature 'Contractor dashboard' do
   let(:tender) { FactoryBot.create(:tender) }
-  let(:purchased_tender) { FactoryBot.create(:tender) }
+  let!(:purchased_tender) do
+    FactoryBot.create(:purchased_tender, contractor: tender.contractor)
+  end
 
   context 'when logged in' do
     background do
