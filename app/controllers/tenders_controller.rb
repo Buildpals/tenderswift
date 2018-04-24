@@ -8,14 +8,24 @@ class TendersController < ContractorsController
 
   before_action :authenticate_contractor!
 
-  def project_information; end
+  include Pundit # for development purposes only
+  after_action :verify_authorized # for development purposes only
 
-  def tender_documents; end
+  def project_information
+  	authorize  @tender
+  end
 
-  def boq; end
+  def tender_documents
+  	authorize @tender
+   end
+
+  def boq
+  	authorize @tender
+  end
 
   def contractors_documents
-    @tender.build_required_document_uploads
+  	authorize @tender
+    	@tender.build_required_document_uploads
   end
 
   def results; end
