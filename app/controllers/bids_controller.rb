@@ -15,18 +15,31 @@ class BidsController < QuantitySurveyorsController
 
   before_action :authenticate_quantity_surveyor!
 
-  def required_documents; end
+  include Pundit
 
-  def boq; end
+  def required_documents
+    authorize @tender
+  end
 
-  def other_documents; end
+  def boq
+    authorize @tender
+  end
 
-  def pdf_viewer; end
+  def other_documents
+    authorize @tender
+  end
 
-  def image_viewer; end
+  def pdf_viewer
+    authorize @required_document_upload
+  end
+
+  def image_viewer
+    authorize @required_document_upload
+  end
 
   def update
     set_required_document_upload
+    authorize @required_document_upload
     @required_document_upload.update(bid_params)
     flash[:notice] = if @required_document_upload.status.eql?('approved')
                        "You have successfully approved the
@@ -39,6 +52,7 @@ class BidsController < QuantitySurveyorsController
   end
 
   def disqualify
+    authorize @tender
     if @tender.update(disqualified: true)
       redirect_back fallback_location: bid_required_documents_path(@tender),
                     notice: "#{@tender.company_name} has been disqualified"
@@ -49,6 +63,7 @@ class BidsController < QuantitySurveyorsController
   end
 
   def undo_disqualify
+    authorize @tender
     if @tender.update(disqualified: false)
       redirect_back fallback_location: bid_required_documents_path(@tender),
                     notice: "#{@tender.company_name} has been re-added to the shortlist"
@@ -59,6 +74,7 @@ class BidsController < QuantitySurveyorsController
   end
 
   def rate
+    authorize @tender
     if @tender.update(rating: params[:rating])
       redirect_back fallback_location: bid_required_documents_path(@tender),
                     notice: "The rating for #{@tender.company_name} has been updated"
@@ -66,6 +82,12 @@ class BidsController < QuantitySurveyorsController
       redirect_back fallback_location: bid_required_documents_path(@tender),
                     notice: "An error occurred while trying to update the rating for #{@tender.company_name}"
     end
+  end
+
+  protected
+
+  def pundit_user
+    current_quantity_surveyor
   end
 
   private
