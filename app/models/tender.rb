@@ -35,6 +35,12 @@ class Tender < ApplicationRecord
                                 allow_destroy: true,
                                 reject_if: :all_blank
 
+  validates :contractor_id,
+            uniqueness: {
+              scope: :request_for_tender_id,
+              message: 'should tender once per request for tender'
+            }
+
   delegate :project_name,
            :deadline,
            :city,

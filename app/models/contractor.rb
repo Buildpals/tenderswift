@@ -13,7 +13,7 @@ class Contractor < ApplicationRecord
   mount_uploader :company_logo, CompanyLogoUploader
 
   has_many :tenders, dependent: :destroy, inverse_of: :contractor
-  has_many :request_for_tenders, through: :tenders
+  has_many :request_for_tenders, -> { distinct }, through: :tenders
 
   EMAIL_REGEX = /\A[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}\Z/i
 

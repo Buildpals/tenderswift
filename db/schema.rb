@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180414070009) do
+ActiveRecord::Schema.define(version: 20180425163843) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -203,6 +203,7 @@ ActiveRecord::Schema.define(version: 20180414070009) do
     t.integer "status"
     t.string "vodafone_voucher_code"
     t.index ["contractor_id"], name: "index_tenders_on_contractor_id"
+    t.index ["request_for_tender_id", "contractor_id"], name: "index_tenders_on_request_for_tender_id_and_contractor_id", unique: true
     t.index ["request_for_tender_id"], name: "index_tenders_on_request_for_tender_id"
   end
 
