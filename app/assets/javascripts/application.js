@@ -50,5 +50,11 @@
 //= require registrations
 //= require create_tender
 //= require request_for_tenders
-//= require tenders.js
+//= require tenders
 //= require bids
+//= require purchase_tender
+
+
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})

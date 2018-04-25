@@ -123,6 +123,15 @@ class Tender < ApplicationRecord
     )
   end
 
+  def payment_confirmed?
+    return if Time.current < purchase_time + 30.seconds
+
+    self.purchased = true
+    self.purchase_time = Time.current
+    self.status = :purchased
+    save
+  end
+
   private
 
   def strip_qs_rates(workbook)

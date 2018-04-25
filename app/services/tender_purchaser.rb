@@ -20,21 +20,21 @@ class TenderPurchaser
   private
 
   def build_purchased_tender
-    @contractor.tenders.build(
+    @tender = @contractor.tenders.build(
       request_for_tender: @request_for_tender,
       amount: @request_for_tender.selling_price,
       customer_number: @phone_number,
       network_code: @network_code,
       vodafone_voucher_code: @voucher_code,
       transaction_id: 'DEVELOPMENT_TRANSACTION',
-      status: 'success',
-      purchased: true,
+      status: :pending,
+      purchased: false,
       purchase_time: Time.current
     )
-    @contractor.save!
+    @tender.save!
   rescue Exception => exception
-    OpenStruct.new(success?: false, contractor: @contractor, error: exception.message)
+    OpenStruct.new(success?: false, tender: nil, error: exception.message)
   else
-    OpenStruct.new(success?: true, contractor: @contractor, error: nil)
+    OpenStruct.new(success?: true, tender: @tender, error: nil)
   end
 end

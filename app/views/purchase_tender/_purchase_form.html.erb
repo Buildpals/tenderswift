@@ -1,8 +1,6 @@
 <%= form_with url: purchase_path(@request_for_tender),
-              id: 'login-and-purchase-form',
-              local: true do |form| %>
-  <!--  TODO: Submit this form via ajax and display errors using JS-->
-
+              id: 'purchase-form',
+              local: false do |form| %>
   <div class="form-group">
     <%= form.label :network_code, 'Mode of payment' %>
     <%= form.select :network_code,
@@ -15,7 +13,7 @@
                     {},
                     {
                         selected: 'Airtel Money',
-                        id: :login_network_code,
+                        id: :network_code,
                         class: 'form-control form-control-sm network-select',
                         required: true
                     } %>
@@ -24,7 +22,7 @@
   <div class="form-group">
     <%= form.label :customer_number, 'Mobile money number' %>
     <%= form.telephone_field :customer_number,
-                             id: :login_customer_number,
+                             id: :customer_number,
                              class: 'form-control form-control-sm',
                              required: true %>
   </div>
@@ -32,51 +30,16 @@
   <div class="form-group voucher-code">
     <%= form.label :vodafone_voucher_code, 'Voucher code' %>
     <%= form.text_field :vodafone_voucher_code,
-                        id: :login_vodafone_voucher_code,
+                        id: :vodafone_voucher_code,
                         class: 'form-control form-control-sm',
                         required: true %>
   </div>
 
-  <%= form.submit 'Purchase', class: 'btn btn-secondary btn-block mt-5' %>
+  <%= button_tag 'Purchase',
+                 id: :make_purchase_button,
+                 class: 'btn btn-secondary btn-block mt-5',
+                 data: {
+                     disable_with: "<i class='fa fa-spinner fa-spin'></i> Making purchase..."
+                 } %>
 
 <% end %>
-
-
-<script>
-    //     $(document).ready( function () {
-    //         $('.voucher-code').each( function () {
-    //             $(this).css('display', 'none');
-    //         });
-    //         $('.mobile-money-number').each( function () {
-    //             $(this).css('display', 'inherit');
-    //         });
-    //
-    //         $('.network-select').change( function (e) {
-    //             if($('.network-select').val() == 'VOD'){
-    //                 $('.voucher-code').each( function () {
-    //                     $(this).css('display', 'inherit');
-    //                 });
-    //                 $('.mobile-money-number').each( function () {
-    //                     $(this).css('display', 'inherit');
-    //                 });
-    //             }
-    //             else if($('.network-select').val() == 'CRD'){
-    //                 $('.voucher-code').each( function () {
-    //                     $(this).css('display', 'none');
-    //                 });
-    //                 $('.mobile-money-number').each( function () {
-    //                     $(this).css('display', 'none');
-    //                 });
-    //             }
-    //             else{
-    //                 $('.voucher-code').each( function () {
-    //                     $(this).css('display', 'none');
-    //                 });
-    //                 $('.mobile-money-number').each( function () {
-    //                     $(this).css('display', 'inherit');
-    //                 });
-    //             }
-    //         });
-    //
-    //     });
-</script>

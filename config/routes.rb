@@ -79,6 +79,8 @@ Rails.application.routes.draw do
   post '/purchase_tender/:id/signup_and_purchase', to: 'purchase_tender#signup_and_purchase', as: :signup_and_purchase
   post '/purchase_tender/:id/login_and_purchase', to: 'purchase_tender#login_and_purchase', as: :login_and_purchase
 
+  get '/purchase_tender/:id/monitor_purchase', to: 'purchase_tender#monitor_purchase', as: :monitor_purchase
+
   # Routes for tender
 
   get '/tenders/:id', to: 'tenders#project_information', as: :tenders_project_information

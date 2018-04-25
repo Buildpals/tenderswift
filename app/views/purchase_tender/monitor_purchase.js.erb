@@ -1,0 +1,7 @@
+// TODO: Show some form of progress bar
+setTimeout(function checkOnPayment() {
+    $.get('<%= monitor_purchase_path(tender) %>')
+        .done(function (data) {
+            console.log(data)
+        });
+}, 5000)

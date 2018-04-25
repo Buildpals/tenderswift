@@ -14,6 +14,8 @@ class PurchaseTenderController < ContractorsController
     login_and_purchase
   ]
 
+  layout 'contractors'
+
   def portal
     @contractor = Contractor.new
     increment_visit_count
@@ -51,10 +53,22 @@ class PurchaseTenderController < ContractorsController
                                     voucher_code: payment_params[:vodafone_voucher_code])
                                .purchase
     if @purchase.success?
-      redirect_to contractor_root_path @purchase.contractor,
-                                       notice: 'You have purchased this tender successfully'
+      render 'monitor_purchase', locals: { tender: @purchase.tender }
     else
-      render 'portal', error: @purchase.error, alert: 'There was an error purchasing the tender'
+      # TODO: Put more expressive error handling here
+      render js: "alert('There was an error purchasing your tender')"
+    end
+  end
+
+  def monitor_purchase
+    @tender = Tender.find(params[:id])
+
+    if @tender&.payment_confirmed?
+      flash[:notice] = 'You have purchased this tender successfully'
+      flash.keep(:notice) # Keep flash notice around for the redirect.
+      render js: "window.location = '#{contractor_root_path}'"
+    else
+      render 'monitor_purchase', locals: { tender: @tender }
     end
   end
 

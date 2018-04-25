@@ -3,44 +3,13 @@
 <% end %>
 
 <% content_for :favicon do %>
-  <link rel="icon" type="image/png" href="<%= cloudinary_url(@request_for_tender.project_owners_company_logo.full_public_id, format: 'png', height: 16, crop: :scale,) %>">
-<% end %>
-
-
-
-<% content_for :navbar do %>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <%= link_to '#', class: 'navbar-brand' do %>
-      <%= cl_image_tag(@request_for_tender.project_owners_company_logo.full_public_id,
-                       format: 'jpg', height: 28, crop: :scale,
-                       style: 'height: 28px; margin-top: 0px;',
-                       title: @request_for_tender.project_owners_company_name,
-                       alt: @request_for_tender.project_owners_company_name)
-      %>
-      <%= @request_for_tender.project_owners_company_name %>
-    <% end %>
-
-
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-
-
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav mx-auto">
-        <li class="nav-item">
-          <%= @request_for_tender.project_name %>
-        </li>
-      </ul>
-      <ul class="navbar-nav ml-auto">
-        <li class="nav-item mr-3">
-          <button class="btn btn-secondary btn-payment-modal" data-toggle="modal" data-target="#paymentModal">
-            Purchase Tender Documents for GHC <%= format_price(@request_for_tender.selling_price) %>
-          </button>
-        </li>
-      </ul>
-    </div>
-  </nav>
+  <link rel="icon" type="image/png"
+        href="<%= cloudinary_url(
+                      @request_for_tender.project_owners_company_logo.full_public_id,
+                      format: 'png',
+                      height: 16,
+                      crop: :scale
+                  ) %>">
 <% end %>
 
 <% content_for :breadcrumbs do %>
@@ -52,6 +21,17 @@
   <li class="breadcrumb-item active" aria-current="page">
     <%= @request_for_tender.project_name %>
   </li>
+<% end %>
+
+<% content_for :action_items do %>
+  <div class="mt-2 ml-auto">
+    <button class="btn btn-sm btn-secondary"
+            data-toggle="modal" data-target="#paymentModal"
+            data-backdrop="static" data-keyboard="false">
+      Purchase Tender Documents for
+      GHC <%= format_price(@request_for_tender.selling_price) %>
+    </button>
+  </div>
 <% end %>
 
 <% content_for :nav_tabs do %>
@@ -133,11 +113,5 @@
     </div>
   </div>
 </div>
-
-<script type="text/javascript" charset="utf-8">
-    $(function () {
-        $('[data-toggle="tooltip"]').tooltip()
-    })
-</script>
 
 <%= render 'request_for_tenders/public_information' %>
