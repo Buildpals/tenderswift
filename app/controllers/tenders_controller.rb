@@ -8,9 +8,6 @@ class TendersController < ContractorsController
 
   before_action :authenticate_contractor!
 
-  include Pundit # for development purposes only
-  after_action :verify_authorized # for development purposes only
-
   def project_information
   	authorize  @tender
   end
@@ -24,11 +21,13 @@ class TendersController < ContractorsController
   end
 
   def contractors_documents
-  	authorize @tender
+      authorize @tender
     	@tender.build_required_document_uploads
   end
 
-  def results; end
+  def results
+  	authorize @tender
+  end
 
   def save_rates
     if @tender.save_rates(params[:rates])
@@ -40,6 +39,7 @@ class TendersController < ContractorsController
   end
 
   def save_contractors_documents
+    authorize @tender
     if @tender.update(tender_params)
       redirect_to tenders_contractors_documents_path(@tender)
     else
@@ -51,12 +51,10 @@ class TendersController < ContractorsController
   private
 
   def set_tender
-    @tender = Tender.find(params[:id])
-    if @tender.nil?
-      redirect_to root_path
-    else
+      @tender = Tender.find(params[:id])
       @request_for_tender = @tender.request_for_tender
-    end
+      rescue ActiveRecord::RecordNotFound => e
+      	 redirect_to root_path 
   end
 
   def return_if_not_purchased

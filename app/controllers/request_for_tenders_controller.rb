@@ -8,12 +8,17 @@ class RequestForTendersController < QuantitySurveyorsController
 
   before_action :authenticate_quantity_surveyor!
 
+  include Pundit
+
   def index
     redirect_to new_quantity_surveyor_registration_path unless quantity_surveyor_signed_in?
     @request_for_tenders = policy_scope(RequestForTender).order(updated_at: :desc)
+    authorize @request_for_tenders
   end
 
-  def show; end
+  def show
+    authorize @request_for_tender
+  end
 
   def new
     @request_for_tender = current_quantity_surveyor.request_for_tenders.new
@@ -23,6 +28,7 @@ class RequestForTendersController < QuantitySurveyorsController
   end
 
   def compare_boq
+    authorize @request_for_tender
     if Time.current > @request_for_tender.deadline
       render layout: 'compare_boq'
     else
@@ -34,6 +40,7 @@ class RequestForTendersController < QuantitySurveyorsController
   end
 
   def create
+    authorize @request_for_tender
     @request_for_tender = RequestForTender.new(request_params)
     respond_to do |format|
       if @request_for_tender.save
@@ -50,6 +57,7 @@ class RequestForTendersController < QuantitySurveyorsController
   end
 
   def update
+    authorize @request_for_tender
     respond_to do |format|
       if @request_for_tender.update(request_params)
         format.json { render :show, status: :ok, location: @request_for_tender }
@@ -63,6 +71,7 @@ class RequestForTendersController < QuantitySurveyorsController
   end
 
   def destroy
+    authorize @request_for_tender
     @request_for_tender.destroy
     respond_to do |format|
       format.html do
@@ -77,7 +86,6 @@ class RequestForTendersController < QuantitySurveyorsController
 
   def set_request_for_tender
     @request_for_tender = RequestForTender.find(params[:id])
-    authorize @request_for_tender
   end
 
   def request_params

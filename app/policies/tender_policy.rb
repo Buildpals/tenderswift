@@ -25,11 +25,15 @@ class TenderPolicy < ApplicationPolicy
 		tender_purchased?
 	end
 
-	def save_rates
+	def save_rates?
 		tender_purchased?
 	end
 
-	def save_contractors_documents
+	def save_contractors_documents?
+		tender_purchased?
+	end
+
+	def results?
 		tender_purchased?
 	end
 

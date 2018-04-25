@@ -10,16 +10,24 @@ class OtherDocumentUploadsController < ContractorsController
 
   before_action :authenticate_quantity_surveyor!
 
+  include Pundit
+
   def other_documents
+    authorize @tender
     render layout: 'bids'
   end
 
-  def pdf_viewer; end
+  def pdf_viewer
+    authorize @other_document_upload 
+  end
 
-  def image_viewer; end
+  def image_viewer
+    authorize @other_document_upload
+  end
 
   def update
     set_other_document_upload
+    authorize @other_document
     @other_document_upload.update(bid_params)
     flash[:notice] = if @other_document_upload.status.eql?('approved')
                        "You have successfully approved the
@@ -29,6 +37,12 @@ class OtherDocumentUploadsController < ContractorsController
                          was rejected"
                      end
     redirect_to bid_other_documents_url(@other_document_upload.tender)
+  end
+
+  protected
+
+  def pundit_user
+    current_quantity_surveyor
   end
 
   private
