@@ -54,7 +54,6 @@
 //= require bids
 //= require purchase_tender
 
-
-$(function () {
+$(document).on("turbolinks:load", function () {
   $('[data-toggle="tooltip"]').tooltip()
 })
