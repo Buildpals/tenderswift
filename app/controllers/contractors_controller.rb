@@ -4,11 +4,16 @@ class ContractorsController < ApplicationController
   before_action :set_contractor, only: %i[edit update]
   before_action :authenticate_contractor!
 
+  include Pundit
+
   def dashboard; end
 
-  def edit; end
+  def edit
+    authorize @contractor
+   end
 
   def update
+    authorize @contractor
     respond_to do |format|
       if @contractor.update(contractor_params)
         format.html do

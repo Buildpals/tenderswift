@@ -65,11 +65,13 @@ class RequestForTenderPolicy < ApplicationPolicy
 
   # RequestForTendersController
   def index?
-    user.id == record.quantity_surveyor_id
+    record.each do |r|
+      return true if user.id == r.quantity_surveyor_id
+    end
   end
 
   def show?
-    user.id == record.quantity_surveyor_id
+    quantity_surveyor?
   end
 
   def portal?
@@ -77,22 +79,28 @@ class RequestForTenderPolicy < ApplicationPolicy
   end
 
   def new?
-    user.id == record.quantity_surveyor_id
+    quantity_surveyor?
   end
 
   def compare_boq?
-    user.id == record.quantity_surveyor_id
+    quantity_surveyor?
   end
 
   def create?
-    user.id == record.quantity_surveyor_id
+    quantity_surveyor?
   end
 
   def update?
-    user.id == record.quantity_surveyor_id
+    quantity_surveyor?
   end
 
   def destroy?
+    quantity_surveyor?
+  end
+
+  private
+
+  def quantity_surveyor?
     user.id == record.quantity_surveyor_id
   end
 end

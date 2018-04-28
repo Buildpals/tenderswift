@@ -4,6 +4,7 @@ require 'rails_helper'
 
 RSpec.feature 'Contractor dashboard' do
   let(:tender) { FactoryBot.create(:tender) }
+  let!(:different_contractor) { FactoryBot.create(:contractor) }
   let!(:purchased_tender) do
     FactoryBot.create(:purchased_tender, contractor: tender.contractor)
   end
@@ -42,5 +43,16 @@ RSpec.feature 'Contractor dashboard' do
       expect(page).to have_field('Email address')
       expect(page).to have_field('Password')
     end
+  end
+
+  context 'when another contractor logs in'  do
+      background do
+        login_as(different_contractor, scope: :contractor)
+      end
+
+      scenario 'access another contractor bid' do
+        visit tenders_boq_path(purchased_tender)
+        expect(page).to have_content 'Home'
+      end
   end
 end
