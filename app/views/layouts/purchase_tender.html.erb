@@ -1,3 +1,7 @@
+<% content_for :title do %>
+  <%= @request_for_tender.project_name %>
+<% end %>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,6 +9,7 @@
 
 <body class="<%= controller_name %> <%= action_name %>">
 
+<%= render 'contractors/navbar' %>
 
 <%= render 'layouts/flash_messages' %>
 
@@ -17,6 +22,14 @@
 </div>
 
 <%= render 'contractors/footer' %>
+
+<%= yield :modals %>
+
+<script type="text/javascript" charset="utf-8">
+  $('#paymentModal').on('shown.bs.modal', function (e) {
+    console.log("======================================= here u go")
+  })
+</script>
 
 </body>
 </html>

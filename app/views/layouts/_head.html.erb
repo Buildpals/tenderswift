@@ -23,6 +23,16 @@
   <%= stylesheet_pack_tag 'hello_vue' %>
   <%= action_cable_meta_tag %>
 
+  <% if Rails.env.test? %>
+  <style>
+    .modal.fade .modal-dialog {
+      transition: inherit;
+      -webkit-transition: inherit;
+      -transform: inherit;
+    }
+  </style>
+  <% end %>
+
   <% if ENV['BUILDPALS_SERVER_NAME'] == 'production_server' %>
       <script>
         window['_fs_debug'] = false;

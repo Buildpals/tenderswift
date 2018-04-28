@@ -38,6 +38,15 @@ class TendersController < ContractorsController
     end
   end
 
+  def submit_tender
+    if @tender.update(submitted_at: Time.current)
+      redirect_to tenders_contractors_documents_path(@tender),
+                  notice: 'Tender submitted successfully.'
+    else
+      render :contractors_documents
+    end
+  end
+
   private
 
   def set_tender

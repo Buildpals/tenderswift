@@ -3,26 +3,38 @@
 FactoryBot.define do
   factory :tender do
     request_for_tender
-    purchased false
-    submitted false
-    purchase_time Time.new
-    submitted_time Time.new
+    contractor
+
     read false
+    notes nil
     rating nil
     disqualified false
-    notes nil
-    contractor
+
     customer_number '0509825831'
     amount 100.00
-    transaction_id '$7857&#45'
     network_code 'VOD'
-    status 'pending'
     vodafone_voucher_code '434335'
 
+    purchase_request_sent_at nil
+    purchase_request_status :pending
+    purchase_request_message nil
+    purchased_at nil
+
+    submitted_at nil
+
+
     trait :purchased do
-      purchased true
+      purchase_request_sent_at Time.current
+      purchase_request_status :success
+      purchase_request_message 'Successful transaction'
+      purchased_at Time.current
+    end
+
+    trait :submitted do
+      submitted_at Time.current
     end
 
     factory :purchased_tender, traits: [:purchased]
+    factory :submitted_tender, traits: %i[purchased submitted]
   end
 end

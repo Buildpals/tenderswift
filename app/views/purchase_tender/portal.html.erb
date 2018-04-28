@@ -26,10 +26,11 @@
 <% content_for :action_items do %>
   <div class="mt-2 ml-auto">
     <button class="btn btn-sm btn-secondary"
+            id="purchase-button"
             data-toggle="modal" data-target="#paymentModal"
             data-backdrop="static" data-keyboard="false">
       Purchase Tender Documents for
-      GHC <%= format_price(@request_for_tender.selling_price) %>
+      GH₵ <%= @request_for_tender.selling_price  %>
     </button>
   </div>
 <% end %>
@@ -58,12 +59,10 @@
 <% end %>
 
 
-<div class="modal fade" id="paymentModal" tabindex="-1" role="dialog" aria-labelledby="paymentModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-
-      <%if contractor_signed_in? %>
-
+<% content_for :modals do %>
+  <div class="modal fade" id="paymentModal" tabindex="-1" role="dialog" aria-labelledby="paymentModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
         <div class="modal-body">
           <div class="row">
             <div class="col-md-10 mx-auto pt-3 pb-5">
@@ -71,47 +70,9 @@
             </div>
           </div>
         </div>
-
-      <% else %>
-
-        <ul class="nav nav-pills nav-justified border-bottom mb-3" id="pills-tab" role="tablist">
-          <li class="nav-item">
-            <a class="nav-link rounded-0 active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">
-              New User
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link rounded-0" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false">
-              I have an account
-            </a>
-          </li>
-        </ul>
-
-        <div class="tab-content" id="pills-tabContent">
-          <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
-            <div class="modal-body">
-              <div class="row">
-                <div class="col-md-10 mx-auto pt-3 pb-5">
-                  <%= render 'purchase_tender/sign_up_and_purchase_form' %>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
-            <div class="modal-body">
-              <div class="row">
-                <div class="col-md-10 mx-auto pt-3 pb-5">
-                  <%= render 'purchase_tender/login_and_purchase_form' %>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-      <% end %>
-
+      </div>
     </div>
   </div>
-</div>
+<% end %>
 
 <%= render 'request_for_tenders/public_information' %>

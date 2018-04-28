@@ -1,6 +1,7 @@
-<%= form_with url: purchase_path(@request_for_tender),
+<%= form_with url: purchase_tender_path(@request_for_tender),
               id: 'purchase-form',
               local: false do |form| %>
+
   <div class="form-group">
     <%= form.label :network_code, 'Mode of payment' %>
     <%= form.select :network_code,

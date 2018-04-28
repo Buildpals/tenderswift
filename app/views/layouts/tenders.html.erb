@@ -13,6 +13,16 @@
   </li>
 <% end %>
 
+<% content_for :action_items do %>
+  <div class="mt-2 ml-auto">
+    <% unless @tender.submitted? %>
+      <%= button_to 'Submit tender',
+                    submit_tender_path(@tender),
+                    {method: :patch, class: 'btn btn-sm btn-secondary'} %>
+    <% end %>
+  </div>
+<% end %>
+
 <% content_for :nav_tabs do %>
   <nav class="nav justify-content-center">
     <a class="nav-item nav-link <%= 'active' if action_name == 'project_information' %>" href="<%= tenders_project_information_path(@tender) %>">
@@ -25,7 +35,7 @@
       <a class="nav-item nav-link <%= 'active' if action_name == 'boq' %>" href="<%= tenders_boq_path(@tender) %>">
         3. Bill of Quantities
       </a>
-      <a class="nav-item nav-link <%= 'active' if action_name == 'required_documents' %>" href="<%= tenders_contractors_documents_path(@tender) %>">
+      <a class="nav-item nav-link <%= 'active' if action_name == 'contractors_documents' %>" href="<%= tenders_contractors_documents_path(@tender) %>">
         4. Upload Documents
       </a>
     <% else %>

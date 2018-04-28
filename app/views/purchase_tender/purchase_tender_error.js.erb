@@ -1,0 +1,4 @@
+<%= @purchase.errors.each do |error|%>
+  console.error('<%= error %>')
+  $('#purchase-form').append('<p class="danger"><%= error %>><p>')
+<% end %>
