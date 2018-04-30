@@ -1,29 +1,28 @@
-class OtherDocumentUploadPolicy < ApplicationPolicy
-	class Scope < Scope
-		def resolve
-			scope.all
-		end
-	end
-	
-	def other_documents?
-		user.id == record.request_for_tender.quantity_suveyor.id
-	end
+# frozen_string_literal: true
 
-	def pdf_viewer?
-		verify_quantity_surveyor
-	end
+class OtherDocumentUploadPolicy
+  attr_reader :quantity_surveyor, :other_document_upload
 
-	def image_viewer?
-		verify_quantity_surveyor
-	end
+  def initialize(quantity_surveyor, other_document_upload)
+    @quantity_surveyor = quantity_surveyor
+    @other_document_upload = other_document_upload
+  end
 
-	def update
-		verify_quantity_surveyor
-	end
+  def pdf_viewer?
+    owns_documents_request_for_tender?
+  end
 
-	private
+  def image_viewer?
+    owns_documents_request_for_tender?
+  end
 
-	def verify_quantity_surveyor
-		return true if  user.id == record.tender.request_for_tender.quantity_suveyor.id
-	end
+  def update
+    owns_documents_request_for_tender?
+  end
+
+  private
+
+  def owns_documents_request_for_tender?
+    true if @quantity_surveyor == @other_document_upload.quantity_surveyor
+  end
 end
