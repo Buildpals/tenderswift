@@ -1,11 +1,17 @@
 # frozen_string_literal: true
 
 class Tender < ApplicationRecord
-  scope :purchased, -> { where(purchased: true) }
-  scope :not_purchased, -> { where(purchased: false) }
+  enum purchase_request_status: {
+    pending: 0,
+    success: 1,
+    failed: 2
+  }
 
-  scope :submitted, -> { where(submitted: true) }
-  scope :not_submitted, -> { where(submitted: false) }
+  scope :purchased, -> { where.not(purchased_at: nil) }
+  scope :not_purchased, -> { where(purchased_at: nil) }
+
+  scope :submitted, -> { where.not(submitted_at: nil) }
+  scope :not_submitted, -> { where(submitted_at: nil) }
 
   scope :read, -> { where(read: true) }
   scope :not_read, -> { where(read: false) }
@@ -30,40 +36,39 @@ class Tender < ApplicationRecord
 
   has_many :rates, inverse_of: :tender
 
-  has_one :tender_transaction, inverse_of: :tender, dependent: :destroy
-  accepts_nested_attributes_for :tender_transaction,
-                                allow_destroy: true,
-                                reject_if: :all_blank
+  validates :contractor_id,
+            uniqueness: {
+              scope: :request_for_tender_id,
+              message: 'should tender once per request for tender'
+            }
 
-  delegate :project_name,
-           :deadline,
-           :city,
-           :description,
-           :country_code,
-           :currency,
-           :tender_instructions,
-           :selling_price,
-           :private,
-           :contract_sum_address,
-           :published,
-           :published_time,
-           :project_documents,
-           to: :request_for_tender
+  delegate :project_name,         to: :request_for_tender
+  delegate :deadline,             to: :request_for_tender
+  delegate :city,                 to: :request_for_tender
+  delegate :description,          to: :request_for_tender
+  delegate :country_code,         to: :request_for_tender
+  delegate :currency,             to: :request_for_tender
+  delegate :tender_instructions,  to: :request_for_tender
+  delegate :selling_price,        to: :request_for_tender
+  delegate :private,              to: :request_for_tender
+  delegate :contract_sum_address, to: :request_for_tender
+  delegate :published,            to: :request_for_tender
+  delegate :published_time,       to: :request_for_tender
+  delegate :project_documents,    to: :request_for_tender
 
-  delegate :project_owners_name,
-           :project_owners_company_name,
-           :project_owners_company_logo,
-           :project_owners_phone_number,
-           :project_owners_email,
-           to: :request_for_tender
+  delegate :quantity_surveyor,    to: :request_for_tender
 
-  delegate :name,
-           :company_name,
-           :company_logo,
-           :phone_number,
-           :email,
-           to: :contractor,
-           prefix: :contractors
+  delegate :project_owners_name,         to: :request_for_tender
+  delegate :project_owners_company_name, to: :request_for_tender
+  delegate :project_owners_company_logo, to: :request_for_tender
+  delegate :project_owners_phone_number, to: :request_for_tender
+  delegate :project_owners_email,        to: :request_for_tender
+
+  delegate :name,         to: :contractor, prefix: :contractors
+  delegate :company_name, to: :contractor, prefix: :contractors
+  delegate :company_logo, to: :contractor, prefix: :contractors
+  delegate :phone_number, to: :contractor, prefix: :contractors
+  delegate :email,        to: :contractor, prefix: :contractors
 
   def to_param
     "#{id}-#{project_name.parameterize}"
@@ -71,10 +76,19 @@ class Tender < ApplicationRecord
 
   def build_required_document_uploads
     request_for_tender.required_documents.each do |required_document|
-      next if required_document_uploads.find_by(required_document: required_document)
-
+      if required_document_uploads.find_by(required_document: required_document)
+        next
+      end
       required_document_uploads.build(required_document: required_document)
     end
+  end
+
+  def purchased?
+    true if purchased_at
+  end
+
+  def submitted?
+    true if submitted_at
   end
 
   def bid
@@ -84,8 +98,7 @@ class Tender < ApplicationRecord
   def save_rates(rate_updates)
     transaction do
       rate_updates.each do |rate_update|
-        rate = rates.find_by(sheet: rate_update[:sheet],
-                             row: rate_update[:row])
+        rate = rates.find_by(sheet: rate_update[:sheet], row: rate_update[:row])
         if rate
           rate.update!(value: rate_update[:value])
         else
@@ -116,11 +129,7 @@ class Tender < ApplicationRecord
       phone_number: '+233240000000',
       email: 'example_tender@buildpals.com'
     )
-
-    Tender.new(
-      request_for_tender: request_for_tender,
-      contractor: contractor
-    )
+    Tender.new(request_for_tender: request_for_tender, contractor: contractor)
   end
 
   private
@@ -128,9 +137,13 @@ class Tender < ApplicationRecord
   def strip_qs_rates(workbook)
     workbook['Sheets'].each_value do |sheet|
       sheet.keys
-           .select { |cell_address| (cell_address[0] == 'E') && (sheet[cell_address]['v'].is_a? Numeric) }
+           .select { |cell_address| rate_cell?(cell_address, sheet) }
            .each { |cell_address| sheet[cell_address]['v'] = '' }
     end
     workbook
+  end
+
+  def rate_cell?(cell_address, sheet)
+    cell_address[0] == 'E' && sheet[cell_address]['v'].is_a?(Numeric)
   end
 end

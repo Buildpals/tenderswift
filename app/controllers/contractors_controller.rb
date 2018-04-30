@@ -1,25 +1,30 @@
 # frozen_string_literal: true
 
 class ContractorsController < ApplicationController
-  before_action :set_contractor, only: %i[edit update]
   before_action :authenticate_contractor!
 
-  def dashboard; end
+  def dashboard
+    authorize current_contractor
+  end
 
-  def edit; end
+  def edit
+    authorize current_contractor
+   end
 
   def update
+    authorize current_contractor
     respond_to do |format|
-      if @contractor.update(contractor_params)
+      if current_contractor.update(contractor_params)
         format.html do
-          redirect_to edit_contractor_path(@contractor),
-                      notice: 'Your account information was changed successfully.'
+          redirect_to edit_contractor_path(current_contractor),
+                      notice: 'Your account information was changed  ' \
+                          'successfully'
         end
-        format.json { render :edit, status: :ok, location: @contractor }
+        format.json { render :edit, status: :ok, location: current_contractor }
       else
         format.html { render :edit }
         format.json do
-          render json: @contractor.errors,
+          render json: current_contractor.errors,
                  status: :unprocessable_entity
         end
       end
@@ -33,10 +38,6 @@ class ContractorsController < ApplicationController
   end
 
   private
-
-  def set_contractor
-    @contractor = Contractor.find(params[:id])
-  end
 
   def contractor_params
     params.require(:contractor).permit(

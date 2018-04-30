@@ -1,23 +1,33 @@
 # frozen_string_literal: true
 
 class QuantitySurveyorsController < ApplicationController
-  before_action :set_quantity_surveyor, only: %i[edit update]
   before_action :authenticate_quantity_surveyor!
 
-  def edit; end
+  def dashboard
+    authorize current_quantity_surveyor
+  end
+
+  def edit
+    authorize current_quantity_surveyor
+  end
 
   def update
+    authorize current_quantity_surveyor
     respond_to do |format|
-      if @quantity_surveyor.update(quantity_surveyor_params)
+      if current_quantity_surveyor.update(quantity_surveyor_params)
         format.html do
-          redirect_to edit_quantity_surveyor_path(@quantity_surveyor),
-                      notice: 'Your account information was changed successfully.'
+          redirect_to edit_quantity_surveyor_path(current_quantity_surveyor),
+                      notice: 'Your account information was changed' \
+                      'successfully.'
         end
-        format.json { render :edit, status: :ok, location: @quantity_surveyor }
+        format.json do
+          render :edit, status: :ok,
+                        location: current_quantity_surveyor
+        end
       else
         format.html { render :edit }
         format.json do
-          render json: @quantity_surveyor.errors,
+          render json: current_quantity_surveyor.errors,
                  status: :unprocessable_entity
         end
       end
@@ -31,10 +41,6 @@ class QuantitySurveyorsController < ApplicationController
   end
 
   private
-
-  def set_quantity_surveyor
-    @quantity_surveyor = QuantitySurveyor.find(params[:id])
-  end
 
   def quantity_surveyor_params
     params.require(:quantity_surveyor).permit(

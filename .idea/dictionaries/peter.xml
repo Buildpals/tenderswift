@@ -2,15 +2,21 @@
   <dictionary name="peter">
     <words>
       <w>authenticatable</w>
+      <w>byebug</w>
+      <w>capybara</w>
+      <w>codacy</w>
       <w>confirmable</w>
+      <w>korba</w>
       <w>omniauthable</w>
       <w>registerable</w>
       <w>rememberable</w>
+      <w>simplecov</w>
       <w>tenderswift</w>
       <w>timeoutable</w>
       <w>trackable</w>
       <w>validatable</w>
       <w>vodafone</w>
+      <w>webpacker</w>
     </words>
   </dictionary>
 </component>

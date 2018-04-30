@@ -11,6 +11,8 @@ class OtherDocumentUpload < ApplicationRecord
 
   enum status: { issue: 0, approved: 1 }
 
+  delegate :quantity_surveyor, to: :tender
+
   private
 
   def check_file_extension

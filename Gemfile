@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 source 'https://rubygems.org'
 
 git_source(:github) do |repo_name|
@@ -89,22 +91,23 @@ gem 'pundit'
 gem 'simplecov', require: false, group: :test
 
 # Ruby coverage reporter for Codacy https://www.codacy.com
-gem 'codacy-coverage', :require => false
+gem 'codacy-coverage', require: false
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
-  gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
-  # Adds support for Capybara system testing and webkit driver
+  gem 'byebug', platforms: %i[mri mingw x64_mingw]
+  # Adds support for Capybara system testing webkit, and selenium driver
   gem 'capybara', '~> 2.13'
-  gem 'rails-controller-testing'
   gem 'capybara-webkit'
+  gem 'rails-controller-testing'
+  gem 'selenium-webdriver'
 
+  gem 'factory_bot_rails'
+  gem 'pundit-matchers', '~> 1.4.1'
   gem 'rspec-rails', '~> 3.7'
   gem 'shoulda-matchers', '~> 3.1'
-  gem 'pundit-matchers', '~> 1.4.1'
-  gem 'factory_bot_rails'
 
-  gem 'cucumber-rails', :require => false
+  gem 'cucumber-rails', require: false
   # database_cleaner is not required, but highly recommended
   gem 'database_cleaner'
 end
@@ -123,6 +126,6 @@ group :production do
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 
 ruby '2.4.1'

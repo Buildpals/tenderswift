@@ -48,7 +48,7 @@ RSpec.feature 'Create request for tender' do
     visit quantity_surveyor_root_path
     expect(page).to have_content 'Create Request For Tender'
 
-    click_link 'Create Request For Tender'
+    click_button 'Create Request For Tender'
     expect(page).to have_content 'Untitled Project #'
   end
 
@@ -78,6 +78,7 @@ RSpec.feature 'Create request for tender' do
 
   def and_has_uploaded_the_bill_of_quantities
     attach_file('upload-boq', Rails.root + 'spec/fixtures/bill_of_quantities.xlsx')
+    # expect(page).to have_content 'Estimated Tender Figure:'
     click_button 'Next', match: :first
   end
 
@@ -144,11 +145,11 @@ RSpec.feature 'Create request for tender' do
   end
 
   def and_the_contractor_should_receive_an_email_of_the_request_for_tender
-    # code here
+    # TODO: code here
   end
 
   def and_the_contractor_should_be_able_to_see_the_purchase_page_of_the_request_for_tender
-    # code here
+    # TODO: code here
   end
 
   private

@@ -26,7 +26,7 @@
           (<%= tender.contractors_phone_number %>)
           <br>
           Purchased on
-          <%= tender.purchase_time.to_formatted_s(:short) %>
+          <%= tender.purchased_at.to_formatted_s(:short) %>
           for
           <strong>GH₵ <%= tender.amount %></strong>
         </small>

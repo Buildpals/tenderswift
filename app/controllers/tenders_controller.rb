@@ -2,27 +2,33 @@
 
 class TendersController < ContractorsController
   before_action :set_tender
-  before_action :return_if_not_purchased, except: %i[project_information]
 
-  include ApplicationHelper
+  def project_information
+    authorize @tender
+  end
 
-  before_action :authenticate_contractor!
+  def tender_documents
+    authorize @tender
+  end
 
-  def project_information; end
-
-  def tender_documents; end
-
-  def boq; end
+  def boq
+    authorize @tender
+  end
 
   def contractors_documents
+    authorize @tender
     @tender.build_required_document_uploads
   end
 
-  def results; end
+  def results
+    authorize @tender
+  end
 
   def save_rates
+    authorize @tender
     if @tender.save_rates(params[:rates])
-      render json: @tender.to_json(include: :rates), status: :ok,
+      render json: @tender.to_json(include: :rates),
+             status: :ok,
              location: @tender
     else
       render json: @tender.errors, status: :unprocessable_entity
@@ -30,6 +36,7 @@ class TendersController < ContractorsController
   end
 
   def save_contractors_documents
+    authorize @tender
     if @tender.update(tender_params)
       redirect_to tenders_contractors_documents_path(@tender)
     else
@@ -38,19 +45,20 @@ class TendersController < ContractorsController
     end
   end
 
+  def submit_tender
+    authorize @tender
+    if @tender.update(submitted_at: Time.current)
+      redirect_to tenders_contractors_documents_path(@tender),
+                  notice: 'Tender submitted successfully.'
+    else
+      render :contractors_documents
+    end
+  end
+
   private
 
   def set_tender
     @tender = Tender.find(params[:id])
-    if @tender.nil?
-      redirect_to root_path
-    else
-      @request_for_tender = @tender.request_for_tender
-    end
-  end
-
-  def return_if_not_purchased
-    redirect_to tenders_project_information_path(@tender) unless @tender.purchased?
   end
 
   def tender_params

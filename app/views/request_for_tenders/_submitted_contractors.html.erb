@@ -26,7 +26,8 @@
           (<%= tender.contractors_phone_number %>)
         </small>
         <div class="w-100 d-flex justify-content-between align-items-baseline">
-          <small>Submitted on <%= tender.purchase_time.to_formatted_s(:short) %></small>
+          <small>Submitted on <%= tender.purchased_at.to_formatted_s(:short)
+          %></small>
 
           <% if tender.submitted? %>
             <% if deadline_over? @request_for_tender %>

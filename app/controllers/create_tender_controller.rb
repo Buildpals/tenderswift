@@ -1,31 +1,17 @@
 # frozen_string_literal: true
 
 class CreateTenderController < QuantitySurveyorsController
-  before_action :set_request_for_tender, only: %i[edit_tender_information
-                                                  edit_tender_documents
-                                                  edit_tender_boq
-                                                  edit_tender_required_documents
-                                                  edit_tender_contractors
-                                                  edit_tender_payment_method
-                                                  update_tender_information
-                                                  update_tender_documents
-                                                  update_tender_boq
-                                                  update_contract_sum_address
-                                                  update_tender_required_documents
-                                                  update_tender_payment_method
-                                                  update_tender_contractors
-                                                  update_payment_details]
+  before_action :set_request_for_tender
 
-  before_action :authenticate_quantity_surveyor!
   # before_action :check_if_published
 
-  DEFAULT_BROADCAST_CONTENT = 'If you have any questions you can reply me here'
-
   def edit_tender_information
+    authorize @request_for_tender
     @next_path = edit_tender_boq_path(@request_for_tender)
   end
 
   def update_tender_information
+    authorize @request_for_tender
     if @request_for_tender.update(request_params)
       if params[:commit] == 'Next'
         redirect_to edit_tender_boq_path(@request_for_tender)
@@ -38,10 +24,12 @@ class CreateTenderController < QuantitySurveyorsController
   end
 
   def edit_tender_boq
+    authorize @request_for_tender
     @next_path = edit_tender_documents_path(@request_for_tender)
   end
 
   def update_tender_boq
+    authorize @request_for_tender
     if @request_for_tender.update(request_params)
       if params[:commit] == 'Back'
         redirect_to edit_tender_information_path(@request_for_tender)
@@ -56,20 +44,26 @@ class CreateTenderController < QuantitySurveyorsController
   end
 
   def update_contract_sum_address
+    authorize @request_for_tender
     if @request_for_tender.update(request_params)
-      render json: @request_for_tender, status: :ok, location: @request_for_tender
+      render json: @request_for_tender, status: :ok,
+             location: @request_for_tender
     else
       render json: @request_for_tender.errors, status: :unprocessable_entity
     end
   end
 
   def edit_tender_documents
+    authorize @request_for_tender
     @next_path = edit_tender_required_documents
 
-    5.times { @request_for_tender.project_documents.build } if @request_for_tender.project_documents.empty?
+    if @request_for_tender.project_documents.empty?
+      5.times { @request_for_tender.project_documents.build }
+    end
   end
 
   def update_tender_documents
+    authorize @request_for_tender
     if @request_for_tender.update(request_params)
       if params[:commit] == 'Back'
         redirect_to edit_tender_boq_path(@request_for_tender)
@@ -84,10 +78,12 @@ class CreateTenderController < QuantitySurveyorsController
   end
 
   def edit_tender_required_documents
+    authorize @request_for_tender
     @next_path = edit_tender_payment_method_path(@request_for_tender)
   end
 
   def update_tender_required_documents
+    authorize @request_for_tender
     if @request_for_tender.update(request_params)
       if params[:commit] == 'Back'
         redirect_to edit_tender_documents_path(@request_for_tender)
@@ -102,10 +98,12 @@ class CreateTenderController < QuantitySurveyorsController
   end
 
   def edit_tender_payment_method
+    authorize @request_for_tender
     @next_path = edit_tender_contractors_path(@request_for_tender)
   end
 
   def update_tender_payment_method
+    authorize @request_for_tender
     if @request_for_tender.update(request_params)
       if params[:commit] == 'Back'
         redirect_to edit_tender_required_documents_path(@request_for_tender)
@@ -118,6 +116,7 @@ class CreateTenderController < QuantitySurveyorsController
   end
 
   def update_payment_details
+    authorize @request_for_tender
     # TODO: Consider moving this to the request_for_tenders controller
     # where it will be more apprioprate
     if @request_for_tender.update(request_params)
@@ -130,10 +129,15 @@ class CreateTenderController < QuantitySurveyorsController
   end
 
   def edit_tender_contractors
-    5.times { @request_for_tender.contractors.build } if @request_for_tender.contractors.empty?
+    authorize @request_for_tender
+    if @request_for_tender.contractors.empty?
+      5.times { @request_for_tender.contractors.build }
+    end
+    @tender = Tender.build_fake_tender(@request_for_tender)
   end
 
   def update_tender_contractors
+    authorize @request_for_tender
     if @request_for_tender.update(request_params)
       if params[:commit] == 'Back'
         redirect_to edit_tender_payment_method_path(@request_for_tender)
@@ -141,7 +145,8 @@ class CreateTenderController < QuantitySurveyorsController
         if @request_for_tender.private?
           email_tenders
         else
-          @request_for_tender.update(published: true, published_time: Time.current)
+          @request_for_tender.update(published: true,
+                                     published_time: Time.current)
           redirect_to request_for_tender_path
         end
       else
@@ -165,26 +170,28 @@ class CreateTenderController < QuantitySurveyorsController
   def email_tenders
     if @request_for_tender.published?
       redirect_to @request_for_tender,
-                  notice: 'The contractors of this request have been contacted already'
+                  notice: 'The contractors of this request have been ' \
+                          'contacted already'
     elsif @request_for_tender.tenders.empty?
       redirect_to edit_tender_contractors_path(@request_for_tender),
                   alert: 'You did not specify any contractors for the request.'
     else
       send_emails_to_tenders
       @request_for_tender.update(published: true, published_time: Time.current)
-      redirect_to @request_for_tender, notice: 'An email has been sent to each contractor of this request.'
+      redirect_to @request_for_tender,
+                  notice: 'An email has been sent to each contractor of this ' \
+                          'request.'
     end
   end
 
   def set_request_for_tender
     @request_for_tender = RequestForTender.find(params[:id])
-    @tender = Tender.build_fake_tender(@request_for_tender)
-    authorize @request_for_tender
   end
 
   def send_emails_to_tenders
     @request_for_tender.tenders.each do |tender|
-      ContractorMailer.request_for_tender_email(tender, @request_for_tender).deliver_later
+      ContractorMailer
+        .request_for_tender_email(tender, @request_for_tender).deliver_later
     end
   end
 

@@ -1,61 +1,57 @@
 # frozen_string_literal: true
 
 class PurchaseTenderController < ContractorsController
-  before_action :set_request_for_tender, only: %i[
-    portal
-    signup_and_purchase
-    login_and_purchase
-    purchase
-  ]
+  before_action :set_request_for_tender
 
   skip_before_action :authenticate_contractor!, only: %i[
     portal
-    signup_and_purchase
-    login_and_purchase
+    complete_transaction
   ]
 
   def portal
-    @contractor = Contractor.new
-    increment_visit_count
-  end
-
-  def signup_and_purchase
-    @contractor = Contractor.create_and_purchase(@request_for_tender,
-                                                 signup_params,
-                                                 signup_payment_params)
-    if @contractor.save
-      sign_in_and_redirect @contractor,
-                           notice: 'You have purchased this tender successfully'
+    tender = Tender.find_by(request_for_tender: @request_for_tender,
+                            contractor: current_contractor)
+    if tender&.purchased?
+      redirect_to contractor_root_path,
+                  notice: 'You have already purchased this tender'
     else
-      render 'portal', alert: 'There was an error purchasing the tender'
-    end
-  end
-
-  def login_and_purchase
-    @contractor = Contractor.validate_and_purchase(@request_for_tender,
-                                                   login_params,
-                                                   login_payment_params)
-    if @contractor&.save
-      sign_in_and_redirect @contractor,
-                           notice: 'You have purchased this tender successfully'
-    else
-      render 'portal', alert: 'There was an error purchasing the tender'
+      increment_visit_count
     end
   end
 
   def purchase
-    @purchase = TenderPurchaser.new(contractor: current_contractor,
-                                    request_for_tender: @request_for_tender,
-                                    phone_number: payment_params[:phone_number],
-                                    network_code: payment_params[:network_code],
-                                    voucher_code: payment_params[:vodafone_voucher_code])
-                               .purchase
-    if @purchase.success?
-      redirect_to contractor_root_path @purchase.contractor,
-                                       notice: 'You have purchased this tender successfully'
+    @purchase = RequestForTenderPurchaser.new(
+      contractor: current_contractor,
+      request_for_tender: @request_for_tender
+    )
+
+    if @purchase.purchase(payment_params)
+      render 'monitor_purchase'
     else
-      render 'portal', error: @purchase.error, alert: 'There was an error purchasing the tender'
+      render 'purchase_tender_error'
     end
+  end
+
+  def monitor_purchase
+    @purchase = RequestForTenderPurchaser.new(
+      contractor: current_contractor,
+      request_for_tender: @request_for_tender
+    )
+
+    if @purchase.payment_confirmed?
+      flash[:notice] = 'You have purchased this tender successfully'
+      flash.keep(:notice) # Keep flash notice around for the redirect.
+      render js: "window.location = '#{contractor_root_path}'"
+    else
+      render 'monitor_purchase'
+    end
+  end
+
+  def complete_transaction
+    RequestForTenderPurchaser
+      .complete_transaction(transaction_id: params['transaction_id'],
+                            status: params['status'],
+                            message: params['message'])
   end
 
   private
@@ -71,34 +67,6 @@ class PurchaseTenderController < ContractorsController
 
   def set_request_for_tender
     @request_for_tender = RequestForTender.find(params[:id])
-  end
-
-  def signup_params
-    params.require(:signup)
-          .permit(:company_name,
-                  :phone_number,
-                  :email,
-                  :password)
-  end
-
-  def login_params
-    params.require(:login)
-          .permit(:email,
-                  :password)
-  end
-
-  def signup_payment_params
-    params.require(:signup)
-          .permit(:network_code,
-                  :customer_number,
-                  :vodafone_voucher_code)
-  end
-
-  def login_payment_params
-    params.require(:login)
-          .permit(:network_code,
-                  :customer_number,
-                  :vodafone_voucher_code)
   end
 
   def payment_params

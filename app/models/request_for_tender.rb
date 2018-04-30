@@ -35,14 +35,10 @@ class RequestForTender < ApplicationRecord
                                 allow_destroy: true,
                                 reject_if: :all_blank
 
-  has_many :contractors, through: :tenders
+  has_many :contractors, -> { distinct }, through: :tenders
   accepts_nested_attributes_for :contractors,
                                 allow_destroy: true,
                                 reject_if: :all_blank
-
-  has_many :tender_transactions,
-           dependent: :destroy,
-           inverse_of: :request_for_tender
 
   enum withdrawal_frequency: { 'Monthly' => 0,
                                'Every two weeks' => 1,
@@ -91,16 +87,15 @@ class RequestForTender < ApplicationRecord
   end
 
   def number_of_tender_purchases
-    tender_transactions.where(status: 'success').size
+    tenders.where.not(purchased_at: nil).size
   end
 
   def total_receivable
-    number_of_transactions = 0
-    tender_transactions.each do |tender_transaction|
-      number_of_transactions += 1 if tender_transaction.status.eql?('success')
+    sum = 0
+    tenders.each do |tender|
+      sum += tender.selling_price if tender.purchased?
     end
-    total_of_transactions = number_of_transactions * selling_price
-    total_of_transactions - (TENDERSWIFT_CUT * total_of_transactions)
+    sum - (TENDERSWIFT_CUT * sum)
   end
 
   def comparison_workbook

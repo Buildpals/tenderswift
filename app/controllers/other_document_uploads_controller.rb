@@ -1,26 +1,23 @@
 # frozen_string_literal: true
 
-class OtherDocumentUploadsController < ContractorsController
-  layout 'file_viewer', only: %i[pdf_viewer image_viewer]
+class OtherDocumentUploadsController < QuantitySurveyorsController
+  layout 'file_viewer'
 
-  before_action :mark_other_document_as_read, only: %i[image_viewer
-                                                       pdf_viewer]
+  before_action :set_tender
+  before_action :set_other_document_upload
+  before_action :mark_other_document_upload_as_read
 
-  before_action :set_tender, only: %i[other_documents]
-
-  before_action :authenticate_quantity_surveyor!
-
-  def other_documents
-    render layout: 'bids'
+  def pdf_viewer
+    authorize @other_document_upload
   end
 
-  def pdf_viewer; end
-
-  def image_viewer; end
+  def image_viewer
+    authorize @other_document_upload
+  end
 
   def update
-    set_other_document_upload
-    @other_document_upload.update(bid_params)
+    authorize @other_document_upload
+    @other_document_upload.update(other_document_upload_params)
     flash[:notice] = if @other_document_upload.status.eql?('approved')
                        "You have successfully approved the
                          #{@other_document_upload.name}"
@@ -33,12 +30,6 @@ class OtherDocumentUploadsController < ContractorsController
 
   private
 
-  def mark_other_document_as_read
-    set_tender
-    set_other_document_upload
-    @other_document_upload.update!(read: true)
-  end
-
   def set_tender
     @tender = Tender.find(params[:id])
   end
@@ -48,7 +39,11 @@ class OtherDocumentUploadsController < ContractorsController
       OtherDocumentUpload.find(params[:other_document_id])
   end
 
-  def bid_params
+  def mark_other_document_upload_as_read
+    @other_document_upload.update!(read: true)
+  end
+
+  def other_document_upload_params
     params.require(:other_document_upload)
           .permit(:name,
                   :tender_id,

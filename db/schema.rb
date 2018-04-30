@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180414070009) do
+ActiveRecord::Schema.define(version: 20180427183926) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -167,28 +167,10 @@ ActiveRecord::Schema.define(version: 20180414070009) do
     t.index ["request_for_tender_id"], name: "index_required_documents_on_request_for_tender_id"
   end
 
-  create_table "tender_transactions", force: :cascade do |t|
-    t.bigint "request_for_tender_id"
-    t.string "customer_number"
-    t.decimal "amount"
-    t.string "transaction_id"
-    t.string "network_code"
-    t.integer "status"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "vodafone_voucher_code"
-    t.string "card_url"
-    t.bigint "tender_id"
-    t.index ["request_for_tender_id"], name: "index_tender_transactions_on_request_for_tender_id"
-    t.index ["tender_id"], name: "index_tender_transactions_on_tender_id"
-  end
-
   create_table "tenders", force: :cascade do |t|
     t.bigint "request_for_tender_id"
-    t.boolean "purchased", default: false, null: false
-    t.boolean "submitted", default: false, null: false
-    t.datetime "purchase_time"
-    t.datetime "submitted_time"
+    t.datetime "purchased_at"
+    t.datetime "submitted_at"
     t.boolean "read", default: false, null: false
     t.float "rating"
     t.boolean "disqualified", default: false, null: false
@@ -198,14 +180,15 @@ ActiveRecord::Schema.define(version: 20180414070009) do
     t.bigint "contractor_id"
     t.string "customer_number"
     t.decimal "amount"
-    t.string "transaction_id"
     t.string "network_code"
-    t.integer "status"
+    t.integer "purchase_request_status"
     t.string "vodafone_voucher_code"
+    t.datetime "purchase_request_sent_at"
+    t.string "purchase_request_message"
     t.index ["contractor_id"], name: "index_tenders_on_contractor_id"
+    t.index ["request_for_tender_id", "contractor_id"], name: "index_tenders_on_request_for_tender_id_and_contractor_id", unique: true
     t.index ["request_for_tender_id"], name: "index_tenders_on_request_for_tender_id"
   end
 
-  add_foreign_key "tender_transactions", "tenders"
   add_foreign_key "tenders", "contractors"
 end

@@ -1,12 +1,10 @@
-<% if @tender.workbook.present? %>
-  <div id='hello'>
-    <rate-filling-boq
+<div id='hello'>
+  <rate-filling-boq
     tender-id="<%= @tender.id %>"
     :rates="<%= @tender.rates.to_json %>"
     :workbook-data="<%= @tender.workbook %>"
     currency="<%= currency_symbol @tender %>"
     qs-company-name="<%= @tender.project_owners_company_name %>"
     boq-contract-sum="<%= 100000 %>"
-    ></rate-filling-boq>
-  </div>
-<% end %>
+  ></rate-filling-boq>
+</div>
