@@ -68,7 +68,7 @@
       saveContractSumLocation(sheet, cellAddress) {
         console.log('saving contract_sum_address', sheet, cellAddress)
         this.saveStatus = 'saving'
-        this.$http.patch(`/tender/${this.requestForTenderId}/update/contract_sum_address`, {
+        this.$http.patch(`/create_tender/${this.requestForTenderId}/contract_sum_address`, {
             request_for_tender: {
               contract_sum_address: { sheet: sheet, cellAddress: cellAddress }
             }
