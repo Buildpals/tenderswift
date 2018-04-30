@@ -14,7 +14,7 @@ Rails.application.routes.draw do
   }
 
   get '/quantity_surveyors/dashboard',
-      to: 'request_for_tenders#index',
+      to: 'quantity_surveyors#dashboard',
       as: :quantity_surveyor_root
 
   resources :quantity_surveyors, only: %i[edit update]
@@ -75,7 +75,7 @@ Rails.application.routes.draw do
         to: 'create_tender#update_tender_contractors',
         as: :update_tender_contractors
 
-  resources :request_for_tenders, only: %i[new show update destroy]
+  resources :request_for_tenders, only: %i[create show update destroy]
 
   # Routes for bid
 
@@ -92,11 +92,11 @@ Rails.application.routes.draw do
       as: :bid_other_documents
 
   get '/bids/:id/pdf_viewer/:required_document_upload_id',
-      to: 'bids#pdf_viewer',
+      to: 'required_document_uploads#pdf_viewer',
       as: :view_pdf
 
   get '/bids/:id/image_viewer/:required_document_upload_id',
-      to: 'bids#image_viewer',
+      to: 'required_document_uploads#image_viewer',
       as: :view_image
 
   get '/bids/:id/pdf_viewer/other/:other_document_id',

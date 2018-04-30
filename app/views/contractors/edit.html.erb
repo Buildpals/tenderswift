@@ -16,7 +16,7 @@
       <hr>
 
       <div class="mb-5">
-        <%= form_with(model: @contractor, local: true) do |f| %>
+        <%= form_with(model: current_contractor, local: true) do |f| %>
 
           <div class="form-group row">
             <%= f.label :full_name, class: 'col-sm-3 col-form-label' %>
@@ -75,7 +75,7 @@
       <div class="mb-5">
         <h3>Change Password</h3>
         <hr>
-        <a href="<%= edit_contractor_registration_path(@contractor) %>">Change Password</a>
+        <a href="<%= edit_contractor_registration_path(current_contractor) %>">Change Password</a>
       </div>
 
       <div class="mb-5">
@@ -85,7 +85,7 @@
         <p>Want to delete your account? <br>
           <small>Be careful, this action is not reversible.</small>
         </p>
-        <%= button_to 'Delete my account', registration_path(@contractor),
+        <%= button_to 'Delete my account', registration_path(current_contractor),
                       class: 'btn btn-danger',
                       data: {confirm: 'Are you sure?'}, method: :delete %>
       </div>

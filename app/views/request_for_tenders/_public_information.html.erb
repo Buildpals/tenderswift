@@ -6,24 +6,24 @@
         <div class="card mb-4">
 
           <div class="card-body">
-            <h4 class="card-title mt-0"><%= @request_for_tender.project_name %></h4>
-            <h6 class="card-subtitle mb-2 text-muted"><%= @request_for_tender.project_owners_company_name %></h6>
+            <h4 class="card-title mt-0"><%= request_for_tender.project_name %></h4>
+            <h6 class="card-subtitle mb-2 text-muted"><%= request_for_tender.project_owners_company_name %></h6>
 
             <div class="row mt-3">
               <div class="col-md-4">
                 <strong>Contract class</strong>
                 <br>
-                <%= contract_class @request_for_tender %>
+                <%= contract_class request_for_tender %>
               </div>
               <div class="col-md-4">
                 <strong>Location</strong>
                 <br>
-                <%= project_location @request_for_tender %>
+                <%= project_location request_for_tender %>
               </div>
               <div class="col-md-4">
                 <strong>Project currency</strong>
                 <br>
-                <%= project_currency @request_for_tender %>
+                <%= project_currency request_for_tender %>
               </div>
             </div>
           </div>
@@ -34,19 +34,19 @@
               <div class="row">
                 <div class="col-md-4">
                   <strong>
-                    <% if deadline_over? @request_for_tender %>
+                    <% if deadline_over? request_for_tender %>
                       Time closed
                     <% else %>
                       Time left
                     <% end %>
                   </strong>
                   <br>
-                  <%= time_to_deadline @request_for_tender %>
+                  <%= time_to_deadline request_for_tender %>
                 </div>
                 <div class="col-md-8">
                   <strong>End date</strong>
                   <br>
-                  <%= @request_for_tender.deadline.to_formatted_s(:long) %>
+                  <%= request_for_tender.deadline.to_formatted_s(:long) %>
                   <span class="ml-3">(UTC+00:00)</span>
                 </div>
               </div>
@@ -61,7 +61,7 @@
           </div>
           <div class="card-body">
             <p class="mb-1">
-              <%= simple_format @request_for_tender.description %>
+              <%= simple_format request_for_tender.description %>
             </p>
           </div>
 
@@ -73,7 +73,7 @@
             <p class="card-text">
               You're expected to provide the following documents with this tender:
             <ol>
-              <% @request_for_tender.required_documents.each do |required_document| %>
+              <% request_for_tender.required_documents.each do |required_document| %>
                 <li> <%= required_document.title %> </li>
               <% end %>
             </ol>
@@ -85,7 +85,7 @@
             Tendering Instructions
           </div>
           <div class="card-body">
-            <%= simple_format @request_for_tender.tender_instructions,
+            <%= simple_format request_for_tender.tender_instructions,
                               { class: 'formatted_content trix-content' },
                               { wrapper_tag: 'div' } %>
           </div>

@@ -56,6 +56,8 @@ class Tender < ApplicationRecord
   delegate :published_time,       to: :request_for_tender
   delegate :project_documents,    to: :request_for_tender
 
+  delegate :quantity_surveyor,    to: :request_for_tender
+
   delegate :project_owners_name,         to: :request_for_tender
   delegate :project_owners_company_name, to: :request_for_tender
   delegate :project_owners_company_logo, to: :request_for_tender

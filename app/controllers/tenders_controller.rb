@@ -2,36 +2,33 @@
 
 class TendersController < ContractorsController
   before_action :set_tender
-  before_action :return_if_not_purchased, except: %i[project_information]
-
-  include ApplicationHelper
-
-  before_action :authenticate_contractor!
 
   def project_information
-  	authorize  @tender
+    authorize @tender
   end
 
   def tender_documents
-  	authorize @tender
-   end
+    authorize @tender
+  end
 
   def boq
-  	authorize @tender
+    authorize @tender
   end
 
   def contractors_documents
-      authorize @tender
-    	@tender.build_required_document_uploads
+    authorize @tender
+    @tender.build_required_document_uploads
   end
 
   def results
-  	authorize @tender
+    authorize @tender
   end
 
   def save_rates
+    authorize @tender
     if @tender.save_rates(params[:rates])
-      render json: @tender.to_json(include: :rates), status: :ok,
+      render json: @tender.to_json(include: :rates),
+             status: :ok,
              location: @tender
     else
       render json: @tender.errors, status: :unprocessable_entity
@@ -49,6 +46,7 @@ class TendersController < ContractorsController
   end
 
   def submit_tender
+    authorize @tender
     if @tender.update(submitted_at: Time.current)
       redirect_to tenders_contractors_documents_path(@tender),
                   notice: 'Tender submitted successfully.'
@@ -60,14 +58,7 @@ class TendersController < ContractorsController
   private
 
   def set_tender
-      @tender = Tender.find(params[:id])
-      @request_for_tender = @tender.request_for_tender
-      rescue ActiveRecord::RecordNotFound => e
-      	 redirect_to root_path 
-  end
-
-  def return_if_not_purchased
-    redirect_to tenders_project_information_path(@tender) unless @tender.purchased?
+    @tender = Tender.find(params[:id])
   end
 
   def tender_params
