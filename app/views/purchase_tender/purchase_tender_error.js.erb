@@ -1,4 +1,5 @@
 <%= @purchase.errors.each do |error|%>
   console.error('<%= error %>')
+  Rails.enableElement(target)
   $('#purchase-form').append('<p class="danger"><%= error %>><p>')
 <% end %>
