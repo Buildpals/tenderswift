@@ -1,14 +1,16 @@
-require "rails_helper"
+# frozen_string_literal: true
 
-RSpec.describe TenderPolicy  do
-	subject { described_class.new(contractor, tender) }
+require 'rails_helper'
 
-	let(:quantity_surveyor) { FactoryBot.build(:quantity_surveyor) }
-	let(:request_for_tender) { FactoryBot.build(:request_for_tender) }
-	let(:tender) { FactoryBot.build(:purchased_tender) }
- 	let(:contractor) { FactoryBot.build(:contractor) }
+RSpec.describe TenderPolicy do
+  subject { described_class.new(contractor, tender) }
 
-	context 'contractor owns a tender' do
-    		  it { is_expected.to permit_action(:project_information) }
-	end
+  let(:quantity_surveyor) { FactoryBot.build(:quantity_surveyor) }
+  let(:request_for_tender) { FactoryBot.build(:request_for_tender) }
+  let(:tender) { FactoryBot.build(:purchased_tender) }
+  let(:contractor) { FactoryBot.build(:contractor) }
+
+  context 'contractor owns a tender' do
+    it { is_expected.to permit_action(:project_information) }
+  end
 end
