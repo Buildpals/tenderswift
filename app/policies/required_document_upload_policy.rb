@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class OtherDocumentUploadPolicy
+class RequiredDocumentUploadPolicy
   attr_reader :quantity_surveyor, :required_document_upload
 
   def initialize(quantity_surveyor, required_document_upload)

@@ -53,6 +53,10 @@
 //= require tenders
 //= require bids
 //= require purchase_tender
+//= require contractors
+//= require pdf
+//= require pdf_viewer
+
 
 $(document).on("turbolinks:load", function () {
   $('[data-toggle="tooltip"]').tooltip()

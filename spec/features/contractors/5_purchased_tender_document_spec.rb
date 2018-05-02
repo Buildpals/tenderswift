@@ -99,6 +99,7 @@ RSpec.feature 'Purchased tender document' do
   end
 
   def contractor_should_see_bill_of_quantities
+    # expect(page).to have_content 'Item Description Q\'ty Unit Rate Amount'
     expect(page.find('rate-filling-boq')[':workbook-data'])
       .to eq(purchased_tender_document.workbook)
   end

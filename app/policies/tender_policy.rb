@@ -29,9 +29,9 @@ class TenderPolicy < ApplicationPolicy
     user.id  == record.request_for_tender.quantity_surveyor.id
   end
 
-  def boq?
-    user.id  == record.request_for_tender.quantity_surveyor.id
-  end
+  # def boq?
+  #   user.id  == record.request_for_tender.quantity_surveyor.id
+  # end
 
   def other_documents?
     user.id  == record.request_for_tender.quantity_surveyor.id
@@ -62,9 +62,9 @@ class TenderPolicy < ApplicationPolicy
     tender_purchased?
   end
 
-  # def boq?
-  #   tender_purchased?
-  # end
+  def boq?
+    tender_purchased?
+  end
 
   def contractors_documents?
     tender_purchased?

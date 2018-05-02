@@ -26,7 +26,23 @@ class RequestForTenderPurchaser
   def payment_confirmed?
     @tender = Tender.find_by(request_for_tender: @request_for_tender,
                              contractor: @contractor)
+    if Rails.env.development?
+      development_purchase_confirmed?
+    else
+      production_payment_confirmed?
+    end
+  end
 
+  def production_payment_confirmed?
+    if @tender.update(purchased_at: Time.current,
+                      purchase_request_status: :success)
+      true
+    else
+      false
+    end
+  end
+
+  def development_purchase_confirmed?
     return false if Time.current < @tender.purchase_request_sent_at + 30.seconds
 
     if @tender.update(purchased_at: Time.current,
