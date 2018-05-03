@@ -91,11 +91,11 @@ class RequestForTenderPolicy
   end
 
   class Scope
-    attr_reader :quantity_surveyor, :request_for_tender
+    attr_reader :quantity_surveyor, :scope
 
-    def initialize(quantity_surveyor, request_for_tender)
+    def initialize(quantity_surveyor, scope)
       @quantity_surveyor = quantity_surveyor
-      @request_for_tender = request_for_tender
+      @scope = scope
     end
 
     def resolve
