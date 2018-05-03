@@ -9,20 +9,23 @@ class RequiredDocumentUploadPolicy
   end
 
   def pdf_viewer?
-    owns_documents_request_for_tender?
+    owns_the_request_for_tender_for_the_required_document?
   end
 
   def image_viewer?
-    owns_documents_request_for_tender?
+    owns_the_request_for_tender_for_the_required_document?
   end
 
-  def update
-    owns_documents_request_for_tender?
+  def update?
+    owns_the_request_for_tender_for_the_required_document?
   end
 
   private
 
-  def owns_documents_request_for_tender?
-    true if @quantity_surveyor == @required_document_upload.quantity_surveyor
+  def owns_the_request_for_tender_for_the_required_document?
+    true if @quantity_surveyor == @required_document_upload
+                                      .tender
+                                      .request_for_tender
+                                      .quantity_surveyor
   end
 end

@@ -23,6 +23,6 @@ class ContractorPolicy
   private
 
   def owns_contractor_profile?
-    @contractor = @contractor_profile
+    @contractor.id = @contractor_profile.id
   end
 end
