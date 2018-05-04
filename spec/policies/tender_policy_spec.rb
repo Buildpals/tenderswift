@@ -28,6 +28,28 @@ RSpec.describe TenderPolicy do
     it { is_expected.to forbid_action(:save_contractors_documents) }
   end
 
+  context 'contractor makes a payment for tender' do
+    let(:tender) { FactoryBot.build(:tender, contractor: contractor) }
+    it { is_expected.to permit_action(:purchase) }
+  end
+
+  context 'contractor makes payment for different tender' do
+    #this context must be changed
+    let(:tender) { FactoryBot.build(:tender) }
+    it { is_expected.to forbid_action(:purchase) }
+  end
+
+  context 'contractor monitors purchase of his tendr' do
+    let(:tender) { FactoryBot.build(:tender, contractor: contractor) }
+    it { is_expected.to permit_action(:monitor_purchase) }
+  end
+
+
+  context 'contractor monitors purchase of another tender' do
+    let(:tender) { FactoryBot.build(:tender) }
+    it { is_expected.to forbid_action(:monitor_purchase) }
+  end
+
   subject { described_class.new(quantity_surveyor, tender) }
 
   let(:quantity_surveyor) { FactoryBot.build(:quantity_surveyor) }

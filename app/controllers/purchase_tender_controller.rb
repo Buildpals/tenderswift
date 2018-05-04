@@ -20,6 +20,8 @@ class PurchaseTenderController < ContractorsController
   end
 
   def purchase
+    authorize(current_contractor.tender)
+
     @purchase = RequestForTenderPurchaser.new(
       contractor: current_contractor,
       request_for_tender: @request_for_tender
@@ -33,6 +35,8 @@ class PurchaseTenderController < ContractorsController
   end
 
   def monitor_purchase
+    authorize(current_contractor.tender)
+
     @purchase = RequestForTenderPurchaser.new(
       contractor: current_contractor,
       request_for_tender: @request_for_tender

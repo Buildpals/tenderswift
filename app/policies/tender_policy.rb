@@ -13,11 +13,11 @@ class TenderPolicy < ApplicationPolicy
   end
 
   def purchase?
-    # code here
+    user.id == record.contractor.id
   end
 
   def monitor_purchase?
-    # code here
+    user.id == record.contractor.id
   end
 
   def complete_transaction?
