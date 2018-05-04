@@ -1,0 +1,5 @@
+<%= render 'bids/document_viewer',
+           document: @other_document_upload,
+           approve_url: approve_other_document_upload_path(@other_document_upload),
+           reject_url: reject_other_document_upload_path(@other_document_upload),
+           back_url: bid_other_documents_path(@other_document_upload.tender) %>

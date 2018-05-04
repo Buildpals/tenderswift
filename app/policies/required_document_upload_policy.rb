@@ -8,15 +8,15 @@ class RequiredDocumentUploadPolicy
     @required_document_upload = required_document_upload
   end
 
-  def pdf_viewer?
+  def show?
     owns_documents_request_for_tender?
   end
 
-  def image_viewer?
+  def approve?
     owns_documents_request_for_tender?
   end
 
-  def update
+  def reject?
     owns_documents_request_for_tender?
   end
 

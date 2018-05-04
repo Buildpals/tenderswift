@@ -93,6 +93,7 @@ class RequestForTenderPurchaser
     if @tender.update(customer_number: @customer_number,
                       network_code: @network_code,
                       vodafone_voucher_code: @vodafone_voucher_code,
+                      amount: @request_for_tender.selling_price,
                       purchase_request_status: :pending,
                       # TODO: FIX THIS
                       purchase_request_message: :pending,

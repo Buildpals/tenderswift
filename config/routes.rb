@@ -88,32 +88,32 @@ Rails.application.routes.draw do
       as: :bid_boq
 
   get '/bids/:id/other_documents',
-      to: 'other_document_uploads#other_documents',
+      to: 'bids#other_documents',
       as: :bid_other_documents
 
-  get '/bids/:id/pdf_viewer/:required_document_upload_id',
-      to: 'required_document_uploads#pdf_viewer',
-      as: :view_pdf
+  get '/required_documents/:id',
+      to: 'required_document_uploads#show',
+      as: :required_document_upload
 
-  get '/bids/:id/image_viewer/:required_document_upload_id',
-      to: 'required_document_uploads#image_viewer',
-      as: :view_image
+  patch '/required_documents/:id/approve',
+        to: 'required_document_uploads#approve',
+        as: :approve_required_document_upload
 
-  get '/bids/:id/pdf_viewer/other/:other_document_id',
-      to: 'other_document_uploads#pdf_viewer',
-      as: :view_pdf_for_other_documents
+  patch '/required_documents/:id/reject',
+        to: 'required_document_uploads#reject',
+        as: :reject_required_document_upload
 
-  get '/bids/:id/image_viewer/other/:other_document_id',
-      to: 'other_document_uploads#image_viewer',
-      as: :view_image_for_other_documents
+  get '/other_documents/:id',
+      to: 'other_document_uploads#show',
+      as: :other_document_upload
 
-  patch '/bids/:required_document_upload_id/update_required_document',
-        to: 'bids#update',
-        as: :update_bid
+  patch '/other_documents/:id/approve',
+        to: 'other_document_uploads#approve',
+        as: :approve_other_document_upload
 
-  patch '/bids/:other_document_id/update_other_document',
-        to: 'other_document_uploads#update',
-        as: :update_other_document
+  patch '/other_documents/:id/reject',
+        to: 'other_document_uploads#reject',
+        as: :reject_other_document_upload
 
   post '/bids/:id/disqualify',
        to: 'bids#disqualify',

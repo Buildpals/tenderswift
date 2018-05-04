@@ -7,9 +7,9 @@ class OtherDocumentUpload < ApplicationRecord
 
   validate :check_file_extension
 
-  validates :name, presence: true
+  validates :title, presence: true
 
-  enum status: { issue: 0, approved: 1 }
+  enum status: { pending: 0, approved: 1, rejected: 2 }
 
   delegate :quantity_surveyor, to: :tender
 

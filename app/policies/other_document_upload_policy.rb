@@ -8,15 +8,15 @@ class OtherDocumentUploadPolicy
     @other_document_upload = other_document_upload
   end
 
-  def pdf_viewer?
+  def show?
     owns_documents_request_for_tender?
   end
 
-  def image_viewer?
+  def approve?
     owns_documents_request_for_tender?
   end
 
-  def update
+  def reject?
     owns_documents_request_for_tender?
   end
 

@@ -1,0 +1,57 @@
+<script src="//mozilla.github.io/pdf.js/build/pdf.js"></script>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <a class="navbar-brand" href="<%= back_url %>">
+    <i class="fa fa-arrow-left"></i>
+  </a>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+    <span class="navbar-text ml-3 mr-auto">
+        <%= document.title %>
+    </span>
+
+    <%= button_to 'Approve',
+                  approve_url,
+                  {
+                      method: :patch,
+                      form_class: 'form-inline my-2 my-lg-0 mr-2',
+                      class: 'btn btn-sm btn-outline-success'
+                  } %>
+
+    <%= button_to 'Reject',
+                  reject_url,
+        {
+            method: :patch,
+            form_class: 'form-inline my-2 my-lg-0',
+            class: 'btn btn-sm btn-outline-danger'
+        } %>
+  </div>
+</nav>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-12 text-center pt-4">
+      <% if document.document.format == 'pdf' %>
+
+        <i class="loader fa fa-spinner fa-spin fa-3x text-light"></i>
+
+        <canvas id="the-canvas"
+                data-pdf-viewer
+                data-src="<%= document.document.url %>">
+        </canvas>
+
+        <div class="controls bg-dark d-none">
+          <span class="btn btn-sm text-light" id="prev">Previous</span>
+          <span class="btn btn-sm text-light" id="next">Next</span>
+          <span class="btn btn-sm text-light">
+            Page: <span id="page_num"></span> / <span id="page_count"></span>
+          </span>
+        </div>
+
+      <% else %>
+
+        <%= image_tag document.document.url, class: 'image-fluid' %>
+
+      <% end %>
+    </div>
+  </div>
+</div>

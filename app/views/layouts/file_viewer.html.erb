@@ -5,40 +5,11 @@
 
 <body class="<%= controller_name %> <%= action_name %>">
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
-      <% if @required_document_upload %>
-        <%= link_to 'Back', bid_required_documents_path(@required_document_upload.tender), class: 'btn btn-outline-warning mr-sm-2 my-sm-0' %>
-      <% else %>
-        <%= link_to 'Back', bid_other_documents_path(@tender), class: 'btn btn-outline-warning mr-sm-2 my-sm-0' %>
-      <% end %>
-    </ul>
-    <% if @required_document_upload %>
-      <%= form_with(model: @required_document_upload, url: update_bid_url, local: true, class: 'form-inline') do |form| %>
-        <%= form.text_field :status, value: 'approved', id: :required_document_upload_id, type: 'hidden' %>
-        <%= form.submit 'Approve', class: 'btn btn-outline-success mr-sm-2 my-sm-0' %>
-      <% end %>
-      <%= form_with(model: @required_document_upload, url: update_bid_url, local: true, class: 'form-inline') do |form| %>
-        <%= form.text_field :status, value: 'issue', id: :required_document_upload_id, type: 'hidden' %>
-        <%= form.submit 'Mark Issue', class: 'btn btn-outline-danger mr-sm-2 my-sm-0' %>
-      <% end %>
-    <% else %>
-      <%= form_with(model: @other_document_upload, url: update_other_document_url, local: true, class: 'form-inline') do |form| %>
-        <%= form.text_field :status, value: 'approved', id: :required_document_upload_id, type: 'hidden' %>
-        <%= form.submit 'Approve', class: 'btn btn-outline-success mr-sm-2 my-sm-0' %>
-      <% end %>
-      <%= form_with(model: @other_document_upload, url: update_other_document_url, local: true, class: 'form-inline') do |form| %>
-        <%= form.text_field :status, value: 'issue', id: :required_document_upload_id, type: 'hidden' %>
-        <%= form.submit 'Mark Issue', class: 'btn btn-outline-danger mr-sm-2 my-sm-0' %>
-      <% end %>
-    <% end %>
-  </div>
-</nav>
+<%= yield :navbar %>
 
 <%= render 'layouts/flash_messages' %>
 
-<div class="content">
+<div class="content bg-dark">
 
   <%= yield %>
 

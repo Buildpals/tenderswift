@@ -18,7 +18,7 @@
     <% unless @tender.submitted? %>
       <%= button_to 'Submit tender',
                     submit_tender_path(@tender),
-                    {method: :patch, class: 'btn btn-sm btn-secondary'} %>
+                    { method: :patch, class: 'btn btn-sm btn-secondary' } %>
     <% end %>
   </div>
 <% end %>

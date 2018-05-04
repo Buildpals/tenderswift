@@ -1,0 +1,5 @@
+<%= render 'bids/document_viewer',
+           document: @required_document_upload,
+           approve_url: approve_required_document_upload_path(@required_document_upload),
+           reject_url: reject_required_document_upload_path(@required_document_upload),
+           back_url: bid_required_documents_path(@required_document_upload.tender)%>

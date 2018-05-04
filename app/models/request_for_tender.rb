@@ -93,7 +93,7 @@ class RequestForTender < ApplicationRecord
   def total_receivable
     sum = 0
     tenders.each do |tender|
-      sum += tender.selling_price if tender.purchased?
+      sum += tender.amount if tender.purchased?
     end
     sum - (TENDERSWIFT_CUT * sum)
   end
