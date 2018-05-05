@@ -1,0 +1,48 @@
+<div class="container">
+  <div class="row">
+    <div class="col-lg-12 mx-auto">
+      <div class="tab-content mt-4">
+
+        <ul class="list-group">
+          <% documents.each do |uploaded_document| %>
+            <li class="list-group-item">
+              <div class="container-fluid">
+                <div class="row">
+                  <div class="col-sm-7">
+                    <%= content_tag uploaded_document.read? ? 'div' : 'strong',
+                                    uploaded_document.title %>
+                  </div>
+                  <div class="col-sm-3">
+
+                    <%= link_to 'View',
+                                uploaded_document_url(uploaded_document) %>
+
+                    <%= link_to 'Download',
+                                uploaded_document.document.url,
+                                target: '_blank',
+                                class: 'btn btn-sm btn-light' %>
+
+                  </div>
+
+                  <div class="col-sm-2">
+                    <% if uploaded_document.pending? %>
+                      <i class="fa fa-exclamation-triangle text-warning"></i>
+                      pending
+                    <% elsif uploaded_document.approved? %>
+                      <i class="fa fa-check text-success"></i>
+                      approved
+                    <% elsif uploaded_document.rejected? %>
+                      <i class="fa fa-times text-danger"></i>
+                      rejected
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+            </li>
+          <% end %>
+        </ul>
+
+      </div>
+    </div>
+  </div>
+</div>

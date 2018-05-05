@@ -78,18 +78,6 @@
         <a href="<%= edit_contractor_registration_path(current_contractor) %>">Change Password</a>
       </div>
 
-      <div class="mb-5">
-        <h3>Delete account</h3>
-        <hr>
-
-        <p>Want to delete your account? <br>
-          <small>Be careful, this action is not reversible.</small>
-        </p>
-        <%= button_to 'Delete my account', registration_path(current_contractor),
-                      class: 'btn btn-danger',
-                      data: {confirm: 'Are you sure?'}, method: :delete %>
-      </div>
-
     </div>
   </div>
 </div>

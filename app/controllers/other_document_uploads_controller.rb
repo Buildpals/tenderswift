@@ -3,40 +3,32 @@
 class OtherDocumentUploadsController < QuantitySurveyorsController
   layout 'file_viewer'
 
-  before_action :set_tender
   before_action :set_other_document_upload
   before_action :mark_other_document_upload_as_read
 
-  def pdf_viewer
+  def show
     authorize @other_document_upload
   end
 
-  def image_viewer
+  def approve
     authorize @other_document_upload
+    @other_document_upload.update(status: :approved)
+    flash[:notice] = 'You have successfully approved the ' \
+                     "#{@other_document_upload.title}"
+    redirect_to bid_other_documents_url(@other_document_upload.tender)
   end
 
-  def update
+  def reject
     authorize @other_document_upload
-    @other_document_upload.update(other_document_upload_params)
-    flash[:notice] = if @other_document_upload.status.eql?('approved')
-                       "You have successfully approved the
-                         #{@other_document_upload.name}"
-                     else
-                       "#{@other_document_upload.name}
-                         was rejected"
-                     end
+    @other_document_upload.update(status: :rejected)
+    flash[:notice] = "#{@other_document_upload.title} was rejected"
     redirect_to bid_other_documents_url(@other_document_upload.tender)
   end
 
   private
 
-  def set_tender
-    @tender = Tender.find(params[:id])
-  end
-
   def set_other_document_upload
-    @other_document_upload =
-      OtherDocumentUpload.find(params[:other_document_id])
+    @other_document_upload = OtherDocumentUpload.find(params[:id])
   end
 
   def mark_other_document_upload_as_read
@@ -45,7 +37,7 @@ class OtherDocumentUploadsController < QuantitySurveyorsController
 
   def other_document_upload_params
     params.require(:other_document_upload)
-          .permit(:name,
+          .permit(:title,
                   :tender_id,
                   :document,
                   :status,

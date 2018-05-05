@@ -6,12 +6,12 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   after_action :verify_authorized,
-               except: :index,
-               unless: :devise_controller?
+               only: :dashboard,
+               unless: -> { devise_controller? || welcome_controller? }
 
   after_action :verify_policy_scoped,
                only: :index,
-               unless: -> { return devise_controller? || welcome_controller? }
+               unless: -> { devise_controller? || welcome_controller? }
 
   protected
 

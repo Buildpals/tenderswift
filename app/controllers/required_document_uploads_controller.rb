@@ -3,40 +3,33 @@
 class RequiredDocumentUploadsController < QuantitySurveyorsController
   layout 'file_viewer'
 
-  before_action :set_tender
   before_action :set_required_document_upload
   before_action :mark_required_document_as_read
 
-  def pdf_viewer
+  def show
     authorize @required_document_upload
   end
 
-  def image_viewer
+  def approve
     authorize @required_document_upload
+    @required_document_upload.update(status: :approved)
+    flash[:notice] = "You have successfully approved the" \
+                     "#{@required_document_upload.required_document.title}"
+    redirect_to bid_required_documents_url(@required_document_upload.tender)
   end
 
-  def update
+  def reject
     authorize @required_document_upload
-    @required_document_upload.update(required_document_upload_params)
-    flash[:notice] = if @required_document_upload.status.eql?('approved')
-                       "You have successfully approved the
-                         #{@required_document_upload.required_document.title}"
-                     else
-                       "#{@required_document_upload.required_document.title}
-                         was rejected"
-                     end
+    @required_document_upload.update(status: :rejected)
+    flash[:notice] = "#{@required_document_upload.required_document.title}" \
+                     "was rejected"
     redirect_to bid_required_documents_url(@required_document_upload.tender)
   end
 
   private
 
-  def set_tender
-    @tender = Tender.find(params[:id])
-  end
-
   def set_required_document_upload
-    @required_document_upload =
-      RequiredDocumentUpload.find(params[:required_document_upload_id])
+    @required_document_upload = RequiredDocumentUpload.find(params[:id])
   end
 
   def mark_required_document_as_read

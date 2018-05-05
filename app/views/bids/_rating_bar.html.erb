@@ -1,11 +1,15 @@
 <%= form_with model: @tender,
               scope: :tender,
-              url: tender_ratings_url(@tender),
+              url: rate_bid_path(@tender),
               method: :patch,
               local: true,
               id: '@tender-rating-form' do |form| %>
   <div class="row">
-    <%= form.text_field :rating, class: 'form-control col-md-4', id: :tender_rating, placeholder: 'Rate Bid' %>
-    <%= form.submit 'Rate', class: 'btn btn-secondary col-md-3' %>
+    <%= form.text_field :rating,
+                        class: 'form-control form-control-sm col-md-4',
+                        id: :tender_rating,
+                        placeholder: 'Rating' %>
+    <%= form.submit 'Save',
+                    class: 'btn btn-sm btn-secondary col-md-3' %>
   </div>
 <% end %>

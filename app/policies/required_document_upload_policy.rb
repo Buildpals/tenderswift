@@ -8,16 +8,16 @@ class RequiredDocumentUploadPolicy
     @required_document_upload = required_document_upload
   end
 
-  def pdf_viewer?
-    owns_the_request_for_tender_for_the_required_document?
+  def owns_the_request_for_tender_for_the_required_document?
+    owns_documents_request_for_tender?
   end
 
-  def image_viewer?
-    owns_the_request_for_tender_for_the_required_document?
+  def owns_the_request_for_tender_for_the_required_document?
+    owns_documents_request_for_tender?
   end
 
-  def update?
-    owns_the_request_for_tender_for_the_required_document?
+  def owns_the_request_for_tender_for_the_required_document?
+    owns_documents_request_for_tender?
   end
 
   private

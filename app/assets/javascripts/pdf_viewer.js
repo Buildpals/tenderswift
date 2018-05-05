@@ -1,7 +1,10 @@
 $(document).on('turbolinks:load', function () {
-  if ($('.contractors.dashboard').length === 0) return
+  if ($('.required_document_uploads.show, .other_documents_upload.show').length === 0) return
 
   var url = $("[data-pdf-viewer]").data("src")
+
+  var PDFJS = window['pdfjs-dist/build/pdf'];
+
 
   PDFJS.workerSrc = '//mozilla.github.io/pdf.js/build/pdf.worker.js'
 
@@ -91,5 +94,6 @@ $(document).on('turbolinks:load', function () {
     // Initial/first page rendering
     renderPage(pageNum)
     $('.loader').css('display', 'none')
+    $('.controls').removeClass('d-none')
   })
 })

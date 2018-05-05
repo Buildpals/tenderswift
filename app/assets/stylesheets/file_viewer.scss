@@ -1,0 +1,30 @@
+.required_document_uploads.show, .other_document_uploads.show {
+  .loader {
+    position: absolute;
+    left: 50%;
+    margin-right: -50%;
+    -webkit-transform: translate(-50%);
+    -moz-transform: translate(-50%);
+    -ms-transform: translate(-50%);
+    -o-transform: translate(-50%);
+    transform: translate(-50%);
+    z-index: 3;
+  }
+
+  .controls {
+    opacity: 0.8;
+    position: absolute;
+    left: 50%;
+    margin-right: -50%;
+    -webkit-transform: translate(-50%);
+    -moz-transform: translate(-50%);
+    -ms-transform: translate(-50%);
+    -o-transform: translate(-50%);
+    transform: translate(-50%);
+    border-radius: 3px;
+    bottom: 12px;
+    z-index: 3;
+    overflow: hidden;
+  }
+}
+
