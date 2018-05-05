@@ -8,17 +8,18 @@ class RequiredDocumentUploadPolicy
     @required_document_upload = required_document_upload
   end
 
-  def owns_the_request_for_tender_for_the_required_document?
-    owns_documents_request_for_tender?
+  def show?
+    owns_the_request_for_tender_for_the_required_document?
   end
 
-  def owns_the_request_for_tender_for_the_required_document?
-    owns_documents_request_for_tender?
+  def approve?
+    owns_the_request_for_tender_for_the_required_document?
   end
 
-  def owns_the_request_for_tender_for_the_required_document?
-    owns_documents_request_for_tender?
+  def reject?
+    owns_the_request_for_tender_for_the_required_document?
   end
+
 
   private
 
