@@ -5,78 +5,154 @@ require 'rails_helper'
 RSpec.describe TenderPolicy do
   subject { described_class.new(contractor, tender) }
 
-  let(:quantity_surveyor) { FactoryBot.build(:quantity_surveyor) }
-  let(:request_for_tender) { FactoryBot.build(:request_for_tender) }
-  let(:contractor) { FactoryBot.build(:contractor) }
+  let(:contractor) { FactoryBot.create(:contractor) }
 
-  context 'contractor owns a purchased tender' do
-    let(:tender) { FactoryBot.build(:purchased_tender, contractor: contractor) }
-    it { is_expected.to permit_action(:project_information) }
-    it { is_expected.to permit_action(:boq) }
-    it { is_expected.to permit_action(:contractors_documents) }
-    it { is_expected.to permit_action(:results) }
-    it { is_expected.to permit_action(:save_rates) }
-    it { is_expected.to permit_action(:save_contractors_documents) }
-  end
+  context 'contractor does not own the tender, ' \
+          'the tender has not been purchased, ' \
+          'the tender has not been submitted' do
 
-  context 'contractor does not own a purchased tender' do
-    let(:tender) { FactoryBot.build(:tender, contractor: contractor) }
+    let(:tender) do
+      FactoryBot.create(:tender)
+    end
+
+    it { is_expected.to forbid_action(:project_information) }
+    it { is_expected.to forbid_action(:tender_documents) }
     it { is_expected.to forbid_action(:boq) }
     it { is_expected.to forbid_action(:contractors_documents) }
     it { is_expected.to forbid_action(:results) }
     it { is_expected.to forbid_action(:save_rates) }
     it { is_expected.to forbid_action(:save_contractors_documents) }
+    it { is_expected.to forbid_action(:submit_tender) }
   end
 
-  context 'contractor makes a payment for tender' do
-    let(:tender) { FactoryBot.build(:tender, contractor: contractor) }
-    it { is_expected.to permit_action(:purchase) }
+  context 'contractor does not own the tender, ' \
+          'the tender has not been purchased, ' \
+          'the tender has been submitted' do
+    let(:tender) do
+      FactoryBot.create(:tender,
+                        submitted_at: Time.current - 1.hours)
+    end
+
+    it { is_expected.to forbid_action(:project_information) }
+    it { is_expected.to forbid_action(:tender_documents) }
+    it { is_expected.to forbid_action(:boq) }
+    it { is_expected.to forbid_action(:contractors_documents) }
+    it { is_expected.to forbid_action(:results) }
+    it { is_expected.to forbid_action(:save_rates) }
+    it { is_expected.to forbid_action(:save_contractors_documents) }
+    it { is_expected.to forbid_action(:submit_tender) }
   end
 
-  context 'contractor makes payment for different tender' do
-    #this context must be changed
-    let(:tender) { FactoryBot.build(:tender) }
-    it { is_expected.to forbid_action(:purchase) }
+
+  context 'contractor does not own the tender, ' \
+          'the tender has been purchased, ' \
+          'the tender has not been submitted' do
+    let(:tender) do
+      FactoryBot.create(:purchased_tender)
+    end
+
+    it { is_expected.to forbid_action(:project_information) }
+    it { is_expected.to forbid_action(:tender_documents) }
+    it { is_expected.to forbid_action(:boq) }
+    it { is_expected.to forbid_action(:contractors_documents) }
+    it { is_expected.to forbid_action(:results) }
+    it { is_expected.to forbid_action(:save_rates) }
+    it { is_expected.to forbid_action(:save_contractors_documents) }
+    it { is_expected.to forbid_action(:submit_tender) }
   end
 
-  context 'contractor monitors purchase of his tendr' do
-    let(:tender) { FactoryBot.build(:tender, contractor: contractor) }
-    it { is_expected.to permit_action(:monitor_purchase) }
+  context 'contractor does not own the tender, ' \
+          'the tender has been purchased, ' \
+          'the tender has been submitted' do
+    let(:tender) do
+      FactoryBot.create(:purchased_tender,
+                        submitted_at: Time.current - 1.hours)
+    end
+
+    it { is_expected.to forbid_action(:project_information) }
+    it { is_expected.to forbid_action(:tender_documents) }
+    it { is_expected.to forbid_action(:boq) }
+    it { is_expected.to forbid_action(:contractors_documents) }
+    it { is_expected.to forbid_action(:results) }
+    it { is_expected.to forbid_action(:save_rates) }
+    it { is_expected.to forbid_action(:save_contractors_documents) }
+    it { is_expected.to forbid_action(:submit_tender) }
   end
 
 
-  context 'contractor monitors purchase of another tender' do
-    let(:tender) { FactoryBot.build(:tender) }
-    it { is_expected.to forbid_action(:monitor_purchase) }
+  context 'contractor owns the tender, ' \
+          'the tender has not been purchased, ' \
+          'the tender has not been submitted' do
+    let(:tender) do
+      FactoryBot.create(:tender,
+                        contractor: contractor)
+    end
+
+    it { is_expected.to forbid_action(:project_information) }
+    it { is_expected.to forbid_action(:tender_documents) }
+    it { is_expected.to forbid_action(:boq) }
+    it { is_expected.to forbid_action(:contractors_documents) }
+    it { is_expected.to forbid_action(:results) }
+    it { is_expected.to forbid_action(:save_rates) }
+    it { is_expected.to forbid_action(:save_contractors_documents) }
+    it { is_expected.to forbid_action(:submit_tender) }
   end
 
-  subject { described_class.new(quantity_surveyor, tender) }
+  context 'contractor owns the tender, ' \
+          'the tender has not been purchased, ' \
+          'the tender has been submitted' do
+    let(:tender) do
+      FactoryBot.create(:tender,
+                        contractor: contractor,
+                        submitted_at: Time.current - 1.hours)
+    end
 
-  let(:quantity_surveyor) { FactoryBot.build(:quantity_surveyor) }
-  let(:contractor) { FactoryBot.build(:contractor) }
-
-  context 'quantity surveyor owns a request for tender' do
-    let(:request_for_tender) { FactoryBot.build(:request_for_tender,
-                                                quantity_surveyor: quantity_surveyor) }
-    let(:tender) { FactoryBot.build(:purchased_tender, contractor: contractor,
-                                    request_for_tender: request_for_tender) }
-
-    it { is_expected.to permit_action(:other_documents) }
-    it { is_expected.to permit_action(:disqualify) }
-    it { is_expected.to permit_action(:undo_disqualify) }
-    it { is_expected.to permit_action(:rate) }
-    it { is_expected.to permit_action(:required_documents) }
+    it { is_expected.to forbid_action(:project_information) }
+    it { is_expected.to forbid_action(:tender_documents) }
+    it { is_expected.to forbid_action(:boq) }
+    it { is_expected.to forbid_action(:contractors_documents) }
+    it { is_expected.to forbid_action(:results) }
+    it { is_expected.to forbid_action(:save_rates) }
+    it { is_expected.to forbid_action(:save_contractors_documents) }
+    it { is_expected.to forbid_action(:submit_tender) }
   end
 
-  context 'quantity surveyor does not owns a request for tender' do
-    let(:request_for_tender) { FactoryBot.build(:request_for_tender) }
-    let(:tender) { FactoryBot.build(:purchased_tender, contractor: contractor,
-                                    request_for_tender: request_for_tender) }
-    it { is_expected.to forbid_action(:other_documents) }
-    it { is_expected.to forbid_action(:disqualify) }
-    it { is_expected.to forbid_action(:undo_disqualify) }
-    it { is_expected.to forbid_action(:rate) }
-    it { is_expected.to forbid_action(:required_documents) }
+
+  context 'contractor owns the tender, ' \
+          'the tender has been purchased, ' \
+          'the tender has not been submitted' do
+    let(:tender) do
+      FactoryBot.create(:purchased_tender,
+                        contractor: contractor)
+    end
+
+    it { is_expected.to permit_action(:project_information) }
+    it { is_expected.to permit_action(:tender_documents) }
+    it { is_expected.to permit_action(:boq) }
+    it { is_expected.to permit_action(:contractors_documents) }
+    it { is_expected.to forbid_action(:results) }
+    it { is_expected.to permit_action(:save_rates) }
+    it { is_expected.to permit_action(:save_contractors_documents) }
+    it { is_expected.to permit_action(:submit_tender) }
+  end
+
+  context 'contractor owns the tender, ' \
+          'the tender has been purchased, ' \
+          'the tender has been submitted' do
+    let(:tender) do
+      FactoryBot.create(:purchased_tender,
+                        contractor: contractor,
+                        submitted_at: Time.current - 1.hours)
+    end
+
+    it { is_expected.to permit_action(:project_information) }
+    it { is_expected.to permit_action(:tender_documents) }
+    it { is_expected.to permit_action(:boq) }
+    it { is_expected.to permit_action(:contractors_documents) }
+    it { is_expected.to permit_action(:results) }
+    it { is_expected.to forbid_action(:save_rates) }
+    it { is_expected.to forbid_action(:save_contractors_documents) }
+    it { is_expected.to forbid_action(:submit_tender) }
   end
 
 end

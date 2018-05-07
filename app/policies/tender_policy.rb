@@ -1,94 +1,69 @@
 # frozen_string_literal: true
 
-class TenderPolicy < ApplicationPolicy
-  class Scope < Scope
-    def resolve
-      scope.all
-    end
+class TenderPolicy
+  attr_reader :contractor, :tender
+
+  def initialize(contractor, tender)
+    @contractor = contractor
+    @tender = tender
   end
 
-  # PurchaseTenderController
-  def portal?
-    # code here
-  end
 
-  def purchase?
-    user.id == record.contractor.id
-  end
-
-  def monitor_purchase?
-    user.id == record.contractor.id
-  end
-
-  def complete_transaction?
-    # code here
-  end
-
-  # BidsController
-  def required_documents?
-    user.id  == record.request_for_tender.quantity_surveyor.id
-  end
-
-  # def boq?
-  #   user.id  == record.request_for_tender.quantity_surveyor.id
-  # end
-
-  def other_documents?
-    user.id  == record.request_for_tender.quantity_surveyor.id
-  end
-
-  def disqualify?
-    user.id  == record.request_for_tender.quantity_surveyor.id
-  end
-
-  def undo_disqualify?
-    user.id  == record.request_for_tender.quantity_surveyor.id
-  end
-
-  def rate?
-    user.id  == record.request_for_tender.quantity_surveyor.id
-  end
-
-  # TendersController
   def project_information?
-    if record.request_for_tender.private?
-      tender_purchased?
-    else
-      true
-    end
+    contractor_owns_the_tender? && contractor_has_purchased_the_tender?
   end
 
   def tender_documents?
-    tender_purchased?
+    contractor_owns_the_tender? && contractor_has_purchased_the_tender?
   end
 
   def boq?
-    tender_purchased?
+    contractor_owns_the_tender? && contractor_has_purchased_the_tender?
   end
 
   def contractors_documents?
-    tender_purchased?
+    contractor_owns_the_tender? && contractor_has_purchased_the_tender?
   end
 
   def results?
-    tender_purchased?
+    contractor_owns_the_tender? &&
+        contractor_has_purchased_the_tender? &&
+        tender_has_been_submitted?
   end
 
   def save_rates?
-    tender_purchased?
+    contractor_owns_the_tender? &&
+        contractor_has_purchased_the_tender? &&
+        tender_has_not_been_submitted
   end
 
   def save_contractors_documents?
-    tender_purchased?
+    contractor_owns_the_tender? &&
+        contractor_has_purchased_the_tender? &&
+        tender_has_not_been_submitted
   end
 
   def submit_tender?
-    # code here
+    contractor_owns_the_tender? &&
+        contractor_has_purchased_the_tender? &&
+        tender_has_not_been_submitted
   end
 
   private
 
-  def tender_purchased?
-    true if user.id == record.contractor.id && record.purchased? == true
+  def contractor_owns_the_tender?
+    @contractor == @tender.contractor
+  end
+
+  def contractor_has_purchased_the_tender?
+    @tender.purchased?
+  end
+
+  def tender_has_been_submitted?
+    @tender.submitted?
+  end
+
+  def tender_has_not_been_submitted
+    !@tender.submitted?
   end
 end
