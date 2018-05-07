@@ -145,8 +145,7 @@ class CreateTenderController < QuantitySurveyorsController
         if @request_for_tender.private?
           email_tenders
         else
-          @request_for_tender.update(published: true,
-                                     published_time: Time.current)
+          @request_for_tender.update(published_at: Time.current)
           redirect_to request_for_tender_path
         end
       else
@@ -177,7 +176,7 @@ class CreateTenderController < QuantitySurveyorsController
                   alert: 'You did not specify any contractors for the request.'
     else
       send_emails_to_tenders
-      @request_for_tender.update(published: true, published_time: Time.current)
+      @request_for_tender.update(published_at: Time.current)
       redirect_to @request_for_tender,
                   notice: 'An email has been sent to each contractor of this ' \
                           'request.'

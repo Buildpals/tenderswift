@@ -3,8 +3,8 @@
 class RequestForTender < ApplicationRecord
   TENDERSWIFT_CUT = 0.12
 
-  scope :published, -> { where(published: true) }
-  scope :not_published, -> { where(published: false) }
+  scope :published, -> { where.not(published_at: nil) }
+  scope :not_published, -> { where(published: nil) }
 
   serialize :contract_sum_address, Hash
 
@@ -79,6 +79,10 @@ class RequestForTender < ApplicationRecord
 
   def name
     "##{id} #{project_name}"
+  end
+
+  def published?
+    !published_at.nil?
   end
 
   def deadline_over?

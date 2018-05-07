@@ -7,7 +7,9 @@
     <h6 class="card-subtitle mb-2 text-muted">
       <%= @request_for_tender.private? ? 'Private' : 'Public' %> tender
       <br>
-      <%= @request_for_tender.published_time.to_formatted_s(:long) %> - <%= @request_for_tender.deadline.to_formatted_s(:long) %>
+      <%= @request_for_tender.published_at.to_formatted_s(:long) %>
+      -
+      <%= @request_for_tender.deadline.to_formatted_s(:long) %>
     </h6>
     <p class="card-text">
       <%= simple_format @request_for_tender.description %>

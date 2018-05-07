@@ -52,8 +52,7 @@ class Tender < ApplicationRecord
   delegate :selling_price,        to: :request_for_tender
   delegate :private,              to: :request_for_tender
   delegate :contract_sum_address, to: :request_for_tender
-  delegate :published,            to: :request_for_tender
-  delegate :published_time,       to: :request_for_tender
+  delegate :published_at,       to: :request_for_tender
   delegate :project_documents,    to: :request_for_tender
   delegate :deadline_over?,    to: :request_for_tender
 

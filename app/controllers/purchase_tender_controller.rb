@@ -3,6 +3,8 @@
 class PurchaseTenderController < ContractorsController
   before_action :set_request_for_tender
 
+  before_action :set_policy
+
   skip_before_action :authenticate_contractor!, only: %i[
     portal
     complete_transaction
@@ -59,6 +61,10 @@ class PurchaseTenderController < ContractorsController
   end
 
   private
+
+  def set_policy
+    Tender.define_singleton_method(:policy_class) { PurchaseTenderPolicy }
+  end
 
   def increment_visit_count
     cookie_name = "request-for-tender-#{@request_for_tender.id}"
