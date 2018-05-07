@@ -3,6 +3,8 @@
 class BidsController < QuantitySurveyorsController
   before_action :set_tender
 
+  before_action :set_policy
+
   def required_documents
     authorize @tender
   end
@@ -54,6 +56,10 @@ class BidsController < QuantitySurveyorsController
   end
 
   private
+
+  def set_policy
+    Tender.define_singleton_method(:policy_class) { BidPolicy }
+  end
 
   def set_tender
     @tender = Tender.find(params[:id])

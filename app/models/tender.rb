@@ -55,6 +55,7 @@ class Tender < ApplicationRecord
   delegate :published,            to: :request_for_tender
   delegate :published_time,       to: :request_for_tender
   delegate :project_documents,    to: :request_for_tender
+  delegate :deadline_over?,    to: :request_for_tender
 
   delegate :quantity_surveyor,    to: :request_for_tender
 
@@ -84,11 +85,15 @@ class Tender < ApplicationRecord
   end
 
   def purchased?
-    true if purchased_at
+    !purchased_at.nil?
   end
 
   def submitted?
-    true if submitted_at
+    !submitted_at.nil?
+  end
+
+  def reviewable?
+    purchased? && submitted? && deadline_over?
   end
 
   def bid

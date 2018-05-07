@@ -72,13 +72,17 @@ class RequestForTender < ApplicationRecord
     required_documents.build(title: 'Works and Housing certificate')
     required_documents.build(title: 'Financial statements (3 years )')
     required_documents.build(
-      title: 'Bank Statement or evidence of Funding (letter of credit)'
+        title: 'Bank Statement or evidence of Funding (letter of credit)'
     )
     save!
   end
 
   def name
     "##{id} #{project_name}"
+  end
+
+  def deadline_over?
+    Time.current > deadline
   end
 
   def tender_figure
