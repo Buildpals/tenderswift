@@ -4,11 +4,11 @@
       <div class="tab-content mt-4">
 
         <%= form_with model: @tender,
-                     scope: :tender,
-                     method: :patch,
-                     url: tenders_save_contractors_documents_path(@tender),
-                     local: true,
-                     id: 'document-upload-form' do |f| %>
+                      scope: :tender,
+                      method: :patch,
+                      url: tenders_save_contractors_documents_path(@tender),
+                      local: true,
+                      id: 'document-upload-form' do |f| %>
 
           <% if @tender.errors.any? %>
             <div id="error_explanation">
@@ -92,7 +92,6 @@
   </div>
 </div>
 </div>
-
 <script type="text/javascript" charset="utf-8">
     $('#other-documents').on('cocoon:after-remove', function(e, insertedItem) {
         $('#document-upload-form').trigger('submit.rails');

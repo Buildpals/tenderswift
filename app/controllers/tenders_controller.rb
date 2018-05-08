@@ -51,7 +51,9 @@ class TendersController < ContractorsController
       redirect_to tenders_contractors_documents_path(@tender),
                   notice: 'Tender submitted successfully.'
     else
-      render :contractors_documents
+      @tender.submitted_at = nil
+      @tender.build_required_document_uploads
+      render layout: 'tenders', action: :contractors_documents
     end
   end
 

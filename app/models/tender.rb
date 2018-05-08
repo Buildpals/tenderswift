@@ -32,7 +32,7 @@ class Tender < ApplicationRecord
                                 allow_destroy: true,
                                 reject_if: :all_blank
 
-  has_many :required_documents, through: :required_document_uploads
+  #has_many :required_documents, through: :required_document_uploads
 
   has_many :rates, inverse_of: :tender
 
@@ -41,6 +41,8 @@ class Tender < ApplicationRecord
               scope: :request_for_tender_id,
               message: 'should tender once per request for tender'
             }
+
+  validate :check_required_documents
 
   delegate :project_name,         to: :request_for_tender
   delegate :deadline,             to: :request_for_tender
@@ -145,5 +147,17 @@ class Tender < ApplicationRecord
 
   def rate_cell?(cell_address, sheet)
     cell_address[0] == 'E' && sheet[cell_address]['v'].is_a?(Numeric)
+  end
+
+  def check_required_documents
+    return unless submitted_at.present?
+
+    request_for_tender.required_documents.each do |required_document|
+      if RequiredDocumentUpload.find_by(required_document_id:
+                                            required_document.id).nil?
+        errors.add(:required_document_uploads,
+                   messsage: "#{required_document.title} has not been uploaded. Thank you!")
+      end
+    end
   end
 end

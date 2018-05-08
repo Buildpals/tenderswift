@@ -83,7 +83,7 @@ class TenderPolicy < ApplicationPolicy
   end
 
   def submit_tender?
-    # code here
+    user.id == record.contractor.id
   end
 
   private
