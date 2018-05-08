@@ -3,6 +3,8 @@
 class CreateTenderController < QuantitySurveyorsController
   before_action :set_request_for_tender
 
+  before_action :set_policy
+
   # before_action :check_if_published
 
   def edit_tender_information
@@ -157,6 +159,12 @@ class CreateTenderController < QuantitySurveyorsController
   end
 
   private
+
+  def set_policy
+    RequestForTender.define_singleton_method(:policy_class) do
+      CreateTenderPolicy
+    end
+  end
 
   def check_if_published
     if @request_for_tender.published?

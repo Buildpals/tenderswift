@@ -3,6 +3,8 @@
 class RequestForTendersController < QuantitySurveyorsController
   before_action :set_request_for_tender, except: %i[create]
 
+  before_action :set_policy
+
   def create
     @request_for_tender = current_quantity_surveyor.request_for_tenders.new
     authorize @request_for_tender
@@ -55,6 +57,12 @@ class RequestForTendersController < QuantitySurveyorsController
   end
 
   private
+
+  def set_policy
+    RequestForTender.define_singleton_method(:policy_class) do
+      RequestForTenderPolicy
+    end
+  end
 
   def set_request_for_tender
     @request_for_tender = RequestForTender.find(params[:id])

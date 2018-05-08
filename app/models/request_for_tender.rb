@@ -4,7 +4,7 @@ class RequestForTender < ApplicationRecord
   TENDERSWIFT_CUT = 0.12
 
   scope :published, -> { where.not(published_at: nil) }
-  scope :not_published, -> { where(published: nil) }
+  scope :not_published, -> { where(published_at: nil) }
 
   serialize :contract_sum_address, Hash
 

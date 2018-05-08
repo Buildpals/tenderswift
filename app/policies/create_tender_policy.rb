@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class RequestForTenderPolicy
+class CreateTenderPolicy
   attr_reader :quantity_surveyor, :request_for_tender
 
   def initialize(quantity_surveyor, request_for_tender)
@@ -8,23 +8,59 @@ class RequestForTenderPolicy
     @request_for_tender = request_for_tender
   end
 
-  def create?
-    true
-  end
-
-  def show?
+  def edit_tender_information?
     belongs_to_quantity_surveyor?
   end
 
-  def compare_boq?
+  def update_tender_information?
     belongs_to_quantity_surveyor?
   end
 
-  def update?
+  def edit_tender_boq?
     belongs_to_quantity_surveyor?
   end
 
-  def destroy?
+  def update_tender_boq?
+    belongs_to_quantity_surveyor?
+  end
+
+  def update_contract_sum_address?
+    belongs_to_quantity_surveyor?
+  end
+
+  def edit_tender_documents?
+    belongs_to_quantity_surveyor?
+  end
+
+  def update_tender_documents?
+    belongs_to_quantity_surveyor?
+  end
+
+  def edit_tender_required_documents?
+    belongs_to_quantity_surveyor?
+  end
+
+  def update_tender_required_documents?
+    belongs_to_quantity_surveyor?
+  end
+
+  def edit_tender_payment_method?
+    belongs_to_quantity_surveyor?
+  end
+
+  def update_tender_payment_method?
+    belongs_to_quantity_surveyor?
+  end
+
+  def update_payment_details?
+    belongs_to_quantity_surveyor?
+  end
+
+  def edit_tender_contractors?
+    belongs_to_quantity_surveyor?
+  end
+
+  def update_tender_contractors?
     belongs_to_quantity_surveyor?
   end
 
