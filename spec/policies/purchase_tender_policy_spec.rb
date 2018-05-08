@@ -30,6 +30,6 @@ RSpec.describe PurchaseTenderPolicy do
     it { is_expected.to forbid_action(:portal) }
     it { is_expected.to forbid_action(:purchase) }
     it { is_expected.to forbid_action(:monitor_purchase) }
-    it { is_expected.to forbid_action(:complete_transaction) }
+    it { is_expected.to permit_action(:complete_transaction) }
   end
 end

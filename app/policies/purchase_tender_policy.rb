@@ -21,7 +21,7 @@ class PurchaseTenderPolicy
   end
 
   def complete_transaction?
-    request_for_tender_is_published?
+    true
   end
 
   private

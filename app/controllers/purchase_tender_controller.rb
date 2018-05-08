@@ -11,6 +11,8 @@ class PurchaseTenderController < ContractorsController
   ]
 
   def portal
+    authorize @request_for_tender
+
     tender = Tender.find_by(request_for_tender: @request_for_tender,
                             contractor: current_contractor)
     if tender&.purchased?
@@ -22,7 +24,7 @@ class PurchaseTenderController < ContractorsController
   end
 
   def purchase
-    authorize(current_contractor.tender)
+    authorize @request_for_tender
 
     @purchase = RequestForTenderPurchaser.new(
       contractor: current_contractor,
@@ -37,7 +39,7 @@ class PurchaseTenderController < ContractorsController
   end
 
   def monitor_purchase
-    authorize(current_contractor.tender)
+    authorize @request_for_tender
 
     @purchase = RequestForTenderPurchaser.new(
       contractor: current_contractor,
@@ -54,6 +56,8 @@ class PurchaseTenderController < ContractorsController
   end
 
   def complete_transaction
+    authorize :purchase_tender_policy, :complete_transaction?
+
     RequestForTenderPurchaser
       .complete_transaction(transaction_id: params['transaction_id'],
                             status: params['status'],
@@ -63,7 +67,7 @@ class PurchaseTenderController < ContractorsController
   private
 
   def set_policy
-    Tender.define_singleton_method(:policy_class) { PurchaseTenderPolicy }
+    RequestForTender.define_singleton_method(:policy_class) { PurchaseTenderPolicy }
   end
 
   def increment_visit_count
