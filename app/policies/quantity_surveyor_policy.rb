@@ -23,6 +23,6 @@ class QuantitySurveyorPolicy
   private
 
   def owns_quantity_surveyor_profile?
-    @quantity_surveyor = @quantity_surveyor_profile
+    @quantity_surveyor == @quantity_surveyor_profile
   end
 end
