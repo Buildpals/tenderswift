@@ -13,6 +13,8 @@ class RequiredDocumentUpload < ApplicationRecord
   delegate :quantity_surveyor, to: :tender
   delegate :title, to: :required_document
 
+  ERROR_TAG = 'Document was not added'
+
   private
 
   def check_file_extension
@@ -28,9 +30,6 @@ class RequiredDocumentUpload < ApplicationRecord
   end
 
   def throw_error
-    errors.add(
-        :document,
-        :invalid, message: 'The uploaded document should be a PDF or an Image'
-    )
+    errors.add(ERROR_TAG, '. Please upload a PDF or an Image.')
   end
 end

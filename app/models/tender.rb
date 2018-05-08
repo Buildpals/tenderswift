@@ -72,6 +72,8 @@ class Tender < ApplicationRecord
   delegate :phone_number, to: :contractor, prefix: :contractors
   delegate :email,        to: :contractor, prefix: :contractors
 
+  ERROR_TAG = 'Tender was not submitted - '
+
   def to_param
     "#{id}-#{project_name.parameterize}"
   end
@@ -155,8 +157,8 @@ class Tender < ApplicationRecord
     request_for_tender.required_documents.each do |required_document|
       if RequiredDocumentUpload.find_by(required_document_id:
                                             required_document.id).nil?
-        errors.add(:required_document_uploads,
-                   messsage: "#{required_document.title} has not been uploaded. Thank you!")
+        errors.add(ERROR_TAG,
+                   "#{required_document.title} has not been uploaded")
       end
     end
   end
