@@ -28,6 +28,9 @@ class CreateTenderController < QuantitySurveyorsController
   def edit_tender_boq
     authorize @request_for_tender
     @next_path = edit_tender_documents_path(@request_for_tender)
+    if @request_for_tender.excel_file.nil?
+      @request_for_tender.excel_file ||= ExcelFile.new
+    end
   end
 
   def update_tender_boq
@@ -219,6 +222,9 @@ class CreateTenderController < QuantitySurveyorsController
                   :account_name,
                   :account_number,
                   :private,
+                  excel_file_attributes: %i[id
+                                            document
+                                            _destroy],
                   project_documents_attributes: %i[id
                                                    document
                                                    _destroy],
