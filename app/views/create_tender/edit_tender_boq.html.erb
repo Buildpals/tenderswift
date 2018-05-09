@@ -41,9 +41,18 @@
   <div class="mb-4 d-flex w-100 justify-content-start">
     <div>
       <%= form.label :bill_of_quantities,
-                     @request_for_tender.bill_of_quantities.present? ? 'Replace' : 'Upload' %>
+                     @request_for_tender.excel_file.present? ? 'Replace' : 'Upload' %>
       <%= form.hidden_field :bill_of_quantities, id: 'workbook-data' %>
-      <%= file_field_tag :document, id: 'upload-boq', class: 'form-control-file' %>
+      <%= form.fields_for :excel_file do |excel| %>
+        <% if excel.object.document? %>
+          <%= link_to excel.object.document.file.filename, excel.object.document
+              .url, target: '_blank' %>
+        <% end %>
+        <%= excel.file_field :document, id:'upload-boq', class:
+            'form-control-file
+        form-control-sm
+         mb-2', data: { 'save-on-change': true } %>
+      <% end %>
     </div>
   </div>
 
