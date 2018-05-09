@@ -36,7 +36,7 @@
         <div class="mr-auto"></div>
         <div class="mx-3">
           <div class="font-weight-bold text-muted">Published</div>
-          <%= @request_for_tender.published_time.to_formatted_s(:short) %>
+          <%= @request_for_tender.published_at.to_formatted_s(:short) %>
         </div>
         <div class="mx-3">
             <% if deadline_over? @request_for_tender %>

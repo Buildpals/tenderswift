@@ -9,17 +9,19 @@ class RequiredDocumentUploadPolicy
   end
 
   def show?
-    owns_the_request_for_tender_for_the_required_document?
+    owns_the_request_for_tender_for_the_required_document? &&
+        @required_document_upload.tender.reviewable?
   end
 
   def approve?
-    owns_the_request_for_tender_for_the_required_document?
+    owns_the_request_for_tender_for_the_required_document? &&
+        @required_document_upload.tender.reviewable?
   end
 
   def reject?
-    owns_the_request_for_tender_for_the_required_document?
+    owns_the_request_for_tender_for_the_required_document? &&
+        @required_document_upload.tender.reviewable?
   end
-
 
   private
 

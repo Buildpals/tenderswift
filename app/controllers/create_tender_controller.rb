@@ -3,6 +3,8 @@
 class CreateTenderController < QuantitySurveyorsController
   before_action :set_request_for_tender
 
+  before_action :set_policy
+
   # before_action :check_if_published
 
   def edit_tender_information
@@ -145,8 +147,7 @@ class CreateTenderController < QuantitySurveyorsController
         if @request_for_tender.private?
           email_tenders
         else
-          @request_for_tender.update(published: true,
-                                     published_time: Time.current)
+          @request_for_tender.update(published_at: Time.current)
           redirect_to request_for_tender_path
         end
       else
@@ -158,6 +159,12 @@ class CreateTenderController < QuantitySurveyorsController
   end
 
   private
+
+  def set_policy
+    RequestForTender.define_singleton_method(:policy_class) do
+      CreateTenderPolicy
+    end
+  end
 
   def check_if_published
     if @request_for_tender.published?
@@ -177,7 +184,7 @@ class CreateTenderController < QuantitySurveyorsController
                   alert: 'You did not specify any contractors for the request.'
     else
       send_emails_to_tenders
-      @request_for_tender.update(published: true, published_time: Time.current)
+      @request_for_tender.update(published_at: Time.current)
       redirect_to @request_for_tender,
                   notice: 'An email has been sent to each contractor of this ' \
                           'request.'

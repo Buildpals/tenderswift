@@ -3,8 +3,8 @@
 class RequestForTender < ApplicationRecord
   TENDERSWIFT_CUT = 0.12
 
-  scope :published, -> { where(published: true) }
-  scope :not_published, -> { where(published: false) }
+  scope :published, -> { where.not(published_at: nil) }
+  scope :not_published, -> { where(published_at: nil) }
 
   serialize :contract_sum_address, Hash
 
@@ -72,13 +72,21 @@ class RequestForTender < ApplicationRecord
     required_documents.build(title: 'Works and Housing certificate')
     required_documents.build(title: 'Financial statements (3 years )')
     required_documents.build(
-      title: 'Bank Statement or evidence of Funding (letter of credit)'
+        title: 'Bank Statement or evidence of Funding (letter of credit)'
     )
     save!
   end
 
   def name
     "##{id} #{project_name}"
+  end
+
+  def published?
+    !published_at.nil?
+  end
+
+  def deadline_over?
+    Time.current > deadline
   end
 
   def tender_figure

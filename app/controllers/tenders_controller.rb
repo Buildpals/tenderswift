@@ -3,6 +3,8 @@
 class TendersController < ContractorsController
   before_action :set_tender
 
+  before_action :set_policy
+
   def project_information
     authorize @tender
   end
@@ -58,6 +60,10 @@ class TendersController < ContractorsController
   end
 
   private
+
+  def set_policy
+    Tender.define_singleton_method(:policy_class) { TenderPolicy }
+  end
 
   def set_tender
     @tender = Tender.find(params[:id])

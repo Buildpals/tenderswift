@@ -29,7 +29,7 @@ FactoryBot.define do
     withdrawal_frequency 1
     contract_sum_address nil
 
-    published_time '2018-03-24 08:32:51'
+    published_at '2018-03-24 08:32:51'
 
     after(:create) do |request_for_tender|
       # create tender documents (project_documents)
