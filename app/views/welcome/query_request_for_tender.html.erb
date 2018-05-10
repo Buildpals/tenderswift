@@ -8,7 +8,8 @@
               <%= form.text_field :reference_number, class: 'form-control',
                                   placeholder: 'Search' %>
             <span class="input-group-addon">
-              <%= button_tag(type: 'submit', class: 'btn btn-secondary') do %>
+              <%= button_tag(type: 'submit', class: 'btn btn-secondary',
+                             id: 'search') do %>
                 <span class="fa fa-check"></span>
               <% end %>
             </span>
