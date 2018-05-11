@@ -3,8 +3,11 @@
 Rails.application.routes.draw do
   root to: 'welcome#index'
 
-  root to: 'welcome#query_request_for_tender', constraints: { subdomain:
-                                                                  'public' }
+  get '/',
+      to: 'welcome#query_request_for_tender',
+      constraints: {
+          subdomain: 'public'
+      }
 
   #################### Quantity Surveyors Routes ##################
 
