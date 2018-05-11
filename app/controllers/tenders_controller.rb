@@ -71,14 +71,16 @@ class TendersController < ContractorsController
 
   def tender_params
     params.require(:tender)
-          .permit(other_document_uploads_attributes: %i[id
-                                                        name
-                                                        document
-                                                        _destroy],
-                  required_document_uploads_attributes: %i[id
-                                                           document
-                                                           required_document_id
-                                                           tender_id
-                                                           _destroy])
+          .permit(
+              :reference_number,
+              other_document_uploads_attributes: %i[id
+                                                    name
+                                                    document
+                                                    _destroy],
+              required_document_uploads_attributes: %i[id
+                                                       document
+                                                       required_document_id
+                                                       tender_id
+                                                       _destroy])
   end
 end

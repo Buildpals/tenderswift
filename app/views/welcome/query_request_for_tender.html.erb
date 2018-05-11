@@ -1,0 +1,42 @@
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12">
+      <div id="imaginary_container">
+        <h3 class="text-center">Find a request for tender</h3>
+        <%= form_with url: find_request_for_tender_path, local: true do |form| %>
+          <div class="input-group stylish-input-group">
+              <%= form.text_field :reference_number, class: 'form-control',
+                                  placeholder: 'Search' %>
+            <span class="input-group-addon">
+              <%= button_tag(type: 'submit', class: 'btn btn-secondary',
+                             id: 'search') do %>
+                <span class="fa fa-check"></span>
+              <% end %>
+            </span>
+          </div>
+        <% end %>
+        <h3 class="text-center home-link">
+          <%= link_to 'Visit our homepage', root_path, class: 'btn
+          btn-success' %>
+        </h3>
+      </div>
+    </div>
+  </div>
+</div>
+<style>
+  #imaginary_container {
+    margin-top: 5%; /* Don't copy this */
+  }
+  .stylish-input-group .input-group-addon {
+    background: white !important;
+  }
+
+  .stylish-input-group .form-control {
+    border-right: 0;
+    box-shadow: 0 0 0;
+    border-color: #ccc;
+  }
+    .home-link{
+      margin-top: 10%;
+    }
+</style>

@@ -3,6 +3,9 @@
 Rails.application.routes.draw do
   root to: 'welcome#index'
 
+  root to: 'welcome#query_request_for_tender', constraints: { subdomain:
+                                                                  'public' }
+
   #################### Quantity Surveyors Routes ##################
 
   devise_for :quantity_surveyors, path: 'quantity_surveyors', controllers: {
@@ -142,6 +145,14 @@ Rails.application.routes.draw do
       as: :contractor_root
 
   resources :contractors, only: %i[edit update]
+
+  get '/query/request_for_tender',
+      to: 'welcome#query_request_for_tender',
+      as: :query_request_for_tender
+
+  post '/query',
+       to: 'welcome#find_request_for_tender',
+       as: :find_request_for_tender
 
   # Routes for purchase_tender
 
