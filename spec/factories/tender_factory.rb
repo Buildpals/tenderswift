@@ -24,14 +24,22 @@ FactoryBot.define do
 
 
     trait :purchased do
-      purchase_request_sent_at Time.current
+      purchase_request_sent_at Time.current - 2.hours
       purchase_request_status :success
       purchase_request_message 'Successful transaction'
       purchased_at Time.current
     end
 
     trait :submitted do
-      submitted_at Time.current
+      submitted_at Time.current - 1.hours
+
+      after(:create) do |tender|
+        tender.request_for_tender.required_documents.each do |required_document|
+          create(:required_document_upload,
+                 tender: tender,
+                 required_document: required_document)
+        end
+      end
     end
 
     factory :purchased_tender, traits: [:purchased]
