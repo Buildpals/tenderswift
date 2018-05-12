@@ -84,7 +84,9 @@ RSpec.feature 'Purchased tender document' do
 
     expect(page).to have_content purchased_tender_document.description
 
-    purchased_tender_document.required_documents.each do |required_document|
+    purchased_tender_document
+        .request_for_tender
+        .required_documents.each do |required_document|
       expect(page).to have_content required_document.title
     end
 

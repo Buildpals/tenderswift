@@ -29,8 +29,7 @@ RSpec.describe TenderPolicy do
           'the tender has not been purchased, ' \
           'the tender has been submitted' do
     let(:tender) do
-      FactoryBot.create(:tender,
-                        submitted_at: Time.current - 1.hours)
+      FactoryBot.create(:tender, :submitted)
     end
 
     it { is_expected.to forbid_action(:project_information) }
@@ -66,7 +65,7 @@ RSpec.describe TenderPolicy do
           'the tender has been submitted' do
     let(:tender) do
       FactoryBot.create(:purchased_tender,
-                        submitted_at: Time.current - 1.hours)
+                        :submitted)
     end
 
     it { is_expected.to forbid_action(:project_information) }
@@ -103,8 +102,8 @@ RSpec.describe TenderPolicy do
           'the tender has been submitted' do
     let(:tender) do
       FactoryBot.create(:tender,
-                        contractor: contractor,
-                        submitted_at: Time.current - 1.hours)
+                        :submitted,
+                        contractor: contractor)
     end
 
     it { is_expected.to forbid_action(:project_information) }
@@ -140,9 +139,10 @@ RSpec.describe TenderPolicy do
           'the tender has been purchased, ' \
           'the tender has been submitted' do
     let(:tender) do
-      FactoryBot.create(:purchased_tender,
-                        contractor: contractor,
-                        submitted_at: Time.current - 1.hours)
+      FactoryBot.create(:tender,
+                        :purchased,
+                        :submitted,
+                        contractor: contractor)
     end
 
     it { is_expected.to permit_action(:project_information) }

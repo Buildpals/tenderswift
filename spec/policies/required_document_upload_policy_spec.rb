@@ -39,9 +39,9 @@ RSpec.describe RequiredDocumentUploadPolicy do
 
     let(:tender) do
       FactoryBot.create(:tender,
-                        request_for_tender: request_for_tender,
-                        purchased_at: Time.current - 2.days,
-                        submitted_at: Time.current - 1.days)
+                        :purchased,
+                        :submitted,
+                        request_for_tender: request_for_tender)
     end
 
     let(:required_document_upload) do
@@ -88,9 +88,9 @@ RSpec.describe RequiredDocumentUploadPolicy do
 
     let(:tender) do
       FactoryBot.create(:tender,
-                        request_for_tender: request_for_tender,
-                        purchased_at: Time.current - 2.days,
-                        submitted_at: Time.current - 1.days)
+                        :purchased,
+                        :submitted,
+                        request_for_tender: request_for_tender)
     end
 
     let(:required_document_upload) do
