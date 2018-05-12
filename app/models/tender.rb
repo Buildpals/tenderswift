@@ -44,6 +44,8 @@ class Tender < ApplicationRecord
 
   validate :check_required_documents
 
+  validates :amount, presence: true, if: :purchasing?
+
   delegate :project_name,         to: :request_for_tender
   delegate :deadline,             to: :request_for_tender
   delegate :city,                 to: :request_for_tender
@@ -141,6 +143,10 @@ class Tender < ApplicationRecord
   end
 
   private
+
+  def purchasing?
+    !purchased_at.nil?
+  end
 
   def strip_qs_rates(workbook)
     workbook['Sheets'].each_value do |sheet|
