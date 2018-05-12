@@ -25,7 +25,7 @@ function showPurchaseInProgress (loadingMessage) {
   // Use setTimeout to prevent race-condition when Rails re-enables the button
   setTimeout(function () {
     purchaseButton.dataset.disableWith
-        = '<i class=\'fa fa-spinner fa-spin\'></i>' + loadingMessage
+        = '<i class=\'fa fa-spinner fa-spin\'></i> &nbsp;' + loadingMessage
     window.Rails.disableElement(purchaseButton)
   }, 10)
 }
