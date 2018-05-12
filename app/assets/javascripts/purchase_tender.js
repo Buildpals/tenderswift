@@ -1,4 +1,14 @@
 $(document).on('turbolinks:load', function () {
+  $('#network_code')
+    .change(function () {
+      console.log($(this).val() === 'VOD')
+      if ($(this).val() === 'VOD') {
+        showVoucherCode()
+      } else {
+        hideVoucherCode()
+      }
+    })
+
   $('#purchase-form')
     .on('ajax:before', function () {
       showPurchaseInProgress('Sending purchase request...')
@@ -12,7 +22,13 @@ $(document).on('turbolinks:load', function () {
 
 
 
+function showVoucherCode () {
+  $('#voucher-field-group').removeClass('d-none')
+}
 
+function hideVoucherCode () {
+  $('#voucher-field-group').addClass('d-none')
+}
 
 function showPurchaseInProgress (loadingMessage) {
   console.log('showPurchaseInProgress', loadingMessage)
