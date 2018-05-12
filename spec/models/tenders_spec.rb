@@ -22,5 +22,12 @@ RSpec.describe Tender, type: :model do
         tender2.save(validate: false)
       end .to raise_error(ActiveRecord::RecordNotUnique)
     end
+
+    it 'should validate presence of amount field if purchased_at is set' do
+      tender = FactoryBot.create(:tender)
+      expect { tender.update!(purchased_at: Time.current) }
+          .to raise_error(ActiveRecord::RecordInvalid,
+                          'Validation failed: Amount can\'t be blank')
+    end
   end
 end
