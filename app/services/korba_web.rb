@@ -15,25 +15,20 @@ class KorbaWeb
 
   CALLBACK_URL = 'https://app.tenderswift.com/purchase_tender/complete_transaction'
 
-  def initialize(payload)
-    @payload = payload
+  def initialize
   end
 
-  def self.build(transaction_params)
-    KorbaWeb.new(
-      customer_number: transaction_params[:customer_number],
-      amount: transaction_params[:amount],
-      transaction_id: transaction_params[:transaction_id],
+  def call(transaction_params)
+  send_request_to_korba_web(
+      customer_number: transaction_params[:customer_number] || '',
+      amount: transaction_params[:amount] || '',
+      transaction_id: transaction_params[:transaction_id] || '',
       client_id: CLIENT_ID,
-      network_code: transaction_params[:network_code],
+      network_code: transaction_params[:network_code] || '',
       callback_url: CALLBACK_URL,
-      description: transaction_params[:description],
-      vodafone_voucher_code: transaction_params[:vodafone_voucher_code]
-    )
-  end
-
-  def call
-    send_request_to_korba_web(@payload)
+      description: transaction_params[:description] || '',
+      vodafone_voucher_code: transaction_params[:vodafone_voucher_code] || ''
+  )
   end
 
   private
@@ -50,7 +45,7 @@ class KorbaWeb
       req.body = json_document
     end
 
-    response_as_hash(response.body)
+    process_response(response.body)
   end
 
   def faraday_connection
@@ -67,15 +62,41 @@ class KorbaWeb
     auth_signature(message)
   end
 
-  def response_as_hash(response)
+  def process_response(response)
+    response = JSON.parse(response)
     if response['success']
       OpenStruct.new(success?: true,
                      redirect_url: response['redirect_url'],
                      results: response['results'])
     else
-      OpenStruct.new(success?: false,
-                     error_code: response['error_code'],
-                     error_message: response['error_message'])
+      case response['error_code']
+      when 400
+        raise MissingCustomerNumberError, response['error_message']
+      when 401, 411
+        raise MissingTransactionIdError, response['error_message']
+      when 402
+        raise MissingAmountError, response['error_message']
+      when 403
+        raise MissingWalletCodeError, response['error_message']
+      when 404
+        raise MissingCallbackUrlError, response['error_message']
+      when 405
+        raise InvalidNetworkCodeError, response['error_message']
+      when 406
+        raise MissingVoucherCodeError, response['error_message']
+      when 407
+        raise DuplicateTransactionIdError, response['error_message']
+      when 408
+        raise InvalidCallbackUrlError, response['error_message']
+      when 409
+        raise InvalidAmountError, response['error_message']
+      when 410
+        raise InvalidCustomerNumberError, response['error_message']
+      when 500
+        raise KorbaWebInternalServerError, response['error_message']
+      else
+        raise KorbaWebError, response['error_message'] || response['detail']
+      end
     end
   end
 
@@ -88,5 +109,47 @@ class KorbaWeb
   def auth_signature(message)
     digest = OpenSSL::HMAC.hexdigest('SHA256', SECRET_KEY, message)
     "HMAC #{CLIENT_KEY}:#{digest}"
+  end
+
+  class KorbaWebError < RuntimeError
+  end
+
+  class MissingCustomerNumberError < KorbaWebError
+  end
+
+  class MissingTransactionIdError < KorbaWebError
+  end
+
+  class MissingAmountError < KorbaWebError
+  end
+
+  class MissingWalletCodeError < KorbaWebError
+  end
+
+  class MissingCallbackUrlError < KorbaWebError
+  end
+
+  class InvalidNetworkCodeError < KorbaWebError
+  end
+
+  class MissingVoucherCodeError < KorbaWebError
+  end
+
+  class DuplicateTransactionIdError < KorbaWebError
+  end
+
+  class InvalidAmountError < KorbaWebError
+  end
+
+  class InvalidCallbackUrlError < KorbaWebError
+  end
+
+  class InvalidCustomerNumberError < KorbaWebError
+  end
+
+  class KorbaWebInternalServerError < KorbaWebError
+  end
+
+  class KorbaWebOffline < KorbaWebError
   end
 end
