@@ -8,6 +8,12 @@ Rails.application.routes.draw do
           subdomain: 'public'
       }
 
+  get '/:id',
+      to: 'purchase_tender#portal',
+      constraints: {
+          subdomain: 'public'
+      }
+
   root to: 'welcome#index'
 
   #################### Quantity Surveyors Routes ##################
