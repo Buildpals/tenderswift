@@ -11,7 +11,7 @@ FactoryBot.define do
     disqualified false
 
     customer_number '0509825831'
-    amount 100.00
+    amount nil
     network_code 'VOD'
     vodafone_voucher_code '434335'
 

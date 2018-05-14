@@ -26,12 +26,11 @@ class PurchaseTenderController < ContractorsController
   def purchase
     authorize @request_for_tender
 
-    @purchase = RequestForTenderPurchaser.new(
+    @purchaser = RequestForTenderPurchaser.build(
       contractor: current_contractor,
       request_for_tender: @request_for_tender
     )
-
-    if @purchase.purchase(payment_params)
+    if @purchaser.purchase(payment_params)
       render 'monitor_purchase'
     else
       render 'purchase_tender_error'
@@ -41,12 +40,12 @@ class PurchaseTenderController < ContractorsController
   def monitor_purchase
     authorize @request_for_tender
 
-    @purchase = RequestForTenderPurchaser.new(
+    @purchaser = RequestForTenderPurchaser.build(
       contractor: current_contractor,
       request_for_tender: @request_for_tender
     )
 
-    if @purchase.payment_confirmed?
+    if @purchaser.payment_confirmed?
       flash[:notice] = 'You have purchased this tender successfully'
       flash.keep(:notice) # Keep flash notice around for the redirect.
       render js: "window.location = '#{contractor_root_path}'"
