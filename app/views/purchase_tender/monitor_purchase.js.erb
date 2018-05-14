@@ -1,7 +1,8 @@
-// TODO: Show some form of progress bar
+showPurchaseInProgress('Please confirm the purchase on your phone...')
 setTimeout(function checkOnPayment() {
-    $.get('<%= monitor_purchase_path(@purchase.request_for_tender) %>')
-        .done(function (data) {
-            console.log(data)
-        });
+    $.get('<%= monitor_purchase_path(@purchaser.request_for_tender) %>')
+      .fail(function (error) {
+        console.log(error)
+        showPurchaseError('Sorry, something went wrong')
+      })
 }, 5000)
