@@ -91,7 +91,7 @@ RSpec.feature 'Purchasing a tender' do
 
     expect(page).to have_content @tender.description
 
-    @tender.required_documents.each do |required_document|
+    @tender.request_for_tender.required_documents.each do |required_document|
       expect(page).to have_content required_document.title
     end
 
@@ -120,7 +120,7 @@ RSpec.feature 'Purchasing a tender' do
   def and_they_should_be_able_to_see_the_tenders_required_documents
     click_link '4. Upload Documents'
 
-    @tender.required_documents.each do |required_documents|
+    @tender.request_for_tender.required_documents.each do |required_documents|
       expect(page).to have_content required_documents.title
     end
   end
@@ -142,10 +142,10 @@ RSpec.feature 'Purchasing a tender' do
 
   def and_they_have_purchased_a_particular_tender
     @invitation_to_tender = FactoryBot.create(:request_for_tender)
-    Tender.create(request_for_tender: @invitation_to_tender,
-                  contractor: @signed_up_contractor,
-                  purchase_request_sent_at: Time.current,
-                  purchased_at: Time.current)
+    FactoryBot.create(:tender,
+                      :purchased,
+                      request_for_tender: @invitation_to_tender,
+                      contractor: @signed_up_contractor)
   end
 
   def when_they_go_to_the_purchase_tender_page_for_that_particular_tender
