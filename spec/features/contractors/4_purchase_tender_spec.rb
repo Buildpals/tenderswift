@@ -61,7 +61,7 @@ RSpec.feature 'Purchasing a tender' do
     click_button id: 'purchase-button'
 
     within :css, '#paymentModal' do
-      select 'MTN Mobile Money', from: 'Mode of payment'
+      select 'Vodafone Cash', from: 'Mode of payment'
       fill_in 'Mobile money number', with: @signed_up_contractor.phone_number
       fill_in 'Voucher code', with: '123456'
       click_button 'Purchase'
@@ -69,7 +69,9 @@ RSpec.feature 'Purchasing a tender' do
   end
 
   def then_they_should_find_the_request_for_tender_in_their_purchased_tenders
-    within :css, '#purchased-tenders', wait: 40 do
+    expect(page).to have_current_path(contractor_root_path, wait: 40)
+
+    within :css, '#purchased-tenders' do
       expect(page).to have_content @invitation_to_tender.project_name
     end
   end

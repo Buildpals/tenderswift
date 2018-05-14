@@ -59,8 +59,8 @@ class RequestForTenderPurchaser
   def payment_confirmed?
     @tender = Tender.find_by(request_for_tender: @request_for_tender,
                              contractor: @contractor)
-
-    if Rails.env.development? && purchase_timed_out?(@tender)
+    if Rails.env.development? || Rails.env.test? &&
+        purchase_timed_out?(@tender)
       @tender.update!(purchased_at: Time.current,
                       purchase_request_status: :success,
                       purchase_request_message: 'Automatically purchased in development mode')
