@@ -24,7 +24,7 @@
       Please note that your rates and estimated tender figure are private, and will NEVER be displayed to any contractor.
     </strong>
   </p>
-
+upload-boq
   <% if @request_for_tender.bill_of_quantities.present? %>
     <div id='hello' class="mb-5">
       <upload-boq
@@ -45,13 +45,15 @@
       <%= form.hidden_field :bill_of_quantities, id: 'workbook-data' %>
       <%= form.fields_for :excel_file do |excel| %>
         <% if excel.object.document? %>
-          <%= link_to excel.object.document.file.filename, excel.object.document
-              .url, target: '_blank' %>
+          <%= link_to excel.object.document.file.filename,
+                      excel.object.document.url,
+                      target: '_blank',
+                      id: 'uploaded-boq' %>
         <% end %>
-        <%= excel.file_field :document, id:'upload-boq', class:
-            'form-control-file
-        form-control-sm
-         mb-2', data: { 'save-on-change': true } %>
+        <%= excel.file_field :document,
+                             id:'upload-boq',
+                             class: 'form-control-file form-control-sm mb-2',
+                             data: { 'save-on-change': true } %>
       <% end %>
     </div>
   </div>

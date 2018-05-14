@@ -39,6 +39,15 @@ RSpec.feature 'Create request for tender' do
     # and_the_contractor_should_be_able_to_see_the_purchase_page_of_the_request_for_tender
   end
 
+  scenario 'should save boq in cloud' do
+    given_a_quantity_surveyor_has_logged_in
+    and_has_created_a_request_for_tender
+    and_has_added_the_general_information
+    and_has_uploaded_the_bill_of_quantities
+    click_button 'Back', match: :first
+    expect(page).to have_link 'uploaded-boq'
+  end
+
   def given_a_quantity_surveyor_has_logged_in
     @quantity_surveyor = FactoryBot.create(:quantity_surveyor)
     login_as @quantity_surveyor, scope: :quantity_surveyor
