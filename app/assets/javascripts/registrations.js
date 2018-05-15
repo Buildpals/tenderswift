@@ -1,12 +1,5 @@
 $(document).on("turbolinks:load", function () {
-    if ($(".registrations.new, .quantity_surveyors.edit").length === 0) return;
-
-
-    // $('#new_quantity_surveyor').parsley().on('field:validated', function() {
-    //     var ok = $('.parsley-error').length === 0;
-    //     $('.bs-callout-info').toggleClass('hidden', !ok);
-    //     $('.bs-callout-warning').toggleClass('hidden', ok);
-    // });
+    if ($(".registrations.new, .quantity_surveyors.edit, .contractors.edit").length === 0) return;
 
     let input = $("#phone_number_input");
     input.intlTelInput({
@@ -17,5 +10,6 @@ $(document).on("turbolinks:load", function () {
     $("form").submit(function() {
         let intlNumber = input.intlTelInput("getNumber");
         $("#quantity_surveyor_phone_number").val(intlNumber);
+        $("#contractor_phone_number").val(intlNumber);
     });
 });

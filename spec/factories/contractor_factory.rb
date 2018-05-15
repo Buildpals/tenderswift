@@ -3,7 +3,7 @@ FactoryBot.define do
     sequence(:company_name) { |n| "Test #{n} Construction Limited" }
     sequence(:full_name) { |n| "Test Anane #{n}" }
     sequence(:email) { |n| "test#{n}@gmail.com" }
-    phone_number '0500011505'
+    sequence(:phone_number) { |n| "050 001 150#{n}" }
     password 'password'
     confirmed_at Time.current
 

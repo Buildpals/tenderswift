@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.feature 'Contractor authentication', type: :feature do
+RSpec.feature 'Contractor authentication', type: :feature, js: true do
   let(:new_contractor) { FactoryBot.build(:contractor) }
   let(:existing_contractor) { FactoryBot.create(:contractor) }
 
@@ -20,15 +20,24 @@ RSpec.feature 'Contractor authentication', type: :feature do
     click_button 'Sign up'
 
     should_have_dashboard_content_for new_contractor
-    expect(page).to have_content 'Welcome! You have signed up successfully.'
+    expect(page)
+        .to have_content 'Welcome! You have signed up successfully.'
 
     click_link 'Account Information'
 
     expect(page).to have_content 'Account Information'
-    expect(page).to have_field 'Full name', with: new_contractor.full_name
-    expect(page).to have_field 'Email', with: new_contractor.email
-    expect(page).to have_field 'Phone number', with: new_contractor.phone_number
-    expect(page).to have_field 'Company name', with: new_contractor.company_name
+
+    expect(page).to have_field 'Full name',
+                               with: new_contractor.full_name
+
+    expect(page).to have_field 'Email',
+                               with: new_contractor.email
+
+    expect(page).to have_field 'Phone number',
+                               with: new_contractor.phone_number
+
+    expect(page).to have_field 'Company name',
+                               with: new_contractor.company_name
 
     expect(page).to have_css('#company_logo_image')
   end
@@ -48,6 +57,7 @@ RSpec.feature 'Contractor authentication', type: :feature do
 
     visit contractor_root_path
 
+    click_link existing_contractor.company_name
     click_link 'Logout'
 
     should_see_contractor_sign_in_page
@@ -56,6 +66,7 @@ RSpec.feature 'Contractor authentication', type: :feature do
   def should_have_dashboard_content_for(contractor)
     expect(page).to have_content 'Home'
     expect(page).to have_content contractor.company_name
+    click_link contractor.company_name
     expect(page).to have_content 'Account Information'
     expect(page).to have_content 'Logout'
     expect(page).to have_content 'Invitations To Tender'

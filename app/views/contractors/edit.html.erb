@@ -22,7 +22,12 @@
             <%= f.label :full_name, class: 'col-sm-3 col-form-label' %>
 
             <div class="col-sm-9">
-              <%= f.text_field :full_name, id: :contractor_full_name, placeholder: 'Your name', autofocus: true, class: 'form-control', required: true %>
+              <%= f.text_field :full_name,
+                               id: :contractor_full_name,
+                               placeholder: 'Your name',
+                               autofocus: true,
+                               class: 'form-control',
+                               required: true %>
             </div>
           </div>
 
@@ -30,7 +35,10 @@
             <%= f.label :email, class: 'col-sm-3 col-form-label' %>
 
             <div class="col-sm-9">
-              <%= f.email_field :email, id: :contractor_email, autofocus: true, class: 'form-control' %>
+              <%= f.email_field :email,
+                                id: :contractor_email,
+                                autofocus: true,
+                                class: 'form-control' %>
             </div>
           </div>
 
@@ -38,7 +46,15 @@
             <%= f.label :phone_number, class: 'col-sm-3 col-form-label' %>
 
             <div class="col-sm-9">
-              <%= f.telephone_field :phone_number, id: :contractor_phone_number, placeholder: :phone_number, autocomplete: "on", class: 'form-control', required: true %>
+              <input type="tel"
+                     name="phone"
+                     id="phone_number_input"
+                     value="<%= current_contractor.phone_number %>"
+                     placeholder="Phone number"
+                     autocomplete="on"
+                     required
+                     class="form-control">
+              <%= f.hidden_field :phone_number %>
             </div>
           </div>
 
@@ -46,7 +62,12 @@
             <%= f.label :company_name, class: 'col-sm-3 col-form-label' %>
 
             <div class="col-sm-9">
-              <%= f.text_field :company_name, id: :contractor_company_name, placeholder: :company_name, autocomplete: "on", class: 'form-control', required: true %>
+              <%= f.text_field :company_name,
+                               id: :contractor_company_name,
+                               placeholder: :company_name,
+                               autocomplete: "on",
+                               class: 'form-control',
+                               required: true %>
             </div>
           </div>
 
@@ -55,17 +76,28 @@
 
             <div class="col-sm-9">
               <% if f.object.company_logo? %>
-                <img class="img-fluid mb-2" id="company_logo_image" style="height: 100px;"
-                     src="<%= f.object.company_logo.url %>" alt="<%= f.object.company_logo.file.filename %>">
-                <%= f.file_field :company_logo, id: :contractor_company_logo, placeholder: :company_logo, class: 'form-control-file' %>
+                <img class="img-fluid mb-2"
+                     id="company_logo_image"
+                     style="height: 100px;"
+                     src="<%= f.object.company_logo.url %>"
+                     alt="<%= f.object.company_logo.file.filename %>">
+                <%= f.file_field :company_logo,
+                                 id: :contractor_company_logo,
+                                 placeholder: :company_logo,
+                                 class: 'form-control-file' %>
               <% else %>
-                <%= f.file_field :company_logo, id: :contractor_company_logo, placeholder: :company_logo, class: 'form-control-file', required: true %>
+                <%= f.file_field :company_logo,
+                                 id: :contractor_company_logo,
+                                 placeholder: :company_logo,
+                                 class: 'form-control-file',
+                                 required: true %>
               <% end %>
             </div>
           </div>
 
           <div class="actions d-flex w-100 justify-content-end">
-            <%= f.submit 'Update Account Information', class: 'btn btn-primary' %>
+            <%= f.submit 'Update Account Information',
+                         class: 'btn btn-primary' %>
           </div>
 
         <% end %>
@@ -75,7 +107,9 @@
       <div class="mb-5">
         <h3>Change Password</h3>
         <hr>
-        <a href="<%= edit_contractor_registration_path(current_contractor) %>">Change Password</a>
+        <a href="<%= edit_contractor_registration_path(current_contractor) %>">
+          Change Password
+        </a>
       </div>
 
     </div>
