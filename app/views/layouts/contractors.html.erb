@@ -1,7 +1,5 @@
-<% unless current_contractor.nil? %>
-  <% content_for :title do %>
-      <%= current_contractor.company_name %>
-  <% end %>
+<% content_for :title do %>
+    <%= current_contractor.company_name %>
 <% end %>
 
 <!DOCTYPE html>
@@ -17,9 +15,7 @@
 
     <div class="content">
 
-      <% unless current_contractor.nil? %>
-        <%= render 'contractors/page_head' %>
-      <% end %>
+      <%= render 'contractors/page_head' %>
 
       <%= yield %>
 
