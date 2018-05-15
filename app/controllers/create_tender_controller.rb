@@ -135,29 +135,18 @@ class CreateTenderController < QuantitySurveyorsController
 
   def edit_tender_contractors
     authorize @request_for_tender
-    if @request_for_tender.contractors.empty?
-      5.times { @request_for_tender.contractors.build }
-    end
-    @tender = Tender.build_fake_tender(@request_for_tender)
   end
 
   def update_tender_contractors
     authorize @request_for_tender
-    if @request_for_tender.update(request_params)
-      if params[:commit] == 'Back'
-        redirect_to edit_tender_payment_method_path(@request_for_tender)
-      elsif params[:commit] == 'Publish'
-        if @request_for_tender.private?
-          email_tenders
-        else
-          @request_for_tender.update(published_at: Time.current)
-          redirect_to request_for_tender_path
-        end
-      else
-        redirect_to edit_tender_contractors_path
-      end
+    @request_for_tender.update!(published_at: Time.current)
+
+    if params[:commit] == 'Back'
+      redirect_to edit_tender_payment_method_path(@request_for_tender)
+    elsif params[:commit] == 'Publish'
+      redirect_to request_for_tender_path(@request_for_tender)
     else
-      render :edit_tender_contractors
+      redirect_to edit_tender_contractors_path
     end
   end
 
@@ -177,32 +166,8 @@ class CreateTenderController < QuantitySurveyorsController
     end
   end
 
-  def email_tenders
-    if @request_for_tender.published?
-      redirect_to @request_for_tender,
-                  notice: 'The contractors of this request have been ' \
-                          'contacted already'
-    elsif @request_for_tender.tenders.empty?
-      redirect_to edit_tender_contractors_path(@request_for_tender),
-                  alert: 'You did not specify any contractors for the request.'
-    else
-      send_emails_to_tenders
-      @request_for_tender.update(published_at: Time.current)
-      redirect_to @request_for_tender,
-                  notice: 'An email has been sent to each contractor of this ' \
-                          'request.'
-    end
-  end
-
   def set_request_for_tender
     @request_for_tender = RequestForTender.find(params[:id])
-  end
-
-  def send_emails_to_tenders
-    @request_for_tender.tenders.each do |tender|
-      ContractorMailer
-        .request_for_tender_email(tender, @request_for_tender).deliver_later
-    end
   end
 
   def request_params
@@ -229,11 +194,6 @@ class CreateTenderController < QuantitySurveyorsController
                                                    document
                                                    _destroy],
                   contract_sum_address: %i[sheet cellAddress],
-                  contractors_attributes: %i[id
-                                             email
-                                             phone_number
-                                             company_name
-                                             _destroy],
                   required_documents_attributes: %i[id
                                                     title
                                                     _destroy])

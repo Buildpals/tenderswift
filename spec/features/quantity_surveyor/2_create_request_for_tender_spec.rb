@@ -75,6 +75,9 @@ RSpec.feature 'Create request for tender', js: true do
       'request_for_tender_project_documents_attributes_0_document',
       Rails.root + 'spec/fixtures/Contract Documents.doc'
     )
+    click_button 'Save', match: :first
+
+    expect(page).to have_link 'request_for_tender_project_document_0', wait: 10
     click_button 'Next', match: :first
   end
 
@@ -120,8 +123,10 @@ RSpec.feature 'Create request for tender', js: true do
   end
 
   def and_the_request_for_tender_should_have_a_purchase_tender_page
-    click_link :public_web_address
-    should_have_content_of_request_for_tender
+    new_window = window_opened_by { click_link :purchase_link }
+    within_window new_window do
+      should_have_content_of_request_for_tender
+    end
   end
 
   def and_the_request_for_tender_should_appear_in_their_published_tenders
