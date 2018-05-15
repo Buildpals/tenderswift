@@ -2,10 +2,10 @@
 
 require 'rails_helper'
 
-RSpec.feature 'Create request for tender' do
+RSpec.feature 'Create request for tender', js: true do
   include RequestForTendersHelper
 
-  scenario 'should publish a public request for tender successfully', js: true do
+  scenario 'should publish a public request for tender successfully' do
     given_a_quantity_surveyor_has_logged_in
     and_has_created_a_request_for_tender
     and_has_added_the_general_information
@@ -19,24 +19,6 @@ RSpec.feature 'Create request for tender' do
     then_it_should_take_them_to_the_monitor_request_for_tender_page
     and_the_request_for_tender_should_have_a_purchase_tender_page
     and_the_request_for_tender_should_appear_in_their_published_tenders
-  end
-
-  scenario 'should publish a private request for tender successfully', js: true do
-    given_a_quantity_surveyor_has_logged_in
-    and_has_created_a_request_for_tender
-    and_has_added_the_general_information
-    and_has_uploaded_the_bill_of_quantities
-    and_has_uploaded_the_tender_documents
-    and_has_added_the_tendering_instructions
-    and_has_added_the_payment_information
-
-    skip 'Implementation not finished'
-    # when_they_publish_it_as_a_private_tender
-    #
-    # then_it_should_take_them_to_the_monitor_request_for_tender_page
-    # and_the_request_for_tender_should_appear_in_their_published_tenders
-    # and_the_contractor_should_receive_an_email_of_the_request_for_tender
-    # and_the_contractor_should_be_able_to_see_the_purchase_page_of_the_request_for_tender
   end
 
   def given_a_quantity_surveyor_has_logged_in
@@ -60,12 +42,17 @@ RSpec.feature 'Create request for tender' do
 
     select @request_for_tender.deadline.strftime('%-d'),
            from: 'request_for_tender_deadline_3i'
+
     select @request_for_tender.deadline.strftime('%B'),
            from: 'request_for_tender_deadline_2i'
+
     select @request_for_tender.deadline.strftime('%Y'),
            from: 'request_for_tender_deadline_1i'
-    select "#{@request_for_tender.deadline.strftime('%I')} #{@request_for_tender.deadline.strftime('%p')}",
+
+    select "#{@request_for_tender.deadline.strftime('%I')} " \
+           "#{@request_for_tender.deadline.strftime('%p')}",
            from: 'request_for_tender_deadline_4i'
+
     select @request_for_tender.deadline.strftime('%M'),
            from: 'request_for_tender_deadline_5i'
 
@@ -77,8 +64,9 @@ RSpec.feature 'Create request for tender' do
   end
 
   def and_has_uploaded_the_bill_of_quantities
-    attach_file('upload-boq', Rails.root + 'spec/fixtures/bill_of_quantities.xlsx')
-    # expect(page).to have_content 'Estimated Tender Figure:'
+    attach_file('upload-boq',
+                Rails.root + 'spec/fixtures/bill_of_quantities.xlsx')
+    expect(page).to have_link 'uploaded-boq', wait: 10
     click_button 'Next', match: :first
   end
 
@@ -91,7 +79,7 @@ RSpec.feature 'Create request for tender' do
   end
 
   def and_has_added_the_tendering_instructions
-    editor = page.find('trix-editor')
+    editor = page.find(:css, '.trix-content')
     editor.click.set(@request_for_tender.tender_instructions)
     click_button 'Next', match: :first
   end
@@ -107,7 +95,9 @@ RSpec.feature 'Create request for tender' do
   end
 
   def when_they_publish_it_as_a_public_tender
-    click_button 'Publish', match: :first
+    accept_confirm do
+      click_button 'Publish', match: :first
+    end
   end
 
   def when_they_publish_it_as_a_private_tender
@@ -144,14 +134,6 @@ RSpec.feature 'Create request for tender' do
     end
   end
 
-  def and_the_contractor_should_receive_an_email_of_the_request_for_tender
-    # TODO: code here
-  end
-
-  def and_the_contractor_should_be_able_to_see_the_purchase_page_of_the_request_for_tender
-    # TODO: code here
-  end
-
   private
 
   def should_have_content_of_request_for_tender
@@ -169,7 +151,6 @@ RSpec.feature 'Create request for tender' do
       expect(page).to have_content required_document.title
     end
 
-    # TODO: Fix setting and checking for tender_instructions
-    # expect(page).to have_content @request_for_tender.tender_instructions
+    expect(page).to have_content @request_for_tender.tender_instructions
   end
 end

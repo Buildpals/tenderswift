@@ -45,8 +45,10 @@
       <%= form.hidden_field :bill_of_quantities, id: 'workbook-data' %>
       <%= form.fields_for :excel_file do |excel| %>
         <% if excel.object.document? %>
-          <%= link_to excel.object.document.file.filename, excel.object.document
-              .url, target: '_blank' %>
+          <%= link_to excel.object.document.file.filename,
+                      excel.object.document.url,
+                      target: '_blank',
+                      id: 'uploaded-boq' %>
         <% end %>
         <%= excel.file_field :document, id:'upload-boq', class:
             'form-control-file
