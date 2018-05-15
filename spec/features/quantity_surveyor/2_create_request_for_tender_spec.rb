@@ -139,7 +139,7 @@ RSpec.feature 'Create request for tender' do
   end
 
   def and_the_request_for_tender_should_have_a_purchase_tender_page
-    click_link :public_web_address
+    click_link :purchase_link
     should_have_content_of_request_for_tender
   end
 

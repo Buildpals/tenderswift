@@ -3,16 +3,18 @@
     <h5><%= @request_for_tender.project_name %></h5>
   </div>
   <ul class="list-group list-group-flush">
-    <li class="list-group-item small">
-      <% if @request_for_tender.private? %>
-        <strong>Private tender</strong>
-        (all tenders have to be invited via email here)
-      <% else %>
-        <strong>Public web address</strong>
-        <%= link_to purchase_tender_url(@request_for_tender), purchase_tender_url(@request_for_tender),
+    <li class="list-group-item d-flex justify-content-between small">
+      <div>
+        <strong>Reference number: </strong>
+        <%= @request_for_tender.id %>
+      </div>
+      <div>
+        <strong>Purchase link: </strong>
+        <%= link_to purchase_url(@request_for_tender),
+                    purchase_url(@request_for_tender),
                     target: '_blank',
-                    id: :public_web_address %>
-      <% end %>
+                    id: :purchase_link %>
+      </div>
     </li>
 
     <li class="list-group-item bg-primary d-flex w-100 justify-content-end">

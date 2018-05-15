@@ -26,7 +26,11 @@
 
     <% if action_name == 'edit_tender_contractors' %>
       <%= form.submit 'Publish', class: 'btn btn-secondary text-uppercase',
-                      data: {confirm: 'Publishing this request for tender means all listed tenders will immediately have access to it, and can start placing their bids. Are you sure you want to do so?'} %>
+                      data: {
+                          confirm: 'Publishing this request for tender will ' \
+                          'now allow any one with it\'s reference number or ' \
+                          'purchase link to purchase it. Are you sure you ' \
+                          'want to publish this request for tender?'} %>
     <% else %>
       <%= form.submit 'Next', class: 'btn btn-primary next-button text-uppercase' %>
     <% end %>

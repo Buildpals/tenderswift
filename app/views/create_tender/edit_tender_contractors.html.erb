@@ -15,14 +15,14 @@
   <div class="form-row mb-5" id="publicLinkDiv" style="display: block">
     <div class="col-md-12">
       <div class="form-group">
-        <%= form.label :contractors_portal_link,
+        <%= form.label :reference_number,
                        'The reference number for this request for tender is:',
                        class: 'pb-0' %>
 
         <%= text_field_tag :reference_number,
                            @request_for_tender.id,
                            {
-                               id: :reference_number,
+                               id: :request_for_tender_reference_number,
                                class: 'form-control form-control-sm',
                                onclick: 'this.select()',
                                readonly: true
@@ -45,32 +45,29 @@
   <div class="form-row mb-5" id="publicLinkDiv" style="display: block">
     <div class="col-md-12">
       <div class="form-group">
-        <%= form.label :contractors_portal_link,
-                       'Link to purchase page',
-                       class: 'pb-0 mb-0' %>
-
         <div class="d-flex w-100 justify-content-between mb-3">
-          <small class="form-text text-muted">
-            The link below is where contractors can see and purchase this
-            request for tender.
-          </small>
+          <%= form.label :purchase_link,
+                         'Purchase link',
+                         class: 'pb-0 mb-0' %>
 
-          <%= link_to 'Preview Contractor\'s Portal',
+          <%= link_to 'Preview purchase link',
                       purchase_url(@request_for_tender),
                       target: '_blank',
                       class: 'btn btn-link btn-sm' %>
         </div>
 
-        <%= text_field_tag :portal_link,
+        <%= text_field_tag :purchase_link,
                            purchase_url(@request_for_tender),
                            {
-                               id: :contractors_portal_link,
+                               id: :request_for_tender_purchase_link,
                                class: 'form-control form-control-sm',
                                onclick: 'this.select()',
                                readonly: true
                            } %>
-
         <small class="form-text text-muted">
+          The link above is where contractors can see and purchase this
+          request for tender.
+          <br>
           You can copy and send it to the contractors you would like to tender
           for this contract.
         </small>
