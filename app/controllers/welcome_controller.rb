@@ -21,7 +21,8 @@ class WelcomeController < ApplicationController
       @search_result = RequestForTender.find(params[:reference_number])
       redirect_to purchase_tender_url(@search_result)
     rescue ActiveRecord::RecordNotFound
-      flash[:notice] = 'No request for tender was found'
+      flash[:notice] = 'Sorry, we couldn\'t find a request for tender ' \
+                       'with the specified reference number.'
       redirect_to query_request_for_tender_path
       return
     end
