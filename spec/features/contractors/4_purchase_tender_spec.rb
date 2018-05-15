@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.feature 'Purchasing a tender' do
+RSpec.feature 'Purchasing a tender', js: true do
   include RequestForTendersHelper
 
   context 'Invitation to tender has already been purchased already' do
@@ -24,9 +24,7 @@ RSpec.feature 'Purchasing a tender' do
       skip 'Not implemented'
     end
 
-    scenario 'should allow purchasing a tender', js: true do
-      Capybara.current_driver = :selenium
-
+    scenario 'should allow purchasing a tender' do
       given_a_contractor_has_logged_in
       when_they_purchase_a_tender
       then_they_should_find_the_request_for_tender_in_their_purchased_tenders
@@ -35,8 +33,6 @@ RSpec.feature 'Purchasing a tender' do
       and_they_should_be_able_to_see_the_tenders_boq
       and_they_should_be_able_to_see_the_tenders_required_documents
       and_they_should_show_up_under_purchased_on_the_quantity_surveyors_dashboard
-
-      Capybara.use_default_driver
     end
   end
 
@@ -62,7 +58,7 @@ RSpec.feature 'Purchasing a tender' do
 
     within :css, '#paymentModal' do
       select 'Vodafone Cash', from: 'Mode of payment'
-      fill_in 'Mobile money number', with: @signed_up_contractor.phone_number
+      fill_in 'Mobile money number', with: '0500011505'
       fill_in 'Voucher code', with: '123456'
       click_button 'Purchase'
     end
