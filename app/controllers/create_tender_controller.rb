@@ -157,6 +157,7 @@ class CreateTenderController < QuantitySurveyorsController
         redirect_to edit_tender_contractors_path
       end
     else
+      @tender = Tender.build_fake_tender(@request_for_tender)
       render :edit_tender_contractors
     end
   end
@@ -186,7 +187,7 @@ class CreateTenderController < QuantitySurveyorsController
       redirect_to edit_tender_contractors_path(@request_for_tender),
                   alert: 'You did not specify any contractors for the request.'
     else
-      send_emails_to_tenders
+      #send_emails_to_tenders
       @request_for_tender.update(published_at: Time.current)
       redirect_to @request_for_tender,
                   notice: 'An email has been sent to each contractor of this ' \

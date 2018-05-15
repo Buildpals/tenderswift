@@ -46,4 +46,8 @@ module RequestForTendersHelper
   def time_to_deadline(request_for_tender)
     distance_of_time_in_words_to_now(request_for_tender.deadline)
   end
+
+  def purchase_url(request_for_tender)
+    "https://public.tenderswift.com/#{request_for_tender.id}"
+  end
 end

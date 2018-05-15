@@ -5,112 +5,82 @@
               local: true,
               id: 'request-form' do |form| %>
 
-  <%= render 'create_tender/create_tender_navigation', location: 'top', request_for_tender: @request_for_tender, form: form %>
+  <%= render 'create_tender/create_tender_navigation',
+             location: 'top',
+             request_for_tender: @request_for_tender,
+             form: form %>
 
   <%= render 'request_for_tender_errors' %>
-
 
   <div class="form-row mb-5" id="publicLinkDiv" style="display: block">
     <div class="col-md-12">
       <div class="form-group">
-        <%= form.label :contractors_portal_link, 'Link to contractor\'s portal', class: 'pb-0 mb-0' %>
+        <%= form.label :contractors_portal_link,
+                       'The reference number for this request for tender is:',
+                       class: 'pb-0' %>
+
+        <%= text_field_tag :reference_number,
+                           @request_for_tender.id,
+                           {
+                               id: :reference_number,
+                               class: 'form-control form-control-sm',
+                               onclick: 'this.select()',
+                               readonly: true
+                           } %>
+
+        <small class="form-text text-muted">
+          Copy and send it to the contractors you would like to tender for this
+          contract.
+          <br>
+          They will have to go to
+          <a href="https://public.tenderswift.com">
+            public.tenderswift.com
+          </a>
+          and enter this reference number in order to purchase this tender.
+        </small>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-row mb-5" id="publicLinkDiv" style="display: block">
+    <div class="col-md-12">
+      <div class="form-group">
+        <%= form.label :contractors_portal_link,
+                       'Link to purchase page',
+                       class: 'pb-0 mb-0' %>
 
         <div class="d-flex w-100 justify-content-between mb-3">
           <small class="form-text text-muted">
-            The link below is where contractors can see and purchase this request for tender.
-            <br>
-            Copy and send it to the contractors you would like to tender for this contract.
+            The link below is where contractors can see and purchase this
+            request for tender.
           </small>
 
-          <%= link_to 'Preview Contractor\'s Portal', purchase_tender_url(@request_for_tender), target: '_blank',
+          <%= link_to 'Preview Contractor\'s Portal',
+                      purchase_url(@request_for_tender),
+                      target: '_blank',
                       class: 'btn btn-link btn-sm' %>
         </div>
 
-        <%= text_field_tag :portal_link, purchase_tender_url(@request_for_tender),
-                           {id: :contractors_portal_link, class: 'form-control form-control-sm',
-                            onclick: 'this.select()', readonly: true} %>
+        <%= text_field_tag :portal_link,
+                           purchase_url(@request_for_tender),
+                           {
+                               id: :contractors_portal_link,
+                               class: 'form-control form-control-sm',
+                               onclick: 'this.select()',
+                               readonly: true
+                           } %>
+
+        <small class="form-text text-muted">
+          You can copy and send it to the contractors you would like to tender
+          for this contract.
+        </small>
       </div>
     </div>
   </div>
 
 
-  <div class="form-row mb-5" id="tendersDiv" style="display: none">
-    <div class="col-md-12">
-      <div class="form-group">
-        <%= form.label :tenders, 'Allowed tenders', class: 'pb-0 mb-0' %>
-
-        <div class="d-flex w-100 justify-content-between mb-3">
-          <small class="form-text text-muted">
-            Enter the company name, email and phone number of the companies you want to tender for this project.
-            <br>
-            They will each be sent an email with a link where they can purchase the tender documents and submit their
-            bid.
-          </small>
-
-          <button type="button" class="btn btn-link btn-sm"
-                  data-toggle="modal" data-target="#email-modal" data-dismiss="modal">
-            Preview email
-          </button>
-        </div>
-
-        <ul class="list-group list-group-flush nested-forms">
-          <%= form.fields_for :contractors do |contractor| %>
-            <%= render 'contractor_fields', f: contractor %>
-          <% end %>
-          <li class="d-flex w-100 justify-content-between">
-            <%= link_to_add_association 'ADD ANOTHER PARTICIPANT', form, :contractors,
-                                        class: 'btn btn-sm btn-block btn-primary my-1' %>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </div>
-
-
-  <div class="form-row">
-    <div class="col-md-12">
-      <div class="form-group">
-        <div class="form-check">
-          <%= form.check_box :private, id: :request_for_tender_private,
-                          class: 'form-check-input', onclick: 'ShowHideDiv(this)' %>
-          <%= form.label :private, 'Limit access to portal', class: 'form-check-label' %>
-        </div>
-      </div>
-    </div>
-  </div>
-
-
-  <%= render 'create_tender/create_tender_navigation', location: 'bottom', request_for_tender: @request_for_tender, form: form %>
+  <%= render 'create_tender/create_tender_navigation',
+             location: 'bottom',
+             request_for_tender: @request_for_tender,
+             form: form %>
 <% end %>
-
-
-<!-- Modal -->
-<div class="modal fade" id="email-modal" tabindex="-1" role="dialog" aria-labelledby="email-modal-label" aria-hidden="true">
-  <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="email-modal-label">
-          Email Preview
-        </h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body" style="height: 500px; overflow: scroll">
-        <%= render 'contractor_mailer/tender_email_template', tender: @tender %>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-<script type="text/javascript">
-  function ShowHideDiv (chkPassport) {
-    var tendersDiv = document.getElementById('tendersDiv')
-    var publicLinkDiv = document.getElementById('publicLinkDiv')
-    tendersDiv.style.display = chkPassport.checked ? 'block' : 'none'
-    publicLinkDiv.style.display = chkPassport.checked ? 'none' : 'block'
-  }
-
-  ShowHideDiv(document.getElementById('request_for_tender_private'))
-</script>
