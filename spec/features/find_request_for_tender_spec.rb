@@ -45,7 +45,8 @@ RSpec.feature 'Search for request for tender', type: :feature do
       visit query_request_for_tender_path
       fill_in 'reference_number', with: '34353'
       click_button 'search'
-      expect(page).to have_content 'No request for tender was found'
+      expect(page).to have_content 'Sorry, we couldn\'t find a request for tender ' \
+                                   'with the specified reference number.'
     end
 
     scenario 'a visitor provides wrong reference number in url' do
