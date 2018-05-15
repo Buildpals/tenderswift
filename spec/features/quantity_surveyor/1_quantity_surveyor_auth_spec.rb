@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.feature 'QuantitySurveyor authentication', type: :feature do
+RSpec.feature 'QuantitySurveyor authentication', type: :feature, js: true do
   let(:new_quantity_surveyor) { FactoryBot.build(:quantity_surveyor) }
   let(:existing_quantity_surveyor) { FactoryBot.create(:quantity_surveyor) }
 
@@ -20,15 +20,24 @@ RSpec.feature 'QuantitySurveyor authentication', type: :feature do
     click_button 'Sign up'
 
     should_have_dashboard_content_for new_quantity_surveyor
-    expect(page).to have_content 'Welcome! You have signed up successfully.'
+    expect(page)
+        .to have_content 'Welcome! You have signed up successfully.'
 
     click_link 'Account Information'
 
     expect(page).to have_content 'Account Information'
-    expect(page).to have_field 'Full name', with: new_quantity_surveyor.full_name
-    expect(page).to have_field 'Email', with: new_quantity_surveyor.email
-    expect(page).to have_field 'Phone number', with: new_quantity_surveyor.phone_number
-    expect(page).to have_field 'Company name', with: new_quantity_surveyor.company_name
+
+    expect(page).to have_field 'Full name',
+                               with: new_quantity_surveyor.full_name
+
+    expect(page).to have_field 'Email',
+                               with: new_quantity_surveyor.email
+
+    expect(page).to have_field 'Phone number',
+                               with:  new_quantity_surveyor.phone_number
+
+    expect(page).to have_field 'Company name',
+                               with: new_quantity_surveyor.company_name
 
     expect(page).to have_css('#company_logo_image')
   end
@@ -48,6 +57,7 @@ RSpec.feature 'QuantitySurveyor authentication', type: :feature do
 
     visit quantity_surveyor_root_path
 
+    click_link existing_quantity_surveyor.company_name
     click_link 'Logout'
 
     should_see_quantity_surveyor_sign_in_page
@@ -56,6 +66,7 @@ RSpec.feature 'QuantitySurveyor authentication', type: :feature do
   def should_have_dashboard_content_for(quantity_surveyor)
     expect(page).to have_content 'Home'
     expect(page).to have_content quantity_surveyor.company_name
+    click_link quantity_surveyor.company_name
     expect(page).to have_content 'Account Information'
     expect(page).to have_content 'Logout'
     expect(page).to have_content 'Unpublished Request For Tender'
