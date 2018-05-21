@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+require 'securerandom'
 
 class RequestForTenderPurchaser
   NETWORK_CODES = %w[AIR MTN TIG VOD].freeze
@@ -9,6 +10,7 @@ class RequestForTenderPurchaser
   attr_reader :error_message
 
   def initialize(request_for_tender:, contractor:, korba_web_api:)
+    @logger = Logger.new(STDOUT)
     @request_for_tender = request_for_tender
     @contractor = contractor
     @korba_web_api = korba_web_api
@@ -29,29 +31,38 @@ class RequestForTenderPurchaser
     validate_is_published! @request_for_tender
     @tender = find_or_create_tender
     validate_is_not_purchased! @tender
-    store_transaction_attempt
-    make_transaction_request
+    transaction_id = SecureRandom.uuid
+    store_transaction_attempt(transaction_id)
+    make_transaction_request(transaction_id)
     store_transaction_success
+    @logger.info('Successful transaction request made to korbaweb')
     true
   rescue TenderNotPublishedError
+    @logger.warn(TenderNotPublishedError)
     @error_message = 'The request for tender does not exist'
     return false
   rescue TenderPurchasedAlreadyError
+    @logger.warn(TenderPurchasedAlreadyError)
     @error_message = 'You have purchased this tender already'
     return false
   rescue KorbaWeb::MissingCustomerNumberError
+    @logger.warn(KorbaWeb::MissingCustomerNumberError)
     @error_message = 'Please enter a phone number'
     return false
   rescue KorbaWeb::InvalidNetworkCodeError
+    @logger.warn(KorbaWeb::InvalidNetworkCodeError)
     @error_message = 'Please select a network'
     return false
   rescue KorbaWeb::MissingVoucherCodeError
+    @logger.warn(KorbaWeb::MissingVoucherCodeError)
     @error_message = 'You have selected Vodafone, please enter a voucher code'
     return false
   rescue KorbaWeb::InvalidCustomerNumberError
+    @logger.warn(KorbaWeb::InvalidCustomerNumberError)
     @error_message = 'Please enter a valid phone number'
     return false
   rescue KorbaWeb::KorbaWebError
+    @logger.error(KorbaWeb::KorbaWebError)
     @error_message = 'Sorry, something bad happened'
     return false
   end
@@ -70,8 +81,12 @@ class RequestForTenderPurchaser
   end
 
   def self.complete_transaction(transaction_id:, status:, message:)
-    @tender = Tender.find(transaction_id)
-    if status.eql?('SUCCESS')
+    @tender = Tender.find_by(transaction_id: transaction_id)
+
+    if @tender.nil?
+      logger.warn("Missing transaction_id: #{transaction_id}")
+      return
+    elsif status.eql?('SUCCESS')
       @tender.update!(purchased_at: Time.current,
                       status: :success,
                       purchase_request_message: message)
@@ -97,19 +112,20 @@ class RequestForTenderPurchaser
     raise TenderPurchasedAlreadyError if tender.purchased?
   end
 
-  def store_transaction_attempt
+  def store_transaction_attempt(transaction_id)
     @tender.update!(customer_number: @customer_number,
                     network_code: @network_code,
                     vodafone_voucher_code: @vodafone_voucher_code,
                     amount: @request_for_tender.selling_price,
+                    transaction_id: transaction_id,
                     purchase_request_sent_at: Time.current)
   end
 
-  def make_transaction_request
+  def make_transaction_request(transaction_id)
     @korba_web_api.call(
         customer_number: @customer_number,
         amount: @request_for_tender.selling_price,
-        transaction_id: @tender.id,
+        transaction_id: transaction_id,
         network_code: @network_code,
         vodafone_voucher_code: @vodafone_voucher_code,
         description: to_s

@@ -66,11 +66,12 @@ class KorbaWeb
   def process_response(response)
     response = JSON.parse(response)
     if response['success']
+      @logger.info(response)
       OpenStruct.new(success?: true,
                      redirect_url: response['redirect_url'],
                      results: response['results'])
     else
-      @logger.debug(response)
+      @logger.warn(response)
       case response['error_code']
       when 400
         raise MissingCustomerNumberError, response['error_message']
