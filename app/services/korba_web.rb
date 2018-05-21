@@ -16,6 +16,7 @@ class KorbaWeb
   CALLBACK_URL = 'https://app.tenderswift.com/purchase_tender/complete_transaction'
 
   def initialize
+    @logger = Logger.new(STDOUT)
   end
 
   def call(transaction_params)
@@ -69,6 +70,7 @@ class KorbaWeb
                      redirect_url: response['redirect_url'],
                      results: response['results'])
     else
+      @logger.debug(response)
       case response['error_code']
       when 400
         raise MissingCustomerNumberError, response['error_message']
