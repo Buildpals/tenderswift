@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'securerandom'
 
 class RequestForTenderPurchaser
@@ -40,60 +41,64 @@ class RequestForTenderPurchaser
   rescue TenderNotPublishedError
     @logger.warn(TenderNotPublishedError)
     @error_message = 'The request for tender does not exist'
-    return false
+    false
   rescue TenderPurchasedAlreadyError
     @logger.warn(TenderPurchasedAlreadyError)
     @error_message = 'You have purchased this tender already'
-    return false
+    false
   rescue KorbaWeb::MissingCustomerNumberError
     @logger.warn(KorbaWeb::MissingCustomerNumberError)
     @error_message = 'Please enter a phone number'
-    return false
+    false
   rescue KorbaWeb::InvalidNetworkCodeError
     @logger.warn(KorbaWeb::InvalidNetworkCodeError)
     @error_message = 'Please select a network'
-    return false
+    false
   rescue KorbaWeb::MissingVoucherCodeError
     @logger.warn(KorbaWeb::MissingVoucherCodeError)
     @error_message = 'You have selected Vodafone, please enter a voucher code'
-    return false
+    false
   rescue KorbaWeb::InvalidCustomerNumberError
     @logger.warn(KorbaWeb::InvalidCustomerNumberError)
     @error_message = 'Please enter a valid phone number'
-    return false
+    false
   rescue KorbaWeb::KorbaWebError
     @logger.error(KorbaWeb::KorbaWebError)
     @error_message = 'Sorry, something bad happened'
-    return false
+    false
   end
 
-  def payment_confirmed?
+  def payment_success?
     @tender = Tender.find_by(request_for_tender: @request_for_tender,
                              contractor: @contractor)
     if Rails.env.development? || Rails.env.test? &&
-        purchase_timed_out?(@tender)
-      @tender.update!(purchased_at: Time.current,
-                      purchase_request_status: :success,
-                      purchase_request_message: 'Automatically purchased in development mode')
+                                 purchase_timed_out?(@tender)
+      save_transaction_success('Automatically purchased in development mode')
     end
 
     @tender.purchased?
   end
 
-  def self.complete_transaction(transaction_id:, status:, message:)
-    @tender = Tender.find_by(transaction_id: transaction_id)
+  def payment_failed?
+    @tender = Tender.find_by(request_for_tender: @request_for_tender,
+                             contractor: @contractor)
+
+    @error_message = purchase_request_message if @tender.failed?
+    @tender.failed?
+  end
+
+  def complete_transaction(params)
+    @tender = Tender.find_by(transaction_id: params['transaction_id'])
 
     if @tender.nil?
-      logger.warn("Missing transaction_id: #{transaction_id}")
+      @logger.warn("Missing transaction_id: #{transaction_id}")
       return
-    elsif status.eql?('SUCCESS')
-      @tender.update!(purchased_at: Time.current,
-                      status: :success,
-                      purchase_request_message: message)
-      TenderTransactionMailer.confirm_purchase_email(@tender).deliver_now
+    end
+
+    if params['status'].eql?('SUCCESS')
+      save_transaction_success(params['message'])
     else
-      @tender.update(status: :failed,
-                     purchase_request_message: message)
+      save_transaction_failure(params)
     end
   end
 
@@ -123,12 +128,12 @@ class RequestForTenderPurchaser
 
   def make_transaction_request(transaction_id)
     @korba_web_api.call(
-        customer_number: @customer_number,
-        amount: @request_for_tender.selling_price,
-        transaction_id: transaction_id,
-        network_code: @network_code,
-        vodafone_voucher_code: @vodafone_voucher_code,
-        description: to_s
+      customer_number: @customer_number,
+      amount: @request_for_tender.selling_price,
+      transaction_id: transaction_id,
+      network_code: @network_code,
+      vodafone_voucher_code: @vodafone_voucher_code,
+      description: to_s
     )
   end
 
@@ -139,6 +144,22 @@ class RequestForTenderPurchaser
 
   def purchase_timed_out?(tender)
     Time.current >= tender.purchase_request_sent_at + 30.seconds
+  end
+
+  def save_transaction_success(message)
+    @logger.info('Korbaweb successfully completed the transaction' \
+                            ": #{message}")
+    @tender.update!(purchased_at: Time.current,
+                    purchase_request_status: :success,
+                    purchase_request_message: message)
+    TenderTransactionMailer.confirm_purchase_email(@tender).deliver_now
+  end
+
+  def save_transaction_failure(params)
+    @logger.warn('Korbaweb failed to complete transaction: ' \
+                          ":#{params['message']}")
+    @tender.update!(purchase_request_status: :failed,
+                    purchase_request_message: params['message'])
   end
 
   def to_s

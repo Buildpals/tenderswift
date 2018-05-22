@@ -45,10 +45,12 @@ class PurchaseTenderController < ContractorsController
       request_for_tender: @request_for_tender
     )
 
-    if @purchaser.payment_confirmed?
+    if @purchaser.payment_success?
       flash[:notice] = 'You have purchased this tender successfully'
       flash.keep(:notice) # Keep flash notice around for the redirect.
       render js: "window.location = '#{contractor_root_path}'"
+    elsif @purchaser.payment_failed?
+      render 'purchase_tender_error'
     else
       render 'monitor_purchase'
     end
@@ -57,16 +59,20 @@ class PurchaseTenderController < ContractorsController
   def complete_transaction
     authorize :purchase_tender_policy, :complete_transaction?
 
-    RequestForTenderPurchaser
-      .complete_transaction(transaction_id: params['transaction_id'],
-                            status: params['status'],
-                            message: params['message'])
+    @purchaser = RequestForTenderPurchaser.build(
+      contractor: nil,
+      request_for_tender: nil
+    )
+
+    @purchaser.complete_transaction(complete_transaction_params)
   end
 
   private
 
   def set_policy
-    RequestForTender.define_singleton_method(:policy_class) { PurchaseTenderPolicy }
+    RequestForTender.define_singleton_method(:policy_class) do
+      PurchaseTenderPolicy
+    end
   end
 
   def increment_visit_count
@@ -85,8 +91,10 @@ class PurchaseTenderController < ContractorsController
   end
 
   def payment_params
-    params.permit(:network_code,
-                  :customer_number,
-                  :vodafone_voucher_code)
+    params.permit(:network_code, :customer_number, :vodafone_voucher_code)
+  end
+
+  def complete_transaction_params
+    params.permit(:transaction_id, :status, :message)
   end
 end

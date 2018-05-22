@@ -1,9 +1,15 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :quantity_surveyor do
-    sequence(:company_name) { |n| "Test #{n} Construction Limited" }
-    sequence(:full_name) { |n| "Test Anane #{n}" }
-    sequence(:email) { |n| "test#{n}@example.com" }
-    sequence(:phone_number) { |n| "024 012 345#{n}" }
+    company_name 'Test Procurement Services'
+    full_name 'Test Procurement Officer'
+    email do
+      'tenderswift_test_procurement_officer+' \
+          "#{SecureRandom.urlsafe_base64(6)}@gmail.com".downcase
+    end
+
+    phone_number '024 012 3456'
     password 'password'
 
     after :create do |q|

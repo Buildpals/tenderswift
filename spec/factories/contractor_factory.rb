@@ -1,9 +1,18 @@
+# frozen_string_literal: true
+
+require 'securerandom'
+
 FactoryBot.define do
   factory :contractor do
-    sequence(:company_name) { |n| "Test #{n} Construction Limited" }
-    sequence(:full_name) { |n| "Test Anane #{n}" }
-    sequence(:email) { |n| "test#{n}@gmail.com" }
-    sequence(:phone_number) { |n| "050 001 150#{n}" }
+    company_name 'Test Construction Limited'
+    full_name 'Test Contractor'
+
+    email do
+      'tenderswift_test_contractor+' \
+          "#{SecureRandom.urlsafe_base64(6)}@gmail.com".downcase
+    end
+
+    phone_number '050 001 1505'
     password 'password'
     confirmed_at Time.current
 

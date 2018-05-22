@@ -22,7 +22,7 @@
           <comparison-boq
           :tenders="<%= @tenders.to_json(include: :rates) %>"
           :workbook-data="<%= @request_for_tender.bill_of_quantities %>"
-          currency="<%= currency_symbol @request_for_tender  %>"
+          currency="<%= project_currency_symbol @request_for_tender  %>"
           qs-company-name="<%= @request_for_tender.project_owners_company_name %>"
           boq-contract-sum="<%= 100000 %>"
           ></comparison-boq>
