@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class PurchaseTenderController < ContractorsController
-  before_action :set_request_for_tender
+  before_action :set_request_for_tender, except: :complete_transaction
 
   before_action :set_policy
 
@@ -57,7 +57,7 @@ class PurchaseTenderController < ContractorsController
   end
 
   def complete_transaction
-    authorize :purchase_tender_policy, :complete_transaction?
+    authorize :purchase_tender, :complete_transaction?
 
     @purchaser = RequestForTenderPurchaser.build(
       contractor: nil,
@@ -65,6 +65,7 @@ class PurchaseTenderController < ContractorsController
     )
 
     @purchaser.complete_transaction(complete_transaction_params)
+    head :no_content
   end
 
   private
@@ -86,8 +87,8 @@ class PurchaseTenderController < ContractorsController
 
   def set_request_for_tender
     @request_for_tender = RequestForTender.find(params[:id])
-  rescue ActiveRecord::RecordNotFound
-    redirect_to 'https://public.tenderswift.com/'
+  # rescue ActiveRecord::RecordNotFound
+  #   redirect_to 'https://public.tenderswift.com/'
   end
 
   def payment_params

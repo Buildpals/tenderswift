@@ -91,7 +91,7 @@ class RequestForTenderPurchaser
     @tender = Tender.find_by(transaction_id: params['transaction_id'])
 
     if @tender.nil?
-      @logger.warn("Missing transaction_id: #{transaction_id}")
+      @logger.warn("Missing transaction_id: #{params['transaction_id']}")
       return
     end
 
