@@ -15,12 +15,10 @@ class KorbaWeb
 
   CALLBACK_URL = 'https://app.tenderswift.com/purchase_tender/complete_transaction'
 
-  def initialize
-    @logger = Logger.new(STDOUT)
-  end
+  def initialize; end
 
   def call(transaction_params)
-  send_request_to_korba_web(
+    send_request_to_korba_web(
       customer_number: transaction_params[:customer_number] || '',
       amount: transaction_params[:amount] || '',
       transaction_id: transaction_params[:transaction_id] || '',
@@ -29,7 +27,7 @@ class KorbaWeb
       callback_url: CALLBACK_URL,
       description: transaction_params[:description] || '',
       vodafone_voucher_code: transaction_params[:vodafone_voucher_code] || ''
-  )
+    )
   end
 
   private
@@ -66,12 +64,12 @@ class KorbaWeb
   def process_response(response)
     response = JSON.parse(response)
     if response['success']
-      @logger.info(response)
+      Rails.logger.info(response)
       OpenStruct.new(success?: true,
                      redirect_url: response['redirect_url'],
                      results: response['results'])
     else
-      @logger.warn(response)
+      Rails.logger.warn(response)
       case response['error_code']
       when 400
         raise MissingCustomerNumberError, response['error_message']

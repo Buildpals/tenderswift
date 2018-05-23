@@ -11,7 +11,6 @@ class RequestForTenderPurchaser
   attr_reader :error_message
 
   def initialize(request_for_tender:, contractor:, korba_web_api:)
-    @logger = Logger.new(STDOUT)
     @request_for_tender = request_for_tender
     @contractor = contractor
     @korba_web_api = korba_web_api
@@ -36,34 +35,34 @@ class RequestForTenderPurchaser
     store_transaction_attempt(transaction_id)
     make_transaction_request(transaction_id)
     store_transaction_success
-    @logger.info('Successful transaction request made to korbaweb')
+    Rails.logger.info('Successful transaction request made to korbaweb')
     true
   rescue TenderNotPublishedError
-    @logger.warn(TenderNotPublishedError)
+    Rails.logger.warn(TenderNotPublishedError)
     @error_message = 'The request for tender does not exist'
     false
   rescue TenderPurchasedAlreadyError
-    @logger.warn(TenderPurchasedAlreadyError)
+    Rails.logger.warn(TenderPurchasedAlreadyError)
     @error_message = 'You have purchased this tender already'
     false
   rescue KorbaWeb::MissingCustomerNumberError
-    @logger.warn(KorbaWeb::MissingCustomerNumberError)
+    Rails.logger.warn(KorbaWeb::MissingCustomerNumberError)
     @error_message = 'Please enter a phone number'
     false
   rescue KorbaWeb::InvalidNetworkCodeError
-    @logger.warn(KorbaWeb::InvalidNetworkCodeError)
+    Rails.logger.warn(KorbaWeb::InvalidNetworkCodeError)
     @error_message = 'Please select a network'
     false
   rescue KorbaWeb::MissingVoucherCodeError
-    @logger.warn(KorbaWeb::MissingVoucherCodeError)
+    Rails.logger.warn(KorbaWeb::MissingVoucherCodeError)
     @error_message = 'You have selected Vodafone, please enter a voucher code'
     false
   rescue KorbaWeb::InvalidCustomerNumberError
-    @logger.warn(KorbaWeb::InvalidCustomerNumberError)
+    Rails.logger.warn(KorbaWeb::InvalidCustomerNumberError)
     @error_message = 'Please enter a valid phone number'
     false
   rescue KorbaWeb::KorbaWebError
-    @logger.error(KorbaWeb::KorbaWebError)
+    Rails.logger.error(KorbaWeb::KorbaWebError)
     @error_message = 'Sorry, something bad happened'
     false
   end
@@ -90,7 +89,7 @@ class RequestForTenderPurchaser
     @tender = Tender.find_by(transaction_id: params['transaction_id'])
 
     if @tender.nil?
-      @logger.warn("Invalid transaction_id: #{params['transaction_id']}")
+      Rails.logger.warn("Invalid transaction_id: #{params['transaction_id']}")
       return
     end
 
@@ -146,7 +145,7 @@ class RequestForTenderPurchaser
   end
 
   def save_transaction_success(message)
-    @logger.info('KorbaWeb successfully completed the transaction' \
+    Rails.logger.info('KorbaWeb successfully completed the transaction' \
                             ": #{message}")
     @tender.update!(purchased_at: Time.current,
                     purchase_request_status: :success,
@@ -155,7 +154,7 @@ class RequestForTenderPurchaser
   end
 
   def save_transaction_failure(message)
-    @logger.warn('KorbaWeb failed to complete transaction: ' \
+    Rails.logger.warn('KorbaWeb failed to complete transaction: ' \
                           ":#{message}")
     @tender.update!(purchase_request_status: :failed,
                     purchase_request_message: message)
