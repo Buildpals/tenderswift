@@ -82,8 +82,7 @@ class RequestForTenderPurchaser
   def payment_failed?
     @tender = Tender.find_by(request_for_tender: @request_for_tender,
                              contractor: @contractor)
-
-    @error_message = purchase_request_message if @tender.failed?
+    @error_message = @tender.purchase_request_message if @tender.failed?
     @tender.failed?
   end
 
