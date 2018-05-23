@@ -91,14 +91,14 @@ class RequestForTenderPurchaser
     @tender = Tender.find_by(transaction_id: params['transaction_id'])
 
     if @tender.nil?
-      @logger.warn("Missing transaction_id: #{params['transaction_id']}")
+      @logger.warn("Invalid transaction_id: #{params['transaction_id']}")
       return
     end
 
     if params['status'].eql?('SUCCESS')
       save_transaction_success(params['message'])
     else
-      save_transaction_failure(params)
+      save_transaction_failure(params['message'])
     end
   end
 
@@ -147,7 +147,7 @@ class RequestForTenderPurchaser
   end
 
   def save_transaction_success(message)
-    @logger.info('Korbaweb successfully completed the transaction' \
+    @logger.info('KorbaWeb successfully completed the transaction' \
                             ": #{message}")
     @tender.update!(purchased_at: Time.current,
                     purchase_request_status: :success,
@@ -155,11 +155,11 @@ class RequestForTenderPurchaser
     TenderTransactionMailer.confirm_purchase_email(@tender).deliver_now
   end
 
-  def save_transaction_failure(params)
-    @logger.warn('Korbaweb failed to complete transaction: ' \
-                          ":#{params['message']}")
+  def save_transaction_failure(message)
+    @logger.warn('KorbaWeb failed to complete transaction: ' \
+                          ":#{message}")
     @tender.update!(purchase_request_status: :failed,
-                    purchase_request_message: params['message'])
+                    purchase_request_message: message)
   end
 
   def to_s

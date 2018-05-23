@@ -87,8 +87,8 @@ class PurchaseTenderController < ContractorsController
 
   def set_request_for_tender
     @request_for_tender = RequestForTender.find(params[:id])
-  # rescue ActiveRecord::RecordNotFound
-  #   redirect_to 'https://public.tenderswift.com/'
+  rescue ActiveRecord::RecordNotFound
+    redirect_to 'https://public.tenderswift.com/'
   end
 
   def payment_params
