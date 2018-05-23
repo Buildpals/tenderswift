@@ -5,12 +5,12 @@ require 'rails_helper'
 RSpec.feature 'Product walkthrough', js: true do
   include RequestForTendersHelper
 
-  Capybara.current_driver = :selenium
-  Capybara.app_host = 'https://app.tenderswift.com'
-  Capybara.run_server = false
-  Capybara.default_max_wait_time = 60
+  xscenario 'should publish a public request for tender successfully' do
+    Capybara.current_driver = :selenium
+    Capybara.app_host = 'https://app.tenderswift.com'
+    Capybara.run_server = false
+    Capybara.default_max_wait_time = 60
 
-  scenario 'should publish a public request for tender successfully' do
     given_a_quantity_surveyor_has_logged_in
     and_has_created_a_request_for_tender
     and_has_added_the_general_information
