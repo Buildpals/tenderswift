@@ -7,12 +7,15 @@
   <div class="form-group">
     <%= form.label :network_code, 'Mode of payment' %>
     <%= form.select :network_code,
-                    options_for_select({
-                                           'Airtel Money': 'AIR',
-                                           'MTN Mobile Money': 'MTN',
-                                           'Tigo Cash': 'TIG',
-                                           'Vodafone Cash': 'VOD'
-                                       }),
+                    options_for_select(
+                        {
+                            'Airtel Money': 'AIR',
+                            'MTN Mobile Money': 'MTN',
+                            'Tigo Cash': 'TIG',
+                            'Vodafone Cash': 'VOD'
+                        },
+                        'MTN'
+                    ),
                     {},
                     {
                         selected: 'Airtel Money',
@@ -26,15 +29,30 @@
     <%= form.label :customer_number, 'Mobile money number' %>
     <%= form.telephone_field :customer_number,
                              id: :customer_number,
+                             placeholder: '0541234567',
                              class: 'form-control form-control-sm',
+                             autocomplete: 'tel',
+                             pattern: "[0-9]{10}",
+                             'aria-describedby': 'telephoneHelp',
                              required: true %>
+    <small id="telephoneHelp" class="form-text text-muted">
+      Enter the mobile money number we should take the money from above.
+      It should be exactly 10 digits long, in the format 054xxxxxxx.
+    </small>
   </div>
 
   <div id="voucher-field-group" class="form-group d-none">
     <%= form.label :vodafone_voucher_code, 'Voucher code' %>
     <%= form.text_field :vodafone_voucher_code,
                         id: :vodafone_voucher_code,
+                        placeholder: '123456',
+                        'aria-describedby': 'voucherHelp',
                         class: 'form-control form-control-sm' %>
+    <small id="voucherHelp" class="form-text text-muted">
+      1. Dial *110# on your phone. <br>
+      2. Choose 'Generate Voucher' and wait for the SMS. <br>
+      3. Enter the voucher code in the space provided above.
+    </small>
   </div>
 
   <%= button_tag 'Purchase',
