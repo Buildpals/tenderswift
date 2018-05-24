@@ -20,6 +20,6 @@
 :contract-sum-address="<%= @request_for_tender.contract_sum_address.to_json %>"
 :tenders-data="<%= @request_for_tender.tenders.to_json(include: :rates) %>"
 :workbook-data="<%= @request_for_tender.bill_of_quantities %>"
-currency="<%= currency_symbol @request_for_tender %>"
+currency="<%= project_currency_symbol @request_for_tender %>"
 qs-company-name="<%= @request_for_tender.project_owners_company_name %>"
 ></bids-table>

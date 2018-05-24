@@ -61,6 +61,9 @@ RSpec.configure do |config|
   # etc
   config.include Warden::Test::Helpers, type: :feature
 
+  # Add Devise Test helpers for controller specs
+  config.include Devise::Test::ControllerHelpers, type: :controller
+
   # Reset Warden after each test
   config.after(type: :feature) { Warden.test_reset! }
 end

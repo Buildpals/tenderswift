@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'securerandom'
+
 class RequestForTenderPurchaser
   NETWORK_CODES = %w[AIR MTN TIG VOD].freeze
 
@@ -29,56 +31,72 @@ class RequestForTenderPurchaser
     validate_is_published! @request_for_tender
     @tender = find_or_create_tender
     validate_is_not_purchased! @tender
-    store_transaction_attempt
-    make_transaction_request
+    transaction_id = SecureRandom.uuid
+    store_transaction_attempt(transaction_id)
+    make_transaction_request(transaction_id)
     store_transaction_success
+    Rails.logger.info('Successful transaction request made to korbaweb')
     true
   rescue TenderNotPublishedError
+    Rails.logger.warn(TenderNotPublishedError)
     @error_message = 'The request for tender does not exist'
-    return false
+    false
   rescue TenderPurchasedAlreadyError
+    Rails.logger.warn(TenderPurchasedAlreadyError)
     @error_message = 'You have purchased this tender already'
-    return false
+    false
   rescue KorbaWeb::MissingCustomerNumberError
+    Rails.logger.warn(KorbaWeb::MissingCustomerNumberError)
     @error_message = 'Please enter a phone number'
-    return false
+    false
   rescue KorbaWeb::InvalidNetworkCodeError
+    Rails.logger.warn(KorbaWeb::InvalidNetworkCodeError)
     @error_message = 'Please select a network'
-    return false
+    false
   rescue KorbaWeb::MissingVoucherCodeError
+    Rails.logger.warn(KorbaWeb::MissingVoucherCodeError)
     @error_message = 'You have selected Vodafone, please enter a voucher code'
-    return false
+    false
   rescue KorbaWeb::InvalidCustomerNumberError
+    Rails.logger.warn(KorbaWeb::InvalidCustomerNumberError)
     @error_message = 'Please enter a valid phone number'
-    return false
+    false
   rescue KorbaWeb::KorbaWebError
+    Rails.logger.error(KorbaWeb::KorbaWebError)
     @error_message = 'Sorry, something bad happened'
-    return false
+    false
   end
 
-  def payment_confirmed?
+  def payment_success?
     @tender = Tender.find_by(request_for_tender: @request_for_tender,
                              contractor: @contractor)
     if Rails.env.development? || Rails.env.test? &&
-        purchase_timed_out?(@tender)
-      @tender.update!(purchased_at: Time.current,
-                      purchase_request_status: :success,
-                      purchase_request_message: 'Automatically purchased in development mode')
+                                 purchase_timed_out?(@tender)
+      save_transaction_success('Automatically purchased in development mode')
     end
 
     @tender.purchased?
   end
 
-  def self.complete_transaction(transaction_id:, status:, message:)
-    @tender = Tender.find(transaction_id)
-    if status.eql?('SUCCESS')
-      @tender.update!(purchased_at: Time.current,
-                      status: :success,
-                      purchase_request_message: message)
-      TenderTransactionMailer.confirm_purchase_email(@tender).deliver_now
+  def payment_failed?
+    @tender = Tender.find_by(request_for_tender: @request_for_tender,
+                             contractor: @contractor)
+    @error_message = @tender.purchase_request_message if @tender.failed?
+    @tender.failed?
+  end
+
+  def complete_transaction(params)
+    @tender = Tender.find_by(transaction_id: params['transaction_id'])
+
+    if @tender.nil?
+      Rails.logger.warn("Invalid transaction_id: #{params['transaction_id']}")
+      return
+    end
+
+    if params['status'].eql?('SUCCESS')
+      save_transaction_success(params['message'])
     else
-      @tender.update(status: :failed,
-                     purchase_request_message: message)
+      save_transaction_failure(params['message'])
     end
   end
 
@@ -97,22 +115,23 @@ class RequestForTenderPurchaser
     raise TenderPurchasedAlreadyError if tender.purchased?
   end
 
-  def store_transaction_attempt
+  def store_transaction_attempt(transaction_id)
     @tender.update!(customer_number: @customer_number,
                     network_code: @network_code,
                     vodafone_voucher_code: @vodafone_voucher_code,
                     amount: @request_for_tender.selling_price,
+                    transaction_id: transaction_id,
                     purchase_request_sent_at: Time.current)
   end
 
-  def make_transaction_request
+  def make_transaction_request(transaction_id)
     @korba_web_api.call(
-        customer_number: @customer_number,
-        amount: @request_for_tender.selling_price,
-        transaction_id: @tender.id,
-        network_code: @network_code,
-        vodafone_voucher_code: @vodafone_voucher_code,
-        description: to_s
+      customer_number: @customer_number,
+      amount: @request_for_tender.selling_price,
+      transaction_id: transaction_id,
+      network_code: @network_code,
+      vodafone_voucher_code: @vodafone_voucher_code,
+      description: to_s
     )
   end
 
@@ -123,6 +142,22 @@ class RequestForTenderPurchaser
 
   def purchase_timed_out?(tender)
     Time.current >= tender.purchase_request_sent_at + 30.seconds
+  end
+
+  def save_transaction_success(message)
+    Rails.logger.info('KorbaWeb successfully completed the transaction' \
+                            ": #{message}")
+    @tender.update!(purchased_at: Time.current,
+                    purchase_request_status: :success,
+                    purchase_request_message: message)
+    TenderTransactionMailer.confirm_purchase_email(@tender).deliver_now
+  end
+
+  def save_transaction_failure(message)
+    Rails.logger.warn('KorbaWeb failed to complete transaction: ' \
+                          ":#{message}")
+    @tender.update!(purchase_request_status: :failed,
+                    purchase_request_message: message)
   end
 
   def to_s

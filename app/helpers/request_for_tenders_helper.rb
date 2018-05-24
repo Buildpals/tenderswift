@@ -38,7 +38,7 @@ module RequestForTendersHelper
     end
   end
 
-  def currency_symbol(request_for_tender)
+  def project_currency_symbol(request_for_tender)
     request_for_tender.currency == 'USD' ? '$' : 'GH₵'
   end
 

@@ -10,6 +10,7 @@
       <w>omniauthable</w>
       <w>registerable</w>
       <w>rememberable</w>
+      <w>securerandom</w>
       <w>simplecov</w>
       <w>tenderswift</w>
       <w>timeoutable</w>

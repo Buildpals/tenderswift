@@ -166,6 +166,10 @@ Rails.application.routes.draw do
 
   # Routes for purchase_tender
 
+  get '/purchase_tender/complete_transaction',
+      to: 'purchase_tender#complete_transaction',
+      as: :complete_transaction
+
   get '/purchase_tender/:id',
       to: 'purchase_tender#portal',
       as: :purchase_tender
@@ -176,10 +180,6 @@ Rails.application.routes.draw do
   get '/purchase_tender/:id/monitor_purchase',
       to: 'purchase_tender#monitor_purchase',
       as: :monitor_purchase
-
-  get '/purchase_tender/complete_transaction',
-      to: 'purchase_tender#complete_transaction',
-      as: :complete_transaction
 
   # Routes for tender
 
