@@ -20,6 +20,7 @@ class PurchaseTenderController < ContractorsController
                   notice: 'You have already purchased this tender'
     else
       increment_visit_count
+      store_location_for(:contractor, request.fullpath)
     end
   end
 
