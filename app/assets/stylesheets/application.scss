@@ -9,39 +9,6 @@
 @import "create_tender";
 @import "file_viewer";
 
-
-// Managing Accounts
-
-.fix-screen{
-  margin-left: -30%;
-}
-
-
-// Parsley validation styles
-
-.parsley-errors-list{
-  list-style: none;
-  color: red;
-  font-size: 11px;
-  padding-left: 0;
-}
-
-.parsley-error {
-  border: 1px solid red;
-}
-
-#error_explanation h2{
-  font-size: 15px;
-}
-
-#error_explanation ul{
-  font-size: 12px;
-}
-
-#error_explanation li{
-  color: red;
-}
-
 /***************************************
 Card Shadows
 ***************************************/
@@ -51,28 +18,28 @@ Card Shadows
 }
 
 .card-1 {
-  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
 }
 
 .card-1:hover {
-  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
 }
 
 .card-2 {
-  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 }
 
 .card-3 {
-  box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
 }
 
 .card-4 {
-  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
 }
 
 .card-5 {
-  box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
+  box-shadow: 0 19px 38px rgba(0, 0, 0, 0.30), 0 15px 12px rgba(0, 0, 0, 0.22);
 }
 
 .card-6 {
@@ -95,83 +62,9 @@ Card Shadows
   transform: translate(-50%);
 }
 
-
-/***************************************
-Messaging Cards
-***************************************/
-
-.push-down{
-  margin-top: 5%;
-}
-
-.hidden-request-id{
-  display: none;
-}
-
-.message-thread h5{
-  color: #17a2b8 !important;
-}
-
-.hide_link{
-  display: none;
-}
-
-.reply-message{ 
-  height: 100%;
-  cursor: pointer;
-}
-
-.bolden{
-  font-size: 70%;
-  font-weight: bolder;
-  color: rebeccapurple;
-}
-
-/******************************************
-AUTHENTICATION
-*******************************************/
-
-.shared-links{
-  font-size: 11px;
-}
-
-/***************************************
-Final Email to Shortlisted Participants
-***************************************/
-
-.header-warning{
-  background-color: #dc3545;
-  color: white;
-}
-
-.email-body{
-  padding: 8px;
-  color: #000;
-  max-height: 350px;
-  overflow-y: scroll;
-}
-
-.winner-name{
-  font-weight: bolder;
-}
-
-.replace{
+.replace {
   background-color: yellow;
 }
-
-.final-message{
-  padding: 8px;
-}
-
-#final-email-message{
-  display: none;
-}
-
-#notify-disqualified-contractors-message{
-  display: none;
-}
-
-
 
 // Top Nav
 
@@ -183,57 +76,21 @@ Final Email to Shortlisted Participants
 /***************************************
 Sheet Navigation for Excels
 ***************************************/
-.excel-nav {
-    margin-top: 2%;
-    margin-right: 1%;
-}
-
-.content-boq, .rate_column, .quantity_column, .boq_id, .tender_id, .sheet-name, .amount_column, .quantity_surveyor_id, .unit_column, .request_for_tender_contractors, .item_column, .total-bid, .boq-contract-sum, .qs-company-name {
-    display: none;
-}
 
 .make-me-red {
-    color: #f00;
+  color: #f00;
 }
 
 .make-me-green {
-    color: #42f47a;
+  color: #42f47a;
 }
+
 .make-me-orange {
-    color: #f48c42;
+  color: #f48c42;
 }
 
-#container.handsontable table{
-    width:100%;
-}
-
-.tender-boq-body{
-}
-
-.pay-modal{
-  background-color: #ffce12;
-}
-
-.pay-label{
-  font-weight: bolder;
-}
-
-.company-details{
-  border-bottom: 1px solid #838383;
-  margin-bottom: 2%;
-  padding-bottom: 2%;
-}
-
-.document-approve{
-  color: greenyellow;
-}
-
-.document-issue{
-  color: orangered;
-}
-
-#tender_rating{
-  margin-right: 2%;
+#container.handsontable table {
+  width: 100%;
 }
 
 /******************************************************
@@ -244,11 +101,11 @@ Flags configuration for International Telephone Input
 }
 
 @media only screen and (-webkit-min-device-pixel-ratio: 2),
-       only screen and (min--moz-device-pixel-ratio: 2),
-       only screen and (-o-min-device-pixel-ratio: 2 / 1),
-       only screen and (min-device-pixel-ratio: 2),
-       only screen and (min-resolution: 192dpi),
-       only screen and (min-resolution: 2dppx) {
+only screen and (min--moz-device-pixel-ratio: 2),
+only screen and (-o-min-device-pixel-ratio: 2 / 1),
+only screen and (min-device-pixel-ratio: 2),
+only screen and (min-resolution: 192dpi),
+only screen and (min-resolution: 2dppx) {
   .iti-flag {
     background-image: image-url("flags@2x.png");
   }
@@ -256,4 +113,12 @@ Flags configuration for International Telephone Input
 
 .intl-tel-input {
   display: block;
+}
+
+/******************************************************
+Navbar drop down patch
+******************************************************/
+
+.fix-screen {
+  margin-left: -30%;
 }
