@@ -60,6 +60,7 @@ import VueResource from 'vue-resource'
 import Vue from 'vue/dist/vue.esm'
 
 import UploadBoq from '../uploadBoq/uploadBoq'
+import UploadListOfItems from '../uploadListOfItems/uploadListOfItems'
 import RateFillingBoq from '../rateFillingBoq/rateFillingBoq'
 import ViewBidBoq from '../viewBidBoq/viewBidBoq'
 import ComparisonBoq from '../comparisonBoq/comparisonBoq'
@@ -79,6 +80,7 @@ document.addEventListener('turbolinks:load', () => {
     },
     components: {
       UploadBoq,
+      UploadListOfItems,
       RateFillingBoq,
       ViewBidBoq,
       ComparisonBoq,

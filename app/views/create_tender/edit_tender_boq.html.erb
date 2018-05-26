@@ -1,62 +1,59 @@
-<%= form_with model: @request_for_tender,
-              scope: :request_for_tender,
-              url: update_tender_boq_path(@request_for_tender),
-              method: :patch,
-              local: true,
-              id: 'request-form' do |form| %>
+<div id='hello' class="mb-5">
+  <upload-list-of-items
+    :request_for_tender_id="<%= @request_for_tender.id %>"
+    :list_of_items="<%= @request_for_tender.list_of_items.to_json %>">
 
-  <%= render 'create_tender/create_tender_navigation', location: 'top', request_for_tender: @request_for_tender, form: form %>
+    <div slot="upload">
 
-  <%= render 'request_for_tender_errors' %>
+      <%= form_with model: @request_for_tender,
+                    scope: :request_for_tender,
+                    url: update_tender_boq_path(@request_for_tender),
+                    method: :patch,
+                    local: true,
+                    id: 'request-form' do |form| %>
 
-  <p class="text-muted small">
-    Please upload your completely FILLED Bill Of Quantities in .xls or .xlsx format.
-    <br>
-    Then right click on the cell in the bill of quantities containing the estimated tender figure for the project.
-    <br>
 
-    <strong>
-      NB: Columns A, B, C, D, E and F should be Item, Description, Qty, Unit, Rate and Amount respectively.
-    </strong>
-    <br>
+        <%= render 'request_for_tender_errors' %>
 
-    <strong>
-      Please note that your rates and estimated tender figure are private, and will NEVER be displayed to any contractor.
-    </strong>
-  </p>
-  
-  <% if @request_for_tender.bill_of_quantities.present? %>
-    <div id='hello' class="mb-5">
-      <upload-boq
-      :request-for-tender-id="<%= @request_for_tender.id %>"
-      :workbook-data="<%= @request_for_tender.bill_of_quantities %>"
-      :contract-sum-address="<%= @request_for_tender.contract_sum_address.to_json %>"
-      currency="<%= project_currency_symbol @request_for_tender %>"
-      qs-company-name="<%= @request_for_tender.project_owners_company_name %>"
-      boq-contract-sum="<%= 100000 %>"
-      ></upload-boq>
-    </div>
-  <% end %>
+        <p class="text-muted small">
+          Please upload your completely FILLED Bill Of Quantities in .xls or .xlsx format.
+          <br>
+          Then right click on the cell in the bill of quantities containing the estimated tender figure for the project.
+          <br>
 
-  <div class="mb-4 d-flex w-100 justify-content-start">
-    <div>
-      <%= form.label :bill_of_quantities,
-                     @request_for_tender.excel_file.present? ? 'Replace' : 'Upload' %>
-      <%= form.hidden_field :bill_of_quantities, id: 'workbook-data' %>
-      <%= form.fields_for :excel_file do |excel| %>
-        <% if excel.object.document? %>
-          <%= link_to excel.object.document.file.filename,
-                      excel.object.document.url,
-                      target: '_blank',
-                      id: 'uploaded-boq' %>
-        <% end %>
-        <%= excel.file_field :document,
-                             id:'upload-boq',
-                             class: 'form-control-file form-control-sm mb-2',
-                             data: { 'save-on-change': true } %>
+          <strong>
+            NB: Columns A, B, C, D, E and F should be Item, Description, Qty, Unit, Rate and Amount respectively.
+          </strong>
+          <br>
+
+          <strong>
+            Please note that your rates and estimated tender figure are private, and will NEVER be displayed to any contractor.
+          </strong>
+        </p>
+
+        <div class="mb-4 d-flex w-100 justify-content-start">
+          <div>
+            <%= form.label :bill_of_quantities,
+                           @request_for_tender.excel_file.present? ? 'Replace' : 'Upload' %>
+            <%= form.hidden_field :bill_of_quantities, id: 'workbook-data' %>
+            <%= form.fields_for :excel_file do |excel| %>
+              <% if excel.object.document? %>
+                <%= link_to excel.object.document.file.filename,
+                            excel.object.document.url,
+                            target: '_blank',
+                            id: 'uploaded-boq' %>
+              <% end %>
+              <%= excel.file_field :document,
+                                   id:'upload-boq',
+                                   class: 'form-control-file form-control-sm mb-2',
+                                   data: { 'save-on-change': true } %>
+            <% end %>
+          </div>
+        </div>
+
       <% end %>
-    </div>
-  </div>
 
-  <%= render 'create_tender/create_tender_navigation', location: 'bottom', request_for_tender: @request_for_tender, form: form %>
-<% end %>
+    </div>
+
+  </upload-list-of-items>
+</div>
