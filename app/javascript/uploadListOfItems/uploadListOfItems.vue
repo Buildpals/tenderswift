@@ -1,20 +1,19 @@
 <template>
   <div id="app" class="">
 
-    <b-tabs>
-
-      <b-tab title="Create a list of items" active style="min-height: 768px;">
-        <table class="table table-sm">
+    <b-tabs style="min-height: 650px;">
+      <b-tab title="Create a list of items" active>
+        <table class="table table-sm" style="font-size: 0.9rem;">
           <thead>
           <tr>
-            <th></th>
-            <th>Item</th>
-            <th colspan="4">Description</th>
-            <th>Quantity</th>
-            <th>Unit</th>
-            <th>Price/Rate</th>
-            <th>Amount</th>
-            <th></th>
+            <th style="width:100px"></th>
+            <th style="width:60px">Item</th>
+            <th style="width:550px">Description</th>
+            <th style="width:60px">Quantity</th>
+            <th style="width:60px">Unit</th>
+            <th style="width:90px">Price/Rate</th>
+            <th style="width:90px">Amount</th>
+            <th style="width:60px"></th>
           </tr>
           </thead>
 
@@ -41,7 +40,7 @@
                        class='form-control form-control-sm'>
               </td>
 
-              <td colspan="4">
+              <td>
                 <input type="text"
                        v-model="newItem.description"
                        class='form-control form-control-sm'>
@@ -71,7 +70,7 @@
                        class='form-control form-control-sm'>
               </td>
 
-              <td>
+              <td class="d-flex justify-content-center">
                 <button class="btn btn-sm btn-primary"
                         @click="addItem">
                   Add
@@ -86,44 +85,17 @@
       <b-tab title="Upload an excel file">
         <slot name="upload"></slot>
       </b-tab>
-
-      <div class="align-self-center ml-auto" slot="tabs">
-        <button @click="save('Back')"
-               class="btn btn-primary next-button text-uppercase mb-2">
-          Back
-        </button>
-
-        <button @click="save('Save')"
-                class="btn btn-primary next-button text-uppercase mb-2">
-          Save
-        </button>
-
-        <button @click="save('Next')"
-               class="btn btn-primary next-button text-uppercase mb-2">
-          Next
-        </button>
-      </div>
     </b-tabs>
 
 
     <hr>
-    <div class="d-flex justify-content-end align-self-center ml-auto">
-      <button @click="save('Back')"
-              class="btn btn-primary next-button text-uppercase mr-1 mb-2">
-        Back
-      </button>
+    <div class="d-flex justify-content-between align-items-center">
+      <slot name="previous-link"></slot>
 
-      <button @click="save('Save')"
-              class="btn btn-primary next-button text-uppercase mr-1 mb-2">
-        Save
-      </button>
-
-      <button @click="save('Next')"
-              class="btn btn-primary next-button text-uppercase mb-2">
-        Next
+      <button @click="save" class="btn btn-secondary">
+        Save and continue
       </button>
     </div>
-
   </div>
 </template>
 
@@ -213,16 +185,15 @@
       save (commit) {
         this.isSaving = true
         this.$http
-          .patch(
-            `/create_tender/${this.request_for_tender_id}/boq`,
+          .put(
+            `/request_for_tenders/${this.request_for_tender_id}/build/bill_of_quantities`,
             {
               request_for_tender: {
                 list_of_items: {
                   items: this.items,
                   updated_at: Date.now()
                 }
-              },
-              commit: commit
+              }
             }
           )
           .then(response => {

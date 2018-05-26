@@ -2,7 +2,7 @@
   <tr class="bg-white">
 
     <td>
-      <span class="fa fa-arrows" v-handle></span>
+      <span class="fa fa-arrows mr-3" v-handle></span>
       {{ index + 1}}
     </td>
 
@@ -12,7 +12,7 @@
           :editing="item == editedItem"/>
     </td>
 
-    <td colspan="4">
+    <td>
       <item-field
           v-model="item.description"
           :editing="item == editedItem"/>
@@ -42,10 +42,10 @@
              class='form-control form-control-sm'>
     </td>
 
-    <td>
+    <td class="d-flex justify-content-center">
       <button v-show="item != editedItem"
               type="button"
-              class="close"
+              class="close float-none"
               aria-label="Close"
               @click="$emit('delete', index)">
         <span aria-hidden="true">&times;</span>

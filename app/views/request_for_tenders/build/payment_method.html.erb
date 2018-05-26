@@ -1,0 +1,12 @@
+<%= form_with model: @request_for_tender,
+              scope: :request_for_tender,
+              url: wizard_path,
+              method: :put,
+              local: true,
+              id: 'request-form' do |form| %>
+
+  <%= render 'request_for_tenders/payments_form', form: form %>
+
+  <%= render 'build_request_for_tender_navigation', form: form %>
+
+<% end %>

@@ -6,6 +6,11 @@ class RequestForTender < ApplicationRecord
   scope :published, -> { where.not(published_at: nil) }
   scope :not_published, -> { where(published_at: nil) }
 
+  enum status: {
+    inert: 0,
+    active: 1
+  }
+
   serialize :contract_sum_address, Hash
 
   monetize :selling_price_subunit,
@@ -59,7 +64,7 @@ class RequestForTender < ApplicationRecord
            to: :quantity_surveyor,
            prefix: :project_owners
 
-  validates :project_name, presence: true
+  validates :project_name, presence: true, if: :active?
   # validate :check_deadline
 
   def to_param
@@ -79,7 +84,7 @@ class RequestForTender < ApplicationRecord
     required_documents.build(title: 'Works and Housing certificate')
     required_documents.build(title: 'Financial statements (3 years )')
     required_documents.build(
-        title: 'Bank Statement or evidence of Funding (letter of credit)'
+      title: 'Bank Statement or evidence of Funding (letter of credit)'
     )
     save!
   end

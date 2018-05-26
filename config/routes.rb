@@ -32,63 +32,9 @@ Rails.application.routes.draw do
 
   resources :quantity_surveyors, only: %i[edit update]
 
-  # Routes for create_tender
-  get '/create_tender/:id',
-      to: 'create_tender#edit_tender_information',
-      as: :edit_tender_information
-
-  patch '/create_tender/:id',
-        to: 'create_tender#update_tender_information',
-        as: :update_tender_information
-
-  get '/create_tender/:id/documents',
-      to: 'create_tender#edit_tender_documents',
-      as: :edit_tender_documents
-
-  patch '/create_tender/:id/documents',
-        to: 'create_tender#update_tender_documents',
-        as: :update_tender_documents
-
-  get '/create_tender/:id/boq',
-      to: 'create_tender#edit_tender_boq',
-      as: :edit_tender_boq
-
-  patch '/create_tender/:id/boq',
-        to: 'create_tender#update_tender_boq',
-        as: :update_tender_boq
-
-  patch '/create_tender/:id/contract_sum_address',
-        to: 'create_tender#update_contract_sum_address'
-
-  get '/create_tender/:id/required_documents',
-      to: 'create_tender#edit_tender_required_documents',
-      as: :edit_tender_required_documents
-
-  patch '/create_tender/:id/required_documents',
-        to: 'create_tender#update_tender_required_documents',
-        as: :update_tender_required_documents
-
-  get '/create_tender/:id/payment_method',
-      to: 'create_tender#edit_tender_payment_method',
-      as: :edit_tender_payment_method
-
-  patch '/create_tender/:id/payment_method',
-        to: 'create_tender#update_tender_payment_method',
-        as: :update_tender_payment_method
-
-  patch '/create_tender/:id/details',
-        to: 'create_tender#update_payment_details',
-        as: :update_payment_details
-
-  get '/create_tender/:id/contractors',
-      to: 'create_tender#edit_tender_contractors',
-      as: :edit_tender_contractors
-
-  patch '/create_tender/:id/contractors',
-        to: 'create_tender#update_tender_contractors',
-        as: :update_tender_contractors
-
-  resources :request_for_tenders, only: %i[create show update destroy]
+  resources :request_for_tenders, only: %i[show update destroy] do
+    resources :build, controller: 'request_for_tenders/build'
+  end
 
   # Routes for bid
 

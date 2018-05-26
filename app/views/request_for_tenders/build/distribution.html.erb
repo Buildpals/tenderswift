@@ -1,0 +1,87 @@
+<%= form_with model: @request_for_tender,
+              scope: :request_for_tender,
+              url: wizard_path,
+              method: :put,
+              local: true,
+              id: 'request-form' do |form| %>
+
+  <%= render 'request_for_tender_errors' %>
+
+  <%= form.hidden_field :private, value: true %>
+
+  <div class="form-row mb-5" id="publicLinkDiv" style="display: block">
+    <div class="col-md-12">
+      <div class="form-group">
+        <%= form.label :reference_number,
+                       'The reference number for this request for tender is:',
+                       class: 'pb-0' %>
+
+        <%= text_field_tag :reference_number,
+                           @request_for_tender.id,
+                           {
+                               id: :request_for_tender_reference_number,
+                               class: 'form-control form-control-sm',
+                               onclick: 'this.select()',
+                               readonly: true
+                           } %>
+
+        <small class="form-text text-muted">
+          Copy and send it to the contractors you would like to tender for this
+          contract.
+          <br>
+          They will have to go to
+          <a href="https://public.tenderswift.com">
+            public.tenderswift.com
+          </a>
+          and enter this reference number in order to purchase this tender.
+        </small>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-row mb-5" id="publicLinkDiv" style="display: block">
+    <div class="col-md-12">
+      <div class="form-group">
+        <div class="d-flex w-100 justify-content-between mb-3">
+          <%= form.label :purchase_link,
+                         'Purchase link',
+                         class: 'pb-0 mb-0' %>
+
+          <%= link_to 'Preview purchase link',
+                      purchase_url(@request_for_tender),
+                      target: '_blank',
+                      class: 'btn btn-link btn-sm' %>
+        </div>
+
+        <%= text_field_tag :purchase_link,
+                           purchase_url(@request_for_tender),
+                           {
+                               id: :request_for_tender_purchase_link,
+                               class: 'form-control form-control-sm',
+                               onclick: 'this.select()',
+                               readonly: true
+                           } %>
+        <small class="form-text text-muted">
+          The link above is where contractors can see and purchase this
+          request for tender.
+          <br>
+          You can copy and send it to the contractors you would like to tender
+          for this contract.
+        </small>
+      </div>
+    </div>
+  </div>
+
+  <hr>
+  <div class="d-flex justify-content-between align-items-center">
+    <%= link_to 'Previous', previous_wizard_path %>
+
+    <%= form.submit 'Publish', class: 'btn btn-secondary',
+                    data: {
+                        confirm: 'Publishing this request for tender will ' \
+                          'now allow any one with it\'s reference number or ' \
+                          'purchase link to purchase it. Are you sure you ' \
+                          'want to publish this request for tender?'
+                    } %>
+  </div>
+<% end %>

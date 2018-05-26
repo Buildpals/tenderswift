@@ -5,13 +5,6 @@ class RequestForTendersController < QuantitySurveyorsController
 
   before_action :set_policy
 
-  def create
-    @request_for_tender = current_quantity_surveyor.request_for_tenders.new
-    authorize @request_for_tender
-    @request_for_tender.setup_with_data
-    redirect_to edit_tender_information_path @request_for_tender
-  end
-
   def show
     authorize @request_for_tender
   end
