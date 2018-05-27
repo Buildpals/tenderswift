@@ -2,7 +2,6 @@
               scope: :request_for_tender,
               url: wizard_path,
               method: :put,
-              local: true,
               id: 'request-form' do |form| %>
 
   <%= render 'request_for_tenders/payments_form', form: form %>
