@@ -92,5 +92,10 @@
     </div>
   </div>
 
-  <%= render 'build_request_for_tender_navigation', form: form %>
+  <hr>
+  <div class="d-flex justify-content-between align-items-center">
+    <%= link_to 'Previous', previous_wizard_path %>
+
+    <%= form.submit 'Save and continue', class: 'btn btn-secondary' %>
+  </div>
 <% end %>
