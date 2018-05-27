@@ -19,10 +19,6 @@ class RequestForTenders::BuildController < QuantitySurveyorsController
     case step
     when :bill_of_quantities
       @request_for_tender.excel_file ||= ExcelFile.new
-    when :tender_documents
-      if @request_for_tender.project_documents.empty?
-        5.times { @request_for_tender.project_documents.build }
-      end
     end
 
     render_wizard

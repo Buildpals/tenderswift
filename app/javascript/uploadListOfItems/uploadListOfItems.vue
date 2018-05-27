@@ -102,11 +102,10 @@
 <script>
   import ItemRow from './itemRow'
   import SortableList from './sortableList'
-  import ExcelUploader from './excelUploader'
   import localforage from 'localforage'
 
   export default {
-    components: {SortableList, ItemRow, ExcelUploader},
+    components: {SortableList, ItemRow},
 
     props: [
       'request_for_tender_id',

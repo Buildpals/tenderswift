@@ -1,31 +1,23 @@
-<%= form_with model: @request_for_tender,
-              scope: :request_for_tender,
-              url: wizard_path,
-              method: :put,
-              local: true,
-              id: 'request-form' do |form| %>
+<p class="text-muted small">
+  Upload any documents that you want the contractor to use in deciding his bid.
+  <br>
+  <strong>
+    NB. Do not upload the bill of quantities here.
+    It should be uploaded in step "2. Bill Of Quantites" instead.
+  </strong>
+</p>
 
-  <%= render 'request_for_tender_errors' %>
 
-  <p class="text-muted small">
-    Upload any documents that you want the contractor to use in deciding his bid.
-    <br>
-    <strong>
-      NB. Do not upload the bill of quantities here.
-      It should be uploaded in step "2. Bill Of Quantites" instead.
-    </strong>
-  </p>
+<div id='hello' class="mb-5">
+  <project-documents-uploader
+    :request_for_tender="<%= @request_for_tender.to_json(include: :project_documents) %>"/>
+</div>
 
-  <div class="form-group mt-3">
-    <ul class="list-group list-group-flush nested-forms">
-      <%= form.fields_for :project_documents do |project_document| %>
-        <%= render 'project_document_fields', f: project_document %>
-      <% end %>
-      <li class="d-flex w-100 justify-content-between">
-        <%= link_to_add_association 'ADD NEW DOCUMENT', form, :project_documents, class: 'btn btn-sm btn-block btn-primary my-1' %>
-      </li>
-    </ul>
-  </div>
+<hr>
+<div class="d-flex justify-content-between align-items-center">
+  <%= link_to 'Previous', previous_wizard_path %>
 
-  <%= render 'build_request_for_tender_navigation', form: form %>
-<% end %>
+  <%= link_to 'Save and continue',
+              next_wizard_path,
+              class: 'btn btn-secondary' %>
+</div>

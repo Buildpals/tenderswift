@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180526160901) do
+ActiveRecord::Schema.define(version: 20180527090334) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -123,6 +123,7 @@ ActiveRecord::Schema.define(version: 20180526160901) do
     t.string "document"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "original_file_name"
     t.index ["request_for_tender_id"], name: "index_project_documents_on_request_for_tender_id"
   end
 

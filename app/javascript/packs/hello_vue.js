@@ -61,6 +61,7 @@ import Vue from 'vue/dist/vue.esm'
 
 import UploadBoq from '../uploadBoq/uploadBoq'
 import UploadListOfItems from '../uploadListOfItems/uploadListOfItems'
+import ProjectDocumentsUploader from '../uploadListOfItems/ProjectDocumentsUploader'
 import RateFillingBoq from '../rateFillingBoq/rateFillingBoq'
 import ViewBidBoq from '../viewBidBoq/viewBidBoq'
 import ComparisonBoq from '../comparisonBoq/comparisonBoq'
@@ -84,7 +85,8 @@ document.addEventListener('turbolinks:load', () => {
       RateFillingBoq,
       ViewBidBoq,
       ComparisonBoq,
-      BidsTable
+      BidsTable,
+      ProjectDocumentsUploader
     }
   })
 })

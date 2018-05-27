@@ -34,6 +34,7 @@ Rails.application.routes.draw do
 
   resources :request_for_tenders, only: %i[show update destroy] do
     resources :build, controller: 'request_for_tenders/build'
+    resources :project_documents, only: %i[create destroy]
   end
 
   # Routes for bid
