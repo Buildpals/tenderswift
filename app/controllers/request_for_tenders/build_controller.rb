@@ -15,12 +15,6 @@ class RequestForTenders::BuildController < QuantitySurveyorsController
   def show
     @request_for_tender = RequestForTender.find(params[:request_for_tender_id])
     authorize @request_for_tender
-
-    case step
-    when :bill_of_quantities
-      @request_for_tender.excel_file ||= ExcelFile.new
-    end
-
     render_wizard
   end
 
@@ -78,9 +72,6 @@ class RequestForTenders::BuildController < QuantitySurveyorsController
                     :updated_at,
                     items: %i[name description quantity unit]
                   ],
-                  excel_file_attributes: %i[id
-                                            document
-                                            _destroy],
                   project_documents_attributes: %i[id
                                                    document
                                                    _destroy],

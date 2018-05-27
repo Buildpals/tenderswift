@@ -48,9 +48,6 @@ class RequestForTender < ApplicationRecord
   has_one :excel_file,
           dependent: :destroy,
           inverse_of: :request_for_tender
-  accepts_nested_attributes_for :excel_file,
-                                allow_destroy: true,
-                                reject_if: :all_blank
 
   enum withdrawal_frequency: { 'Monthly' => 0,
                                'Every two weeks' => 1,
