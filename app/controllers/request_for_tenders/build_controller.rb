@@ -9,7 +9,6 @@ class RequestForTenders::BuildController < QuantitySurveyorsController
         :bill_of_quantities,
         :tender_documents,
         :tender_instructions,
-        :payment_method,
         :distribution
 
   def show
