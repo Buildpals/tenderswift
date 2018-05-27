@@ -1,4 +1,3 @@
-<!-- HTML Template -->
 <template>
   <div id="app">
 
@@ -6,46 +5,68 @@
       <div class="dropbox mb-5">
         <input type="file" multiple
                name="project_document[document]"
-               :disabled="isSaving"
                @change="filesChange($event.target.name, $event.target.files);
                         fileCount = $event.target.files.length"
                class="input-file">
-        <p v-if="isSaving">
-          Uploading {{ fileCount }} files...
-        </p>
-        <p v-else>
+        <p>
           Drag documents here<br> or click to browse
         </p>
       </div>
     </form>
 
-    <!--FAILED-->
-    <div v-if="isFailed">
-      <h2>Uploaded failed.</h2>
-      <p>
-        <a href="javascript:void(0)" @click="reset()">Try again</a>
-      </p>
-      <pre>{{ uploadError }}</pre>
-    </div>
-
     <div class="row">
       <div class="col-lg-8">
         <h4>Added Documents</h4>
+
         <ul class="list-group">
+
           <li class="list-group-item
                      d-flex justify-content-between align-items-center"
               v-for="project_document in uploadedFiles">
-            <a :href="project_document.document.url"
-               target="blank">
-              {{project_document.original_file_name}}
-            </a>
-            <button class="btn btn-light btn-sm"
-                    :disabled="project_document.isDeleting"
-                    @click="deleteDocument(project_document)">
-              {{ project_document.isDeleting ? 'Deleting...' : 'Delete' }}
-            </button>
+
+            <template v-if="project_document.uploadState === STATUS_SAVING">
+              <div>
+                <span class="fa fa-spinner fa-spin mr-2"></span>
+                <span class="mr-2">
+                  {{ project_document.original_file_name }}
+                </span>
+                <span>
+                  {{ project_document.size }}
+                </span>
+              </div>
+
+              Processing...
+            </template>
+
+            <template
+                v-else-if="project_document.uploadState === STATUS_FAILED">
+              <span class="mr-2">
+                {{ project_document.original_file_name }}
+              </span>
+              <span>
+                {{ project_document.error }}
+              </span>
+
+              <button class="btn btn-light btn-sm"
+                      @click="save(project_document)">
+                Retry
+              </button>
+            </template>
+
+            <template v-else>
+              <a :href="project_document.document.url"
+                 target="blank">
+                {{project_document.original_file_name}}
+              </a>
+              <button class="btn btn-light btn-sm"
+                      :disabled="project_document.isDeleting"
+                      @click="deleteDocument(project_document)">
+                {{ project_document.isDeleting ? 'Deleting...' : 'Delete' }}
+              </button>
+            </template>
           </li>
         </ul>
+
       </div>
     </div>
 
@@ -53,83 +74,21 @@
   </div>
 </template>
 
-<!-- Javascript -->
 <script>
-  const STATUS_INITIAL = 0, STATUS_SAVING = 1, STATUS_SUCCESS = 2,
-    STATUS_FAILED = 3
-
   export default {
     props: ['request_for_tender'],
 
     data () {
       return {
-        uploadedFiles: [],
-        uploadError: null,
-        currentStatus: null,
-        uploadFieldName: 'photos'
-      }
-    },
-
-    computed: {
-      isInitial () {
-        return this.currentStatus === STATUS_INITIAL
-      },
-      isSaving () {
-        return this.currentStatus === STATUS_SAVING
-      },
-      isSuccess () {
-        return this.currentStatus === STATUS_SUCCESS
-      },
-      isFailed () {
-        return this.currentStatus === STATUS_FAILED
+        uploadedFiles: this.request_for_tender.project_documents,
+        STATUS_INITIAL: 0,
+        STATUS_SAVING: 1,
+        STATUS_SUCCESS: 2,
+        STATUS_FAILED: 3,
       }
     },
 
     methods: {
-      reset () {
-        // reset form to initial state
-        this.currentStatus = STATUS_INITIAL
-        this.uploadedFiles = this.request_for_tender.project_documents
-        this.uploadError = null
-      },
-      save (formData) {
-        // upload data to the server
-        this.currentStatus = STATUS_SAVING
-
-        this.$http.post(
-          `/request_for_tenders/${this.request_for_tender.id}/`
-          + `project_documents`,
-          formData
-        )
-          .then(response => {
-            console.log(response.body)
-            this.uploadedFiles = this.uploadedFiles.concat(response.body)
-            this.currentStatus = STATUS_SUCCESS
-          })
-          .catch(error => {
-            console.error('error uploading file', error)
-            this.uploadError = error
-            this.currentStatus = STATUS_FAILED
-          })
-      },
-      filesChange (fieldName, fileList) {
-        // handle file changes
-        const formData = new FormData()
-
-        if (!fileList.length) return
-
-        // append the files to FormData
-        Array
-          .from(Array(fileList.length).keys())
-          .map(x => {
-            formData.append(fieldName, fileList[x], fileList[x].name)
-            formData
-              .append('project_document[original_file_name]', fileList[x].name)
-          })
-
-        // save it
-        this.save(formData)
-      },
       deleteDocument (project_document) {
         this.$set(project_document, 'isDeleting', true)
 
@@ -138,7 +97,6 @@
           + `/project_documents/${project_document.id}`
         )
           .then(response => {
-            console.log('success deleting project_document', response.body)
             this.uploadedFiles
               .splice(this.uploadedFiles.indexOf(project_document), 1)
           })
@@ -149,14 +107,68 @@
             this.$set(project_document, 'isDeleting', false)
           })
       },
-    },
-    mounted () {
-      this.reset()
+
+      filesChange (fieldName, fileList) {
+        if (!fileList.length) return
+
+        Array.from(fileList)
+          .map(file => {
+            const formData = new FormData()
+            formData.append(fieldName, file, file.name)
+            formData
+              .append('project_document[original_file_name]', file.name)
+
+            this.save({
+              formData: formData,
+              original_file_name: file.name,
+              size: this.getHumanReadableSize(file)
+            })
+          })
+      },
+
+      save (project_document) {
+        project_document.uploadState = this.STATUS_SAVING
+
+        if (this.uploadedFiles.indexOf(project_document) === -1) {
+          this.uploadedFiles.push(project_document)
+        }
+
+        this.$http.post(
+          `/request_for_tenders/${this.request_for_tender.id}/`
+          + `project_documents`,
+          project_document.formData
+        )
+          .then(response => {
+            this.uploadedFiles.splice(
+              this.uploadedFiles.indexOf(project_document),
+              1,
+              response.body
+            )
+            project_document.uploadState = this.STATUS_SUCCESS
+          })
+          .catch(error => {
+            console.error('error uploading file', error)
+            project_document.uploadState = this.STATUS_FAILED
+            if (error.status === 422) {
+              project_document.error = Object.values(error.body).join(', ')
+            }
+          })
+      },
+
+      getHumanReadableSize (file) {
+        const fSExt = ['Bytes', 'KB', 'MB', 'GB']
+        let fSize = file.size
+        let i = 0
+        while (fSize > 900) {
+          fSize /= 1024
+          i++
+        }
+        return `${ Math.round(fSize * 100) / 100 }  ${ fSExt[i] }`
+      }
     }
   }
 </script>
 
-<!-- SASS styling -->
 <style lang="scss">
   .dropbox {
     outline: 2px dashed grey; /* the dash box */
