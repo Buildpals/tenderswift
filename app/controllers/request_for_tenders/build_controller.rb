@@ -69,7 +69,7 @@ class RequestForTenders::BuildController < QuantitySurveyorsController
                   :private,
                   list_of_items: [
                     :updated_at,
-                    items: %i[name description quantity unit]
+                    items: %i[name description quantity unit isHeader]
                   ],
                   project_documents_attributes: %i[id
                                                    document

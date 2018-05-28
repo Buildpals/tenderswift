@@ -10,7 +10,12 @@
         <th style="width:60px">Unit</th>
         <th style="width:90px">Price/Rate</th>
         <th style="width:90px">Amount</th>
-        <th style="width:60px"></th>
+        <th style="width:60px">
+          <button class="btn btn-sm btn-secondary"
+            @click="save">
+            Save
+          </button>
+        </th>
       </tr>
       </thead>
 
@@ -162,7 +167,7 @@
         this.items.splice(index, 1)
       },
 
-      save (commit) {
+      save () {
         this.isSaving = true
         this.$http
           .put(
