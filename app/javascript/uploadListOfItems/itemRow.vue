@@ -76,6 +76,7 @@
 
     <td class="d-flex justify-content-center">
       <button v-show="item != editedItem"
+              tabindex="-1"
               type="button"
               class="close float-none"
               aria-label="Close"
