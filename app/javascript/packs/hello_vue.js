@@ -4,7 +4,7 @@ import VueResource from 'vue-resource'
 import Vue from 'vue/dist/vue.esm'
 
 import UploadBoq from '../uploadBoq/uploadBoq'
-import UploadListOfItems from '../uploadListOfItems/uploadListOfItems'
+import UploadListOfItems from '../uploadListOfItems/UploadListOfItems'
 import ProjectDocumentsUploader from '../uploadListOfItems/ProjectDocumentsUploader'
 import RateFillingBoq from '../rateFillingBoq/rateFillingBoq'
 import ViewBidBoq from '../viewBidBoq/viewBidBoq'

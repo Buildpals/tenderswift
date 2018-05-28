@@ -96,7 +96,7 @@
 
 <script>
   import { ElementMixin, HandleDirective } from 'vue-slicksort'
-  import ItemField from './itemField'
+  import ItemField from './ItemField.vue'
   import ContextMenu from 'vue-context-menu'
 
   export default {
