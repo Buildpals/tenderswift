@@ -31,3 +31,71 @@
 
 en:
   hello: "Hello world"
+  pundit:
+    default: 'You cannot perform this action.'
+    bid_policy:
+      required_documents?: 'You are not authorized to review this tender yet'
+      boq?: 'You are not authorized to review this tender yet'
+      other_documents?: 'You are not authorized to review this tender yet'
+      disqualify?: 'You are not authorized to review this tender yet'
+      undo_disqualify?: 'You are not authorized to review this tender yet'
+      rate?: 'You are not authorized to review this tender yet'
+
+    contractor_policy:
+      dashboard?: 'You are not authorized to view this dashboard'
+      edit?: 'You are not authorized to view or edit this profile'
+      update?: 'You are not authorized to edit this profile'
+
+    create_tender_policy:
+      edit_tender_information?: 'You are not authorized to edit this request_for_tender'
+      update_tender_information?: 'You are not authorized to edit this request_for_tender'
+      edit_tender_boq?: 'You are not authorized to edit this request_for_tender'
+      update_tender_boq?: 'You are not authorized to edit this request_for_tender'
+      update_contract_sum_address?: 'You are not authorized to edit this request_for_tender'
+      edit_tender_documents?: 'You are not authorized to edit this request_for_tender'
+      update_tender_documents?: 'You are not authorized to edit this request_for_tender'
+      edit_tender_required_documents?: 'You are not authorized to edit this request_for_tender'
+      update_tender_required_documents?: 'You are not authorized to edit this request_for_tender'
+      edit_tender_payment_method?: 'You are not authorized to edit this request_for_tender'
+      update_tender_payment_method?: 'You are not authorized to edit this request_for_tender'
+      update_payment_details?: 'You are not authorized to edit this request_for_tender'
+      edit_tender_contractors?: 'You are not authorized to edit this request_for_tender'
+      update_tender_contractors: 'You are not authorized to edit this request_for_tender'
+
+    other_document_upload_policy:
+      show?: 'You are not authorized to review this tender yet'
+      approve?: 'You are not authorized to review this tender yet'
+      reject?: 'You are not authorized to review this tender yet'
+
+    purchase_tender_policy:
+      portal?: 'The tender has not been made available for purchasing'
+      purchase?: 'The tender has not been made available for purchasing'
+      monitor_purchase?: 'The tender has not been made available for purchasing'
+      complete_transaction?: 'The tender has not been made available for purchasing'
+
+    quantity_surveyor_policy:
+      dashboard?: 'You are not authorized to view this dashboard'
+      edit?: 'You are not authorized to view or edit this profile'
+      update?: 'You are not authorized to edit this profile'
+
+    request_for_tender_policy:
+      create?: 'You are not authorized to view this request for tender'
+      show?: 'You are not authorized to view this request for tender'
+      compare_boq?: 'You are not authorized to view this request for tender'
+      update?: 'You are not authorized to edit this request for tender'
+      destroy?: 'You are not authorized to delete this request for tender'
+
+    required_document_upload_policy:
+      show?: 'You are not authorized to review this tender yet'
+      approve?: 'You are not authorized to review this tender yet'
+      reject?: 'You are not authorized to review this tender yet'
+
+    tender_policy:
+      project_information?: 'You need to purchase the tender in order to view it'
+      tender_documents?: 'You need to purchase the tender in order to view it'
+      boq?: 'You need to purchase the tender in order to view it'
+      contractors_documents?: 'You need to purchase the tender in order to view it'
+      results?: 'You can only see the tender results if you have submitted and the deadline is over your tender'
+      save_rates?: 'You cannot edit a tender after submitting it'
+      save_contractors_documents?: 'You cannot edit a tender after submitting it'
+      submit_tender?: 'You cannot edit a tender after submitting it'
