@@ -19,12 +19,12 @@ Vue.use(BootstrapVue);
 Vue.use(VueResource);
 
 document.addEventListener('turbolinks:load', () => {
-  if ($('#hello').length === 0) return
+  if ($('.hello').length === 0) return
 
   Vue.http.headers.common['X-CSRF-Token'] = document.querySelector('meta[name="csrf-token"').getAttribute('content')
 
   const app = new Vue({
-    el: '#hello',
+    el: '.hello',
     data: {
       message: "Can you say hello?"
     },

@@ -18,7 +18,7 @@
   <div class="row">
     <div class="col-md-12">
       <% if @request_for_tender.bill_of_quantities.present? %>
-        <div id='hello' class="mb-5">
+        <div class="hello mb-5">
           <comparison-boq
           :tenders="<%= @tenders.to_json(include: :rates) %>"
           :workbook-data="<%= @request_for_tender.bill_of_quantities %>"

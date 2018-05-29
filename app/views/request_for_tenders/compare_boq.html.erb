@@ -17,7 +17,7 @@
 <div class="container-fluid" style="padding-left: 0px; padding-right: 15px;">
   <div class="row">
     <div class="col-md-12">
-      <div id='hello'>
+      <div class="hello">
         <comparison-boq
         :tenders="<%= @request_for_tender.tenders.to_json(include: :rates) %>"
         :workbook-data="<%= @request_for_tender.bill_of_quantities %>"

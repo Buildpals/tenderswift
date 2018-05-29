@@ -61,7 +61,7 @@
     <strong class="text-center">Bill Of Quantities</strong>
     <hr>
     <% if @request_for_tender.bill_of_quantities.present? %>
-      <div id='hello'>
+      <div class="hello">
         <upload-boq
         :request-for-tender-id="<%= @request_for_tender.id %>"
         :workbook-data="<%= @request_for_tender.bill_of_quantities %>"
