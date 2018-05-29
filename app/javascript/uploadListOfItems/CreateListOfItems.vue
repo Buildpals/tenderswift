@@ -23,7 +23,7 @@
                      :useDragHandle="true"
                      v-model="items">
 
-        <item-row v-for="(item, index) in items"??
+        <item-row v-for="(item, index) in items"
                   :item="item"
                   :index="index"
                   :key="index"
