@@ -1,5 +1,9 @@
 <template>
   <div id="app">
+    <tender-figures-chart class="mb-5"
+                          :tenders="tenders"
+                          :list_of_items="list_of_items" />
+
     <table class="table table-striped table-hover mb-5"
            style="font-size: 0.9rem;">
 
@@ -8,7 +12,7 @@
         <th>Company</th>
         <th class="text-right">Tender Figure</th>
         <th class="text-right">Difference</th>
-        <th class="text-right">Percentage Difference</th>
+        <th class="text-right">% Difference</th>
         <th class="text-right">Rating</th>
         <th width="60px"></th>
       </tr>
@@ -64,16 +68,17 @@
   import TenderSwiftMixins from '../TenderSwiftMixins'
   import ContextMenu from 'vue-context-menu'
   import TenderFiguresRow from './TenderFiguresRow'
+  import TenderFiguresChart from './TenderFiguresChart'
+
 
   const newMenuData = () => ({tender: null})
 
   export default {
     mixins: [TenderSwiftMixins],
 
-    components: {TenderFiguresRow, ContextMenu},
+    components: {TenderFiguresChart, TenderFiguresRow, ContextMenu},
 
     props: [
-      'tender_id',
       'list_of_items',
       'tenders'
     ],
@@ -81,7 +86,7 @@
     data () {
       return {
         menuData: newMenuData(),
-        baseTenderFigure: 0
+        baseTenderFigure: this.tenderFigure(this.tenders[0]),
       }
     },
 

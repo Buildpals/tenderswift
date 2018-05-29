@@ -60,7 +60,7 @@
           </td>
 
           <td class="text-right">
-            {{ formatMoney(item.quantity) }}
+            {{ formatNumber(item.quantity) }}
           </td>
 
           <td>
@@ -70,7 +70,8 @@
           <td v-for="(tender, index) in tenders"
               :key="index"
               class="text-right">
-            {{ formatMoney(item.quantity * tender.list_of_rates.rates[index]) }}
+            {{ formatNumber(item.quantity * tender.list_of_rates.rates[index])
+            }}
           </td>
         </template>
 
@@ -80,7 +81,7 @@
         <td colspan="5">Total tender figure</td>
         <td v-for="(tender, index) in tenders"
             :key="index">
-          {{ formatMoney(tenderFigure(tender)) }}
+          {{ formatNumber(tenderFigure(tender)) }}
         </td>
       </tr>
     </table>

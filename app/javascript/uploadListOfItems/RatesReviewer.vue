@@ -57,7 +57,7 @@
           </td>
 
           <td class="text-right">
-            {{ formatMoney(item.quantity) }}
+            {{ formatNumber(item.quantity) }}
           </td>
 
           <td>
@@ -65,11 +65,11 @@
           </td>
 
           <td class="text-right">
-            {{ formatMoney(rates[index]) }}
+            {{ formatNumber(rates[index]) }}
           </td>
 
           <td class="text-right">
-            {{ formatMoney(item.quantity * rates[index]) }}
+            {{ formatNumber(item.quantity * rates[index]) }}
           </td>
         </template>
 
@@ -82,7 +82,7 @@
       <tr class="font-weight-bold text-right">
         <td colspan="6">Total tender figure</td>
         <td>
-          {{ formatMoney(tenderFigure) }}
+          {{ formatNumber(tenderFigure) }}
         </td>
       </tr>
     </table>

@@ -39,7 +39,7 @@
       </td>
 
       <td class="text-right">
-        {{ formatMoney(item.quantity) }}
+        {{ formatNumber(item.quantity) }}
       </td>
 
       <td>
@@ -56,7 +56,7 @@
       </td>
 
       <td class="text-right">
-        {{ formatMoney(item.quantity * value) }}
+        {{ formatNumber(item.quantity * value) }}
       </td>
     </template>
 

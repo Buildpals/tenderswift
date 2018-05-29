@@ -28,7 +28,7 @@
       <tr class="font-weight-bold text-right">
         <td colspan="6">Total tender figure</td>
         <td>
-          {{ formatMoney(tenderFigure) }}
+          {{ formatNumber(tenderFigure) }}
         </td>
       </tr>
     </table>

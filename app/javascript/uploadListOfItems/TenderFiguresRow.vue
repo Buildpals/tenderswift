@@ -10,20 +10,19 @@
     </td>
 
     <td class="text-right">
-      {{ formatMoney(tenderFigure) }}
+      {{ formatNumber(tenderFigure) }}
     </td>
 
     <td class="text-right">
-      {{ formatMoney(tenderFigureDifference) }}
+      {{ formatNumber(tenderFigureDifference) }}
     </td>
 
     <td class="text-right">
-      {{ tenderFigurePercentageDifference }} %
+      {{ formatNumber(tenderFigurePercentageDifference) }}%
     </td>
 
     <td class="text-right">
-      {{ tender.rating ? tender.rating.toLocaleString('en',
-      {minimumFractionDigits: 2, maximumFractionDigits: 2}) : 'Not rated' }}
+      {{ tender.rating ? formatNumber(tender.rating) : 'Not rated' }}
     </td>
 
     <td class="d-flex justify-content-center">
@@ -65,11 +64,11 @@
       },
 
       tenderFigureDifference () {
-        return (this.baseTenderFigure - this.tenderFigure)
+        return this.tenderFigure - this.baseTenderFigure
       },
 
       tenderFigurePercentageDifference () {
-        return (((this.baseTenderFigure - this.tenderFigure) / this.baseTenderFigure) * 100)
+        return (this.tenderFigureDifference / this.baseTenderFigure) * 100
       },
     },
 

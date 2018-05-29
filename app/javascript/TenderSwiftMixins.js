@@ -2,8 +2,8 @@ import accounting from 'accounting'
 
 export default {
   methods: {
-    formatMoney (value) {
-      return accounting.formatMoney(value, { symbol: '' })
+    formatNumber (value) {
+      return accounting.formatNumber(value, 2)
     }
   }
 }
