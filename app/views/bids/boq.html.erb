@@ -1,12 +1,18 @@
-<% if @tender.workbook.present? %>
-  <div id='hello'>
+<div id='hello'>
+  <% if @tender.list_of_items['updated_at'] %>
+    <rates-reviewer
+      :tender_id="<%= @tender.id %>"
+      :list_of_items="<%= @tender.list_of_items.to_json %>"
+      :list_of_rates="<%= @tender.list_of_rates.to_json %>">
+    </rates-reviewer>
+  <% else %>
     <view-bid-boq
-    tender-id="<%= @tender.id %>"
-    :rates="<%= @tender.rates.to_json %>"
-    :workbook-data="<%= @tender.workbook %>"
-    currency="<%= project_currency_symbol @tender %>"
-    qs-company-name="<%= @tender.project_owners_company_name %>"
-    boq-contract-sum="<%= 100000 %>"
+      tender-id="<%= @tender.id %>"
+      :rates="<%= @tender.rates.to_json %>"
+      :workbook-data="<%= @tender.workbook %>"
+      currency="<%= project_currency_symbol @tender %>"
+      qs-company-name="<%= @tender.project_owners_company_name %>"
+      boq-contract-sum="<%= 100000 %>"
     ></view-bid-boq>
-  </div>
-<% end %>
+  <% end %>
+</div>
