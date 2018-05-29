@@ -21,8 +21,8 @@
         <div class="hello">
           <rates-comparer
             :list_of_items="<%= @request_for_tender.list_of_items.to_json %>"
-            :tenders="<%= @request_for_tender.tenders
-                          .to_json(include: [:contractor]) %>">
+            :tenders="<%= @request_for_tender.tenders_including_mine
+                          .to_json %>">
           </rates-comparer>
         </div>
       <% else %>

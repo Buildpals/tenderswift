@@ -126,6 +126,16 @@ class RequestForTender < ApplicationRecord
     workbook.to_json
   end
 
+  def tenders_including_mine
+    tenders.as_json(include: :contractor).unshift(
+      contractor: {
+        company_name: project_owners_company_name,
+        email: project_owners_email
+      },
+      list_of_rates: list_of_rates
+    )
+  end
+
   private
 
   def check_deadline
