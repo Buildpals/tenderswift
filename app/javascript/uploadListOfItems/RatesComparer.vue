@@ -8,9 +8,11 @@
         <th style="width:550px">Description</th>
         <th style="width:60px" class="text-right">Quantity</th>
         <th style="width:60px">Unit</th>
-        <th style="width:90px" class="text-right">Price/Rate</th>
-        <th style="width:90px" class="text-right">Amount</th>
-        <th style="width:60px">
+        <th v-for="(tender, index) in tenders"
+            :key="index"
+            style="width:90px"
+            class="text-right">
+          {{ tender.contractor.company_name }}
         </th>
       </tr>
       </thead>
@@ -40,7 +42,8 @@
             {{ item.unit }}
           </td>
 
-          <td>
+          <td v-for="(tender, index) in tenders"
+              :key="index">
           </td>
 
           <td class="text-right">
@@ -64,25 +67,20 @@
             {{ item.unit }}
           </td>
 
-          <td class="text-right">
-            {{ formatMoney(rates[index]) }}
-          </td>
-
-          <td class="text-right">
-            {{ formatMoney(item.quantity * rates[index]) }}
+          <td v-for="(tender, index) in tenders"
+              :key="index"
+              class="text-right">
+            {{ formatMoney(item.quantity * tender.list_of_rates.rates[index]) }}
           </td>
         </template>
-
-
-        <td class="d-flex justify-content-center">
-        </td>
 
       </tr>
 
       <tr class="font-weight-bold text-right">
-        <td colspan="6">Total tender figure</td>
-        <td>
-          {{ formatMoney(tenderFigure) }}
+        <td colspan="5">Total tender figure</td>
+        <td v-for="(tender, index) in tenders"
+            :key="index">
+          {{ formatMoney(tenderFigure(tender)) }}
         </td>
       </tr>
     </table>
@@ -96,27 +94,22 @@
     mixins: [TenderSwiftMixins],
 
     props: [
-      'tender_id',
       'list_of_items',
-      'list_of_rates'
+      'tenders'
     ],
-
-    data () {
-      return {
-        rates: this.list_of_rates.rates,
-      }
-    },
-
-    computed: {
-      tenderFigure () {
-        return Object.keys(this.rates).reduce(this.amountSummer, 0)
-      }
-    },
 
     methods: {
       amountSummer (accumulator, rateKey) {
         return accumulator +
           this.list_of_items.items[rateKey].quantity * this.rates[rateKey]
+      },
+      tenderFigure (tender) {
+        return Object.keys(tender.list_of_rates.rates)
+          .reduce((accumulator, rateKey) => {
+            return accumulator +
+              this.list_of_items.items[rateKey].quantity *
+              tender.list_of_rates.rates[rateKey]
+          }, 0)
       }
     }
   }
