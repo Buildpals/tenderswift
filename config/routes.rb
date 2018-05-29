@@ -1,17 +1,16 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-
   get '/',
       to: 'welcome#query_request_for_tender',
       constraints: {
-          subdomain: 'public'
+        subdomain: 'public'
       }
 
   get '/:id',
       to: 'purchase_tender#portal',
       constraints: {
-          subdomain: 'public'
+        subdomain: 'public'
       }
 
   root to: 'welcome#index'
@@ -76,17 +75,17 @@ Rails.application.routes.draw do
         to: 'other_document_uploads#reject',
         as: :reject_other_document_upload
 
-  post '/bids/:id/disqualify',
-       to: 'bids#disqualify',
-       as: :disqualify_bid
+  patch '/bids/:id/disqualify',
+        to: 'bids#disqualify',
+        as: :disqualify_bid
 
-  post '/bids/:id/undo_disqualify',
-       to: 'bids#undo_disqualify',
-       as: :undo_disqualify_bid
+  patch '/bids/:id/undo_disqualify',
+        to: 'bids#undo_disqualify',
+        as: :undo_disqualify_bid
 
-  post '/bids/:id/rate',
-       to: 'bids#rate',
-       as: :rate_bid
+  patch '/bids/:id/rate',
+        to: 'bids#rate',
+        as: :rate_bid
 
   #################### Contractors Routes ##################
 

@@ -38,14 +38,14 @@
       'qsContractSum'
     ],
     methods: {
-      contractSumDifference (qsContractSum, tendersContractSum) {
+      tenderFigureDifference (qsContractSum, tendersContractSum) {
         return (qsContractSum - tendersContractSum)
       },
-      contractSumDifferencePercentage (qsContractSum, tendersContractSum) {
+      tenderFigurePercentageDifference (qsContractSum, tendersContractSum) {
         return  (( (qsContractSum - tendersContractSum) / qsContractSum ) * 100 )
       },
       undoDisqualifyBid (tender) {
-        this.$http.post(`/bids/undo_disqualify/${tender.id}`, {})
+        this.$http.post(`/bids/${tender.id}/undo_disqualify`, {})
           .then(response => {
             console.log(response)
             location.reload()
@@ -55,7 +55,7 @@
           })
       },
       disqualifyBid (tender) {
-        this.$http.post(`/bids/disqualify/${tender.id}`, {})
+        this.$http.post(`/bids/${tender.id}/undo_disqualify`, {})
           .then(response => {
             console.log(response)
             location.reload()

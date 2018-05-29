@@ -6,7 +6,7 @@
         <th style="width:100px"></th>
         <th style="width:60px">Item</th>
         <th style="width:550px">Description</th>
-        <th style="width:60px">Quantity</th>
+        <th style="width:60px" class="text-right">Quantity</th>
         <th style="width:60px">Unit</th>
         <th style="width:90px">Price/Rate</th>
         <th style="width:90px">Amount</th>
@@ -28,7 +28,7 @@
       <tr class="font-weight-bold text-right">
         <td colspan="6">Total tender figure</td>
         <td>
-          {{ formatMoney(totalSum) }}
+          {{ formatMoney(tenderFigure) }}
         </td>
       </tr>
     </table>
@@ -60,7 +60,7 @@
     },
 
     computed: {
-      totalSum () {
+      tenderFigure () {
         return Object.keys(this.rates).reduce(this.amountSummer, 0)
       }
     },

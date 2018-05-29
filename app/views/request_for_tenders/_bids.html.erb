@@ -1,25 +1,33 @@
-<div class="d-flex w-100 justify-content-end mb-2">
-  <% if deadline_over? @request_for_tender %>
-    <%= link_to 'Compare Bill of Quantities', compare_boq_path(@request_for_tender), target: '_blank',
-                class: 'btn btn-sm btn-secondary' %>
-  <% else %>
-    <div data-toggle="tooltip" data-placement="bottom"
-         data-html="true"
-         data-title="<p>In order to comply with the standards of tender fairness,
+<% if @request_for_tender.list_of_items['updated_at'] %>
+  <tender-figures-table
+    :tender_id="<%= @request_for_tender.id %>"
+    :tenders="<%= @request_for_tender.tenders.to_json(include: [:contractor]) %>"
+    :list_of_items="<%= @request_for_tender.list_of_items.to_json %>">
+  </tender-figures-table>
+<% else %>
+  <div class="d-flex w-100 justify-content-end mb-2">
+    <% if deadline_over? @request_for_tender %>
+      <%= link_to 'Compare Bill of Quantities', compare_boq_path(@request_for_tender), target: '_blank',
+                  class: 'btn btn-sm btn-secondary' %>
+    <% else %>
+      <div data-toggle="tooltip" data-placement="bottom"
+           data-html="true"
+           data-title="<p>In order to comply with the standards of tender fairness,
                  bids will only be shown when the request deadline is reached.<p>
                 <p class='text-center request-countdown'><%= time_to_deadline @request_for_tender %> left to request deadline.</p>">
 
-      <button class="btn btn-secondary disabled" type="button">
-        Compare Bill of Quantities
-      </button>
-    </div>
-  <% end %>
-</div>
+        <button class="btn btn-secondary disabled" type="button">
+          Compare Bill of Quantities
+        </button>
+      </div>
+    <% end %>
+  </div>
 
-<bids-table
-:contract-sum-address="<%= @request_for_tender.contract_sum_address.to_json %>"
-:tenders-data="<%= @request_for_tender.tenders.to_json(include: :rates) %>"
-:workbook-data="<%= @request_for_tender.bill_of_quantities %>"
-currency="<%= project_currency_symbol @request_for_tender %>"
-qs-company-name="<%= @request_for_tender.project_owners_company_name %>"
-></bids-table>
+  <bids-table
+    :contract-sum-address="<%= @request_for_tender.contract_sum_address.to_json %>"
+    :tenders-data="<%= @request_for_tender.tenders.to_json(include: :rates) %>"
+    :workbook-data="<%= @request_for_tender.bill_of_quantities %>"
+    currency="<%= project_currency_symbol @request_for_tender %>"
+    qs-company-name="<%= @request_for_tender.project_owners_company_name %>"
+  ></bids-table>
+<% end %>
