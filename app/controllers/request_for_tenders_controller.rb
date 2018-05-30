@@ -49,7 +49,7 @@ class RequestForTendersController < QuantitySurveyorsController
     @request_for_tender.destroy
     respond_to do |format|
       format.html do
-        redirect_to request_for_tenders_url,
+        redirect_to quantity_surveyor_root_path,
                     notice: 'Request was successfully destroyed.'
       end
       format.json { head :no_content }
