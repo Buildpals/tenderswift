@@ -16,6 +16,7 @@
     descriptionRenderer,
     itemRenderer,
     isHeader,
+    differenceValueRenderer,
     process_wb_comparison
   } from '../renderers'
 
@@ -72,6 +73,7 @@
               pattern: '0,0.00',
               culture: 'en-US'
             },
+            renderer: differenceValueRenderer,
             allowEmpty: false
           })
         })

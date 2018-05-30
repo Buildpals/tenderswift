@@ -91,7 +91,7 @@
 
         console.log('saving rates...', rates)
         this.saveStatus = 'saving'
-        this.$http.post(`/tenders/save_rates/${this.tenderId}`, {rates: rates})
+        this.$http.post(`/tenders/${this.tenderId}/save_rates`, {rates: rates})
           .then(response => {
             console.log(response)
             this.saveStatus = 'saved'
