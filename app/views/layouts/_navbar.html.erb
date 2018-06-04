@@ -11,4 +11,7 @@
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
   </div>
+  <% unless current_contractor %>
+    <%= link_to'Log In', new_contractor_session_path, class: 'btn btn-secondary' %>
+  <% end %>
 </nav>
