@@ -10,28 +10,24 @@
 <% end %>
 
 <% content_for :action_items do %>
-
-  <% if current_contractor %>
-    <div class="mt-2 ml-auto">
-      <button class="btn btn-sm btn-secondary"
-              id="purchase-button"
-              data-toggle="modal"
-              data-target="#paymentModal"
-              data-backdrop="static"
-              data-keyboard="false">
-        Purchase Tender Documents for
-        GH₵ <%= @request_for_tender.selling_price %>
-      </button>
-    </div>
-  <% else %>
-    <div class="mt-2 ml-auto">
-      <a class="btn btn-sm btn-secondary"
-         href="<%= new_contractor_session_path %>">
-        Purchase Tender Documents for
-        GH₵ <%= @request_for_tender.selling_price %>
-      </a>
-    </div>
-  <% end %>
+  <div class="mt-2 ml-auto">
+    <button class="btn btn-sm btn-secondary"
+            id="purchase-button"
+            data-toggle="modal"
+            data-target="#paymentModal"
+            data-backdrop="static"
+            data-keyboard="false">
+      Purchase Tender Documents for
+      GH₵ <%= @request_for_tender.selling_price %>
+    </button>
+  </div>
+  <div class="mt-2 ml-auto">
+    <a class="btn btn-sm btn-primary"
+       href="<%= contractor_root_path %>">
+      I've already purchased this tender documents
+      GH₵ <%= @request_for_tender.selling_price %>
+    </a>
+  </div>
 <% end %>
 
 <% content_for :nav_tabs do %>
