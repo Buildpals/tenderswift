@@ -32,7 +32,7 @@ class Tender < ApplicationRecord
                                 allow_destroy: true,
                                 reject_if: :all_blank
 
-  #has_many :required_documents, through: :required_document_uploads
+  # has_many :required_documents, through: :required_document_uploads
 
   has_many :rates, inverse_of: :tender
 
@@ -55,10 +55,11 @@ class Tender < ApplicationRecord
   delegate :tender_instructions,  to: :request_for_tender
   delegate :selling_price,        to: :request_for_tender
   delegate :private,              to: :request_for_tender
+  delegate :list_of_items,        to: :request_for_tender
   delegate :contract_sum_address, to: :request_for_tender
-  delegate :published_at,       to: :request_for_tender
+  delegate :published_at,         to: :request_for_tender
   delegate :project_documents,    to: :request_for_tender
-  delegate :deadline_over?,    to: :request_for_tender
+  delegate :deadline_over?,       to: :request_for_tender
 
   delegate :quantity_surveyor,    to: :request_for_tender
 
@@ -165,11 +166,10 @@ class Tender < ApplicationRecord
     return unless submitted_at.present?
 
     request_for_tender.required_documents.each do |required_document|
-      if RequiredDocumentUpload.find_by(required_document_id:
+      next unless RequiredDocumentUpload.find_by(required_document_id:
                                             required_document.id).nil?
-        errors.add(ERROR_TAG,
-                   "#{required_document.title} has not been uploaded")
-      end
+      errors.add(ERROR_TAG,
+                 "#{required_document.title} has not been uploaded")
     end
   end
 end

@@ -48,7 +48,7 @@
 
 //= require compare_bids
 //= require registrations
-//= require create_tender
+//= require request_for_tenders/build
 //= require request_for_tenders
 //= require tenders
 //= require bids

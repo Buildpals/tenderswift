@@ -60,18 +60,24 @@
   <div class="card-body">
     <strong class="text-center">Bill Of Quantities</strong>
     <hr>
-    <% if @request_for_tender.bill_of_quantities.present? %>
-      <div id='hello'>
+    <div class="hello">
+      <% if @request_for_tender.list_of_items['updated_at'] %>
+        <rates-uploader
+          :tender_id="<%= @request_for_tender.id %>"
+          :list_of_items="<%= @request_for_tender.list_of_items.to_json %>"
+          :list_of_rates="<%= @request_for_tender.list_of_rates.to_json %>">
+        </rates-uploader>
+      <% else %>
         <upload-boq
-        :request-for-tender-id="<%= @request_for_tender.id %>"
-        :workbook-data="<%= @request_for_tender.bill_of_quantities %>"
-        :contract-sum-address="<%= @request_for_tender.contract_sum_address.to_json %>"
-        currency="<%= project_currency_symbol @request_for_tender %>"
-        qs-company-name="<%= @request_for_tender.project_owners_company_name %>"
-        boq-contract-sum="<%= 100000 %>"
+          :request-for-tender-id="<%= @request_for_tender.id %>"
+          :workbook-data="<%= @request_for_tender.bill_of_quantities %>"
+          :contract-sum-address="<%= @request_for_tender.contract_sum_address.to_json %>"
+          currency="<%= project_currency_symbol @request_for_tender %>"
+          qs-company-name="<%= @request_for_tender.project_owners_company_name %>"
+          boq-contract-sum="<%= 100000 %>"
         ></upload-boq>
-      </div>
-    <% end %>
+      <% end %>
+    </div>
   </div>
 
 </div>

@@ -1,5 +1,5 @@
 $(document).on('turbolinks:load', function () {
-  if ($('.create_tender').length === 0) return
+  if ($('.build').length === 0) return
 
   autosize($('textarea'))
 
@@ -27,7 +27,7 @@ $(document).on('turbolinks:load', function () {
 
 
 $(document).on('turbolinks:load', function () {
-  if ($('.create_tender.edit_tender_boq').length === 0) return
+  if ($('.build.bill_of_quantities').length === 0) return
 
   var rABS = true // true: readAsBinaryString ; false: readAsArrayBuffer
   function handleFile (e) {
@@ -54,7 +54,7 @@ $(document).on('turbolinks:load', function () {
 })
 
 $(document).on('turbolinks:load', function () {
-  if ($('.create_tender.edit_tender_contractors, .request_for_tender.show').length === 0) return
+  if ($('.build.payment_method, .request_for_tender.show').length === 0) return
 
     function storeBankDetailsInLocalStorage() {
         var company_name = $('.qs-company-name').text();

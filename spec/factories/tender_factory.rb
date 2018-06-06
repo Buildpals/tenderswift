@@ -22,6 +22,12 @@ FactoryBot.define do
 
     submitted_at nil
 
+    list_of_rates('rates' => { '1' => '1.5',
+                               '2' => '3',
+                               '3' => '4',
+                               '4' => '7',
+                               '6' => '5' },
+                  'updated_at' => 1_527_587_444_641)
 
     trait :purchased do
       purchase_request_sent_at Time.current - 2.hours

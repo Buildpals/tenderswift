@@ -6,6 +6,11 @@ class RequestForTender < ApplicationRecord
   scope :published, -> { where.not(published_at: nil) }
   scope :not_published, -> { where(published_at: nil) }
 
+  enum status: {
+    inert: 0,
+    active: 1
+  }
+
   serialize :contract_sum_address, Hash
 
   monetize :selling_price_subunit,
@@ -43,9 +48,6 @@ class RequestForTender < ApplicationRecord
   has_one :excel_file,
           dependent: :destroy,
           inverse_of: :request_for_tender
-  accepts_nested_attributes_for :excel_file,
-                                allow_destroy: true,
-                                reject_if: :all_blank
 
   enum withdrawal_frequency: { 'Monthly' => 0,
                                'Every two weeks' => 1,
@@ -59,7 +61,7 @@ class RequestForTender < ApplicationRecord
            to: :quantity_surveyor,
            prefix: :project_owners
 
-  validates :project_name, presence: true
+  validates :project_name, presence: true, if: :active?
   # validate :check_deadline
 
   def to_param
@@ -79,7 +81,7 @@ class RequestForTender < ApplicationRecord
     required_documents.build(title: 'Works and Housing certificate')
     required_documents.build(title: 'Financial statements (3 years )')
     required_documents.build(
-        title: 'Bank Statement or evidence of Funding (letter of credit)'
+      title: 'Bank Statement or evidence of Funding (letter of credit)'
     )
     save!
   end
@@ -122,6 +124,16 @@ class RequestForTender < ApplicationRecord
       end
     end
     workbook.to_json
+  end
+
+  def tenders_including_mine
+    tenders.as_json(include: :contractor).unshift(
+      contractor: {
+        company_name: project_owners_company_name,
+        email: project_owners_email
+      },
+      list_of_rates: list_of_rates
+    )
   end
 
   private

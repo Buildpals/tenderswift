@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180521131608) do
+ActiveRecord::Schema.define(version: 20180529230740) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -71,6 +71,7 @@ ActiveRecord::Schema.define(version: 20180521131608) do
     t.bigint "request_for_tender_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "original_file_name"
     t.index ["request_for_tender_id"], name: "index_excel_files_on_request_for_tender_id"
   end
 
@@ -123,6 +124,7 @@ ActiveRecord::Schema.define(version: 20180521131608) do
     t.string "document"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "original_file_name"
     t.index ["request_for_tender_id"], name: "index_project_documents_on_request_for_tender_id"
   end
 
@@ -184,6 +186,9 @@ ActiveRecord::Schema.define(version: 20180521131608) do
     t.integer "withdrawal_frequency"
     t.text "contract_sum_address"
     t.datetime "published_at"
+    t.jsonb "list_of_items", default: {"items"=>[]}
+    t.integer "status", default: 0, null: false
+    t.jsonb "list_of_rates", default: {"rates"=>{}}
     t.index ["quantity_surveyor_id"], name: "index_request_for_tenders_on_quantity_surveyor_id"
   end
 
@@ -242,6 +247,7 @@ ActiveRecord::Schema.define(version: 20180521131608) do
     t.datetime "purchase_request_sent_at"
     t.string "purchase_request_message"
     t.string "transaction_id"
+    t.jsonb "list_of_rates", default: {"rates"=>{}}
     t.index ["contractor_id"], name: "index_tenders_on_contractor_id"
     t.index ["request_for_tender_id", "contractor_id"], name: "index_tenders_on_request_for_tender_id_and_contractor_id", unique: true
     t.index ["request_for_tender_id"], name: "index_tenders_on_request_for_tender_id"

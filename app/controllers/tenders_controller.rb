@@ -26,6 +26,14 @@ class TendersController < ContractorsController
     authorize @tender
   end
 
+  def update
+    if @tender.update(tender_params)
+      render json: @tender, status: :ok, location: @tender
+    else
+      render json: @tender.errors, status: :unprocessable_entity
+    end
+  end
+
   def save_rates
     authorize @tender
     if @tender.save_rates(params[:rates])
@@ -66,21 +74,26 @@ class TendersController < ContractorsController
   end
 
   def set_tender
-    @tender = Tender.find(params[:id])
+    @tender = current_contractor.tenders.find(params[:id])
   end
 
   def tender_params
     params.require(:tender)
           .permit(
-              :reference_number,
-              other_document_uploads_attributes: %i[id
-                                                    name
-                                                    document
-                                                    _destroy],
-              required_document_uploads_attributes: %i[id
-                                                       document
-                                                       required_document_id
-                                                       tender_id
-                                                       _destroy])
+            :reference_number,
+            list_of_rates: [
+              :updated_at,
+              rates: {}
+            ],
+            other_document_uploads_attributes: %i[id
+                                                  name
+                                                  document
+                                                  _destroy],
+            required_document_uploads_attributes: %i[id
+                                                     document
+                                                     required_document_id
+                                                     tender_id
+                                                     _destroy]
+          )
   end
 end

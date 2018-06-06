@@ -11,10 +11,10 @@
         </td>
         <td class="text-right">
             {{ currency }}
-            {{ contractSumDifference(qsContractSum, tender.contract_sum).toLocaleString('en', {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}
+            {{ tenderFigureDifference(qsContractSum, tender.contract_sum).toLocaleString('en', {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}
             <br>
             <small>
-                {{ contractSumDifferencePercentage(qsContractSum, tender.contract_sum).toLocaleString('percent', {minimumFractionDigits: 0}) }}%
+                {{ tenderFigurePercentageDifference(qsContractSum, tender.contract_sum).toLocaleString('percent', {minimumFractionDigits: 0}) }}%
             </small>
         </td>
         <td class="text-right">
@@ -38,10 +38,10 @@
       'qsContractSum'
     ],
     methods: {
-      contractSumDifference (qsContractSum, tendersContractSum) {
+      tenderFigureDifference (qsContractSum, tendersContractSum) {
         return (qsContractSum - tendersContractSum)
       },
-      contractSumDifferencePercentage (qsContractSum, tendersContractSum) {
+      tenderFigurePercentageDifference (qsContractSum, tendersContractSum) {
         return  (( (qsContractSum - tendersContractSum) / qsContractSum ) * 100 )
       },
       undoDisqualifyBid (tender) {

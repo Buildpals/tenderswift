@@ -21,11 +21,12 @@ class BidsController < QuantitySurveyorsController
     authorize @tender
     if @tender.update(disqualified: true)
       redirect_back fallback_location: bid_required_documents_path(@tender),
-                    notice: "#{@tender.company_name} has been disqualified"
+                    notice: "#{@tender.contractors_company_name} " \
+                    'has been disqualified'
     else
       redirect_back fallback_location: root_path,
-                    notice: "An error occurred while trying to disqualify" \
-                            "#{@tender.company_name}"
+                    notice: 'An error occurred while trying to disqualify ' \
+                            "#{@tender.contractors_company_name}"
     end
   end
 
@@ -33,12 +34,12 @@ class BidsController < QuantitySurveyorsController
     authorize @tender
     if @tender.update(disqualified: false)
       redirect_back fallback_location: bid_required_documents_path(@tender),
-                    notice: "#{@tender.company_name} has been re-added to the" \
-                            "shortlist"
+                    notice: "#{@tender.contractors_company_name} " \
+                            'has been re-added to the shortlist'
     else
       redirect_back fallback_location: bid_required_documents_path(@tender),
-                    notice: "An error occurred while trying to re-add " \
-                            "#{@tender.company_name} to shortlist"
+                    notice: 'An error occurred while trying to re-add ' \
+                            "#{@tender.contractors_company_name} to shortlist"
     end
   end
 
@@ -46,12 +47,13 @@ class BidsController < QuantitySurveyorsController
     authorize @tender
     if @tender.update(rating: params[:rating])
       redirect_back fallback_location: bid_required_documents_path(@tender),
-                    notice: "The rating for #{@tender.company_name} has been " \
-                            "updated"
+                    notice: 'The rating for ' \
+                            "#{@tender.contractors_company_name} " \
+                            'has been updated'
     else
       redirect_back fallback_location: bid_required_documents_path(@tender),
-                    notice: "An error occurred while trying to update the " \
-                            "rating for #{@tender.company_name}"
+                    notice: 'An error occurred while trying to update the ' \
+                            "rating for #{@tender.contractors_company_name}"
     end
   end
 
