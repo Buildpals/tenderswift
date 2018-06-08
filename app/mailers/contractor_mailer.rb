@@ -11,4 +11,11 @@ class ContractorMailer < ApplicationMailer
     mail(to: @tender.contractors_email,
          subject: "Invitation to Tender for #{@tender.project_name}")
   end
+
+  def welcome(contractor, token)
+    @contractor = contractor
+    @token = token
+    mail(to: @contractor.email,
+         subject: "Password reset for #{@contractor.company_name}")
+  end
 end

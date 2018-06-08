@@ -22,7 +22,7 @@ class WelcomeController < ApplicationController
     rescue ActiveRecord::RecordNotFound
       flash[:notice] = 'Sorry, we couldn\'t find a request for tender ' \
                        'with the specified reference number.'
-      redirect_to query_request_for_tender_path
+      redirect_to 'https://public.tenderswift.com/'
       return
     end
   end

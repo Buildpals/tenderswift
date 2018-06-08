@@ -8,6 +8,7 @@ class PurchaseTenderController < ContractorsController
   skip_before_action :authenticate_contractor!, only: %i[
     portal
     complete_transaction
+    purchase
   ]
 
   def portal
@@ -24,10 +25,13 @@ class PurchaseTenderController < ContractorsController
   end
 
   def purchase
-    authorize @request_for_tender
-
+    #authorize @request_for_tender
+    contractor = current_contractor
+    unless current_contractor
+      contractor = sign_up_contractor_secretly
+    end
     @purchaser = RequestForTenderPurchaser.build(
-      contractor: current_contractor,
+      contractor: contractor,
       request_for_tender: @request_for_tender
     )
     if @purchaser.purchase(payment_params)
@@ -76,6 +80,18 @@ class PurchaseTenderController < ContractorsController
     end
   end
 
+  def sign_up_contractor_secretly
+    generated_password = Devise.friendly_token.first(8)
+    contractor = Contractor.create!(email: params[:email],
+                                    phone_number: params[:customer_number],
+                                    company_name: params[:company_name],
+                                    password: generated_password)
+    #sign_in(:contractor, contractor)
+    token = contractor.send(:set_reset_password_token)
+    ContractorMailer.welcome(contractor, token).deliver
+    return contractor
+  end
+
   def increment_visit_count
     cookie_name = "request-for-tender-#{@request_for_tender.id}"
     return if cookies[cookie_name]
@@ -92,7 +108,8 @@ class PurchaseTenderController < ContractorsController
   end
 
   def payment_params
-    params.permit(:network_code, :customer_number, :vodafone_voucher_code)
+    params.permit(:network_code, :customer_number, :vodafone_voucher_code,
+                  :email, :company_name)
   end
 
   def complete_transaction_params
