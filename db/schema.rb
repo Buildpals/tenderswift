@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180529230740) do
+ActiveRecord::Schema.define(version: 20180606202633) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -187,7 +187,7 @@ ActiveRecord::Schema.define(version: 20180529230740) do
     t.text "contract_sum_address"
     t.datetime "published_at"
     t.jsonb "list_of_items", default: {"items"=>[]}
-    t.integer "status", default: 0, null: false
+    t.string "status", default: "0", null: false
     t.jsonb "list_of_rates", default: {"rates"=>{}}
     t.index ["quantity_surveyor_id"], name: "index_request_for_tenders_on_quantity_surveyor_id"
   end

@@ -24,6 +24,8 @@ class RequestForTenders::BuildController < QuantitySurveyorsController
     if step == steps.last
       @request_for_tender.published_at = Time.current
       @request_for_tender.status = :active
+    else
+      @request_for_tender.status = step.to_s
     end
     @request_for_tender.update_attributes(request_params)
     render_wizard @request_for_tender

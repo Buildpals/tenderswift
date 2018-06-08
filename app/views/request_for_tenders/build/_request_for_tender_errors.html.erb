@@ -1,5 +1,8 @@
 <% if @request_for_tender.errors.any? %>
-  <div id="error_explanation">
+  <div class="alert alert-danger" role="alert">
+    <%= pluralize(@request_for_tender.errors.count, "error") %>
+    prohibited this request for tender from being saved:
+
     <ul>
       <% @request_for_tender.errors.full_messages.each do |msg| %>
         <li><%= msg %></li>
