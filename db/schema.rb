@@ -228,7 +228,7 @@ ActiveRecord::Schema.define(version: 20180606202633) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "tenders", force: :cascade do |t|
+  create_table "view", force: :cascade do |t|
     t.bigint "request_for_tender_id"
     t.datetime "purchased_at"
     t.datetime "submitted_at"
@@ -257,5 +257,5 @@ ActiveRecord::Schema.define(version: 20180606202633) do
   add_foreign_key "items", "request_for_tenders"
   add_foreign_key "taggings", "items"
   add_foreign_key "taggings", "tags"
-  add_foreign_key "tenders", "contractors"
+  add_foreign_key "view", "contractors"
 end

@@ -1,0 +1,23 @@
+<div class="container">
+  <div class="row">
+    <div class="col-lg-9 mx-auto">
+      <div class="tab-content mt-4">
+
+        <div class="list-group">
+          <% @tender.project_documents.each do |project_document| %>
+            <a href="<%= project_document.document.url %>"
+               class="list-group-item d-flex w-100
+                      justify-content-between align-items-center">
+              <div class="text-truncate">
+                <%= project_document.original_file_name %>
+              </div>
+              <span class="fa fa-download"></span>
+            </a>
+          <% end %>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+</div>

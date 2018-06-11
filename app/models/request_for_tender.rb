@@ -3,8 +3,8 @@
 class RequestForTender < ApplicationRecord
   TENDERSWIFT_CUT = 0.12
 
-  scope :published, -> { where.not(published_at: nil) }
-  scope :not_published, -> { where(published_at: nil) }
+  scope :published, -> { where.not(published_at: nil).order(published_at: :desc) }
+  scope :not_published, -> { where(published_at: nil).order(published_at: :desc) }
 
   serialize :contract_sum_address, Hash
 
@@ -161,7 +161,7 @@ class RequestForTender < ApplicationRecord
             presence: true,
             if: :active_or_general_information?
 
-  validates :bill_of_quantities, presence: true, if: :active_or_bill_of_quantities?
+  # validates :bill_of_quantities, presence: true, if: :active_or_bill_of_quantities?
   # validates :tender_documents, presence: true, if: :active_or_tender_documents?
   # validates :tender_instructions, presence: true, if: :active_or_tender_instructions?
   validates :selling_price, presence: true, if: :active_or_distribution?
