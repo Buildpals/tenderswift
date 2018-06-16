@@ -45,7 +45,7 @@
         return  (( (qsContractSum - tendersContractSum) / qsContractSum ) * 100 )
       },
       undoDisqualifyBid (tender) {
-        this.$http.post(`/bids/${tender.id}/undo_disqualify`, {})
+        this.$http.post(`/bids/undo_disqualify/${tender.id}`, {})
           .then(response => {
             console.log(response)
             location.reload()
@@ -55,7 +55,7 @@
           })
       },
       disqualifyBid (tender) {
-        this.$http.post(`/bids/${tender.id}/disqualify`, {})
+        this.$http.post(`/bids/disqualify/${tender.id}`, {})
           .then(response => {
             console.log(response)
             location.reload()
