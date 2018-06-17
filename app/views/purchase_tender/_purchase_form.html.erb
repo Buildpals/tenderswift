@@ -4,6 +4,39 @@
 
   <p id="purchase-errors" class="text-danger d-none"><p>
 
+
+  <div class="form-group">
+    <%= form.label :company_name %>
+    <%= form.text_field :company_name,
+                        value: current_contractor&.company_name,
+                        placeholder: :company_name,
+                        id: :company_name,
+                        autocomplete: 'on',
+                        class: 'form-control',
+                        required: true %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :email %>
+    <%= form.email_field :email,
+                         value: current_contractor&.email,
+                         placeholder: :email,
+                         class: 'form-control',
+                         id: :email,
+                         required: true %>
+  </div>
+
+
+  <div id="password-field-group" class="form-group d-none">
+    <%= form.label :password %>
+    <%= form.password_field :password,
+                            placeholder: :password,
+                            id: :password,
+                            autocomplete: 'off',
+                            class: 'form-control' %>
+  </div>
+
+
   <div class="form-group">
     <%= form.label :network_code, 'Mode of payment' %>
     <%= form.select :network_code,
@@ -29,7 +62,7 @@
     <%= form.label :customer_number, 'Mobile money number' %>
     <%= form.telephone_field :customer_number,
                              id: :customer_number,
-                             placeholder: '0541234567',
+                             placeholder: 'Example: 0541234567',
                              class: 'form-control form-control-sm',
                              autocomplete: 'tel',
                              pattern: "[0-9]{10}",

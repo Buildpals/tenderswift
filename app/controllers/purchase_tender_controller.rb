@@ -7,6 +7,7 @@ class PurchaseTenderController < ContractorsController
 
   skip_before_action :authenticate_contractor!, only: %i[
     portal
+    purchase
     complete_transaction
   ]
 
@@ -27,14 +28,26 @@ class PurchaseTenderController < ContractorsController
   def purchase
     authorize @request_for_tender
 
-    @purchaser = RequestForTenderPurchaser.build(
-      contractor: current_contractor,
-      request_for_tender: @request_for_tender
-    )
-    if @purchaser.purchase(payment_params)
-      render 'monitor_purchase'
+    if current_contractor
+      purchase_the_tender(current_contractor, @request_for_tender)
+      return
+    end
+
+    contractor = Contractor.find_by(email: params[:email])
+
+    if contractor&.valid_password?(params[:password])
+      sign_in(:contractor, contractor)
+      purchase_the_tender(current_contractor, @request_for_tender)
+    elsif contractor && !contractor.valid_password?(params[:password])
+      render 'require_password'
+      return
     else
-      render 'purchase_tender_error'
+      contractor = Contractor.create!(email: params[:email],
+                                      company_name: params[:company_name],
+                                      phone_number: params[:customer_number],
+                                      password: Devise.friendly_token.first(8))
+      sign_in(:contractor, contractor)
+      purchase_the_tender(current_contractor, @request_for_tender)
     end
   end
 
@@ -70,6 +83,18 @@ class PurchaseTenderController < ContractorsController
   end
 
   private
+
+  def purchase_the_tender(contractor, request_for_tender)
+    @purchaser = RequestForTenderPurchaser.build(
+      contractor: contractor,
+      request_for_tender: request_for_tender
+    )
+    if @purchaser.purchase(payment_params)
+      render 'monitor_purchase'
+    else
+      render 'purchase_tender_error'
+    end
+  end
 
   def set_policy
     RequestForTender.define_singleton_method(:policy_class) do
