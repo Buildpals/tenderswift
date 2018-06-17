@@ -23,7 +23,7 @@
   "devDependencies": {
     "webpack-dev-server": "^2.11.1"
   },
-  "engines": {
-    "node": "8.11.2"
-  }
+//  "engines": {
+//    "node": "8.11.2"
+//  }
 }
