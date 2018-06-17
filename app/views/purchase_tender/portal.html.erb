@@ -11,15 +11,23 @@
 
 <% content_for :action_items do %>
 
-  <button class="btn btn-sm btn-secondary"
-          id="purchase-button"
-          data-toggle="modal"
-          data-target="#paymentModal"
-          data-backdrop="static"
-          data-keyboard="false">
-    Purchase Tender Documents for
-    GH₵ <%= @request_for_tender.selling_price %>
-  </button>
+  <% if current_contractor %>
+    <button class="btn btn-sm btn-secondary"
+            id="purchase-button"
+            data-toggle="modal"
+            data-target="#paymentModal"
+            data-backdrop="static"
+            data-keyboard="false">
+      Purchase Tender Documents for
+      GH₵ <%= @request_for_tender.selling_price %>
+    </button>
+  <% else %>
+    <a class="btn btn-sm btn-secondary"
+       href="<%= new_contractor_session_path %>">
+      Purchase Tender Documents for
+      GH₵ <%= @request_for_tender.selling_price %>
+    </a>
+  <% end %>
 
 <% end %>
 
