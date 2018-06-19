@@ -5,11 +5,7 @@ class PurchaseTenderController < ContractorsController
 
   before_action :set_policy
 
-  skip_before_action :authenticate_contractor!, only: %i[
-    portal
-    complete_transaction
-    purchase
-  ]
+  skip_before_action :authenticate_contractor!
 
   def portal
     authorize @request_for_tender
@@ -25,13 +21,28 @@ class PurchaseTenderController < ContractorsController
   end
 
   def purchase
-    #authorize @request_for_tender
-    contractor = current_contractor
-    unless current_contractor
-      contractor = sign_up_contractor_secretly
+    authorize @request_for_tender
+
+    if current_contractor.nil?
+      contractor = Contractor.find_by(email: params[:email])
+      if contractor.nil?
+        contractor = create_contractor
+        sign_in(:contractor, contractor)
+      else
+        if params[:password].blank?
+          # Re-render the purchase form
+          # with a password field and tell them to enter their password
+        elsif contractor.valid_password?(params[:password])
+          sign_in(:contractor, contractor)
+        else
+          # Re-render the purchase form
+          # with a password field and tell them the password is wrong
+        end
+      end
     end
+
     @purchaser = RequestForTenderPurchaser.build(
-      contractor: contractor,
+      contractor: current_contractor,
       request_for_tender: @request_for_tender
     )
     if @purchaser.purchase(payment_params)
@@ -80,16 +91,13 @@ class PurchaseTenderController < ContractorsController
     end
   end
 
-  def sign_up_contractor_secretly
+  def create_contractor
     generated_password = Devise.friendly_token.first(8)
     contractor = Contractor.create!(email: params[:email],
                                     phone_number: params[:customer_number],
                                     company_name: params[:company_name],
                                     password: generated_password)
-    #sign_in(:contractor, contractor)
-    token = contractor.send(:set_reset_password_token)
-    ContractorMailer.welcome(contractor, token).deliver
-    return contractor
+    contractor
   end
 
   def increment_visit_count

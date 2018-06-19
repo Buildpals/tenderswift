@@ -20,6 +20,14 @@ class ContractorPolicy
     owns_contractor_profile?
   end
 
+  def update_company_name?
+    owns_contractor_profile?
+  end
+
+  def update_password?
+    owns_contractor_profile?
+  end
+
   private
 
   def owns_contractor_profile?

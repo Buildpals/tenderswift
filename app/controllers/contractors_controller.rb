@@ -5,6 +5,10 @@ class ContractorsController < ApplicationController
 
   def dashboard
     authorize current_contractor
+
+    unless current_contractor.status == 'active'
+      redirect_to contractors_after_signup_path
+    end
   end
 
   def edit

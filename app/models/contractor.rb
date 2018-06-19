@@ -19,7 +19,7 @@ class Contractor < ApplicationRecord
 
   EMAIL_MESSAGE = 'Please provide an correct email address with more than 5 characters'
 
-  validates :company_name, presence: true
+  validates :company_name, presence: true, if: :active?
 
   validates :email, presence: { message: EMAIL_MESSAGE },
                     uniqueness: { message: EMAIL_MESSAGE,
@@ -30,5 +30,9 @@ class Contractor < ApplicationRecord
 
   def name
     "#{company_name} (#{phone_number})"
+  end
+
+  def active?
+    status == 'active'
   end
 end
