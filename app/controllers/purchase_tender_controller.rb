@@ -28,16 +28,14 @@ class PurchaseTenderController < ContractorsController
       if contractor.nil?
         contractor = create_contractor
         sign_in(:contractor, contractor)
+      elsif params[:password].blank?
+        # Re-render the purchase form
+        # with a password field and tell them to enter their password
+      elsif contractor.valid_password?(params[:password])
+        sign_in(:contractor, contractor)
       else
-        if params[:password].blank?
-          # Re-render the purchase form
-          # with a password field and tell them to enter their password
-        elsif contractor.valid_password?(params[:password])
-          sign_in(:contractor, contractor)
-        else
-          # Re-render the purchase form
-          # with a password field and tell them the password is wrong
-        end
+        # Re-render the purchase form
+        # with a password field and tell them the password is wrong
       end
     end
 
@@ -97,7 +95,6 @@ class PurchaseTenderController < ContractorsController
                                     phone_number: params[:customer_number],
                                     company_name: params[:company_name],
                                     password: generated_password)
-    contractor
   end
 
   def increment_visit_count

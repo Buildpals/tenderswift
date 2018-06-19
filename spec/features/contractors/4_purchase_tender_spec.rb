@@ -199,9 +199,7 @@ RSpec.feature 'Purchasing a tender', js: true do
 
   def then_they_should_be_able_to_fill_in_their_company_name(contractor)
     expect(page).to have_current_path(contractors_after_signup_path, wait: 40)
-    puts page.body
     fill_in 'Company name', with: contractor.company_name
-
     click_button 'Next'
   end
 
