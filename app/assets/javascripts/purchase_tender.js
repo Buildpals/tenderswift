@@ -26,6 +26,10 @@ function showVoucherCode () {
   $('#voucher-field-group').removeClass('d-none')
 }
 
+function showPassword () {
+  $('#password-field-group').removeClass('d-none')
+}
+
 function hideVoucherCode () {
   $('#voucher-field-group').addClass('d-none')
 }
@@ -47,7 +51,6 @@ function showPurchaseInProgress (loadingMessage) {
 }
 
 function showPurchaseError (errorMessage) {
-  console.log('showPurchaseError', errorMessage)
 
   $('#purchase-errors').html(errorMessage).removeClass('d-none')
   $('#purchaseFormClose').show()

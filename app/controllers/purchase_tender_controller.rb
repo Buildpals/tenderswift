@@ -29,13 +29,13 @@ class PurchaseTenderController < ContractorsController
         contractor = create_contractor
         sign_in(:contractor, contractor)
       elsif params[:password].blank?
-        # Re-render the purchase form
-        # with a password field and tell them to enter their password
+        render 'blank_password'
+        return
       elsif contractor.valid_password?(params[:password])
         sign_in(:contractor, contractor)
       else
-        # Re-render the purchase form
-        # with a password field and tell them the password is wrong
+        render 'wrong_password'
+        return
       end
     end
 
