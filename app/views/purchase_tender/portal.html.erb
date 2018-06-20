@@ -10,44 +10,53 @@
 <% end %>
 
 <% content_for :action_items do %>
-
-  <button class="btn btn-sm btn-secondary"
-          id="purchase-button"
-          data-toggle="modal"
-          data-target="#paymentModal"
-          data-backdrop="static"
-          data-keyboard="false">
-    Purchase Tender Documents for
-    GH₵ <%= @request_for_tender.selling_price %>
-  </button>
-
+  <div class="ml-auto text-center">
+    <button class="btn btn-sm btn-secondary"
+            id="purchase-button"
+            data-toggle="modal"
+            data-target="#paymentModal"
+            data-backdrop="static"
+            data-keyboard="false">
+      Purchase this tender for
+      GH₵ <%= @request_for_tender.selling_price %>
+    </button>
+    <br>
+    <a class="small" href="<%= contractor_root_path %>">
+      I've already purchased this tender
+    </a>
+  </div>
 <% end %>
 
 <% content_for :nav_tabs do %>
-  <a class="nav-item nav-link active" href="#">
-    1. Project Information
-  </a>
-  <a class="nav-item nav-link disabled"
-     data-toggle="tooltip"
-     data-placement="bottom"
-     data-html="true"
-     data-title="Not available until you have purchased this tender">
-    2. Tender Documents
-  </a>
-  <a class="nav-item nav-link disabled"
-     data-toggle="tooltip"
-     data-placement="bottom"
-     data-html="true"
-     data-title="Not available until you have purchased this tender">
-    3. Bill of Quantities
-  </a>
-  <a class="nav-item nav-link disabled"
-     data-toggle="tooltip"
-     data-placement="bottom"
-     data-html="true"
-     data-title="Not available until you have purchased this tender">
-    4. Upload Documents
-  </a>
+  <nav class="nav justify-content-center">
+    <a class="nav-item nav-link active" href="#">
+      1. Project Information
+    </a>
+    <a class="nav-item nav-link disabled"
+       href="#"
+       data-toggle="tooltip"
+       data-placement="bottom"
+       data-html="true"
+       data-title="Not available until you have purchased this tender">
+      2. Tender Documents
+    </a>
+    <a class="nav-item nav-link disabled"
+       href="#"
+       data-toggle="tooltip"
+       data-placement="bottom"
+       data-html="true"
+       data-title="Not available until you have purchased this tender">
+      3. Bill of Quantities
+    </a>
+    <a class="nav-item nav-link disabled"
+       href="#"
+       data-toggle="tooltip"
+       data-placement="bottom"
+       data-html="true"
+       data-title="Not available until you have purchased this tender">
+      4. Upload Documents
+    </a>
+  </nav>
 <% end %>
 
 <% content_for :modals do %>

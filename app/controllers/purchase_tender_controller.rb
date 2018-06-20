@@ -5,11 +5,7 @@ class PurchaseTenderController < ContractorsController
 
   before_action :set_policy
 
-  skip_before_action :authenticate_contractor!, only: %i[
-    portal
-    purchase
-    complete_transaction
-  ]
+  skip_before_action :authenticate_contractor!
 
   def portal
     authorize @request_for_tender
@@ -21,33 +17,36 @@ class PurchaseTenderController < ContractorsController
                   notice: 'You have already purchased this tender'
     else
       increment_visit_count
-      store_location_for(:contractor, request.fullpath)
     end
   end
 
   def purchase
     authorize @request_for_tender
 
-    if current_contractor
-      purchase_the_tender(current_contractor, @request_for_tender)
-      return
+    if current_contractor.nil?
+      contractor = Contractor.find_by(email: params[:email])
+      if contractor.nil?
+        contractor = create_contractor
+        sign_in(:contractor, contractor)
+      elsif params[:password].blank?
+        render 'blank_password'
+        return
+      elsif contractor.valid_password?(params[:password])
+        sign_in(:contractor, contractor)
+      else
+        render 'wrong_password'
+        return
+      end
     end
 
-    contractor = Contractor.find_by(email: params[:email])
-
-    if contractor&.valid_password?(params[:password])
-      sign_in(:contractor, contractor)
-      purchase_the_tender(current_contractor, @request_for_tender)
-    elsif contractor && !contractor.valid_password?(params[:password])
-      render 'require_password'
-      return
+    @purchaser = RequestForTenderPurchaser.build(
+      contractor: current_contractor,
+      request_for_tender: @request_for_tender
+    )
+    if @purchaser.purchase(payment_params)
+      render 'monitor_purchase'
     else
-      contractor = Contractor.create!(email: params[:email],
-                                      company_name: params[:company_name],
-                                      phone_number: params[:customer_number],
-                                      password: Devise.friendly_token.first(8))
-      sign_in(:contractor, contractor)
-      purchase_the_tender(current_contractor, @request_for_tender)
+      render 'purchase_tender_error'
     end
   end
 
@@ -84,22 +83,18 @@ class PurchaseTenderController < ContractorsController
 
   private
 
-  def purchase_the_tender(contractor, request_for_tender)
-    @purchaser = RequestForTenderPurchaser.build(
-      contractor: contractor,
-      request_for_tender: request_for_tender
-    )
-    if @purchaser.purchase(payment_params)
-      render 'monitor_purchase'
-    else
-      render 'purchase_tender_error'
-    end
-  end
-
   def set_policy
     RequestForTender.define_singleton_method(:policy_class) do
       PurchaseTenderPolicy
     end
+  end
+
+  def create_contractor
+    generated_password = Devise.friendly_token.first(8)
+    Contractor.create!(email: params[:email],
+                       phone_number: params[:customer_number],
+                       company_name: params[:company_name],
+                       password: generated_password)
   end
 
   def increment_visit_count
@@ -118,7 +113,8 @@ class PurchaseTenderController < ContractorsController
   end
 
   def payment_params
-    params.permit(:network_code, :customer_number, :vodafone_voucher_code)
+    params.permit(:network_code, :customer_number, :vodafone_voucher_code,
+                  :email, :company_name)
   end
 
   def complete_transaction_params
