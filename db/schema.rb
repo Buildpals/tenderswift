@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180606202633) do
+ActiveRecord::Schema.define(version: 20180619144219) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -42,7 +42,7 @@ ActiveRecord::Schema.define(version: 20180606202633) do
   end
 
   create_table "contractors", force: :cascade do |t|
-    t.string "company_name", default: "", null: false
+    t.string "company_name", default: ""
     t.string "company_logo"
     t.string "full_name", default: "", null: false
     t.string "phone_number", default: "", null: false
@@ -62,6 +62,7 @@ ActiveRecord::Schema.define(version: 20180606202633) do
     t.string "unconfirmed_email"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "status"
     t.index ["email"], name: "index_contractors_on_email", unique: true
     t.index ["reset_password_token"], name: "index_contractors_on_reset_password_token", unique: true
   end
@@ -228,7 +229,7 @@ ActiveRecord::Schema.define(version: 20180606202633) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "view", force: :cascade do |t|
+  create_table "tenders", force: :cascade do |t|
     t.bigint "request_for_tender_id"
     t.datetime "purchased_at"
     t.datetime "submitted_at"
@@ -257,5 +258,5 @@ ActiveRecord::Schema.define(version: 20180606202633) do
   add_foreign_key "items", "request_for_tenders"
   add_foreign_key "taggings", "items"
   add_foreign_key "taggings", "tags"
-  add_foreign_key "view", "contractors"
+  add_foreign_key "tenders", "contractors"
 end

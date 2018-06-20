@@ -1,5 +1,7 @@
-<% content_for :title do %>
+<% if current_contractor %>
+  <% content_for :title do %>
     <%= current_contractor.company_name %>
+  <% end %>
 <% end %>
 
 <!DOCTYPE html>
