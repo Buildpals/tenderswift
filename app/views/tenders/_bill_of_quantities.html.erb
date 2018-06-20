@@ -1,0 +1,26 @@
+<div class="container">
+  <div class="row">
+    <div class="col-lg-9 mx-auto">
+
+      <div class="hello">
+        <% if @tender.list_of_items['updated_at'] %>
+          <rates-uploader
+            :tender_id="<%= @tender.id %>"
+            :list_of_items="<%= @tender.list_of_items.to_json %>"
+            :list_of_rates="<%= @tender.list_of_rates.to_json %>">
+          </rates-uploader>
+        <% else %>
+          <rate-filling-boq
+            tender-id="<%= @tender.id %>"
+            :rates="<%= @tender.rates.to_json %>"
+            :workbook-data="<%= @tender.workbook %>"
+            currency="<%= project_currency_symbol @tender %>"
+            qs-company-name="<%= @tender.project_owners_company_name %>"
+            boq-contract-sum="<%= 100000 %>"
+          ></rate-filling-boq>
+        <% end %>
+      </div>
+
+    </div>
+  </div>
+</div>

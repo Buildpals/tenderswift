@@ -7,11 +7,15 @@ class Tender < ApplicationRecord
     failed: 2
   }
 
-  scope :purchased, -> { where.not(purchased_at: nil) }
-  scope :not_purchased, -> { where(purchased_at: nil) }
+  scope :purchased, -> { where.not(purchased_at: nil).order(purchased_at: :desc) }
+  scope :not_purchased, -> { where(purchased_at: nil).order(purchased_at: :desc) }
 
-  scope :submitted, -> { where.not(submitted_at: nil) }
-  scope :not_submitted, -> { where(submitted_at: nil) }
+  scope :submitted, -> {
+                      where.not(submitted_at: nil).order(submitted_at: :desc)
+                    }
+  scope :not_submitted, -> {
+                          where(submitted_at: nil).order(submitted_at: :desc)
+                        }
 
   scope :read, -> { where(read: true) }
   scope :not_read, -> { where(read: false) }
@@ -46,34 +50,34 @@ class Tender < ApplicationRecord
 
   validates :amount, presence: true, if: :purchasing?
 
-  delegate :project_name,         to: :request_for_tender
-  delegate :deadline,             to: :request_for_tender
-  delegate :city,                 to: :request_for_tender
-  delegate :description,          to: :request_for_tender
-  delegate :country_code,         to: :request_for_tender
-  delegate :currency,             to: :request_for_tender
-  delegate :tender_instructions,  to: :request_for_tender
-  delegate :selling_price,        to: :request_for_tender
-  delegate :private,              to: :request_for_tender
-  delegate :list_of_items,        to: :request_for_tender
+  delegate :project_name, to: :request_for_tender
+  delegate :deadline, to: :request_for_tender
+  delegate :city, to: :request_for_tender
+  delegate :description, to: :request_for_tender
+  delegate :country_code, to: :request_for_tender
+  delegate :currency, to: :request_for_tender
+  delegate :tender_instructions, to: :request_for_tender
+  delegate :selling_price, to: :request_for_tender
+  delegate :private, to: :request_for_tender
+  delegate :list_of_items, to: :request_for_tender
   delegate :contract_sum_address, to: :request_for_tender
-  delegate :published_at,         to: :request_for_tender
-  delegate :project_documents,    to: :request_for_tender
-  delegate :deadline_over?,       to: :request_for_tender
+  delegate :published_at, to: :request_for_tender
+  delegate :project_documents, to: :request_for_tender
+  delegate :deadline_over?, to: :request_for_tender
 
-  delegate :quantity_surveyor,    to: :request_for_tender
+  delegate :quantity_surveyor, to: :request_for_tender
 
-  delegate :project_owners_name,         to: :request_for_tender
+  delegate :project_owners_name, to: :request_for_tender
   delegate :project_owners_company_name, to: :request_for_tender
   delegate :project_owners_company_logo, to: :request_for_tender
   delegate :project_owners_phone_number, to: :request_for_tender
-  delegate :project_owners_email,        to: :request_for_tender
+  delegate :project_owners_email, to: :request_for_tender
 
-  delegate :name,         to: :contractor, prefix: :contractors
+  delegate :name, to: :contractor, prefix: :contractors
   delegate :company_name, to: :contractor, prefix: :contractors
   delegate :company_logo, to: :contractor, prefix: :contractors
   delegate :phone_number, to: :contractor, prefix: :contractors
-  delegate :email,        to: :contractor, prefix: :contractors
+  delegate :email, to: :contractor, prefix: :contractors
 
   ERROR_TAG = 'Tender was not submitted - '
 
@@ -167,7 +171,7 @@ class Tender < ApplicationRecord
 
     request_for_tender.required_documents.each do |required_document|
       next unless RequiredDocumentUpload.find_by(required_document_id:
-                                            required_document.id).nil?
+                                                     required_document.id).nil?
       errors.add(ERROR_TAG,
                  "#{required_document.title} has not been uploaded")
     end

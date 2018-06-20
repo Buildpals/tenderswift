@@ -1,0 +1,48 @@
+<% content_for :title do %>
+  <%= @tender.project_name %> - TenderSwift
+<% end %>
+
+<% content_for :breadcrumbs do %>
+  <li class="breadcrumb-item">
+    <a href="<%= contractor_root_path %>">
+      Home
+    </a>
+  </li>
+  <li class="breadcrumb-item active" aria-current="page">
+    <%= @tender.project_name %>
+  </li>
+<% end %>
+
+<% content_for :nav_tabs do %>
+  <% wizard_steps.each_with_index do |wizard_step, index| %>
+    <%= link_to "#{index + 1}. #{wizard_step.to_s.humanize}",
+                wizard_path(wizard_step),
+                class: "nav-item nav-link #{'active' if step == wizard_step}"%>
+  <% end %>
+<% end %>
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<%= render 'layouts/head' %>
+
+<body class="<%= controller_name %> <%= action_name %>">
+
+<%= render 'contractors/navbar' %>
+
+<%= render 'layouts/flash_messages' %>
+
+<div class="content">
+
+  <%= render 'contractors/page_head' %>
+
+  <%= yield %>
+
+</div>
+
+<%= render 'contractors/footer' unless action_name == 'boq' %>
+
+</body>
+</html>

@@ -178,7 +178,7 @@ RSpec.feature 'Product walkthrough', js: true do
   def and_the_request_for_tender_should_appear_in_their_published_tenders
     visit quantity_surveyor_root_path
 
-    within :css, '#published-request-for-tenders' do
+    within :css, '#published-request-for-view' do
       expect(page).to have_content @request_for_tender.project_name
       expect(page).to have_content project_location @request_for_tender
       expect(page).to have_content time_to_deadline @request_for_tender
@@ -264,7 +264,7 @@ RSpec.feature 'Product walkthrough', js: true do
   end
 
   def then_they_should_find_the_request_for_tender_in_their_purchased_tenders
-    within :css, '#purchased-tenders' do
+    within :css, '#purchased-view' do
       expect(page).to have_content @invitation_to_tender.project_name
     end
   end

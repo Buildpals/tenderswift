@@ -1,59 +1,59 @@
 # frozen_string_literal: true
 
-class RequestForTenders::BuildController < QuantitySurveyorsController
+class Tenders::BuildController < ContractorsController
   include Wicked::Wizard
 
   before_action :set_policy
 
   steps :general_information,
-        :bill_of_quantities,
         :tender_documents,
-        :tender_instructions,
-        :distribution
+        :bill_of_quantities,
+        :upload_documents
 
   def show
-    @request_for_tender = RequestForTender.find(params[:request_for_tender_id])
-    authorize @request_for_tender
+    @tender = Tender.find(params[:tender_id])
+    authorize @tender
+    @tender.build_required_document_uploads if step == :upload_documents
     render_wizard
   end
 
   def update
-    @request_for_tender = RequestForTender.find(params[:request_for_tender_id])
-    authorize @request_for_tender
+    @tender = Tender.find(params[:tender_id])
+    authorize @tender
 
     if step == steps.last
-      @request_for_tender.published_at = Time.current
-      @request_for_tender.status = :active
+      @tender.published_at = Time.current
+      @tender.status = :active
     else
-      @request_for_tender.status = step.to_s
+      @tender.status = step.to_s
     end
-    @request_for_tender.update_attributes(request_params)
-    render_wizard @request_for_tender
+    @tender.update_attributes(request_params)
+    render_wizard @tender
   end
 
   def create
-    @request_for_tender = current_quantity_surveyor.request_for_tenders.new
-    authorize @request_for_tender
-    @request_for_tender.setup_with_data
+    @tender = current_quantity_surveyor.tenders.new
+    authorize @tender
+    @tender.setup_with_data
 
     redirect_to wizard_path(steps.first,
-                            request_for_tender_id: @request_for_tender.id)
+                            tender_id: @tender.id)
   end
 
   private
 
   def finish_wizard_path
-    request_for_tender_path(@request_for_tender)
+    tender_path(@tender)
   end
 
   def set_policy
-    RequestForTender.define_singleton_method(:policy_class) do
-      BuildRequestForTenderPolicy
+    Tender.define_singleton_method(:policy_class) do
+      BuildTenderPolicy
     end
   end
 
   def request_params
-    params.require(:request_for_tender)
+    params.require(:tender)
           .permit(:project_name,
                   :deadline,
                   :city,

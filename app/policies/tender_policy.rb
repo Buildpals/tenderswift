@@ -8,45 +8,10 @@ class TenderPolicy
     @tender = tender
   end
 
-
-  def project_information?
-    contractor_owns_the_tender? && tender_is_purchased?
-  end
-
-  def tender_documents?
-    contractor_owns_the_tender? && tender_is_purchased?
-  end
-
-  def boq?
-    contractor_owns_the_tender? && tender_is_purchased?
-  end
-
-  def contractors_documents?
-    contractor_owns_the_tender? && tender_is_purchased?
-  end
-
-  def results?
+  def show?
     contractor_owns_the_tender? &&
-        tender_is_purchased? &&
-        tender_has_been_submitted?
-  end
-
-  def save_rates?
-    contractor_owns_the_tender? &&
-        tender_is_purchased? &&
-        tender_has_not_been_submitted
-  end
-
-  def save_contractors_documents?
-    contractor_owns_the_tender? &&
-        tender_is_purchased? &&
-        tender_has_not_been_submitted
-  end
-
-  def submit_tender?
-    contractor_owns_the_tender? &&
-        tender_is_purchased? &&
-        tender_has_not_been_submitted
+      tender_is_purchased? &&
+      tender_has_been_submitted?
   end
 
   private
@@ -61,9 +26,5 @@ class TenderPolicy
 
   def tender_has_been_submitted?
     @tender.submitted?
-  end
-
-  def tender_has_not_been_submitted
-    !@tender.submitted?
   end
 end

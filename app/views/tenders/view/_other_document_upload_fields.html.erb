@@ -1,0 +1,43 @@
+<% if f.object.document? %>
+
+  <div class="nested-fields form-row mb-2">
+    <div class="col-sm-6 px-2">
+      <%= f.object.title %>
+    </div>
+
+    <div class="col-sm-4 px-3">
+      <%= link_to 'View file', f.object.document.url, target: '_blank' %>
+    </div>
+
+    <div class="col-sm-2">
+      <div class="w-100">
+        <%= link_to_remove_association f, class: 'btn close float-none ml-auto' do %>
+          <span aria-hidden="true">&times;</span>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+<% else %>
+
+  <div class="nested-fields form-row mb-4">
+    <div class="col-sm-6">
+      <%= f.text_field :title, class: 'form-control form-control-sm',
+                       placeholder: 'Document title' %>
+    </div>
+
+    <div class="col-sm-4">
+      <%= f.file_field :document, class: 'form-control-file form-control-sm' %>
+    </div>
+
+    <div class="col-sm-2">
+      <div class="w-100">
+        <%= f.submit 'Add', class: 'btn btn-sm btn-primary ml-auto' %>
+        <%= link_to_remove_association f, class: 'btn close float-none' do %>
+          <span aria-hidden="true">&times;</span>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+<% end %>

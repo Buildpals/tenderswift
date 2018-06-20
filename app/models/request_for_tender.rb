@@ -3,13 +3,8 @@
 class RequestForTender < ApplicationRecord
   TENDERSWIFT_CUT = 0.12
 
-  scope :published, -> { where.not(published_at: nil) }
-  scope :not_published, -> { where(published_at: nil) }
-
-  enum status: {
-    inert: 0,
-    active: 1
-  }
+  scope :published, -> { where.not(published_at: nil).order(published_at: :desc) }
+  scope :not_published, -> { where(published_at: nil).order(published_at: :desc) }
 
   serialize :contract_sum_address, Hash
 
@@ -155,5 +150,43 @@ class RequestForTender < ApplicationRecord
       break if q.zero?
     end
     s
+  end
+
+  validates :project_name,
+            :currency,
+            :deadline,
+            :country_code,
+            :city,
+            :description,
+            presence: true,
+            if: :active_or_general_information?
+
+  # validates :bill_of_quantities, presence: true, if: :active_or_bill_of_quantities?
+  # validates :tender_documents, presence: true, if: :active_or_tender_documents?
+  # validates :tender_instructions, presence: true, if: :active_or_tender_instructions?
+  validates :selling_price, presence: true, if: :active_or_distribution?
+
+  def active?
+    status == 'active'
+  end
+
+  def active_or_general_information?
+    status.include?(:general_information.to_s) || active?
+  end
+
+  def active_or_bill_of_quantities?
+    status.include?(:bill_of_quantities.to_s) || active?
+  end
+
+  def active_or_tender_documents?
+    status.include?(:tender_documents.to_s) || active?
+  end
+
+  def active_or_tender_instructions?
+    status.include?(:tender_instructions.to_s) || active?
+  end
+
+  def active_or_distribution?
+    status.include?(:distribution.to_s) || active?
   end
 end
