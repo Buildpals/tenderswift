@@ -6,7 +6,7 @@ RSpec.feature 'Purchasing a tender', js: true do
   include RequestForTendersHelper
 
   context 'Invitation to tender has already been purchased already' do
-    scenario 'should redirect to contractors home page with notice' do
+    xscenario 'should redirect to contractors home page with notice' do
       contractor = given_a_contractor_has_logged_in
       invitation_to_tender = and_they_have_purchased_a_particular_tender(contractor)
       when_they_go_to_the_purchase_tender_page_for_that_particular_tender(invitation_to_tender)
@@ -52,21 +52,28 @@ RSpec.feature 'Purchasing a tender', js: true do
       and_they_should_show_up_under_purchased_on_the_quantity_surveyors_dashboard(contractor, invitation_to_tender)
     end
 
-    xscenario 'should not allow contractor when password is blank' do
+    scenario 'should not allow contractor when password is blank' do
       contractor = given_an_existing_contractor_who_has_not_logged_in_yet
       invitation_to_tender = when_they_purchase_a_tender(contractor.email)
 
-      expect(page).to have_content 'Please Enter A Password'
-      expect(page).to have_field 'password'
+      expect(page).to have_content 'Please enter a password'
+      expect(page).to have_field 'Password'
     end
 
     scenario 'should not allow contractor when password is wrong' do
       contractor = given_an_existing_contractor_who_has_not_logged_in_yet
-      invitation_to_tender = when_they_purchase_a_tender(contractor.email,
-                                                         'wrong password')
+      invitation_to_tender = when_they_purchase_a_tender(contractor.email)
+
+      expect(page).to have_content 'Please enter a password'
+      expect(page).to have_field 'Password'
+
+      within :css, '#paymentModal' do
+        fill_in 'Password', with: 'wrong password'
+        click_button 'Purchase'
+      end
 
       expect(page).to have_content 'The password you provided was incorrect'
-      expect(page).to have_field 'password'
+      expect(page).to have_field 'Password'
     end
   end
 
@@ -212,7 +219,6 @@ RSpec.feature 'Purchasing a tender', js: true do
   def and_they_should_be_told_they_have_already_purchased_this_tender
     expect(page).to have_content 'You have already purchased this tender'
   end
-
 
   def then_they_should_be_able_to_fill_in_their_company_name(contractor)
     expect(page).to have_current_path(contractors_after_signup_path, wait: 40)
