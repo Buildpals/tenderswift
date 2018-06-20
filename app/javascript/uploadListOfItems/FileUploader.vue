@@ -3,7 +3,7 @@
 
     <form enctype="multipart/form-data" novalidate>
       <div class="dropbox mb-5">
-        <input type="file" multiple
+        <input type="file" v-bind="$attrs"
                name="project_document[document]"
                @change="filesChange($event.target.name, $event.target.files);
                         fileCount = $event.target.files.length"
@@ -76,7 +76,7 @@
 
 <script>
   export default {
-    props: ['request_for_tender'],
+    props: ['request_for_tender', 'save_url'],
 
     data () {
       return {
@@ -92,10 +92,7 @@
       deleteDocument (project_document) {
         this.$set(project_document, 'isDeleting', true)
 
-        this.$http.delete(
-          `/request_for_tenders/${this.request_for_tender.id}`
-          + `/project_documents/${project_document.id}`
-        )
+        this.$http.delete(`${this.save_url}/${project_document.id}`)
           .then(response => {
             this.uploadedFiles
               .splice(this.uploadedFiles.indexOf(project_document), 1)
@@ -133,11 +130,7 @@
           this.uploadedFiles.push(project_document)
         }
 
-        this.$http.post(
-          `/request_for_tenders/${this.request_for_tender.id}/`
-          + `project_documents`,
-          project_document.formData
-        )
+        this.$http.post(this.save_url, project_document.formData)
           .then(response => {
             this.uploadedFiles.splice(
               this.uploadedFiles.indexOf(project_document),

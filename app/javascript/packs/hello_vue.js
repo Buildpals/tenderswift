@@ -9,7 +9,7 @@ import RatesUploader from '../uploadListOfItems/RatesUploader'
 import RatesReviewer from '../uploadListOfItems/RatesReviewer'
 import RatesComparer from '../uploadListOfItems/RatesComparer'
 import TenderFiguresTable from '../uploadListOfItems/TenderFiguresTable'
-import ProjectDocumentsUploader from '../uploadListOfItems/ProjectDocumentsUploader'
+import FileUploader from '../uploadListOfItems/FileUploader'
 import RateFillingBoq from '../rateFillingBoq/rateFillingBoq'
 import ViewBidBoq from '../viewBidBoq/viewBidBoq'
 import ComparisonBoq from '../comparisonBoq/comparisonBoq'
@@ -36,7 +36,7 @@ document.addEventListener('turbolinks:load', () => {
       ViewBidBoq,
       ComparisonBoq,
       BidsTable,
-      ProjectDocumentsUploader,
+      FileUploader,
       RatesUploader,
       RatesReviewer,
       TenderFiguresTable,
