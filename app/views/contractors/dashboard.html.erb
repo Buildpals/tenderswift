@@ -12,20 +12,22 @@
       </div>
       <div class="card mb-4">
           <div class="list-group list-group-flush">
-            <% current_contractor.tenders.not_purchased.each do |tender| %>
-              <a href="<%= purchase_tender_path tender.request_for_tender %>"
+            <% @request_for_tenders.each do |request_for_tender| %>
+              <a href="<%= purchase_tender_path request_for_tender %>"
                  class="list-group-item
-              list-group-item-action flex-column align-items-start" %>
+              list-group-item-action flex-column align-items-start
+              urgent-notice" %>
                 <div class="d-flex w-100 justify-content-between">
                   <h5 class="mb-1">
-                    <%= tender.project_name %>
+                    <%= request_for_tender.project_name %>
                   </h5>
                   <small class="text-muted">
-                    <span class="badge badge-pill badge-secondary"><%= time_to_deadline tender %></span>
+                    <span class="badge badge-pill badge-secondary"><%=
+                      time_to_deadline request_for_tender %></span>
                   </small>
                 </div>
                 <small class="text-muted">
-                  <%= project_location tender %>
+                  <%= project_location request_for_tender %>
                 </small>
               </a>
             <% end %>
@@ -41,7 +43,9 @@
       <div class="card">
         <div class="list-group list-group-flush">
             <% current_contractor.tenders.purchased.not_submitted.each do |tender|%>
-              <a href="<%= tenders_project_information_path tender %>" class="list-group-item list-group-item-action flex-column align-items-start">
+              <a href="<%= tenders_project_information_path tender %>"
+                 class="list-group-item list-group-item-action flex-column
+                 align-items-start">
                 <div class="d-flex w-100 justify-content-between">
                   <h5 class="mb-1">
                     <%= tender.project_name %>
