@@ -2,6 +2,14 @@
 
 require 'rails_helper'
 
+def build_bill_of_quantities_path(request_for_tender)
+  "/request_for_tenders/#{request_for_tender.id}/build/bill_of_quantities"
+end
+
+def build_tender_documents_path(request_for_tender)
+  "/request_for_tenders/#{request_for_tender.id}/build/tender_documents"
+end
+
 RSpec.feature 'Create request for tender', js: true do
   include RequestForTendersHelper
 
@@ -36,6 +44,7 @@ RSpec.feature 'Create request for tender', js: true do
 
   def and_has_added_the_general_information
     @request_for_tender = FactoryBot.build(:request_for_tender)
+    @request_for_tender.id = page.current_url.match(/\/(\d+)\//)[1]
 
     fill_in 'Project name', with: @request_for_tender.project_name
     select 'GHS - Ghanaian Cedi', from: 'Currency'
@@ -60,41 +69,43 @@ RSpec.feature 'Create request for tender', js: true do
     fill_in 'City', with: @request_for_tender.city
 
     fill_in 'Description', with: @request_for_tender.description
-    click_button 'Next', match: :first
+    click_button 'Save and continue', match: :first
   end
 
   def and_has_uploaded_the_bill_of_quantities
-    attach_file('upload-boq',
-                Rails.root + 'spec/fixtures/bill_of_quantities.xlsx')
-    expect(page).to have_link 'uploaded-boq', wait: 10
-    click_button 'Next', match: :first
+    expect(page).to have_current_path(
+      build_bill_of_quantities_path(@request_for_tender)
+    )
+
+    # attach_file('upload-boq',
+    #             Rails.root + 'spec/fixtures/bill_of_quantities.xlsx')
+    # expect(page).to have_link 'uploaded-boq', wait: 10
+    # click_button 'Save and continue', match: :first
+    click_link '3. Tender documents'
   end
 
   def and_has_uploaded_the_tender_documents
-    attach_file(
-      'request_for_tender_project_documents_attributes_0_document',
-      Rails.root + 'spec/fixtures/Contract Documents.doc'
+    expect(page).to have_current_path(
+                        build_tender_documents_path(@request_for_tender)
     )
-    click_button 'Save', match: :first
-
-    expect(page).to have_link 'request_for_tender_project_document_0', wait: 10
-    click_button 'Next', match: :first
+    # attach_file(
+    #   'request_for_tender_project_documents_attributes_0_document',
+    #   Rails.root + 'spec/fixtures/Contract Documents.doc'
+    # )
+    # click_button 'Save', match: :first
+    #
+    # expect(page).to have_link 'request_for_tender_project_document_0', wait: 10
+    click_link 'Save and continue', match: :first
   end
 
   def and_has_added_the_tendering_instructions
     editor = page.find(:css, '.trix-content')
     editor.click.set(@request_for_tender.tender_instructions)
-    click_button 'Next', match: :first
+    click_button 'Save and continue', match: :first
   end
 
   def and_has_added_the_payment_information
     fill_in 'Selling price', with: @request_for_tender.selling_price
-    fill_in 'Bank name', with: @request_for_tender.bank_name
-    fill_in 'Branch name', with: @request_for_tender.branch_name
-    fill_in 'Account name', with: @request_for_tender.account_name
-    fill_in 'Account number', with: @request_for_tender.account_number
-    select 'Every two weeks', from: 'Withdrawal frequency'
-    click_button 'Next', match: :first
   end
 
   def when_they_publish_it_as_a_public_tender
