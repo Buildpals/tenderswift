@@ -60,7 +60,6 @@ class Tenders::BuildController < ContractorsController
                   :description,
                   :country_code,
                   :currency,
-                  :bill_of_quantities,
                   :tender_instructions,
                   :selling_price,
                   :withdrawal_frequency,

@@ -17,25 +17,14 @@
 <div class="container-fluid" style="padding-left: 0px; padding-right: 15px;">
   <div class="row">
     <div class="col-md-12">
-      <% if @request_for_tender.list_of_items['updated_at'] %>
-        <div class="hello">
-          <rates-comparer
-            :list_of_items="<%= @request_for_tender.list_of_items.to_json %>"
-            :tenders="<%= @request_for_tender.tenders_including_mine
-                          .to_json %>">
-          </rates-comparer>
-        </div>
-      <% else %>
-        <div class="hello">
-          <comparison-boq
-            :tenders="<%= @request_for_tender.tenders.to_json(include: :rates) %>"
-            :workbook-data="<%= @request_for_tender.bill_of_quantities %>"
-            currency="<%= project_currency_symbol @request_for_tender  %>"
-            qs-company-name="<%= @request_for_tender.project_owners_company_name %>"
-            boq-contract-sum="<%= 100000 %>"
-          ></comparison-boq>
-        </div>
-      <% end %>
+
+      <div class="hello">
+        <rates-comparer
+          :list_of_items="<%= @request_for_tender.list_of_items.to_json %>"
+          :tenders="<%= @request_for_tender.tenders_including_mine
+                        .to_json %>">
+        </rates-comparer>
+      </div>
 
     </div>
   </div>

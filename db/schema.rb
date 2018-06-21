@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180621084443) do
+ActiveRecord::Schema.define(version: 20180621113736) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -173,7 +173,6 @@ ActiveRecord::Schema.define(version: 20180621084443) do
     t.string "description"
     t.string "country_code"
     t.string "currency", default: "USD", null: false
-    t.text "bill_of_quantities"
     t.text "tender_instructions"
     t.integer "selling_price_subunit", default: 10000, null: false
     t.string "bank_name"

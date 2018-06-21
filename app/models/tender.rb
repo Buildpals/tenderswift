@@ -128,16 +128,6 @@ class Tender < ApplicationRecord
     false
   end
 
-  def workbook
-    workbook = JSON.parse(request_for_tender.bill_of_quantities)
-    workbook = strip_qs_rates(workbook)
-    rates.each do |rate|
-      cell_address = "E#{rate.row}"
-      workbook['Sheets'][rate.sheet][cell_address]['v'] = rate.value
-    end
-    workbook.to_json
-  end
-
   def self.build_fake_tender(request_for_tender)
     contractor = Contractor.new(
       company_name: 'Example Company Ltd',

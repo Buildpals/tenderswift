@@ -112,17 +112,6 @@ class RequestForTender < ApplicationRecord
     sum - (TENDERSWIFT_CUT * sum)
   end
 
-  def comparison_workbook
-    workbook = JSON.parse(bill_of_quantities)
-    tenders.each_with_index do |tender, index|
-      tender.rates.each do |rate|
-        cell_address = "#{to_s26(index + 1 + 6)}#{rate.row}"
-        workbook['Sheets'][rate.sheet][cell_address] = { f: "=C#{rate.row}*#{rate.value}" }
-      end
-    end
-    workbook.to_json
-  end
-
   def tenders_including_mine
     tenders.as_json(include: :contractor).unshift(
       contractor: {
@@ -163,7 +152,7 @@ class RequestForTender < ApplicationRecord
             presence: true,
             if: :active_or_general_information?
 
-  # validates :bill_of_quantities, presence: true, if: :active_or_bill_of_quantities?
+  # validates :list_of_items, presence: true, if: :active_or_bill_of_quantities?
   # validates :tender_documents, presence: true, if: :active_or_tender_documents?
   # validates :tender_instructions, presence: true, if: :active_or_tender_instructions?
   validates :selling_price, presence: true, if: :active_or_distribution?

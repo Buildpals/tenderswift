@@ -38,5 +38,6 @@ class BuildTenderPolicy
 
   def tender_has_not_been_submitted
     !@tender.submitted?
+    true
   end
 end
