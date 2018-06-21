@@ -1,14 +1,3 @@
-<% content_for :breadcrumbs do %>
-  <li class="breadcrumb-item">
-    <a href="#">
-      <%= @request_for_tender.project_owners_company_name %>
-    </a>
-  </li>
-  <li class="breadcrumb-item active" aria-current="page">
-    <%= @request_for_tender.project_name %>
-  </li>
-<% end %>
-
 <% content_for :nav_tabs do %>
   <a class="nav-item nav-link active" href="#">
     1. Project Information

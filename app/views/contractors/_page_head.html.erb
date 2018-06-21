@@ -11,8 +11,7 @@
         <div class="row">
           <div class="col-lg-10 mx-auto">
 
-            <div class="d-flex flex-wrap w-100 justify-content-between">
-
+            <% if content_for? :breadcrumbs %>
               <nav aria-label="breadcrumb" role="navigation">
                 <ol class="breadcrumb top-nav-breadcrumb">
 
@@ -26,11 +25,13 @@
 
                 </ol>
               </nav>
-            </div>
+            <% end %>
 
-            <nav class="nav justify-content-center">
-              <%= yield :nav_tabs %>
-            </nav>
+            <% if content_for?(:nav_tabs) %>
+              <nav class="nav justify-content-center">
+                <%= yield :nav_tabs %>
+              </nav>
+            <% end %>
           </div>
         </div>
       </div>
