@@ -56,7 +56,7 @@ RSpec.feature 'Purchasing a tender', js: true do
       contractor = given_an_existing_contractor_who_has_not_logged_in_yet
       invitation_to_tender = when_they_purchase_a_tender(contractor.email)
 
-      expect(page).to have_content 'Please enter a password'
+      expect(page).to have_content 'Please enter your password'
       expect(page).to have_field 'Password'
     end
 

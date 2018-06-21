@@ -109,8 +109,8 @@
       save () {
         this.isSaving = true
         this.$http
-          .put(
-            `/tenders/${this.tender_id}`,
+          .patch(
+            `/tenders/${this.tender_id}/build/bill_of_quantities`,
             {
               tender: {
                 list_of_rates: {

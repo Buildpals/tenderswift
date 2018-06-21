@@ -24,16 +24,8 @@ function showPassword () {
   $('#password-field-group').removeClass('d-none')
 }
 
-function hidePassword () {
-  $('#password-field-group').addClass('d-none')
-}
-
 function showVoucherCode () {
   $('#voucher-field-group').removeClass('d-none')
-}
-
-function showPassword () {
-  $('#password-field-group').removeClass('d-none')
 }
 
 function hideVoucherCode () {

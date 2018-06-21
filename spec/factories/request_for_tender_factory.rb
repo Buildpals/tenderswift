@@ -10,13 +10,13 @@ FactoryBot.define do
     country_code 'GH'
     currency 'GHS'
 
-    bill_of_quantities do
-      file = File.open(
-        Rails.root + 'spec/fixtures/bill_of_quantities.json',
-        'rb'
-      )
-      file.read
-    end
+    # bill_of_quantities do
+    #   file = File.open(
+    #     Rails.root + 'spec/fixtures/bill_of_quantities.json',
+    #     'rb'
+    #   )
+    #   file.read
+    # end
 
     list_of_items(
       'items' => [
