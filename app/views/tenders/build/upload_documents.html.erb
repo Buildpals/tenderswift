@@ -97,20 +97,14 @@
                   }) %>
 
 
-          <nav class="navbar fixed-bottom navbar-dark bg-primary">
-            <div class="navbar-nav flex-row w-100 justify-content-between">
-
-              <a class="nav-item nav-link"
-                 href="<%= previous_wizard_path %>">
-                <span class="fa fa-chevron-left"></span>
-                Previous
-              </a>
-
-              <%= form.submit(
-                      'Submit',
-                      class: 'btn btn-sm btn-secondary text-capitalize') %>
-            </div>
-          </nav>
+          <%= form.submit 'Submit',
+                          class: 'btn btn-block btn-sm btn-secondary text-capitalize
+                          d-none d-sm-none d-md-none d-lg-block d-xl-block',
+                          data: {
+                              confirm: 'You cannot edit this tender after ' \
+                              'submitting it. Are you sure you you want to ' \
+                              'publish this tender?'
+                          } %>
 
         <% end %>
 

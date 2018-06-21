@@ -1,9 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <% content_for :title do %>
   <%= step.to_s.humanize %>/<%= @tender.project_name %> - TenderSwift
 <% end %>
+
+<% content_for :breadcrumbs do %>
+  <li class="breadcrumb-item">
+    <a href="<%= contractor_root_path %>">
+      Home
+    </a>
+  </li>
+  <li class="breadcrumb-item text-truncate"
+      style="max-width: 420px;">
+    <a href="<%= tender_build_path(
+                     @tender, :general_information
+                 ) %>">
+      <%= @tender.project_name %>
+    </a>
+  </li>
+<% end %>
+
 
 <%= render 'layouts/head' %>
 
@@ -22,42 +38,55 @@
     </div>
   </nav>
 
-  <div class="w-100 bg-light text-dark nav-tabs
-              d-none d-sm-none d-md-none d-lg-block d-xl-block">
-    <div class="container pt-3">
-      <div class="row">
-        <div class="col-lg-9 mx-auto">
-          <nav aria-label="breadcrumb" role="navigation">
-            <ol class="breadcrumb top-nav-breadcrumb">
-              <li class="mt-1 mr-2">
-                <svg aria-hidden="true" style="color: #959da5 !important;" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-                  <path fill-rule="evenodd" d="M4 9H3V8h1v1zm0-3H3v1h1V6zm0-2H3v1h1V4zm0-2H3v1h1V2zm8-1v12c0 .55-.45 1-1 1H6v2l-1.5-1.5L3 16v-2H1c-.55 0-1-.45-1-1V1c0-.55.45-1 1-1h10c.55 0 1 .45 1 1zm-1 10H1v2h2v-1h3v1h5v-2zm0-10H2v9h9V1z"></path>
-                </svg>
-              </li>
-              <li class="breadcrumb-item">
-                <a href="<%= contractor_root_path %>">
-                  Home
-                </a>
-              </li>
-              <li class="breadcrumb-item text-truncate"
-                  style="max-width: 420px;">
-                <a href="<%= tender_build_path(
-                                 @tender, :general_information
-                             ) %>">
-                  <%= @tender.project_name %>
-                </a>
-              </li>
-              <li class="breadcrumb-item active" aria-current="page">
-                <%= step.to_s.humanize %>
-              </li>
-            </ol>
+  <div class="d-none d-sm-none d-md-none d-lg-block d-xl-block">
+
+    <%= render 'contractors/page_head' %>
+
+    <div class="container">
+      <div class="row mt-4">
+        <div class="col-lg-12 mx-auto">
+          <nav class="nav nav-pills justify-content-center">
+            <% wizard_steps.each_with_index do |wizard_step, index| %>
+              <%= link_to "#{index + 1}. #{wizard_step.to_s.humanize}",
+                          wizard_path(wizard_step),
+                          class: "nav-item nav-link #{'active' if step == wizard_step}"%>
+            <% end %>
           </nav>
         </div>
       </div>
     </div>
+
   </div>
 
   <%= yield %>
+
+  <nav class="navbar fixed-bottom navbar-dark bg-primary
+              d-block d-sm-block d-md-block d-lg-none d-xl-none">
+    <div class="navbar-nav flex-row w-100 justify-content-between">
+
+      <% unless step == wizard_steps.first %>
+        <a class="nav-item nav-link"
+           href="<%= previous_wizard_path %>">
+          <span class="fa fa-chevron-left"></span>
+          Previous
+        </a>
+      <% end %>
+
+      <% unless step == wizard_steps.last %>
+        <a class="nav-item nav-link"
+           href="<%= next_wizard_path %>">
+          Next
+          <span class="fa fa-chevron-right"></span>
+        </a>
+      <% else %>
+        <button class="btn btn-sm btn-secondary text-capitalize"
+                       onclick="$('#document-upload-form').trigger('submit.rails')">
+          Submit
+        </button>
+      <% end %>
+
+    </div>
+  </nav>
 
 </div>
 
