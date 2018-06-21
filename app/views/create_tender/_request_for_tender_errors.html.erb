@@ -1,9 +1,0 @@
-<% if @request_for_tender.errors.any? %>
-  <div id="error_explanation">
-    <ul>
-      <% @request_for_tender.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-    </ul>
-  </div>
-<% end %>

@@ -26,7 +26,7 @@ class CreateNewDatabaseSchema < ActiveRecord::Migration[5.1]
       t.index ["unlock_token"], name: "index_admins_on_unlock_token", unique: true
     end
 
-    create_table "tenders", force: :cascade do |t|
+    create_table "view", force: :cascade do |t|
       t.belongs_to "request_for_tender"
       t.string "company_name"
       t.string "phone_number"

@@ -9,59 +9,35 @@
   </li>
 <% end %>
 
-<% content_for :action_items do %>
-  <div class="mt-2 ml-auto">
-    <button class="btn btn-sm btn-secondary"
-            id="purchase-button"
-            data-toggle="modal"
-            data-target="#paymentModal"
-            data-backdrop="static"
-            data-keyboard="false">
-      Purchase Tender Documents for
-      GH₵ <%= @request_for_tender.selling_price %>
-    </button>
-  </div>
-  <div class="mt-2 ml-auto">
-    <a class="btn btn-sm btn-primary"
-       href="<%= contractor_root_path %>">
-      I've already purchased this tender documents
-      GH₵ <%= @request_for_tender.selling_price %>
-    </a>
-  </div>
-<% end %>
-
 <% content_for :nav_tabs do %>
-  <nav class="nav justify-content-center">
-    <a class="nav-item nav-link active" href="#">
-      1. Project Information
-    </a>
-    <a class="nav-item nav-link disabled"
-       href="#"
-       data-toggle="tooltip"
-       data-placement="bottom"
-       data-html="true"
-       data-title="Not available until you have purchased this tender">
-      2. Tender Documents
-    </a>
-    <a class="nav-item nav-link disabled"
-       href="#"
-       data-toggle="tooltip"
-       data-placement="bottom"
-       data-html="true"
-       data-title="Not available until you have purchased this tender">
-      3. Bill of Quantities
-    </a>
-    <a class="nav-item nav-link disabled"
-       href="#"
-       data-toggle="tooltip"
-       data-placement="bottom"
-       data-html="true"
-       data-title="Not available until you have purchased this tender">
-      4. Upload Documents
-    </a>
-  </nav>
+  <a class="nav-item nav-link active" href="#">
+    1. Project Information
+  </a>
+  <a class="nav-item nav-link disabled"
+     href="#"
+     data-toggle="tooltip"
+     data-placement="bottom"
+     data-html="true"
+     data-title="Not available until you have purchased this tender">
+    2. Tender Documents
+  </a>
+  <a class="nav-item nav-link disabled"
+     href="#"
+     data-toggle="tooltip"
+     data-placement="bottom"
+     data-html="true"
+     data-title="Not available until you have purchased this tender">
+    3. Bill of Quantities
+  </a>
+  <a class="nav-item nav-link disabled"
+     href="#"
+     data-toggle="tooltip"
+     data-placement="bottom"
+     data-html="true"
+     data-title="Not available until you have purchased this tender">
+    4. Upload Documents
+  </a>
 <% end %>
-
 
 <% content_for :modals do %>
   <div class="modal fade"
@@ -96,6 +72,28 @@
     </div>
   </div>
 <% end %>
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-9 mx-auto pt-4
+                d-flex flex-wrap justify-content-center
+                justify-content-md-between align-items-center">
+      <a class="btn btn-sm btn-link" href="<%= contractor_root_path %>">
+        Click here if you've already purchased this tender
+      </a>
+      <button class="btn btn-sm btn-secondary"
+              id="purchase-button"
+              data-toggle="modal"
+              data-target="#paymentModal"
+              data-backdrop="static"
+              data-keyboard="false">
+        Purchase this tender for
+        GH₵ <%= @request_for_tender.selling_price %>
+      </button>
+    </div>
+  </div>
+</div>
 
 <%= render 'request_for_tenders/public_information',
            request_for_tender: @request_for_tender %>

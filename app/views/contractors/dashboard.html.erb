@@ -6,7 +6,7 @@
 
 <div class="container">
   <div class="row">
-    <div class="col-md-4 ml-md-auto mr-md-auto pt-4" id="invitations-to-tender">
+    <div class="col-lg-4 pt-4" id="invitations-to-tender">
       <div class="ml-4 mb-2 text-center">
         <small style="color: rgb(169, 68, 66); font-size: 100%;">Invitations To Tender</small>
       </div>
@@ -14,16 +14,16 @@
           <div class="list-group list-group-flush">
             <% @request_for_tenders.each do |request_for_tender| %>
               <a href="<%= purchase_tender_path request_for_tender %>"
-                 class="list-group-item
-              list-group-item-action flex-column align-items-start
-              urgent-notice" %>
+                 class="list-group-item list-group-item-action
+                        flex-column align-items-start" %>
                 <div class="d-flex w-100 justify-content-between">
                   <h5 class="mb-1">
                     <%= request_for_tender.project_name %>
                   </h5>
                   <small class="text-muted">
-                    <span class="badge badge-pill badge-secondary"><%=
-                      time_to_deadline request_for_tender %></span>
+                    <span class="badge badge-pill badge-secondary">
+                      <%= time_to_deadline request_for_tender %>
+                    </span>
                   </small>
                 </div>
                 <small class="text-muted">
@@ -36,22 +36,26 @@
     </div>
 
 
-    <div class="col-md-4 ml-md-auto mr-md-auto pt-4" id="purchased-tenders">
+    <div class="col-lg-4 pt-4" id="purchased-tenders">
       <div class="ml-4 mb-2 text-center">
         <small style="font-size: 100%;">Purchased Tenders</small>
       </div>
       <div class="card">
         <div class="list-group list-group-flush">
-            <% current_contractor.tenders.purchased.not_submitted.each do |tender|%>
-              <a href="<%= tenders_project_information_path tender %>"
-                 class="list-group-item list-group-item-action flex-column
-                 align-items-start">
+            <% current_contractor.tenders
+                   .purchased
+                   .not_submitted.each do |tender|%>
+              <a href="<%= tender_build_path(tender, :general_information) %>"
+                 class="list-group-item list-group-item-action
+                        flex-column align-items-start">
                 <div class="d-flex w-100 justify-content-between">
                   <h5 class="mb-1">
                     <%= tender.project_name %>
                   </h5>
                   <small class="text-muted">
-                    <span class="badge badge-pill badge-secondary"><%= time_to_deadline tender %></span>
+                    <span class="badge badge-pill badge-secondary">
+                      <%= time_to_deadline tender %>
+                    </span>
                   </small>
                 </div>
                 <small class="text-muted">
@@ -64,20 +68,24 @@
     </div>
 
 
-    <div class="col-md-4 ml-md-auto mr-md-auto pt-4" id="submitted-tenders">
+    <div class="col-lg-4 pt-4" id="submitted-tenders">
       <div class="ml-4 mb-2 text-center">
         <small style="color:rgb(49, 183, 51); font-size: 100%;">Submitted Tenders</small>
       </div>
       <div class="card">
         <% current_contractor.tenders.purchased.submitted.each do |tender| %>
           <div class="list-group list-group-flush">
-              <a href="<%= tenders_project_information_path tender %>" class="list-group-item list-group-item-action flex-column align-items-start" %>
+              <a href="<%= tender_view_path tender, :general_information %>"
+                 class="list-group-item list-group-item-action
+                        flex-column align-items-start">
                 <div class="d-flex w-100 justify-content-between">
                   <h5 class="mb-1">
                     <%= tender.project_name %>
                   </h5>
                   <small class="text-muted">
-                      <span class="badge badge-pill badge-secondary"><%= time_to_deadline tender %></span>
+                      <span class="badge badge-pill badge-secondary">
+                        <%= time_to_deadline tender %>
+                      </span>
                   </small>
                 </div>
                 <small class="text-muted">

@@ -91,10 +91,10 @@ class PurchaseTenderController < ContractorsController
 
   def create_contractor
     generated_password = Devise.friendly_token.first(8)
-    contractor = Contractor.create!(email: params[:email],
-                                    phone_number: params[:customer_number],
-                                    company_name: params[:company_name],
-                                    password: generated_password)
+    Contractor.create!(email: params[:email],
+                       phone_number: params[:customer_number],
+                       company_name: params[:company_name],
+                       password: generated_password)
   end
 
   def increment_visit_count

@@ -16,10 +16,17 @@
   <% end %>
 </div>
 
-<bids-table
-:contract-sum-address="<%= @request_for_tender.contract_sum_address.to_json %>"
-:tenders-data="<%= @request_for_tender.tenders.to_json(include: :rates) %>"
-:workbook-data="<%= @request_for_tender.bill_of_quantities %>"
-currency="<%= project_currency_symbol @request_for_tender %>"
-qs-company-name="<%= @request_for_tender.project_owners_company_name %>"
-></bids-table>
+<% if @request_for_tender.list_of_items['updated_at'] %>
+  <tender-figures-table
+    :tenders="<%= @request_for_tender.tenders_including_mine.to_json %>"
+    :list_of_items="<%= @request_for_tender.list_of_items.to_json %>">
+  </tender-figures-table>
+<% else %>
+  <bids-table
+    :contract-sum-address="<%= @request_for_tender.contract_sum_address.to_json %>"
+    :tenders-data="<%= @request_for_tender.tenders.to_json(include: :rates) %>"
+    :workbook-data="<%= @request_for_tender.bill_of_quantities %>"
+    currency="<%= project_currency_symbol @request_for_tender %>"
+    qs-company-name="<%= @request_for_tender.project_owners_company_name %>"
+  ></bids-table>
+<% end %>

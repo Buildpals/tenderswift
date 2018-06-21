@@ -187,6 +187,10 @@ class CreateTenderController < QuantitySurveyorsController
                   :account_name,
                   :account_number,
                   :private,
+                  list_of_items: [
+                    :updated_at,
+                    items: %i[name description quantity unit]
+                  ],
                   excel_file_attributes: %i[id
                                             document
                                             _destroy],

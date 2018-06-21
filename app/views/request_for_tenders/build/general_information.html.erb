@@ -1,0 +1,101 @@
+<%= form_with model: @request_for_tender,
+              scope: :request_for_tender,
+              url: wizard_path,
+              method: :put,
+              id: 'request-form' do |form| %>
+
+  <%= render 'request_for_tender_errors' %>
+
+  <p class="text-muted small ">
+    Please enter the following details about the project.
+  </p>
+
+  <div class="form-row">
+    <div class="col-md-12">
+      <div class="form-group">
+        <%= form.label :project_name %>
+        <%= form.text_field :project_name, id: :request_for_tender_project_name,
+                            class: 'form-control form-control-sm' %>
+        <small class="form-text text-muted">
+          Example: Proposed residential building for Mrs. Comfort Adu-Boateng
+        </small>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <%= form.label :currency %>
+        <%= form.select :currency, [['USD - United States Dollar', 'USD'], ['GHS - Ghanaian Cedi', 'GHS']],
+                        {},
+                        {
+                            id: :request_for_tender_currency,
+                            class: 'form-control form-control-sm',
+                        }
+        %>
+        <small class="form-text text-muted">
+          This currency will be used for the Bill Of Quantities, as well as the selling price of the tender
+        </small>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="col-md-8" id="request_for_tender_deadline">
+      <div class="form-group">
+        <%= form.label :deadline, 'Tender deadline' %> <br>
+        <%= form.datetime_select :deadline, {ampm: true, order: [:day, :month, :year]}, {} %>
+        <strong>GMT</strong>
+        <small class="form-text text-muted">
+          Deadline by which all contractors must submit their tender for this project
+        </small>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="col-md-4">
+      <div class="form-group">
+        <%= form.label :country %>
+        <%= form.country_select :country_code,
+                                { only: %w(GH) },
+                                { id: :request_for_tender_country,
+                                  class: 'form-control form-control-sm'} %>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="form-row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <%= form.label :city, 'City/Town' %>
+        <%= form.text_field :city, id: :request_for_tender_city, class: 'form-control form-control-sm' %>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="form-row">
+    <div class="col-md-12">
+      <div class="form-group">
+        <%= form.label :description %>
+        <%= form.text_area :description, id: :request_for_tender_description, rows: 3,
+                           class: 'form-control form-control-sm' %>
+        <small class="form-text text-muted">
+          Example: The structure is a one-storey skeleton frames facility with solid sandcrete block walls as
+          partitions. It covers
+          an area of 478sqm
+        </small>
+      </div>
+    </div>
+  </div>
+
+  <hr>
+  <div class="d-flex justify-content-between align-items-center">
+    <%= link_to 'Previous', previous_wizard_path %>
+
+    <%= form.submit 'Save and continue', class: 'btn btn-secondary' %>
+  </div>
+<% end %>
