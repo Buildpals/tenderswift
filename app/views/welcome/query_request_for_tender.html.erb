@@ -1,43 +1,68 @@
-<div class="container">
-  <div class="row">
-    <div class="col-sm-12">
-      <div id="imaginary_container">
-        <h3 class="text-center">Find a request for tender</h3>
-        <%= form_with url: find_request_for_tender_path, local: true do |form| %>
-          <div class="input-group stylish-input-group">
-              <%= form.text_field :reference_number, class: 'form-control',
-                                  placeholder: 'Search' %>
-            <span class="input-group-addon">
-              <%= button_tag(type: 'submit', class: 'btn btn-secondary',
-                             id: 'search') do %>
-                <span class="fa fa-check"></span>
-              <% end %>
-            </span>
+<% if current_contractor %>
+  <% content_for :title do %>
+    <%= current_contractor.company_name %>
+  <% end %>
+<% end %>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<%= render 'layouts/head' %>
+
+<body class="<%= controller_name %> <%= action_name %>">
+
+<%= render 'contractors/navbar' %>
+
+<%= render 'layouts/flash_messages' %>
+
+<div class="content d-flex align-items-center">
+
+  <div class="container">
+    <div class="row">
+
+      <div class="col-md-8 col-lg-6 mx-auto text-center">
+        <%= form_with url: find_request_for_tender_path do |form| %>
+          <div class="input-group">
+            <%= form.text_field :reference_number,
+                                class: 'form-control',
+                                placeholder: 'Find a tender by reference number' %>
+            <div class="input-group-append">
+              <%= button_tag 'Go',
+                             type: 'submit',
+                             class: 'btn btn-outline-success',
+                             id: 'search' %>
+            </div>
           </div>
         <% end %>
-        <h3 class="text-center home-link">
-          <%= link_to 'Visit our homepage', 'https://www.tenderswift.com',
-                      id: 'visit-home-page',
-                      class: 'btn btn-success' %>
-        </h3>
       </div>
+
+      <div class="col-md-12 text-center mt-4">
+        Are you a procurement officer?
+        <a href="https://www.tenderswift.com" class="">
+          Click here
+        </a>
+      </div>
+
     </div>
   </div>
 </div>
-<style>
-  #imaginary_container {
-    margin-top: 5%; /* Don't copy this */
-  }
-  .stylish-input-group .input-group-addon {
-    background: white !important;
-  }
 
-  .stylish-input-group .form-control {
-    border-right: 0;
-    box-shadow: 0 0 0;
-    border-color: #ccc;
-  }
-    .home-link{
-      margin-top: 10%;
-    }
-</style>
+<footer id="footer" class="footer bg-primary">
+  <div class="footer-line">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12 text-center">
+          <a href="https://www.tenderswift.com">
+            &copy; 2017 TenderSwift &middot;  All Rights Reserved
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
+
+
+

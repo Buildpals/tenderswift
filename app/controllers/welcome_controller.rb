@@ -12,7 +12,7 @@ class WelcomeController < ApplicationController
   end
 
   def query_request_for_tender
-    render layout: 'contractors'
+    render layout: false
   end
 
   def find_request_for_tender
