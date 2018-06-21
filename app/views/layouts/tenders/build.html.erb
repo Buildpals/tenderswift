@@ -29,66 +29,90 @@
 
 <%= render 'layouts/flash_messages' %>
 
-<div class="content pb-5">
+<div class="d-none d-sm-none d-md-none d-lg-block d-xl-block">
+  <%= render 'contractors/page_head' %>
+</div>
 
-  <nav class="navbar navbar-light bg-light border-bottom justify-content-center
-              d-flex d-sm-flex d-md-flex d-lg-none d-xl-none">
-    <div class="navbar-text">
-      <%= step.to_s.humanize %>
-    </div>
-  </nav>
 
-  <div class="d-none d-sm-none d-md-none d-lg-block d-xl-block">
-
-    <%= render 'contractors/page_head' %>
-
-    <div class="container">
-      <div class="row mt-4">
-        <div class="col-lg-12 mx-auto">
-          <nav class="nav nav-pills justify-content-center">
-            <% wizard_steps.each_with_index do |wizard_step, index| %>
-              <%= link_to "#{index + 1}. #{wizard_step.to_s.humanize}",
-                          wizard_path(wizard_step),
-                          class: "nav-item nav-link #{'active' if step == wizard_step}"%>
-            <% end %>
-          </nav>
-        </div>
+<div class="card container mt-md-4 content">
+  <div class="card-header row">
+    <nav class="nav justify-content-center
+                  d-flex w-100 d-sm-flex d-md-flex d-lg-none d-xl-none">
+      <div class="navbar-text">
+        <%= step.to_s.humanize %>
       </div>
-    </div>
+    </nav>
 
+    <nav class="nav nav-pills justify-content-center
+                  d-none d-sm-none d-md-none d-lg-flex d-xl-flex">
+      <% wizard_steps.each_with_index do |wizard_step, index| %>
+        <%= link_to "#{index + 1}. #{wizard_step.to_s.humanize}",
+                    wizard_path(wizard_step),
+                    class: "nav-item nav-link #{'active' if step == wizard_step}"%>
+      <% end %>
+    </nav>
   </div>
 
-  <%= yield %>
+  <div class="card-body row">
+    <%= yield %>
+  </div>
 
-  <nav class="navbar fixed-bottom navbar-dark bg-primary
-              d-block d-sm-block d-md-block d-lg-none d-xl-none">
-    <div class="navbar-nav flex-row w-100 justify-content-between">
+  <div class="card-footer row
+                    d-none d-sm-none d-md-none d-lg-flex d-xl-flex">
 
-      <% unless step == wizard_steps.first %>
-        <a class="nav-item nav-link"
-           href="<%= previous_wizard_path %>">
-          <span class="fa fa-chevron-left"></span>
-          Previous
-        </a>
-      <% end %>
+    <% unless step == wizard_steps.first %>
+      <a class="nav-item nav-link"
+         href="<%= previous_wizard_path %>">
+        <span class="fa fa-chevron-left"></span>
+        Previous
+      </a>
+    <% end %>
 
-      <% unless step == wizard_steps.last %>
-        <a class="nav-item nav-link"
-           href="<%= next_wizard_path %>">
-          Next
-          <span class="fa fa-chevron-right"></span>
-        </a>
-      <% else %>
-        <button class="btn btn-sm btn-secondary text-capitalize"
-                       onclick="$('#document-upload-form').trigger('submit.rails')">
-          Submit
-        </button>
-      <% end %>
+    <% unless step == wizard_steps.last %>
+      <a class="nav-item nav-link ml-auto"
+         href="<%= next_wizard_path %>">
+        Next
+        <span class="fa fa-chevron-right"></span>
+      </a>
+    <% else %>
+      <button class="btn btn-sm btn-secondary text-capitalize ml-auto"
+              onclick="$('#document-upload-form').trigger('submit.rails')">
+        Submit
+      </button>
+    <% end %>
 
-    </div>
-  </nav>
-
+  </div>
 </div>
+
+
+
+<nav class="navbar fixed-bottom navbar-dark bg-primary
+              d-block d-sm-block d-md-block d-lg-none d-xl-none">
+  <div class="navbar-nav d-flex flex-row">
+
+    <% unless step == wizard_steps.first %>
+      <a class="nav-item nav-link"
+         href="<%= previous_wizard_path %>">
+        <span class="fa fa-chevron-left"></span>
+        Previous
+      </a>
+    <% end %>
+
+    <% unless step == wizard_steps.last %>
+      <a class="nav-item nav-link ml-auto"
+         href="<%= next_wizard_path %>">
+        Next
+        <span class="fa fa-chevron-right"></span>
+      </a>
+    <% else %>
+      <button class="btn btn-sm btn-secondary text-capitalize ml-auto"
+              onclick="$('#document-upload-form').trigger('submit.rails')">
+        Submit
+      </button>
+    <% end %>
+
+  </div>
+</nav>
 
 </body>
 </html>

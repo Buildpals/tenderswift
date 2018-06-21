@@ -122,3 +122,22 @@ Navbar drop down patch
 .fix-screen {
   margin-left: -30%;
 }
+
+
+//Sticky Footer stuff
+html, body {
+  height: 100%;
+}
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+.navbar {
+  flex: none;
+}
+.content {
+  flex: 1 0 auto;
+
+  margin-bottom: 50px;
+}
