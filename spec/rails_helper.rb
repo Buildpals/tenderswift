@@ -81,5 +81,11 @@ Shoulda::Matchers.configure do |config|
 end
 
 Capybara.register_driver :selenium do |app|
-  Capybara::Selenium::Driver.new(app, browser: :chrome)
+  caps = Selenium::WebDriver::Remote::Capabilities
+         .chrome('chromeOptions' => {
+                   'args' => ['--start-maximized']
+                 })
+  Capybara::Selenium::Driver.new(app,
+                                 browser: :chrome,
+                                 desired_capabilities: caps)
 end

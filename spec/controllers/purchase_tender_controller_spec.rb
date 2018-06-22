@@ -75,10 +75,6 @@ RSpec.describe PurchaseTenderController, type: :controller do
       expect(response).to render_template :purchase_tender_error
       # TODO: expect(response.body).to include('Please enter a phone number')
     end
-
-    it 'redirects to login if user is not logged in' do
-      skip 'Spec not implemented'
-    end
   end
 
   describe 'GET #monitor_purchase' do

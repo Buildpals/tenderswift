@@ -31,7 +31,10 @@
                   </p>
                   <p>
                     <span style="color:#555555;font-family:Arial;font-size:16px">
-                      <a style="font-family:Arial;color:#FFA726" href="<%= tenders_project_information_url(tender) %>" target="_blank">
+                      <a style="font-family:Arial;color:#FFA726"
+                         href="<%= tender_build_url(tender,
+                                                     :general_information) %>"
+                         target="_blank">
                         <%= tender.project_name %>
                       </a>
                     </span>
@@ -62,7 +65,9 @@
                   <p>
                     <span style="color:#555555;font-family:Arial;font-size:14px">
                       <strong>
-                        <a style="font-family:Arial;color:#FFA726" href="<%= tenders_project_information_url(tender) %>">
+                        <a style="font-family:Arial;color:#FFA726"
+                           href="<%= tender_build_url(tender,
+                                                      :general_information) %>">
                           Click here
                         </a>
                         for the details of the project.

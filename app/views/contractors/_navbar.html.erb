@@ -28,19 +28,21 @@
   </div>
 
   <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-    <%= form_with url: find_request_for_tender_path,
-                  class: 'form-inline my-2 my-lg-0 ml-auto' do |form| %>
-      <div class="input-group input-group-sm">
-        <%= form.text_field :reference_number,
-                            class: 'form-control',
-                            placeholder: 'Find a tender by reference number' %>
-        <div class="input-group-append">
-          <%= button_tag 'Go',
-                         type: 'submit',
-                         class: 'btn btn-outline-success',
-                         id: 'search' %>
+    <% if controller_name == :welcome and action_name == :query_request_for_tender %>
+      <%= form_with url: find_request_for_tender_path,
+                    class: 'form-inline my-2 my-lg-0 ml-auto' do |form| %>
+        <div class="input-group input-group-sm">
+          <%= form.text_field :reference_number,
+                              class: 'form-control',
+                              placeholder: 'Find a tender by reference number' %>
+          <div class="input-group-append">
+            <%= button_tag 'Go',
+                           type: 'submit',
+                           class: 'btn btn-outline-success',
+                           id: 'search' %>
+          </div>
         </div>
-      </div>
+      <% end %>
     <% end %>
     <div class="border-bottom d-lg-none d-xl-none"></div>
 
@@ -113,19 +115,21 @@
                        title: 'TenderSwift Logo' %>
     </a>
 
-    <%= form_with url: find_request_for_tender_path,
-                  class: 'form-inline mr-auto' do |form| %>
-      <div class="input-group input-group-sm" style="min-width: 300px">
-        <%= form.text_field :reference_number,
-                            class: 'form-control',
-                            placeholder: 'Find a tender by reference number' %>
-        <div class="input-group-append">
-          <%= button_tag 'Go',
-                         type: 'submit',
-                         class: 'btn btn-outline-success',
-                         id: 'search' %>
+    <% if controller_name == :welcome and action_name == :query_request_for_tender %>
+      <%= form_with url: find_request_for_tender_path,
+                    class: 'form-inline mr-auto' do |form| %>
+        <div class="input-group input-group-sm" style="min-width: 300px">
+          <%= form.text_field :reference_number,
+                              class: 'form-control',
+                              placeholder: 'Find a tender by reference number' %>
+          <div class="input-group-append">
+            <%= button_tag 'Go',
+                           type: 'submit',
+                           class: 'btn btn-outline-success',
+                           id: 'search' %>
+          </div>
         </div>
-      </div>
+      <% end %>
     <% end %>
 
     <ul class="navbar-nav">

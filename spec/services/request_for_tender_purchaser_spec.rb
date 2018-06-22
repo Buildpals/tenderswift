@@ -3,15 +3,13 @@
 require 'rails_helper'
 
 RSpec.describe RequestForTenderPurchaser do
-
   let(:contractor) { FactoryBot.create(:contractor) }
   let(:request_for_tender) { FactoryBot.create(:request_for_tender) }
-  # let(:korba_web_api) {}
 
   let(:purchaser) do
     RequestForTenderPurchaser.build(
-        request_for_tender: request_for_tender,
-        contractor: contractor
+      request_for_tender: request_for_tender,
+      contractor: contractor
     )
   end
 
@@ -20,8 +18,8 @@ RSpec.describe RequestForTenderPurchaser do
                                            published_at: nil)
 
     purchaser = RequestForTenderPurchaser.build(
-        request_for_tender: request_for_tender,
-        contractor: contractor
+      request_for_tender: request_for_tender,
+      contractor: contractor
     )
 
     response = purchaser.purchase(customer_number: '0500011505',
