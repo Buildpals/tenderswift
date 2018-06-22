@@ -40,6 +40,8 @@ GEM
       tzinfo (~> 1.1)
     addressable (2.5.2)
       public_suffix (>= 2.0.2, < 4.0)
+    archive-zip (0.11.0)
+      io-like (~> 0.3.0)
     arel (8.0.0)
     autoprefixer-rails (7.2.5)
       execjs
@@ -69,6 +71,9 @@ GEM
       mime-types (>= 1.16)
     childprocess (0.9.0)
       ffi (~> 1.0, >= 1.0.11)
+    chromedriver-helper (1.2.0)
+      archive-zip (~> 0.10)
+      nokogiri (~> 1.8)
     cloudinary (1.8.3)
       aws_cf_signer
       rest-client
@@ -158,6 +163,7 @@ GEM
     intl-tel-input-rails (11.0.14)
       railties (>= 3.1)
       sass-rails
+    io-like (0.3.0)
     jbuilder (2.7.0)
       activesupport (>= 4.2.0)
       multi_json (>= 1.2)
@@ -390,6 +396,7 @@ DEPENDENCIES
   capybara (~> 2.13)
   capybara-webkit
   carrierwave (~> 1.0)
+  chromedriver-helper
   cloudinary
   cocoon
   codacy-coverage

@@ -102,8 +102,10 @@ group :development, :test do
   # Adds support for Capybara system testing webkit, and selenium driver
   gem 'capybara', '~> 2.13'
   gem 'capybara-webkit'
+  gem 'chromedriver-helper'
   gem 'rails-controller-testing'
   gem 'selenium-webdriver'
+
 
   gem 'factory_bot_rails'
   gem 'pundit-matchers', '~> 1.4.1'
