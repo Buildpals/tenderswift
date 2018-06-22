@@ -16,11 +16,10 @@ FactoryBot.define do
     password 'password'
     confirmed_at Time.current
 
-    status 'active'
-
     after :create do |q|
       q.update_column(:company_logo,
                       'http://res.cloudinary.com/tenderswift/image/upload/v1519220265/p0bjijzpbadcssih9j3n.png')
+      q.update_column(:status, 'active')
     end
   end
 end

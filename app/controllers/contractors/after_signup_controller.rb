@@ -1,26 +1,17 @@
 # frozen_string_literal: true
 
 class Contractors::AfterSignupController < ContractorsController
-  def company_name; end
-
-  def password; end
-
-  def update_company_name
+  def edit
     authorize current_contractor
-    if current_contractor.update(contractor_params)
-      redirect_to contractors_after_signup_password_path
-    else
-      render :company_name
-    end
   end
 
-  def update_password
+  def update
     authorize current_contractor
     params[:contractor][:status] = 'active'
     if current_contractor.update(contractor_params)
       redirect_to contractor_root_path
     else
-      render :company_name
+      render :edit
     end
   end
 

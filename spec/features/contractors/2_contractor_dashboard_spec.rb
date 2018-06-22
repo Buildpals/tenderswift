@@ -45,14 +45,14 @@ RSpec.feature 'Contractor dashboard' do
     end
   end
 
-  context 'when another contractor logs in'  do
-      background do
-        login_as(different_contractor, scope: :contractor)
-      end
+  context 'when another contractor logs in' do
+    background do
+      login_as(different_contractor, scope: :contractor)
+    end
 
-      scenario 'access another contractor bid' do
-        visit tenders_boq_path(purchased_tender)
-        expect(page).to have_content 'Home'
-      end
+    scenario 'access another contractor bid' do
+      visit tenders_boq_path(purchased_tender)
+      expect(page).to have_content 'Home'
+    end
   end
 end

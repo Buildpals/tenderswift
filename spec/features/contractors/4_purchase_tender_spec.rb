@@ -6,7 +6,7 @@ RSpec.feature 'Purchasing a tender', js: true do
   include RequestForTendersHelper
 
   context 'Invitation to tender has already been purchased already' do
-    xscenario 'should redirect to contractors home page with notice' do
+    scenario 'should redirect to contractors home page with notice' do
       contractor = given_a_contractor_has_logged_in
       invitation_to_tender = and_they_have_purchased_a_particular_tender(contractor)
       when_they_go_to_the_purchase_tender_page_for_that_particular_tender(invitation_to_tender)
@@ -16,7 +16,7 @@ RSpec.feature 'Purchasing a tender', js: true do
   end
 
   context 'Invitation to tender has not been purchased already' do
-    xscenario 'should allow purchasing a tender as a logged in contractor' do
+    scenario 'should allow purchasing a tender as a logged in contractor' do
       contractor = given_a_contractor_has_logged_in
       invitation_to_tender = when_they_purchase_a_tender
       then_they_should_find_the_request_for_tender_in_their_purchased_tenders(invitation_to_tender)
@@ -27,7 +27,7 @@ RSpec.feature 'Purchasing a tender', js: true do
       and_they_should_show_up_under_purchased_on_the_quantity_surveyors_dashboard(contractor, invitation_to_tender)
     end
 
-    xscenario 'should allow signing up and purchasing a tender' do
+    scenario 'should allow signing up and purchasing a tender' do
       contractor = given_a_new_contractor_who_has_not_signed_up_before
       invitation_to_tender = when_they_purchase_a_tender(contractor.email)
       then_they_should_be_able_to_fill_in_their_company_name(contractor)
@@ -41,7 +41,7 @@ RSpec.feature 'Purchasing a tender', js: true do
       and_they_should_show_up_under_purchased_on_the_quantity_surveyors_dashboard(contractor, invitation_to_tender)
     end
 
-    xscenario 'should allow logging in and purchasing a tender' do
+    scenario 'should allow logging in and purchasing a tender' do
       contractor = given_an_existing_contractor_who_has_not_logged_in_yet
       invitation_to_tender = when_they_purchase_a_tender(contractor.email, 'password')
       then_they_should_find_the_request_for_tender_in_their_purchased_tenders(invitation_to_tender)

@@ -13,15 +13,6 @@
                    url: registration_path(resource_name)) do |f| %>
         <%= devise_error_messages! %>
 
-
-        <div class="form-group">
-          <%= f.text_field :full_name,
-                           placeholder: 'Your name',
-                           autofocus: true,
-                           class: 'form-control',
-                           required: true %>
-        </div>
-
         <div class="form-group">
           <%= f.email_field :email,
                             placeholder: 'Email address',
@@ -42,38 +33,7 @@
           <%= f.hidden_field :phone_number %>
         </div>
 
-        <div class="form-group my-4">
-          <%= f.text_field :company_name,
-                           placeholder: :company_name,
-                           autocomplete: "on",
-                           class: 'form-control',
-                           required: true %>
-        </div>
-
-        <div class="form-group my-4">
-          <%= f.label :company_logo %>
-          <%= f.file_field :company_logo,
-                           class: 'form-control-file',
-                           required: true %>
-        </div>
-
-        <br>
-
-        <div class="form-group">
-          <%= f.password_field :password,
-                               placeholder: :password,
-                               autocomplete: "off",
-                               class: 'form-control',
-                               required: true %>
-        </div>
-
-        <div class="form-group">
-          <%= f.password_field :password_confirmation,
-                               placeholder: :password_confirmation,
-                               autocomplete: "off",
-                               class: 'form-control',
-                               required: true %>
-        </div>
+        <%= f.hidden_field :password, value: Devise.friendly_token.first(8) %>
 
         <br>
 
