@@ -8,7 +8,7 @@ import RatesUploader from '../uploadListOfItems/RatesUploader'
 import RatesReviewer from '../uploadListOfItems/RatesReviewer'
 import RatesComparer from '../uploadListOfItems/RatesComparer'
 import TenderFiguresTable from '../uploadListOfItems/TenderFiguresTable'
-import FileUploader from '../uploadListOfItems/FileUploader'
+import ProjectDocumentsUploader from '../uploadListOfItems/ProjectDocumentsUploader'
 
 Vue.use(TurbolinksAdapter)
 Vue.use(BootstrapVue);
@@ -26,7 +26,7 @@ document.addEventListener('turbolinks:load', () => {
     },
     components: {
       UploadListOfItems,
-      FileUploader,
+      ProjectDocumentsUploader,
       RatesUploader,
       RatesReviewer,
       TenderFiguresTable,

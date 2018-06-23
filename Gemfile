@@ -105,10 +105,9 @@ group :development, :test do
   gem 'capybara-webkit'
   gem 'chromedriver-helper'
   gem 'launchy'
+  gem 'poltergeist'
   gem 'rails-controller-testing'
   gem 'selenium-webdriver'
-
-
 
   gem 'factory_bot_rails'
   gem 'pundit-matchers', '~> 1.4.1'

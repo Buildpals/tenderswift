@@ -80,12 +80,28 @@ Shoulda::Matchers.configure do |config|
   end
 end
 
-Capybara.register_driver :selenium do |app|
-  caps = Selenium::WebDriver::Remote::Capabilities
-         .chrome('chromeOptions' => {
-                   'args' => ['--start-maximized']
-                 })
+Capybara.register_driver :chrome do |app|
+  caps = Selenium::WebDriver::Remote::Capabilities.chrome(
+    chromeOptions: { args: ['--start-maximized'] }
+  )
   Capybara::Selenium::Driver.new(app,
                                  browser: :chrome,
                                  desired_capabilities: caps)
 end
+
+Capybara.register_driver :headless_chrome do |app|
+  capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
+      chromeOptions: { args: %w(headless disable-gpu) }
+  )
+
+  Capybara::Selenium::Driver.new app,
+                                 browser: :chrome,
+                                 desired_capabilities: capabilities
+end
+
+require 'capybara/poltergeist'
+
+# Switch between :selenium, :chrome, :headless_chrome and :poltergeist
+# when necessary
+Capybara.javascript_driver = :poltergeist
+

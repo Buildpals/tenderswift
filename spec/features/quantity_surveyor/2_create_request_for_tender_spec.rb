@@ -69,11 +69,13 @@ RSpec.feature 'Create request for tender', js: true do
       build_bill_of_quantities_path(@request_for_tender)
     )
 
+    expect(page).to have_content 'Item'
+    # choose('uploadSelector__BV_radio_1_opt_', wait: 10)
     # attach_file('upload-boq',
     #             Rails.root + 'spec/fixtures/bill_of_quantities.xlsx')
     # expect(page).to have_link 'uploaded-boq', wait: 10
     # click_button 'Save and continue', match: :first
-    click_link '3. Tender documents'
+    click_link 'Save and continue'
   end
 
   def and_has_uploaded_the_tender_documents
@@ -87,13 +89,13 @@ RSpec.feature 'Create request for tender', js: true do
     # click_button 'Save', match: :first
     #
     # expect(page).to have_link 'request_for_tender_project_document_0', wait: 10
-    click_link 'Save and continue', match: :first
+    click_link 'Save and continue'
   end
 
   def and_has_added_the_tendering_instructions
     editor = page.find(:css, '.trix-content')
     editor.click.set(@request_for_tender.tender_instructions)
-    click_button 'Save and continue', match: :first
+    click_button 'Save and continue'
   end
 
   def and_has_added_the_payment_information
@@ -102,7 +104,7 @@ RSpec.feature 'Create request for tender', js: true do
 
   def when_they_publish_it_as_a_public_tender
     accept_confirm do
-      click_button 'Publish', match: :first
+      click_button 'Publish'
     end
   end
 
