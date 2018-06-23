@@ -2,14 +2,6 @@
 
 require 'rails_helper'
 
-def build_bill_of_quantities_path(request_for_tender)
-  "/request_for_tenders/#{request_for_tender.id}/build/bill_of_quantities"
-end
-
-def build_tender_documents_path(request_for_tender)
-  "/request_for_tenders/#{request_for_tender.id}/build/tender_documents"
-end
-
 RSpec.feature 'Create request for tender', js: true do
   include RequestForTendersHelper
 
@@ -168,5 +160,13 @@ RSpec.feature 'Create request for tender', js: true do
     end
 
     expect(page).to have_content @request_for_tender.tender_instructions
+  end
+
+  def build_bill_of_quantities_path(request_for_tender)
+    "/request_for_tenders/#{request_for_tender.id}/build/bill_of_quantities"
+  end
+
+  def build_tender_documents_path(request_for_tender)
+    "/request_for_tenders/#{request_for_tender.id}/build/tender_documents"
   end
 end
