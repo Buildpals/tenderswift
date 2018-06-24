@@ -17,7 +17,10 @@ Vue.use(VueResource);
 document.addEventListener('turbolinks:load', () => {
   if ($('.hello').length === 0) return
 
-  Vue.http.headers.common['X-CSRF-Token'] = document.querySelector('meta[name="csrf-token"').getAttribute('content')
+  let csrfTokenMetaTag = document.querySelector('meta[name="csrf-token"')
+  if (csrfTokenMetaTag) {
+    Vue.http.headers.common['X-CSRF-Token'] = csrfTokenMetaTag.getAttribute('content')
+  }
 
   const app = new Vue({
     el: '.hello',
