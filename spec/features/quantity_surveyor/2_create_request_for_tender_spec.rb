@@ -69,26 +69,30 @@ RSpec.feature 'Create request for tender', js: true do
       build_bill_of_quantities_path(@request_for_tender)
     )
 
-    expect(page).to have_content 'Item'
-    # choose('uploadSelector__BV_radio_1_opt_', wait: 10)
-    # attach_file('upload-boq',
-    #             Rails.root + 'spec/fixtures/bill_of_quantities.xlsx')
-    # expect(page).to have_link 'uploaded-boq', wait: 10
-    # click_button 'Save and continue', match: :first
+    find('label', text: 'Upload an excel sheet').click
+    attach_file('excel_file_document',
+                Rails.root + 'spec/fixtures/bill_of_quantities.xlsx',
+                visible: false)
+
+    within :css, '#excel-file-container' do
+      expect(page).to have_link 'bill_of_quantities.xlsx', wait: 10
+    end
+
     click_link 'Save and continue'
   end
 
   def and_has_uploaded_the_tender_documents
     expect(page).to have_current_path(
-                        build_tender_documents_path(@request_for_tender)
+      build_tender_documents_path(@request_for_tender)
     )
-    # attach_file(
-    #   'request_for_tender_project_documents_attributes_0_document',
-    #   Rails.root + 'spec/fixtures/Contract Documents.doc'
-    # )
-    # click_button 'Save', match: :first
-    #
-    # expect(page).to have_link 'request_for_tender_project_document_0', wait: 10
+    attach_file('project_document_document',
+                Rails.root + 'spec/fixtures/Contract Documents.doc',
+                visible: false)
+
+    within :css, '#project-documents-container' do
+      expect(page).to have_link 'Contract Documents.doc', wait: 10
+    end
+
     click_link 'Save and continue'
   end
 

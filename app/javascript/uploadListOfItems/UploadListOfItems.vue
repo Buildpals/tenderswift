@@ -37,6 +37,7 @@
       </p>
 
       <file-uploader ref="excelUploader"
+                     id="excel_file_document"
                       :save-url="`/request_for_tenders/${this.request_for_tender.id}/excel_file`"
                       method="post"
                       name="excel_file[document]"
@@ -48,7 +49,8 @@
         <div class="col-lg-8">
           <h4>Uploaded file</h4>
 
-          <ul class="list-group" v-if="excelFile">
+          <ul id="excel-file-container"
+              class="list-group" v-if="excelFile">
 
             <li class="list-group-item
                      d-flex justify-content-between align-items-center">

@@ -1,7 +1,8 @@
 <template>
   <div id="app">
 
-    <excel-uploader ref="documentUploader"
+    <excel-uploader id="project_document_document"
+                    ref="documentUploader"
                     multiple
                     :save-url="`${save_url}`"
                     method="post"
@@ -14,7 +15,8 @@
       <div class="col-lg-8">
         <h4>Added Documents</h4>
 
-        <ul class="list-group">
+        <ul id="project-documents-container"
+            class="list-group">
 
           <li class="list-group-item
                      d-flex justify-content-between align-items-center"
