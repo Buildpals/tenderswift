@@ -91,7 +91,7 @@ end
 
 Capybara.register_driver :headless_chrome do |app|
   capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
-      chromeOptions: { args: %w(headless disable-gpu) }
+    chromeOptions: { args: %w[headless disable-gpu] }
   )
 
   Capybara::Selenium::Driver.new app,
@@ -99,9 +99,12 @@ Capybara.register_driver :headless_chrome do |app|
                                  desired_capabilities: capabilities
 end
 
+Capybara.register_driver :poltergeist_debug do |app|
+  Capybara::Poltergeist::Driver.new(app, inspector: true)
+end
+
 require 'capybara/poltergeist'
 
 # Switch between :selenium, :chrome, :headless_chrome and :poltergeist
 # when necessary
-Capybara.javascript_driver = :poltergeist
-
+Capybara.javascript_driver = :chrome
