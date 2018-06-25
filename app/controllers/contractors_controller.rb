@@ -5,7 +5,14 @@ class ContractorsController < ApplicationController
 
   def dashboard
     authorize current_contractor
-    @request_for_tenders = RequestForTender.published.deadline_not_passed
+    @request_for_tenders = RequestForTender
+                           .published
+                           .deadline_not_passed
+                           .includes(:tenders)
+                           .where.not(tenders: {
+                                        contractor_id: current_contractor.id
+                                      })
+
     unless current_contractor.status == 'active'
       redirect_to contractors_after_signup_path
     end

@@ -19,7 +19,7 @@ RSpec.describe Contractor, type: :model do
   end
 
   describe 'Validations' do
-    it { should validate_presence_of(:company_name) }
+    # it { should validate_presence_of(:company_name) }
     it { should validate_presence_of(:email) }
     it 'should validate uniqueness of emails'
     it 'should validate format of email'

@@ -391,7 +391,7 @@ RSpec.feature 'Product walkthrough', js: true do
     click_link contractor.company_name
     expect(page).to have_content 'Account Information'
     expect(page).to have_content 'Logout'
-    expect(page).to have_content 'Invitations To Tender'
+    expect(page).to have_content 'New Invitations To Tender'
     expect(page).to have_content 'Purchased Tenders'
     expect(page).to have_content 'Submitted Tenders'
   end

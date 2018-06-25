@@ -2,14 +2,10 @@
 
 Rails.application.routes.draw do
   namespace :contractors do
-    get 'after_signup/company_name', as: :after_signup
-    patch 'after_signup/update_company_name', as: :update_company_name
+    get '/after_signup', to: 'after_signup#edit', as: :after_signup
+    patch '/after_signup', to: 'after_signup#update'
   end
 
-  namespace :contractors do
-    get 'after_signup/password', as: :after_signup_password
-    patch 'after_signup/update_password', as: :update_password
-  end
 
   get '/',
       to: 'welcome#query_request_for_tender',

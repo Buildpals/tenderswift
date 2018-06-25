@@ -11,6 +11,7 @@ import TenderFiguresTable from '../uploadListOfItems/TenderFiguresTable'
 import ContractorTenderFigures from '../uploadListOfItems/ContractorTenderFigures'
 import ContractorTenderFiguresRow from '../uploadListOfItems/ContractorTenderFiguresRow'
 import FileUploader from '../uploadListOfItems/FileUploader'
+import ProjectDocumentsUploader from '../uploadListOfItems/ProjectDocumentsUploader'
 
 Vue.use(TurbolinksAdapter)
 Vue.use(BootstrapVue);
@@ -19,7 +20,10 @@ Vue.use(VueResource);
 document.addEventListener('turbolinks:load', () => {
   if ($('.hello').length === 0) return
 
-  Vue.http.headers.common['X-CSRF-Token'] = document.querySelector('meta[name="csrf-token"').getAttribute('content')
+  let csrfTokenMetaTag = document.querySelector('meta[name="csrf-token"')
+  if (csrfTokenMetaTag) {
+    Vue.http.headers.common['X-CSRF-Token'] = csrfTokenMetaTag.getAttribute('content')
+  }
 
   const app = new Vue({
     el: '.hello',
@@ -28,7 +32,7 @@ document.addEventListener('turbolinks:load', () => {
     },
     components: {
       UploadListOfItems,
-      FileUploader,
+      ProjectDocumentsUploader,
       RatesUploader,
       RatesReviewer,
       TenderFiguresTable,

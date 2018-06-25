@@ -5,6 +5,9 @@ class ProjectDocumentsController < ApplicationController
   before_action :set_project_document, only: :destroy
 
   def create
+    params[:project_document][:original_file_name] =
+      params[:project_document][:document].original_filename
+
     @project_document = @request_for_tender
                         .project_documents
                         .new(project_document_params)

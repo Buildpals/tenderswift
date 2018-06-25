@@ -2,14 +2,6 @@
 
 require 'rails_helper'
 
-def build_bill_of_quantities_path(request_for_tender)
-  "/request_for_tenders/#{request_for_tender.id}/build/bill_of_quantities"
-end
-
-def build_tender_documents_path(request_for_tender)
-  "/request_for_tenders/#{request_for_tender.id}/build/tender_documents"
-end
-
 RSpec.feature 'Create request for tender', js: true do
   include RequestForTendersHelper
 
@@ -77,31 +69,37 @@ RSpec.feature 'Create request for tender', js: true do
       build_bill_of_quantities_path(@request_for_tender)
     )
 
-    # attach_file('upload-boq',
-    #             Rails.root + 'spec/fixtures/bill_of_quantities.xlsx')
-    # expect(page).to have_link 'uploaded-boq', wait: 10
-    # click_button 'Save and continue', match: :first
-    click_link '3. Tender documents'
+    find('label', text: 'Upload an excel sheet').click
+    attach_file('excel_file_document',
+                Rails.root + 'spec/fixtures/bill_of_quantities.xlsx',
+                visible: false)
+
+    within :css, '#excel-file-container' do
+      expect(page).to have_link 'bill_of_quantities.xlsx', wait: 10
+    end
+
+    click_link 'Save and continue'
   end
 
   def and_has_uploaded_the_tender_documents
     expect(page).to have_current_path(
-                        build_tender_documents_path(@request_for_tender)
+      build_tender_documents_path(@request_for_tender)
     )
-    # attach_file(
-    #   'request_for_tender_project_documents_attributes_0_document',
-    #   Rails.root + 'spec/fixtures/Contract Documents.doc'
-    # )
-    # click_button 'Save', match: :first
-    #
-    # expect(page).to have_link 'request_for_tender_project_document_0', wait: 10
-    click_link 'Save and continue', match: :first
+    attach_file('project_document_document',
+                Rails.root + 'spec/fixtures/Contract Documents.doc',
+                visible: false)
+
+    within :css, '#project-documents-container' do
+      expect(page).to have_link 'Contract Documents.doc', wait: 10
+    end
+
+    click_link 'Save and continue'
   end
 
   def and_has_added_the_tendering_instructions
     editor = page.find(:css, '.trix-content')
     editor.click.set(@request_for_tender.tender_instructions)
-    click_button 'Save and continue', match: :first
+    click_button 'Save and continue'
   end
 
   def and_has_added_the_payment_information
@@ -110,7 +108,7 @@ RSpec.feature 'Create request for tender', js: true do
 
   def when_they_publish_it_as_a_public_tender
     accept_confirm do
-      click_button 'Publish', match: :first
+      click_button 'Publish'
     end
   end
 
@@ -168,5 +166,13 @@ RSpec.feature 'Create request for tender', js: true do
     end
 
     expect(page).to have_content @request_for_tender.tender_instructions
+  end
+
+  def build_bill_of_quantities_path(request_for_tender)
+    "/request_for_tenders/#{request_for_tender.id}/build/bill_of_quantities"
+  end
+
+  def build_tender_documents_path(request_for_tender)
+    "/request_for_tenders/#{request_for_tender.id}/build/tender_documents"
   end
 end

@@ -9,8 +9,8 @@
 
 
 <div class="hello mb-5">
-  <file-uploader
-      multiple
+  <project-documents-uploader
+    multiple
     save_url="<%= request_for_tender_project_documents_path(@request_for_tender) %>"
     :request_for_tender="<%= @request_for_tender.to_json(include: :project_documents) %>"/>
 </div>

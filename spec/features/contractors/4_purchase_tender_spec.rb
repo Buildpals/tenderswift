@@ -5,66 +5,20 @@ require 'rails_helper'
 RSpec.feature 'Purchasing a tender', js: true do
   include RequestForTendersHelper
 
-  context 'Invitation to tender has already been purchased already' do
-    xscenario 'should redirect to contractors home page with notice' do
-      contractor = given_a_contractor_has_logged_in
-      invitation_to_tender = and_they_have_purchased_a_particular_tender(contractor)
-      when_they_go_to_the_purchase_tender_page_for_that_particular_tender(invitation_to_tender)
-      then_they_should_be_redirected_to_their_dashboard(invitation_to_tender)
-      and_they_should_be_told_they_have_already_purchased_this_tender
-    end
-  end
-
-  context 'Invitation to tender has not been purchased already' do
-    xscenario 'should allow purchasing a tender as a logged in contractor' do
-      contractor = given_a_contractor_has_logged_in
-      invitation_to_tender = when_they_purchase_a_tender
-      then_they_should_find_the_request_for_tender_in_their_purchased_tenders(invitation_to_tender)
-      tender = and_they_should_be_able_to_see_the_tenders_general_information(contractor, invitation_to_tender)
-      and_they_should_be_able_to_see_the_tenders_tender_documents(tender)
-      and_they_should_be_able_to_see_the_tenders_boq(tender)
-      and_they_should_be_able_to_see_the_tenders_required_documents(tender)
-      and_they_should_show_up_under_purchased_on_the_quantity_surveyors_dashboard(contractor, invitation_to_tender)
-    end
-
-    xscenario 'should allow signing up and purchasing a tender' do
-      contractor = given_a_new_contractor_who_has_not_signed_up_before
-      invitation_to_tender = when_they_purchase_a_tender(contractor.email)
-      then_they_should_be_able_to_fill_in_their_company_name(contractor)
-      then_they_should_be_able_to_fill_in_their_password(contractor)
-      then_they_should_find_the_request_for_tender_in_their_purchased_tenders(invitation_to_tender)
-      contractor = Contractor.find_by(email: contractor.email)
-      tender = and_they_should_be_able_to_see_the_tenders_general_information(contractor, invitation_to_tender)
-      and_they_should_be_able_to_see_the_tenders_tender_documents(tender)
-      and_they_should_be_able_to_see_the_tenders_boq(tender)
-      and_they_should_be_able_to_see_the_tenders_required_documents(tender)
-      and_they_should_show_up_under_purchased_on_the_quantity_surveyors_dashboard(contractor, invitation_to_tender)
-    end
-
-    xscenario 'should allow logging in and purchasing a tender' do
+  context 'Invitation to tender that has not been purchased already' do
+    scenario 'should show password field for a returning user' do
       contractor = given_an_existing_contractor_who_has_not_logged_in_yet
-      invitation_to_tender = when_they_purchase_a_tender(contractor.email, 'password')
-      then_they_should_find_the_request_for_tender_in_their_purchased_tenders(invitation_to_tender)
-      tender = and_they_should_be_able_to_see_the_tenders_general_information(contractor, invitation_to_tender)
-      and_they_should_be_able_to_see_the_tenders_tender_documents(tender)
-      and_they_should_be_able_to_see_the_tenders_boq(tender)
-      and_they_should_be_able_to_see_the_tenders_required_documents(tender)
-      and_they_should_show_up_under_purchased_on_the_quantity_surveyors_dashboard(contractor, invitation_to_tender)
-    end
-
-    scenario 'should not allow contractor when password is blank' do
-      contractor = given_an_existing_contractor_who_has_not_logged_in_yet
-      invitation_to_tender = when_they_purchase_a_tender(contractor.email)
+      when_they_purchase_a_tender(contractor.email)
 
       expect(page).to have_content 'Please enter your password'
       expect(page).to have_field 'Password'
     end
 
-    scenario 'should not allow contractor when password is wrong' do
+    scenario 'should show wrong password error for a returning user' do
       contractor = given_an_existing_contractor_who_has_not_logged_in_yet
-      invitation_to_tender = when_they_purchase_a_tender(contractor.email)
+      when_they_purchase_a_tender(contractor.email)
 
-      expect(page).to have_content 'Please enter a password'
+      expect(page).to have_content 'Please enter your password'
       expect(page).to have_field 'Password'
 
       within :css, '#paymentModal' do
@@ -74,6 +28,53 @@ RSpec.feature 'Purchasing a tender', js: true do
 
       expect(page).to have_content 'The password you provided was incorrect'
       expect(page).to have_field 'Password'
+    end
+
+    scenario 'should allow purchasing a tender as a logged in contractor' do
+      given_a_contractor_has_logged_in
+      invitation_to_tender = when_they_purchase_a_tender
+      then_they_should_find_the_request_for_tender_in_their_purchased_tenders(
+        invitation_to_tender
+      )
+    end
+
+    scenario 'should allow signing up and purchasing a tender' do
+      contractor = given_a_new_contractor_who_has_not_signed_up_before
+      invitation_to_tender = when_they_purchase_a_tender(contractor.email)
+      then_they_should_be_able_to_fill_in_their_account_information(contractor)
+      then_they_should_find_the_request_for_tender_in_their_purchased_tenders(
+        invitation_to_tender
+      )
+    end
+
+    scenario 'should allow logging in and purchasing a tender' do
+      contractor = given_an_existing_contractor_who_has_not_logged_in_yet
+      invitation_to_tender = when_they_purchase_a_tender(contractor.email)
+
+      expect(page).to have_content 'Please enter your password'
+      expect(page).to have_field 'Password'
+
+      within :css, '#paymentModal' do
+        fill_in 'Password', with: 'password'
+        click_button 'Purchase'
+      end
+
+      then_they_should_find_the_request_for_tender_in_their_purchased_tenders(
+        invitation_to_tender
+      )
+    end
+  end
+
+  context 'Invitation to tender that has already been purchased already' do
+    scenario 'should redirect to contractors home page with notice' do
+      contractor = given_a_contractor_has_logged_in
+      invitation_to_tender =
+        and_they_have_purchased_a_particular_tender(contractor)
+      when_they_go_to_the_purchase_tender_page_for_that_particular_tender(
+        invitation_to_tender
+      )
+      then_they_should_be_redirected_to_their_dashboard(invitation_to_tender)
+      and_they_should_be_told_they_have_already_purchased_this_tender
     end
   end
 
@@ -148,7 +149,7 @@ RSpec.feature 'Purchasing a tender', js: true do
   end
 
   def and_they_should_be_able_to_see_the_tenders_tender_documents(tender)
-    click_link '2. Tender Documents'
+    click_link '2. Tender documents'
 
     tender.project_documents.each do |project_document|
       expect(page).to have_content project_document.document.file.filename
@@ -157,7 +158,7 @@ RSpec.feature 'Purchasing a tender', js: true do
   end
 
   def and_they_should_be_able_to_see_the_tenders_boq(_tender)
-    click_link '3. Bill of Quantities'
+    click_link '3. Bill of quantities'
 
     within :css, '#hello' do
       # TODO: Check for display of BOQ
@@ -220,14 +221,17 @@ RSpec.feature 'Purchasing a tender', js: true do
     expect(page).to have_content 'You have already purchased this tender'
   end
 
-  def then_they_should_be_able_to_fill_in_their_company_name(contractor)
+  def then_they_should_be_able_to_fill_in_their_account_information(contractor)
     expect(page).to have_current_path(contractors_after_signup_path, wait: 40)
-    fill_in 'Company name', with: contractor.company_name
-    click_button 'Next'
-  end
+    expect(page).to have_content 'You have purchased this tender successfully'
 
-  def then_they_should_be_able_to_fill_in_their_password(contractor)
-    fill_in 'Password', with: contractor.password
-    click_button 'Finish'
+    fill_in :contractors_full_name, with: contractor.full_name
+    fill_in :contractors_company_name, with: contractor.company_name
+    attach_file(:contractors_company_logo,
+                Rails.root + 'spec/fixtures/company_logo.png')
+    fill_in :contractors_password, with: contractor.password
+    fill_in :contractors_password_confirmation, with: contractor.password
+
+    click_button 'Continue'
   end
 end

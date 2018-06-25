@@ -3,6 +3,8 @@
     <div class="col-lg-4 mx-auto mt-5">
       <div class="text-center mb-4">
         <h2>Log in as a contractor</h2>
+        or
+        <%= link_to 'sign up',  new_registration_path(resource_name) %>
       </div>
 
       <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>

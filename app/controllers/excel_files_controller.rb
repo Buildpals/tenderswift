@@ -5,6 +5,9 @@ class ExcelFilesController < ApplicationController
   before_action :set_excel_file, only: :destroy
 
   def create
+    params[:excel_file][:original_file_name] =
+      params[:excel_file][:document].original_filename
+
     @excel_file = @request_for_tender.build_excel_file(excel_file_params)
 
     if @excel_file.save

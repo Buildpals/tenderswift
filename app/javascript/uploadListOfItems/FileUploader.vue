@@ -1,110 +1,30 @@
 <template>
   <div id="app">
-
     <form enctype="multipart/form-data" novalidate>
       <div class="dropbox mb-5">
-        <input type="file" v-bind="$attrs"
-               name="project_document[document]"
+        <input type="file"
+               v-bind="$attrs"
+               :name="name"
                @change="filesChange($event.target.name, $event.target.files);
                         fileCount = $event.target.files.length"
                class="input-file">
         <p>
-          Drag documents here<br> or click to browse
+          Drop your file here<br> or click to browse
         </p>
       </div>
     </form>
-
-    <div class="row">
-      <div class="col-lg-8">
-        <h4>Added Documents</h4>
-
-        <ul class="list-group">
-
-          <li class="list-group-item
-                     d-flex justify-content-between align-items-center"
-              v-for="project_document in uploadedFiles">
-
-            <template v-if="project_document.uploadState === STATUS_SAVING">
-              <div>
-                <span class="fa fa-spinner fa-spin mr-2"></span>
-                <span class="mr-2">
-                  {{ project_document.original_file_name }}
-                </span>
-                <span>
-                  {{ project_document.size }}
-                </span>
-              </div>
-
-              Processing...
-            </template>
-
-            <template
-                v-else-if="project_document.uploadState === STATUS_FAILED">
-              <span class="mr-2">
-                {{ project_document.original_file_name }}
-              </span>
-              <span>
-                {{ project_document.error }}
-              </span>
-
-              <button class="btn btn-light btn-sm"
-                      @click="save(project_document)">
-                Retry
-              </button>
-            </template>
-
-            <template v-else>
-              <a :href="project_document.document.url"
-                 target="blank">
-                {{project_document.original_file_name}}
-              </a>
-              <button class="btn btn-light btn-sm"
-                      :disabled="project_document.isDeleting"
-                      @click="deleteDocument(project_document)">
-                {{ project_document.isDeleting ? 'Deleting...' : 'Delete' }}
-              </button>
-            </template>
-          </li>
-        </ul>
-
-      </div>
-    </div>
-
-
   </div>
 </template>
 
 <script>
   export default {
-    props: ['request_for_tender', 'save_url'],
-
-    data () {
-      return {
-        uploadedFiles: this.request_for_tender.project_documents,
-        STATUS_INITIAL: 0,
-        STATUS_SAVING: 1,
-        STATUS_SUCCESS: 2,
-        STATUS_FAILED: 3,
-      }
-    },
+    props: [
+      'saveUrl',
+      'method',
+      'name'
+    ],
 
     methods: {
-      deleteDocument (project_document) {
-        this.$set(project_document, 'isDeleting', true)
-
-        this.$http.delete(`${this.save_url}/${project_document.id}`)
-          .then(response => {
-            this.uploadedFiles
-              .splice(this.uploadedFiles.indexOf(project_document), 1)
-          })
-          .catch(error => {
-            console.error('error deleting document', error)
-          })
-          .finally(() => {
-            this.$set(project_document, 'isDeleting', false)
-          })
-      },
-
       filesChange (fieldName, fileList) {
         if (!fileList.length) return
 
@@ -112,9 +32,6 @@
           .map(file => {
             const formData = new FormData()
             formData.append(fieldName, file, file.name)
-            formData
-              .append('project_document[original_file_name]', file.name)
-
             this.save({
               formData: formData,
               original_file_name: file.name,
@@ -123,28 +40,19 @@
           })
       },
 
-      save (project_document) {
-        project_document.uploadState = this.STATUS_SAVING
+      save (resource) {
+        this.$emit('before-upload', resource)
 
-        if (this.uploadedFiles.indexOf(project_document) === -1) {
-          this.uploadedFiles.push(project_document)
-        }
-
-        this.$http.post(this.save_url, project_document.formData)
+        this.$http[this.method](this.saveUrl, resource.formData)
           .then(response => {
-            this.uploadedFiles.splice(
-              this.uploadedFiles.indexOf(project_document),
-              1,
-              response.body
-            )
-            project_document.uploadState = this.STATUS_SUCCESS
+            this.$emit('after-upload', response.body)
           })
           .catch(error => {
             console.error('error uploading file', error)
-            project_document.uploadState = this.STATUS_FAILED
             if (error.status === 422) {
-              project_document.error = Object.values(error.body).join(', ')
+              resource.error = Object.values(error.body).join(', ')
             }
+            this.$emit('upload-error', resource)
           })
       },
 

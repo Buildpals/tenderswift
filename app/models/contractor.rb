@@ -19,7 +19,11 @@ class Contractor < ApplicationRecord
 
   EMAIL_MESSAGE = 'Please provide an correct email address with more than 5 characters'
 
+  validates :full_name, presence: true, if: :active?
   validates :company_name, presence: true, if: :active?
+  validates :company_logo, presence: true, if: :active?
+  # validates :password, presence: true, if: :active?
+  # validates :password_confirmation, presence: true, if: :active?
 
   validates :email, presence: { message: EMAIL_MESSAGE },
                     uniqueness: { message: EMAIL_MESSAGE,

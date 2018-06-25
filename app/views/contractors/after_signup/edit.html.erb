@@ -1,0 +1,104 @@
+<div class="container">
+  <div class="row">
+    <div class="col-lg-4 mx-auto mt-2">
+      <div class="text-center mb-4">
+        <h2>Fill in your account information</h2>
+      </div>
+
+      <%= form_with model: current_contractor,
+                    url: contractors_after_signup_path,
+                    scope: :contractor,
+                    id: 'contractor-form' do |f| %>
+
+        <% if current_contractor.errors.any? %>
+          <div class="alert alert-danger" role="alert">
+            <%= pluralize(current_contractor.errors.count, 'error') %>
+            prohibited this request for tender from being saved:
+
+            <ul>
+              <% current_contractor.errors.full_messages.each do |msg| %>
+                <li><%= msg %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+
+        <div class="form-group">
+          <%= f.text_field :full_name,
+                           placeholder: 'Your name',
+                           id: :contractors_full_name,
+                           autofocus: true,
+                           class: 'form-control',
+                           required: true %>
+        </div>
+
+        <div class="form-group">
+          <%= f.email_field :email,
+                            placeholder: 'Email address',
+                            class: 'form-control',
+                            id: :contractors_email,
+                            required: true %>
+        </div>
+
+        <div class="form-group">
+          <input type="tel"
+                 name="phone"
+                 id="phone_number_input"
+                 value="<%= current_contractor.phone_number %>"
+                 placeholder="Phone number"
+                 autocomplete="on"
+                 required
+                 class="form-control">
+          <%= f.hidden_field :phone_number %>
+        </div>
+
+        <div class="form-group my-4">
+          <%= f.text_field :company_name,
+                           placeholder: :company_name,
+                           id: :contractors_company_name,
+                           autocomplete: 'on',
+                           class: 'form-control',
+                           required: true %>
+        </div>
+
+        <div class="form-group my-4">
+          <%= f.label :company_logo %>
+          <%= f.file_field :company_logo,
+                           class: 'form-control-file',
+                           id: :contractors_company_logo,
+                           required: true %>
+        </div>
+
+        <br>
+
+        <div class="form-group">
+          <%= f.password_field :password,
+                               placeholder: :password,
+                               id: :contractors_password,
+                               autocomplete: 'off',
+                               class: 'form-control',
+                               required: true %>
+        </div>
+
+        <div class="form-group">
+          <%= f.password_field :password_confirmation,
+                               placeholder: :password_confirmation,
+                               id: :contractors_password_confirmation,
+                               autocomplete: 'off',
+                               class: 'form-control',
+                               required: true %>
+        </div>
+
+        <br>
+
+        <div class="actions">
+          <%= f.submit 'Continue',
+                       class: 'btn btn-secondary btn-block',
+                       data: { disable_with: 'Saving account information'
+                       } %>
+        </div>
+      <% end %>
+
+    </div>
+  </div>
+</div>
