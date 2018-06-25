@@ -55,9 +55,20 @@ RSpec.feature 'Purchased tender document' do
   end
 
   scenario 'should allow a contractor to see the tendering results of ' \
-           'their purchased tender document' do
-    visit tender_view_path(purchased_tender_document, :results)
-    skip 'Not implemented'
+           'their purchased tender document', js: true do
+    request_for_tender = FactoryBot.create(:request_for_tender)
+    contractor_one = FactoryBot.create(:contractor)
+    FactoryBot.create(:tender, :purchased, :submitted, contractor:
+        contractor_one, request_for_tender: request_for_tender)
+    t2 = FactoryBot.create(:tender, :purchased, :submitted, contractor:
+        purchased_tender_document.contractor, request_for_tender:
+                               request_for_tender)
+    visit tender_view_path(t2, :results)
+    expect(page).to have_content purchased_tender_document.contractor.company_name
+    purchased_tender_document.required_document_uploads.each do |document|
+      expect(page).to have_content document.title
+    end
+    save_and_open_screenshot
   end
 
   private
