@@ -1,4 +1,4 @@
-<template>
+z<template>
   <div class="graph">
     <canvas ref="chart" class="mb-2"></canvas>
   </div>

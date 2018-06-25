@@ -8,6 +8,8 @@ import RatesUploader from '../uploadListOfItems/RatesUploader'
 import RatesReviewer from '../uploadListOfItems/RatesReviewer'
 import RatesComparer from '../uploadListOfItems/RatesComparer'
 import TenderFiguresTable from '../uploadListOfItems/TenderFiguresTable'
+import ContractorTenderFigures from '../uploadListOfItems/ContractorTenderFigures'
+import ContractorTenderFiguresRow from '../uploadListOfItems/ContractorTenderFiguresRow'
 import FileUploader from '../uploadListOfItems/FileUploader'
 
 Vue.use(TurbolinksAdapter)
@@ -30,6 +32,8 @@ document.addEventListener('turbolinks:load', () => {
       RatesUploader,
       RatesReviewer,
       TenderFiguresTable,
+      ContractorTenderFigures,
+      ContractorTenderFiguresRow,
       RatesComparer
     }
   })
