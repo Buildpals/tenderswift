@@ -9,7 +9,7 @@ class KorbaWeb
 
   CLIENT_ID = 15
 
-  URL = 'https://korbaxchange.herokuapp.com'
+  BASE_URL = 'https://korbaxchange.herokuapp.com'
 
   PROXY_URL = 'http://cyodkufnwbjy91:HN5Nhvd1h34IuipMXYzDQ_07Bg@us-east-static-04.quotaguard.com:9293'
 
@@ -48,10 +48,16 @@ class KorbaWeb
   end
 
   def faraday_connection
+    base_url = if ENV.fetch('KORBA_WEB_BASE_URL')
+                 ENV.fetch('KORBA_WEB_BASE_URL')
+               else
+                 BASE_URL
+               end
+
     if Rails.env.production?
-      Faraday.new(url: URL, proxy: PROXY_URL)
+      Faraday.new(url: BASE_URL, proxy: PROXY_URL)
     else
-      Faraday.new(url: URL)
+      Faraday.new(url: BASE_URL)
     end
   end
 

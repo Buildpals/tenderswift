@@ -37,11 +37,7 @@ gem 'carrierwave', '~> 1.0'
 
 gem 'cloudinary'
 
-gem 'creek'
-
 gem 'mime-types'
-
-gem 'netrc'
 
 gem 'http-accept'
 
@@ -87,12 +83,6 @@ gem 'trix'
 # Authorisation
 gem 'pundit'
 
-# Code coverage
-gem 'simplecov', require: false, group: :test
-
-# Ruby coverage reporter for Codacy https://www.codacy.com
-gem 'codacy-coverage', require: false
-
 # Step-By-Step Wizard Controllers
 gem 'wicked'
 
@@ -109,6 +99,10 @@ group :development, :test do
   gem 'rails-controller-testing'
   gem 'selenium-webdriver'
 
+  gem 'capybara_discoball'
+  gem 'httparty'
+  gem 'sinatra'
+
   gem 'factory_bot_rails'
   gem 'pundit-matchers', '~> 1.4.1'
   gem 'rspec-rails', '~> 3.7'
@@ -117,6 +111,12 @@ group :development, :test do
   gem 'cucumber-rails', require: false
   # database_cleaner is not required, but highly recommended
   gem 'database_cleaner'
+
+  # Code coverage
+  gem 'simplecov', require: false, group: :test
+
+  # Ruby coverage reporter for Codacy https://www.codacy.com
+  gem 'codacy-coverage', require: false
 end
 
 group :development do

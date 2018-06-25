@@ -108,3 +108,5 @@ require 'capybara/poltergeist'
 # Switch between :selenium, :chrome, :headless_chrome and :poltergeist
 # when necessary
 Capybara.javascript_driver = :chrome
+
+require 'support/fake_korba_web'
