@@ -27,7 +27,8 @@
     </div>
 
     <div class="col-sm-4">
-      <%= f.file_field :document, class: 'form-control-file form-control-sm' %>
+      <%= f.file_field :document, class: 'form-control-file form-control-sm',
+                       accept: '.pdf, image/*' %>
     </div>
 
     <div class="col-sm-2">
