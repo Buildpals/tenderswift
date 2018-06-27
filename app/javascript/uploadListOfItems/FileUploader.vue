@@ -8,7 +8,7 @@
                @change="filesChange($event.target.name, $event.target.files);
                         fileCount = $event.target.files.length"
                class="input-file"
-               accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" >
+               accept=".xlsx, .xls, .doc, .docx" >
         <p>
           Drop your file here<br> or click to browse
         </p>
