@@ -58,7 +58,7 @@ Card Shadows
 .flash {
   position: absolute;
   left: 50%;
-  top: 32px;
+  top: 56px;
   transform: translate(-50%);
 }
 
@@ -110,6 +110,21 @@ only screen and (min-resolution: 2dppx) {
     background-image: image-url("flags@2x.png");
   }
 }
+
+@media (max-width: 576px) {
+  .flash{
+    width: 100%;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 376px) {
+  .flash{
+    width: 100%;
+    font-size: 11px;
+  }
+}
+
 
 .intl-tel-input {
   display: block;

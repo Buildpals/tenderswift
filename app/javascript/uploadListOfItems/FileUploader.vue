@@ -7,7 +7,8 @@
                :name="name"
                @change="filesChange($event.target.name, $event.target.files);
                         fileCount = $event.target.files.length"
-               class="input-file">
+               class="input-file"
+               accept=".xlsx, .xls, .doc, .docx" >
         <p>
           Drop your file here<br> or click to browse
         </p>

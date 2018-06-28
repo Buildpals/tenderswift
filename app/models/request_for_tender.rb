@@ -7,6 +7,7 @@ class RequestForTender < ApplicationRecord
   scope :not_published, -> { where(published_at: nil).order(published_at: :desc) }
   scope :deadline_not_passed, -> { where("deadline > '#{Time.current}'")
                                        .limit(10).order(id: :desc) }
+  scope :submitted_tenders, -> { tenders.where(submitted: true) }
 
   serialize :contract_sum_address, Hash
 

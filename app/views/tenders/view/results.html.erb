@@ -2,8 +2,92 @@
   <div class="row">
     <div class="col-lg-9 mx-auto">
 
-      Results Table
+      <div class="hello">
+        <contractor-tender-figures
+          :tenders="<%= @tender.request_for_tender.tenders.to_json(include:
+                                                                      :contractor) %>"
+          :list_of_items="<%= @tender.request_for_tender.list_of_items.to_json %>">
+        </contractor-tender-figures>
+      </div>
 
+      <div id="accordion">
+        <% @submitted_tenders.each_with_index do |tender, index| %>
+          <div class="card">
+            <div class="card-header" id="heading<%= index %>">
+              <h5 class="mb-0">
+                <button class="btn btn-link" data-toggle="collapse"
+                        data-target="#collapse<%= index %>" aria-expanded="true" aria-controls="collapse<%= index %>">
+                  <%= tender.contractor.company_name %>
+                </button>
+              </h5>
+            </div>
+            <% if index == 0 %>
+              <div id="collapse<%= index %>" class="collapse show"
+                   aria-labelledby="heading<%= index %>" data-parent="#accordion">
+            <% else %>
+              <div id="collapse<%= index %>" class="collapse" aria-labelledby="heading<%= index %>" data-parent="#accordion">
+            <% end %>
+              <div class="card-body">
+                <ul class="list-group">
+                  <% tender.required_document_uploads.each do |required_document_upload| %>
+                    <li class="list-group-item">
+                      <div class="container-fluid">
+                        <div class="row">
+                          <div class="col-sm-7">
+                            <p data-toggle="tooltip" data-placement="top" title="<%= required_document_upload.required_document.title %>"><%= required_document_upload.required_document.title %> </p>
+                          </div>
+                          <div class="col-sm-2">
+                            <% if required_document_upload.pending? %>
+                              <i class="fa fa-exclamation-triangle text-warning"></i>
+                              pending
+                            <% elsif required_document_upload.approved? %>
+                              <i class="fa fa-check text-success"></i>
+                              approved
+                            <% elsif required_document_upload.rejected? %>
+                              <i class="fa fa-times text-danger"></i>
+                              rejected
+                            <% end %>
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+                  <% end %>
+                  <% tender.other_document_uploads.each do |other_document_upload| %>
+                    <li class="list-group-item">
+                      <div class="container-fluid">
+                        <div class="row">
+                          <div class="col-sm-7">
+                            <p data-toggle="tooltip" data-placement="top" title="<%= other_document_upload.title %>"><%= other_document_upload.title %> </p>
+                          </div>
+                          <div class="col-sm-2">
+                            <% if other_document_upload.pending? %>
+                              <i class="fa fa-exclamation-triangle text-warning"></i>
+                              pending
+                            <% elsif other_document_upload.approved? %>
+                              <i class="fa fa-check text-success"></i>
+                              approved
+                            <% elsif other_document_upload.rejected? %>
+                              <i class="fa fa-times text-danger"></i>
+                              rejected
+                            <% end %>
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+                  <% end %>
+                </ul>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
     </div>
   </div>
 </div>
+<script>
+  import ContractorTenderFigures
+    from '../../../javascript/uploadListOfItems/ContractorTenderFigures'
+  export default {
+    components: {ContractorTenderFigures}
+  }
+</script>
