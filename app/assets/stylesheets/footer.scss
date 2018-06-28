@@ -126,21 +126,3 @@ footer
 footer {
   margin-top: 50px;
 }
-
-//Sticky Footer stuff
-html, body {
-  height: 100%;
-}
-body {
-  display: flex;
-  flex-direction: column;
-}
-
-.navbar {
-  flex: none;
-}
-.content {
-  flex: 1 0 auto;
-
-  margin-bottom: 50px;
-}
