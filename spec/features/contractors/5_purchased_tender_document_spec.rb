@@ -27,18 +27,32 @@ RSpec.feature 'Purchased tender document' do
   scenario 'should allow a contractor to fill in the rates ' \
            'their purchased tender document', js: true do
     visit tender_build_path(purchased_tender_document, :bill_of_quantities)
-    skip 'Spec not finished'
-    contractor_should_see_bill_of_quantities
+    page.all('.rate-field').each do |rate_field|
+      rate_field.set 1
+    end
+    click_button 'Save'
+    expect(page).to have_content 'All changes saved', wait: 10
+    purchased_tender_document.reload
+    expect(purchased_tender_document.list_of_rates['rates'])
+      .to eq('1' => '1', '2' => '1', '3' => '1', '4' => '1', '6' => '1')
   end
 
   scenario 'should allow a contractor to upload the required documents of ' \
            'their purchased tender document', js: true do
     visit tender_build_path(purchased_tender_document, :upload_documents)
-    skip 'Not implemented'
-    # attach_file 'tender_required_document_uploads_attributes_0_document', 'spec/fixtures/upload_file.pdf'
-    # click_button 'Add', match: :first
-    # expect(page).to have_link 'View'
-    # TODO: check that url is correct
+
+    page.all('.required_document_upload_file_input>input[type=file]')
+        .each do |file_input|
+      attach_file(file_input,
+                  Rails.root + 'spec/fixtures/upload_file.pdf',
+                  visible: false)
+    end
+
+    within :css, '#required-document-uploads-container' do
+      purchased_tender_document.required_documents.each do |required_document|
+        expect(page).to have_link required_document.title, wait: 10
+      end
+    end
   end
 
   scenario 'should allow a contractor to submit their ' \

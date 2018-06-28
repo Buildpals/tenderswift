@@ -32,6 +32,7 @@
         </td>
       </tr>
     </table>
+    <div>{{status}}</div>
   </div>
 </template>
 
@@ -56,6 +57,7 @@
         storage_key: `rates_${this.tender_id}`,
         isSaving: false,
         rates: {},
+        status: ''
       }
     },
 
@@ -95,6 +97,7 @@
             rates: rates,
             updated_at: Date.now()
           })
+          this.status = 'Your changes have not been saved'
         },
         deep: true
       }
@@ -108,6 +111,7 @@
 
       save () {
         this.isSaving = true
+        this.status = 'Saving changes...'
         this.$http
           .patch(
             `/tenders/${this.tender_id}/build/bill_of_quantities`,
@@ -121,7 +125,8 @@
             }
           )
           .then(response => {
-            eval(response.body)
+            this.status = 'All changes saved'
+            // eval(response.body)
           })
           .catch(error => {
             console.error(error.message)

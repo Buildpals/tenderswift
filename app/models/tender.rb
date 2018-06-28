@@ -64,6 +64,7 @@ class Tender < ApplicationRecord
   delegate :published_at, to: :request_for_tender
   delegate :project_documents, to: :request_for_tender
   delegate :deadline_over?, to: :request_for_tender
+  delegate :required_documents, to: :request_for_tender
 
   delegate :quantity_surveyor, to: :request_for_tender
 

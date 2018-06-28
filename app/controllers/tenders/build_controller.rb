@@ -28,7 +28,7 @@ class Tenders::BuildController < ContractorsController
       @tender.status = step.to_s
     end
     @tender.update_attributes(request_params)
-    render_wizard @tender
+    render_wizard
   end
 
   def create
@@ -54,30 +54,10 @@ class Tenders::BuildController < ContractorsController
 
   def request_params
     params.require(:tender)
-          .permit(:project_name,
-                  :deadline,
-                  :city,
-                  :description,
-                  :country_code,
-                  :currency,
-                  :tender_instructions,
-                  :selling_price,
-                  :withdrawal_frequency,
-                  :bank_name,
-                  :branch_name,
-                  :account_name,
-                  :account_number,
-                  :private,
-                  list_of_items: [
+          .permit(:publish,
+                  list_of_rates: [
                     :updated_at,
-                    items: %i[name description quantity unit isHeader]
-                  ],
-                  project_documents_attributes: %i[id
-                                                   document
-                                                   _destroy],
-                  contract_sum_address: %i[sheet cellAddress],
-                  required_documents_attributes: %i[id
-                                                    title
-                                                    _destroy])
+                    rates: {}
+                  ])
   end
 end

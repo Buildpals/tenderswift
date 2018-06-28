@@ -6,7 +6,6 @@ Rails.application.routes.draw do
     patch '/after_signup', to: 'after_signup#update'
   end
 
-
   get '/',
       to: 'welcome#query_request_for_tender',
       constraints: {
@@ -143,7 +142,14 @@ Rails.application.routes.draw do
   resources :tenders, only: %i[destroy] do
     resources :build, controller: 'tenders/build'
     resources :view, controller: 'tenders/view'
-    resources :project_documents, only: %i[create destroy]
+
+    resources :other_document_uploads,
+              only: %i[create destroy],
+              module: 'tenders'
+
+    resources :required_document_uploads,
+              only: %i[create destroy],
+              module: 'tenders'
   end
 
   #################### Admin Routes ##################

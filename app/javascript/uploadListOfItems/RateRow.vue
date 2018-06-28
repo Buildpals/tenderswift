@@ -47,7 +47,7 @@
       </td>
 
       <td>
-        <input class="form-control form-control-sm"
+        <input class="rate-field form-control form-control-sm"
                type="number"
                step="0.01"
                min="0"
