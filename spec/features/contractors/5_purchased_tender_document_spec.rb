@@ -41,15 +41,14 @@ RSpec.feature 'Purchased tender document' do
            'their purchased tender document', js: true do
     visit tender_build_path(purchased_tender_document, :upload_documents)
 
-    page.all('.required_document_upload_file_input>input[type=file]')
-        .each do |file_input|
-      attach_file(file_input,
-                  Rails.root + 'spec/fixtures/upload_file.pdf',
-                  visible: false)
-    end
+    purchased_tender_document.required_documents.each do |required_document|
+      within :css, "#required_document-#{required_document.id}" do
+        expect(page).to have_content required_document.title
 
-    within :css, '#required-document-uploads-container' do
-      purchased_tender_document.required_documents.each do |required_document|
+        attach_file('Upload file',
+                    Rails.root + 'spec/fixtures/upload_file.pdf',
+                    visible: false)
+
         expect(page).to have_link required_document.title, wait: 10
       end
     end
@@ -82,7 +81,6 @@ RSpec.feature 'Purchased tender document' do
     purchased_tender_document.required_document_uploads.each do |document|
       expect(page).to have_content document.title
     end
-    save_and_open_screenshot
   end
 
   private

@@ -1,5 +1,6 @@
 <template>
-  <form method="POST"  enctype="multipart/form-data">
+  <form method="POST"  enctype="multipart/form-data"
+        :id="`required_document-${requiredDocumentUpload.required_document.id}`">
     <div class="form-row d-flex justify-content-between align-items-center">
       <div class="col-md-7 mb-1 mb-md-0">
         <a :href="requiredDocumentUpload.document.url"
@@ -16,13 +17,16 @@
         </a>
 
         <div v-else>
-          <b-form-file
-              small
-              :state="Boolean(errors == false)"
-              v-model="file"
-              v-on:input="fileChanged"
-              class="required_document_upload_file_input"
-              placeholder="Choose a file..."></b-form-file>
+          <input type="file"
+                 class="input-file"
+                 :name="`required_document_upload[${requiredDocumentUpload.required_document.id}][document]`"
+                 :id="`required_document_upload_${requiredDocumentUpload.required_document.id}`"
+                 @change="filesChange($event.target.name, $event.target.files)"
+                 accept=".pdf, .jpeg, .jpg, .png" >
+          <label class="btn btn-sm btn-block btn-primary"
+                 :for="`required_document_upload_${requiredDocumentUpload.required_document.id}`">
+            Upload file
+          </label>
           <div v-for="error in errors">
             {{ error }}
           </div>
@@ -49,8 +53,10 @@
     },
 
     methods: {
-      fileChanged (file) {
-        this.updateRequiredDocumentUpload(file)
+      filesChange (fieldName, fileList) {
+        if (!fileList.length) return
+        Array.from(fileList)
+          .map(file => this.updateRequiredDocumentUpload(file))
       },
 
       updateRequiredDocumentUpload: function (file) {
@@ -81,3 +87,14 @@
     }
   }
 </script>
+
+<style>
+  .input-file {
+    opacity: 0; /* invisible but it's there! */
+    width: 0.1px%;
+    height: 0.1px;
+    position: absolute;
+    cursor: pointer;
+  }
+
+</style>
