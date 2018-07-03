@@ -91,7 +91,7 @@
 <style>
   .input-file {
     opacity: 0; /* invisible but it's there! */
-    width: 0.1px%;
+    width: 0.1px;
     height: 0.1px;
     position: absolute;
     cursor: pointer;
