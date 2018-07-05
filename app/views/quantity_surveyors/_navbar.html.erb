@@ -23,8 +23,13 @@
             <div class="dropdown-menu fix-screen" aria-labelledby="account_links">
               <%= link_to "Account Information", edit_quantity_surveyor_path(current_quantity_surveyor),
                           class: 'dropdown-item' %>
-              <%= link_to "Logout", destroy_quantity_surveyor_session_path, method: :delete,
+              <% if current_admin.eql?(nil) %>
+                <%= link_to "Logout", destroy_quantity_surveyor_session_path, method: :delete,
                           class: 'dropdown-item' %>
+              <% else %>
+                <%= link_to "Reverse Account", reverse_masquerade_path(current_quantity_surveyor.id), method: :delete,
+                          class: 'dropdown-item' %>
+              <% end %>
             </div>
           </li>
 

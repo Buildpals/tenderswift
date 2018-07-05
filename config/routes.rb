@@ -142,6 +142,18 @@ Rails.application.routes.draw do
       to: 'purchase_tender#monitor_purchase',
       as: :monitor_purchase
 
+  get '/review/request_for_tenders/',
+      to: 'welcome#review_request_for_tenders',
+      as: :review_request_for_tenders
+
+  get '/review/masquerade/:id',
+      to: 'welcome#masquerade',
+      as: :masquerade
+
+  delete '/reverse/masquerade/:id',
+      to: 'welcome#reverse_masquerade',
+      as: :reverse_masquerade
+
   # Routes for tender
 
   resources :tenders, only: %i[destroy] do
