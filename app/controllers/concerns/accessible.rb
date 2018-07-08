@@ -12,7 +12,7 @@ module Accessible
     if current_admin
       flash.clear
       # if you have rails_admin. You can redirect anywhere really
-      redirect_to(rails_admin.dashboard_path) && return
+      redirect_to(review_request_for_tenders_path) && return
     elsif current_contractor
       flash.clear
       # The authenticated root path can be defined in your routes.rb in: devise_scope :user do...
