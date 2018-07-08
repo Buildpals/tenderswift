@@ -1,87 +1,114 @@
 <template>
-  <div id="app">
-    <table class="table table-sm" style="font-size: 0.9rem;">
-      <thead>
-      <tr>
-        <th style="width:100px"></th>
-        <th style="width:60px">Item</th>
-        <th style="width:550px">Description</th>
-        <th style="width:60px">Quantity</th>
-        <th style="width:60px">Unit</th>
-        <th style="width:90px">Price/Rate</th>
-        <th style="width:90px">Amount</th>
-        <th style="width:60px">
-          <button class="btn btn-sm btn-secondary"
-            @click="save">
-            Save
+  <div class="spreadsheet-tabs">
+    <!--<table class="table table-sm" style="font-size: 0.9rem;">-->
+      <!--<thead>-->
+      <!--<tr>-->
+        <!--<th style="width:100px"></th>-->
+        <!--<th style="width:60px">Item</th>-->
+        <!--<th style="width:550px">Description</th>-->
+        <!--<th style="width:60px">Quantity</th>-->
+        <!--<th style="width:60px">Unit</th>-->
+        <!--<th style="width:90px">Price/Rate</th>-->
+        <!--<th style="width:90px">Amount</th>-->
+        <!--<th style="width:60px">-->
+          <!--<button class="btn btn-sm btn-secondary"-->
+            <!--@click="save">-->
+            <!--Save-->
+          <!--</button>-->
+        <!--</th>-->
+      <!--</tr>-->
+      <!--</thead>-->
+
+      <!--<sortable-list lockAxis="y"-->
+                     <!--:useDragHandle="true"-->
+                     <!--v-model="items">-->
+
+        <!--<item-row v-for="(item, index) in items"-->
+                  <!--:item="item"-->
+                  <!--:index="index"-->
+                  <!--:key="index"-->
+                  <!--v-on:delete="deleteItem(index)"/>-->
+
+        <!--<tr style="background-color: #fffbe3;">-->
+          <!--<td>-->
+            <!--Add new item-->
+          <!--</td>-->
+
+          <!--<td>-->
+            <!--<input type="text"-->
+                   <!--autofocus autocomplete="off"-->
+                   <!--ref="newItemName"-->
+                   <!--v-model="newItem.name"-->
+                   <!--class='form-control form-control-sm'>-->
+          <!--</td>-->
+
+          <!--<td>-->
+            <!--<input type="text"-->
+                   <!--v-model="newItem.description"-->
+                   <!--class='form-control form-control-sm'>-->
+          <!--</td>-->
+
+          <!--<td>-->
+            <!--<input type="text"-->
+                   <!--v-model="newItem.quantity"-->
+                   <!--class='form-control form-control-sm'>-->
+          <!--</td>-->
+
+          <!--<td>-->
+            <!--<input type="text"-->
+                   <!--v-model="newItem.unit"-->
+                   <!--class='form-control form-control-sm'>-->
+          <!--</td>-->
+
+          <!--<td>-->
+            <!--<input type="text"-->
+                   <!--disabled-->
+                   <!--class='form-control form-control-sm'>-->
+          <!--</td>-->
+
+          <!--<td>-->
+            <!--<input type="text"-->
+                   <!--disabled-->
+                   <!--class='form-control form-control-sm'>-->
+          <!--</td>-->
+
+          <!--<td class="d-flex justify-content-center">-->
+            <!--<button class="btn btn-sm btn-primary"-->
+                    <!--@click="addItem">-->
+              <!--Add-->
+            <!--</button>-->
+          <!--</td>-->
+        <!--</tr>-->
+
+      <!--</sortable-list>-->
+    <!--</table>-->
+
+    <textarea v-model="items" rows="15"></textarea>
+
+    <b-tabs end no-fade>
+      <b-tab :title="'Page 1'">
+        <div id="example-container" class="wrapper">
+          <page v-model="items" />
+        </div>
+      </b-tab>
+
+      <template slot="tabs">
+        <div class="mx-2 d-flex align-items-center">
+          <button class="btn btn-sm btn-link"
+                  @click="addPage">
+            <span class="fa fa-plus"></span>
           </button>
-        </th>
-      </tr>
-      </thead>
+        </div>
+        <div class="ml-auto d-flex align-items-center">
+          <button class="btn btn-sm btn-secondary"
+                  @click="save">
+            Save changes
+          </button>
+        </div>
+      </template>
+    </b-tabs>
 
-      <sortable-list lockAxis="y"
-                     :useDragHandle="true"
-                     v-model="items">
 
-        <item-row v-for="(item, index) in items"
-                  :item="item"
-                  :index="index"
-                  :key="index"
-                  v-on:delete="deleteItem(index)"/>
-
-        <tr style="background-color: #fffbe3;">
-          <td>
-            Add new item
-          </td>
-
-          <td>
-            <input type="text"
-                   autofocus autocomplete="off"
-                   ref="newItemName"
-                   v-model="newItem.name"
-                   class='form-control form-control-sm'>
-          </td>
-
-          <td>
-            <input type="text"
-                   v-model="newItem.description"
-                   class='form-control form-control-sm'>
-          </td>
-
-          <td>
-            <input type="text"
-                   v-model="newItem.quantity"
-                   class='form-control form-control-sm'>
-          </td>
-
-          <td>
-            <input type="text"
-                   v-model="newItem.unit"
-                   class='form-control form-control-sm'>
-          </td>
-
-          <td>
-            <input type="text"
-                   disabled
-                   class='form-control form-control-sm'>
-          </td>
-
-          <td>
-            <input type="text"
-                   disabled
-                   class='form-control form-control-sm'>
-          </td>
-
-          <td class="d-flex justify-content-center">
-            <button class="btn btn-sm btn-primary"
-                    @click="addItem">
-              Add
-            </button>
-          </td>
-        </tr>
-
-      </sortable-list>
-    </table>
   </div>
 </template>
 
@@ -89,9 +116,10 @@
   import ItemRow from './ItemRow'
   import SortableList from './SortableList'
   import localforage from 'localforage'
+  import Page from './Page'
 
   export default {
-    components: {SortableList, ItemRow},
+    components: {Page, SortableList, ItemRow},
 
     props: [
       'request_for_tender_id',
@@ -104,13 +132,7 @@
         showAlertMessage: false,
         alertMessage: '',
         isSaving: false,
-        items: [],
-        newItem: {
-          name: '',
-          description: '',
-          quantity: '',
-          unit: ''
-        }
+        items: []
       }
     },
 
@@ -150,21 +172,8 @@
     },
 
     methods: {
-      addItem () {
-        this.items.push({...this.newItem})
-        this.newItem = {
-          name: '',
-          description: '',
-          quantity: '',
-          unit: ''
-        }
-        this.$nextTick(() => {
-          this.$refs.newItemName.focus()
-        })
-      },
+      addPage () {
 
-      deleteItem (index) {
-        this.items.splice(index, 1)
       },
 
       save () {
@@ -203,5 +212,39 @@
 </script>
 
 <style lang="scss">
+  .spreadsheet-tabs {
+    .nav-tabs {
+      /*border-bottom: 1px solid #dee2e6;*/
+      /*border-top: 1px solid #dee2e6;*/
+      border: 1px solid #dee2e6;
+      padding-left: 0.5rem;
+      padding-right: 0.5rem;
+      padding-bottom: 0.2rem;
+    }
 
+    .nav-tabs .nav-item {
+      margin-top: -1px;
+    }
+
+    .nav-tabs .nav-link {
+      border: 1px solid transparent;
+
+      border-top-left-radius: initial;
+      border-top-right-radius: initial;
+
+      border-bottom-left-radius: 0.15rem;
+      border-bottom-right-radius: 0.15rem;
+    }
+
+    .nav-tabs .nav-link:hover, .nav-tabs .nav-link:focus {
+      border-color: #e9ecef #e9ecef #dee2e6;
+    }
+
+    .nav-tabs .nav-link.active,
+    .nav-tabs .nav-item.show .nav-link {
+      color: #495057;
+      background-color: #fff;
+      border-color: #fff #dee2e6 #dee2e6;
+    }
+  }
 </style>
