@@ -5,11 +5,10 @@ require 'rails_helper'
 RSpec.feature 'Product walkthrough', js: true do
   include RequestForTendersHelper
 
-  xscenario 'should publish a public request for tender successfully' do
-    Capybara.current_driver = :selenium
+  scenario 'should publish a public request for tender successfully' do
     Capybara.app_host = 'https://app.tenderswift.com'
     Capybara.run_server = false
-    Capybara.default_max_wait_time = 60
+    Capybara.default_max_wait_time = 90
 
     given_a_quantity_surveyor_has_logged_in
     and_has_created_a_request_for_tender
@@ -178,7 +177,7 @@ RSpec.feature 'Product walkthrough', js: true do
   def and_the_request_for_tender_should_appear_in_their_published_tenders
     visit quantity_surveyor_root_path
 
-    within :css, '#published-request-for-view' do
+    within :css, '#published-request-for-tenders' do
       expect(page).to have_content @request_for_tender.project_name
       expect(page).to have_content project_location @request_for_tender
       expect(page).to have_content time_to_deadline @request_for_tender
@@ -264,7 +263,7 @@ RSpec.feature 'Product walkthrough', js: true do
   end
 
   def then_they_should_find_the_request_for_tender_in_their_purchased_tenders
-    within :css, '#purchased-view' do
+    within :css, '#purchased-tenders' do
       expect(page).to have_content @invitation_to_tender.project_name
     end
   end
@@ -391,7 +390,7 @@ RSpec.feature 'Product walkthrough', js: true do
     click_link contractor.company_name
     expect(page).to have_content 'Account Information'
     expect(page).to have_content 'Logout'
-    expect(page).to have_content 'New Invitations To Tender'
+    expect(page).to have_content 'Invitations To Tender'
     expect(page).to have_content 'Purchased Tenders'
     expect(page).to have_content 'Submitted Tenders'
   end
