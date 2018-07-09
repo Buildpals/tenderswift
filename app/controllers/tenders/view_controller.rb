@@ -16,7 +16,6 @@ class Tenders::ViewController < ContractorsController
   def show
     authorize @tender
     @submitted_tenders = @tender.request_for_tender.tenders.where.not(submitted_at: nil)
-    puts @submitted_tenders.inspect
     render_wizard
   end
 

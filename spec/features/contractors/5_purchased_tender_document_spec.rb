@@ -70,15 +70,40 @@ RSpec.feature 'Purchased tender document' do
   scenario 'should allow a contractor to see the tendering results of ' \
            'their purchased tender document', js: true do
     request_for_tender = FactoryBot.create(:request_for_tender)
-    contractor_one = FactoryBot.create(:contractor)
-    FactoryBot.create(:tender, :purchased, :submitted, contractor:
-        contractor_one, request_for_tender: request_for_tender)
-    t2 = FactoryBot.create(:tender, :purchased, :submitted, contractor:
-        purchased_tender_document.contractor, request_for_tender:
-                               request_for_tender)
-    visit tender_view_path(t2, :results)
-    expect(page).to have_content purchased_tender_document.contractor.company_name
-    purchased_tender_document.required_document_uploads.each do |document|
+
+    contractor1 = FactoryBot.create(:contractor)
+    contractor2 = purchased_tender_document.contractor
+
+    tender1 = FactoryBot.create(:tender,
+                                :purchased,
+                                :submitted,
+                                contractor: contractor1,
+                                request_for_tender: request_for_tender)
+
+    tender2 = FactoryBot.create(:tender,
+                                :purchased,
+                                :submitted,
+                                contractor: contractor2,
+                                request_for_tender: request_for_tender)
+
+    visit tender_view_path(tender2, :results)
+
+    expect(page).to have_content contractor1.company_name
+    expect(page).to have_content contractor2.company_name
+
+    tender1.required_document_uploads.each do |document|
+      expect(page).to have_content document.title
+    end
+
+    tender2.required_document_uploads.each do |document|
+      expect(page).to have_content document.title
+    end
+
+    tender1.other_document_uploads.each do |document|
+      expect(page).to have_content document.title
+    end
+
+    tender2.other_document_uploads.each do |document|
       expect(page).to have_content document.title
     end
   end
