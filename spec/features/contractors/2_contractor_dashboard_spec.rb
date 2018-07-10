@@ -5,6 +5,7 @@ require 'rails_helper'
 RSpec.feature 'Contractor dashboard' do
   let(:tender) { FactoryBot.create(:tender) }
   let!(:different_contractor) { FactoryBot.create(:contractor) }
+  let!(:request_for_tender) { FactoryBot.create(:request_for_tender) }
   let!(:purchased_tender) do
     FactoryBot.create(:purchased_tender, contractor: tender.contractor)
   end
@@ -14,14 +15,14 @@ RSpec.feature 'Contractor dashboard' do
       login_as(tender.contractor, scope: :contractor)
     end
 
-    scenario 'should show the contractor their private invitations to tender' do
+    xscenario 'should show the contractor their private invitations to tender' do
       visit contractor_root_path
       within :css, '#invitations-to-tender' do
-        expect(page).to have_content tender.project_name
+        expect(page).to have_content request_for_tender.project_name
       end
     end
 
-    scenario 'should show the contractor their purchased tender documents' do
+    fscenario 'should show the contractor their purchased tender documents' do
       visit contractor_root_path
       within :css, '#purchased-tenders' do
         expect(page).to have_content purchased_tender.project_name
@@ -34,7 +35,7 @@ RSpec.feature 'Contractor dashboard' do
   end
 
   context 'when logged out' do
-    scenario 'should redirect the contractor to the login page' do
+    xscenario 'should redirect the contractor to the login page' do
       visit contractor_root_path
 
       expect(page)
@@ -50,7 +51,7 @@ RSpec.feature 'Contractor dashboard' do
       login_as(different_contractor, scope: :contractor)
     end
 
-    scenario 'access another contractor bid' do
+    xscenario 'access another contractor bid' do
       visit tenders_boq_path(purchased_tender)
       expect(page).to have_content 'Home'
     end
