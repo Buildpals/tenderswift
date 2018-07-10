@@ -28,7 +28,7 @@ class RequestForTenders::BuildController < QuantitySurveyorsController
       @request_for_tender.status = step.to_s
     end
     @request_for_tender.update_attributes(request_params)
-    render_wizard @request_for_tender
+    render_wizard @request_for_tender, notice: 'Your changes have been saved!'
   end
 
   def create

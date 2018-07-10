@@ -52,4 +52,8 @@ FactoryBot.define do
       create_list(:required_document, 9, request_for_tender: request_for_tender)
     end
   end
+
+  factory :empty_request_for_tender, class: RequestForTender do
+    sequence(:project_name) { |n| "Project #{n} Proposed residential building for Mrs. Christina Love" }
+  end
 end
