@@ -29,62 +29,67 @@
 
 <%= render 'layouts/flash_messages' %>
 
-<div class="d-none d-sm-none d-md-none d-lg-block d-xl-block">
-  <%= render 'contractors/page_head' %>
-</div>
+<div class="content">
+
+  <div class="d-none d-sm-none d-md-none d-lg-block d-xl-block">
+    <%= render 'contractors/page_head' %>
+  </div>
+
+  <nav class="navbar navbar-light bg-light border-bottom justify-content-center
+              d-flex d-sm-flex d-md-flex d-lg-none d-xl-none">
+    <div class="navbar-text">
+      <%= step.to_s.humanize %>
+    </div>
+  </nav>
 
 
-<div class="card container mt-md-4 content">
-  <div class="card-header row">
-    <nav class="nav justify-content-center
-                  d-flex w-100 d-sm-flex d-md-flex d-lg-none d-xl-none">
-      <div class="navbar-text">
-        <%= step.to_s.humanize %>
+  <div class="container">
+    <div class="row mt-4">
+
+      <div class="col-lg-10 mx-auto
+                  d-none d-sm-none d-md-none d-lg-block d-xl-block">
+
+        <nav class="nav nav-pills justify-content-center">
+          <% wizard_steps.each_with_index do |wizard_step, index| %>
+            <%= link_to "#{index + 1}. #{wizard_step.to_s.humanize}",
+                        wizard_path(wizard_step),
+                        class: "nav-item nav-link #{'active' if step == wizard_step}"%>
+          <% end %>
+        </nav>
+
+        <hr>
+
       </div>
-    </nav>
 
-    <nav class="nav nav-pills justify-content-center
-                  d-none d-sm-none d-md-none d-lg-flex d-xl-flex">
-      <% wizard_steps.each_with_index do |wizard_step, index| %>
-        <%= link_to "#{index + 1}. #{wizard_step.to_s.humanize}",
-                    wizard_path(wizard_step),
-                    class: "nav-item nav-link #{'active' if step == wizard_step}"%>
-      <% end %>
-    </nav>
+      <div class="col-lg-9 mx-auto">
+        <%= yield %>
+      </div>
+
+      <div class="col-lg-10 mx-auto
+                  d-none d-sm-none d-md-none d-lg-block d-xl-block">
+        <hr>
+        <div class="d-flex align-items-center">
+          <% unless step == wizard_steps.first %>
+            <%= link_to 'Previous', previous_wizard_path %>
+          <% end %>
+
+          <% unless step == wizard_steps.last %>
+            <%= link_to 'Next', next_wizard_path,
+                        class: 'btn btn-secondary ml-auto' %>
+          <% else %>
+            <button class="btn btn-secondary text-capitalize ml-auto"
+                    onclick="$('#document-upload-form').trigger('submit.rails')">
+              Submit your bid
+            </button>
+          <% end %>
+        </div>
+
+      </div>
+
+    </div>
   </div>
 
-  <div class="card-body row">
-    <%= yield %>
-  </div>
-
-  <div class="card-footer row
-                    d-none d-sm-none d-md-none d-lg-flex d-xl-flex">
-
-    <% unless step == wizard_steps.first %>
-      <a class="nav-item nav-link"
-         href="<%= previous_wizard_path %>">
-        <span class="fa fa-chevron-left"></span>
-        Previous
-      </a>
-    <% end %>
-
-    <% unless step == wizard_steps.last %>
-      <a class="nav-item nav-link ml-auto"
-         href="<%= next_wizard_path %>">
-        Next
-        <span class="fa fa-chevron-right"></span>
-      </a>
-    <% else %>
-      <button class="btn btn-sm btn-secondary text-capitalize ml-auto"
-              onclick="$('#document-upload-form').trigger('submit.rails')">
-        Submit
-      </button>
-    <% end %>
-
-  </div>
 </div>
-
-
 
 <nav class="navbar fixed-bottom navbar-dark bg-primary
               d-block d-sm-block d-md-block d-lg-none d-xl-none">
@@ -107,7 +112,7 @@
     <% else %>
       <button class="btn btn-sm btn-secondary text-capitalize ml-auto"
               onclick="$('#document-upload-form').trigger('submit.rails')">
-        Submit
+        Submit your bid
       </button>
     <% end %>
 

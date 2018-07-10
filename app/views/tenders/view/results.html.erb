@@ -1,113 +1,105 @@
-<div class="container mt-4">
-  <div class="row">
-    <div class="col-lg-9 mx-auto">
+<div class="hello mb-5">
+  <contractor-tender-figures
+    :tenders="<%= @tender.request_for_tender.tenders.to_json(include:
+                                                                 :contractor) %>"
+    :list_of_items="<%= @tender.request_for_tender.list_of_items.to_json %>">
+  </contractor-tender-figures>
+</div>
 
-      <div class="hello mb-5">
-        <contractor-tender-figures
-          :tenders="<%= @tender.request_for_tender.tenders.to_json(include:
-                                                                       :contractor) %>"
-          :list_of_items="<%= @tender.request_for_tender.list_of_items.to_json %>">
-        </contractor-tender-figures>
+<div class="px-4 mb-2">Submitted documents</div>
+
+<div id="accordion">
+
+  <% @submitted_tenders.each_with_index do |tender, index| %>
+    <div class="card">
+
+      <div class="card-header" id="heading<%= index %>">
+        <h5 class="mb-0">
+          <button class="btn btn-link"
+                  data-toggle="collapse"
+                  data-target="#collapse<%= index %>"
+                  aria-expanded="true"
+                  aria-controls="collapse<%= index %>">
+            <%= tender.contractor.company_name %>
+          </button>
+        </h5>
       </div>
 
-      <div class="px-4 mb-2">Submitted documents</div>
 
-      <div id="accordion">
-
-        <% @submitted_tenders.each_with_index do |tender, index| %>
-          <div class="card">
-
-            <div class="card-header" id="heading<%= index %>">
-              <h5 class="mb-0">
-                <button class="btn btn-link"
-                        data-toggle="collapse"
-                        data-target="#collapse<%= index %>"
-                        aria-expanded="true"
-                        aria-controls="collapse<%= index %>">
-                  <%= tender.contractor.company_name %>
-                </button>
-              </h5>
-            </div>
-
-
-            <div id="collapse<%= index %>"
-                 class="collapse
+      <div id="collapse<%= index %>"
+           class="collapse
                    <%= 'show ' if index == 0 %>"
-                 aria-labelledby="heading<%= index %>"
-                 data-parent="#accordion">
+           aria-labelledby="heading<%= index %>"
+           data-parent="#accordion">
 
-              <ul class="list-group list-group-flush">
+        <ul class="list-group list-group-flush">
 
-                <% tender.required_document_uploads
-                       .each do |required_document_upload| %>
+          <% tender.required_document_uploads
+                 .each do |required_document_upload| %>
 
-                  <li class="list-group-item list-group-item-action
+            <li class="list-group-item list-group-item-action
                             flex-column align-items-start">
 
-                    <div class="d-flex w-100 justify-content-between">
-                      <p class="mb-1 mr-2">
-                        <%= required_document_upload.required_document.title %>
-                      </p>
-                      <small class="text-muted">
-                        Required
-                      </small>
-                    </div>
+              <div class="d-flex w-100 justify-content-between">
+                <p class="mb-1 mr-2">
+                  <%= required_document_upload.required_document.title %>
+                </p>
+                <small class="text-muted">
+                  Required
+                </small>
+              </div>
 
-                    <small>
-                      <% if required_document_upload.pending? %>
-                        Pending review
-                      <% elsif required_document_upload.approved? %>
-                        Approved
-                      <% elsif required_document_upload.rejected? %>
-                        Rejected
-                      <% end %>
-                    </small>
-
-                  </li>
-
+              <small>
+                <% if required_document_upload.pending? %>
+                  Pending review
+                <% elsif required_document_upload.approved? %>
+                  Approved
+                <% elsif required_document_upload.rejected? %>
+                  Rejected
                 <% end %>
+              </small>
 
-                <% tender.other_document_uploads
-                       .each do |other_document_upload| %>
+            </li>
 
-                  <li class="list-group-item list-group-item-action
+          <% end %>
+
+          <% tender.other_document_uploads
+                 .each do |other_document_upload| %>
+
+            <li class="list-group-item list-group-item-action
                             flex-column align-items-start">
 
-                    <div class="d-flex w-100 justify-content-between">
-                      <p class="mb-1 mr-2">
-                        <%= other_document_upload.title %>
-                      </p>
-                      <small class="text-muted">
-                        Not required
-                      </small>
-                    </div>
+              <div class="d-flex w-100 justify-content-between">
+                <p class="mb-1 mr-2">
+                  <%= other_document_upload.title %>
+                </p>
+                <small class="text-muted">
+                  Not required
+                </small>
+              </div>
 
-                    <small>
-                      <% if other_document_upload.pending? %>
-                        <div>pending</div>
-                        <i class="fa fa-exclamation-triangle text-warning">
-                        </i>
-                      <% elsif other_document_upload.approved? %>
-                        <div>approved</div>
-                        <i class="fa fa-check text-success"></i>
-                      <% elsif other_document_upload.rejected? %>
-                        <div>rejected</div>
-                        <i class="fa fa-times text-danger"></i>
-                      <% end %>
-                    </small>
-
-                  </li>
+              <small>
+                <% if other_document_upload.pending? %>
+                  <div>pending</div>
+                  <i class="fa fa-exclamation-triangle text-warning">
+                  </i>
+                <% elsif other_document_upload.approved? %>
+                  <div>approved</div>
+                  <i class="fa fa-check text-success"></i>
+                <% elsif other_document_upload.rejected? %>
+                  <div>rejected</div>
+                  <i class="fa fa-times text-danger"></i>
                 <% end %>
+              </small>
 
-              </ul>
+            </li>
+          <% end %>
 
-            </div>
-
-          </div>
-        <% end %>
+        </ul>
 
       </div>
 
     </div>
-  </div>
+  <% end %>
+
 </div>

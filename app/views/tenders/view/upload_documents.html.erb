@@ -1,39 +1,27 @@
-<div class="container">
-  <div class="row">
-    <div class="col-lg-9 mx-auto">
-      <div class="tab-content mt-4">
-
-        <div class="px-4 mb-2">
-          Uploaded required documents
-        </div>
-
-        <div class="list-group mb-5">
-          <% @tender.required_document_uploads.each do |rdu| %>
-            <a href="<%= rdu.document.url %>"
-               target="_blank"
-               class="list-group-item d-flex justify-content-between">
-              <%= rdu.title %>
-            </a>
-          <% end %>
-        </div>
-
-
-        <div class="px-4 mb-2">
-          Uploaded other documents
-        </div>
-
-        <div class="list-group">
-          <% @tender.other_document_uploads.each do |odu| %>
-            <a href="<%= odu.document.url %>"
-               target="_blank"
-               class="list-group-item d-flex justify-content-between">
-              <%= odu.title %>
-            </a>
-          <% end %>
-        </div>
-
-      </div>
-    </div>
-  </div>
+<div class="px-4 mb-2">
+  Uploaded required documents
 </div>
+
+<div class="list-group mb-5">
+  <% @tender.required_document_uploads.each do |rdu| %>
+    <a href="<%= rdu.document.url %>"
+       target="_blank"
+       class="list-group-item d-flex justify-content-between">
+      <%= rdu.title %>
+    </a>
+  <% end %>
+</div>
+
+<div class="px-4 mb-2">
+  Other uploaded documents
+</div>
+
+<div class="list-group">
+  <% @tender.other_document_uploads.each do |odu| %>
+    <a href="<%= odu.document.url %>"
+       target="_blank"
+       class="list-group-item d-flex justify-content-between">
+      <%= odu.title %>
+    </a>
+  <% end %>
 </div>

@@ -1,31 +1,21 @@
-<div class="container">
-  <div class="row">
-    <div class="col-lg-9 mx-auto">
-      <div class="tab-content mt-4 hello">
+<div class="hello">
+  <div class="px-4 mb-2">Required documents</div>
 
-        <p class="font-weight-bold px-4">Required documents</p>
+  <ul class="list-group mb-5" id="required-document-uploads-container">
+    <% @tender.required_document_uploads.each do |rdu| %>
+      <li class="list-group-item">
+        <required-document-uploader
+          :required_document_upload="<%= rdu.to_json(
+                                             include: :required_document
+                                         ) %>"
+        ></required-document-uploader>
+      </li>
+    <% end %>
+  </ul>
 
-        <ul class="list-group mb-4" id="required-document-uploads-container">
-          <% @tender.required_document_uploads.each do |rdu| %>
-            <li class="list-group-item">
-              <required-document-uploader
-                :required_document_upload="<%= rdu.to_json(
-                                                   include: :required_document
-                                               ) %>"
-              ></required-document-uploader>
-            </li>
-          <% end %>
-        </ul>
+  <div class="px-4 mb-2">Add other documents</div>
 
-
-        <p class="font-weight-bold px-4">Add other documents</p>
-
-        <other-documents-uploader
-          save-url="<%= tender_other_document_uploads_path(@tender) %>"
-          :tender="<%= @tender.to_json(include: :other_document_uploads) %>"/>
-
-      </div>
-    </div>
-  </div>
-</div>
+  <other-documents-uploader
+    save-url="<%= tender_other_document_uploads_path(@tender) %>"
+    :tender="<%= @tender.to_json(include: :other_document_uploads) %>"/>
 </div>
