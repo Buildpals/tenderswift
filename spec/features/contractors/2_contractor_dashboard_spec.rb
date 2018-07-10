@@ -15,14 +15,14 @@ RSpec.feature 'Contractor dashboard' do
       login_as(tender.contractor, scope: :contractor)
     end
 
-    xscenario 'should show the contractor their private invitations to tender' do
+    scenario 'should show the contractor their private invitations to tender' do
       visit contractor_root_path
       within :css, '#invitations-to-tender' do
         expect(page).to have_content request_for_tender.project_name
       end
     end
 
-    fscenario 'should show the contractor their purchased tender documents' do
+    scenario 'should show the contractor their purchased tender documents' do
       visit contractor_root_path
       within :css, '#purchased-tenders' do
         expect(page).to have_content purchased_tender.project_name
@@ -35,14 +35,13 @@ RSpec.feature 'Contractor dashboard' do
   end
 
   context 'when logged out' do
-    xscenario 'should redirect the contractor to the login page' do
+    scenario 'should redirect the contractor to the login page' do
       visit contractor_root_path
-
       expect(page)
         .to have_content 'You need to sign in or sign up before continuing.'
       expect(page).to have_content 'Log in'
-      expect(page).to have_field('Email address')
-      expect(page).to have_field('Password')
+      expect(page).to have_field('contractor[email]')
+      expect(page).to have_field('contractor[password]')
     end
   end
 
@@ -51,8 +50,8 @@ RSpec.feature 'Contractor dashboard' do
       login_as(different_contractor, scope: :contractor)
     end
 
-    xscenario 'access another contractor bid' do
-      visit tenders_boq_path(purchased_tender)
+    scenario 'access another contractor bid' do
+      visit tender_build_path(purchased_tender, :bill_of_quantities)
       expect(page).to have_content 'Home'
     end
   end
