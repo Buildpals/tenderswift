@@ -10,7 +10,10 @@ class ContractorsController < ApplicationController
                            .deadline_not_passed
                            .includes(:tenders)
                            .where(tenders: {
-                                          purchased_at: nil,
+                                        purchased_at: nil,
+                                      })
+                           .where.not(tenders: {
+                                        contractor_id: current_contractor.id,
                                       })
 
     unless current_contractor.status == 'active'
