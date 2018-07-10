@@ -25,25 +25,14 @@ RSpec.feature 'Contractor authentication', type: :feature, js: true do
 
     click_button 'Continue'
 
+    expect(page).to have_current_path(contractor_root_path, wait: 10)
+
     should_have_dashboard_content_for new_contractor
 
+    click_link 'Account'
     click_link 'Edit your account information'
 
-    expect(page).to have_content 'Account Information'
-
-    expect(page).to have_field 'Full name',
-                               with: new_contractor.full_name
-
-    expect(page).to have_field 'Email',
-                               with: new_contractor.email
-
-    expect(page).to have_field 'Phone number',
-                               with: new_contractor.phone_number
-
-    expect(page).to have_field 'Company name',
-                               with: new_contractor.company_name
-
-    expect(page).to have_css('#company_logo_image')
+    should_have_account_information_for new_contractor
   end
 
   scenario 'should log in an existing contractor successfully' do
@@ -76,6 +65,27 @@ RSpec.feature 'Contractor authentication', type: :feature, js: true do
     expect(page).to have_content 'New Invitations To Tender'
     expect(page).to have_content 'Purchased Tenders'
     expect(page).to have_content 'Submitted Tenders'
+    click_link 'Account' # Close 'Account' drop-down
+  end
+
+  def should_have_account_information_for(contractor)
+    expect(page).to have_content 'Account Information'
+
+    expect(page).to have_field 'Full name',
+                               with: contractor.full_name
+
+    expect(page).to have_field 'Email',
+                               with: contractor.email
+
+    expect(page).to have_field 'Phone number',
+                               with: contractor.phone_number
+
+    expect(page).to have_field 'Company name',
+                               with: contractor.company_name
+
+    # TODO: Check that the logo image actually loaded, not that it's css
+    # container was rendered
+    expect(page).to have_css('#company_logo_image')
   end
 
   def should_see_contractor_sign_in_page
