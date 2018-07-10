@@ -40,8 +40,8 @@ RSpec.feature 'Search for request for tender', type: :feature do
       expect(page).to have_content request_for_tender.tender_instructions
     end
 
-    scenario 'a visitor provides wrong reference number' \
-             'in search bar', js: true do
+    scenario 'a visitor provides wrong reference number in search bar',
+             js: true do
       visit query_request_for_tender_path
       fill_in 'reference_number', with: '34353'
       click_button 'search'
