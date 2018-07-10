@@ -1,9 +1,12 @@
 <div class="col-md-8 mx-auto pt-3 pb-5">
-  <% @request_for_tenders.each do |request_for_tender| %>
-    <ul class="list-group">
-      <%= link_to masquerade_path(request_for_tender.quantity_surveyor.id)  do %>
-        <li class="list-group-item"><%= request_for_tender.project_name %></li>
-      <% end %>
-    </ul>
-  <% end %>
+  <div class="alert alert-success" role="alert">
+    Welcome <%= current_admin.email %>
+  </div>
+  <ul class="list-group">
+    <% @request_for_tenders.each do |request_for_tender| %>
+        <%= link_to masquerade_path(request_for_tender.quantity_surveyor.id)  do %>
+          <li class="list-group-item"><%= request_for_tender.project_name %></li>
+        <% end %>
+    <% end %>
+  </ul>
 </div>
