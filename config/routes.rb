@@ -137,18 +137,6 @@ Rails.application.routes.draw do
       to: 'purchase_tender#monitor_purchase',
       as: :monitor_purchase
 
-  get '/review/request_for_tenders/',
-      to: 'welcome#review_request_for_tenders',
-      as: :review_request_for_tenders
-
-  get '/review/masquerade/:id',
-      to: 'welcome#masquerade',
-      as: :masquerade
-
-  delete '/reverse/masquerade/:id',
-      to: 'welcome#reverse_masquerade',
-      as: :reverse_masquerade
-
   # Routes for tender
 
   resources :tenders, only: %i[destroy] do
@@ -172,6 +160,27 @@ Rails.application.routes.draw do
     sessions: 'admins/sessions',
     unlocks: 'admins/unlocks'
   }
+
+  get '/review_request_for_tenders',
+      to: 'admins#review_request_for_tenders',
+      as: :admin_root
+
+  get '/review_request_for_tenders',
+      to: 'admins#review_request_for_tenders',
+      as: :review_request_for_tenders
+
+  get '/review_request_for_tenders/:id',
+      to: 'admins#review_request_for_tender',
+      as: :review_request_for_tender
+
+  get '/monitor_request_for_tenders/:id',
+      to: 'admins#monitor_request_for_tender',
+      as: :monitor_request_for_tender
+
+
+  delete '/reverse_masquerade/:id',
+         to: 'admins#reverse_masquerade',
+         as: :reverse_masquerade
 
   mount RailsAdmin::Engine => '/adonai', as: :rails_admin
   mount ActionCable.server => '/cable'

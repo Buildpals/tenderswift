@@ -1,0 +1,92 @@
+<div class="container">
+
+  <div class="row mt-4">
+    <div class="col-md-4">
+        <h1>Admin Dashboard</h1>
+    </div>
+  </div>
+  <hr>
+
+  <div class="row mt-4">
+
+    <div class="col-md-6" id="request-for-tenders-pending-review">
+
+      <div class="px-4 mb-2">
+        Pending review
+        (<%= @submitted_tenders.count %>)
+      </div>
+
+      <div class="card">
+        <div class="list-group list-group-flush">
+          <% @submitted_tenders.each do |request_for_tender| %>
+
+            <a href="<%= review_request_for_tender_path(request_for_tender) %>"
+               class="list-group-item list-group-item-action
+                    flex-column align-items-start">
+              <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1"><%= request_for_tender.project_name %></h5>
+                <small class="text-muted">
+                  <%= distance_of_time_in_words_to_now request_for_tender
+                                                           .submitted_at %>
+                  ago
+                </small>
+              </div>
+              <small class="text-muted">
+                <%= request_for_tender.project_owners_company_name %>
+              </small>
+            </a>
+
+          <% end %>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="col-md-6" id="published-request-for-tenders">
+
+      <div class="px-4 mb-2">
+        Published
+        (<%= @published_tenders.count %>)
+      </div>
+
+      <div class="card">
+        <div class="list-group list-group-flush">
+          <% @published_tenders.each do |request_for_tender| %>
+
+            <a href="<%= monitor_request_for_tender_path(request_for_tender) %>"
+               class="list-group-item list-group-item-action
+                    flex-column align-items-start">
+              <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1"><%= request_for_tender.project_name %></h5>
+                <small class="text-muted">
+                  <%= distance_of_time_in_words_to_now request_for_tender
+                                                           .published_at %>
+                  ago
+                </small>
+              </div>
+              <div class="d-flex">
+                <small class="text-muted mr-auto">
+                  <%= request_for_tender.project_owners_company_name %>
+                </small>
+                <small class="text-muted">
+                  Visited: <%= request_for_tender.portal_visits %>&nbsp;
+                </small>
+                <small class="text-muted">
+                  Purchased: <%= request_for_tender.number_of_tender_purchases %>&nbsp;
+                </small>
+                <small class="text-muted">
+                  Submitted: <%= request_for_tender.tenders.submitted.count %>
+                </small>
+              </div>
+
+            </a>
+
+          <% end %>
+        </div>
+      </div>
+
+    </div>
+
+
+  </div>
+</div>

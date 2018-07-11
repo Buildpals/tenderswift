@@ -4,10 +4,10 @@
   </li>
 <% end %>
 
-<div class="container">
+<div class="container-fluid">
   <div class="row">
 
-    <div class="col-md-4 ml-md-auto mr-md-auto pt-4"
+    <div class="col-md-3 ml-md-auto mr-md-auto pt-4"
          id="unpublished-request-for-tenders">
       <div class="ml-4 mb-2 text-center">
         <small style="color: rgb(169, 68, 66); font-size: 100%;">
@@ -56,7 +56,50 @@
     </div>
 
 
-    <div class="col-md-4 ml-md-auto mr-md-auto pt-4"
+    <div class="col-md-3 ml-md-auto mr-md-auto pt-4"
+         id="published-request-for-tenders">
+      <div class="ml-4 mb-2 text-center">
+        <small style="font-size: 100%;">Pending Review Requests For
+          Tender</small>
+      </div>
+      <div class="card">
+        <div class="list-group list-group-flush">
+          <% current_quantity_surveyor
+                 .request_for_tenders
+                 .submitted
+                 .not_published
+                 .each do |request_for_tender| %>
+            <% unless request_for_tender.deadline.past? %>
+              <%= link_to request_for_tender,
+                          class: 'list-group-item list-group-item-action flex-column align-items-start' do %>
+                <div class="d-flex w-100 justify-content-between">
+                  <h5 class="mb-1">
+                    <%= request_for_tender.project_name %>
+                  </h5>
+                  <small class="text-muted">
+                    <% if !request_for_tender.published? %>
+                      <span class="badge badge-pill badge-secondary">
+                        <%= status request_for_tender %>
+                      </span>
+                    <% else %>
+                      <span class="badge badge-pill badge-warning">
+                        <%= status request_for_tender %>
+                      </span>
+                    <% end %>
+                  </small>
+                </div>
+                <small class="text-muted">
+                  <%= project_location request_for_tender %>
+                </small>
+              <% end %>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="col-md-3 ml-md-auto mr-md-auto pt-4"
          id="published-request-for-tenders">
       <div class="ml-4 mb-2 text-center">
         <small style="font-size: 100%;">Published Requests For Tender</small>
@@ -97,7 +140,7 @@
     </div>
 
 
-    <div class="col-md-4 ml-md-auto mr-md-auto pt-4"
+    <div class="col-md-3 ml-md-auto mr-md-auto pt-4"
          id="closed-request-for-tenders">
       <div class="ml-4 mb-2 text-center">
         <small style="color:rgb(60, 118, 61); font-size: 100%;">Closed Tenders

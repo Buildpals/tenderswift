@@ -21,14 +21,13 @@ class RequestForTenders::BuildController < QuantitySurveyorsController
     @request_for_tender = RequestForTender.find(params[:request_for_tender_id])
     authorize @request_for_tender
 
-    if step == steps.last
-      @request_for_tender.published_at = Time.current
-      @request_for_tender.status = :active
+    if step == steps.last && current_admin
+      publish_the_request_for_tender(@request_for_tender)
+    elsif step == steps.last
+      submit_the_request_for_tender(@request_for_tender)
     else
-      @request_for_tender.status = step.to_s
+      save_the_changes(@request_for_tender)
     end
-    @request_for_tender.update_attributes(request_params)
-    render_wizard @request_for_tender, notice: 'Your changes have been saved!'
   end
 
   def create
@@ -43,7 +42,34 @@ class RequestForTenders::BuildController < QuantitySurveyorsController
   private
 
   def finish_wizard_path
-    request_for_tender_path(@request_for_tender)
+    quantity_surveyor_root_path
+  end
+
+  def publish_the_request_for_tender(request_for_tender)
+    request_for_tender.published_at = Time.current
+    request_for_tender.status = :active
+    request_for_tender.update_attributes(request_params)
+
+    # Send an email telling the quantity surveyor his request for tender has
+    # been published
+    render_wizard request_for_tender,
+                  notice: 'The tender has been published successfully'
+  end
+
+  def submit_the_request_for_tender(request_for_tender)
+    request_for_tender.submitted_at = Time.current
+    request_for_tender.status = :active
+    request_for_tender.update_attributes(request_params)
+    render_wizard request_for_tender,
+                  notice: 'You request for tender has been submitted, and ' \
+                          'will be published after being reviewed by the ' \
+                          'TenderSwift team'
+  end
+
+  def save_the_changes(request_for_tender)
+    request_for_tender.status = step.to_s
+    request_for_tender.update_attributes(request_params)
+    render_wizard request_for_tender, notice: 'Your changes have been saved!'
   end
 
   def set_policy

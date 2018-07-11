@@ -4,13 +4,4 @@
          alt="TenderSwift"
          class="d-inline-block align-top">
   <% end %>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon">Dashboard</span>
-  </button>
-
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-  </div>
-  <% if current_admin %>
-    <%= link_to 'Dashboard', rails_admin.dashboard_path, class:'btn btn-secondary' %>
-  <% end %>
 </nav>

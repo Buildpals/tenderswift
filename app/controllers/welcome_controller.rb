@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class WelcomeController < ApplicationController
-
-  before_action :authenticate_admin!, only: [:review_request_for_tenders, :masquerade]
   def index
     if current_quantity_surveyor
       redirect_to quantity_surveyor_root_path
@@ -22,23 +20,5 @@ class WelcomeController < ApplicationController
     redirect_to purchase_tender_url(@search_result)
   rescue ActiveRecord::RecordNotFound
     render 'missing_request_for_tender_error'
-  end
-
-  def review_request_for_tenders
-    @request_for_tenders = RequestForTender.all
-  end
-
-  def masquerade
-    if current_admin.eql?(nil)
-      redirect_to rails_admin.dashboard_path
-    else
-      bypass_sign_in(QuantitySurveyor.find(params[:id]))
-      redirect_to root_url
-    end
-  end
-
-  def reverse_masquerade
-    sign_out(QuantitySurveyor.find(params[:id]))
-    redirect_to review_request_for_tenders_path
   end
 end

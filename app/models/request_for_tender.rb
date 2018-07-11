@@ -3,10 +3,16 @@
 class RequestForTender < ApplicationRecord
   TENDERSWIFT_CUT = 0.12
 
+  scope :submitted, -> { where.not(submitted_at: nil).order(submitted_at: :desc) }
+  scope :not_submitted, -> { where(submitted_at: nil).order(submitted_at: :desc) }
+
   scope :published, -> { where.not(published_at: nil).order(published_at: :desc) }
+
   scope :not_published, -> { where(published_at: nil).order(published_at: :desc) }
-  scope :deadline_not_passed, -> { where("deadline > '#{Time.current}'")
-                                       .limit(10).order(id: :desc) }
+  scope :deadline_not_passed, -> {
+                                where("deadline > '#{Time.current}'").order(id: :desc)
+                              }
+
   scope :submitted_tenders, -> { tenders.where(submitted: true) }
 
   serialize :contract_sum_address, Hash
@@ -86,6 +92,10 @@ class RequestForTender < ApplicationRecord
 
   def name
     "##{id} #{project_name}"
+  end
+
+  def submitted?
+    !submitted_at.nil?
   end
 
   def published?

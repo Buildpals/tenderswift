@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <%= render 'layouts/head' %>
+
+  <body class="<%= controller_name %> <%= action_name %>">
+
+    <%= render 'admins/navbar' %>
+
+    <%= render 'layouts/flash_messages' %>
+
+    <div class="content">
+
+      <%= yield %>
+    </div>
+  </body>
+</html>

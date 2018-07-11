@@ -4,14 +4,14 @@ module RequestForTendersHelper
   include ActionView::Helpers::DateHelper
 
   def status(request_for_tender)
-    if !request_for_tender.published?
-      'not published'
-    else
+    if request_for_tender.published?
       if request_for_tender.deadline.past?
         'ended'
       else
         "#{ distance_of_time_in_words_to_now request_for_tender.deadline} left"
       end
+    else
+      request_for_tender.submitted? ? 'pending review' : 'draft'
     end
   end
 
