@@ -12,7 +12,7 @@
       </div>
       <div class="card mb-4">
           <div class="list-group list-group-flush">
-            <% @request_for_tenders.each do |request_for_tender| %>
+            <% @invitations_to_tender.each do |request_for_tender| %>
               <a href="<%= purchase_tender_path request_for_tender %>"
                  class="list-group-item list-group-item-action
                         flex-column align-items-start" %>
@@ -42,9 +42,7 @@
       </div>
       <div class="card">
         <div class="list-group list-group-flush">
-            <% current_contractor.tenders
-                   .purchased
-                   .not_submitted.each do |tender|%>
+            <% @purchased_tenders.each do |tender|%>
               <a href="<%= tender_build_path(tender, :general_information) %>"
                  class="list-group-item list-group-item-action
                         flex-column align-items-start">
@@ -73,7 +71,7 @@
         <small style="color:rgb(49, 183, 51); font-size: 100%;">Submitted Tenders</small>
       </div>
       <div class="card">
-        <% current_contractor.tenders.purchased.submitted.each do |tender| %>
+        <% @submitted_tenders.each do |tender| %>
           <div class="list-group list-group-flush">
               <a href="<%= tender_view_path tender, :general_information %>"
                  class="list-group-item list-group-item-action

@@ -5,24 +5,24 @@ class ContractorsController < ApplicationController
 
   def dashboard
     authorize current_contractor
-    @request_for_tenders = RequestForTender
-                           .published
-                           .deadline_not_passed
-                           .includes(:tenders)
-                           .where.not(tenders: {
-                                        contractor_id: current_contractor.id,
-                                        # TODO: Check that purchased_at is
-                                        # not nil
-                                      })
 
     unless current_contractor.status == 'active'
       redirect_to contractors_after_signup_path
     end
+
+    @invitations_to_tender = []
+    RequestForTender.published.deadline_not_passed.each do |rft|
+      tender = rft.tenders.find_by(contractor_id: current_contractor.id)
+      @invitations_to_tender.push rft if tender&.purchased_at.nil?
+    end
+
+    @purchased_tenders = current_contractor.tenders.purchased.not_submitted
+    @submitted_tenders = current_contractor.tenders.purchased.submitted
   end
 
   def edit
     authorize current_contractor
-   end
+  end
 
   def update
     authorize current_contractor
@@ -31,7 +31,7 @@ class ContractorsController < ApplicationController
         format.html do
           redirect_to edit_contractor_path(current_contractor),
                       notice: 'Your account information was changed  ' \
-                          'successfully'
+                              'successfully'
         end
         format.json { render :edit, status: :ok, location: current_contractor }
       else
