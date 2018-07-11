@@ -45,6 +45,22 @@ FactoryBot.define do
     submitted_at '2018-03-24 08:00:51'
     published_at '2018-03-24 08:32:51'
 
+    trait :published do
+      published_at '2018-03-24 08:32:51'
+    end
+
+    trait :not_published do
+      published_at nil
+    end
+
+    trait :submitted do
+      submitted_at '2018-03-24 08:32:51'
+    end
+
+    trait :not_submitted do
+      submitted_at nil
+    end
+
     after(:create) do |request_for_tender|
       # create tender documents (project_documents)
       create_list(:project_document, 7, request_for_tender: request_for_tender)

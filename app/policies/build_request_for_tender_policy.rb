@@ -9,7 +9,7 @@ class BuildRequestForTenderPolicy
   end
 
   def show?
-    belongs_to_quantity_surveyor?
+    belongs_to_quantity_surveyor? && request_for_tender_is_not_published?
   end
 
   def update?
