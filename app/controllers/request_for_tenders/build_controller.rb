@@ -61,7 +61,7 @@ class RequestForTenders::BuildController < QuantitySurveyorsController
     request_for_tender.status = :active
     request_for_tender.update_attributes(request_params)
     render_wizard request_for_tender,
-                  notice: 'You request for tender has been submitted, and ' \
+                  notice: 'Your request for tender has been submitted, and ' \
                           'will be published after being reviewed by the ' \
                           'TenderSwift team'
   end

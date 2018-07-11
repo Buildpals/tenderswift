@@ -18,9 +18,7 @@ RSpec.feature 'Create request for tender', js: true do
 
     when_they_publish_a_request_for_tender(request_for_tender)
 
-    then_it_should_take_them_to_the_monitor_request_for_tender_page(request_for_tender)
-    and_the_request_for_tender_should_have_a_purchase_tender_page(request_for_tender)
-    and_the_request_for_tender_should_appear_in_their_published_tenders(request_for_tender)
+    and_the_request_for_tender_should_appear_in_their_pending_review_tenders(request_for_tender)
   end
 end
 
@@ -37,7 +35,9 @@ def when_they_publish_a_request_for_tender(request_for_tender)
     click_button 'Publish'
   end
 
-  expect(page).to have_content 'Your changes have been saved!'
+  expect(page).to have_content 'Your request for tender has been submitted, ' \
+                               'and will be published after being reviewed by' \
+                               ' the TenderSwift team'
 end
 
 
@@ -52,32 +52,11 @@ def and_the_request_for_tender_should_have_a_purchase_tender_page(request_for_te
   end
 end
 
-def and_the_request_for_tender_should_appear_in_their_published_tenders(request_for_tender)
+def and_the_request_for_tender_should_appear_in_their_pending_review_tenders(request_for_tender)
   visit quantity_surveyor_root_path
 
-  within :css, '#published-request-for-tenders' do
+  within :css, '#pending-review-request-for-tenders' do
     expect(page).to have_content request_for_tender.project_name
     expect(page).to have_content project_location request_for_tender
-    expect(page).to have_content time_to_deadline request_for_tender
   end
-end
-
-private
-
-def should_have_content_of_request_for_tender(request_for_tender)
-  expect(page).to have_content request_for_tender.project_name
-  expect(page).to have_content contract_class request_for_tender
-  expect(page).to have_content project_location request_for_tender
-  expect(page).to have_content project_currency request_for_tender
-
-  expect(page).to have_content time_to_deadline request_for_tender
-
-  expect(page).to have_content request_for_tender.deadline.to_formatted_s(:long)
-  expect(page).to have_content request_for_tender.description
-
-  request_for_tender.required_documents.each do |required_document|
-    expect(page).to have_content required_document.title
-  end
-
-  expect(page).to have_content request_for_tender.tender_instructions
 end
