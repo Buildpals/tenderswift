@@ -12,9 +12,6 @@ class ContractorsController < ApplicationController
                            .where(tenders: {
                                         purchased_at: nil,
                                       })
-                           .where.not(tenders: {
-                                        contractor_id: current_contractor.id,
-                                      })
 
     unless current_contractor.status == 'active'
       redirect_to contractors_after_signup_path
