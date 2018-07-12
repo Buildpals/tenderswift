@@ -23,12 +23,12 @@ class Tenders::BuildController < ContractorsController
     if step == steps.last
       @tender.submitted_at = Time.current
       @tender.status = :active
-      @tender.save
+      render_wizard @tender, notice: 'Your bid has been submitted successfully'
     else
       @tender.status = step.to_s
       @tender.update_attributes(request_params)
+      render_wizard
     end
-    render_wizard
   end
 
   def create
@@ -43,7 +43,7 @@ class Tenders::BuildController < ContractorsController
   private
 
   def finish_wizard_path
-    tender_path(@tender)
+    contractor_root_path
   end
 
   def set_policy
