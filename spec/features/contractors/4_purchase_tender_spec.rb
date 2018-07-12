@@ -7,8 +7,6 @@ RSpec.feature 'Purchasing a tender', js: true do
 
   context 'Invitation to tender that has not been purchased already' do
     scenario 'should show password field for a returning user' do
-      skip 'Issue with spec'
-
       contractor = given_an_existing_contractor_who_has_not_logged_in_yet
       when_they_purchase_a_tender(contractor.email)
 
@@ -17,8 +15,6 @@ RSpec.feature 'Purchasing a tender', js: true do
     end
 
     scenario 'should show wrong password error for a returning user' do
-      skip 'Issue with spec'
-
       contractor = given_an_existing_contractor_who_has_not_logged_in_yet
       when_they_purchase_a_tender(contractor.email)
 
@@ -52,7 +48,6 @@ RSpec.feature 'Purchasing a tender', js: true do
     end
 
     scenario 'should allow logging in and purchasing a tender' do
-      skip 'Issue with spec'
       contractor = given_an_existing_contractor_who_has_not_logged_in_yet
       invitation_to_tender = when_they_purchase_a_tender(contractor.email)
 
