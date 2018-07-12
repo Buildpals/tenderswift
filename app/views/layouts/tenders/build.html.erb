@@ -77,10 +77,17 @@
             <%= link_to 'Next', next_wizard_path,
                         class: 'btn btn-secondary ml-auto' %>
           <% else %>
-            <button class="btn btn-secondary text-capitalize ml-auto"
-                    onclick="$('#document-upload-form').trigger('submit.rails')">
-              Submit your bid
-            </button>
+            <%= button_to 'Submit your bid',
+                          {
+                              url: wizard_path
+                          },
+                          {
+                              form_class: 'ml-auto',
+                              class: 'btn btn-secondary',
+                              method: :put,
+                              remote: true
+                          }
+            %>
           <% end %>
         </div>
 
@@ -110,10 +117,17 @@
         <span class="fa fa-chevron-right"></span>
       </a>
     <% else %>
-      <button class="btn btn-sm btn-secondary text-capitalize ml-auto"
-              onclick="$('#document-upload-form').trigger('submit.rails')">
-        Submit your bid
-      </button>
+      <%= button_to 'Submit your bid',
+                    {
+                        url: wizard_path
+                    },
+                    {
+                        form_class: 'ml-auto',
+                        class: 'btn btn-secondary',
+                        method: :put,
+                        remote: true
+                    }
+      %>
     <% end %>
 
   </div>

@@ -1,8 +1,10 @@
+<%= render 'tender_errors' %>
+
 <div class="hello">
   <div class="px-4 mb-2">Required documents</div>
 
   <ul class="list-group mb-5" id="required-document-uploads-container">
-    <% @tender.required_document_uploads.each do |rdu| %>
+    <% setup_tender(@tender).required_document_uploads.each do |rdu| %>
       <li class="list-group-item">
         <required-document-uploader
           :required_document_upload="<%= rdu.to_json(

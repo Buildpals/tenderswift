@@ -46,7 +46,7 @@ class Tender < ApplicationRecord
               message: 'should tender once per request for tender'
             }
 
-  validate :check_required_documents
+  validate :check_required_documents, if: :submitting?
 
   validates :amount, presence: true, if: :purchasing?
 
@@ -80,19 +80,8 @@ class Tender < ApplicationRecord
   delegate :phone_number, to: :contractor, prefix: :contractors
   delegate :email, to: :contractor, prefix: :contractors
 
-  ERROR_TAG = 'Tender was not submitted - '
-
   def to_param
     "#{id}-#{project_name.parameterize}"
-  end
-
-  def build_required_document_uploads
-    request_for_tender.required_documents.each do |required_document|
-      if required_document_uploads.find_by(required_document: required_document)
-        next
-      end
-      required_document_uploads.build(required_document: required_document)
-    end
   end
 
   def purchased?
@@ -138,10 +127,18 @@ class Tender < ApplicationRecord
     Tender.new(request_for_tender: request_for_tender, contractor: contractor)
   end
 
+  def required_document_upload?(required_document)
+    required_document_uploads.find_by(required_document: required_document)
+  end
+
   private
 
   def purchasing?
     !purchased_at.nil?
+  end
+
+  def submitting?
+    !submitted_at.nil?
   end
 
   def strip_qs_rates(workbook)
@@ -158,13 +155,10 @@ class Tender < ApplicationRecord
   end
 
   def check_required_documents
-    return unless submitted_at.present?
-
-    request_for_tender.required_documents.each do |required_document|
-      next unless RequiredDocumentUpload.find_by(required_document_id:
-                                                     required_document.id).nil?
-      errors.add(ERROR_TAG,
-                 "#{required_document.title} has not been uploaded")
+    required_documents.each do |required_document|
+      next if required_document_upload?(required_document)
+      errors.add(required_document.title,
+                 'is required but has not been uploaded')
     end
   end
 end

@@ -13,7 +13,6 @@ class Tenders::BuildController < ContractorsController
   def show
     @tender = Tender.find(params[:tender_id])
     authorize @tender
-    @tender.build_required_document_uploads if step == :upload_documents
     render_wizard
   end
 
@@ -22,12 +21,13 @@ class Tenders::BuildController < ContractorsController
     authorize @tender
 
     if step == steps.last
-      @tender.published_at = Time.current
+      @tender.submitted_at = Time.current
       @tender.status = :active
+      @tender.save
     else
       @tender.status = step.to_s
+      @tender.update_attributes(request_params)
     end
-    @tender.update_attributes(request_params)
     render_wizard
   end
 
