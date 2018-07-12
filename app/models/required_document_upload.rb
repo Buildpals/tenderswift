@@ -23,11 +23,7 @@ class RequiredDocumentUpload < ApplicationRecord
       true
     else
       return if accepted_formats.include? File.extname(document.filename)
-      throw_error
+      errors.add(:document, 'must be a pdf or an image file.')
     end
-  end
-
-  def throw_error
-    errors.add(:document, 'must be a pdf or an image file.')
   end
 end
