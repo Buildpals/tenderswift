@@ -1,23 +1,34 @@
-<div class="card-header w-100 d-flex justify-content-between" role="tab" id="headingAll">
+<div class="card-header w-100 d-flex justify-content-between"
+     role="tab"
+     id="headingAll">
   <h5 class="mb-0">
-    <a class="collapsed text-primary" data-toggle="collapse" href="#collapseAll" aria-expanded="false" aria-controls="collapseAll">
+    <a class="collapsed text-primary"
+       data-toggle="collapse"
+       href="#collapseAll"
+       aria-expanded="false"
+       aria-controls="collapseAll">
       Invited
       <small>
-      <span class="badge badge-pill badge-primary">
-        <%= @request_for_tender.tenders.count %>
-      </span>
+        <span class="badge badge-pill badge-primary">
+          <%= @request_for_tender.tenders.count %>
+        </span>
       </small>
     </a>
   </h5>
   <!--<button type="button" class="btn btn-sm btn-link"-->
-          <!--data-toggle="modal" data-target="#tenders-modal" data-dismiss="modal">-->
-    <!--Edit-->
+  <!--data-toggle="modal" data-target="#tenders-modal" data-dismiss="modal">-->
+  <!--Edit-->
   <!--</button>-->
 </div>
-<div id="collapseAll" class="collapse" role="tabpanel" aria-labelledby="headingAll" data-parent="#accordion">
+<div id="collapseAll"
+     class="collapse"
+     role="tabpanel"
+     aria-labelledby="headingAll"
+     data-parent="#accordion">
   <ul class="list-group list-group-flush">
     <% @request_for_tender.tenders.each do |tender| %>
-      <li class="list-group-item list-group-item-action flex-column align-items-start">
+      <li class="list-group-item list-group-item-action
+                 flex-column align-items-start">
         <div class="d-flex w-100 justify-content-between">
           <div class="mb-1"><%= tender.contractors_company_name %></div>
         </div>
@@ -35,106 +46,147 @@
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="tenders-modal" tabindex="-1" role="dialog" aria-labelledby="tenders-modal-label" aria-hidden="true">
+<div class="modal
+  <% 'fade' unless Rails.env.test? %>"
+     id="tenders-modal"
+     tabindex="-1"
+     role="dialog"
+     aria-labelledby="tenders-modal-label"
+     aria-hidden="true">
+
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="tenders-modal-label">
           Edit Participants
         </h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body" style="height: 500px; overflow: scroll">
-          <%= form_with model: @request_for_tender,
-                        scope: :request_for_tender,
-                        url: request_for_tender_path(@request_for_tender),
-                        method: :patch,
-                        local: true,
-                        id: 'request-form' do |form| %>
+        <%= form_with model: @request_for_tender,
+                      scope: :request_for_tender,
+                      url: request_for_tender_path(@request_for_tender),
+                      method: :patch,
+                      local: true,
+                      id: 'request-form' do |form| %>
 
-            <%= render 'request_for_tenders/build/request_for_tender_errors' %>
+          <%= render 'request_for_tenders/build/request_for_tender_errors' %>
 
 
-            <div class="form-row mb-5" id="publicLinkDiv" data-public-link-container style="display: block">
-              <div class="col-md-12">
-                <div class="form-group">
-                  <%= form.label :contractors_portal_link, 'Link to contractor\'s portal', class: 'pb-0 mb-0' %>
+          <div class="form-row mb-5"
+               id="publicLinkDiv"
+               data-public-link-container
+               style="display: block">
+            <div class="col-md-12">
+              <div class="form-group">
+                <%= form.label :contractors_portal_link,
+                               'Link to contractor\'s portal',
+                               class: 'pb-0 mb-0' %>
 
-                  <div class="d-flex w-100 justify-content-between mb-3">
-                    <small class="form-text text-muted">
-                      The link below is where contractors can see and purchase this request for tender.
-                      <br>
-                      Copy and send it to the contractors you would like to tender for this contract.
-                    </small>
+                <div class="d-flex w-100 justify-content-between mb-3">
+                  <small class="form-text text-muted">
+                    The link below is where contractors can see and purchase
+                    this request for tender.
+                    <br>
+                    Copy and send it to the contractors you would like to
+                    tender for this contract.
+                  </small>
 
-                    <%= link_to 'Preview Contractor\'s Portal', purchase_tender_url(@request_for_tender), target: '_blank',
-                                class: 'btn btn-link btn-sm' %>
-                  </div>
+                  <%= link_to 'Preview Contractor\'s Portal',
+                              purchase_tender_url(@request_for_tender),
+                              target: '_blank',
+                              class: 'btn btn-link btn-sm' %>
+                </div>
 
-                  <%= text_field_tag :portal_link, purchase_tender_url(@request_for_tender),
-                                     {id: :contractors_portal_link, class: 'form-control form-control-sm',
-                                      onclick: 'this.select()', readonly: true} %>
+                <%= text_field_tag :portal_link,
+                                   purchase_tender_url(@request_for_tender),
+                                   {
+                                       id: :contractors_portal_link,
+                                       class: 'form-control form-control-sm',
+                                       onclick: 'this.select()',
+                                       readonly: true
+                                   } %>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="form-row mb-5"
+               id="tendersDiv"
+               data-tenders-div
+               style="display: none">
+            <div class="col-md-12">
+              <div class="form-group">
+                <%= form.label :tenders,
+                               'Allowed tenders',
+                               class: 'pb-0 mb-0' %>
+
+                <div class="d-flex w-100 justify-content-between mb-3">
+                  <small class="form-text text-muted">
+                    Enter the company name, email and phone number of the
+                    companies you want to tender for this project.
+                    <br>
+                    They will each be sent an email with a link where they can
+                    purchase the tender documents and submit their
+                    bid.
+                  </small>
+
+                  <button type="button"
+                          class="btn btn-link btn-sm"
+                          data-toggle="modal"
+                          data-target="#email-modal"
+                          data-dismiss="modal">
+                    Preview email
+                  </button>
+                </div>
+
+                <ul class="list-group list-group-flush nested-forms">
+                  <%= form.fields_for :contractors do |contractor| %>
+                    <%= render 'contractor_fields', f: contractor %>
+                  <% end %>
+                  <li class="d-flex w-100 justify-content-between">
+                    <%= link_to_add_association 'ADD ANOTHER PARTICIPANT',
+                                                form, :contractors,
+                                                class: 'btn btn-sm btn-block btn-primary my-1' %>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="form-row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <div class="form-check">
+                  <%= form.check_box :private,
+                                     id: :request_for_tender_private,
+                                     data: {'private-switch': true},
+                                     class: 'form-check-input' %>
+                  <%= form.label :private,
+                                 'Limit access to portal',
+                                 class: 'form-check-label' %>
                 </div>
               </div>
             </div>
+          </div>
 
 
-            <div class="form-row mb-5" id="tendersDiv" data-tenders-div style="display: none">
-              <div class="col-md-12">
-                <div class="form-group">
-                  <%= form.label :tenders, 'Allowed tenders', class: 'pb-0 mb-0' %>
-
-                  <div class="d-flex w-100 justify-content-between mb-3">
-                    <small class="form-text text-muted">
-                      Enter the company name, email and phone number of the companies you want to tender for this project.
-                      <br>
-                      They will each be sent an email with a link where they can purchase the tender documents and submit their
-                      bid.
-                    </small>
-
-                    <button type="button" class="btn btn-link btn-sm"
-                            data-toggle="modal" data-target="#email-modal" data-dismiss="modal">
-                      Preview email
-                    </button>
-                  </div>
-
-                  <ul class="list-group list-group-flush nested-forms">
-                    <%= form.fields_for :contractors do |contractor| %>
-                      <%= render 'contractor_fields', f: contractor %>
-                    <% end %>
-                    <li class="d-flex w-100 justify-content-between">
-                      <%= link_to_add_association 'ADD ANOTHER PARTICIPANT', form, :contractors,
-                                                  class: 'btn btn-sm btn-block btn-primary my-1' %>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-
-
-            <div class="form-row">
-              <div class="col-md-12">
-                <div class="form-group">
-                  <div class="form-check">
-                    <%= form.check_box :private, id: :request_for_tender_private,
-                                       data: { 'private-switch': true },
-                                       class: 'form-check-input' %>
-                    <%= form.label :private, 'Limit access to portal', class: 'form-check-label' %>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-
-
-            <div class="w-100 d-flex justify-content-end">
-              <%= form.submit 'Save', class: 'btn btn-primary next-button text-uppercase' %>
-              <%= form.submit 'Submit', class: 'btn btn-secondary text-uppercase',
-                              data: {confirm: 'Send out this request for tender means all listed tenders will immediately have access to this particular Request For Tender and as a result can start placing their bids. Are you sure you want to do so?'} %>
-            </div>
-          <% end %>
+          <div class="w-100 d-flex justify-content-end">
+            <%= form.submit 'Save',
+                            class: 'btn btn-primary next-button text-uppercase' %>
+            <%= form.submit 'Submit',
+                            class: 'btn btn-secondary text-uppercase',
+                            data: {
+                                confirm: 'Send out this request for tender means all listed tenders will immediately have access to this particular Request For Tender and as a result can start placing their bids. Are you sure you want to do so?'
+                            } %>
+          </div>
+        <% end %>
       </div>
     </div>
   </div>
