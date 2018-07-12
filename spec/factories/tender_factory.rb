@@ -22,13 +22,6 @@ FactoryBot.define do
 
     submitted_at nil
 
-    list_of_rates('rates' => { '1' => '1.5',
-                               '2' => '3',
-                               '3' => '4',
-                               '4' => '7',
-                               '6' => '5' },
-                  'updated_at' => 1_527_587_444_641)
-
     trait :purchased do
       purchase_request_sent_at Time.current - 2.hours
       purchase_request_status :success
@@ -37,7 +30,31 @@ FactoryBot.define do
       purchased_at Time.current
     end
 
+    trait :filled do
+      list_of_rates('rates' => { '1' => '1.5',
+                                 '2' => '3',
+                                 '3' => '4',
+                                 '4' => '7',
+                                 '6' => '5' },
+                    'updated_at' => 1_527_587_444_641)
+
+      after(:create) do |tender|
+        tender.request_for_tender.required_documents.each do |required_document|
+          create(:required_document_upload,
+                 tender: tender,
+                 required_document: required_document)
+        end
+      end
+    end
+
     trait :submitted do
+      list_of_rates('rates' => { '1' => '1.5',
+                                 '2' => '3',
+                                 '3' => '4',
+                                 '4' => '7',
+                                 '6' => '5' },
+                    'updated_at' => 1_527_587_444_641)
+
       after(:create) do |tender|
         tender.request_for_tender.required_documents.each do |required_document|
           create(:required_document_upload,
@@ -49,6 +66,7 @@ FactoryBot.define do
     end
 
     factory :purchased_tender, traits: [:purchased]
+    factory :filled_tender, traits: %i[purchased filled]
     factory :submitted_tender, traits: %i[purchased submitted]
   end
 end

@@ -5,10 +5,25 @@ require 'rails_helper'
 RSpec.feature 'Purchased tender document' do
   include RequestForTendersHelper
 
-  let(:purchased_tender_document) { FactoryBot.create(:purchased_tender) }
+  let(:contractor) { FactoryBot.create(:contractor) }
+
+  let(:purchased_tender_document) do
+    FactoryBot.create(:purchased_tender,
+                      contractor: contractor)
+  end
+
+  let(:filled_tender_document) do
+    FactoryBot.create(:filled_tender,
+                      contractor: contractor)
+  end
+
+  let(:submitted_tender_document) do
+    FactoryBot.create(:submitted_tender,
+                      contractor: contractor)
+  end
 
   background do
-    login_as(purchased_tender_document.contractor, scope: :contractor)
+    login_as(contractor, scope: :contractor)
   end
 
   scenario 'should show a contractor the general information of ' \
@@ -56,15 +71,33 @@ RSpec.feature 'Purchased tender document' do
 
   scenario 'should allow a contractor to submit their ' \
            'purchased tender document' do
-    visit tender_build_path(purchased_tender_document, :bill_of_quantities)
-    skip 'Not implemented'
-    visit tender_build_path(purchased_tender_document, :upload_documents)
-    skip 'Not implemented'
+    visit tender_build_path(filled_tender_document, :upload_documents)
+
+    click_button 'Submit your bid', match: :first
+    expect(page).to have_current_path contractor_root_path
+
+    within :css, '#submitted-tenders' do
+      expect(page).to have_content filled_tender_document.project_name
+    end
   end
 
-  scenario 'should allow a contractor to review their ' \
-           'purchased tender document after submission' do
-    skip 'Not implemented'
+  scenario 'should allow a contractor to review their rates' \
+           'after submission' do
+    skip 'Spec not finished'
+    visit tender_view_path(submitted_tender_document, :bill_of_quantities)
+
+    page.all('.rate-field').each do |rate_field|
+      expect(rate_field.value).to eq
+    end
+  end
+
+  scenario 'should allow a contractor to review their required document' \
+           'uploads after submission' do
+    visit tender_view_path(submitted_tender_document, :upload_documents)
+
+    submitted_tender_document.required_documents.each do |required_document|
+      expect(page).to have_link required_document.title
+    end
   end
 
   scenario 'should allow a contractor to see the tendering results of ' \
