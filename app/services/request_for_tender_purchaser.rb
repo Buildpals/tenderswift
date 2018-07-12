@@ -70,19 +70,21 @@ class RequestForTenderPurchaser
   def payment_success?
     @tender = Tender.find_by(request_for_tender: @request_for_tender,
                              contractor: @contractor)
-    if Rails.env.development? || Rails.env.test? &&
-                                 purchase_timed_out?(@tender)
-      save_transaction_success('Automatically purchased in development mode')
-    end
-
     @tender.purchased?
   end
 
   def payment_failed?
     @tender = Tender.find_by(request_for_tender: @request_for_tender,
                              contractor: @contractor)
-    @error_message = @tender.purchase_request_message if @tender.failed?
-    @tender.failed?
+    if @tender.failed?
+      @error_message = @tender.purchase_request_message
+      true
+    elsif purchase_timed_out?(@tender)
+      @error_message = 'Purchased timed out please try again'
+      return true
+    else
+      false
+    end
   end
 
   def complete_transaction(params)
