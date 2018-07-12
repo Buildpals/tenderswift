@@ -81,7 +81,7 @@ RSpec.describe KorbaWeb do
   it 'raises error when korba_web returns 409: Invalid amount' do
     expect do
       korba_web.call(customer_number: '0500011505',
-                     amount: '-abc',
+                     amount: '-123',
                      transaction_id: Time.current.to_s,
                      network_code: 'VOD',
                      vodafone_voucher_code: '12345',

@@ -13,18 +13,25 @@ class KorbaWeb
 
   PROXY_URL = 'http://cyodkufnwbjy91:HN5Nhvd1h34IuipMXYzDQ_07Bg@us-east-static-04.quotaguard.com:9293'
 
-  CALLBACK_URL = 'https://app.tenderswift.com/purchase_tender/complete_transaction'
-
   def initialize; end
 
   def call(transaction_params)
+    if $request
+      callback_url = Rails.application.routes.url_helpers
+                          .complete_transaction_url(host: $request&.host,
+                                                    port: $request&.port)
+    else
+      callback_url = Rails.application.routes.url_helpers
+                          .complete_transaction_path
+    end
+
     send_request_to_korba_web(
       customer_number: transaction_params[:customer_number] || '',
       amount: transaction_params[:amount] || '',
       transaction_id: transaction_params[:transaction_id] || '',
       client_id: CLIENT_ID,
       network_code: transaction_params[:network_code] || '',
-      callback_url: CALLBACK_URL,
+      callback_url: callback_url,
       description: transaction_params[:description] || '',
       vodafone_voucher_code: transaction_params[:vodafone_voucher_code] || ''
     )
@@ -48,16 +55,10 @@ class KorbaWeb
   end
 
   def faraday_connection
-    base_url = if ENV.fetch('KORBA_WEB_BASE_URL')
-                 ENV.fetch('KORBA_WEB_BASE_URL')
-               else
-                 BASE_URL
-               end
-
     if Rails.env.production?
       Faraday.new(url: BASE_URL, proxy: PROXY_URL)
     else
-      Faraday.new(url: BASE_URL)
+      Faraday.new(url: ENV.fetch('KORBA_WEB_BASE_URL'))
     end
   end
 

@@ -35,7 +35,7 @@ class FakeKorbaWeb < Sinatra::Base
         error_message: 'Vodafone has been selected. Please provide the ' \
                          'vodafone_voucher_code value'
       }.to_json
-    elsif /^(?<num>\d+)$/ !~ request_payload['amount']
+    elsif request_payload['amount'].to_f < 0
       {
         error_code: 409,
         error_message: 'Invalid amount'
@@ -51,7 +51,11 @@ class FakeKorbaWeb < Sinatra::Base
     else
       Thread.new do
         sleep(15)
-        HTTParty.get(request_payload['callback_url'])
+        HTTParty.get(
+          "#{request_payload['callback_url']}" \
+          "?transaction_id=#{request_payload['transaction_id']}" \
+          '&status=SUCCESS&message=hello'
+        )
       end
 
       {
@@ -68,6 +72,6 @@ class FakeKorbaWeb < Sinatra::Base
 end
 
 Capybara::Discoball.spin(FakeKorbaWeb) do |server|
-  puts 'Started the server'
   ENV['KORBA_WEB_BASE_URL'] = "http://#{server.host}:#{server.port}"
+  puts 'Started the FakeKorbaWeb server at: ' + ENV.fetch('KORBA_WEB_BASE_URL')
 end

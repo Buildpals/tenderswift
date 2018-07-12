@@ -13,6 +13,9 @@ class ApplicationController < ActionController::Base
                only: :index,
                unless: -> { devise_controller? || welcome_controller? }
 
+
+  before_action :set_global_request_variable
+
   protected
 
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
@@ -31,5 +34,9 @@ class ApplicationController < ActionController::Base
 
   def welcome_controller?
     controller_name == 'welcome'
+  end
+
+  def set_global_request_variable
+    $request = request
   end
 end
