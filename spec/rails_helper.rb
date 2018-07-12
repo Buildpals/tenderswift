@@ -80,6 +80,12 @@ Shoulda::Matchers.configure do |config|
   end
 end
 
+require 'pundit/matchers'
+require 'capybara/poltergeist'
+require 'simplecov'
+require 'support/fake_korba_web'
+
+# Register various javascript drivers
 Capybara.register_driver :chrome do |app|
   caps = Selenium::WebDriver::Remote::Capabilities.chrome(
     chromeOptions: { args: ['--start-maximized'] }
@@ -103,10 +109,8 @@ Capybara.register_driver :poltergeist_debug do |app|
   Capybara::Poltergeist::Driver.new(app, inspector: true)
 end
 
-require 'capybara/poltergeist'
-
 # Switch between :selenium, :chrome, :headless_chrome and :poltergeist
 # when necessary
 Capybara.javascript_driver = :chrome
 
-require 'support/fake_korba_web'
+SimpleCov.start 'rails'
