@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180711121741) do
+ActiveRecord::Schema.define(version: 20180712102714) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -202,6 +202,7 @@ ActiveRecord::Schema.define(version: 20180711121741) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "read", default: false
+    t.index ["required_document_id", "tender_id"], name: "index_rdu_on_required_document_id_and_tender_id", unique: true
     t.index ["required_document_id"], name: "index_required_document_uploads_on_required_document_id"
     t.index ["tender_id"], name: "index_required_document_uploads_on_tender_id"
   end
