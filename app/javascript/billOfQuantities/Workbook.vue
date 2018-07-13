@@ -5,7 +5,7 @@
       <b-tab :title="sheetName" v-for="sheetName in workbook.SheetNames">
         <div id="example-container" class="wrapper">
           <worksheet :options="options"
-                     :worksheet="workbook.Sheets[sheetName]" />
+                     :worksheet="workBook.Sheets[sheetName]" />
         </div>
       </b-tab>
     </b-tabs>
@@ -15,6 +15,9 @@
 
 <script>
   import Worksheet from './Worksheet'
+  import {
+    recalculateFormulas
+  } from '../renderers'
 
   export default {
     components: {Worksheet},
@@ -22,7 +25,24 @@
     props: [
       'workbook',
       'options'
-    ]
+    ],
+
+    data () {
+      return {
+        workBook: this.workbook
+      }
+    },
+
+    mounted () {
+      recalculateFormulas(this.workBook)
+    },
+
+    methods: {
+      recalculateFormulas (workbook) {
+        recalculateFormulas(workbook)
+        return workbook
+      }
+    }
   }
 </script>
 

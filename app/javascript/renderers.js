@@ -161,5 +161,4 @@ export function to_json_comparison (workbook, tenders) {
 
 export function recalculateFormulas(workbook) {
   XLSX_CALC(workbook)
-  return workbook
 }
