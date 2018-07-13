@@ -4,7 +4,7 @@
     <b-tabs end no-fade>
       <b-tab :title="sheetName" v-for="sheetName in workbook.SheetNames">
         <div id="example-container" class="wrapper">
-          <worksheet :options="options"
+          <worksheet :options="options || {}"
                      :worksheet="workbook.Sheets[sheetName]" />
         </div>
       </b-tab>
