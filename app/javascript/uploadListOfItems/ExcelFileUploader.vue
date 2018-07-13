@@ -1,29 +1,32 @@
 <template>
   <div>
-    <p class="text-muted small">
-      Please upload your completely FILLED Bill Of Quantities in .xls or
-      .xlsx format.
-      <br>
-      Then right click on the cell in the bill of quantities containing the
-      estimated tender figure for the project.
-      <br>
 
-      <strong>
-        NB: Columns A, B, C, D, E and F should be Item, Description, Quantity,
-        Unit, Rate and Amount respectively.
-      </strong>
-      <br>
-
-      <strong>
-        Please note that your rates and estimated tender figure are private,
-        and
-        will NEVER be displayed to any contractor.
-      </strong>
+    <p class="text-muted">
+      Please upload your <strong>completely filled</strong>
+      Bill Of Quantities in .xls or .xlsx format.
     </p>
 
-    <input type="file"
-           id="sheetjs-input"
-           accept=".xlsx, .xls" @change="onchange"/>
+    <p>
+      The columns A, B, C, D, E and F of the excel file you upload, should be
+      the Item, Description, Quantity, Unit, Rate and Amount columns
+      respectively.
+    </p>
+
+    <div class="custom-file mb-5">
+      <input type="file"
+             class="custom-file-input"
+             id="excelFileInput"
+             accept=".xlsx, .xls" @change="onchange"/>
+      <label class="btn btn-sm btn-block btn-secondary" for="excelFileInput">
+        Choose excel file
+      </label>
+    </div>
+
+    <p class="text-center">
+      Please note that your rates and estimated tender figure are confidential,
+      and will <strong>never</strong> be displayed to any contractor.
+    </p>
+
   </div>
 </template>
 

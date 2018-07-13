@@ -1,17 +1,17 @@
 <template>
   <div>
-
     <div class="d-flex justify-content-center mb-5">
       <b-btn v-b-modal.uploadExcelFileModal
              variant="primary">
-        Upload excel file
+        Upload an excel file
       </b-btn>
     </div>
 
     <!-- Modal Component -->
     <b-modal id="uploadExcelFileModal"
              ref="uploadExcelFileModal"
-             title="Bootstrap-Vue">
+             hide-footer
+             title="Upload your Bill of Quantities">
 
       <excel-file-uploader
           :save-url="`/request_for_tenders/${this.request_for_tender.id}/excel_file`"
@@ -20,6 +20,11 @@
 
     </b-modal>
 
+
+    <p>
+    Right click on the cell in the bill of quantities containing the
+    estimated tender figure for the project.
+    </p>
 
     <workbook :request_for_tender_id="request_for_tender.id"
                           v-model="workbook"/>
