@@ -12,7 +12,16 @@
       respectively.
     </p>
 
-    <div class="custom-file mb-5">
+    <div class="progress mb-5" v-show="processing">
+      <div class="progress-bar progress-bar-striped progress-bar-animated
+                  bg-secondary w-100"
+           role="progressbar"
+           aria-valuenow="100"
+           aria-valuemin="0"
+           aria-valuemax="100"></div>
+    </div>
+
+    <div class="custom-file mb-5" v-show="!processing">
       <input type="file"
              class="custom-file-input"
              id="excelFileInput"
@@ -40,8 +49,15 @@
       'name'
     ],
 
+    data () {
+      return {
+        processing: false
+      }
+    },
+
     methods: {
       onchange (evt) {
+        this.processing = true
         let file
         let files = evt.target.files
 
@@ -65,6 +81,7 @@
           this.saveExcelFile(file, workbook)
             .then(response => {
               this.$emit('after-upload', workbook)
+              this.processing = false
             })
             .catch(error => {
               this.$emit('upload-error', error)
