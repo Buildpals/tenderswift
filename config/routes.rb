@@ -92,6 +92,10 @@ Rails.application.routes.draw do
         to: 'bids#rate',
         as: :rate_bid
 
+  get '/request_for_tenders/:id/details',
+      to: 'request_for_tenders#details',
+      as: :request_for_tender_details
+
   get '/request_for_tenders/:id/compare_boq',
       to: 'request_for_tenders#compare_boq',
       as: :compare_boq

@@ -9,6 +9,10 @@ class RequestForTendersController < QuantitySurveyorsController
     authorize @request_for_tender
   end
 
+  def details
+    authorize @request_for_tender
+  end
+
   def compare_boq
     authorize @request_for_tender
     if Time.current > @request_for_tender.deadline

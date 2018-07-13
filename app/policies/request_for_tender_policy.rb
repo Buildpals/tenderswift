@@ -16,6 +16,10 @@ class RequestForTenderPolicy
     belongs_to_quantity_surveyor?
   end
 
+  def details?
+    belongs_to_quantity_surveyor?
+  end
+
   def compare_boq?
     belongs_to_quantity_surveyor?
   end

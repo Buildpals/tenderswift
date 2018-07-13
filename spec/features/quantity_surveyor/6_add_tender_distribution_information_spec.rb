@@ -40,11 +40,6 @@ def when_they_publish_a_request_for_tender(request_for_tender)
                                ' the TenderSwift team'
 end
 
-
-def then_it_should_take_them_to_the_monitor_request_for_tender_page(request_for_tender)
-  should_have_content_of_request_for_tender(request_for_tender)
-end
-
 def and_the_request_for_tender_should_have_a_purchase_tender_page(request_for_tender)
   new_window = window_opened_by { click_link :purchase_link }
   within_window new_window do
