@@ -1,7 +1,7 @@
 <div class="hello mb-5" style="min-height: 600px;">
   <bill-of-quantities-uploader
     :request_for_tender="<%= @request_for_tender
-                             .to_json(only: [:id, :list_of_items],
+                             .to_json(only: [:id, :list_of_items, :tender_figure_address],
                                       include: :excel_file) %>" />
 </div>
 

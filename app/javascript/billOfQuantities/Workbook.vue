@@ -4,7 +4,8 @@
     <b-tabs end no-fade>
       <b-tab :title="sheetName" v-for="sheetName in workbook.SheetNames">
         <div id="example-container" class="wrapper">
-          <worksheet :options="options"
+          <worksheet :options="options || {}"
+                     :sheetAddress="workBook.SheetNames"
                      :worksheet="workBook.Sheets[sheetName]" />
         </div>
       </b-tab>
@@ -18,6 +19,7 @@
   import {
     recalculateFormulas
   } from '../renderers'
+  import EventBus from '../EventBus';
 
   export default {
     components: {Worksheet},
@@ -35,13 +37,11 @@
 
     mounted () {
       recalculateFormulas(this.workBook)
-    },
-
-    methods: {
-      recalculateFormulas (workbook) {
-        recalculateFormulas(workbook)
-        return workbook
-      }
+      EventBus.$on('cell-change', function ({ cellAddress, rate }) {
+        console.log(cellAddress);
+        console.log(rate);
+        recalculateFormulas(this.workBook)
+      });
     }
   }
 </script>
