@@ -5,6 +5,7 @@
       <b-tab :title="sheetName" v-for="sheetName in workbook.SheetNames">
         <div id="example-container" class="wrapper">
           <worksheet :options="options || {}"
+                     :sheetAddress="workbook.SheetNames"
                      :worksheet="workbook.Sheets[sheetName]" />
         </div>
       </b-tab>
@@ -15,6 +16,7 @@
 
 <script>
   import Worksheet from './Worksheet'
+  import EventBus from '../EventBus';
 
   export default {
     components: {Worksheet},
@@ -22,7 +24,13 @@
     props: [
       'workbook',
       'options'
-    ]
+    ],
+    mounted () {
+      EventBus.$on('cell-change', function ({ cellAddress, rate }) {
+        console.log(cellAddress);
+        console.log(rate);
+      });
+    }
   }
 </script>
 

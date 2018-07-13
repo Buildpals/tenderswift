@@ -34,22 +34,28 @@
         </td>
 
         <cell :cell="worksheet[`A${row}`]"
+              :cell-address="`${sheetAddress}!A${row}`"
               v-on:show-cell-contents="showCellContents"/>
 
         <cell :cell="worksheet[`B${row}`]"
+              :cell-address="`${sheetAddress}!B${row}`"
               v-on:show-cell-contents="showCellContents"/>
 
         <cell :cell="worksheet[`C${row}`]"
+              :cell-address="`${sheetAddress}!C${row}`"
               v-on:show-cell-contents="showCellContents"/>
 
         <cell :cell="worksheet[`D${row}`]"
+              :cell-address="`${sheetAddress}!D${row}`"
               v-on:show-cell-contents="showCellContents"/>
 
         <cell :cell="worksheet[`E${row}`]"
-              :contenteditable="options.editableRates"
+              :cell-address="`${sheetAddress}!E${row}`"
+              :options="options"
               v-on:show-cell-contents="showCellContents"/>
 
         <cell :cell="worksheet[`F${row}`]"
+              :cell-address="`${sheetAddress}!F${row}`"
               v-on:show-cell-contents="showCellContents"/>
       </tr>
       </tbody>
@@ -67,7 +73,8 @@
 
     props: [
       'worksheet',
-      'options'
+      'options',
+      'sheetAddress'
     ],
 
     data () {
