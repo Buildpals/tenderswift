@@ -1,20 +1,17 @@
 <template>
-  <div id="app">
-    <form enctype="multipart/form-data" novalidate>
-      <div class="dropbox mb-5">
-        <input type="file"
-               v-bind="$attrs"
-               :name="name"
-               @change="filesChange($event.target.name, $event.target.files);
-                        fileCount = $event.target.files.length"
-               class="input-file"
-               accept=".xlsx, .xls, .doc, .docx" >
-        <p>
-          Drop your file here<br> or click to browse
-        </p>
-      </div>
-    </form>
-  </div>
+    <div class="custom-file mb-5">
+      <input type="file"
+              v-bind="$attrs"
+              :name="name"
+              @change="filesChange($event.target.name, $event.target.files);
+                      fileCount = $event.target.files.length"
+                      id="tenderDocumentUploader"
+              class="custom-file-input"
+              accept=".xlsx, .xls, .pdf" >
+      <label class="btn btn-sm btn-block btn-primary" for="tenderDocumentUploader">
+        Upload a pdf file
+      </label>
+    </div>
 </template>
 
 <script>
@@ -79,16 +76,8 @@
     color: dimgray;
     padding: 10px 10px;
     min-height: 200px; /* minimum height */
-    position: relative;
     cursor: pointer;
-  }
-
-  .input-file {
-    opacity: 0; /* invisible but it's there! */
     width: 100%;
-    height: 200px;
-    position: absolute;
-    cursor: pointer;
   }
 
   .dropbox:hover {
