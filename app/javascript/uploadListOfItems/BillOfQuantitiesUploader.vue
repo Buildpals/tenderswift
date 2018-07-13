@@ -6,8 +6,6 @@
         Upload an excel file
       </b-btn>
     </div>
-
-    <!-- Modal Component -->
     <b-modal id="uploadExcelFileModal"
              ref="uploadExcelFileModal"
              hide-footer
@@ -23,7 +21,11 @@
   <div class="row">
     <div class="col-md-6">
       <p>
-        <input class="form-control" placeholder="Enter the cell address of your tender figure" name="tenderFigure" @change="onchange" />
+        <input class="form-control" 
+              placeholder="Enter the cell address of your tender figure"
+              v-model="tenderFigureAddress" 
+              name="tenderFigure"
+              @change="onchange" />
       </p>
     </div>
     <div class="col-md-6">
@@ -32,7 +34,7 @@
       </p>
     </div>
   </div>
-    <workbook :workbook="workbook"/>
+  <workbook :workbook="workbook"/>
 
 
   </div>
@@ -46,14 +48,15 @@
     components: {ExcelFileUploader, Workbook},
 
     props: [
-      'request_for_tender',
+      'request_for_tender'
     ],
 
     data () {
       return {
         desired_value: '',
         excelFile: this.request_for_tender.excel_file,
-        workbook: this.request_for_tender.list_of_items
+        workbook: this.request_for_tender.list_of_items,
+        tenderFigureAddress: this.request_for_tender.tender_figure_address
       }
     },
 
@@ -87,6 +90,7 @@
           }
         })
           .then(response => {
+            //console.log()
           })
           .catch(error => {
             console.error(error)
