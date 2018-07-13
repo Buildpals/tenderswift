@@ -25,6 +25,8 @@ class RequestForTenders::BuildController < QuantitySurveyorsController
       publish_the_request_for_tender(@request_for_tender)
     elsif step == steps.last
       submit_the_request_for_tender(@request_for_tender)
+    elsif step == :bill_of_quantities
+      save_the_changes(@request_for_tender, stay: true)
     else
       save_the_changes(@request_for_tender)
     end
@@ -66,10 +68,14 @@ class RequestForTenders::BuildController < QuantitySurveyorsController
                           'TenderSwift team'
   end
 
-  def save_the_changes(request_for_tender)
+  def save_the_changes(request_for_tender, stay=false)
     request_for_tender.status = step.to_s
     request_for_tender.update_attributes(request_params)
-    render_wizard request_for_tender, notice: 'Your changes have been saved!'
+    if stay
+      render_wizard nil, notice: 'Your changes have been saved!'
+    else
+      render_wizard request_for_tender, notice: 'Your changes have been saved!'
+    end
   end
 
   def set_policy
@@ -94,6 +100,7 @@ class RequestForTenders::BuildController < QuantitySurveyorsController
                   :account_name,
                   :account_number,
                   :private,
+                  :tender_figure_address,
                   list_of_items: [
                     :updated_at,
                     items: %i[name description quantity unit isHeader]
@@ -101,7 +108,6 @@ class RequestForTenders::BuildController < QuantitySurveyorsController
                   project_documents_attributes: %i[id
                                                    document
                                                    _destroy],
-                  contract_sum_address: %i[sheet cellAddress],
                   required_documents_attributes: %i[id
                                                     title
                                                     _destroy])
