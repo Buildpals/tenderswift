@@ -11,14 +11,8 @@
 <script>
   export default {
     props: [
-      'value'
+      'cell'
     ],
-
-    data () {
-      return {
-        cell: this.value
-      }
-    },
 
     // computed: {
     //   content () {
@@ -112,8 +106,7 @@
       update (event) {
         let newValue = event.target.innerText
         console.log(newValue)
-        this.cell.v = newValue
-        this.$emit('value', this.cell);
+        // TODO: process the cell properties based on the newValue
       }
     }
   }

@@ -26,8 +26,7 @@
     estimated tender figure for the project.
     </p>
 
-    <workbook :request_for_tender_id="request_for_tender.id"
-                          v-model="workbook"/>
+    <workbook :workbook="workbook"/>
 
 
   </div>

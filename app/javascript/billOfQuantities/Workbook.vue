@@ -4,7 +4,7 @@
     <b-tabs end no-fade>
       <b-tab :title="sheetName" v-for="sheetName in workbook.SheetNames">
         <div id="example-container" class="wrapper">
-          <worksheet v-model="workbook.Sheets[sheetName]" />
+          <worksheet :worksheet="workbook.Sheets[sheetName]" />
         </div>
       </b-tab>
     </b-tabs>
@@ -19,21 +19,8 @@
     components: {Worksheet},
 
     props: [
-      'request_for_tender_id',
-      'value'
-    ],
-
-    data () {
-      return {
-        workbook: this.value
-      }
-    },
-
-    watch: {
-      value(val) {
-        this.workbook = val
-      }
-    }
+      'workbook'
+    ]
   }
 </script>
 

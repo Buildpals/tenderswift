@@ -33,22 +33,22 @@
           {{ row }}
         </td>
 
-        <cell-object v-model="sheet[`A${row}`]"
+        <cell-object :cell="worksheet[`A${row}`]"
                      v-on:show-cell-contents="showCellContents"/>
 
-        <cell-object v-model="sheet[`B${row}`]"
+        <cell-object :cell="worksheet[`B${row}`]"
                      v-on:show-cell-contents="showCellContents"/>
 
-        <cell-object v-model="sheet[`C${row}`]"
+        <cell-object :cell="worksheet[`C${row}`]"
                      v-on:show-cell-contents="showCellContents"/>
 
-        <cell-object v-model="sheet[`D${row}`]"
+        <cell-object :cell="worksheet[`D${row}`]"
                      v-on:show-cell-contents="showCellContents"/>
 
-        <cell-object v-model="sheet[`E${row}`]"
+        <cell-object :cell="worksheet[`E${row}`]"
                      v-on:show-cell-contents="showCellContents"/>
 
-        <cell-object v-model="sheet[`F${row}`]"
+        <cell-object :cell="worksheet[`F${row}`]"
                      v-on:show-cell-contents="showCellContents"/>
       </tr>
       </tbody>
@@ -59,25 +59,24 @@
 
 <script>
   import XLSX from 'xlsx'
-  import CellObject from './CellObject'
+  import CellObject from './Cell'
 
   export default {
     components: {CellObject},
 
     props: [
-      'value'
+      'worksheet'
     ],
 
     data () {
       return {
-        sheet: this.value,
         currentCellContents: ''
       }
     },
 
     computed: {
       range () {
-        return XLSX.utils.decode_range(this.sheet['!ref'])
+        return XLSX.utils.decode_range(this.worksheet['!ref'])
       }
     },
 
