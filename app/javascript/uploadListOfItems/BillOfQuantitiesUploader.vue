@@ -79,7 +79,18 @@
         let sheetName = address.split("!")[0];
         let worksheet = this.workbook.Sheets[sheetName];
         let desired_cell = worksheet[address_of_cell]; 
-        this.desired_value = (desired_cell ? desired_cell.w : undefined); 
+        this.desired_value = (desired_cell ? desired_cell.w : undefined);
+        this.$http.patch(`/request_for_tenders/${this.request_for_tender.id}/build/bill_of_quantities`, 
+        {
+          request_for_tender: {
+            tender_figure_address: address
+          }
+        })
+          .then(response => {
+          })
+          .catch(error => {
+            console.error(error)
+          })
       }
     }
   }
