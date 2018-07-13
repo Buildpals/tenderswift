@@ -1,1 +1,5 @@
-<%= render 'tenders/bill_of_quantities' %>
+<div class="hello">
+  <workbook
+      :options="{editableRates: true}"
+    :workbook="<%= @tender.list_of_items.to_json %>" />
+</div>
