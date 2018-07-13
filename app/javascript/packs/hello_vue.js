@@ -3,14 +3,13 @@ import BootstrapVue from 'bootstrap-vue'
 import VueResource from 'vue-resource'
 import Vue from 'vue/dist/vue.esm'
 
-import UploadListOfItems from '../uploadListOfItems/UploadListOfItems'
+import BillOfQuantitiesUploader from '../uploadListOfItems/BillOfQuantitiesUploader'
 import RatesUploader from '../uploadListOfItems/RatesUploader'
 import RatesReviewer from '../uploadListOfItems/RatesReviewer'
 import RatesComparer from '../uploadListOfItems/RatesComparer'
 import TenderFiguresTable from '../uploadListOfItems/TenderFiguresTable'
 import ContractorTenderFigures from '../uploadListOfItems/ContractorTenderFigures'
 import ContractorTenderFiguresRow from '../uploadListOfItems/ContractorTenderFiguresRow'
-import FileUploader from '../uploadListOfItems/FileUploader'
 import ProjectDocumentsUploader from '../uploadListOfItems/ProjectDocumentsUploader'
 import OtherDocumentsUploader from '../uploadListOfItems/OtherDocumentsUploader'
 import RequiredDocumentUploader from '../uploadListOfItems/RequiredDocumentUploader'
@@ -33,7 +32,7 @@ document.addEventListener('turbolinks:load', () => {
       message: "Can you say hello?"
     },
     components: {
-      UploadListOfItems,
+      BillOfQuantitiesUploader,
       ProjectDocumentsUploader,
       OtherDocumentsUploader,
       RequiredDocumentUploader,
