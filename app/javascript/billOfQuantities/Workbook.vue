@@ -4,7 +4,8 @@
     <b-tabs end no-fade>
       <b-tab :title="sheetName" v-for="sheetName in workbook.SheetNames">
         <div id="example-container" class="wrapper">
-          <worksheet :worksheet="workbook.Sheets[sheetName]" />
+          <worksheet :options="options"
+                     :worksheet="workbook.Sheets[sheetName]" />
         </div>
       </b-tab>
     </b-tabs>
@@ -19,7 +20,8 @@
     components: {Worksheet},
 
     props: [
-      'workbook'
+      'workbook',
+      'options'
     ]
   }
 </script>

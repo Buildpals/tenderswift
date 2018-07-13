@@ -46,6 +46,7 @@
               v-on:show-cell-contents="showCellContents"/>
 
         <cell :cell="worksheet[`E${row}`]"
+              :contenteditable="options.editableRates"
               v-on:show-cell-contents="showCellContents"/>
 
         <cell :cell="worksheet[`F${row}`]"
@@ -65,7 +66,8 @@
     components: {Cell},
 
     props: [
-      'worksheet'
+      'worksheet',
+      'options'
     ],
 
     data () {

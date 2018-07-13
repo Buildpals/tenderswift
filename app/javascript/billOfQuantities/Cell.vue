@@ -1,6 +1,6 @@
 <template>
   <td class="cell" v-bind:class="{ formula: cell && cell.f }">
-    <div contenteditable="true"
+    <div v-bind="$attrs"
          @click="showCellContents"
          @input="update">
       {{ cell && cell.w }}
