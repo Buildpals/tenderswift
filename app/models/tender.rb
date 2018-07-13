@@ -131,6 +131,10 @@ class Tender < ApplicationRecord
     required_document_uploads.find_by(required_document: required_document)
   end
 
+  def list_of_items_without_rates
+    strip_qs_rates(list_of_items)
+  end
+
   private
 
   def purchasing?
@@ -145,7 +149,9 @@ class Tender < ApplicationRecord
     workbook['Sheets'].each_value do |sheet|
       sheet.keys
            .select { |cell_address| rate_cell?(cell_address, sheet) }
-           .each { |cell_address| sheet[cell_address]['v'] = '' }
+           .each do |cell_address|
+             sheet[cell_address] = { 'f' => sheet[cell_address]['f'] }
+           end
     end
     workbook
   end
