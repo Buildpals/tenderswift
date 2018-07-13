@@ -28,28 +28,28 @@
       </thead>
 
       <tbody>
-      <tr v-for="row in range.e.r">
+      <tr v-for="row in lastRowWithValues + 1">
         <td class="small bg-light text-center">
           {{ row }}
         </td>
 
-        <cell-object :cell="worksheet[`A${row}`]"
-                     v-on:show-cell-contents="showCellContents"/>
+        <cell :cell="worksheet[`A${row}`]"
+              v-on:show-cell-contents="showCellContents"/>
 
-        <cell-object :cell="worksheet[`B${row}`]"
-                     v-on:show-cell-contents="showCellContents"/>
+        <cell :cell="worksheet[`B${row}`]"
+              v-on:show-cell-contents="showCellContents"/>
 
-        <cell-object :cell="worksheet[`C${row}`]"
-                     v-on:show-cell-contents="showCellContents"/>
+        <cell :cell="worksheet[`C${row}`]"
+              v-on:show-cell-contents="showCellContents"/>
 
-        <cell-object :cell="worksheet[`D${row}`]"
-                     v-on:show-cell-contents="showCellContents"/>
+        <cell :cell="worksheet[`D${row}`]"
+              v-on:show-cell-contents="showCellContents"/>
 
-        <cell-object :cell="worksheet[`E${row}`]"
-                     v-on:show-cell-contents="showCellContents"/>
+        <cell :cell="worksheet[`E${row}`]"
+              v-on:show-cell-contents="showCellContents"/>
 
-        <cell-object :cell="worksheet[`F${row}`]"
-                     v-on:show-cell-contents="showCellContents"/>
+        <cell :cell="worksheet[`F${row}`]"
+              v-on:show-cell-contents="showCellContents"/>
       </tr>
       </tbody>
 
@@ -59,10 +59,10 @@
 
 <script>
   import XLSX from 'xlsx'
-  import CellObject from './Cell'
+  import Cell from './Cell'
 
   export default {
-    components: {CellObject},
+    components: {Cell},
 
     props: [
       'worksheet'
@@ -75,14 +75,29 @@
     },
 
     computed: {
-      range () {
-        return XLSX.utils.decode_range(this.worksheet['!ref'])
+      lastRowWithValues () {
+        let range = XLSX.utils.decode_range(this.worksheet['!ref'])
+        let totalRows = range.e.r
+
+        for (let row = totalRows; row > 0; row--) {
+          if (this.rowHasValue(row)) {
+            return row
+          }
+        }
       }
     },
 
     methods: {
       showCellContents (cellContents) {
         this.currentCellContents = cellContents
+      },
+      rowHasValue (row) {
+        return this.worksheet[`A${row}`] ||
+          this.worksheet[`B${row}`] ||
+          this.worksheet[`C${row}`] ||
+          this.worksheet[`D${row}`] ||
+          this.worksheet[`E${row}`] ||
+          this.worksheet[`F${row}`]
       }
     }
   }
@@ -94,13 +109,13 @@
   }
 
   /*.fixed_header tbody {*/
-    /*display: block;*/
-    /*overflow-x: auto;*/
-    /*height: 30rem;*/
-    /*width: 100%;*/
+  /*display: block;*/
+  /*overflow-x: auto;*/
+  /*height: 30rem;*/
+  /*width: 100%;*/
   /*}*/
 
   /*.fixed_header thead tr {*/
-    /*display: block;*/
+  /*display: block;*/
   /*}*/
 </style>
