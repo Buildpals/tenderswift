@@ -25,7 +25,7 @@ end
 def when_they_upload_the_tender_documents_for_an_rft(request_for_tender)
   visit request_for_tender_build_path(request_for_tender, :tender_documents)
 
-  attach_file('project_document_document',
+  attach_file('project_document[document]',
               Rails.root + 'spec/fixtures/Contract Documents.doc',
               visible: false)
 
