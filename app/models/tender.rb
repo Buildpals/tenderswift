@@ -151,7 +151,10 @@ class Tender < ApplicationRecord
            .select { |cell_address| rate_or_amount_cell?(cell_address, sheet) }
            .each do |cell_address|
              # Preserve only the formula of that cell
-             sheet[cell_address] = { 'f' => sheet[cell_address]['f'] }
+             sheet[cell_address] = {
+               'f' => sheet[cell_address]['f'],
+               'c' => 'allowEditing'
+             }
            end
     end
     workbook

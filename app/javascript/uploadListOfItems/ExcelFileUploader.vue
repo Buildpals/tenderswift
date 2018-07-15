@@ -10,6 +10,15 @@
       The columns A, B, C, D, E and F of the excel file you upload, should be
       the Item, Description, Quantity, Unit, Rate and Amount columns
       respectively.
+
+      TenderSwift will determine which part of your Bill of Quantities
+      contractors can edit based on the following rules:
+      1. The cell is in the E column of the excel file you uploaded, and,
+      2. The cell contains a <strong>number</strong>.
+
+      This means that you should fill in all your rates in the excel file before
+      uploading it, so the system can automatically pickup that those cells
+      should be editable by the contractor
     </p>
 
     <div class="progress mb-5" v-show="processing">

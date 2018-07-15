@@ -3,13 +3,13 @@
       v-bind:class="{ formula: hasFormula }"
       @click="showCellContents">
 
-    <input type="text"
+    <input type="number"
            class="form-control form-control-sm cell-input"
-           v-show="isEditable"
+           v-if="isEditable"
            v-model="value"
            @change="updateWorkbook">
 
-    <div v-show="!isEditable">
+    <div v-else>
       {{ value }}
     </div>
 
@@ -18,6 +18,7 @@
 
 <script>
   import EventBus from '../EventBus'
+
   export default {
     props: [
       'cell',
@@ -38,11 +39,17 @@
     },
 
     computed: {
-      isEditable () {
-        return this.cell && this.options && this.options.editableRates
-      },
       hasFormula () {
         return this.cell && this.cell.f
+      },
+      isEditable () {
+        return this.allowsEditing && this.hasEditableOption
+      },
+      allowsEditing() {
+        return this.cell && this.cell.c === 'allowEditing'
+      },
+      hasEditableOption () {
+        return this.options && this.options.editableRates
       }
     },
 
