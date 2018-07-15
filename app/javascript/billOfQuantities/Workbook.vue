@@ -2,11 +2,11 @@
   <div class="spreadsheet-tabs">
 
     <b-tabs end no-fade>
-      <b-tab :title="sheetName" v-for="sheetName in workbook.SheetNames">
+      <b-tab :title="sheetName" v-for="sheetName in workBook.SheetNames">
         <div id="example-container" class="wrapper">
           <worksheet :options="options || {}"
-                     :sheetAddress="workBook.SheetNames"
-                     :worksheet="workBook.Sheets[sheetName]" />
+                     :sheetAddress="sheetName"
+                     :worksheet="workBook.Sheets[sheetName]"/>
         </div>
       </b-tab>
     </b-tabs>
@@ -16,10 +16,15 @@
 
 <script>
   import Worksheet from './Worksheet'
+
   import {
-    recalculateFormulas
-  } from '../renderers'
-  import EventBus from '../EventBus';
+    recalculateFormulas,
+    getRates,
+    getSheetName,
+    getRowColumnRef
+  } from '../utils'
+
+  import EventBus from '../EventBus'
 
   export default {
     components: {Worksheet},
@@ -37,11 +42,27 @@
 
     mounted () {
       recalculateFormulas(this.workBook)
-      EventBus.$on('cell-change', function ({ cellAddress, rate }) {
-        console.log(cellAddress);
-        console.log(rate);
+      EventBus.$on('cell-change', this.updateWorkbook)
+    },
+
+    methods: {
+      updateWorkbook ({cellAddress, value}) {
+        let sheetName = getSheetName(cellAddress)
+        let rowColumnRef = getRowColumnRef(cellAddress)
+        this.$set(
+          this.workBook.Sheets[sheetName],
+          rowColumnRef,
+          {v: value}
+        )
+
         recalculateFormulas(this.workBook)
-      });
+
+        this.saveRates(this.workBook)
+      },
+      saveRates (workbook) {
+        let rates = getRates(workbook)
+        console.log(rates)
+      }
     }
   }
 </script>
