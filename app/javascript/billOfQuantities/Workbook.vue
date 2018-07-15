@@ -29,10 +29,18 @@
   export default {
     components: {Worksheet},
 
-    props: [
-      'workbook',
-      'options'
-    ],
+    props: {
+      workbook: {
+        type: Object
+      },
+      options: {
+        default () {
+          return {
+            editableRates: true
+          }
+        }
+      }
+    },
 
     data () {
       return {
