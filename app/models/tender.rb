@@ -148,16 +148,18 @@ class Tender < ApplicationRecord
   def strip_qs_rates(workbook)
     workbook['Sheets'].each_value do |sheet|
       sheet.keys
-           .select { |cell_address| rate_cell?(cell_address, sheet) }
+           .select { |cell_address| rate_or_amount_cell?(cell_address, sheet) }
            .each do |cell_address|
+             # Preserve only the formula of that cell
              sheet[cell_address] = { 'f' => sheet[cell_address]['f'] }
            end
     end
     workbook
   end
 
-  def rate_cell?(cell_address, sheet)
-    cell_address[0] == 'E' && sheet[cell_address]['v'].is_a?(Numeric)
+  def rate_or_amount_cell?(cell_address, sheet)
+    cell_address[0] == 'E' && sheet[cell_address]['v'].is_a?(Numeric) ||
+      cell_address[0] == 'F' && sheet[cell_address]['v'].is_a?(Numeric)
   end
 
   def check_required_documents
