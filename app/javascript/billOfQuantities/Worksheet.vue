@@ -17,44 +17,50 @@
         class="table table-sm table-bordered table-striped mb-0 fixed_header">
       <thead>
       <tr>
-        <th style="width:2rem" class="text-center"></th>
-        <th style="width:3.75rem" class="text-center">A</th>
-        <th style="width:34rem" class="text-center">B</th>
-        <th style="width:3.75rem" class="text-center">C</th>
-        <th style="width:3.75rem" class="text-center">D</th>
-        <th style="width:5.62rem" class="text-center">E</th>
-        <th style="width:5.62rem" class="">F</th>
+        <th class="row-num     text-center"></th>
+        <th class="item        text-center">A</th>
+        <th class="description text-center">B</th>
+        <th class="quantity    text-right ">C</th>
+        <th class="unit        text-center">D</th>
+        <th class="rate        text-right ">E</th>
+        <th class="amount      text-right ">F</th>
       </tr>
       </thead>
 
       <tbody>
       <tr v-for="row in lastRowWithValues + 1">
-        <td class="small bg-light text-center">
+        <td class="row-num small bg-light text-center">
           {{ row }}
         </td>
 
-        <cell :cell="worksheet[`A${row}`]"
+        <cell class="item"
+              :cell="worksheet[`A${row}`]"
               :cell-address="`${sheetAddress}!A${row}`"
               v-on:show-cell-contents="showCellContents"/>
 
-        <cell :cell="worksheet[`B${row}`]"
+        <cell class="description"
+              :cell="worksheet[`B${row}`]"
               :cell-address="`${sheetAddress}!B${row}`"
               v-on:show-cell-contents="showCellContents"/>
 
-        <cell :cell="worksheet[`C${row}`]"
+        <cell class="quantity"
+              :cell="worksheet[`C${row}`]"
               :cell-address="`${sheetAddress}!C${row}`"
               v-on:show-cell-contents="showCellContents"/>
 
-        <cell :cell="worksheet[`D${row}`]"
+        <cell class="unit"
+              :cell="worksheet[`D${row}`]"
               :cell-address="`${sheetAddress}!D${row}`"
               v-on:show-cell-contents="showCellContents"/>
 
-        <cell :cell="worksheet[`E${row}`]"
+        <cell class="rate"
+              :cell="worksheet[`E${row}`]"
               :cell-address="`${sheetAddress}!E${row}`"
               :options="options"
               v-on:show-cell-contents="showCellContents"/>
 
-        <cell :cell="worksheet[`F${row}`]"
+        <cell class="amount"
+              :cell="worksheet[`F${row}`]"
               :cell-address="`${sheetAddress}!F${row}`"
               v-on:show-cell-contents="showCellContents"/>
       </tr>
@@ -117,14 +123,41 @@
     table-layout: fixed;
   }
 
-  /*.fixed_header tbody {*/
-  /*display: block;*/
-  /*overflow-x: auto;*/
-  /*height: 30rem;*/
-  /*width: 100%;*/
-  /*}*/
+  .fixed_header tbody {
+    display: block;
+    overflow-x: auto;
+    height: 30rem;
+  }
 
-  /*.fixed_header thead tr {*/
-  /*display: block;*/
-  /*}*/
+  .fixed_header thead tr {
+    display: block;
+  }
+
+  .row-num {
+    width: 2rem;
+  }
+
+  .item {
+    width: 3.75rem;
+  }
+
+  .description {
+    width: 34rem;
+  }
+
+  .quantity {
+    width: 3.75rem;
+  }
+
+  .unit {
+    width: 3.75rem;
+  }
+
+  .rate {
+    width: 5.62rem;
+  }
+
+  .amount {
+    width: 5.62rem;
+  }
 </style>
