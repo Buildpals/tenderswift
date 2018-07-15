@@ -4,7 +4,7 @@
       @click="showCellContents">
 
     <input type="number"
-           class="form-control form-control-sm cell-input"
+           class="form-control form-control-sm rounded-0"
            v-if="isEditable"
            v-model="value"
            @change="updateWorkbook">
@@ -80,9 +80,5 @@
 
   .cell {
     padding: 0rem !important;
-  }
-
-  .cell-input {
-    border-radius: 0;
   }
 </style>
