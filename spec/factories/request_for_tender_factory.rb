@@ -40,7 +40,7 @@ FactoryBot.define do
 
     portal_visits 1
     withdrawal_frequency 1
-    contract_sum_address nil
+    tender_figure_address nil
 
     submitted_at '2018-03-24 08:00:51'
     published_at '2018-03-24 08:32:51'
