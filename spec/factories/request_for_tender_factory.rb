@@ -10,26 +10,10 @@ FactoryBot.define do
     country_code 'GH'
     currency 'GHS'
 
-    # bill_of_quantities do
-    #   file = File.open(
-    #     Rails.root + 'spec/fixtures/bill_of_quantities.json',
-    #     'rb'
-    #   )
-    #   file.read
-    # end
-
-    list_of_items(
-      'items' => [
-        { 'name' => '', 'unit' => '', 'isHeader' => true, 'quantity' => '', 'description' => 'Site Preparation' },
-        { 'name' => 'A', 'unit' => 'm2', 'quantity' => "1372\t", 'description' => 'Clear site of all vegetation comprising shrubs and tress with gith less than 0.15m' },
-        { 'name' => 'B', 'unit' => 'm2', 'quantity' => '1378', 'description' => 'Excavate topsoil for preservation ,average deep 150mm, wheel a distance not exceeding 100m on site' },
-        { 'name' => 'C', 'unit' => 'm3', 'quantity' => '204', 'description' => 'Excavate foundation trench , width > 0.3m, maximum depth not exceeding 2.0m' },
-        { 'name' => 'D', 'unit' => 'm3', 'quantity' => '208', 'description' => 'Excavate pit (116 Nr), maximum depth not exceeding 2.0m' },
-        { 'name' => '', 'unit' => '', 'isHeader' => true, 'quantity' => '', 'description' => 'Earthwork support' },
-        { 'name' => 'K', 'unit' => 'm2', 'quantity' => '775', 'description' => 'Earthwork support maximum depth <2m, distance between opposing faces <2m' }
-      ],
-      'updated_at' => 1_527_537_549_972
-    )
+    list_of_items do
+      file = File.read(Rails.root + 'spec/fixtures/bill_of_quantities.json')
+      JSON.parse(file)
+    end
 
     tender_instructions 'Provide the required documents listed above'
     selling_price_subunit 1
