@@ -59,7 +59,7 @@ class Tender < ApplicationRecord
   delegate :tender_instructions, to: :request_for_tender
   delegate :selling_price, to: :request_for_tender
   delegate :private, to: :request_for_tender
-  delegate :list_of_items, to: :request_for_tender
+  delegate :list_of_items_without_rates, to: :request_for_tender
   delegate :contract_sum_address, to: :request_for_tender
   delegate :published_at, to: :request_for_tender
   delegate :project_documents, to: :request_for_tender
@@ -131,10 +131,6 @@ class Tender < ApplicationRecord
     required_document_uploads.find_by(required_document: required_document)
   end
 
-  def list_of_items_without_rates
-    strip_qs_rates(list_of_items)
-  end
-
   private
 
   def purchasing?
@@ -143,26 +139,6 @@ class Tender < ApplicationRecord
 
   def submitting?
     !submitted_at.nil?
-  end
-
-  def strip_qs_rates(workbook)
-    workbook['Sheets'].each_value do |sheet|
-      sheet.keys
-           .select { |cell_address| rate_or_amount_cell?(cell_address, sheet) }
-           .each do |cell_address|
-             # Preserve only the formula of that cell
-             sheet[cell_address] = {
-               'f' => sheet[cell_address]['f'],
-               'c' => 'allowEditing'
-             }
-           end
-    end
-    workbook
-  end
-
-  def rate_or_amount_cell?(cell_address, sheet)
-    cell_address[0] == 'E' && sheet[cell_address]['v'].is_a?(Numeric) ||
-      cell_address[0] == 'F' && sheet[cell_address]['v'].is_a?(Numeric)
   end
 
   def check_required_documents
