@@ -59,13 +59,17 @@ class RequestForTenders::BuildController < QuantitySurveyorsController
   end
 
   def submit_the_request_for_tender(request_for_tender)
+    new_request = true if request_for_tender.submitted_at.nil?
     request_for_tender.submitted_at = Time.current
     request_for_tender.status = :active
     request_for_tender.update_attributes(request_params)
+    if new_request == true
+      AdminMailer.submit_request_for_tender(request_for_tender).deliver_now
+    end
     render_wizard request_for_tender,
-                  notice: 'Your request for tender has been submitted, and ' \
-                          'will be published after being reviewed by the ' \
-                          'TenderSwift team'
+                  notice: 'Your request for tender has been submitted, it ' \
+                          'will take at most 24 hours before it becomes ' \
+                          'accessible publicly'
   end
 
   def save_the_changes(request_for_tender, stay=false)
