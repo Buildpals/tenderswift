@@ -4,69 +4,75 @@
       @click="showCellContents">
 
     <input type="number"
+           step="0.01"
            class="form-control form-control-sm rounded-0"
            v-if="isEditable"
-           v-model="value"
+           v-bind:value="value"
            @change="updateWorkbook">
 
     <div v-else>
-      {{ value }}
+      {{ formatNumber(value) }}
     </div>
 
   </td>
 </template>
 
 <script>
+  import TenderSwiftMixins from '../TenderSwiftMixins'
+
   import EventBus from '../EventBus'
 
   export default {
-    props: [
-      'cell',
-      'cellAddress',
-      'options'
-    ],
+    mixins: [TenderSwiftMixins],
 
-    data () {
-      return {
-        value: ''
-      }
-    },
-
-    mounted () {
-      if (this.cell && this.cell.v) {
-        this.value = this.cell.v
+    props: {
+      cell: {
+        type: Object,
+        default () {
+          return { v: '' }
+        }
+      },
+      cellAddress: {
+        type: String
+      },
+      options: {
+        type: Object,
+        default () {
+          return {}
+        }
       }
     },
 
     computed: {
+      value () {
+        return this.cell.v
+      },
       hasFormula () {
-        return this.cell && this.cell.f
+        return this.cell.f
       },
       isEditable () {
         return this.allowsEditing && this.hasEditableOption
       },
       allowsEditing() {
-        return this.cell && this.cell.c === 'allowEditing'
+        return this.cell.c === 'allowEditing'
       },
       hasEditableOption () {
-        return this.options && this.options.editableRates
+        return this.options.editableRates
       }
     },
 
     methods: {
       showCellContents () {
-        if (this.cell && this.cell.f) {
+        if (this.hasFormula) {
           this.$emit('show-cell-contents', this.cell.f)
-        } else if (this.cell && this.cell.v) {
-          this.$emit('show-cell-contents', this.cell.v)
         } else {
-          this.$emit('show-cell-contents', '')
+          this.$emit('show-cell-contents', this.cell.v)
         }
       },
       updateWorkbook (event) {
         EventBus.$emit('cell-change', {
           cellAddress: this.cellAddress,
-          value: event.target.value
+          value: parseFloat(event.target.value)
         })
       }
     }

@@ -31,9 +31,11 @@
 
     props: {
       workbook: {
-        type: Object
+        type: Object,
+        required: true
       },
       options: {
+        type: Object,
         default () {
           return {
             editableRates: true
@@ -58,9 +60,9 @@
         let sheetName = getSheetName(cellAddress)
         let rowColumnRef = getRowColumnRef(cellAddress)
         this.$set(
-          this.workBook.Sheets[sheetName],
-          rowColumnRef,
-          {v: value}
+          this.workBook.Sheets[sheetName][rowColumnRef],
+          'v',
+          value
         )
 
         recalculateFormulas(this.workBook)

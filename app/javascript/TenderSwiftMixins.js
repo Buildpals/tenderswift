@@ -3,7 +3,11 @@ import accounting from 'accounting'
 export default {
   methods: {
     formatNumber (value) {
-      return accounting.formatNumber(value, 2)
+      if (typeof value === 'number') {
+        return accounting.formatNumber(value, 2)
+      } else {
+        return value
+      }
     },
 
     getTenderFigure (listOfItems, listOfRates) {
