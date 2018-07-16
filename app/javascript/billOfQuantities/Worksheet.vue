@@ -77,11 +77,20 @@
   export default {
     components: {Cell},
 
-    props: [
-      'worksheet',
-      'options',
-      'sheetAddress'
-    ],
+    props: {
+      worksheet: {
+        type: Object
+      },
+      sheetAddress: {
+        type: String
+      },
+      options: {
+        type: Object,
+        default () {
+          return {}
+        }
+      }
+    },
 
     data () {
       return {
