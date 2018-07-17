@@ -2,11 +2,11 @@
   <div class="spreadsheet-tabs">
 
     <b-tabs end no-fade>
-      <b-tab :title="sheetName" v-for="sheetName in workbook.SheetNames">
+      <b-tab :title="sheetName" v-for="sheetName in workBook.SheetNames">
         <div id="example-container" class="wrapper">
           <worksheet :options="options || {}"
-                     :sheetAddress="workbook.SheetNames"
-                     :worksheet="workbook.Sheets[sheetName]" />
+                     :sheetAddress="sheetName"
+                     :worksheet="workBook.Sheets[sheetName]"/>
         </div>
       </b-tab>
     </b-tabs>
@@ -16,20 +16,63 @@
 
 <script>
   import Worksheet from './Worksheet'
-  import EventBus from '../EventBus';
+
+  import {
+    recalculateFormulas,
+    getRates,
+    getSheetName,
+    getRowColumnRef
+  } from '../utils'
+
+  import EventBus from '../EventBus'
 
   export default {
     components: {Worksheet},
 
-    props: [
-      'workbook',
-      'options'
-    ],
+    props: {
+      workbook: {
+        type: Object,
+        required: true
+      },
+      options: {
+        type: Object,
+        default () {
+          return {
+            editableRates: true
+          }
+        }
+      }
+    },
+
+    data () {
+      return {
+        workBook: this.workbook
+      }
+    },
+
     mounted () {
-      EventBus.$on('cell-change', function ({ cellAddress, rate }) {
-        console.log(cellAddress);
-        console.log(rate);
-      });
+      recalculateFormulas(this.workBook)
+      EventBus.$on('cell-change', this.updateWorkbook)
+    },
+
+    methods: {
+      updateWorkbook ({cellAddress, value}) {
+        let sheetName = getSheetName(cellAddress)
+        let rowColumnRef = getRowColumnRef(cellAddress)
+        this.$set(
+          this.workBook.Sheets[sheetName][rowColumnRef],
+          'v',
+          value
+        )
+
+        recalculateFormulas(this.workBook)
+
+        this.saveRates(this.workBook)
+      },
+      saveRates (workbook) {
+        let rates = getRates(workbook)
+        console.log(rates)
+      }
     }
   }
 </script>

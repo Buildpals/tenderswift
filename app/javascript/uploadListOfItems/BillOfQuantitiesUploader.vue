@@ -34,6 +34,7 @@
       </p>
     </div>
   </div>
+
   <workbook :workbook="workbook"/>
 
 
@@ -55,14 +56,17 @@
       return {
         desired_value: '',
         excelFile: this.request_for_tender.excel_file,
-        workbook: this.request_for_tender.list_of_items,
+        workbook: {
+          Sheets: {},
+          SheetNames: []
+        },
         tenderFigureAddress: this.request_for_tender.tender_figure_address
       }
     },
 
-    computed: {
-      cellAddress () {
-
+    mounted () {
+      if (this.request_for_tender.list_of_items) {
+        this.workbook = this.request_for_tender.list_of_items
       }
     },
 

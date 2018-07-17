@@ -6,8 +6,7 @@
               @change="filesChange($event.target.name, $event.target.files);
                       fileCount = $event.target.files.length"
                       id="tenderDocumentUploader"
-              class="custom-file-input"
-              accept=".xlsx, .xls, .pdf" >
+              class="custom-file-input">
       <label class="btn btn-sm btn-block btn-primary" for="tenderDocumentUploader">
         Upload a pdf file
       </label>
