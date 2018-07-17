@@ -11,4 +11,12 @@ class AdminMailer < ApplicationMailer
                   .company_name}"\
         'submitted a new request for tender')
   end
+
+  def publish_request_for_tender(request_for_tender)
+    @request_for_tender = request_for_tender
+    mail(to: @request_for_tender
+            .quantity_surveyor
+            .email,
+        subject:"#{ @request_for_tender.project_name} has been published" )
+  end
 end

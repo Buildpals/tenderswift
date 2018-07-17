@@ -48,10 +48,13 @@ class RequestForTenders::BuildController < QuantitySurveyorsController
   end
 
   def publish_the_request_for_tender(request_for_tender)
+    has_published = true if request_for_tender.published_at
     request_for_tender.published_at = Time.current
     request_for_tender.status = :active
     request_for_tender.update_attributes(request_params)
-
+    if has_published == true
+      AdminMailer.publish_request_for_tender(request_for_tender).deliver_now
+    end
     # Send an email telling the quantity surveyor his request for tender has
     # been published
     render_wizard request_for_tender,
