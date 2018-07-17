@@ -1,0 +1,6 @@
+Hello
+
+<%= @request_for_tender.quantity_surveyor.company_name %> 
+created a new request for tender at <%= @request_for_tender.submitted_at %>
+ 
+<%= link_to  "Review Request For Tender", review_request_for_tender_url(@request_for_tender.id) %>
