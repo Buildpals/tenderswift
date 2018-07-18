@@ -12,9 +12,7 @@ class PurchaseTenderController < ContractorsController
 
     tender = Tender.find_by(request_for_tender: @request_for_tender,
                             contractor: current_contractor)
-    @korbaweb_charge = korbaweb_charge
-    @service_charge = cloud_service_charge
-    @total_cost = total_charge
+    @korbaweb_charge, @service_charge, @total_cost = korbaweb_charge, cloud_service_charge, total_charge
     if tender&.purchased?
       redirect_to contractor_root_path,
                   notice: 'You have already purchased this tender'
