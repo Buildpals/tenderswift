@@ -133,7 +133,7 @@ class RequestForTender < ApplicationRecord
   end
 
   def setup_with_data
-    self.project_name = "Untitled Project #" \
+    self.project_name = 'Untitled Project #' \
                         "#{quantity_surveyor.request_for_tenders.count + 1}"
     self.country_code = 'GH'
     self.deadline = Time.current + 1.month
@@ -163,15 +163,8 @@ class RequestForTender < ApplicationRecord
   def set_contractor_editable_fields(workbook)
     workbook['Sheets'].each_value do |sheet|
       sheet.keys
-           .select { |cell_address| rate_or_amount_cell?(cell_address, sheet) }
-           .each do |cell_address|
-        # Preserve only the formula of that cell
-        sheet[cell_address] = {
-          'f' => sheet[cell_address]['f'],
-          'v' => sheet[cell_address]['v'],
-          'c' => 'allowEditing'
-        }
-      end
+           .select { |cell_address| rate_cell?(cell_address, sheet) }
+           .each { |cell_address| sheet[cell_address]['c'] = 'allowEditing' }
     end
     workbook
   end
@@ -181,12 +174,13 @@ class RequestForTender < ApplicationRecord
       sheet.keys
            .select { |cell_address| rate_or_amount_cell?(cell_address, sheet) }
            .each do |cell_address|
-        # Preserve only the formula of that cell
+
         sheet[cell_address] = {
           'f' => sheet[cell_address]['f'],
-          'v' => '',
-          'c' => 'allowEditing'
+          'v' => ''
         }
+
+        sheet[cell_address]['c'] = 'allowEditing' if cell_address[0] == 'E'
       end
     end
     workbook
