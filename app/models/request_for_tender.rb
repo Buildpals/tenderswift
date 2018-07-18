@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class RequestForTender < ApplicationRecord
-  TENDERSWIFT_CUT = 0.12
+  TENDERSWIFT_CUT = 0.10
 
   enum withdrawal_frequency: { 'Monthly' => 0,
                                'Every two weeks' => 1,
