@@ -19,7 +19,6 @@
 
   import {
     recalculateFormulas,
-    getRates,
     getSheetName,
     getRowColumnRef
   } from '../utils'
@@ -57,6 +56,7 @@
 
     methods: {
       updateWorkbook ({cellAddress, value}) {
+        console.log(cellAddress, value)
         let sheetName = getSheetName(cellAddress)
         let rowColumnRef = getRowColumnRef(cellAddress)
         this.$set(
@@ -67,11 +67,7 @@
 
         recalculateFormulas(this.workBook)
 
-        this.saveRates(this.workBook)
-      },
-      saveRates (workbook) {
-        let rates = getRates(workbook)
-        console.log(rates)
+        this.$emit('save-rates', this.workBook)
       }
     }
   }

@@ -36,8 +36,10 @@ export function getRates (workbook) {
     let worksheet = workbook.Sheets[sheetName]
     let lastRow = lastRowWithValues(worksheet)
     for (let row = 0; row < lastRow; row++) {
-      if (worksheet[`E${row}`] && worksheet[`E${row}`].v) {
-        rates[`${sheetName}!E${row}`] = worksheet[`E${row}`]
+      if (worksheet[`E${row}`] &&
+        worksheet[`E${row}`].c === 'allowEditing' &&
+        worksheet[`E${row}`].v) {
+        rates[`${sheetName}!E${row}`] = worksheet[`E${row}`].v
       }
     }
   })

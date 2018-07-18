@@ -1,5 +1,5 @@
 <div class="hello">
-  <workbook
-      :options="{editableRates: true}"
-    :workbook="<%= @tender.list_of_items_without_rates.to_json %>" />
+  <rates-uploader
+    :initial-tender="<%= @tender.to_json(only: [:id, :version_number],
+                                         methods: :workbook) %>"/>
 </div>

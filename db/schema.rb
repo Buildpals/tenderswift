@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180715190323) do
+ActiveRecord::Schema.define(version: 20180718150035) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -252,6 +252,7 @@ ActiveRecord::Schema.define(version: 20180715190323) do
     t.string "transaction_id"
     t.jsonb "list_of_rates", default: {"rates"=>{}}
     t.string "status"
+    t.bigint "version_number", default: 0, null: false
     t.index ["contractor_id"], name: "index_tenders_on_contractor_id"
     t.index ["request_for_tender_id", "contractor_id"], name: "index_tenders_on_request_for_tender_id_and_contractor_id", unique: true
     t.index ["request_for_tender_id"], name: "index_tenders_on_request_for_tender_id"

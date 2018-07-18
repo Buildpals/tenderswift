@@ -96,8 +96,14 @@ class Tender < ApplicationRecord
     purchased? && submitted? && deadline_over?
   end
 
-  def bid
-    100_000
+  def workbook
+    workbook = list_of_items_without_rates
+    list_of_rates.each do |key, value|
+      sheet_name = key.split('!')[0]
+      row_col_ref = key.split('!')[1]
+      workbook['Sheets'][sheet_name][row_col_ref]['v'] = value
+    end
+    workbook
   end
 
   def save_rates(rate_updates)
