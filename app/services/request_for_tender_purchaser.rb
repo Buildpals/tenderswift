@@ -129,7 +129,7 @@ class RequestForTenderPurchaser
   def make_transaction_request(transaction_id)
     @korba_web_api.call(
       customer_number: @customer_number,
-      amount: @request_for_tender.selling_price,
+      amount: total_payable,
       transaction_id: transaction_id,
       network_code: @network_code,
       vodafone_voucher_code: @vodafone_voucher_code,
@@ -160,6 +160,10 @@ class RequestForTenderPurchaser
                           ":#{message}")
     @tender.update!(purchase_request_status: :failed,
                     purchase_request_message: message)
+  end
+
+  def total_payable
+    @request_for_tender.selling_price + (RequestForTender::TENDERSWIFT_CUT * @request_for_tender.selling_price)
   end
 
   def to_s

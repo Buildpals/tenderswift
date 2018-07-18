@@ -1,3 +1,37 @@
+<div class="row">
+  <div class="col-6">
+    <div class="font-weight-normal text-right">Price of Tender:</div>
+  </div>
+  <div class="col-6 pl-auto">
+    <div class="font-weight-bold text-left">GHC <%= @request_for_tender.selling_price %></div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-6">
+    <div class="font-weight-normal text-right">Payment Charge:</div>
+  </div>
+  <div class="col-6">
+    <div class="font-weight-bold text-left">GHC <%= @korbaweb_charge %></div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-6">
+    <div class="font-weight-normal text-right">Cloud Service Charge:</div>
+  </div>
+  <div class="col-6">
+    <div class="font-weight-bold text-left">GHC <%= @service_charge %></div>
+  </div>
+</div>
+<br/>
+<div class="row">
+  <div class="col-6">
+    <p class="font-weight-bold text-right">Total:</p>
+  </div>
+  <div class="col-6">
+    <p class="font-weight-bold text-left">GHC <%= @total_cost %></p>
+  </div>
+</div>
+
 <%= form_with url: purchase_tender_path(@request_for_tender),
               id: 'purchase-form',
               local: false do |form| %>
