@@ -49,7 +49,6 @@ end
 
 def and_the_request_for_tender_should_appear_in_their_pending_review_tenders(request_for_tender)
   visit quantity_surveyor_root_path
-
   within :css, '#pending-review-request-for-tenders' do
     expect(page).to have_content request_for_tender.project_name
     expect(page).to have_content project_location request_for_tender

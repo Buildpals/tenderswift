@@ -48,7 +48,7 @@ class RequestForTenders::BuildController < QuantitySurveyorsController
   end
 
   def publish_the_request_for_tender(request_for_tender)
-    has_published = true if request_for_tender.published_at
+    has_published = true if request_for_tender.published_at.nil?
     request_for_tender.published_at = Time.current
     request_for_tender.status = :active
     request_for_tender.update_attributes(request_params)
