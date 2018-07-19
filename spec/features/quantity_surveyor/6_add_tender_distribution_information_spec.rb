@@ -20,7 +20,16 @@ RSpec.feature 'Create request for tender', js: true do
 
     and_the_request_for_tender_should_appear_in_their_pending_review_tenders(request_for_tender)
   end
+
+  scenario 'should submit an already submittd request for tender after editing' do
+    given_a_quantity_surveyor_who_has_logged_in
+    when_they_publish_a_request_for_tender(request_for_tender)
+    visit request_for_tender_build_path(request_for_tender, :distribution)
+    expect { click_button 'Publish' }.to change { ActionMailer::Base.deliveries.count }.by(0)
+  end
 end
+
+
 
 def given_a_quantity_surveyor_who_has_logged_in
   login_as quantity_surveyor, scope: :quantity_surveyor

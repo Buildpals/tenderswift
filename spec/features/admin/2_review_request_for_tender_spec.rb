@@ -10,7 +10,7 @@ RSpec.feature 'Review request for tenders', type: :feature, js: true do
   end
 
   let!(:published_request_for_tender) do
-    FactoryBot.create(:request_for_tender)
+    FactoryBot.create(:request_for_tender, :published)
   end
 
   scenario 'should allow admin to review and publish any quantity_surveyor\'s' \
