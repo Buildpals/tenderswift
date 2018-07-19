@@ -11,7 +11,7 @@
   </li>
   <li class="breadcrumb-item active" aria-current="page">
     <%= @tender.contractors_company_name.truncate(30) %>
-    (<%= humanized_money_with_symbol @tender.bid %>)
+    (<!-- TODO: Display Tender figure in the brackets -->)
   </li>
 <% end %>
 
