@@ -3,11 +3,9 @@
     <div class="text-center">
       {{prompt}}
     </div>
-    <workbook
-        :options="{editableRates: true}"
-        :tender-id="tender.id"
-        :workbook="tender.workbook"
-        v-on:save-rates="saveRates"/>
+    <workbook :workbook="tender.workbook"
+              :options="{editableRates: true}"
+              v-on:save-rates="saveRates"/>
   </div>
 </template>
 

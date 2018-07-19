@@ -4,7 +4,7 @@
     <b-tabs end no-fade>
       <b-tab :title="sheetName" v-for="sheetName in workBook.SheetNames">
         <div id="example-container" class="wrapper">
-          <worksheet :options="options || {}"
+          <worksheet :options="options"
                      :sheetAddress="sheetName"
                      :worksheet="workBook.Sheets[sheetName]"/>
         </div>
@@ -36,9 +36,7 @@
       options: {
         type: Object,
         default () {
-          return {
-            editableRates: true
-          }
+          return {}
         }
       }
     },

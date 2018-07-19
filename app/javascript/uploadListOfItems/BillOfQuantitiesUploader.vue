@@ -12,30 +12,35 @@
              title="Upload your Bill of Quantities">
 
       <excel-file-uploader
-          :save-url="`/request_for_tenders/${this.request_for_tender.id}/excel_file`"
+          :save-url="`/request_for_tenders/${requestForTender.id}/excel_file`"
           v-on:after-upload="afterUpload"
           v-on:upload-error="uploadError"/>
 
     </b-modal>
 
-    <div class="row">
-      <div class="col-md-6">
-        <p>
-          <input class="form-control"
-                 placeholder="Enter the cell address of your tender figure"
-                 v-model="tenderFigureAddress"
-                 name="tenderFigure"
-                 @change="onchange"/>
-        </p>
-      </div>
-      <div class="col-md-6">
-        <p>
-          Tender value is GHC: <span class="font-weight-bold">{{ desired_value }}</span>
-        </p>
+    <div class="mb-2">
+      Please enter the cell address of your tender figure below
+      <div class="input-group input-group-sm mb-3">
+        <input type="text"
+               class="form-control"
+               placeholder="Tender figure address"
+               v-model.lazy="requestForTender.tender_figure_address"
+               @change="saveTenderFigureAddress">
+        <div class="input-group-append">
+          <span class="input-group-text amount"
+                id="tenderFigure">
+            {{ formatNumber(tenderFigure) }}
+          </span>
+        </div>
       </div>
     </div>
 
-    <workbook :workbook="workbook"/>
+    <div class="text-center">
+      {{ratesStatus}}
+    </div>
+    <workbook :workbook="requestForTender.workbook"
+              :options="{editableRates: true}"
+              v-on:save-rates="saveRates"/>
 
 
   </div>
@@ -44,71 +49,98 @@
 <script>
   import Workbook from '../billOfQuantities/Workbook'
   import ExcelFileUploader from './ExcelFileUploader'
+  import { getRates } from '../utils'
+  import TenderSwiftMixins from '../TenderSwiftMixins'
 
   export default {
+    mixins: [TenderSwiftMixins],
+
     components: {ExcelFileUploader, Workbook},
 
     props: [
-      'request_for_tender'
+      'initialRequestForTender'
     ],
 
     data () {
       return {
-        desired_value: '',
-        excelFile: this.request_for_tender.excel_file,
-        workbook: this.getWorkbook(),
-        tenderFigureAddress: this.request_for_tender.tender_figure_address
+        requestForTender: this.initialRequestForTender,
+        ratesStatus: '',
+        tenderFigureAddressStatus: ''
+      }
+    },
+
+    computed: {
+      tenderFigure () {
+        const address = this.requestForTender.tender_figure_address
+        if (!address) return '          '
+
+        let address_of_cell = address.split('!')[1]
+        let sheetName = address.split('!')[0]
+
+        let worksheet = this.requestForTender.workbook.Sheets[sheetName]
+        let desired_cell = worksheet[address_of_cell]
+        return desired_cell ? desired_cell.v : undefined
       }
     },
 
     methods: {
-      getWorkbook () {
-        if (this.request_for_tender.list_of_items) {
-          return this.request_for_tender.list_of_items
-        } else {
-          return {
-            Sheets: {},
-            SheetNames: []
-          }
-        }
-      },
-
       afterUpload (value) {
         // FIXME: the workbook is not getting set
-        this.workbook = value
+        this.requestForTender.workbook = value
         this.$refs.uploadExcelFileModal.hide()
       },
 
       uploadError (value) {
-        value.uploadState = this.STATUS_FAILED
-        this.excelFile = value
+        // TODO: Handle error
       },
-      onchange (event) {
-        const address = event.target.value
-        let address_of_cell = address.split('!')[1]
-        let sheetName = address.split('!')[0]
-        let worksheet = this.workbook.Sheets[sheetName]
-        let desired_cell = worksheet[address_of_cell]
-        this.desired_value = desired_cell ? desired_cell.v : undefined
-        this.$http.patch(
-          `/request_for_tenders/${this.request_for_tender.id}` +
-          `/build/bill_of_quantities`,
-          {
-            request_for_tender: {
-              tender_figure_address: address
-            }
-          })
-          .then(response => {
-            // TODO: Provide feedback to the user that the value has been saved
-          })
-          .catch(error => {
-            console.error(error)
-          })
+
+      saveTenderFigureAddress () {
+        this.tenderFigureAddressStatus = 'Saving...'
+        
+        let url = `/request_for_tenders/${this.requestForTender.id}` +
+          `/build/bill_of_quantities`
+
+        this.$http.patch(url, {
+          request_for_tender: {
+            tender_figure_address: this.requestForTender.tender_figure_address
+          }
+        }).then(response => {
+          this.tenderFigureAddressStatus =
+            'All changes saved to TenderSwift\'s servers'
+        }).catch(error => {
+          this.tenderFigureAddressStatus =
+            'Error saving changes'
+          console.error(error)
+        })
+      },
+
+      saveRates (workbook) {
+        this.ratesStatus = 'Saving...'
+        
+        this.requestForTender.version_number++
+        let rates = getRates(workbook)
+
+        let url = `/request_for_tenders/${this.requestForTender.id}` +
+          `/build/bill_of_quantities`
+
+        this.$http.put(url, {
+          request_for_tender: {
+            list_of_rates: rates,
+            version_number: this.requestForTender.version_number
+          }
+        }).then(response => {
+          this.ratesStatus = 'All changes saved to TenderSwift\'s servers'
+        }).catch(error => {
+          this.ratesStatus = 'Error saving changes'
+          console.error(error)
+        })
       }
     }
   }
 </script>
 
 <style lang="scss">
-
+  .amount {
+    width: 5.62rem;
+  }
 </style>
