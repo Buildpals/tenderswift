@@ -4,13 +4,13 @@
   </li>
 <% end %>
 
-<div class="container-fluid">
+<div class="container">
   <div class="row">
 
-    <div class="col-md-3 ml-md-auto mr-md-auto pt-4"
+    <div class="col-md-4 ml-md-auto mr-md-auto pt-4"
          id="unpublished-request-for-tenders">
       <div class="ml-4 mb-2 text-center">
-        <small style="color: rgb(169, 68, 66); font-size: 100%;">
+        <small style="font-size: 100%;" class="text-danger">
           Unpublished Request For Tender
         </small>
       </div>
@@ -27,63 +27,21 @@
                  .request_for_tenders
                  .not_published
                  .each do |request_for_tender| %>
-            <li class="list-group-item flex-row">
-              <div class="d-flex w-100 justify-content-between align-items-center">
-                <div class="primary-action">
-                  <%= link_to request_for_tender_build_path(request_for_tender,
-                                                            :general_information) do %>
-                    <h5 class="mb-1">
-                      <%= request_for_tender.project_name %>
-                    </h5>
-                    <small class="text-muted">
-                      <%= project_location request_for_tender %>
-                    </small>
-                  <% end %>
-                </div>
-                <div class="secondary-action">
-                  <%= link_to request_for_tender,
-                              method: :delete,
-                              data: {confirm: 'Are you sure?'},
-                              class: 'btn btn-light btn-raised' do %>
-                    <i class="fa fa-trash" aria-hidden="true"></i>
-                  <% end %>
-                </div>
-              </div>
-            </li>
-          <% end %>
-        </div>
-      </div>
-    </div>
-
-
-    <div class="col-md-3 ml-md-auto mr-md-auto pt-4"
-         id="pending-review-request-for-tenders">
-      <div class="ml-4 mb-2 text-center">
-        <small style="font-size: 100%;">Pending Review Requests For
-          Tender</small>
-      </div>
-      <div class="card">
-        <div class="list-group list-group-flush">
-          <% current_quantity_surveyor
-                 .request_for_tenders
-                 .submitted
-                 .not_published
-                 .each do |request_for_tender| %>
-            <% unless request_for_tender.deadline.past? %>
-              <%= link_to request_for_tender,
+              <%= link_to request_for_tender_build_path(request_for_tender,
+                                                        :general_information),
                           class: 'list-group-item list-group-item-action flex-column align-items-start' do %>
                 <div class="d-flex w-100 justify-content-between">
                   <h5 class="mb-1">
                     <%= request_for_tender.project_name %>
                   </h5>
                   <small class="text-muted">
-                    <% if !request_for_tender.published? %>
+                    <% if request_for_tender.submitted? %>
                       <span class="badge badge-pill badge-secondary">
-                        <%= status request_for_tender %>
+                        publishing...
                       </span>
                     <% else %>
-                      <span class="badge badge-pill badge-warning">
-                        <%= status request_for_tender %>
+                      <span class="badge badge-pill badge-primary">
+                        draft
                       </span>
                     <% end %>
                   </small>
@@ -92,14 +50,13 @@
                   <%= project_location request_for_tender %>
                 </small>
               <% end %>
-            <% end %>
           <% end %>
         </div>
       </div>
     </div>
 
 
-    <div class="col-md-3 ml-md-auto mr-md-auto pt-4"
+    <div class="col-md-4 ml-md-auto mr-md-auto pt-4"
          id="published-request-for-tenders">
       <div class="ml-4 mb-2 text-center">
         <small style="font-size: 100%;">Published Requests For Tender</small>
@@ -140,10 +97,11 @@
     </div>
 
 
-    <div class="col-md-3 ml-md-auto mr-md-auto pt-4"
+    <div class="col-md-4 ml-md-auto mr-md-auto pt-4"
          id="closed-request-for-tenders">
       <div class="ml-4 mb-2 text-center">
-        <small style="color:rgb(60, 118, 61); font-size: 100%;">Closed Tenders
+        <small style="font-size: 100%;" class="text-success">
+          Closed Tenders
         </small>
       </div>
       <div class="card">

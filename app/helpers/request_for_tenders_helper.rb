@@ -11,7 +11,7 @@ module RequestForTendersHelper
         "#{ distance_of_time_in_words_to_now request_for_tender.deadline} left"
       end
     else
-      request_for_tender.submitted? ? 'pending review' : 'draft'
+      request_for_tender.submitted? ? 'pending...' : 'draft'
     end
   end
 

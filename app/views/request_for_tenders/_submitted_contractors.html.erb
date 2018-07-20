@@ -1,6 +1,10 @@
 <div class="card-header" role="tab" id="headingBidMade">
   <h5 class="mb-0">
-    <a class="collapsed text-success" data-toggle="collapse" href="#collapseBidMade" aria-expanded="false" aria-controls="collapseBidMade">
+    <a class="collapsed text-success"
+       data-toggle="collapse"
+       href="#collapseBidMade"
+       aria-expanded="false"
+       aria-controls="collapseBidMade">
       Submitted
       <small>
         <span class="badge badge-pill badge-success">
@@ -10,10 +14,15 @@
     </a>
   </h5>
 </div>
-<div id="collapseBidMade" class="collapse" role="tabpanel" aria-labelledby="headingBidMade" data-parent="#accordion">
+<div id="collapseBidMade"
+     class="collapse"
+     role="tabpanel"
+     aria-labelledby="headingBidMade"
+     data-parent="#accordion">
   <ul class="list-group list-group-flush">
     <% @request_for_tender.tenders.submitted.each do |tender| %>
-      <li class="list-group-item list-group-item-action flex-column align-items-start">
+      <li class="list-group-item list-group-item-action
+                 flex-column align-items-start">
         <div class="d-flex w-100 justify-content-between">
           <div class="mb-1"><%= tender.contractors_company_name %></div>
         </div>
@@ -31,14 +40,22 @@
 
           <% if tender.submitted? %>
             <% if deadline_over? @request_for_tender %>
-              <%= link_to 'View bid', bid_required_documents_path(tender), class: 'card-link' %>
+              <%= link_to 'View bid',
+                          bid_required_documents_path(tender),
+                          class: 'btn btn-link' %>
             <% else %>
-              <div data-toggle="tooltip" data-placement="bottom"
+              <div data-toggle="tooltip"
+                   data-placement="bottom"
                    data-html="true"
-                   data-title="<p>In order to comply with the standards of tender fairness,
-                 bids will only be shown when the request deadline is reached.<p>
-                <p class='text-center request-countdown'><%= time_to_deadline @request_for_tender %> left to request deadline.</p>">
-                <button class="card-link disabled" type="button">View bid</button>
+                   data-title="<p>In order to comply with the standards of
+                               tender fairness, bids will only be shown when
+                               the request deadline is reached.<p>
+                               <p class='text-center request-countdown'>
+                               <%= time_to_deadline @request_for_tender %>
+                               left to request deadline.</p>">
+                <button class="btn btn-link disabled" type="button">
+                  View bid
+                </button>
               </div>
             <% end %>
           <% else %>

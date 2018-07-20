@@ -165,9 +165,22 @@ class RequestForTender < ApplicationRecord
     workbook
   end
 
-
   def list_of_items_without_rates
     strip_qs_rates(list_of_items)
+  end
+
+  def get_list_of_rates(workbook)
+    list_of_rates = {}
+    workbook['SheetNames'].each do |sheetName|
+      sheet = workbook['Sheets'][sheetName]
+      sheet.keys
+           .select { |cell_address| rate_cell?(cell_address, sheet) }
+           .each do |cell_address|
+
+        list_of_rates["#{sheetName}!#{cell_address}"] = sheet[cell_address]['v']
+      end
+    end
+    list_of_rates
   end
 
   private
