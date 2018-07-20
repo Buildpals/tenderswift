@@ -8,7 +8,11 @@ class ExcelFilesController < ApplicationController
     params[:excel_file][:original_file_name] =
       params[:excel_file][:document].original_filename
 
-    @request_for_tender.list_of_items = JSON.parse params[:csf]
+    workbook = JSON.parse params[:csf]
+    list_of_rates = @request_for_tender.get_list_of_rates(workbook)
+    @request_for_tender.list_of_items = workbook
+    @request_for_tender.list_of_rates = list_of_rates
+
     @excel_file = @request_for_tender.build_excel_file(excel_file_params)
 
     if @excel_file.save && @request_for_tender.save
