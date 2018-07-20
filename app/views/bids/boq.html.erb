@@ -1,7 +1,3 @@
 <div class="hello">
-  <rates-reviewer
-    :tender_id="<%= @tender.id %>"
-    :list_of_items="<%= @tender.list_of_items.to_json %>"
-    :list_of_rates="<%= @tender.list_of_rates.to_json %>">
-  </rates-reviewer>
+  <workbook :workbook="<%= @tender.workbook.to_json %>" />
 </div>

@@ -20,13 +20,15 @@ class Tenders::BuildController < ContractorsController
     @tender = Tender.find(params[:tender_id])
     authorize @tender
 
-    if step == steps.last
+    if step == :bill_of_quantities
+      save_tender
+    elsif step == steps.last
       @tender.submitted_at = Time.current
       @tender.status = :active
       render_wizard @tender, notice: 'Your bid has been submitted successfully'
     else
       @tender.status = step.to_s
-      @tender.update_attributes(request_params)
+      @tender.update_attributes(tender_params)
       render_wizard
     end
   end
@@ -42,6 +44,18 @@ class Tenders::BuildController < ContractorsController
 
   private
 
+  def save_tender
+    return if tender_params[:version_number] < @tender.version_number
+
+    if @tender.update(tender_params)
+      render json: @tender,
+             only: %i[id version_number],
+             status: :created
+    else
+      render json: @tender.errors, status: :unprocessable_entity
+    end
+  end
+
   def finish_wizard_path
     contractor_root_path
   end
@@ -52,12 +66,8 @@ class Tenders::BuildController < ContractorsController
     end
   end
 
-  def request_params
+  def tender_params
     params.require(:tender)
-          .permit(:publish,
-                  list_of_rates: [
-                    :updated_at,
-                    rates: {}
-                  ])
+          .permit(:version_number, list_of_rates: {})
   end
 end

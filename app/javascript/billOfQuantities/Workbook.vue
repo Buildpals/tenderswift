@@ -4,7 +4,7 @@
     <b-tabs end no-fade>
       <b-tab :title="sheetName" v-for="sheetName in workBook.SheetNames">
         <div id="example-container" class="wrapper">
-          <worksheet :options="options || {}"
+          <worksheet :options="options"
                      :sheetAddress="sheetName"
                      :worksheet="workBook.Sheets[sheetName]"/>
         </div>
@@ -19,7 +19,6 @@
 
   import {
     recalculateFormulas,
-    getRates,
     getSheetName,
     getRowColumnRef
   } from '../utils'
@@ -37,9 +36,7 @@
       options: {
         type: Object,
         default () {
-          return {
-            editableRates: true
-          }
+          return {}
         }
       }
     },
@@ -57,6 +54,7 @@
 
     methods: {
       updateWorkbook ({cellAddress, value}) {
+        console.log(cellAddress, value)
         let sheetName = getSheetName(cellAddress)
         let rowColumnRef = getRowColumnRef(cellAddress)
         this.$set(
@@ -67,11 +65,7 @@
 
         recalculateFormulas(this.workBook)
 
-        this.saveRates(this.workBook)
-      },
-      saveRates (workbook) {
-        let rates = getRates(workbook)
-        console.log(rates)
+        this.$emit('save-rates', this.workBook)
       }
     }
   }

@@ -59,7 +59,6 @@ class Tender < ApplicationRecord
   delegate :tender_instructions, to: :request_for_tender
   delegate :selling_price, to: :request_for_tender
   delegate :private, to: :request_for_tender
-  delegate :list_of_items_without_rates, to: :request_for_tender
   delegate :contract_sum_address, to: :request_for_tender
   delegate :published_at, to: :request_for_tender
   delegate :project_documents, to: :request_for_tender
@@ -96,8 +95,14 @@ class Tender < ApplicationRecord
     purchased? && submitted? && deadline_over?
   end
 
-  def bid
-    100_000
+  def workbook
+    workbook = request_for_tender.list_of_items_without_rates
+    list_of_rates.each do |key, value|
+      sheet_name = key.split('!')[0]
+      row_col_ref = key.split('!')[1]
+      workbook['Sheets'][sheet_name][row_col_ref]['v'] = value
+    end
+    workbook
   end
 
   def save_rates(rate_updates)

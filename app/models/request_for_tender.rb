@@ -59,6 +59,15 @@ class RequestForTender < ApplicationRecord
 
   scope :submitted_tenders, -> { tenders.where(submitted: true) }
 
+  validate :version_number_is_greater_or_same, if: :list_of_rates?
+
+  def version_number_is_greater_or_same
+    previous_version_number = version_number_was
+    if version_number < previous_version_number
+      errors.add(:version_number, 'is less than previous version number')
+    end
+  end
+
   validates :project_name, presence: true, if: :active?
   # validate :check_deadline
 
@@ -85,11 +94,15 @@ class RequestForTender < ApplicationRecord
   end
 
   def submitted?
-    !submitted_at.nil?
+    submitted_at.present?
   end
 
   def published?
-    !published_at.nil?
+    published_at.present?
+  end
+
+  def list_of_rates?
+    list_of_rates.present?
   end
 
   def deadline_over?
@@ -123,15 +136,6 @@ class RequestForTender < ApplicationRecord
     )
   end
 
-  def list_of_items
-    return nil if self[:list_of_items].nil?
-    set_contractor_editable_fields(self[:list_of_items])
-  end
-
-  def list_of_items_without_rates
-    strip_qs_rates(self[:list_of_items])
-  end
-
   def setup_with_data
     self.project_name = 'Untitled Project #' \
                         "#{quantity_surveyor.request_for_tenders.count + 1}"
@@ -151,6 +155,21 @@ class RequestForTender < ApplicationRecord
     save!
   end
 
+  def workbook
+    workbook = list_of_items_without_rates
+    list_of_rates.each do |key, value|
+      sheet_name = key.split('!')[0]
+      row_col_ref = key.split('!')[1]
+      workbook['Sheets'][sheet_name][row_col_ref]['v'] = value
+    end
+    workbook
+  end
+
+
+  def list_of_items_without_rates
+    strip_qs_rates(list_of_items)
+  end
+
   private
 
   def check_deadline
@@ -158,15 +177,6 @@ class RequestForTender < ApplicationRecord
     if deadline < Date.today
       errors.add(:deadline, :invalid, message: 'Deadline cannot be in the past')
     end
-  end
-
-  def set_contractor_editable_fields(workbook)
-    workbook['Sheets'].each_value do |sheet|
-      sheet.keys
-           .select { |cell_address| rate_cell?(cell_address, sheet) }
-           .each { |cell_address| sheet[cell_address]['c'] = 'allowEditing' }
-    end
-    workbook
   end
 
   def strip_qs_rates(workbook)

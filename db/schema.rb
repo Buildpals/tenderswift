@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180715190323) do
+ActiveRecord::Schema.define(version: 20180719130228) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -74,6 +74,39 @@ ActiveRecord::Schema.define(version: 20180715190323) do
     t.datetime "updated_at", null: false
     t.string "original_file_name"
     t.index ["request_for_tender_id"], name: "index_excel_files_on_request_for_tender_id"
+  end
+
+  create_table "item_columns", force: :cascade do |t|
+    t.bigint "item_id", null: false
+    t.string "entry_key", null: false
+    t.text "value", null: false
+    t.integer "value_type", null: false
+    t.boolean "symbol_key", default: true, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["entry_key"], name: "index_item_columns_on_entry_key"
+    t.index ["item_id"], name: "index_item_columns_on_item_id"
+  end
+
+  create_table "item_properties", force: :cascade do |t|
+    t.bigint "request_for_tender_id"
+    t.string "column_name"
+    t.integer "filled_in_by"
+    t.integer "field_type"
+    t.boolean "required"
+    t.boolean "sum_up"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "formula"
+    t.index ["request_for_tender_id"], name: "index_item_properties_on_request_for_tender_id"
+  end
+
+  create_table "items", force: :cascade do |t|
+    t.bigint "request_for_tender_id"
+    t.float "priority"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["request_for_tender_id"], name: "index_items_on_request_for_tender_id"
   end
 
   create_table "other_document_uploads", force: :cascade do |t|
@@ -154,10 +187,11 @@ ActiveRecord::Schema.define(version: 20180715190323) do
     t.integer "withdrawal_frequency"
     t.text "tender_figure_address"
     t.datetime "published_at"
-    t.jsonb "list_of_items"
+    t.jsonb "list_of_items", default: {"Sheets"=>{}, "SheetNames"=>[]}
     t.string "status", default: "0", null: false
-    t.jsonb "list_of_rates", default: {"rates"=>{}}
     t.datetime "submitted_at"
+    t.bigint "version_number", default: 0, null: false
+    t.jsonb "list_of_rates", default: {}
     t.index ["quantity_surveyor_id"], name: "index_request_for_tenders_on_quantity_surveyor_id"
   end
 
@@ -182,6 +216,22 @@ ActiveRecord::Schema.define(version: 20180715190323) do
     t.index ["request_for_tender_id"], name: "index_required_documents_on_request_for_tender_id"
   end
 
+  create_table "taggings", force: :cascade do |t|
+    t.bigint "item_id"
+    t.bigint "tag_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["item_id"], name: "index_taggings_on_item_id"
+    t.index ["tag_id"], name: "index_taggings_on_tag_id"
+  end
+
+  create_table "tags", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "tenders", force: :cascade do |t|
     t.bigint "request_for_tender_id"
     t.datetime "purchased_at"
@@ -201,12 +251,17 @@ ActiveRecord::Schema.define(version: 20180715190323) do
     t.datetime "purchase_request_sent_at"
     t.string "purchase_request_message"
     t.string "transaction_id"
-    t.jsonb "list_of_rates", default: {"rates"=>{}}
     t.string "status"
+    t.bigint "version_number", default: 0, null: false
+    t.jsonb "list_of_rates", default: {}
     t.index ["contractor_id"], name: "index_tenders_on_contractor_id"
     t.index ["request_for_tender_id", "contractor_id"], name: "index_tenders_on_request_for_tender_id_and_contractor_id", unique: true
     t.index ["request_for_tender_id"], name: "index_tenders_on_request_for_tender_id"
   end
 
+  add_foreign_key "item_properties", "request_for_tenders"
+  add_foreign_key "items", "request_for_tenders"
+  add_foreign_key "taggings", "items"
+  add_foreign_key "taggings", "tags"
   add_foreign_key "tenders", "contractors"
 end
