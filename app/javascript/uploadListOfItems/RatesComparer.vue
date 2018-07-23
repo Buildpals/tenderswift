@@ -12,7 +12,7 @@
             :key="index"
             style="width:90px"
             class="text-right">
-          {{ tender.contractor.company_name }}
+          {{ tender.contractors_company_name }}
         </th>
       </tr>
       </thead>
@@ -81,20 +81,28 @@
         <td colspan="5">Total tender figure</td>
         <td v-for="(tender, index) in tenders"
             :key="index">
-          {{ formatNumber(tenderFigure(tender)) }}
         </td>
       </tr>
     </table>
+
+
+    <workbook :workbook="requestForTender.compare_workbook"
+              :tenders="tenders" />
   </div>
+
 </template>
 
 <script>
   import TenderSwiftMixins from '../TenderSwiftMixins'
+  import Workbook from '../compareBillOfQuantities/Workbook'
 
   export default {
     mixins: [TenderSwiftMixins],
 
+    components: { Workbook },
+
     props: [
+      'requestForTender',
       'list_of_items',
       'tenders'
     ],
@@ -104,14 +112,14 @@
         return accumulator +
           this.list_of_items.items[rateKey].quantity * this.rates[rateKey]
       },
-      tenderFigure (tender) {
+      /*tenderFigure (tender) {
         return Object.keys(tender.list_of_rates.rates)
           .reduce((accumulator, rateKey) => {
             return accumulator +
               this.list_of_items.items[rateKey].quantity *
               tender.list_of_rates.rates[rateKey]
           }, 0)
-      }
+      } */
     }
   }
 </script>
