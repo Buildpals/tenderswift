@@ -8,6 +8,7 @@
                      :sheetAddress="sheetName"
                      :worksheet="workBook.Sheets[sheetName]"
                      :tenders="tenders"
+                     :workbook="workbook"
                      />
         </div>
       </b-tab>
@@ -72,7 +73,24 @@
         //recalculateFormulas(this.workBook)
 
         this.$emit('save-rates', this.workBook)
-      }
+      },
+      numberToLetter(columnNumber) {
+          let alphabets = ['F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N','O', 
+                        'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' ]
+          if (columnNumber < 26) {
+              return alphabets[columnNumber - 1];
+          }
+          else{
+            var temp, letter = '';
+            while (columnNumber > 0) {
+                temp = (columnNumber - 1) % 26;
+                letter = String.fromCharCode(temp + 65) + letter;
+                columnNumber = (columnNumber - temp - 1) / 26;
+            }
+            return letter;
+          }
+
+        }
     }
   }
 </script>

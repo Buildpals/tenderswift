@@ -63,13 +63,13 @@
               :options="options"
               v-on:show-cell-contents="showCellContents"/>
 
-        <cell v-for="tender in tenders"
-              :key="tender.id"
-              class="rate"
-              :cell="getRateCell(tender, row)"
-              :cell-address="`${sheetAddress}!E${row}`"
+
+        <cell class="rate"
+              :cell="worksheet[`F${row}`]"
+              :cell-address="`${sheetAddress}!F${row}`"
               :options="options"
               v-on:show-cell-contents="showCellContents"/>
+
       </tr>
       </tbody>
 
@@ -80,11 +80,16 @@
 <script>
   import XLSX from 'xlsx'
   import Cell from './Cell'
+import { lastRowWithValues, recalculateFormulas } from '../utils';
 
   export default {
     components: {Cell},
 
     props: {
+    workbook: {
+        type: Object,
+        required: true
+      },
       worksheet: {
         type: Object
       },
@@ -111,6 +116,27 @@
       }
     },
 
+
+    mounted () {
+        let listOfNewColumns = [];
+        for (let index = 1; index <= this.tenders.length; index++) {
+            listOfNewColumns.push(this.numberToLetter(index));
+        }
+
+        for (let index = 1; index < this.lastRowWithValues + 1; index++) {
+            for (let j = 0; j < listOfNewColumns.length; j++) {
+                //console.log(this.sheetAddress);
+                //console.log(listOfNewColumns[j]+''+index);
+                let fullCellAddress = listOfNewColumns[j]+''+index;
+                for (let k = 0; k < this.tenders.length; k++) {
+                    //console.log(this.tenders[k].list_of_rates[ this.sheetAddress +'!'+ fullCellAddress]);
+                    //console.log(this.sheetAddress +'!'+ fullCellAddress);
+                    this.add_cell_to_sheet(fullCellAddress, this.tenders[k].list_of_rates[ this.sheetAddress + '!E' + index], index);
+                }              
+            }  
+        }
+    },
+
     computed: {
       lastRowWithValues () {
         let range = XLSX.utils.decode_range(this.worksheet['!ref'])
@@ -118,7 +144,7 @@
 
         for (let row = totalRows; row > 0; row--) {
           if (this.rowHasValue(row)) {
-            return row
+            return row;
           }
         }
       }
@@ -138,9 +164,60 @@
       },
       getRateCell (tender, row) {
           let fullCellAddress = this.sheetAddress+'!'+`E${row}`;
-          //console.log(fullCellAddress);
           return { v: tender.list_of_rates[fullCellAddress] }
-      }
+      },
+
+    numberToLetter(columnNumber) {
+          let alphabets = ['F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N','O', 
+                        'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' ]
+          if (columnNumber < 26) {
+              return alphabets[columnNumber - 1];
+          }
+          else{
+            var temp, letter = '';
+            while (columnNumber > 0) {
+                temp = (columnNumber - 1) % 26;
+                letter = String.fromCharCode(temp + 65) + letter;
+                columnNumber = (columnNumber - temp - 1) / 26;
+            }
+            return letter;
+          }
+
+     },
+        
+        add_cell_to_sheet(address, value, row) {
+            let e_cell = this.worksheet['E'+row];
+
+            if ((e_cell != undefined || e_cell != null) && e_cell['f'] != undefined ) {
+                console.log(e_cell['f']);
+                var cell = {t:'?', v:value, f: e_cell['f'].replace('E', address.split('')[0])};
+                console.log(cell);
+            }else{
+                var cell = {t:'?', v:value};
+            }
+            
+
+            /* assign type */
+            if(typeof value == "string") cell.t = 's';
+            else if(typeof value == "number") cell.t = 'n';
+
+            /* add to cell to worksheet*/
+            this.worksheet[address] = cell;
+
+            /* find the cell range */
+            var range = XLSX.utils.decode_range(this.worksheet['!ref']);
+            var addr = XLSX.utils.decode_cell(address);
+
+            /* extend the range to include the new cell */
+            if(range.s.c > addr.c) range.s.c = addr.c;
+            if(range.s.r > addr.r) range.s.r = addr.r;
+            if(range.e.c < addr.c) range.e.c = addr.c;
+            if(range.e.r < addr.r) range.e.r = addr.r;
+
+            /* update range */
+            this.worksheet['!ref'] = XLSX.utils.encode_range(range);
+            recalculateFormulas(this.workbook);
+        }
     }
   }
 </script>
