@@ -5,8 +5,16 @@
   </div>
 
   <tender-figures-table
-    :tenders="<%= @request_for_tender.tenders_including_mine.to_json %>"
-    :list_of_items="<%= @request_for_tender.list_of_items.to_json %>">
+      :request-for-tender="<%= @request_for_tender
+                               .to_json(only: [:id, :tender_figure_address],
+                                                methods: [:project_owners_email,
+                                                          :project_owners_company_name,
+                                                          :workbook]) %>"
+    :tenders="<%= @request_for_tender
+                  .tenders.to_json(only: [:id, :disqualified, :rating],
+                                   methods: [:contractors_company_name,
+                                             :contractors_email,
+                                             :workbook]) %>">
   </tender-figures-table>
 <% else %>
   <div class="d-flex w-100 justify-content-end mb-2">

@@ -7,6 +7,9 @@ z<template>
 <script>
   import TenderSwiftMixins from '../TenderSwiftMixins'
   import ContextMenu from 'vue-context-menu'
+  import {
+    getTenderFigure
+  } from '../utils'
 
   import Chart from 'chart.js'
 
@@ -32,18 +35,17 @@ z<template>
     components: {ContextMenu},
 
     props: [
-      'tender_id',
-      'list_of_items',
-      'tenders'
+      'tenders',
+      'baseTenderFigure',
+      'tenderFigureAddress'
     ],
 
     data () {
       return {
         menuData: newMenuData(),
-        baseTenderFigure: this.tenderFigure(this.tenders[0]),
         chart: false,
         data: this.tenders.map(tender => this.tenderFigure(tender)),
-        labels: this.tenders.map(tender => tender.contractor.company_name)
+        labels: this.tenders.map(tender => tender.contractors_company_name)
       }
     },
 
@@ -62,10 +64,10 @@ z<template>
 
     methods: {
       tenderFigure (tender) {
-        return Object.keys(tender.list_of_rates.rates).reduce((accumulator, rateKey) => {
-          return accumulator +
-            this.list_of_items.items[rateKey].quantity * tender.list_of_rates.rates[rateKey]
-        }, 0)
+        return getTenderFigure(
+          tender.workbook,
+          this.tenderFigureAddress
+        )
       },
 
       onCtxOpen (locals) {

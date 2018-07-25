@@ -54,3 +54,10 @@ export function getRowColumnRef (cellAddress) {
   return cellAddress.split('!')[1]
 }
 
+export function getTenderFigure(workbook, tenderFigureAddress) {
+  let sheetName = getSheetName(tenderFigureAddress)
+  let rowColumnRef = getRowColumnRef(tenderFigureAddress)
+  recalculateFormulas(workbook)
+  return workbook.Sheets[sheetName][rowColumnRef].v
+}
+

@@ -109,11 +109,6 @@ class RequestForTender < ApplicationRecord
     Time.current > deadline
   end
 
-  def tender_figure
-    # TODO: Fetch tender figure
-    100_000
-  end
-
   def number_of_tender_purchases
     tenders.where.not(purchased_at: nil).size
   end
@@ -124,16 +119,6 @@ class RequestForTender < ApplicationRecord
       sum += tender.amount if tender.purchased?
     end
     sum - (TENDERSWIFT_CUT * sum)
-  end
-
-  def tenders_including_mine
-    tenders.as_json(include: :contractor).unshift(
-      contractor: {
-        company_name: project_owners_company_name,
-        email: project_owners_email
-      },
-      list_of_rates: list_of_rates
-    )
   end
 
   def setup_with_data

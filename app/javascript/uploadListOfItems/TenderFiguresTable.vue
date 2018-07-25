@@ -1,8 +1,10 @@
 <template>
   <div id="app">
-    <tender-figures-chart class="mb-5"
-                          :tenders="tenders"
-                          :list_of_items="list_of_items" />
+    <tender-figures-chart
+        class="mb-5"
+        :tenders="tenders"
+        :tender-figure-address="requestForTender.tender_figure_address"
+        :base-tender-figure="baseTenderFigure"/>
 
     <table class="table table-striped table-hover mb-5"
            style="font-size: 0.9rem;">
@@ -18,6 +20,39 @@
       </tr>
       </thead>
 
+      <tbody>
+      <tr>
+
+        <td>
+          <span data-toggle="tooltip"
+                data-placement="top"
+                :title="requestForTender.project_owners_email">
+            {{  requestForTender.project_owners_company_name }}
+          </span>
+        </td>
+
+        <td class="text-right">
+          {{ formatNumber( baseTenderFigure ) }}
+        </td>
+
+        <td class="text-right">
+
+        </td>
+
+        <td class="text-right">
+
+        </td>
+
+        <td class="text-right">
+
+        </td>
+
+        <td class="d-flex justify-content-center">
+        </td>
+
+      </tr>
+      </tbody>
+
       <thead class="thead-light">
       <tr>
         <th colspan="6">Submitted</th>
@@ -26,11 +61,11 @@
 
       <tbody>
       <tender-figures-row
+          v-for="tender in shortListParticipants"
+          :key="tender.id"
           :tender="tender"
-          :list_of_items="list_of_items"
-          :baseTenderFigure="baseTenderFigure"
-          v-for="(tender, index) in shortListParticipants"
-          :key="index"
+          :tender-figure-address="requestForTender.tender_figure_address"
+          :base-tender-figure="baseTenderFigure"
           @contextmenu.prevent="$refs.ctxMenu.open($event, {tender: tender})"
       />
       </tbody>
@@ -44,11 +79,11 @@
 
       <tbody>
       <tender-figures-row
+          v-for="tender in disqualifiedParticipants"
+          :key="tender.id"
           :tender="tender"
-          :list_of_items="list_of_items"
-          :baseTenderFigure="baseTenderFigure"
-          v-for="(tender, index) in disqualifiedParticipants"
-          :key="index"
+          :tender-figure-address="requestForTender.tender_figure_address"
+          :base-tender-figure="baseTenderFigure"
           @contextmenu.prevent="$refs.ctxMenu.open($event, {tender: tender})"
       />
       </tbody>
@@ -69,7 +104,9 @@
   import ContextMenu from 'vue-context-menu'
   import TenderFiguresRow from './TenderFiguresRow'
   import TenderFiguresChart from './TenderFiguresChart'
-
+  import {
+    getTenderFigure
+  } from '../utils'
 
   const newMenuData = () => ({tender: null})
 
@@ -79,14 +116,13 @@
     components: {TenderFiguresChart, TenderFiguresRow, ContextMenu},
 
     props: [
-      'list_of_items',
+      'requestForTender',
       'tenders'
     ],
 
     data () {
       return {
         menuData: newMenuData(),
-        baseTenderFigure: this.tenderFigure(this.tenders[0]),
       }
     },
 
@@ -96,6 +132,12 @@
       },
       shortListParticipants () {
         return this.tenders.filter(tender => !tender.disqualified)
+      },
+      baseTenderFigure () {
+        return getTenderFigure(
+          this.requestForTender.workbook,
+          this.requestForTender.tender_figure_address
+        )
       }
     },
 

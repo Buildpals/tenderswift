@@ -4,8 +4,8 @@
     <td>
       <span data-toggle="tooltip"
             data-placement="top"
-            :title="tender.contractor.email">
-        {{  tender.contractor.company_name }}
+            :title="tender.contractors_email">
+        {{  tender.contractors_company_name }}
       </span>
     </td>
 
@@ -44,23 +44,25 @@
 
 <script>
   import TenderSwiftMixins from '../TenderSwiftMixins'
+  import {
+    getTenderFigure
+  } from '../utils'
 
   export default {
     mixins: [TenderSwiftMixins],
 
     props: [
       'tender',
-      'baseTenderFigure',
-      'list_of_items'
+      'tenderFigureAddress',
+      'baseTenderFigure'
     ],
 
     computed: {
       tenderFigure () {
-        return Object.keys(this.tender.list_of_rates.rates)
-          .reduce((accumulator, rateKey) => {
-            return accumulator +
-              this.list_of_items.items[rateKey].quantity * this.tender.list_of_rates.rates[rateKey]
-          }, 0)
+        return getTenderFigure(
+          this.tender.workbook,
+          this.tenderFigureAddress
+        )
       },
 
       tenderFigureDifference () {
