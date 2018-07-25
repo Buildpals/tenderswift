@@ -1,6 +1,6 @@
 <% if deadline_over? @request_for_tender %>
   <div class="d-flex w-100 justify-content-end mb-2">
-    <%= link_to 'Compare Bill of Quantities', compare_boq_path(@request_for_tender), target: '_blank',
+    <%= link_to 'Compare Rates', compare_boq_path(@request_for_tender), target: '_blank',
                 class: 'btn btn-sm btn-secondary' %>
   </div>
 
@@ -17,7 +17,7 @@
                 <p class='text-center request-countdown'><%= time_to_deadline @request_for_tender %> left to request deadline.</p>">
 
       <button class="btn btn-secondary disabled" type="button">
-        Compare Bill of Quantities
+        Compare Rates
       </button>
     </div>
   </div>

@@ -183,6 +183,21 @@ class RequestForTender < ApplicationRecord
     list_of_rates
   end
 
+
+  def compare_workbook
+    workbook = list_of_items_without_amount
+    list_of_rates.each do |key, value|
+      sheet_name = key.split('!')[0]
+      row_col_ref = key.split('!')[1]
+      workbook['Sheets'][sheet_name][row_col_ref]['v'] = value
+    end
+    workbook
+  end
+
+  def list_of_items_without_amount
+    strip_qs_amount(list_of_items) 
+  end
+
   private
 
   def check_deadline
@@ -204,6 +219,17 @@ class RequestForTender < ApplicationRecord
         }
 
         sheet[cell_address]['c'] = 'allowEditing' if cell_address[0] == 'E'
+      end
+    end
+    workbook
+  end
+
+  def strip_qs_amount(workbook)
+    workbook['Sheets'].each_value do |sheet|
+      sheet.keys
+           .select { |cell_address| cell_address[0] == 'F'}
+           .each do |cell_address|
+        sheet.delete(cell_address)
       end
     end
     workbook
