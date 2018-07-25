@@ -63,10 +63,10 @@
               :options="options"
               v-on:show-cell-contents="showCellContents"/>
 
-
-        <cell class="rate"
-              :cell="worksheet[`F${row}`]"
-              :cell-address="`${sheetAddress}!F${row}`"
+        <cell v-for="column in listOfNewColumns"
+              class="rate"
+              :cell="worksheet[column+''+row]"
+              :cell-address="sheetAddress+'!'+column+row"
               :options="options"
               v-on:show-cell-contents="showCellContents"/>
 
@@ -112,25 +112,26 @@
 
     data () {
       return {
-        currentCellContents: ''
+        currentCellContents: '',
+        listOfNewColumns: []
       }
     },
 
 
     mounted () {
-        let listOfNewColumns = [];
         for (let index = 1; index <= this.tenders.length; index++) {
-            listOfNewColumns.push(this.numberToLetter(index));
+            this.listOfNewColumns.push(this.numberToLetter(index));
+            //console.log(listOfNewColumns);
         }
 
         for (let index = 1; index < this.lastRowWithValues + 1; index++) { /* loop through all rows */
-            for (let j = 0; j < listOfNewColumns.length; j++) { /* go through new columns */
-                let fullCellAddress = listOfNewColumns[j]+''+index;
-                for (let k = 0; k < this.tenders.length; k++) { /* go through tenders */
-                    this.addCellToSheet(fullCellAddress, this.tenders[k].list_of_rates[ this.sheetAddress + '!E' + index], index);
-                }              
+            for (let j = 0; j < this.listOfNewColumns.length; j++) { /* go through new columns */
+                let fullCellAddress = this.listOfNewColumns[j]+''+index;
+                    this.addCellToSheet(fullCellAddress, this.tenders[j].list_of_rates[ this.sheetAddress + '!E' + index], index);           
             }  
         }
+
+        console.log(this.workbook)
     },
 
     computed: {
@@ -182,12 +183,13 @@
      },
         
     addCellToSheet(address, value, row) {
+        //console.log(address);
         let e_cell = this.worksheet['E'+row];
 
         if ((e_cell != undefined || e_cell != null) && e_cell['f'] != undefined ) {
-            console.log(e_cell['f']);
+            //console.log(e_cell['f']);
             var cell = {t:'?', v:value, f: e_cell['f'].replace('E', address.split('')[0])};
-            console.log(cell);
+            //console.log(cell);
         }else{
             var cell = {t:'?', v:value};
         }
