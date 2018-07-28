@@ -7,11 +7,18 @@
 
     <%= render 'admins/navbar' %>
 
-    <%= render 'layouts/flash_messages' %>
-
     <div class="content">
 
-      <%= yield %>
+      <div class="container">
+        <div class="row mt-4">
+          <div class="col-lg-12 mx-auto">
+            <%= render 'layouts/flash_messages' %>
+          </div>
+        </div>
+
+        <%= yield %>
+      </div>
+
     </div>
   </body>
 </html>
