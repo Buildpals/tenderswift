@@ -11,13 +11,19 @@
 
 <%= render 'contractors/navbar' %>
 
-<%= render 'layouts/flash_messages' %>
-
 <div class="content">
 
-  <%= render 'contractors/page_head' %>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-10 mx-auto pt-4">
 
-  <%= yield %>
+        <%= render 'layouts/flash_messages' %>
+
+        <%= yield %>
+
+      </div>
+    </div>
+  </div>
 
 </div>
 

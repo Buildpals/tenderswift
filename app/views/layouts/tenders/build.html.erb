@@ -27,8 +27,6 @@
 
 <%= render 'contractors/navbar' %>
 
-<%= render 'layouts/flash_messages' %>
-
 <div class="content">
 
   <div class="d-none d-sm-none d-md-none d-lg-block d-xl-block">
@@ -49,7 +47,7 @@
       <div class="col-lg-10 mx-auto
                   d-none d-sm-none d-md-none d-lg-block d-xl-block">
 
-        <nav class="nav nav-pills justify-content-center">
+        <nav class="nav nav-pills nav-justified">
           <% wizard_steps.each_with_index do |wizard_step, index| %>
             <%= link_to "#{index + 1}. #{wizard_step.to_s.humanize}",
                         wizard_path(wizard_step),
@@ -58,10 +56,11 @@
         </nav>
 
         <hr>
-
       </div>
 
-      <div class="col-lg-11 mx-auto">
+      <div class="col-lg-10 mx-auto">
+        <%= render 'layouts/flash_messages' %>
+
         <%= yield %>
       </div>
 

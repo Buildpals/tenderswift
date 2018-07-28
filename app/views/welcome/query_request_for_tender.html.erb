@@ -13,14 +13,15 @@
 
 <%= render 'contractors/navbar' %>
 
-<%= render 'layouts/flash_messages' %>
-
 <div class="content d-flex align-items-center">
 
   <div class="container">
     <div class="row">
 
       <div class="col-md-8 col-lg-6 mx-auto text-center" id="search-wrapper">
+
+        <%= render 'layouts/flash_messages' %>
+
         <%= form_with url: find_request_for_tender_path do |form| %>
           <div class="input-group">
             <%= form.text_field :reference_number,

@@ -7,9 +7,15 @@
 
     <%= render 'layouts/navbar' %>
 
-    <%= render 'layouts/flash_messages' %>
-
     <div class="content">
+
+      <div class="container">
+        <div class="row mt-4">
+          <div class="col-lg-10 mx-auto">
+            <%= render 'layouts/flash_messages' %>
+          </div>
+        </div>
+      </div>
 
       <%= yield %>
     </div>

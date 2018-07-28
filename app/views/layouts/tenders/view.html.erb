@@ -32,8 +32,6 @@
 
 <%= render 'contractors/navbar' %>
 
-<%= render 'layouts/flash_messages' %>
-
 <div class="content">
 
   <%= render 'contractors/page_head' %>
@@ -41,7 +39,9 @@
   <div class="container">
     <div class="row mt-4">
 
-      <div class="col-lg-11 mx-auto">
+      <div class="col-lg-10 mx-auto">
+        <%= render 'layouts/flash_messages' %>
+
         <%= yield %>
       </div>
 

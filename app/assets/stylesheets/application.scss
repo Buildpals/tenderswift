@@ -55,13 +55,6 @@ Card Shadows
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
 }
 
-.flash {
-  position: absolute;
-  left: 50%;
-  top: 56px;
-  transform: translate(-50%);
-}
-
 .replace {
   background-color: yellow;
 }
@@ -110,21 +103,6 @@ only screen and (min-resolution: 2dppx) {
     background-image: image-url("flags@2x.png");
   }
 }
-
-@media (max-width: 576px) {
-  .flash{
-    width: 100%;
-    font-size: 14px;
-  }
-}
-
-@media (max-width: 376px) {
-  .flash{
-    width: 100%;
-    font-size: 11px;
-  }
-}
-
 
 .intl-tel-input {
   display: block;
