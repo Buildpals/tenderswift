@@ -50,6 +50,8 @@ class Tender < ApplicationRecord
 
   validates :amount, presence: true, if: :purchasing?
 
+  validate :all_rates_filled?
+
   delegate :project_name, to: :request_for_tender
   delegate :deadline, to: :request_for_tender
   delegate :city, to: :request_for_tender
@@ -151,6 +153,15 @@ class Tender < ApplicationRecord
       next if required_document_upload?(required_document)
       errors.add(required_document.title,
                  'is required but has not been uploaded')
+    end
+  end
+
+  def all_rates_filled?
+    request_for_tender.list_of_rates.each do |key,value| 
+      if list_of_rates[key].to_f <= 0.0
+        errors.add(:bill_of_quantities,  
+                   ": #{key} is required but no value was provided.")
+      end
     end
   end
 end

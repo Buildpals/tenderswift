@@ -121,7 +121,6 @@
     mounted () {
         for (let index = 1; index <= this.tenders.length; index++) {
             this.listOfNewColumns.push(this.numberToLetter(index));
-            //console.log(listOfNewColumns);
         }
 
         for (let index = 1; index < this.lastRowWithValues + 1; index++) { /* loop through all rows */
@@ -130,8 +129,6 @@
                     this.addCellToSheet(fullCellAddress, this.tenders[j].list_of_rates[ this.sheetAddress + '!E' + index], index);           
             }  
         }
-
-        console.log(this.workbook)
     },
 
     computed: {
@@ -183,13 +180,10 @@
      },
         
     addCellToSheet(address, value, row) {
-        //console.log(address);
         let e_cell = this.worksheet['E'+row];
 
         if ((e_cell != undefined || e_cell != null) && e_cell['f'] != undefined ) {
-            //console.log(e_cell['f']);
             var cell = {t:'?', v:value, f: e_cell['f'].replace('E', address.split('')[0])};
-            //console.log(cell);
         }else{
             var cell = {t:'?', v:value};
         }
@@ -215,6 +209,17 @@
         /* update range */
         this.worksheet['!ref'] = XLSX.utils.encode_range(range);
         recalculateFormulas(this.workbook);
+      },
+
+      isGreater(column, row){
+          if(this.worksheet['E'+row] != undefined){
+              if(this.worksheet['E'+row].v > this.worksheet[column+''+row].v){
+                  return "greater";
+              }
+              else{
+                  return "lower"
+              }
+          }
       }
     }
   }
@@ -257,6 +262,14 @@
 
   .rate {
     width: 5.62rem;
+  }
+
+  .greater {
+      color: orangered;
+  }
+
+  .lower {
+      color: green;
   }
 
   .amount {

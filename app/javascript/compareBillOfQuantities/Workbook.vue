@@ -55,7 +55,6 @@
     },
 
     mounted () {
-      //recalculateFormulas(this.workBook)
       EventBus.$on('cell-change', this.updateWorkbook)
     },
 
@@ -69,8 +68,6 @@
           'v',
           value
         )
-
-        //recalculateFormulas(this.workBook)
 
         this.$emit('save-rates', this.workBook)
       },
