@@ -4,91 +4,96 @@
               method: :put,
               id: 'request-form' do |form| %>
 
-  <%= render 'request_for_tender_errors' %>
+  <div class="min-height-500">
 
-  <div class="form-row mb-5">
-    <div class="col-md-12">
-      <%= form.label :selling_price %>
-    </div>
-    <div class="col-md-3">
-      <div class="input-group">
-        <div class="input-group-prepend">
-          <span class="input-group-text">GH₵</span>
-        </div>
-        <%= form.text_field :selling_price,
-                            id: :request_for_tender_selling_price,
-                            class: 'form-control form-control-sm' %>
+    <%= render 'request_for_tender_errors' %>
+
+    <div class="form-row mb-5">
+      <div class="col-md-12">
+        <%= form.label :selling_price %>
       </div>
-    </div>
-    <div class="col-md-12">
-      <small class="form-text text-muted">
-        Please note all sales will incur a service charge of 15% of
-        the total selling price.
-      </small>
-    </div>
-  </div>
-
-  <div class="form-row mb-5" id="publicLinkDiv" style="display: block">
-    <div class="col-md-12">
-      <div class="form-group">
-        <%= form.label :reference_number,
-                       'The reference number for this request for tender is:',
-                       class: 'pb-0' %>
-
-        <%= text_field_tag :reference_number,
-                           @request_for_tender.id,
-                           {
-                               id: :request_for_tender_reference_number,
-                               class: 'form-control form-control-sm',
-                               onclick: 'this.select()',
-                               readonly: true
-                           } %>
-
+      <div class="col-md-3">
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text">GH₵</span>
+          </div>
+          <%= form.text_field :selling_price,
+                              id: :request_for_tender_selling_price,
+                              class: 'form-control form-control-sm' %>
+        </div>
+      </div>
+      <div class="col-md-12">
         <small class="form-text text-muted">
-          Copy and send it to the contractors you would like to tender for this
-          contract.
-          <br>
-          They will have to go to
-          <a href="https://public.tenderswift.com">
-            public.tenderswift.com
-          </a>
-          and enter this reference number in order to purchase this tender.
+          Please note all sales will incur a service charge of 15% of
+          the total selling price.
         </small>
       </div>
     </div>
-  </div>
 
-  <div class="form-row mb-5" id="publicLinkDiv" style="display: block">
-    <div class="col-md-12">
-      <div class="form-group">
-        <div class="d-flex w-100 justify-content-between mb-3">
-          <%= form.label :purchase_link,
-                         'Purchase link',
-                         class: 'pb-0 mb-0' %>
+    <div class="form-row mb-5" id="publicLinkDiv" style="display: block">
+      <div class="col-md-12">
+        <div class="form-group">
+          <%= form.label :reference_number,
+                         'The reference number for this request for tender is:',
+                         class: 'pb-0' %>
 
-          <%= link_to 'Preview purchase link',
-                      purchase_url(@request_for_tender),
-                      target: '_blank',
-                      class: 'btn btn-link btn-sm' %>
+          <%= text_field_tag :reference_number,
+                             @request_for_tender.id,
+                             {
+                                 id: :request_for_tender_reference_number,
+                                 class: 'form-control form-control-sm',
+                                 onclick: 'this.select()',
+                                 readonly: true
+                             } %>
+
+          <small class="form-text text-muted">
+            Copy and send it to the contractors you would like to tender for
+            this
+            contract.
+            <br>
+            They will have to go to
+            <a href="https://public.tenderswift.com">
+              public.tenderswift.com
+            </a>
+            and enter this reference number in order to purchase this tender.
+          </small>
         </div>
-
-        <%= text_field_tag :purchase_link,
-                           purchase_url(@request_for_tender),
-                           {
-                               id: :request_for_tender_purchase_link,
-                               class: 'form-control form-control-sm',
-                               onclick: 'this.select()',
-                               readonly: true
-                           } %>
-        <small class="form-text text-muted">
-          The link above is where contractors can see and purchase this
-          request for tender.
-          <br>
-          You can copy and send it to the contractors you would like to tender
-          for this contract.
-        </small>
       </div>
     </div>
+
+    <div class="form-row mb-5" id="publicLinkDiv" style="display: block">
+      <div class="col-md-12">
+        <div class="form-group">
+          <div class="d-flex w-100 justify-content-between mb-3">
+            <%= form.label :purchase_link,
+                           'Purchase link',
+                           class: 'pb-0 mb-0' %>
+
+            <%= link_to 'Preview purchase link',
+                        purchase_url(@request_for_tender),
+                        target: '_blank',
+                        class: 'btn btn-link btn-sm' %>
+          </div>
+
+          <%= text_field_tag :purchase_link,
+                             purchase_url(@request_for_tender),
+                             {
+                                 id: :request_for_tender_purchase_link,
+                                 class: 'form-control form-control-sm',
+                                 onclick: 'this.select()',
+                                 readonly: true
+                             } %>
+          <small class="form-text text-muted">
+            The link above is where contractors can see and purchase this
+            request for tender.
+            <br>
+            You can copy and send it to the contractors you would like to tender
+            for this contract.
+          </small>
+        </div>
+      </div>
+    </div>
+
   </div>
 
   <hr>

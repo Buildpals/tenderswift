@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div>
 
     <excel-uploader id="project_document_document"
                     ref="documentUploader"
@@ -10,9 +10,9 @@
                     name="project_document[document]"
                     v-on:before-upload="beforeUpload"
                     v-on:after-upload="afterUpload"
-                    v-on:upload-error="uploadError" />
+                    v-on:upload-error="uploadError"/>
 
-    <div class="row">
+    <div class="row" v-if="projectDocuments.length > 0">
       <div class="col-lg-8">
         <h4>Added Documents</h4>
 
@@ -69,12 +69,12 @@
       </div>
     </div>
 
-
   </div>
 </template>
 
 <script>
   import ExcelUploader from './FileUploader'
+
   export default {
     components: {ExcelUploader},
     props: ['initialProjectDocuments', 'saveUrl'],

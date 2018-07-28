@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper">
+  <div>
 
     <div v-if="hasWorkbook" class="mb-4">
 
@@ -41,21 +41,25 @@
 
     </div>
 
-    <p v-else class="centered-div text-center">
+    <div v-else class="wrapper">
 
-      You have not uploaded a Bill of Quantities yet,
-      <br>
-      click the button below to upload one.
-      <br>
-      <br>
+      <p class="centered-div text-center">
 
-      <b-btn v-b-modal.uploadExcelFileModal
-             size="sm"
-             variant="primary">
-        Upload your Bill of Quantities
-      </b-btn>
+        You have not uploaded a Bill of Quantities yet,
+        <br>
+        click the button below to upload one.
+        <br>
+        <br>
 
-    </p>
+        <b-btn v-b-modal.uploadExcelFileModal
+               size="sm"
+               variant="primary">
+          Upload your Bill of Quantities
+        </b-btn>
+
+      </p>
+
+    </div>
 
     <b-modal id="uploadExcelFileModal"
              ref="uploadExcelFileModal"
@@ -178,7 +182,7 @@
 
   .wrapper {
     margin: 0 auto;
-    height: 630px;
+    height: 500px;
   }
 
   .centered-div {

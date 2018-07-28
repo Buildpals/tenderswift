@@ -1,21 +1,26 @@
-<p class="text-muted small">
-  Upload any documents that you want the contractor to use in deciding his bid.
-  <br>
-  <strong>
-    NB. Do not upload the bill of quantities here.
-    It should be uploaded in step "2. Bill Of Quantites" instead.
-  </strong>
-</p>
+<div class="min-height-500">
+
+  <p class="text-muted small">
+    Upload any documents that you want the contractor to use in deciding his
+    bid.
+    <br>
+    <strong>
+      NB. Do not upload the bill of quantities here.
+      It should be uploaded in step "2. Bill Of Quantites" instead.
+    </strong>
+  </p>
 
 
-<div class="hello mb-5">
-  <project-documents-uploader
-    multiple
-    save-url="<%= request_for_tender_project_documents_path(
-                      @request_for_tender) %>"
-    :initial-project-documents="<%= @request_for_tender
-                                    .project_documents.to_json %>">
-  </project-documents-uploader>
+  <div class="hello mb-5">
+    <project-documents-uploader
+      multiple
+      save-url="<%= request_for_tender_project_documents_path(
+                        @request_for_tender) %>"
+      :initial-project-documents="<%= @request_for_tender
+                                      .project_documents.to_json %>">
+    </project-documents-uploader>
+  </div>
+
 </div>
 
 <hr>

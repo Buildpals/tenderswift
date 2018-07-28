@@ -115,11 +115,11 @@ Navbar drop down patch
   margin-left: -30%;
 }
 
-
 //Sticky Footer stuff
 html, body {
   height: 100%;
 }
+
 body {
   display: flex;
   flex-direction: column;
@@ -128,8 +128,14 @@ body {
 .navbar {
   flex: none;
 }
+
 .content {
   flex: 1 0 auto;
 
   margin-bottom: 50px;
+}
+
+.min-height-500 {
+  margin: 0 auto;
+  min-height: 500px;
 }
