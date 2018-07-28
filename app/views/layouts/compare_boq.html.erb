@@ -7,11 +7,25 @@
 
 <%= render 'quantity_surveyors/navbar' %>
 
-<%= render 'layouts/flash_messages' %>
-
 <%= render 'quantity_surveyors/page_head' %>
 
-<%= yield %>
+
+<div class="container">
+  <div class="row mt-4">
+    <div class="col-md-10 mx-auto">
+      <%= render 'layouts/flash_messages' %>
+    </div>
+  </div>
+</div>
+
+
+<div class="container-fluid" style="padding-left: 0px; padding-right: 15px;">
+  <div class="row">
+    <div class="col-md-12 mx-auto">
+      <%= yield %>
+    </div>
+  </div>
+</div>
 
 </body>
 </html>

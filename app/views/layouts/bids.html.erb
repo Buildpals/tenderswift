@@ -60,13 +60,21 @@
 
 <%= render 'quantity_surveyors/navbar' %>
 
-<%= render 'layouts/flash_messages' %>
-
 <div class="content">
 
   <%= render 'quantity_surveyors/page_head' %>
 
-  <%= yield %>
+  <div class="container">
+    <div class="row mt-4">
+      <div class="col-lg-10 mx-auto">
+        <%= render 'layouts/flash_messages' %>
+
+        <div class="tab-content">
+          <%= yield %>
+        </div>
+      </div>
+    </div>
+  </div>
 
 </div>
 

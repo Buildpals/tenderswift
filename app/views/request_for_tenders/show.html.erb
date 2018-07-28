@@ -9,18 +9,8 @@
     </li>
 <% end %>
 
-<div class="container">
-  <div class="row pt-4">
+<div class="hello">
+  <%= render 'request_status_summary' %>
 
-    <div class="col-xl-9 col-lg-11 mx-auto mb-4">
-      <div class="hello">
-        <%= render 'request_status_summary' %>
-
-        <%= render 'request_status_detail' %>
-      </div>
-    </div>
-
-  </div>
+  <%= render 'request_status_detail' %>
 </div>
-
-<button class="btn btn-secondary" title="Go to top" data-back-to-top>Back to Top</button>
