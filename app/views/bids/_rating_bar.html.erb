@@ -3,13 +3,16 @@
               url: rate_bid_path(@tender),
               method: :patch,
               local: true,
-              id: '@tender-rating-form' do |form| %>
-  <div class="row">
+              id: 'tender-rating-form' do |form| %>
+  <div class="input-group input-group-sm">
     <%= form.text_field :rating,
-                        class: 'form-control form-control-sm col-md-4',
+                        class: 'form-control',
                         id: :tender_rating,
                         placeholder: 'Rating' %>
-    <%= form.submit 'Save',
-                    class: 'btn btn-sm btn-secondary col-md-3' %>
+    <div class="input-group-append">
+      <%= button_tag 'Save',
+                     type: 'submit',
+                     class: 'btn btn-secondary' %>
+    </div>
   </div>
 <% end %>
