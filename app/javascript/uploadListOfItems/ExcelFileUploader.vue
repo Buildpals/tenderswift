@@ -2,24 +2,37 @@
   <div>
 
     <p class="text-muted">
-      Please upload your <strong>completely filled</strong>
-      Bill Of Quantities in .xls or .xlsx format.
+      Please upload your Bill Of Quantities in .xls or .xlsx format below.
     </p>
 
-    <p>
-      The columns A, B, C, D, E and F of the excel file you upload, should be
-      the Item, Description, Quantity, Unit, Rate and Amount columns
-      respectively.
+    <figure class="figure">
+      <img src="~images/boq_screenshot.png"
+           class="figure-img img-fluid rounded"
+           alt="Example layout of Bill of Quantities excel file." />
 
-      TenderSwift will determine which part of your Bill of Quantities
-      contractors can edit based on the following rules:
-      1. The cell is in the E column of the excel file you uploaded, and,
-      2. The cell contains a <strong>number</strong>.
+      <figcaption class="figure-caption">
+        <p>
+          The first 6 columns should be the Item, Description, Quantity, Unit, Rate
+          and Amount respectively, and the first row should contain the column
+          headers as show above:
+        </p>
 
-      This means that you should fill in all your rates in the excel file before
-      uploading it, so the system can automatically pickup that those cells
-      should be editable by the contractor
-    </p>
+        <p>
+          TenderSwift will determine which part of your Bill of Quantities
+          contractors can edit based on the following rules:
+        </p>
+        <ol>
+          <li>The cell is in the E column of the excel file you uploaded, and,</li>
+          <li>The cell contains a <strong>number</strong>.</li>
+        </ol>
+
+        <p>
+          This means that you should put a number in any cell that you want the
+          contractors to be able to fill with their rates before you upload the
+          excel file.
+        </p>
+      </figcaption>
+    </figure>
 
     <div class="progress mb-5" v-show="processing">
       <div class="progress-bar progress-bar-striped progress-bar-animated
@@ -40,9 +53,9 @@
       </label>
     </div>
 
-    <p class="text-center">
-      Please note that your rates and estimated tender figure are confidential,
-      and will <strong>never</strong> be displayed to any contractor.
+    <p class="small text-center text-info">
+      Please note that your rates and tender figures are confidential,
+      and will <strong>not</strong> be displayed to contractors.
     </p>
 
   </div>
@@ -50,6 +63,7 @@
 
 <script>
   import * as XLSX from 'xlsx'
+  import 'images/boq_screenshot.png'
 
   export default {
     props: [
