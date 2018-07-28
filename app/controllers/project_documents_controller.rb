@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class ProjectDocumentsController < ApplicationController
+class ProjectDocumentsController < QuantitySurveyorsController
   before_action :set_request_for_tender
   before_action :set_project_document, only: :destroy
 

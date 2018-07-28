@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class ExcelFilesController < ApplicationController
+class ExcelFilesController < QuantitySurveyorsController
   before_action :set_request_for_tender
   before_action :set_excel_file, only: :destroy
 
