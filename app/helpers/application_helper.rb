@@ -1,18 +1,14 @@
 # frozen_string_literal: true
 
 module ApplicationHelper
-
   include ActionView::Helpers::DateHelper
 
-  require 'net/http'
-
-  def working_url?(url_str)
-    return false if url_str.nil?
-    uri = URI.parse(URI.encode(url_str))
-    if uri.is_a?(URI::HTTP) || uri.is_a?(URI::HTTPS)
-      true
-    else
-      false
+  def flash_class(level)
+    case level
+    when 'notice' then 'info'
+    when 'success' then 'success'
+    when 'error' then 'danger'
+    when 'alert' then 'danger'
     end
   end
 
@@ -23,7 +19,8 @@ module ApplicationHelper
   end
 
   def get_month(index)
-    months = %w[January February March April May June July August September October November December]
+    months = %w[January February March April May June July August
+                September October November December]
     months[index]
   end
 
