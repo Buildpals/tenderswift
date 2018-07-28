@@ -11,34 +11,41 @@
   </li>
   <li class="breadcrumb-item active" aria-current="page">
     <%= @tender.contractors_company_name.truncate(30) %>
-    (<!-- TODO: Display Tender figure in the brackets -->)
+    (<!-- TODO: Display Tender figure in the brackets --> )
   </li>
 <% end %>
 
 
 <% content_for :nav_tabs do %>
   <nav class="nav">
-    <a class="nav-item nav-link <%= 'active' if action_name == 'required_documents' %>" href="<%= bid_required_documents_path(@tender) %>">
+    <a class="nav-item nav-link <%= 'active' if action_name == 'required_documents' %>"
+       href="<%= bid_required_documents_path(@tender) %>">
       Required Documents
     </a>
-    <a class="nav-item nav-link <%= 'active' if action_name == 'boq' %>" href="<%= bid_boq_path(@tender) %>">
+    <a class="nav-item nav-link <%= 'active' if action_name == 'boq' %>"
+       href="<%= bid_boq_path(@tender) %>">
       Bill Of Quantities
     </a>
-    <a class="nav-item nav-link <%= 'active' if action_name == 'other_documents' %>" href="<%= bid_other_documents_path(@tender) %>">
+    <a class="nav-item nav-link <%= 'active' if action_name == 'other_documents' %>"
+       href="<%= bid_other_documents_path(@tender) %>">
       Other Documents
     </a>
   </nav>
 <% end %>
 
 <% content_for :action_items do %>
-  <div class="mt-2 ml-auto">
+  <div class="ml-auto">
     <%= render 'bids/rating_bar', tender: @tender %>
   </div>
 
   <% if @tender.disqualified %>
-    <%= button_to 'Add to Shortlist', undo_disqualify_bid_path(@tender), {class: 'btn btn-sm btn-success mt-2 ml-2'} %>
+    <%= button_to 'Add to Shortlist',
+                  undo_disqualify_bid_path(@tender),
+                  {class: 'btn btn-sm btn-success ml-2'} %>
   <% else %>
-    <%= button_to 'Disqualify', disqualify_bid_path(@tender), {class: 'btn btn-sm btn-danger mt-2 ml-2'} %>
+    <%= button_to 'Disqualify',
+                  disqualify_bid_path(@tender),
+                  {class: 'btn btn-sm btn-danger ml-2'} %>
   <% end %>
 <% end %>
 

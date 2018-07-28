@@ -9,6 +9,19 @@
   </li>
 <% end %>
 
+<% content_for :action_items do %>
+  <div class="col-md-4 col-lg-3 mb-3">
+    <%= link_to 'Delete this request for tender',
+                @request_for_tender,
+                method: :delete,
+                data: {
+                    confirm: 'Are you sure you want to permanently delete ' \
+                           'this request for tender?'
+                },
+                class: 'btn btn-sm btn-block btn-danger' %>
+  </div>
+<% end %>
+
 
 
 
@@ -36,7 +49,7 @@
           <% wizard_steps.each_with_index do |wizard_step, index| %>
             <%= link_to "#{index + 1}. #{wizard_step.to_s.humanize}",
                         wizard_path(wizard_step),
-                        class: "nav-item nav-link #{'active' if step == wizard_step}"%>
+                        class: "nav-item nav-link #{'active' if step == wizard_step}" %>
           <% end %>
         </nav>
 
