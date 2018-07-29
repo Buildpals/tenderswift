@@ -15,11 +15,6 @@ module RequestForTendersHelper
     end
   end
 
-  def contract_class(request_for_tender)
-    # TODO: Return proper contract class
-    'D1, K1'
-  end
-
   def deadline_over?(request_for_tender)
     Time.current > request_for_tender.deadline
   end

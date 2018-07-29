@@ -146,7 +146,7 @@ RSpec.feature 'Purchased tender document' do
   def contractor_should_see_project_information
     expect(page).to have_content purchased_tender_document.project_name
     expect(page).to have_content purchased_tender_document.project_owners_company_name
-    expect(page).to have_content contract_class purchased_tender_document
+    expect(page).to have_content purchased_tender_document.contract_class
     expect(page).to have_content project_location purchased_tender_document
     expect(page).to have_content project_currency purchased_tender_document
 

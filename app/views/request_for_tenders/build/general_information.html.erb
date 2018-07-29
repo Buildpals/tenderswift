@@ -16,7 +16,8 @@
       <div class="col-md-12">
         <div class="form-group">
           <%= form.label :project_name %>
-          <%= form.text_field :project_name, id: :request_for_tender_project_name,
+          <%= form.text_field :project_name,
+                              id: :request_for_tender_project_name,
                               class: 'form-control form-control-sm' %>
           <small class="form-text text-muted">
             Example: Proposed residential building for Mrs. Comfort Adu-Boateng
@@ -26,29 +27,49 @@
     </div>
 
     <div class="form-row">
+      <div class="col-md-4">
+        <div class="form-group">
+          <%= form.label :contract_class %>
+          <%= form.text_field :contract_class,
+                              id: :request_for_tender_contract_class,
+                              class: 'form-control form-control-sm' %>
+          <small class="form-text text-muted">
+            Example: D1, K1. Ignore this field if you don't need it
+          </small>
+        </div>
+      </div>
       <div class="col-md-7">
         <div class="form-group">
           <%= form.label :currency %>
-          <%= form.select :currency, [['USD - United States Dollar', 'USD'], ['GHS - Ghanaian Cedi', 'GHS']],
+          <%= form.select :currency,
+                          [
+                              ['USD - United States Dollar', 'USD'],
+                              ['GHS - Ghanaian Cedi', 'GHS']
+                          ],
                           {},
                           {
                               id: :request_for_tender_currency,
                               class: 'form-control form-control-sm',
-                          }
-          %>
+                          } %>
           <small class="form-text text-muted">
             This currency will be used for the Bill Of Quantities, as well as
             the selling price of the tender
           </small>
         </div>
       </div>
+
     </div>
 
     <div class="form-row">
       <div class="col-md-8" id="request_for_tender_deadline">
         <div class="form-group">
           <%= form.label :deadline, 'Tender deadline' %> <br>
-          <%= form.datetime_select :deadline, {ampm: true, order: [:day, :month, :year]}, {} %>
+          <%= form.datetime_select :deadline,
+                                   {
+                                       ampm: true,
+                                       order: [:day, :month, :year]
+                                   },
+                                   {} %>
           <strong>GMT</strong>
           <small class="form-text text-muted">
             Deadline by which all contractors must submit their tender for this
@@ -63,9 +84,13 @@
         <div class="form-group">
           <%= form.label :country %>
           <%= form.country_select :country_code,
-                                  {only: %w(GH)},
-                                  {id: :request_for_tender_country,
-                                   class: 'form-control form-control-sm'} %>
+                                  {
+                                      only: %w(GH)
+                                  },
+                                  {
+                                      id: :request_for_tender_country,
+                                      class: 'form-control form-control-sm'
+                                  } %>
         </div>
       </div>
 
@@ -81,7 +106,9 @@
       <div class="col-md-12">
         <div class="form-group">
           <%= form.label :description %>
-          <%= form.text_area :description, id: :request_for_tender_description, rows: 3,
+          <%= form.text_area :description,
+                             id: :request_for_tender_description,
+                             rows: 3,
                              class: 'form-control form-control-sm' %>
           <small class="form-text text-muted">
             Example: The structure is a one-storey skeleton frames facility with

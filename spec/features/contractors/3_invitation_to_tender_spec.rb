@@ -33,7 +33,7 @@ RSpec.feature 'Invitation to tender' do
   def contractor_should_see_invitation_to_tender_content
     expect(page).to have_content invitation_to_tender.project_name
     expect(page).to have_content invitation_to_tender.project_owners_company_name
-    expect(page).to have_content contract_class invitation_to_tender
+    expect(page).to have_content invitation_to_tender.contract_class
     expect(page).to have_content project_location invitation_to_tender
     expect(page).to have_content project_currency invitation_to_tender
 

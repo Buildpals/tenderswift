@@ -131,7 +131,7 @@ RSpec.feature 'Purchasing a tender', js: true do
 
     expect(page).to have_content tender.project_name
     expect(page).to have_content tender.project_owners_company_name
-    expect(page).to have_content contract_class tender
+    expect(page).to have_content tender.contract_class
     expect(page).to have_content project_location tender
     expect(page).to have_content project_currency tender
 

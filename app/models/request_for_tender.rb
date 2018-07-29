@@ -168,7 +168,6 @@ class RequestForTender < ApplicationRecord
     list_of_rates
   end
 
-
   def compare_workbook
     workbook = list_of_items_without_amount
     list_of_rates.each do |key, value|
@@ -180,7 +179,7 @@ class RequestForTender < ApplicationRecord
   end
 
   def list_of_items_without_amount
-    strip_qs_amount(list_of_items) 
+    strip_qs_amount(list_of_items)
   end
 
   private
@@ -212,7 +211,7 @@ class RequestForTender < ApplicationRecord
   def strip_qs_amount(workbook)
     workbook['Sheets'].each_value do |sheet|
       sheet.keys
-           .select { |cell_address| cell_address[0] == 'F'}
+           .select { |cell_address| cell_address[0] == 'F' }
            .each do |cell_address|
         sheet.delete(cell_address)
       end

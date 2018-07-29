@@ -273,7 +273,7 @@ RSpec.feature 'Product walkthrough', js: true do
 
     expect(page).to have_content @request_for_tender.project_name
     expect(page).to have_content @request_for_tender.project_owners_company_name
-    expect(page).to have_content contract_class @request_for_tender
+    expect(page).to have_content @request_for_tender.contract_class
     expect(page).to have_content project_location @request_for_tender
     expect(page).to have_content project_currency @request_for_tender
 
@@ -354,7 +354,7 @@ RSpec.feature 'Product walkthrough', js: true do
 
   def should_have_content_of_request_for_tender
     expect(page).to have_content @request_for_tender.project_name
-    expect(page).to have_content contract_class @request_for_tender
+    expect(page).to have_content @request_for_tender.contract_class
     expect(page).to have_content project_location @request_for_tender
     expect(page).to have_content project_currency @request_for_tender
 
