@@ -15,12 +15,16 @@
 
 <div class="content d-flex align-items-center">
 
-  <div class="container">
+  <div class="container" style="margin-bottom: 128px !important;">
     <div class="row">
 
       <div class="col-md-8 col-lg-6 mx-auto text-center" id="search-wrapper">
 
         <%= render 'layouts/flash_messages' %>
+
+        <img src="https://res.cloudinary.com/tenderswift/image/upload/c_scale,h_48/v1520926501/tenderswift-logo.png"
+             alt="TenderSwift"
+             class="img-fluid big-logo mb-4">
 
         <%= form_with url: find_request_for_tender_path do |form| %>
           <div class="input-group">

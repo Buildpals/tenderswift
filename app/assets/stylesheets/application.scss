@@ -139,3 +139,9 @@ body {
   margin: 0 auto;
   min-height: 500px;
 }
+
+@include media-breakpoint-down(md) {
+  .big-logo {
+    height: 28px;
+  }
+}

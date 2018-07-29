@@ -116,7 +116,7 @@ Rails.application.routes.draw do
 
   resources :contractors, only: %i[edit update]
 
-  get '/query/request_for_tender',
+  get '/purchase_tender',
       to: 'welcome#query_request_for_tender',
       as: :query_request_for_tender
 
