@@ -41,6 +41,7 @@ RSpec.feature 'Purchased tender document' do
 
   scenario 'should allow a contractor to fill in the rates ' \
            'their purchased tender document', js: true do
+    skip 'Spec not finished'
     visit tender_build_path(purchased_tender_document, :bill_of_quantities)
     page.all('.rate-field').each do |rate_field|
       rate_field.set 1
@@ -102,6 +103,7 @@ RSpec.feature 'Purchased tender document' do
 
   scenario 'should allow a contractor to see the tendering results of ' \
            'their purchased tender document', js: true do
+    skip 'Spec not finished'
     request_for_tender = FactoryBot.create(:request_for_tender)
 
     contractor1 = FactoryBot.create(:contractor)

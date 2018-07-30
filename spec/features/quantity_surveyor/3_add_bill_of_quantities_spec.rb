@@ -10,6 +10,8 @@ RSpec.feature 'Create request for tender', js: true do
   end
 
   scenario 'should save the bill of quantities of a request for tender' do
+    skip 'Spec not finished'
+
     given_a_quantity_surveyor_who_has_logged_in
 
     when_they_upload_the_bill_of_quantities_for_an_rft(request_for_tender)
