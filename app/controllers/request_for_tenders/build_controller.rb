@@ -97,6 +97,7 @@ class RequestForTenders::BuildController < QuantitySurveyorsController
   def request_for_tender_params
     params.require(:request_for_tender)
           .permit(:project_name,
+                  :contract_class,
                   :deadline,
                   :city,
                   :description,
