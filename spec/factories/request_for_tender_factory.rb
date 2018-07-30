@@ -16,6 +16,12 @@ FactoryBot.define do
       JSON.parse(file)
     end
 
+    list_of_rates('Sheet1!E8' => 2, 'Sheet1!E11' => 1, 'Sheet1!E14' => 1,
+                  'Sheet1!E17' => 1, 'Sheet1!E20' => 1, 'Sheet1!E22' => 1,
+                  'Sheet1!E26' => 1, 'Sheet1!E35' => 1, 'Sheet1!E41' => 1,
+                  'Sheet1!E57' => 1, 'Sheet1!E66' => 1, 'Sheet1!E70' => 1,
+                  'Sheet1!E86' => 1)
+
     tender_instructions 'Provide the required documents listed above'
     selling_price_subunit 1
     bank_name 'Ecobank'
