@@ -46,9 +46,9 @@ class Tender < ApplicationRecord
               message: 'should tender once per request for tender'
             }
 
-  validate :check_required_documents, if: :submitting?
+  validate :all_required_documents_are_present, if: :submitting?
 
-  validate :all_rates_filled?, if: :submitting?
+  validate :all_rates_are_filled, if: :submitting?
 
   validates :amount, presence: true, if: :purchasing?
 
@@ -149,7 +149,7 @@ class Tender < ApplicationRecord
     !submitted_at.nil?
   end
 
-  def check_required_documents
+  def all_required_documents_are_present
     required_documents.each do |required_document|
       next if required_document_upload?(required_document)
       errors.add(required_document.title,
@@ -157,12 +157,12 @@ class Tender < ApplicationRecord
     end
   end
 
-  def all_rates_filled?
-    request_for_tender.list_of_rates.each do |key,value| 
-      if list_of_rates[key].to_f <= 0.0
-        errors.add(:bill_of_quantities,  
-                   ": #{key} is required but no value was provided.")
-      end
+  def all_rates_are_filled
+    request_for_tender.list_of_rates.each do |key, _value|
+      next if list_of_rates[key].to_f > 0.0
+      errors.add(:cell,
+                 " #{key} of the Bill of Quantities is required but has " \
+                 'not been provided.')
     end
   end
 end
