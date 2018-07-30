@@ -99,11 +99,11 @@ class PurchaseTenderController < ContractorsController
   end
 
   def korbaweb_charge
-    @request_for_tender.selling_price * 0.2
+    @request_for_tender.selling_price * 0.02
   end
 
   def cloud_service_charge
-    @request_for_tender.selling_price * 0.8
+    @request_for_tender.selling_price * 0.08
   end
 
   def total_charge

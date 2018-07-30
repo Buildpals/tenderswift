@@ -69,7 +69,7 @@ class RequestForTender < ApplicationRecord
   end
 
   validates :project_name, presence: true, if: :active?
-  # validate :check_deadline
+  validate :check_deadline
 
   validates :project_name,
             :currency,
