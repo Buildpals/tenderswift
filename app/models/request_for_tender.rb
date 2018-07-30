@@ -118,7 +118,7 @@ class RequestForTender < ApplicationRecord
     tenders.each do |tender|
       sum += tender.amount if tender.purchased?
     end
-    sum - (TENDERSWIFT_CUT * sum)
+    sum
   end
 
   def setup_with_data
