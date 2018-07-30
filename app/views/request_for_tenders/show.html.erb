@@ -9,8 +9,295 @@
     </li>
 <% end %>
 
-<div class="hello">
-  <%= render 'request_status_summary' %>
+<div class="row">
+  <div class="col-3">
+    <div class="list-group" id="list-tab" role="tablist">
 
-  <%= render 'request_status_detail' %>
+      <a class="list-group-item list-group-item-action active"
+         id="list-home-list"
+         data-toggle="list"
+         href="#list-home"
+         role="tab"
+         aria-controls="home">
+        Overview
+      </a>
+
+      <a class="list-group-item list-group-item-action"
+         id="list-profile-list"
+         data-toggle="list"
+         href="#list-profile"
+         role="tab"
+         aria-controls="profile">
+        Purchases
+      </a>
+
+      <a class="list-group-item list-group-item-action"
+         id="list-messages-list"
+         data-toggle="list"
+         href="#list-messages"
+         role="tab"
+         aria-controls="messages">
+        Submissions
+      </a>
+
+      <a class="list-group-item list-group-item-action"
+         id="list-messages-list"
+         data-toggle="list"
+         href="#list-evaluation"
+         role="tab"
+         aria-controls="messages">
+        Evaluation
+      </a>
+
+      <a class="list-group-item list-group-item-action"
+         id="list-settings-list"
+         data-toggle="list"
+         href="#list-settings"
+         role="tab"
+         aria-controls="settings">
+        Cashout
+      </a>
+
+    </div>
+  </div>
+  <div class="col-9 mr-auto">
+
+    <div class="tab-content hello" id="nav-tabContent">
+
+      <div class="tab-pane fade show active" id="list-home" role="tabpanel" aria-labelledby="list-home-list">
+        <%= render 'request_status_summary' %>
+
+
+        <div class="px-4 mb-2">General Information</div>
+
+        <div class="card mb-4">
+          <div class="card-body">
+            <h5 class="card-title"><%= @request_for_tender.project_name %></h5>
+            <h6 class="card-subtitle mb-2 text-muted">
+              <%= @request_for_tender.published_at.to_formatted_s(:long) %>
+              -
+              <%= @request_for_tender.deadline.to_formatted_s(:long) %>
+            </h6>
+            <p class="card-text">
+              <%= simple_format @request_for_tender.description %>
+            </p>
+
+            <div class="row my-3">
+              <div class="col-md-4">
+                <strong>Contract class</strong>
+                <br>
+                <%= @request_for_tender.contract_class %>
+              </div>
+              <div class="col-md-4">
+                <strong>Location</strong>
+                <br>
+                <%= project_location @request_for_tender %>
+              </div>
+              <div class="col-md-4">
+                <strong>Project currency</strong>
+                <br>
+                <%= project_currency @request_for_tender %>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="px-4 mb-2">Tender instructions</div>
+
+        <div class="card mb-4">
+          <div class="card-body">
+            <h5>Instructions</h5>
+            <%= simple_format @request_for_tender.tender_instructions,
+                              { class: 'formatted_content trix-content' },
+                              {wrapper_tag: 'div' } %>
+          </div>
+
+          <div class="card-body">
+            <h5>Required Documents</h5>
+            <p class="card-text">
+              All participating contractors are expected to provide the following documents with this tender:
+            <ol>
+              <% @request_for_tender.required_documents.each do |required_document| %>
+                <li> <%= required_document.title %> </li>
+              <% end %>
+            </ol>
+            </p>
+          </div>
+        </div>
+
+
+        <div class="px-4 mb-2">Bill of Quantities</div>
+        <div class="card">
+          <workbook
+            :workbook="<%= @request_for_tender.list_of_items.to_json %>" />
+        </div>
+
+      </div>
+
+      <div class="tab-pane fade" id="list-profile" role="tabpanel" aria-labelledby="list-profile-list">
+
+        <div class="card mb-4">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-12">
+
+                <div class="row">
+                  <div class="col-md-4 mb-2">
+                    <strong>Number of purchases</strong>
+                    <br>
+                    <%= @request_for_tender.number_of_tender_purchases %>
+                  </div>
+
+                  <div class="col-md-4 mb-2">
+                    <strong>Selling price</strong>
+                    <br>
+                    GH₵ <%= @request_for_tender.selling_price %>
+                  </div>
+
+                  <div class="col-md-4 mb-2">
+                    <strong>Amount receivable</strong>
+                    <br>
+                    GH₵ <%= @request_for_tender.total_receivable %>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+        <div class="px-4 mb-2">Purchased contractors</div>
+
+        <ul class="list-group">
+          <% @request_for_tender.tenders.purchased.each do |tender| %>
+
+            <li class="list-group-item flex-column align-items-start">
+              <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">
+                  <%= tender.contractors_company_name %>
+                </h5>
+                <small class="text-muted">
+                  Purchased on
+                  <%= tender.purchased_at.to_formatted_s(:short) %>
+                </small>
+              </div>
+              <small class="text-muted">
+                <a href="mailto:<%= tender.project_owners_email %>?subject=<%= "re: Invitation to Tender for #{tender.project_name}" %>"
+                   target="_blank">
+                  <span class="fa fa-user"></span>
+                  <%= tender.contractors_email %>
+                </a>
+                (<%= tender.contractors_phone_number %>)
+              </small>
+            </li>
+
+          <% end %>
+        </ul>
+
+      </div>
+
+      <div class="tab-pane fade" id="list-messages" role="tabpanel" aria-labelledby="list-messages-list">
+
+        <ul class="list-group">
+          <% @request_for_tender.tenders.submitted.each do |tender| %>
+            <li class="list-group-item list-group-item-action
+                 flex-column align-items-start">
+              <div class="d-flex w-100 justify-content-between">
+                <div class="mb-1"><%= tender.contractors_company_name %></div>
+              </div>
+              <small class="text-muted">
+                <a href="mailto:<%= tender.project_owners_email %>?subject=<%= "re: Invitation to Tender for #{tender.project_name}" %>"
+                   target="_blank">
+                  <span class="fa fa-user"></span>
+                  <%= tender.contractors_email %>
+                </a>
+                (<%= tender.contractors_phone_number %>)
+              </small>
+              <div class="w-100 d-flex justify-content-between align-items-baseline">
+                <small>Submitted on <%= tender.purchased_at.to_formatted_s(:short)
+                %></small>
+
+                <% if tender.submitted? %>
+                  <% if deadline_over? @request_for_tender %>
+                    <%= link_to 'View bid',
+                                bid_required_documents_path(tender),
+                                class: 'btn btn-link' %>
+                  <% else %>
+                    <div data-toggle="tooltip"
+                         data-placement="bottom"
+                         data-html="true"
+                         data-title="<p>In order to comply with the standards of
+                               tender fairness, bids will only be shown when
+                               the request deadline is reached.<p>
+                               <p class='text-center request-countdown'>
+                               <%= time_to_deadline @request_for_tender %>
+                               left to request deadline.</p>">
+                      <button class="btn btn-link disabled" type="button">
+                        View bid
+                      </button>
+                    </div>
+                  <% end %>
+                <% else %>
+                  Waiting for bid
+                <% end %>
+              </div>
+            </li>
+          <% end %>
+        </ul>
+
+      </div>
+
+      <div class="tab-pane fade" id="list-evaluation" role="tabpanel"
+           aria-labelledby="list-messages-list">
+        <div class="card">
+          <div class="card-body">
+            <% if deadline_over? @request_for_tender %>
+              <%= render 'bids' %>
+            <% else %>
+              <p>
+                In order to comply with the standards of tender fairness,
+                bids will only be shown when the request deadline is reached.
+              </p>
+
+              <p class="text-center">
+                <%= time_to_deadline @request_for_tender %> left to request deadline.
+              </p>
+            <% end %>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-pane fade" id="list-settings" role="tabpanel" aria-labelledby="list-settings-list">
+        <div class="card">
+          <div class="card-body">
+            <div>
+              <strong>Amount receivable</strong>:
+              GH₵ <%= @request_for_tender.total_receivable %>
+            </div>
+
+            <hr>
+
+            <%= form_with model: @request_for_tender,
+                          scope: :request_for_tender,
+                          url: request_for_tender_path(@request_for_tender),
+                          method: :patch,
+                          id: 'request-form' do |form| %>
+
+              <%= render 'request_for_tenders/payments_form', form: form %>
+
+              <%= form.submit 'Save',
+                              class: 'btn btn-primary btn-sm btn-block' %>
+            <% end %>
+
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+  </div>
 </div>

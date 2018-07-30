@@ -122,7 +122,10 @@
     methods: {
       afterUpload (value) {
         // FIXME: the workbook is not getting set
+        console.log('after-upload', value.Sheets)
         this.requestForTender.workbook = value
+        console.log('after-upload2', value.Sheets)
+
         this.$refs.uploadExcelFileModal.hide()
       },
 

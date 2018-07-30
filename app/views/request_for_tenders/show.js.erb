@@ -1,10 +1,14 @@
+<% flash.each do |key, value| %>
+
 $('#flashes').append(
   '<div id="alert"' +
-  '     class="alert alert-danger alert-dismissible fade show"' +
+  '     class="alert alert-<%= flash_class(key) %> alert-dismissible fade show"' +
   '     role="alert">' +
-  '     Sorry, we couldn\'t find a request for tender with the specified reference number.' +
+  '     <%= value %>' +
   '     <button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
   '       <span aria-hidden="true">&times;</span>' +
   '     </button>' +
   '</div>'
 )
+
+<% end %>

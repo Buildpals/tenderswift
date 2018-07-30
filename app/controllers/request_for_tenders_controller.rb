@@ -29,10 +29,13 @@ class RequestForTendersController < QuantitySurveyorsController
     respond_to do |format|
       if @request_for_tender.update(request_params)
         format.json { render :show, status: :ok, location: @request_for_tender }
-        format.js
+        format.js do
+          flash[:notice] = 'Your changes have been saved!'
+          render :show
+        end
       else
         format.html { render :edit }
-        format.js
+        format.js { render :edit }
         format.json do
           render json: @request_for_tender.errors,
                  status: :unprocessable_entity
