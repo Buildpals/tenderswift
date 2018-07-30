@@ -8,7 +8,7 @@ module RequestForTendersHelper
       if request_for_tender.deadline.past?
         'ended'
       else
-        "#{ distance_of_time_in_words_to_now request_for_tender.deadline} left"
+        "#{distance_of_time_in_words_to_now request_for_tender.deadline} left"
       end
     else
       request_for_tender.submitted? ? 'pending...' : 'draft'
@@ -39,6 +39,15 @@ module RequestForTendersHelper
 
   def time_to_deadline(request_for_tender)
     distance_of_time_in_words_to_now(request_for_tender.deadline)
+  end
+
+  def distance_from_deadline(request_for_tender)
+    time = distance_of_time_in_words_to_now(request_for_tender.deadline)
+    if deadline_over? request_for_tender
+      "#{time} since deadline"
+    else
+      "#{time} to deadline"
+    end
   end
 
   def purchase_url(request_for_tender)

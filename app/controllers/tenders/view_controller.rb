@@ -18,16 +18,7 @@ class Tenders::ViewController < ContractorsController
     @submitted_tenders = @tender.request_for_tender
                                 .tenders
                                 .where.not(submitted_at: nil)
-
-    if step.eql?(:results)
-      unless @tender.request_for_tender.deadline_over?
-        render 'no_results'
-      else
-        render_wizard
-      end
-    else
-      render_wizard
-    end
+    render_wizard
   end
 
   private
