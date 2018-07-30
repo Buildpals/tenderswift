@@ -67,7 +67,8 @@
           <%= form.datetime_select :deadline,
                                    {
                                        ampm: true,
-                                       order: [:day, :month, :year]
+                                       order: [:day, :month, :year],
+                                       start_year: Date.today.year
                                    },
                                    {} %>
           <strong>GMT</strong>
