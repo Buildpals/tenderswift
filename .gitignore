@@ -17,7 +17,6 @@
 /yarn-error.log
 
 .byebug_history
-/public/packs
 /node_modules
 
 # Configuration files
@@ -58,14 +57,10 @@ ehthumbs.db
 #Redis
 dump.rdb
 
-/public/packs
-/public/packs-test
 /node_modules
 yarn-debug.log*
 yarn-error.log*
 .yarn-integrity
-/public/packs
-/public/packs-test
 /node_modules
 yarn-debug.log*
 yarn-error.log*
