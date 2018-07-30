@@ -1,33 +1,33 @@
 <div class="row">
-  <div class="col-6">
+  <div class="col-8">
     <div class="font-weight-normal text-right">Price of tender:</div>
   </div>
-  <div class="col-6 pl-auto">
+  <div class="col-4 pl-auto">
     <div class="font-weight-bold text-right">GHC <%= @request_for_tender.selling_price %></div>
   </div>
 </div>
 <div class="row">
-  <div class="col-6">
+  <div class="col-8">
     <div class="font-weight-normal text-right">Electronic payment charge:</div>
   </div>
-  <div class="col-6">
+  <div class="col-4">
     <div class="font-weight-bold text-right">GHC <%= @korbaweb_charge %></div>
   </div>
 </div>
 <div class="row">
-  <div class="col-6">
+  <div class="col-8">
     <div class="font-weight-normal text-right">Cloud service charge:</div>
   </div>
-  <div class="col-6">
+  <div class="col-4">
     <div class="font-weight-bold text-right">GHC <%= @service_charge %></div>
   </div>
 </div>
-<br/>
+<hr/>
 <div class="row">
-  <div class="col-6">
+  <div class="col-8">
     <p class="font-weight-bold text-right">Grand Total:</p>
   </div>
-  <div class="col-6">
+  <div class="col-4">
     <p class="font-weight-bold text-right">GHC <%= @total_cost %></p>
   </div>
 </div>
@@ -108,6 +108,6 @@
 
   <%= button_tag 'Purchase',
                  id: :make_purchase_button,
-                 class: 'btn btn-secondary btn-block mt-5' %>
+                 class: 'btn btn-secondary btn-block mt-3' %>
 
 <% end %>

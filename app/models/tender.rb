@@ -48,9 +48,9 @@ class Tender < ApplicationRecord
 
   validate :check_required_documents, if: :submitting?
 
-  validates :amount, presence: true, if: :purchasing?
+  validate :all_rates_filled?, if: :submitting?
 
-  validate :all_rates_filled?
+  validates :amount, presence: true, if: :purchasing?
 
   delegate :project_name, to: :request_for_tender
   delegate :deadline, to: :request_for_tender
