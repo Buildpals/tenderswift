@@ -1,49 +1,56 @@
-<div class="row">
-  <div class="col-8">
-    <div class="font-weight-normal text-right">Price of tender:</div>
-  </div>
-  <div class="col-4 pl-auto">
-    <div class="font-weight-bold text-right">GHC <%= @request_for_tender.selling_price %></div>
-  </div>
-</div>
-<div class="row">
-  <div class="col-8">
-    <div class="font-weight-normal text-right">Electronic payment charge:</div>
-  </div>
-  <div class="col-4">
-    <div class="font-weight-bold text-right">GHC <%= @korbaweb_charge %></div>
-  </div>
-</div>
-<div class="row">
-  <div class="col-8">
-    <div class="font-weight-normal text-right">Cloud service charge:</div>
-  </div>
-  <div class="col-4">
-    <div class="font-weight-bold text-right">GHC <%= @service_charge %></div>
-  </div>
-</div>
-<hr/>
-<div class="row">
-  <div class="col-8">
-    <p class="font-weight-bold text-right">Grand Total:</p>
-  </div>
-  <div class="col-4">
-    <p class="font-weight-bold text-right">GHC <%= @total_cost %></p>
-  </div>
-</div>
+<table class="text-right mb-4 mx-auto">
+
+  <tr>
+    <td class="pr-2">
+      Price of tender:
+    </td>
+    <td>
+      <%= @request_for_tender.selling_price %>
+    </td>
+  </tr>
+
+  <tr>
+    <td class="pr-2">
+      Electronic payment charge:
+    </td>
+    <td>
+      <%= @korbaweb_charge %>
+    </td>
+  </tr>
+
+  <tr class="border-bottom">
+    <td class="pr-2">
+      Cloud service charge:
+    </td>
+    <td>
+      <%= @service_charge %>
+    </td>
+  </tr>
+
+  <tr>
+    <td class="pr-2">
+      Amount to be deducted (GH₵):
+    </td>
+    <td>
+      <%= @total_cost %>
+    </td>
+  </tr>
+
+</table>
+
 
 <%= form_with url: purchase_tender_path(@request_for_tender),
               id: 'purchase-form',
               local: false do |form| %>
 
-  <p id="purchase-errors" class="text-danger d-none"><p>
+  <p id="purchase-errors" class="text-danger d-none"></p>
 
   <% unless current_contractor %>
     <div class="form-group">
       <%= form.label :email %>
       <%= form.email_field :email,
                            id: :email,
-                           placeholder: 'this@example.com',
+                           placeholder: 'e.g. procurement@company.com',
                            class: 'form-control form-control-sm' %>
     </div>
 
@@ -80,14 +87,14 @@
     <%= form.label :customer_number, 'Phone number' %>
     <%= form.telephone_field :customer_number,
                              id: :customer_number,
-                             placeholder: 'Example: 0541234567',
+                             placeholder: 'e.g. 0541234567',
                              class: 'form-control form-control-sm',
                              autocomplete: 'tel',
                              pattern: "[0-9]{10}",
                              'aria-describedby': 'telephoneHelp',
                              required: true %>
     <small id="telephoneHelp" class="form-text text-muted">
-      Enter the mobile money number we should take the money from above.
+      Enter the number we should take the money from above.
       It should be exactly 10 digits long, in the format 054xxxxxxx.
     </small>
   </div>
@@ -102,7 +109,7 @@
     <small id="voucherHelp" class="form-text text-muted">
       1. Dial *110# on your phone. <br>
       2. Choose 'Generate Voucher' and wait for the SMS. <br>
-      3. Enter the voucher code in the space provided above.
+      3. Enter the voucher code in the space provided.
     </small>
   </div>
 

@@ -33,6 +33,7 @@ function showPurchaseInProgress (loadingMessage) {
 
   $('#purchase-errors').html('').addClass('d-none')
   $('#purchaseFormClose').hide()
+  $('#cancelButton').hide()
 
   let purchaseButton = document.getElementById('make_purchase_button')
 
@@ -48,6 +49,7 @@ function showPurchaseError (errorMessage) {
 
   $('#purchase-errors').html(errorMessage).removeClass('d-none')
   $('#purchaseFormClose').show()
+  $('#cancelButton').show()
 
   let purchaseButton = document.getElementById('make_purchase_button')
 
