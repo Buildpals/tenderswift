@@ -4,7 +4,7 @@ FactoryBot.define do
   factory :request_for_tender do
     quantity_surveyor
     sequence(:project_name) { |n| "Project #{n} Proposed residential building for Mrs. Christina Love" }
-    deadline { DateTime.current + 7.days }
+    deadline { DateTime.current }
     city 'Kumasi'
     description 'The structure is a one-storey skeleton frames facility with solid sandcrete block walls as partitions. It covers an area of 478sqm'
     country_code 'GH'

@@ -15,13 +15,13 @@ RSpec.describe BidPolicy do
     let(:request_for_tender) do
       FactoryBot.create(:request_for_tender,
                         quantity_surveyor: quantity_surveyor,
-                        deadline: Time.current - 2.days)
+                        deadline: Time.current)
     end
 
     let(:tender) do
       FactoryBot.build(:purchased_tender,
                        request_for_tender: request_for_tender,
-                       submitted_at: Time.current - 1.days)
+                       submitted_at: Time.current)
     end
 
     it { is_expected.to permit_action(:required_documents) }
@@ -35,7 +35,7 @@ RSpec.describe BidPolicy do
   context 'quantity surveyor does not own the request for tender' do
     let(:request_for_tender) do
       FactoryBot.create(:request_for_tender,
-                        deadline: Time.current - 2.days)
+                        deadline: Time.current)
     end
 
     let(:tender) do
@@ -56,7 +56,7 @@ RSpec.describe BidPolicy do
     let(:request_for_tender) do
       FactoryBot.create(:request_for_tender,
                         quantity_surveyor: quantity_surveyor,
-                        deadline: Time.current - 2.days)
+                        deadline: Time.current)
     end
 
     let(:tender) do
@@ -78,7 +78,7 @@ RSpec.describe BidPolicy do
     let(:request_for_tender) do
       FactoryBot.create(:request_for_tender,
                         quantity_surveyor: quantity_surveyor,
-                        deadline: Time.current - 2.days)
+                        deadline: Time.current)
     end
 
     let(:tender) do
@@ -99,13 +99,13 @@ RSpec.describe BidPolicy do
     let(:request_for_tender) do
       FactoryBot.create(:request_for_tender,
                         quantity_surveyor: quantity_surveyor,
-                        deadline: Time.current + 1.month)
+                        deadline: Time.current + 2.days)
     end
 
     let(:tender) do
       FactoryBot.build(:purchased_tender,
                        request_for_tender: request_for_tender,
-                       submitted_at: Time.current - 1.days)
+                       submitted_at: Time.current)
     end
 
     it { is_expected.to forbid_action(:required_documents) }

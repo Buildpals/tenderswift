@@ -43,6 +43,9 @@ ehthumbs.db
 # Ignore uploads
 /public/uploads/
 
+# Ignore test packs from webpacker
+/public/packs-test
+
 # Documentations
 .yardoc/
 /doc/*

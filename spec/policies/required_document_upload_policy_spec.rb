@@ -34,7 +34,7 @@ RSpec.describe RequiredDocumentUploadPolicy do
 
     let(:request_for_tender) do
       FactoryBot.create(:request_for_tender,
-                        deadline: Time.current - 1.hours)
+                        deadline: Time.current)
     end
 
     let(:tender) do
@@ -83,7 +83,7 @@ RSpec.describe RequiredDocumentUploadPolicy do
     let(:request_for_tender) do
       FactoryBot.create(:request_for_tender,
                         quantity_surveyor: quantity_surveyor,
-                        deadline: Time.current - 1.hours)
+                        deadline: Time.current)
     end
 
     let(:tender) do
