@@ -26,18 +26,12 @@
 // Autosize textarea
 //= require autosize
 
-// Parsely
-//= require parsley
-
 // Jquery Are You Sure
 //= require jquery.are-you-sure
 //= require ays-beforeunload-shim
 
 // Cocoon
 //= require cocoon
-
-// SheetJS
-//= require xlsx.full.min
 
 // Trix
 //= require trix
