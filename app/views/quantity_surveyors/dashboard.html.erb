@@ -35,7 +35,7 @@
               </h5>
               <small class="text-muted">
                 <% if request_for_tender.submitted? %>
-                      <span class="badge badge-pill badge-secondary">
+                      <span class="badge badge-pill badge-accent">
                         publishing...
                       </span>
                 <% else %>
@@ -75,7 +75,7 @@
                 </h5>
                 <small class="text-muted">
                   <% if !request_for_tender.published? %>
-                      <span class="badge badge-pill badge-secondary">
+                      <span class="badge badge-pill badge-accent">
                         <%= status request_for_tender %>
                       </span>
                   <% else %>
@@ -118,7 +118,7 @@
                 </h5>
                 <small class="text-muted">
                   <% if !request_for_tender.published? %>
-                      <span class="badge badge-pill badge-secondary">
+                      <span class="badge badge-pill badge-accent">
                         <%= status request_for_tender %>
                       </span>
                   <% elsif request_for_tender.deadline.past? %>

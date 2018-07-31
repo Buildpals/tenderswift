@@ -11,7 +11,7 @@
         <!--<th style="width:90px">Price/Rate</th>-->
         <!--<th style="width:90px">Amount</th>-->
         <!--<th style="width:60px">-->
-          <!--<button class="btn btn-sm btn-secondary"-->
+          <!--<button class="btn btn-sm btn-accent"-->
             <!--@click="save">-->
             <!--Save-->
           <!--</button>-->
@@ -100,7 +100,7 @@
           </button>
         </div>
         <div class="ml-auto d-flex align-items-center">
-          <button class="btn btn-sm btn-secondary"
+          <button class="btn btn-sm btn-accent"
                   @click="save">
             Save changes
           </button>

@@ -1,7 +1,7 @@
 <% if deadline_over? @request_for_tender %>
   <div class="d-flex w-100 justify-content-end mb-2">
     <%= link_to 'Compare Rates', compare_boq_path(@request_for_tender), target: '_blank',
-                class: 'btn btn-sm btn-secondary' %>
+                class: 'btn btn-sm btn-accent' %>
   </div>
 
   <tender-figures-table
@@ -24,7 +24,7 @@
                  bids will only be shown when the request deadline is reached.<p>
                 <p class='text-center request-countdown'><%= time_to_deadline @request_for_tender %> left to request deadline.</p>">
 
-      <button class="btn btn-secondary disabled" type="button">
+      <button class="btn btn-accent disabled" type="button">
         Compare Rates
       </button>
     </div>

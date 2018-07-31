@@ -1,24 +1,14 @@
-@import "bootstrap";
-
-$gray-50: #FAFAFA;
+$blue: #007bff;
+$midnight-blue: #2b3f57;
+$midnight-blue: #2a3e55;
+$yellow-orange: #f9b13c;
+$orange-yellow: #ffce12;
 
 $theme-colors: (
-  primary: #2b3f57,
-  secondary: #ffce12,
-  success: $green,
-  info: $cyan,
-  warning: $yellow,
-  danger: $red,
-  light: $gray-100,
-  dark: $gray-800
+  primary: $midnight-blue,
+  accent: $yellow-orange
 );
 
-$enable-shadows: true;
-$body-bg:    $gray-50;
-$body-color: $gray-600;
+$link-color: $blue;
 
-$component-active-bg: theme-color("primary");
-$nav-pills-link-active-bg:    $component-active-bg;
-
-// $font-size-base: 0.875rem; // Assumes the browser default, typically `16px`
-
+@import "bootstrap";

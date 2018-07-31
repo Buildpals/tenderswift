@@ -74,7 +74,7 @@
 
           <% unless step == wizard_steps.last %>
             <%= link_to 'Next', next_wizard_path,
-                        class: 'btn btn-secondary ml-auto' %>
+                        class: 'btn btn-accent ml-auto' %>
           <% else %>
             <%= button_to 'Submit your bid',
                           {
@@ -82,7 +82,7 @@
                           },
                           {
                               form_class: 'ml-auto',
-                              class: 'btn btn-secondary',
+                              class: 'btn btn-accent',
                               method: :put,
                               remote: true
                           }
@@ -122,7 +122,7 @@
                     },
                     {
                         form_class: 'ml-auto',
-                        class: 'btn btn-secondary',
+                        class: 'btn btn-accent',
                         method: :put,
                         remote: true
                     }

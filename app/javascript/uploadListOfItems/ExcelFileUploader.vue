@@ -36,7 +36,7 @@
 
     <div class="progress mb-5" v-show="processing">
       <div class="progress-bar progress-bar-striped progress-bar-animated
-                  bg-secondary w-100"
+                  bg-accent w-100"
            role="progressbar"
            aria-valuenow="100"
            aria-valuemin="0"
@@ -48,7 +48,7 @@
              class="custom-file-input"
              id="excelFileInput"
              accept=".xlsx, .xls" @change="onchange"/>
-      <label class="btn btn-sm btn-block btn-secondary" for="excelFileInput">
+      <label class="btn btn-sm btn-block btn-accent" for="excelFileInput">
         Choose excel file
       </label>
     </div>

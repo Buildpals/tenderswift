@@ -1,9 +1,7 @@
 <div class="card mb-4">
-  <div class="card-header d-flex w-100 justify-content-between">
-    <h5><%= @request_for_tender.project_name %></h5>
-  </div>
-  <ul class="list-group list-group-flush">
-    <li class="list-group-item d-flex justify-content-between small">
+  <div class="card-body">
+    <h5 class="card-title"><%= @request_for_tender.project_name %></h5>
+    <div class="d-flex justify-content-between small">
       <div>
         <strong>Reference number: </strong>
         <%= @request_for_tender.id %>
@@ -15,15 +13,9 @@
                     target: '_blank',
                     id: :purchase_link %>
       </div>
-    </li>
-
-    <li class="list-group-item bg-primary d-flex w-100 justify-content-end">
-      <a href="<%= request_for_tender_details_path(@request_for_tender) %>"
-         class="btn btn-sm btn-info text-white">
-        View request for tender details
-      </a>
-    </li>
-
+    </div>
+  </div>
+  <ul class="list-group list-group-flush">
     <li class="list-group-item">
       <div class="d-flex w-100 justify-content-between py-2">
         <div class="mx-2">
