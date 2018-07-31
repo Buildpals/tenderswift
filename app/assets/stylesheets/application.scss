@@ -1,95 +1,17 @@
+// Customised bootstrap theme
 @import "custom";
+
+// Partials
+@import "general";
+@import "iti";
+@import "page_head";
+@import "utilities";
+
+// Page specific
+@import "file_viewer";
+
+// Third-party
 @import "font-awesome";
 @import "trix";
 @import "handsontable.full";
 @import "intlTelInput";
-@import "footer";
-@import "request_for_tenders/build";
-@import "file_viewer";
-
-
-/******************************************************
-Flags configuration for International Telephone Input
-******************************************************/
-.iti-flag {
-  background-image: image-url("flags.png");
-}
-
-@media only screen and (-webkit-min-device-pixel-ratio: 2),
-only screen and (min--moz-device-pixel-ratio: 2),
-only screen and (-o-min-device-pixel-ratio: 2 / 1),
-only screen and (min-device-pixel-ratio: 2),
-only screen and (min-resolution: 192dpi),
-only screen and (min-resolution: 2dppx) {
-  .iti-flag {
-    background-image: image-url("flags@2x.png");
-  }
-}
-
-.intl-tel-input {
-  display: block;
-}
-
-
-/******************************************************
-Navbar drop down patch
-******************************************************/
-
-.fix-screen {
-  margin-left: -30%;
-}
-
-
-/***************************************
-Page Head Navigation
-***************************************/
-.top-nav-breadcrumb {
-  padding-left: 0;
-  background-color: initial;
-}
-
-
-/******************************************************
-Sticky Footer
-******************************************************/
-html, body {
-  height: 100%;
-}
-
-body {
-  display: flex;
-  flex-direction: column;
-}
-
-.navbar {
-  flex: none;
-}
-
-.content {
-  flex: 1 0 auto;
-  margin-bottom: 50px;
-}
-
-
-/***************************************
-Card Shadows
-***************************************/
-.card, .btn-raised, .shadow {
-  box-shadow: 0px 2px 5px -1px rgba(0, 0, 0, 0.1);
-  //box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-}
-
-
-/******************************************************
-Utilities
-******************************************************/
-.min-height-500 {
-  margin: 0 auto;
-  min-height: 500px;
-}
-
-@include media-breakpoint-down(md) {
-  .big-logo {
-    height: 28px;
-  }
-}
