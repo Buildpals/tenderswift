@@ -43,7 +43,9 @@ ehthumbs.db
 # Ignore uploads
 /public/uploads/
 
-# Ignore test packs from webpacker
+# Ignore assets that will be automatically generated
+/public/assets
+/public/packs
 /public/packs-test
 
 # Documentations
