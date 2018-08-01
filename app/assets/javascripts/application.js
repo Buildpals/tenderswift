@@ -40,11 +40,9 @@
 //= require intlTelInput
 //= require libphonenumber/utils
 
-//= require compare_bids
 //= require registrations
 //= require request_for_tenders/build
 //= require request_for_tenders
-//= require tenders
 //= require bids
 //= require purchase_tender
 //= require contractors

@@ -5,7 +5,6 @@ FactoryBot.define do
     request_for_tender
     contractor
 
-    read false
     notes nil
     rating nil
     disqualified false
