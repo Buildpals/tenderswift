@@ -3,18 +3,18 @@
 require 'rails_helper'
 
 RSpec.describe BidPolicy do
-  subject { described_class.new(quantity_surveyor, tender) }
+  subject { described_class.new(publisher, tender) }
 
-  let(:quantity_surveyor) do
-    FactoryBot.create(:quantity_surveyor)
+  let(:publisher) do
+    FactoryBot.create(:publisher)
   end
 
-  context 'quantity_surveyor owns the request_for_tender and' \
+  context 'publisher owns the request_for_tender and' \
           'the tender is reviewable' do
 
     let(:request_for_tender) do
       FactoryBot.create(:request_for_tender,
-                        quantity_surveyor: quantity_surveyor,
+                        publisher: publisher,
                         deadline: Time.current)
     end
 
@@ -32,7 +32,7 @@ RSpec.describe BidPolicy do
     it { is_expected.to permit_action(:rate) }
   end
 
-  context 'quantity surveyor does not own the request for tender' do
+  context 'publisher does not own the request for tender' do
     let(:request_for_tender) do
       FactoryBot.create(:request_for_tender,
                         deadline: Time.current)
@@ -55,7 +55,7 @@ RSpec.describe BidPolicy do
   context 'the tender is not purchased' do
     let(:request_for_tender) do
       FactoryBot.create(:request_for_tender,
-                        quantity_surveyor: quantity_surveyor,
+                        publisher: publisher,
                         deadline: Time.current)
     end
 
@@ -77,7 +77,7 @@ RSpec.describe BidPolicy do
   context 'the tender is not submitted' do
     let(:request_for_tender) do
       FactoryBot.create(:request_for_tender,
-                        quantity_surveyor: quantity_surveyor,
+                        publisher: publisher,
                         deadline: Time.current)
     end
 
@@ -98,7 +98,7 @@ RSpec.describe BidPolicy do
   context 'the tender deadline is not over' do
     let(:request_for_tender) do
       FactoryBot.create(:request_for_tender,
-                        quantity_surveyor: quantity_surveyor,
+                        publisher: publisher,
                         deadline: Time.current + 2.days)
     end
 

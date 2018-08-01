@@ -160,13 +160,13 @@ RSpec.feature 'Purchasing a tender', js: true do
     end
   end
 
-  def and_they_should_show_up_under_purchased_on_the_quantity_surveyors_dashboard(
+  def and_they_should_show_up_under_purchased_on_the_publishers_dashboard(
       signed_up_contractor,
       invitation_to_tender
   )
     logout(signed_up_contractor, scope: :contractor)
 
-    login_as(invitation_to_tender.quantity_surveyor, scope: :quantity_surveyor)
+    login_as(invitation_to_tender.publisher, scope: :publisher)
 
     visit request_for_tender_path invitation_to_tender
 

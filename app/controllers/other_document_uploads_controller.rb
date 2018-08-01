@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class OtherDocumentUploadsController < QuantitySurveyorsController
+class OtherDocumentUploadsController < PublishersController
   layout 'file_viewer'
 
   before_action :set_other_document_upload

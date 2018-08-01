@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180801123501) do
+ActiveRecord::Schema.define(version: 20180801152359) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -97,7 +97,7 @@ ActiveRecord::Schema.define(version: 20180801123501) do
     t.index ["request_for_tender_id"], name: "index_project_documents_on_request_for_tender_id"
   end
 
-  create_table "quantity_surveyors", force: :cascade do |t|
+  create_table "publishers", force: :cascade do |t|
     t.string "company_name"
     t.string "full_name"
     t.string "company_logo"
@@ -118,12 +118,12 @@ ActiveRecord::Schema.define(version: 20180801123501) do
     t.string "unconfirmed_email"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["email"], name: "index_quantity_surveyors_on_email", unique: true
-    t.index ["reset_password_token"], name: "index_quantity_surveyors_on_reset_password_token", unique: true
+    t.index ["email"], name: "index_publishers_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_publishers_on_reset_password_token", unique: true
   end
 
   create_table "request_for_tenders", force: :cascade do |t|
-    t.bigint "quantity_surveyor_id"
+    t.bigint "publisher_id"
     t.string "project_name"
     t.datetime "deadline"
     t.string "city"
@@ -149,7 +149,7 @@ ActiveRecord::Schema.define(version: 20180801123501) do
     t.bigint "version_number", default: 0, null: false
     t.jsonb "list_of_rates", default: {}
     t.string "contract_class"
-    t.index ["quantity_surveyor_id"], name: "index_request_for_tenders_on_quantity_surveyor_id"
+    t.index ["publisher_id"], name: "index_request_for_tenders_on_publisher_id"
   end
 
   create_table "required_document_uploads", force: :cascade do |t|

@@ -7,7 +7,7 @@ class AdminMailer < ApplicationMailer
     @request_for_tender = request_for_tender
     mail(to: 'alfred@buildpals.com',
         subject: "#{request_for_tender
-                  .quantity_surveyor
+                  .publisher
                   .company_name}"\
         'submitted a new request for tender')
   end
@@ -15,7 +15,7 @@ class AdminMailer < ApplicationMailer
   def publish_request_for_tender(request_for_tender)
     @request_for_tender = request_for_tender
     mail(to: @request_for_tender
-            .quantity_surveyor
+            .publisher
             .email,
         subject:"#{request_for_tender.project_name} has been published" )
   end

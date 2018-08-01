@@ -10,7 +10,7 @@ RSpec.feature 'Product walkthrough', js: true do
     # Capybara.run_server = false
     # Capybara.default_max_wait_time = 90
 
-    given_a_quantity_surveyor_has_logged_in
+    given_a_publisher_has_logged_in
     and_has_created_a_request_for_tender
     and_has_added_the_general_information
     and_has_uploaded_the_bill_of_quantities
@@ -34,29 +34,29 @@ RSpec.feature 'Product walkthrough', js: true do
     and_they_should_be_able_to_see_the_tenders_boq
     and_they_should_be_able_to_see_the_tenders_required_documents
 
-    and_they_should_show_up_under_purchased_on_the_quantity_surveyors_dashboard
+    and_they_should_show_up_under_purchased_on_the_publishers_dashboard
   end
 
-  def given_a_quantity_surveyor_has_logged_in
-    @new_quantity_surveyor = FactoryBot.build(
-      :quantity_surveyor,
+  def given_a_publisher_has_logged_in
+    @new_publisher = FactoryBot.build(
+      :publisher,
       email: 'tenderswift_test_procurement_officer+' \
         "#{SecureRandom.urlsafe_base64(6)}@gmail.com".downcase
     )
 
-    visit new_quantity_surveyor_registration_path
+    visit new_publisher_registration_path
 
-    fill_in 'Your name', with: @new_quantity_surveyor.full_name
-    fill_in 'Email address', with: @new_quantity_surveyor.email
-    fill_in 'Phone number', with: @new_quantity_surveyor.phone_number
-    fill_in 'Company name', with: @new_quantity_surveyor.company_name
+    fill_in 'Your name', with: @new_publisher.full_name
+    fill_in 'Email address', with: @new_publisher.email
+    fill_in 'Phone number', with: @new_publisher.phone_number
+    fill_in 'Company name', with: @new_publisher.company_name
     attach_file('Company logo', Rails.root + 'spec/fixtures/company_logo.png')
-    fill_in 'Password', with: @new_quantity_surveyor.password
-    fill_in 'Password confirmation', with: @new_quantity_surveyor.password
+    fill_in 'Password', with: @new_publisher.password
+    fill_in 'Password confirmation', with: @new_publisher.password
 
     click_button 'Sign up'
 
-    should_have_dashboard_content_for @new_quantity_surveyor
+    should_have_dashboard_content_for @new_publisher
     expect(page)
       .to have_content 'Welcome! You have signed up successfully.'
 
@@ -65,22 +65,22 @@ RSpec.feature 'Product walkthrough', js: true do
     expect(page).to have_content 'Account Information'
 
     expect(page).to have_field 'Full name',
-                               with: @new_quantity_surveyor.full_name
+                               with: @new_publisher.full_name
 
     expect(page).to have_field 'Email',
-                               with: @new_quantity_surveyor.email
+                               with: @new_publisher.email
 
     expect(page).to have_field 'Phone number',
-                               with:  @new_quantity_surveyor.phone_number
+                               with:  @new_publisher.phone_number
 
     expect(page).to have_field 'Company name',
-                               with: @new_quantity_surveyor.company_name
+                               with: @new_publisher.company_name
 
     expect(page).to have_css('#company_logo_image')
   end
 
   def and_has_created_a_request_for_tender
-    visit quantity_surveyor_root_path
+    visit publisher_root_path
     expect(page).to have_content 'Create Request For Tender'
 
     click_button 'Create Request For Tender'
@@ -90,7 +90,7 @@ RSpec.feature 'Product walkthrough', js: true do
   def and_has_added_the_general_information
     @request_for_tender = FactoryBot.build(
       :request_for_tender,
-      quantity_surveyor: @new_quantity_surveyor,
+      publisher: @new_publisher,
       selling_price: 1
     )
 
@@ -175,7 +175,7 @@ RSpec.feature 'Product walkthrough', js: true do
   end
 
   def and_the_request_for_tender_should_appear_in_their_published_tenders
-    visit quantity_surveyor_root_path
+    visit publisher_root_path
 
     within :css, '#published-request-for-tenders' do
       expect(page).to have_content @request_for_tender.project_name
@@ -185,12 +185,12 @@ RSpec.feature 'Product walkthrough', js: true do
   end
 
   def logout_successfully
-    visit quantity_surveyor_root_path
+    visit publisher_root_path
 
-    click_link @new_quantity_surveyor.company_name
+    click_link @new_publisher.company_name
     click_link 'Logout'
 
-    should_see_quantity_surveyor_sign_in_page
+    should_see_publisher_sign_in_page
   end
 
   # Contractor methods
@@ -299,18 +299,18 @@ RSpec.feature 'Product walkthrough', js: true do
     end
   end
 
-  def and_they_should_show_up_under_purchased_on_the_quantity_surveyors_dashboard
+  def and_they_should_show_up_under_purchased_on_the_publishers_dashboard
     click_link @signed_up_contractor.company_name
     click_link 'Logout'
 
     should_see_contractor_sign_in_page
 
-    visit new_quantity_surveyor_session_path
-    fill_in 'Email address', with: @new_quantity_surveyor.email
-    fill_in 'Password', with: @new_quantity_surveyor.password
+    visit new_publisher_session_path
+    fill_in 'Email address', with: @new_publisher.email
+    fill_in 'Password', with: @new_publisher.password
     click_button 'Log in'
 
-    expect(page).to have_content @new_quantity_surveyor.company_name
+    expect(page).to have_content @new_publisher.company_name
 
     click_link @invitation_to_tender.project_name
 
@@ -324,10 +324,10 @@ RSpec.feature 'Product walkthrough', js: true do
 
   private
 
-  def should_have_dashboard_content_for(quantity_surveyor)
+  def should_have_dashboard_content_for(publisher)
     expect(page).to have_content 'Home'
-    expect(page).to have_content quantity_surveyor.company_name
-    click_link quantity_surveyor.company_name
+    expect(page).to have_content publisher.company_name
+    click_link publisher.company_name
     expect(page).to have_content 'Account Information'
     expect(page).to have_content 'Logout'
     expect(page).to have_content 'Unpublished Request For Tender'
@@ -339,9 +339,9 @@ RSpec.feature 'Product walkthrough', js: true do
     user_sees_public_request_for_tender_information(@request_for_tender)
   end
 
-  def should_see_quantity_surveyor_sign_in_page
+  def should_see_publisher_sign_in_page
     expect(page).to have_content 'Signed out successfully.'
-    expect(page).to have_content 'Log in as a quantity surveyor'
+    expect(page).to have_content 'Log in as a publisher'
     expect(page).to have_content 'or sign up'
     expect(page).to have_content 'Log in'
   end

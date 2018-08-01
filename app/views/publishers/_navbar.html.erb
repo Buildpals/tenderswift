@@ -1,0 +1,70 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <%= link_to root_path, class: 'navbar-brand' do %>
+    <img src="https://res.cloudinary.com/tenderswift/image/upload/c_scale,h_24/v1520926501/tenderswift-logo-inverse.png"
+         alt="TenderSwift"
+         class="d-inline-block align-top">
+  <% end %>
+
+  <button class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav ml-auto">
+      <% if publisher_signed_in? %>
+
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle"
+             href="<%= edit_publisher_path(current_publisher) %>"
+             id="account_links"
+             data-toggle="dropdown"
+             aria-haspopup="true"
+             aria-expanded="false">
+            <span class="fa fa-user" aria-hidden="true"></span>
+            <%= 'Impersonating:' if current_admin %>
+            <%= current_publisher.company_name %>
+          </a>
+          <div class="dropdown-menu fix-screen"
+               aria-labelledby="account_links">
+            <%= link_to 'Account Information',
+                        edit_publisher_path(current_publisher),
+                        class: 'dropdown-item' %>
+            <% if current_admin %>
+              <%= link_to 'Stop impersonating',
+                          reverse_masquerade_path(current_publisher),
+                          method: :delete,
+                          class: 'dropdown-item' %>
+            <% else %>
+              <%= link_to 'Logout',
+                          destroy_publisher_session_path,
+                          method: :delete,
+                          class: 'dropdown-item' %>
+            <% end %>
+          </div>
+        </li>
+
+      <% else %>
+
+        <li class="nav-item mr-3">
+          <%= link_to 'Login',
+                      new_publisher_session_path,
+                      class: 'nav-link' %>
+        </li>
+
+        <li class="nav-item">
+          <%= link_to 'Signup',
+                      new_publisher_registration_path,
+                      class: 'nav-link' %>
+        </li>
+
+      <% end %>
+    </ul>
+
+  </div>
+</nav>

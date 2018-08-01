@@ -2,21 +2,21 @@
 
 require 'rails_helper'
 
-RSpec.describe QuantitySurveyorPolicy do
-  subject { described_class.new(quantity_surveyor, quantity_surveyor_profile) }
+RSpec.describe PublisherPolicy do
+  subject { described_class.new(publisher, publisher_profile) }
 
-  let(:quantity_surveyor) { FactoryBot.create(:quantity_surveyor) }
+  let(:publisher) { FactoryBot.create(:publisher) }
 
-  context 'when a quantity_surveyor owns the quantity_surveyor profile' do
-    let(:quantity_surveyor_profile) { quantity_surveyor }
+  context 'when a publisher owns the publisher profile' do
+    let(:publisher_profile) { publisher }
 
     it { is_expected.to permit_action(:dashboard) }
     it { is_expected.to permit_action(:edit) }
     it { is_expected.to permit_action(:update) }
   end
 
-  context 'when a quantity_surveyor does not own the quantity_surveyor profile' do
-    let(:quantity_surveyor_profile) { FactoryBot.create(:quantity_surveyor) }
+  context 'when a publisher does not own the publisher profile' do
+    let(:publisher_profile) { FactoryBot.create(:publisher) }
 
     it { is_expected.to forbid_action(:dashboard) }
     it { is_expected.to forbid_action(:edit) }

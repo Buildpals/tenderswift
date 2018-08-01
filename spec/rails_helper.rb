@@ -59,7 +59,7 @@ RSpec.configure do |config|
 
   # Add Warden Test helpers for feature specs
   # Allows you to call methods such as
-  #     login_as(quantity_surveyor)
+  #     login_as(publisher)
   # etc
   config.include Warden::Test::Helpers, type: :feature
 

@@ -10,7 +10,7 @@ class RequiredDocumentUpload < ApplicationRecord
 
   enum status: { pending: 0, approved: 1, rejected: 2 }
 
-  delegate :quantity_surveyor, to: :tender
+  delegate :publisher, to: :tender
   delegate :title, to: :required_document
 
   private

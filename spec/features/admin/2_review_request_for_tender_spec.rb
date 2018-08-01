@@ -13,7 +13,7 @@ RSpec.feature 'Review request for tenders', type: :feature, js: true do
     FactoryBot.create(:request_for_tender, :published)
   end
 
-  scenario 'should allow admin to review and publish any quantity_surveyor\'s' \
+  scenario 'should allow admin to review and publish any publisher\'s' \
            ' request for tender' do
     login_as(existing_admin, scope: :admin)
     visit admin_root_path

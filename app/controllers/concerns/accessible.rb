@@ -17,10 +17,10 @@ module Accessible
       flash.clear
       # The authenticated root path can be defined in your routes.rb in: devise_scope :user do...
       redirect_to(contractor_root_path) && return
-    elsif current_quantity_surveyor
+    elsif current_publisher
       flash.clear
       # The authenticated root path can be defined in your routes.rb in: devise_scope :user do...
-      redirect_to(quantity_surveyor_root_path) && return
+      redirect_to(publisher_root_path) && return
     end
   end
 end

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class BidsController < QuantitySurveyorsController
+class BidsController < PublishersController
   before_action :set_tender
 
   before_action :set_policy

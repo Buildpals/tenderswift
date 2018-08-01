@@ -13,7 +13,7 @@ class RequestForTender < ApplicationRecord
            as: :selling_price,
            with_model_currency: :currency
 
-  belongs_to :quantity_surveyor, inverse_of: :request_for_tenders
+  belongs_to :publisher, inverse_of: :request_for_tenders
 
   has_many :project_documents,
            dependent: :destroy,
@@ -44,7 +44,7 @@ class RequestForTender < ApplicationRecord
            :company_logo,
            :phone_number,
            :email,
-           to: :quantity_surveyor,
+           to: :publisher,
            prefix: :project_owners
 
   scope :submitted, -> { where.not(submitted_at: nil).order(submitted_at: :desc) }
@@ -123,7 +123,7 @@ class RequestForTender < ApplicationRecord
 
   def setup_with_data
     self.project_name = 'Untitled Project #' \
-                        "#{quantity_surveyor.request_for_tenders.count + 1}"
+                        "#{publisher.request_for_tenders.count + 1}"
     self.country_code = 'GH'
     self.deadline = Time.current + 1.month
     required_documents.build(title: 'Tax Clearance Certificate')

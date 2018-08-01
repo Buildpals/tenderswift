@@ -3,11 +3,11 @@
 require 'rails_helper'
 
 RSpec.describe OtherDocumentUploadPolicy do
-  subject { described_class.new(quantity_surveyor, other_document_upload) }
+  subject { described_class.new(publisher, other_document_upload) }
 
-  let(:quantity_surveyor) { FactoryBot.create(:quantity_surveyor) }
+  let(:publisher) { FactoryBot.create(:publisher) }
 
-  context 'quantity_surveyor does not own the other_document\s ' \
+  context 'publisher does not own the other_document\s ' \
           'request_for_tender, the tender is not reviewable' do
 
     let(:request_for_tender) do
@@ -29,7 +29,7 @@ RSpec.describe OtherDocumentUploadPolicy do
     it { is_expected.to forbid_action(:reject) }
   end
 
-  context 'quantity_surveyor does not own the other_document\s ' \
+  context 'publisher does not own the other_document\s ' \
           'request_for_tender, the tender is reviewable' do
 
     let(:request_for_tender) do
@@ -54,12 +54,12 @@ RSpec.describe OtherDocumentUploadPolicy do
     it { is_expected.to forbid_action(:reject) }
   end
 
-  context 'quantity_surveyor owns the other_document\s request_for_tender,' \
+  context 'publisher owns the other_document\s request_for_tender,' \
           ' the tender is not reviewable' do
 
     let(:request_for_tender) do
       FactoryBot.create(:request_for_tender,
-                        quantity_surveyor: quantity_surveyor)
+                        publisher: publisher)
     end
 
     let(:tender) do
@@ -77,12 +77,12 @@ RSpec.describe OtherDocumentUploadPolicy do
     it { is_expected.to forbid_action(:reject) }
   end
 
-  context 'quantity_surveyor owns the other_document\s request_for_tender,' \
+  context 'publisher owns the other_document\s request_for_tender,' \
           ' the tender is reviewable' do
 
     let(:request_for_tender) do
       FactoryBot.create(:request_for_tender,
-                        quantity_surveyor: quantity_surveyor,
+                        publisher: publisher,
                         deadline: Time.current)
     end
 

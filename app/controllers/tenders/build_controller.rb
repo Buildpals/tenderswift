@@ -34,7 +34,7 @@ class Tenders::BuildController < ContractorsController
   end
 
   def create
-    @tender = current_quantity_surveyor.tenders.new
+    @tender = current_publisher.tenders.new
     authorize @tender
     @tender.setup_with_data
 

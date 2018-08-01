@@ -3,20 +3,20 @@
 require 'rails_helper'
 
 RSpec.describe RequestForTenderPolicy do
-  subject { described_class.new(quantity_surveyor, request_for_tender) }
+  subject { described_class.new(publisher, request_for_tender) }
 
   let(:resolved_scope) do
-    described_class::Scope.new(quantity_surveyor, RequestForTender.all).resolve
+    described_class::Scope.new(publisher, RequestForTender.all).resolve
   end
 
-  context 'quantity_surveyor owns the request_for_tender, ' \
+  context 'publisher owns the request_for_tender, ' \
           'request_for_tender is published' do
 
-    let(:quantity_surveyor) { FactoryBot.create(:quantity_surveyor) }
+    let(:publisher) { FactoryBot.create(:publisher) }
 
     let(:request_for_tender) do
       FactoryBot.create(:request_for_tender,
-                        quantity_surveyor: quantity_surveyor)
+                        publisher: publisher)
     end
 
     it 'includes request_for_tender in resolved scope' do
@@ -31,14 +31,14 @@ RSpec.describe RequestForTenderPolicy do
     it { is_expected.to permit_action(:destroy) }
   end
 
-  context 'quantity_surveyor owns the request_for_tender, ' \
+  context 'publisher owns the request_for_tender, ' \
           'request_for_tender is published' do
 
-    let(:quantity_surveyor) { FactoryBot.create(:quantity_surveyor) }
+    let(:publisher) { FactoryBot.create(:publisher) }
 
     let(:request_for_tender) do
       FactoryBot.create(:request_for_tender,
-                        quantity_surveyor: quantity_surveyor)
+                        publisher: publisher)
     end
 
     it 'includes request_for_tender in resolved scope' do
@@ -53,10 +53,10 @@ RSpec.describe RequestForTenderPolicy do
     it { is_expected.to permit_action(:destroy) }
   end
 
-  context 'quantity_surveyor owns the request_for_tender, ' \
+  context 'publisher owns the request_for_tender, ' \
           'request_for_tender is published' do
 
-    let(:quantity_surveyor) { FactoryBot.create(:quantity_surveyor) }
+    let(:publisher) { FactoryBot.create(:publisher) }
 
     let(:request_for_tender) do
       FactoryBot.create(:request_for_tender)
@@ -74,10 +74,10 @@ RSpec.describe RequestForTenderPolicy do
     it { is_expected.to forbid_action(:destroy) }
   end
 
-  context 'quantity_surveyor owns the request_for_tender, ' \
+  context 'publisher owns the request_for_tender, ' \
           'request_for_tender is published' do
 
-    let(:quantity_surveyor) { FactoryBot.create(:quantity_surveyor) }
+    let(:publisher) { FactoryBot.create(:publisher) }
 
     let(:request_for_tender) do
       FactoryBot.create(:request_for_tender)

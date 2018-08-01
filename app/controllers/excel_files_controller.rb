@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class ExcelFilesController < QuantitySurveyorsController
+class ExcelFilesController < PublishersController
   before_action :set_request_for_tender
   before_action :set_excel_file, only: :destroy
 
@@ -31,7 +31,7 @@ class ExcelFilesController < QuantitySurveyorsController
   private
 
   def set_request_for_tender
-    @request_for_tender = current_quantity_surveyor
+    @request_for_tender = current_publisher
                           .request_for_tenders
                           .find(params[:request_for_tender_id])
   end

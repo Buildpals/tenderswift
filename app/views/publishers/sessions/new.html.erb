@@ -1,0 +1,36 @@
+<div class="container">
+  <div class="row">
+    <div class="col-lg-4 mx-auto mt-5">
+      <div class="text-center mb-4">
+        <h2>Log in as a publisher</h2>
+      </div>
+
+      <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+        <div class="form-group">
+          <%= f.email_field :email, placeholder: 'Email address', autofocus: true, class: 'form-control', required: true %>
+        </div>
+
+        <div class="form-group">
+          <%= f.password_field :password, placeholder: 'Password', autocomplete: "off", class: 'form-control', required: true %>
+        </div>
+
+        <div class="d-flex w-100 justify-content-between">
+          <% if devise_mapping.rememberable? -%>
+            <div class="field">
+              <%= f.check_box :remember_me %>
+              <%= f.label :remember_me %>
+            </div>
+          <% end -%>
+          <%= link_to "Forgot your password?", new_password_path(resource_name) %>
+        </div>
+
+        <br>
+
+        <div class="actions">
+          <%= f.submit "Log in", class: 'btn btn-accent btn-block', data: {disable_with: "Signing in..."} %>
+        </div>
+      <% end %>
+
+    </div>
+  </div>
+</div>

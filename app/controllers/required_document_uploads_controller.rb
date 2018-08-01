@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class RequiredDocumentUploadsController < QuantitySurveyorsController
+class RequiredDocumentUploadsController < PublishersController
   layout 'file_viewer'
 
   before_action :set_required_document_upload

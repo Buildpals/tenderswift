@@ -74,11 +74,11 @@
     </script>
 
     <script type="text/javascript" charset="utf-8">
-      FS.identify('<%= current_quantity_surveyor ? current_quantity_surveyor.id : request.remote_ip %>', {
-        displayName: '<%= current_quantity_surveyor ? current_quantity_surveyor.company_name : "Guest #{request.remote_ip}" %>',
-        usersName: '<%= current_quantity_surveyor ? current_quantity_surveyor.full_name : 'n/a' %>',
-        email: '<%= current_quantity_surveyor ? current_quantity_surveyor.email : 'n/a' %>',
-        phone_number: '<%= current_quantity_surveyor ? current_quantity_surveyor.phone_number : 'n/a' %>',
+      FS.identify('<%= current_publisher ? current_publisher.id : request.remote_ip %>', {
+        displayName: '<%= current_publisher ? current_publisher.company_name : "Guest #{request.remote_ip}" %>',
+        usersName: '<%= current_publisher ? current_publisher.full_name : 'n/a' %>',
+        email: '<%= current_publisher ? current_publisher.email : 'n/a' %>',
+        phone_number: '<%= current_publisher ? current_publisher.phone_number : 'n/a' %>',
         ipAddress: '<%= request.remote_ip %>',
         // TODO: Add your own custom user variables here, details at
         // http://help.fullstory.com/develop-js/setuservars.

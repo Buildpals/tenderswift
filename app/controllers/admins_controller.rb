@@ -13,7 +13,7 @@ class AdminsController < ApplicationController
       redirect_to rails_admin.dashboard_path
     else
       request_for_tender = RequestForTender.find(params[:id])
-      bypass_sign_in(request_for_tender.quantity_surveyor)
+      bypass_sign_in(request_for_tender.publisher)
       redirect_to request_for_tender_build_path(request_for_tender,
                                                 :general_information)
     end
@@ -24,13 +24,13 @@ class AdminsController < ApplicationController
       redirect_to rails_admin.dashboard_path
     else
       request_for_tender = RequestForTender.find(params[:id])
-      bypass_sign_in(request_for_tender.quantity_surveyor)
+      bypass_sign_in(request_for_tender.publisher)
       redirect_to request_for_tender_path(request_for_tender)
     end
   end
 
   def reverse_masquerade
-    sign_out(QuantitySurveyor.find(params[:id]))
+    sign_out(Publisher.find(params[:id]))
     redirect_to review_request_for_tenders_path
   end
 end

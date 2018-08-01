@@ -2,10 +2,10 @@
 
 class WelcomeController < ApplicationController
   def index
-    if current_quantity_surveyor
-      redirect_to quantity_surveyor_root_path
+    if current_publisher
+      redirect_to publisher_root_path
     elsif current_contractor
-      redirect_to quantity_surveyor_root_path
+      redirect_to publisher_root_path
     else
       redirect_to 'https://www.tenderswift.com'
     end

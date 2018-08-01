@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class ProjectDocumentsController < QuantitySurveyorsController
+class ProjectDocumentsController < PublishersController
   before_action :set_request_for_tender
   before_action :set_project_document, only: :destroy
 
@@ -28,7 +28,7 @@ class ProjectDocumentsController < QuantitySurveyorsController
   private
 
   def set_request_for_tender
-    @request_for_tender = current_quantity_surveyor
+    @request_for_tender = current_publisher
                           .request_for_tenders
                           .find(params[:request_for_tender_id])
   end

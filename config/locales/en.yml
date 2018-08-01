@@ -73,7 +73,7 @@ en:
       monitor_purchase?: 'The tender has not been made available for purchasing'
       complete_transaction?: 'The tender has not been made available for purchasing'
 
-    quantity_surveyor_policy:
+    publisher_policy:
       dashboard?: 'You are not authorized to view this dashboard'
       edit?: 'You are not authorized to view or edit this profile'
       update?: 'You are not authorized to edit this profile'

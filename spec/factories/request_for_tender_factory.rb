@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :request_for_tender do
-    quantity_surveyor
+    publisher
     sequence(:project_name) { |n| "Project #{n} Proposed residential building for Mrs. Christina Love" }
     deadline { DateTime.current + 7.days }
     city 'Kumasi'
@@ -29,7 +29,7 @@ FactoryBot.define do
     account_name 'Christina Construction Services'
     account_number '123456789123456'
 
-    portal_visits 1
+    portal_visits 0
     withdrawal_frequency 1
     tender_figure_address nil
 

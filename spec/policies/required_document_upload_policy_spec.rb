@@ -3,11 +3,11 @@
 require 'rails_helper'
 
 RSpec.describe RequiredDocumentUploadPolicy do
-  subject { described_class.new(quantity_surveyor, required_document_upload) }
+  subject { described_class.new(publisher, required_document_upload) }
 
-  let(:quantity_surveyor) { FactoryBot.create(:quantity_surveyor) }
+  let(:publisher) { FactoryBot.create(:publisher) }
 
-  context 'quantity_surveyor does not own the required_document\s ' \
+  context 'publisher does not own the required_document\s ' \
           'request_for_tender, the tender is not reviewable' do
 
     let(:request_for_tender) do
@@ -29,7 +29,7 @@ RSpec.describe RequiredDocumentUploadPolicy do
     it { is_expected.to forbid_action(:reject) }
   end
 
-  context 'quantity_surveyor does not own the required_document\s ' \
+  context 'publisher does not own the required_document\s ' \
           'request_for_tender, the tender is reviewable' do
 
     let(:request_for_tender) do
@@ -54,12 +54,12 @@ RSpec.describe RequiredDocumentUploadPolicy do
     it { is_expected.to forbid_action(:reject) }
   end
 
-  context 'quantity_surveyor owns the required_document\s request_for_tender,' \
+  context 'publisher owns the required_document\s request_for_tender,' \
           ' the tender is not reviewable' do
 
     let(:request_for_tender) do
       FactoryBot.create(:request_for_tender,
-                        quantity_surveyor: quantity_surveyor)
+                        publisher: publisher)
     end
 
     let(:tender) do
@@ -77,12 +77,12 @@ RSpec.describe RequiredDocumentUploadPolicy do
     it { is_expected.to forbid_action(:reject) }
   end
 
-  context 'quantity_surveyor owns the required_document\s request_for_tender,' \
+  context 'publisher owns the required_document\s request_for_tender,' \
           ' the tender is reviewable' do
 
     let(:request_for_tender) do
       FactoryBot.create(:request_for_tender,
-                        quantity_surveyor: quantity_surveyor,
+                        publisher: publisher,
                         deadline: Time.current)
     end
 

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class RequestForTendersController < QuantitySurveyorsController
+class RequestForTendersController < PublishersController
   before_action :set_request_for_tender, except: %i[create]
 
   before_action :set_policy
@@ -18,7 +18,7 @@ class RequestForTendersController < QuantitySurveyorsController
     if Time.current > @request_for_tender.deadline
       render layout: 'compare_boq'
     else
-      redirect_to quantity_surveyor_root_path,
+      redirect_to publisher_root_path,
                   notice: 'In accordance with tender fairness, you cannot ' \
                           'access the bids until the deadline is past.'
     end
@@ -49,7 +49,7 @@ class RequestForTendersController < QuantitySurveyorsController
     @request_for_tender.destroy
     respond_to do |format|
       format.html do
-        redirect_to quantity_surveyor_root_path,
+        redirect_to publisher_root_path,
                     notice: 'Request was successfully destroyed.'
       end
       format.json { head :no_content }

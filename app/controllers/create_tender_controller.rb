@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateTenderController < QuantitySurveyorsController
+class CreateTenderController < PublishersController
   before_action :set_request_for_tender
 
   before_action :set_policy
@@ -160,7 +160,7 @@ class CreateTenderController < QuantitySurveyorsController
 
   def check_if_published
     if @request_for_tender.published?
-      redirect_to quantity_surveyor_root_path, notice: 'A tender cannot
+      redirect_to publisher_root_path, notice: 'A tender cannot
                                           be edited once it\'s sent out
                                           to contractors'
     end

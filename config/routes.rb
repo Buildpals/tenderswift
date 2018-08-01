@@ -22,19 +22,19 @@ Rails.application.routes.draw do
 
   #################### Quantity Surveyors Routes ##################
 
-  devise_for :quantity_surveyors, path: 'quantity_surveyors', controllers: {
-    confirmations: 'quantity_surveyors/confirmations',
-    passwords: 'quantity_surveyors/passwords',
-    registrations: 'quantity_surveyors/registrations',
-    sessions: 'quantity_surveyors/sessions',
-    unlocks: 'quantity_surveyors/unlocks'
+  devise_for :publishers, path: 'publishers', controllers: {
+    confirmations: 'publishers/confirmations',
+    passwords: 'publishers/passwords',
+    registrations: 'publishers/registrations',
+    sessions: 'publishers/sessions',
+    unlocks: 'publishers/unlocks'
   }
 
-  get '/quantity_surveyors/dashboard',
-      to: 'quantity_surveyors#dashboard',
-      as: :quantity_surveyor_root
+  get '/publishers/dashboard',
+      to: 'publishers#dashboard',
+      as: :publisher_root
 
-  resources :quantity_surveyors, only: %i[edit update]
+  resources :publishers, only: %i[edit update]
 
   resources :request_for_tenders, only: %i[show update destroy] do
     resources :build, controller: 'request_for_tenders/build'

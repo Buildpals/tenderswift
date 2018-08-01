@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
 class RequestForTenderPolicy
-  attr_reader :quantity_surveyor, :request_for_tender
+  attr_reader :publisher, :request_for_tender
 
-  def initialize(quantity_surveyor, request_for_tender)
-    @quantity_surveyor = quantity_surveyor
+  def initialize(publisher, request_for_tender)
+    @publisher = publisher
     @request_for_tender = request_for_tender
   end
 
@@ -13,45 +13,45 @@ class RequestForTenderPolicy
   end
 
   def show?
-    belongs_to_quantity_surveyor?
+    belongs_to_publisher?
   end
 
   def details?
-    belongs_to_quantity_surveyor?
+    belongs_to_publisher?
   end
 
   def compare_boq?
-    belongs_to_quantity_surveyor?
+    belongs_to_publisher?
   end
 
   def update?
-    belongs_to_quantity_surveyor?
+    belongs_to_publisher?
   end
 
   def destroy?
-    belongs_to_quantity_surveyor?
+    belongs_to_publisher?
   end
 
   def scope
-    Pundit.policy_scope!(quantity_surveyor, RequestForTender)
+    Pundit.policy_scope!(publisher, RequestForTender)
   end
 
   class Scope
-    attr_reader :quantity_surveyor, :scope
+    attr_reader :publisher, :scope
 
-    def initialize(quantity_surveyor, scope)
-      @quantity_surveyor = quantity_surveyor
+    def initialize(publisher, scope)
+      @publisher = publisher
       @scope = scope
     end
 
     def resolve
-      scope.where(quantity_surveyor_id: quantity_surveyor.id)
+      scope.where(publisher_id: publisher.id)
     end
   end
 
   private
 
-  def belongs_to_quantity_surveyor?
-    @quantity_surveyor.id == @request_for_tender.quantity_surveyor_id
+  def belongs_to_publisher?
+    @publisher.id == @request_for_tender.publisher_id
   end
 end

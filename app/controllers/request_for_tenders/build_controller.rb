@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class RequestForTenders::BuildController < QuantitySurveyorsController
+class RequestForTenders::BuildController < PublishersController
   include Wicked::Wizard
 
   before_action :set_policy
@@ -49,7 +49,7 @@ class RequestForTenders::BuildController < QuantitySurveyorsController
   end
 
   def create
-    @request_for_tender = current_quantity_surveyor.request_for_tenders.new
+    @request_for_tender = current_publisher.request_for_tenders.new
     authorize @request_for_tender
 
     @request_for_tender.setup_with_data
@@ -91,7 +91,7 @@ class RequestForTenders::BuildController < QuantitySurveyorsController
   end
 
   def finish_wizard_path
-    quantity_surveyor_root_path
+    publisher_root_path
   end
 
   def request_for_tender_params

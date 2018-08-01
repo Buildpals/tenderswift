@@ -13,7 +13,7 @@ RSpec.feature 'Monitor request for tenders', type: :feature, js: true do
     FactoryBot.create(:request_for_tender)
   end
 
-  scenario 'should allow admin to monitor any quantity_surveyor\'s' \
+  scenario 'should allow admin to monitor any publisher\'s' \
            ' request for tender' do
     login_as(existing_admin, scope: :admin)
     visit admin_root_path
