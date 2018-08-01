@@ -27,6 +27,6 @@ class BuildRequestForTenderPolicy
   end
 
   def request_for_tender_is_not_published?
-    !request_for_tender.published?
+    !@request_for_tender.published?
   end
 end
