@@ -143,7 +143,7 @@ class RequestForTenderPurchaser
   end
 
   def purchase_timed_out?(tender)
-    Time.current >= tender.purchase_request_sent_at + 30.seconds
+    Time.current >= tender.purchase_request_sent_at + 10.minutes
   end
 
   def save_transaction_success(message)

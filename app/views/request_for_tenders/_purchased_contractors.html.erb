@@ -6,7 +6,8 @@
 <ul class="list-group">
   <% if request_for_tender.tenders.purchased.each do |tender| %>
 
-    <li class="list-group-item flex-column align-items-start">
+    <li class="list-group-item list-group-item-action align-items-start
+               flex-column">
       <div class="d-flex w-100 justify-content-between">
         <h5 class="mb-1">
           <%= tender.contractors_company_name %>
@@ -16,14 +17,19 @@
           <%= tender.purchased_at.to_formatted_s(:short) %>
         </small>
       </div>
-      <small class="text-muted">
+      <div class="d-flex flex-wrap justify-content-between small text-muted">
         <a href="mailto:<%= tender.project_owners_email %>?subject=<%= "re: Invitation to Tender for #{tender.project_name}" %>"
+           class="dont-break-out mr-2"
            target="_blank">
-          <span class="fa fa-user"></span>
+          <span class="fa fa-envelope"></span>
           <%= tender.contractors_email %>
         </a>
-        (<%= tender.contractors_phone_number %>)
-      </small>
+
+        <a href="tel:<%= tender.contractors_phone_number %>">
+          <span class="fa fa-phone"></span>
+          <%= tender.contractors_phone_number %>
+        </a>
+      </div>
     </li>
 
   <% end.empty? %>

@@ -196,7 +196,7 @@ RSpec.feature 'Purchasing a tender', js: true do
   def then_they_should_be_redirected_to_their_dashboard(
       invitation_to_tender
   )
-    expect(page).to have_content 'Purchased Tenders'
+    expect(page).to have_content 'Purchased tenders'
     within :css, '#purchased-tenders' do
       expect(page).to have_content invitation_to_tender.project_name
     end

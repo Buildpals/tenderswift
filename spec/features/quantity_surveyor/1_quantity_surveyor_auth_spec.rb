@@ -69,9 +69,9 @@ RSpec.feature 'QuantitySurveyor authentication', type: :feature, js: true do
     click_link quantity_surveyor.company_name
     expect(page).to have_content 'Account Information'
     expect(page).to have_content 'Logout'
-    expect(page).to have_content 'Unpublished Request For Tender'
-    expect(page).to have_content 'Published Requests For Tender'
-    expect(page).to have_content 'Closed Tenders'
+    expect(page).to have_content 'Unpublished requests for tender'
+    expect(page).to have_content 'Published requests for tender'
+    expect(page).to have_content 'Closed requests for tender'
   end
 
   def should_see_quantity_surveyor_sign_in_page
