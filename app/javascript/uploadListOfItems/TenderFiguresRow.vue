@@ -31,12 +31,12 @@
          class="btn btn-sm btn-link mr-2">
         View bid
       </a>
-      <button class="btn btn-sm btn-default"
+      <button class="btn btn-sm btn-primary"
               @click="undoDisqualifyBid(tender)"
               v-if="tender.disqualified">
         Add to Shortlist
       </button>
-      <button class="btn btn-sm btn-default"
+      <button class="btn btn-sm btn-primary"
               @click="disqualifyBid(tender)"
               v-else>
         Disqualify

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180801014030) do
+ActiveRecord::Schema.define(version: 20180801123501) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -76,39 +76,6 @@ ActiveRecord::Schema.define(version: 20180801014030) do
     t.index ["request_for_tender_id"], name: "index_excel_files_on_request_for_tender_id"
   end
 
-  create_table "item_columns", force: :cascade do |t|
-    t.bigint "item_id", null: false
-    t.string "entry_key", null: false
-    t.text "value", null: false
-    t.integer "value_type", null: false
-    t.boolean "symbol_key", default: true, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["entry_key"], name: "index_item_columns_on_entry_key"
-    t.index ["item_id"], name: "index_item_columns_on_item_id"
-  end
-
-  create_table "item_properties", force: :cascade do |t|
-    t.bigint "request_for_tender_id"
-    t.string "column_name"
-    t.integer "filled_in_by"
-    t.integer "field_type"
-    t.boolean "required"
-    t.boolean "sum_up"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "formula"
-    t.index ["request_for_tender_id"], name: "index_item_properties_on_request_for_tender_id"
-  end
-
-  create_table "items", force: :cascade do |t|
-    t.bigint "request_for_tender_id"
-    t.float "priority"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["request_for_tender_id"], name: "index_items_on_request_for_tender_id"
-  end
-
   create_table "other_document_uploads", force: :cascade do |t|
     t.bigint "tender_id"
     t.string "document"
@@ -153,17 +120,6 @@ ActiveRecord::Schema.define(version: 20180801014030) do
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_quantity_surveyors_on_email", unique: true
     t.index ["reset_password_token"], name: "index_quantity_surveyors_on_reset_password_token", unique: true
-  end
-
-  create_table "rates", force: :cascade do |t|
-    t.bigint "tender_id"
-    t.string "sheet"
-    t.integer "row"
-    t.decimal "value"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["row"], name: "index_rates_on_row"
-    t.index ["tender_id"], name: "index_rates_on_tender_id"
   end
 
   create_table "request_for_tenders", force: :cascade do |t|
@@ -217,22 +173,6 @@ ActiveRecord::Schema.define(version: 20180801014030) do
     t.index ["request_for_tender_id"], name: "index_required_documents_on_request_for_tender_id"
   end
 
-  create_table "taggings", force: :cascade do |t|
-    t.bigint "item_id"
-    t.bigint "tag_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["item_id"], name: "index_taggings_on_item_id"
-    t.index ["tag_id"], name: "index_taggings_on_tag_id"
-  end
-
-  create_table "tags", force: :cascade do |t|
-    t.string "name"
-    t.text "description"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "tenders", force: :cascade do |t|
     t.bigint "request_for_tender_id"
     t.datetime "purchased_at"
@@ -259,9 +199,5 @@ ActiveRecord::Schema.define(version: 20180801014030) do
     t.index ["request_for_tender_id"], name: "index_tenders_on_request_for_tender_id"
   end
 
-  add_foreign_key "item_properties", "request_for_tenders"
-  add_foreign_key "items", "request_for_tenders"
-  add_foreign_key "taggings", "items"
-  add_foreign_key "taggings", "tags"
   add_foreign_key "tenders", "contractors"
 end

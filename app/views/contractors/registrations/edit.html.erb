@@ -6,7 +6,7 @@
         <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: {method: :put}) do |f| %>
           <%= devise_error_messages! %>
 
-          <h3>Change Password</h3>
+          <h3>Change password</h3>
           <hr>
 
           <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
@@ -46,7 +46,7 @@
           </div>
 
           <div class="actions d-flex w-100 justify-content-end">
-            <%= f.submit 'Change Password', class: 'btn btn-primary' %>
+            <%= f.submit 'Change password', class: 'btn btn-primary' %>
           </div>
         <% end %>
       </div>

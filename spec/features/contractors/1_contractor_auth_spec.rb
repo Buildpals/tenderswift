@@ -62,9 +62,9 @@ RSpec.feature 'Contractor authentication', type: :feature, js: true do
     expect(page).to have_content "Logged in as #{contractor.company_name}"
     expect(page).to have_content 'Edit your account information'
     expect(page).to have_content 'Logout'
-    expect(page).to have_content 'New Invitations To Tender'
-    expect(page).to have_content 'Purchased Tenders'
-    expect(page).to have_content 'Submitted Tenders'
+    expect(page).to have_content 'New invitations to tender'
+    expect(page).to have_content 'Purchased tenders'
+    expect(page).to have_content 'Submitted tenders'
     click_link 'Account' # Close 'Account' drop-down
   end
 

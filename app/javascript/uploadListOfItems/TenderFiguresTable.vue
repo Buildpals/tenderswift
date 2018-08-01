@@ -33,7 +33,7 @@
         <thead>
         <tr>
           <th class="border-top-0">Company</th>
-          <th class="border-top-0 text-right">Tender Figure</th>
+          <th class="border-top-0 text-right">Tender figure</th>
           <th class="border-top-0 text-right">Difference</th>
           <th class="border-top-0 text-right">% Difference</th>
           <th class="border-top-0 text-right">Rating</th>

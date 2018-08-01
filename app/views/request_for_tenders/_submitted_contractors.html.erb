@@ -5,24 +5,40 @@
 
 <ul class="list-group">
   <% if request_for_tender.tenders.submitted.each do |tender| %>
-    <a href="<%= bid_required_documents_path(tender) %>"
-       target="_blank"
-       class="list-group-item list-group-item-action
-                 flex-column align-items-start">
+
+    <li class="list-group-item list-group-item-action align-items-start
+               flex-column">
       <div class="d-flex w-100 justify-content-between">
         <h5 class="mb-1">
           <%= tender.contractors_company_name %>
         </h5>
         <small class="text-muted">
           Submitted on
-          <%= tender.purchased_at.to_formatted_s(:short) %>
+          <%= tender.submitted_at.to_formatted_s(:short) %>
         </small>
       </div>
-      <small class="text-muted">
-        <%= tender.contractors_email %>
-        (<%= tender.contractors_phone_number %>)
-      </small>
-    </a>
+      <div class="d-flex flex-wrap small text-muted">
+        <a href="mailto:<%= tender.project_owners_email %>?subject=<%= "re: Invitation to Tender for #{tender.project_name}" %>"
+           class="dont-break-out mr-2"
+           target="_blank">
+          <span class="fa fa-envelope"></span>
+          <%= tender.contractors_email %>
+        </a>
+
+        <a href="tel:<%= tender.contractors_phone_number %>"
+           class="mr-2">
+          <span class="fa fa-phone"></span>
+          <%= tender.contractors_phone_number %>
+        </a>
+
+        <a href="<%= bid_required_documents_path(tender) %>"
+           target="_blank"
+           class="ml-auto">
+          <span class="fa fa-eye"></span>
+          View tender
+        </a>
+      </div>
+    </li>
 
   <% end.empty? %>
     <div class="d-flex w-100 align-items-center justify-content-center

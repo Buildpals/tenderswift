@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div>
     <workbook :workbook="requestForTender.compare_workbook"
               :tenders="tenders" />
   </div>
@@ -19,21 +19,6 @@
       'requestForTender',
       'list_of_items',
       'tenders'
-    ],
-
-    methods: {
-      amountSummer (accumulator, rateKey) {
-        return accumulator +
-          this.list_of_items.items[rateKey].quantity * this.rates[rateKey]
-      },
-      /*tenderFigure (tender) {
-        return Object.keys(tender.list_of_rates.rates)
-          .reduce((accumulator, rateKey) => {
-            return accumulator +
-              this.list_of_items.items[rateKey].quantity *
-              tender.list_of_rates.rates[rateKey]
-          }, 0)
-      } */
-    }
+    ]
   }
 </script>
