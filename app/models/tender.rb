@@ -35,8 +35,6 @@ class Tender < ApplicationRecord
 
   # has_many :required_documents, through: :required_document_uploads
 
-  has_many :rates, inverse_of: :tender
-
   validates :contractor_id,
             uniqueness: {
               scope: :request_for_tender_id,
@@ -103,24 +101,6 @@ class Tender < ApplicationRecord
       workbook['Sheets'][sheet_name][row_col_ref]['v'] = value
     end
     workbook
-  end
-
-  def save_rates(rate_updates)
-    transaction do
-      rate_updates.each do |rate_update|
-        rate = rates.find_by(sheet: rate_update[:sheet], row: rate_update[:row])
-        if rate
-          rate.update!(value: rate_update[:value])
-        else
-          rates.build(sheet: rate_update[:sheet],
-                      row: rate_update[:row],
-                      value: rate_update[:value])
-        end
-        save!
-      end
-      return true
-    end
-    false
   end
 
   def self.build_fake_tender(request_for_tender)
