@@ -108,6 +108,7 @@
         let sheetName = address.split('!')[0]
 
         let worksheet = this.requestForTender.workbook.Sheets[sheetName]
+        if (!worksheet) return undefined
         let desired_cell = worksheet[address_of_cell]
         return desired_cell ? desired_cell.v : undefined
       },

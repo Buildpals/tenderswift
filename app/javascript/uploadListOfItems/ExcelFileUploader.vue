@@ -99,7 +99,13 @@
           }
 
           /* read workbook */
-          let workbook = XLSX.read(binary, {type: 'binary'})
+          let workbook_data = XLSX.read(binary, {type: 'binary'})
+
+          // Only store the Sheets object and the SheetNames Array
+          let workbook = {
+            'Sheets': workbook_data.Sheets,
+            'SheetNames': workbook_data.SheetNames
+          }
 
           this.saveExcelFile(file, workbook)
             .then(response => {
