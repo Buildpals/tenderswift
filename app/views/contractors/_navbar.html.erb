@@ -28,7 +28,7 @@
   </div>
 
   <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-    <% if controller_name == :welcome and action_name == :query_request_for_tender %>
+    <% unless controller_name == :welcome and action_name == :query_request_for_tender %>
       <%= form_with url: find_request_for_tender_path,
                     class: 'form-inline my-2 my-lg-0 ml-auto' do |form| %>
         <div class="input-group input-group-sm">
@@ -43,8 +43,8 @@
           </div>
         </div>
       <% end %>
+      <div class="border-bottom d-lg-none d-xl-none"></div>
     <% end %>
-    <div class="border-bottom d-lg-none d-xl-none"></div>
 
     <ul class="navbar-nav">
       <li class="nav-item">
