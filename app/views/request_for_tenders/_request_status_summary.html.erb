@@ -1,15 +1,15 @@
 <div class="card mb-4">
   <div class="card-body">
-    <h5 class="card-title"><%= @request_for_tender.project_name %></h5>
+    <h5 class="card-title"><%= request_for_tender.project_name %></h5>
     <div class="d-flex justify-content-between small">
       <div>
         <strong>Reference number: </strong>
-        <%= @request_for_tender.id %>
+        <%= request_for_tender.id %>
       </div>
       <div>
         <strong>Purchase link: </strong>
-        <%= link_to purchase_url(@request_for_tender),
-                    purchase_url(@request_for_tender),
+        <%= link_to purchase_url(request_for_tender),
+                    purchase_url(request_for_tender),
                     target: '_blank',
                     id: :purchase_link %>
       </div>
@@ -33,18 +33,20 @@
         <div class="mr-auto"></div>
         <div class="mx-3">
           <div class="font-weight-bold text-muted">Published</div>
-          <%= @request_for_tender.published_at.to_formatted_s(:short) %>
+          <%= request_for_tender.published_at.to_formatted_s(:short) %>
         </div>
         <div class="mx-3">
-            <% if deadline_over? @request_for_tender %>
-              <div class="font-weight-bold text-muted">Ended</div>
-              <%= time_to_deadline @request_for_tender %> ago
-              <small>(<%= @request_for_tender.deadline.to_formatted_s(:short) %>)</small>
-            <% else %>
-              <div class="font-weight-bold text-muted">Ends on</div>
-              <%= time_to_deadline @request_for_tender %>
-              <small>(<%= @request_for_tender.deadline.to_formatted_s(:short) %>)</small>
-            <% end %>
+          <% if deadline_over? request_for_tender %>
+            <div class="font-weight-bold text-muted">Ended</div>
+            <%= time_to_deadline request_for_tender %> ago
+            <small>(<%= request_for_tender.deadline.to_formatted_s(:short) %>)
+            </small>
+          <% else %>
+            <div class="font-weight-bold text-muted">Ends on</div>
+            <%= time_to_deadline request_for_tender %>
+            <small>(<%= request_for_tender.deadline.to_formatted_s(:short) %>)
+            </small>
+          <% end %>
         </div>
       </div>
     </li>

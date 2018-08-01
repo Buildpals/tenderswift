@@ -1,5 +1,6 @@
 <% content_for :modals do %>
-  <div class="modal <% 'fade' unless Rails.env.test? %>"
+  <div class="modal
+    <% 'fade' unless Rails.env.test? %>"
        id="paymentModal"
        tabindex="-1"
        role="dialog"
@@ -59,6 +60,6 @@
 
   </div>
 
-  <%= render 'request_for_tenders/public_information',
+  <%= render 'request_for_tenders/public_request_for_tender_information',
              request_for_tender: @request_for_tender %>
 </div>

@@ -17,7 +17,7 @@
   <% wizard_steps.each_with_index do |wizard_step, index| %>
     <%= link_to "#{index + 1}. #{wizard_step.to_s.humanize}",
                 wizard_path(wizard_step),
-                class: "nav-item nav-link #{'active' if step == wizard_step}"%>
+                class: "nav-item nav-link #{'active' if step == wizard_step}" %>
   <% end %>
 <% end %>
 

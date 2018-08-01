@@ -26,18 +26,12 @@
 // Autosize textarea
 //= require autosize
 
-// Parsely
-//= require parsley
-
 // Jquery Are You Sure
 //= require jquery.are-you-sure
 //= require ays-beforeunload-shim
 
 // Cocoon
 //= require cocoon
-
-// SheetJS
-//= require xlsx.full.min
 
 // Trix
 //= require trix
@@ -46,11 +40,9 @@
 //= require intlTelInput
 //= require libphonenumber/utils
 
-//= require compare_bids
 //= require registrations
 //= require request_for_tenders/build
 //= require request_for_tenders
-//= require tenders
 //= require bids
 //= require purchase_tender
 //= require contractors

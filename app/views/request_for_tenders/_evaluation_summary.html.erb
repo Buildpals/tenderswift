@@ -1,0 +1,25 @@
+<div class="card mb-4">
+  <div class="card-body">
+
+    <div class="row">
+      <div class="col-md-4 mb-2">
+        <strong>Shortlisted</strong>
+        <br>
+        <%= request_for_tender.tenders.not_disqualified.count %>
+      </div>
+
+      <div class="col-md-4 mb-2">
+        <strong>Disqualified</strong>
+        <br>
+        <%= request_for_tender.tenders.disqualified.count %>
+      </div>
+
+      <div class="col-md-4 mb-2">
+        <strong>Total Submissions</strong>
+        <br>
+        <%= request_for_tender.tenders.submitted.count %>
+      </div>
+    </div>
+
+  </div>
+</div>

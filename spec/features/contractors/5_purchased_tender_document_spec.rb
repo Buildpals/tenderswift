@@ -146,24 +146,9 @@ RSpec.feature 'Purchased tender document' do
   private
 
   def contractor_should_see_project_information
-    expect(page).to have_content purchased_tender_document.project_name
-    expect(page).to have_content purchased_tender_document.project_owners_company_name
-    expect(page).to have_content purchased_tender_document.contract_class
-    expect(page).to have_content project_location purchased_tender_document
-    expect(page).to have_content project_currency purchased_tender_document
-
-    expect(page).to have_content time_to_deadline purchased_tender_document
-    expect(page).to have_content purchased_tender_document.deadline.to_formatted_s(:long)
-
-    expect(page).to have_content purchased_tender_document.description
-
-    purchased_tender_document
-      .request_for_tender
-      .required_documents.each do |required_document|
-      expect(page).to have_content required_document.title
-    end
-
-    expect(page).to have_content purchased_tender_document.tender_instructions
+    user_sees_public_request_for_tender_information(
+        purchased_tender_document.request_for_tender
+    )
   end
 
   def contractor_should_see_tender_documents

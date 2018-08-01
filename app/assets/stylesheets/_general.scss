@@ -1,0 +1,29 @@
+/******************************************************
+Sticky Footer
+******************************************************/
+html, body {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+.navbar {
+  flex: none;
+}
+
+.content {
+  flex: 1 0 auto;
+  margin-bottom: 50px;
+}
+
+
+/***************************************
+Card Shadows
+***************************************/
+.card, .btn-raised, .shadow {
+  box-shadow: 0px 2px 5px -1px rgba(0, 0, 0, 0.1);
+  //box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+}

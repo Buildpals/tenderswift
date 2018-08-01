@@ -1,0 +1,27 @@
+<% if deadline_over? request_for_tender %>
+
+  <tender-figures-table
+    :request-for-tender="<%= @request_for_tender
+                             .to_json(only: [:id, :tender_figure_address],
+                                      methods: [:project_owners_email,
+                                                :project_owners_company_name,
+                                                :workbook]) %>"
+    :tenders="<%= @request_for_tender.tenders
+                  .submitted.to_json(only: [:id, :disqualified, :rating],
+                                     methods: [:contractors_company_name,
+                                               :contractors_email,
+                                               :workbook]) %>">
+  </tender-figures-table>
+
+<% else %>
+
+  <p>
+    In order to comply with the standards of tender fairness,
+    bids will only be shown when the request deadline is reached.
+  </p>
+
+  <p class="text-center">
+    <%= time_to_deadline request_for_tender %> left to request deadline.
+  </p>
+
+<% end %>

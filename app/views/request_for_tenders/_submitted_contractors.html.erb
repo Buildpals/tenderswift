@@ -1,68 +1,36 @@
-<div class="card-header" role="tab" id="headingBidMade">
-  <h5 class="mb-0">
-    <a class="collapsed text-success"
-       data-toggle="collapse"
-       href="#collapseBidMade"
-       aria-expanded="false"
-       aria-controls="collapseBidMade">
-      Submitted
-      <small>
-        <span class="badge badge-pill badge-success">
-          <%= @request_for_tender.tenders.submitted.count %>
-        </span>
+<div class="px-4 mb-2">
+  Submitted tenders
+  (<%= request_for_tender.tenders.submitted.count %>)
+</div>
+
+<ul class="list-group">
+  <% if request_for_tender.tenders.submitted.each do |tender| %>
+    <a href="<%= bid_required_documents_path(tender) %>"
+       target="_blank"
+       class="list-group-item list-group-item-action
+                 flex-column align-items-start">
+      <div class="d-flex w-100 justify-content-between">
+        <h5 class="mb-1">
+          <%= tender.contractors_company_name %>
+        </h5>
+        <small class="text-muted">
+          Submitted on
+          <%= tender.purchased_at.to_formatted_s(:short) %>
+        </small>
+      </div>
+      <small class="text-muted">
+        <%= tender.contractors_email %>
+        (<%= tender.contractors_phone_number %>)
       </small>
     </a>
-  </h5>
-</div>
-<div id="collapseBidMade"
-     class="collapse"
-     role="tabpanel"
-     aria-labelledby="headingBidMade"
-     data-parent="#accordion">
-  <ul class="list-group list-group-flush">
-    <% @request_for_tender.tenders.submitted.each do |tender| %>
-      <li class="list-group-item list-group-item-action
-                 flex-column align-items-start">
-        <div class="d-flex w-100 justify-content-between">
-          <div class="mb-1"><%= tender.contractors_company_name %></div>
-        </div>
-        <small class="text-muted">
-          <a href="mailto:<%= tender.project_owners_email %>?subject=<%= "re: Invitation to Tender for #{tender.project_name}" %>"
-             target="_blank">
-            <span class="fa fa-user"></span>
-            <%= tender.contractors_email %>
-          </a>
-          (<%= tender.contractors_phone_number %>)
-        </small>
-        <div class="w-100 d-flex justify-content-between align-items-baseline">
-          <small>Submitted on <%= tender.purchased_at.to_formatted_s(:short)
-          %></small>
 
-          <% if tender.submitted? %>
-            <% if deadline_over? @request_for_tender %>
-              <%= link_to 'View bid',
-                          bid_required_documents_path(tender),
-                          class: 'btn btn-link' %>
-            <% else %>
-              <div data-toggle="tooltip"
-                   data-placement="bottom"
-                   data-html="true"
-                   data-title="<p>In order to comply with the standards of
-                               tender fairness, bids will only be shown when
-                               the request deadline is reached.<p>
-                               <p class='text-center request-countdown'>
-                               <%= time_to_deadline @request_for_tender %>
-                               left to request deadline.</p>">
-                <button class="btn btn-link disabled" type="button">
-                  View bid
-                </button>
-              </div>
-            <% end %>
-          <% else %>
-            Waiting for bid
-          <% end %>
-        </div>
-      </li>
-    <% end %>
-  </ul>
-</div>
+  <% end.empty? %>
+    <div class="d-flex w-100 align-items-center justify-content-center
+                        min-height-500 rounded"
+         style="background: #ddd">
+      <p>
+        No contractor has submitted yet
+      </p>
+    </div>
+  <% end %>
+</ul>

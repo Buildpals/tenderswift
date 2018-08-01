@@ -19,49 +19,49 @@
     <ul class="navbar-nav ml-auto">
       <% if quantity_surveyor_signed_in? %>
 
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle"
-               href="<%= edit_quantity_surveyor_path(current_quantity_surveyor) %>"
-               id="account_links"
-               data-toggle="dropdown"
-               aria-haspopup="true"
-               aria-expanded="false">
-              <span class="fa fa-user" aria-hidden="true"></span>
-              <%= 'Impersonating:' if current_admin %>
-              <%= current_quantity_surveyor.company_name %>
-            </a>
-            <div class="dropdown-menu fix-screen"
-                 aria-labelledby="account_links">
-              <%= link_to 'Account Information',
-                          edit_quantity_surveyor_path(current_quantity_surveyor),
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle"
+             href="<%= edit_quantity_surveyor_path(current_quantity_surveyor) %>"
+             id="account_links"
+             data-toggle="dropdown"
+             aria-haspopup="true"
+             aria-expanded="false">
+            <span class="fa fa-user" aria-hidden="true"></span>
+            <%= 'Impersonating:' if current_admin %>
+            <%= current_quantity_surveyor.company_name %>
+          </a>
+          <div class="dropdown-menu fix-screen"
+               aria-labelledby="account_links">
+            <%= link_to 'Account Information',
+                        edit_quantity_surveyor_path(current_quantity_surveyor),
+                        class: 'dropdown-item' %>
+            <% if current_admin %>
+              <%= link_to 'Stop impersonating',
+                          reverse_masquerade_path(current_quantity_surveyor),
+                          method: :delete,
                           class: 'dropdown-item' %>
-              <% if current_admin %>
-                <%= link_to 'Stop impersonating',
-                            reverse_masquerade_path(current_quantity_surveyor),
-                            method: :delete,
-                            class: 'dropdown-item' %>
-              <% else %>
-                <%= link_to 'Logout',
-                            destroy_quantity_surveyor_session_path,
-                            method: :delete,
-                            class: 'dropdown-item' %>
-              <% end %>
-            </div>
-          </li>
+            <% else %>
+              <%= link_to 'Logout',
+                          destroy_quantity_surveyor_session_path,
+                          method: :delete,
+                          class: 'dropdown-item' %>
+            <% end %>
+          </div>
+        </li>
 
       <% else %>
 
-          <li class="nav-item mr-3">
-            <%= link_to 'Login',
-                        new_quantity_surveyor_session_path,
-                        class: 'nav-link' %>
-          </li>
+        <li class="nav-item mr-3">
+          <%= link_to 'Login',
+                      new_quantity_surveyor_session_path,
+                      class: 'nav-link' %>
+        </li>
 
-          <li class="nav-item">
-            <%= link_to 'Signup',
-                        new_quantity_surveyor_registration_path,
-                        class: 'nav-link' %>
-          </li>
+        <li class="nav-item">
+          <%= link_to 'Signup',
+                      new_quantity_surveyor_registration_path,
+                      class: 'nav-link' %>
+        </li>
 
       <% end %>
     </ul>

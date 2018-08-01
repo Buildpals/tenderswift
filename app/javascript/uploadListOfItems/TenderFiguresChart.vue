@@ -6,11 +6,6 @@ z<template>
 
 <script>
   import TenderSwiftMixins from '../TenderSwiftMixins'
-  import ContextMenu from 'vue-context-menu'
-  import {
-    getTenderFigure
-  } from '../utils'
-
   import Chart from 'chart.js'
 
   const newMenuData = () => ({tender: null})
@@ -32,19 +27,17 @@ z<template>
   export default {
     mixins: [TenderSwiftMixins],
 
-    components: {ContextMenu},
-
     props: [
       'tenders',
-      'baseTenderFigure',
-      'tenderFigureAddress'
+      'tenderFiguresHash',
+      'baseTenderFigure'
     ],
 
     data () {
       return {
         menuData: newMenuData(),
         chart: false,
-        data: this.tenders.map(tender => this.tenderFigure(tender)),
+        data: this.tenders.map(tender => this.getTenderFigure(tender)),
         labels: this.tenders.map(tender => tender.contractors_company_name)
       }
     },
@@ -63,24 +56,9 @@ z<template>
     },
 
     methods: {
-      tenderFigure (tender) {
-        return getTenderFigure(
-          tender.workbook,
-          this.tenderFigureAddress
-        )
+      getTenderFigure (tender) {
+        return  this.tenderFiguresHash[tender.id].tenderFigure
       },
-
-      onCtxOpen (locals) {
-        console.log('open', locals)
-        this.menuData = locals
-      },
-      onCtxClose (locals) {
-        console.log('close', locals)
-      },
-      resetCtxLocals () {
-        this.menuData = newMenuData()
-      },
-
 
       setupHorizontalBarPlugin () {
         //Create horizontalBar plug-in for ChartJS

@@ -1,36 +1,38 @@
-<div class="card-header text-warning" role="tab" id="purchasedContractors">
-  <h5 class="mb-0">
-    <a class="collapsed text-warning" data-toggle="collapse" href="#collapsePurchasedContractors" aria-expanded="false" aria-controls="collapsePurchasedContractors">
-      Purchased
-      <small>
-      <span class="badge badge-pill badge-warning">
-        <%= @request_for_tender.tenders.purchased.count %>
-     </span>
-      </small>
-    </a>
-  </h5>
+<div class="px-4 mb-2">
+  Purchased contractors
+  (<%= request_for_tender.tenders.purchased.count %>)
 </div>
-<div id="collapsePurchasedContractors" class="collapse" role="tabpanel" aria-labelledby="purchasedContractors" data-parent="#accordion">
-  <ul class="list-group list-group-flush">
-    <% @request_for_tender.tenders.purchased.each do |tender| %>
-      <li class="list-group-item list-group-item-action flex-column align-items-start">
-        <div class="d-flex w-100 justify-content-between">
-          <div class="mb-1"><%= tender.contractors_company_name %></div>
-        </div>
+
+<ul class="list-group">
+  <% if request_for_tender.tenders.purchased.each do |tender| %>
+
+    <li class="list-group-item flex-column align-items-start">
+      <div class="d-flex w-100 justify-content-between">
+        <h5 class="mb-1">
+          <%= tender.contractors_company_name %>
+        </h5>
         <small class="text-muted">
-          <a href="mailto:<%= tender.project_owners_email %>?subject=<%= "re: Invitation to Tender for #{tender.project_name}" %>"
-             target="_blank">
-            <span class="fa fa-user"></span>
-            <%= tender.contractors_email %>
-          </a>
-          (<%= tender.contractors_phone_number %>)
-          <br>
           Purchased on
           <%= tender.purchased_at.to_formatted_s(:short) %>
-          for
-          <strong>GH₵ <%= tender.amount %></strong>
         </small>
-      </li>
-    <% end %>
-  </ul>
-</div>
+      </div>
+      <small class="text-muted">
+        <a href="mailto:<%= tender.project_owners_email %>?subject=<%= "re: Invitation to Tender for #{tender.project_name}" %>"
+           target="_blank">
+          <span class="fa fa-user"></span>
+          <%= tender.contractors_email %>
+        </a>
+        (<%= tender.contractors_phone_number %>)
+      </small>
+    </li>
+
+  <% end.empty? %>
+    <div class="d-flex w-100 align-items-center justify-content-center
+                        min-height-500 rounded"
+         style="background: #ddd">
+      <p>
+        No contractor has purchased yet
+      </p>
+    </div>
+  <% end %>
+</ul>
