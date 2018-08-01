@@ -269,24 +269,7 @@ RSpec.feature 'Product walkthrough', js: true do
   end
 
   def and_they_should_be_able_to_see_the_tenders_general_information
-    click_link @request_for_tender.project_name
-
-    expect(page).to have_content @request_for_tender.project_name
-    expect(page).to have_content @request_for_tender.project_owners_company_name
-    expect(page).to have_content @request_for_tender.contract_class
-    expect(page).to have_content project_location @request_for_tender
-    expect(page).to have_content project_currency @request_for_tender
-
-    expect(page).to have_content time_to_deadline @request_for_tender
-    expect(page).to have_content @request_for_tender.deadline.to_formatted_s(:long)
-
-    expect(page).to have_content @request_for_tender.description
-
-    @request_for_tender.required_documents.each do |required_document|
-      expect(page).to have_content required_document.title
-    end
-
-    expect(page).to have_content @request_for_tender.tender_instructions
+    user_sees_public_request_for_tender_information(@request_for_tender)
   end
 
   def and_they_should_be_able_to_see_the_tenders_tender_documents
@@ -353,21 +336,7 @@ RSpec.feature 'Product walkthrough', js: true do
   end
 
   def should_have_content_of_request_for_tender
-    expect(page).to have_content @request_for_tender.project_name
-    expect(page).to have_content @request_for_tender.contract_class
-    expect(page).to have_content project_location @request_for_tender
-    expect(page).to have_content project_currency @request_for_tender
-
-    expect(page).to have_content time_to_deadline @request_for_tender
-
-    expect(page).to have_content @request_for_tender.deadline.to_formatted_s(:long)
-    expect(page).to have_content @request_for_tender.description
-
-    @request_for_tender.required_documents.each do |required_document|
-      expect(page).to have_content required_document.title
-    end
-
-    expect(page).to have_content @request_for_tender.tender_instructions
+    user_sees_public_request_for_tender_information(@request_for_tender)
   end
 
   def should_see_quantity_surveyor_sign_in_page

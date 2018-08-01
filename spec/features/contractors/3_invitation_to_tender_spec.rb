@@ -31,21 +31,6 @@ RSpec.feature 'Invitation to tender' do
   private
 
   def contractor_should_see_invitation_to_tender_content
-    expect(page).to have_content invitation_to_tender.project_name
-    expect(page).to have_content invitation_to_tender.project_owners_company_name
-    expect(page).to have_content invitation_to_tender.contract_class
-    expect(page).to have_content project_location invitation_to_tender
-    expect(page).to have_content project_currency invitation_to_tender
-
-    expect(page).to have_content time_to_deadline invitation_to_tender
-    expect(page).to have_content invitation_to_tender.deadline.to_formatted_s(:long)
-
-    expect(page).to have_content invitation_to_tender.description
-
-    invitation_to_tender.required_documents.each do |required_document|
-      expect(page).to have_content required_document.title
-    end
-
-    expect(page).to have_content invitation_to_tender.tender_instructions
+    user_sees_public_request_for_tender_information(invitation_to_tender)
   end
 end

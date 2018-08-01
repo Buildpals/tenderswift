@@ -128,23 +128,8 @@ RSpec.feature 'Purchasing a tender', js: true do
                             contractor: signed_up_contractor)
 
     click_link tender.project_name
+    user_sees_public_request_for_tender_information(tender.request_for_tender)
 
-    expect(page).to have_content tender.project_name
-    expect(page).to have_content tender.project_owners_company_name
-    expect(page).to have_content tender.contract_class
-    expect(page).to have_content project_location tender
-    expect(page).to have_content project_currency tender
-
-    expect(page).to have_content time_to_deadline tender
-    expect(page).to have_content tender.deadline.to_formatted_s(:long)
-
-    expect(page).to have_content tender.description
-
-    tender.request_for_tender.required_documents.each do |required_document|
-      expect(page).to have_content required_document.title
-    end
-
-    expect(page).to have_content tender.tender_instructions
     tender
   end
 

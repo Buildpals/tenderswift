@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-include ActionView::Helpers::DateHelper
 module Features
 
   def user_sees_public_request_for_tender_information(request_for_tender)
@@ -60,6 +59,5 @@ module Features
 
   def self.included(base)
     base.send(:include, ActionView::Helpers::DateHelper)
-    base.extend(ClassMethods)
   end
 end
