@@ -49,12 +49,12 @@
       </a>
 
       <a class="list-group-item list-group-item-action"
-         id="list-evaluation-list"
+         id="list-prequalification-list"
          data-toggle="list"
-         href="#list-evaluation"
+         href="#list-prequalification"
          role="tab"
-         aria-controls="evaluation">
-        Evaluation
+         aria-controls="prequalification">
+        Prequalification
       </a>
 
       <a class="list-group-item list-group-item-action"
@@ -108,10 +108,10 @@
       </div>
 
       <div class="tab-pane fade"
-           id="list-evaluation"
+           id="list-prequalification"
            role="tabpanel"
-           aria-labelledby="list-evaluation-list">
-        <%= render 'evaluation_summary',
+           aria-labelledby="list-prequalification-list">
+        <%= render 'prequalification_summary',
                    request_for_tender: @request_for_tender %>
 
         <%= render 'tender_figures_chart_and_table',
