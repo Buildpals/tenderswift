@@ -29,7 +29,7 @@ FactoryBot.define do
     account_name 'Christina Construction Services'
     account_number '123456789123456'
 
-    portal_visits 1
+    portal_visits 0
     withdrawal_frequency 1
     tender_figure_address nil
 
