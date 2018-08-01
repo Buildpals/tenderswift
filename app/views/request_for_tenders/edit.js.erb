@@ -1,1 +1,3 @@
-// TODO: Write content here
+$('#payments-form').replaceWith(
+  '<%= j render('payments_form', request_for_tender: @request_for_tender) %>'
+)

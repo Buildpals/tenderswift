@@ -1,8 +1,9 @@
 {
-  "application.js": "/packs/application-2b0468a087f6d5ce8caf.js",
-  "application.js.map": "/packs/application-2b0468a087f6d5ce8caf.js.map",
-  "hello_vue.css": "/packs/hello_vue-616e965899d7723a2c91cb32a8ab3864.css",
-  "hello_vue.js": "/packs/hello_vue-3d6a90e31dffb7ef5f19.js",
-  "hello_vue.js.map": "/packs/hello_vue-3d6a90e31dffb7ef5f19.js.map",
+  "application.js": "/packs/application-7c74949b1094099a008f.js",
+  "application.js.map": "/packs/application-7c74949b1094099a008f.js.map",
+  "hello_vue.css": "/packs/hello_vue-3f510d50bb55ad239ea92bd9c7816465.css",
+  "hello_vue.css.map": "/packs/hello_vue-3f510d50bb55ad239ea92bd9c7816465.css.map",
+  "hello_vue.js": "/packs/hello_vue-bdd15ddacee4f7ea0da3.js",
+  "hello_vue.js.map": "/packs/hello_vue-bdd15ddacee4f7ea0da3.js.map",
   "images/boq_screenshot.png": "/packs/images/boq_screenshot-810bf5ee0b74bc66b6ecf19b984cb865.png"
 }

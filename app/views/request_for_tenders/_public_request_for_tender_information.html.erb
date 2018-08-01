@@ -1,0 +1,87 @@
+<div class="px-4 mb-2">General Information</div>
+
+<div class="card mb-4">
+  <div class="card-body">
+    <h5 class="card-title"><%= request_for_tender.project_name %></h5>
+    <h6 class="card-subtitle mb-2 text-muted">
+      <%= request_for_tender.project_owners_company_name %>
+    </h6>
+    <p class="card-text">
+      <%= simple_format request_for_tender.description %>
+    </p>
+
+    <div class="row mt-3">
+      <div class="col-md-4 mb-2">
+        <strong>Location</strong>
+        <br>
+        <%= project_location request_for_tender %>
+      </div>
+
+      <div class="col-md-4 mb-2">
+        <strong>Contract class</strong>
+        <br>
+        <%= request_for_tender.contract_class %>
+      </div>
+
+      <div class="col-md-4 mb-2">
+        <strong>Project currency</strong>
+        <br>
+        <%= project_currency request_for_tender %>
+      </div>
+    </div>
+  </div>
+
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item">
+      <div class="row">
+        <div class="col-md-4 mb-2">
+          <strong>
+            <% if deadline_over? request_for_tender %>
+              Time closed
+            <% else %>
+              Time left
+            <% end %>
+          </strong>
+          <br>
+          <%= time_to_deadline request_for_tender %>
+        </div>
+        <div class="col-md-8 mb-2">
+          <strong>Tendering Duration</strong>
+          <br>
+          <%= request_for_tender.published_at
+              .to_date.to_formatted_s(:long_ordinal) %>
+          to
+          <%= request_for_tender.deadline
+              .to_date.to_formatted_s(:long_ordinal) %>
+          <span class="ml-1">(UTC+00:00)</span>
+        </div>
+      </div>
+    </li>
+  </ul>
+
+
+</div>
+
+<div class="px-4 mb-2">Tender instructions</div>
+
+<div class="card mb-4">
+  <div class="card-body">
+    <h5>Instructions</h5>
+    <%= simple_format request_for_tender.tender_instructions,
+                      {class: 'formatted_content trix-content'},
+                      {wrapper_tag: 'div'} %>
+  </div>
+
+  <div class="card-body">
+    <h5>Required Documents</h5>
+    <p class="card-text">
+      All participating contractors are expected to provide the following
+      documents with this tender:
+    <ol>
+      <% request_for_tender.required_documents.each do |required_document| %>
+        <li> <%= required_document.title %> </li>
+      <% end %>
+    </ol>
+    </p>
+  </div>
+</div>

@@ -17,11 +17,8 @@ class Tender < ApplicationRecord
                           where(submitted_at: nil).order(submitted_at: :desc)
                         }
 
-  scope :read, -> { where(read: true) }
-  scope :not_read, -> { where(read: false) }
-
-  scope :disqualified, -> { where(disqualified: true) }
-  scope :not_disqualified, -> { where(disqualified: false) }
+  scope :disqualified, -> { where(disqualified: true).order(submitted_at: :desc) }
+  scope :not_disqualified, -> { where(disqualified: false).order(submitted_at: :desc) }
 
   belongs_to :contractor, inverse_of: :tenders
   belongs_to :request_for_tender, inverse_of: :tenders

@@ -1,107 +1,133 @@
 <template>
-  <div id="app">
-    <tender-figures-chart
-        class="mb-5"
-        :tenders="tenders"
-        :tender-figure-address="requestForTender.tender_figure_address"
-        :base-tender-figure="baseTenderFigure"/>
+  <div>
+    <div class="px-4 mb-2">Tender figures bar chart</div>
 
-    <table class="table table-striped table-hover mb-5"
-           style="font-size: 0.9rem;">
+    <div class="card mb-4">
+      <div class="card-body">
+        <tender-figures-chart
+            class="mb-5"
+            :tenders="tenders"
+            :tender-figures-hash="tenderFiguresHash"
+            :tender-figure-address="requestForTender.tender_figure_address"
+            :base-tender-figure="baseTenderFigure"/>
+      </div>
+    </div>
 
-      <thead>
-      <tr>
-        <th>Company</th>
-        <th class="text-right">Tender Figure</th>
-        <th class="text-right">Difference</th>
-        <th class="text-right">% Difference</th>
-        <th class="text-right">Rating</th>
-        <th width="60px"></th>
-      </tr>
-      </thead>
 
-      <tbody>
-      <tr>
+    <div class="d-flex w-100 justify-content-between align-items-baseline mb-2">
+      <div class="px-4 mb-2">
+        Shortlisted tenders ({{ shortListParticipants.length }})
+      </div>
 
-        <td>
+      <a :href="`/request_for_tenders/${requestForTender.id}/compare_boq`"
+         target="_blank"
+         class="btn btn-sm btn-accent">
+        Compare Rates
+      </a>
+    </div>
+
+    <div class="card mb-4">
+      <table class="table table-hover mb-0"
+             style="font-size: 0.9rem;">
+
+        <thead>
+        <tr>
+          <th class="border-top-0">Company</th>
+          <th class="border-top-0 text-right">Tender Figure</th>
+          <th class="border-top-0 text-right">Difference</th>
+          <th class="border-top-0 text-right">% Difference</th>
+          <th class="border-top-0 text-right">Rating</th>
+          <th class="border-top-0"></th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr>
+
+          <td>
           <span data-toggle="tooltip"
                 data-placement="top"
                 :title="requestForTender.project_owners_email">
             {{  requestForTender.project_owners_company_name }}
           </span>
-        </td>
+          </td>
 
-        <td class="text-right">
-          {{ formatNumber( baseTenderFigure ) }}
-        </td>
+          <td class="text-right">
+            {{ formatNumber( baseTenderFigure ) }}
+          </td>
 
-        <td class="text-right">
+          <td class="text-right">
 
-        </td>
+          </td>
 
-        <td class="text-right">
+          <td class="text-right">
 
-        </td>
+          </td>
 
-        <td class="text-right">
+          <td class="text-right">
 
-        </td>
+          </td>
 
-        <td class="d-flex justify-content-center">
-        </td>
+          <td class="d-flex justify-content-center">
+          </td>
 
-      </tr>
-      </tbody>
-
-      <thead class="thead-light">
-      <tr>
-        <th colspan="6">Submitted</th>
-      </tr>
-      </thead>
-
-      <tbody>
-      <tender-figures-row
-          v-for="tender in shortListParticipants"
-          :key="tender.id"
-          :tender="tender"
-          :tender-figure-address="requestForTender.tender_figure_address"
-          :base-tender-figure="baseTenderFigure"
-          @contextmenu.prevent="$refs.ctxMenu.open($event, {tender: tender})"
-      />
-      </tbody>
+        </tr>
+        </tbody>
 
 
-      <thead class="thead-light">
-      <tr>
-        <th colspan="6">Disqualified</th>
-      </tr>
-      </thead>
+        <tbody>
+        <tender-figures-row
+            v-for="tender in shortListParticipants"
+            :key="tender.id"
+            :tender="tender"
+            :tender-figures-hash="tenderFiguresHash"
+            :tender-figure-address="requestForTender.tender_figure_address"
+            :base-tender-figure="baseTenderFigure"
+            @contextmenu.prevent="$refs.ctxMenu.open($event, {tender: tender})"
+        />
+        </tbody>
 
-      <tbody>
-      <tender-figures-row
-          v-for="tender in disqualifiedParticipants"
-          :key="tender.id"
-          :tender="tender"
-          :tender-figure-address="requestForTender.tender_figure_address"
-          :base-tender-figure="baseTenderFigure"
-          @contextmenu.prevent="$refs.ctxMenu.open($event, {tender: tender})"
-      />
-      </tbody>
+      </table>
+    </div>
 
-    </table>
+    <div class="px-4 mb-2">
+      Disqualified tenders ({{ disqualifiedParticipants.length }})
+    </div>
 
-    <context-menu id="context-menu" ref="ctxMenu" @ctx-open="onCtxOpen"
-                  @ctx-cancel="resetCtxLocals" @ctx-close="onCtxClose">
-      <li class="px-1" @click="baseTenderFigure = totalSum(menuData.tender)">
-        Compare difference
-      </li>
-    </context-menu>
+    <div class="card mb-4">
+      <table class="table table-hover mb-0"
+             style="font-size: 0.9rem;">
+
+        <thead>
+        <tr>
+          <th class="border-top-0">Company</th>
+          <th class="border-top-0 text-right">Tender Figure</th>
+          <th class="border-top-0 text-right">Difference</th>
+          <th class="border-top-0 text-right">% Difference</th>
+          <th class="border-top-0 text-right">Rating</th>
+          <th class="border-top-0"></th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tender-figures-row
+            v-for="tender in disqualifiedParticipants"
+            :key="tender.id"
+            :tender="tender"
+            :tender-figures-hash="tenderFiguresHash"
+            :tender-figure-address="requestForTender.tender_figure_address"
+            :base-tender-figure="baseTenderFigure"
+            @contextmenu.prevent="$refs.ctxMenu.open($event, {tender: tender})"
+        />
+        </tbody>
+
+      </table>
+    </div>
   </div>
 </template>
 
 <script>
   import TenderSwiftMixins from '../TenderSwiftMixins'
-  import ContextMenu from 'vue-context-menu'
   import TenderFiguresRow from './TenderFiguresRow'
   import TenderFiguresChart from './TenderFiguresChart'
   import {
@@ -113,7 +139,7 @@
   export default {
     mixins: [TenderSwiftMixins],
 
-    components: {TenderFiguresChart, TenderFiguresRow, ContextMenu},
+    components: {TenderFiguresChart, TenderFiguresRow},
 
     props: [
       'requestForTender',
@@ -127,6 +153,31 @@
     },
 
     computed: {
+      tenderFiguresHash () {
+        console.log('calling tenderFiguresHash')
+
+        let hash = {}
+
+        this.tenders.forEach(tender => {
+          let tenderFigure = getTenderFigure(
+            tender.workbook,
+            this.requestForTender.tender_figure_address
+          )
+
+          let difference = tenderFigure - this.baseTenderFigure
+          let percentageDifference = (difference / this.baseTenderFigure) * 100
+
+          hash[tender.id] = {
+            company: tender.contractors_company_name,
+            tenderFigure: tenderFigure,
+            difference: difference,
+            percentageDifference: percentageDifference,
+            tender: tender
+          }
+        })
+
+        return hash
+      },
       disqualifiedParticipants () {
         return this.tenders.filter(tender => tender.disqualified)
       },
@@ -134,33 +185,13 @@
         return this.tenders.filter(tender => !tender.disqualified)
       },
       baseTenderFigure () {
+        console.log('calling baseTenderFigure')
+
         return getTenderFigure(
           this.requestForTender.workbook,
           this.requestForTender.tender_figure_address
         )
       }
-    },
-
-    methods: {
-      tenderFigure (tender) {
-        console.log(tender.list_of_rates.rates)
-
-        return Object.keys(tender.list_of_rates.rates).reduce((accumulator, rateKey) => {
-          return accumulator +
-            this.list_of_items.items[rateKey].quantity * tender.list_of_rates.rates[rateKey]
-        }, 0)
-      },
-
-      onCtxOpen (locals) {
-        console.log('open', locals)
-        this.menuData = locals
-      },
-      onCtxClose (locals) {
-        console.log('close', locals)
-      },
-      resetCtxLocals () {
-        this.menuData = newMenuData()
-      },
     }
   }
 </script>

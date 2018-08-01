@@ -1,7 +1,11 @@
 <div class="alert alert-info" role="alert">
   <h4 class="alert-heading">Well done!</h4>
-  <p>Aww yeah, your bid was successfully submitted. Unfornately due to tender fairnes, you cannot view the resultls of the tender until the deadline is over.</p>
+  <p>Aww yeah, your bid was successfully submitted. Unfornately due to tender
+    fairnes, you cannot view the resultls of the tender until the deadline is
+    over.</p>
   <hr>
-  <p class="mb-0">However you can come back anytime after <%= @tender.request_for_tender.deadline.to_formatted_s(:long) %> to view the outcome of your bid.</p>
+  <p class="mb-0">However you can come back anytime
+    after <%= @tender.request_for_tender.deadline.to_formatted_s(:long) %> to
+    view the outcome of your bid.</p>
   <p class="mt-3 mb-0">Thank you!</p>
 </div>

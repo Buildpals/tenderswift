@@ -1,0 +1,25 @@
+<div class="card mb-4">
+  <div class="card-body">
+
+    <div class="row">
+      <div class="col-md-4 mb-2">
+        <strong>Total Submissions</strong>
+        <br>
+        <%= request_for_tender.tenders.submitted.count %>
+      </div>
+
+      <div class="col-md-4 mb-2">
+        <strong>Deadline</strong>
+        <br>
+        <%= request_for_tender.deadline.to_formatted_s(:short) %>
+      </div>
+
+      <div class="col-md-4 mb-2">
+        <strong>Time left</strong>
+        <br>
+        <%= deadline_over?(request_for_tender) ? time_to_deadline(request_for_tender) : '0 days' %>
+      </div>
+    </div>
+
+  </div>
+</div>

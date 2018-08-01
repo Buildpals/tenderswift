@@ -26,13 +26,17 @@
     </td>
 
     <td class="d-flex justify-content-center">
-      <a :href="`/bids/${tender.id}`" class="btn btn-xs btn-link">View bid</a>
-      <button class="btn btn-sm btn-light"
+      <a :href="`/bids/${tender.id}`"
+         target="_blank"
+         class="btn btn-sm btn-link mr-2">
+        View bid
+      </a>
+      <button class="btn btn-sm btn-default"
               @click="undoDisqualifyBid(tender)"
               v-if="tender.disqualified">
         Add to Shortlist
       </button>
-      <button class="btn btn-sm btn-light"
+      <button class="btn btn-sm btn-default"
               @click="disqualifyBid(tender)"
               v-else>
         Disqualify
@@ -44,9 +48,6 @@
 
 <script>
   import TenderSwiftMixins from '../TenderSwiftMixins'
-  import {
-    getTenderFigure
-  } from '../utils'
 
   export default {
     mixins: [TenderSwiftMixins],
@@ -54,23 +55,21 @@
     props: [
       'tender',
       'tenderFigureAddress',
-      'baseTenderFigure'
+      'baseTenderFigure',
+      'tenderFiguresHash'
     ],
 
     computed: {
       tenderFigure () {
-        return getTenderFigure(
-          this.tender.workbook,
-          this.tenderFigureAddress
-        )
+        return  this.tenderFiguresHash[this.tender.id].tenderFigure
       },
 
       tenderFigureDifference () {
-        return this.tenderFigure - this.baseTenderFigure
+        return  this.tenderFiguresHash[this.tender.id].difference
       },
 
       tenderFigurePercentageDifference () {
-        return (this.tenderFigureDifference / this.baseTenderFigure) * 100
+        return  this.tenderFiguresHash[this.tender.id].percentageDifference
       },
     },
 

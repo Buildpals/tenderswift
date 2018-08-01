@@ -1,24 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 
-  <%= render 'layouts/head' %>
+<%= render 'layouts/head' %>
 
-  <body class="<%= controller_name %> <%= action_name %>">
+<body class="<%= controller_name %> <%= action_name %>">
 
-    <%= render 'admins/navbar' %>
+<%= render 'admins/navbar' %>
 
-    <div class="content">
+<div class="content">
 
-      <div class="container">
-        <div class="row mt-4">
-          <div class="col-lg-12 mx-auto">
-            <%= render 'layouts/flash_messages' %>
-          </div>
-        </div>
-
-        <%= yield %>
+  <div class="container">
+    <div class="row mt-4">
+      <div class="col-lg-12 mx-auto">
+        <%= render 'layouts/flash_messages' %>
       </div>
-
     </div>
-  </body>
+
+    <%= yield %>
+  </div>
+
+</div>
+</body>
 </html>

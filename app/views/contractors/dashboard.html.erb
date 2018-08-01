@@ -7,7 +7,9 @@
 <div class="row">
   <div class="col-lg-4 pt-4" id="invitations-to-tender">
     <div class="ml-4 mb-2 text-center">
-      <small style="color: rgb(169, 68, 66); font-size: 100%;">New Invitations To Tender</small>
+      <small style="color: rgb(169, 68, 66); font-size: 100%;">New Invitations
+        To Tender
+      </small>
     </div>
     <div class="card mb-4">
       <div class="list-group list-group-flush">
@@ -41,7 +43,7 @@
     </div>
     <div class="card">
       <div class="list-group list-group-flush">
-        <% @purchased_tenders.each do |tender|%>
+        <% @purchased_tenders.each do |tender| %>
           <a href="<%= tender_build_path(tender, :general_information) %>"
              class="list-group-item list-group-item-action
                         flex-column align-items-start">
@@ -67,7 +69,9 @@
 
   <div class="col-lg-4 pt-4" id="submitted-tenders">
     <div class="ml-4 mb-2 text-center">
-      <small style="color:rgb(49, 183, 51); font-size: 100%;">Submitted Tenders</small>
+      <small style="color:rgb(49, 183, 51); font-size: 100%;">Submitted
+        Tenders
+      </small>
     </div>
     <div class="card">
       <% @submitted_tenders.each do |tender| %>

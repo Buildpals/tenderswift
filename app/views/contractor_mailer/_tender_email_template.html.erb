@@ -7,7 +7,7 @@
         <tr>
           <td align="left" valign="top" width="91" style="padding:30px 20px 0px 20px">
             <%= cl_image_tag(tender.project_owners_company_logo.full_public_id,
-                             format: 'jpg', width: 91, crop: :scale, 
+                             format: 'jpg', width: 91, crop: :scale,
                              alt: tender.project_owners_company_name)
             %>
           </td>
@@ -33,7 +33,7 @@
                     <span style="color:#555555;font-family:Arial;font-size:16px">
                       <a style="font-family:Arial;color:#FFA726"
                          href="<%= tender_build_url(tender,
-                                                     :general_information) %>"
+                                                    :general_information) %>"
                          target="_blank">
                         <%= tender.project_name %>
                       </a>

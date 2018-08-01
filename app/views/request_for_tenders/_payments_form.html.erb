@@ -1,69 +1,83 @@
-<%= render 'request_for_tenders/build/request_for_tender_errors' %>
+<div class="card" id="payments-form">
+  <div class="card-body">
 
-<p class="text-muted small ">
-  Please provide us with your Bank Account details,
-  and how frequently you want your money sent to you
-</p>
+    <%= form_with model: request_for_tender,
+                  scope: :request_for_tender,
+                  url: request_for_tender_path(request_for_tender),
+                  method: :patch do |form| %>
 
+      <p class="text-muted small ">
+        Please provide us with your bank account details,
+        and how frequently you want your money sent to you
+      </p>
 
-<div class="form-row">
-  <div class="col-md-6">
-    <div class="form-group">
-      <%= form.label :bank_name %>
-      <%= form.text_field :bank_name,
-                          id: :request_for_tender_bank_name,
-                          class: 'form-control form-control-sm' %>
-    </div>
-  </div>
-</div>
+      <%= render 'request_for_tenders/build/request_for_tender_errors' %>
 
-<div class="form-row">
-  <div class="col-md-6">
-    <div class="form-group">
-      <%= form.label :branch_name %>
-      <%= form.text_field :branch_name,
-                          id: :request_for_tender_branch_name,
-                          class: 'form-control form-control-sm' %>
-    </div>
-  </div>
-</div>
+      <div class="form-row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <%= form.label :bank_name %>
+            <%= form.text_field :bank_name,
+                                id: :request_for_tender_bank_name,
+                                class: 'form-control form-control-sm' %>
+          </div>
+        </div>
+      </div>
 
-
-<div class="form-row">
-  <div class="col-md-6">
-    <div class="form-group">
-      <%= form.label :account_name %>
-      <%= form.text_field :account_name,
-                          id: :request_for_tender_account_name,
-                          class: 'form-control form-control-sm' %>
-    </div>
-  </div>
-</div>
+      <div class="form-row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <%= form.label :branch_name %>
+            <%= form.text_field :branch_name,
+                                id: :request_for_tender_branch_name,
+                                class: 'form-control form-control-sm' %>
+          </div>
+        </div>
+      </div>
 
 
-<div class="form-row">
-  <div class="col-md-4">
-    <div class="form-group">
-      <%= form.label :account_number %>
-      <%= form.text_field :account_number,
-                          id: :request_for_tender_account_number,
-                          class: 'form-control form-control-sm' %>
-    </div>
-  </div>
-</div>
+      <div class="form-row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <%= form.label :account_name %>
+            <%= form.text_field :account_name,
+                                id: :request_for_tender_account_name,
+                                class: 'form-control form-control-sm' %>
+          </div>
+        </div>
+      </div>
 
 
-<div class="form-row">
-  <div class="col-md-4">
-    <div class="form-group">
-      <%= form.label :withdrawal_frequency %>
-      <%= form.select :withdrawal_frequency,
-                      RequestForTender.withdrawal_frequencies.keys.to_a,
-                      {},
-                      {
-                          id: :request_for_tender_withdrawal_frequency,
-                          class: 'form-control form-control-sm'
-                      } %>
-    </div>
+      <div class="form-row">
+        <div class="col-md-4">
+          <div class="form-group">
+            <%= form.label :account_number %>
+            <%= form.text_field :account_number,
+                                id: :request_for_tender_account_number,
+                                class: 'form-control form-control-sm' %>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="form-row">
+        <div class="col-md-4">
+          <div class="form-group">
+            <%= form.label :withdrawal_frequency %>
+            <%= form.select :withdrawal_frequency,
+                            RequestForTender.withdrawal_frequencies.keys.to_a,
+                            {},
+                            {
+                                id: :request_for_tender_withdrawal_frequency,
+                                class: 'form-control form-control-sm'
+                            } %>
+          </div>
+        </div>
+      </div>
+
+      <%= form.submit 'Save',
+                      class: 'btn btn-primary btn-sm btn-block' %>
+    <% end %>
+
   </div>
 </div>
