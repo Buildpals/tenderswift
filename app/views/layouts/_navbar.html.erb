@@ -1,7 +1,32 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-  <%= link_to root_path, class: 'navbar-brand' do %>
-    <img src="https://res.cloudinary.com/tenderswift/image/upload/c_scale,h_24/v1520926501/tenderswift-logo-inverse.png"
-         alt="TenderSwift"
-         class="d-inline-block align-top">
-  <% end %>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary
+            d-block d-sm-block d-md-block d-lg-none d-xl-none">
+
+  <div class="d-flex align-items-center">
+    <div class="navbar-text text-truncate">
+      <%= link_to admin_root_path do %>
+        <%= cl_image_tag 'tenderswift-logo-inverse.png',
+                         height: 16,
+                         crop: 'scale',
+                         class: 'd-inline-block align-middle',
+                         alt: 'TS' %>
+      <% end %>
+    </div>
+
+  </div>
+
+</nav>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary
+            d-none d-sm-none d-md-none d-lg-block d-xl-block">
+  <div class="container">
+
+    <a class="navbar-brand" href="<%= admin_root_path %>">
+      <%= cl_image_tag 'tenderswift-logo-inverse.png',
+                       height: 16,
+                       crop: 'scale',
+                       class: 'd-inline-block align-middle',
+                       alt: 'TenderSwift',
+                       title: 'TenderSwift Logo' %>
+    </a>
+  </div>
 </nav>
