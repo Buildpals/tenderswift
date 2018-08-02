@@ -9,4 +9,10 @@ $theme-colors: (
 
 $link-color: $blue;
 
+$container-max-widths: (
+  lg: 980px
+);
+
+$grid-gutter-width: 20px;
+
 @import "bootstrap";
