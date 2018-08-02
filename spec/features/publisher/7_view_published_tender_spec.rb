@@ -21,7 +21,7 @@ RSpec.feature 'View details of published request for tender', js: true do
                       publisher: publisher)
   end
 
-	xscenario 'should see view count updates' do
+	scenario 'should see view count updates' do
 		visit query_request_for_tender_path
 		fill_in 'reference_number', with: request_for_tender.id
 		click_button 'search'
@@ -34,7 +34,7 @@ RSpec.feature 'View details of published request for tender', js: true do
 
 	end
 
-	xscenario 'should see view purchase counts' do
+	scenario 'should see view purchase counts' do
     sign_in_publisher
 		click_link request_for_tender.project_name
 
@@ -44,7 +44,7 @@ RSpec.feature 'View details of published request for tender', js: true do
 
 	end
 
-	xscenario 'should see number of submitted tenders' do
+	scenario 'should see number of submitted tenders' do
 		sign_in_publisher
 		click_link request_for_tender.project_name
 
@@ -53,7 +53,7 @@ RSpec.feature 'View details of published request for tender', js: true do
 		end
   end
 
-  xscenario 'should see ends on date' do
+  scenario 'should see ends on date' do
     sign_in_publisher
     click_link request_for_tender.project_name
 
@@ -62,7 +62,7 @@ RSpec.feature 'View details of published request for tender', js: true do
     end
   end
 
-  xscenario 'should see reference number' do
+  scenario 'should see reference number' do
     sign_in_publisher
     click_link request_for_tender.project_name
 
@@ -74,7 +74,7 @@ RSpec.feature 'View details of published request for tender', js: true do
 =begin
     this test does not pass
 =end
-  xscenario 'portal link should work' do
+  scenario 'portal link should work' do
     sign_in_publisher
     click_link request_for_tender.project_name
 
@@ -87,7 +87,7 @@ RSpec.feature 'View details of published request for tender', js: true do
   end
 
 
-  xscenario 'should see correct selling price' do
+  scenario 'should see correct selling price' do
     sign_in_publisher
     click_link request_for_tender.project_name
 
@@ -99,7 +99,7 @@ RSpec.feature 'View details of published request for tender', js: true do
   end
 
 
-  xscenario 'should see amount receivable' do
+  scenario 'should see amount receivable' do
     sign_in_publisher
     click_link request_for_tender.project_name
 
@@ -110,7 +110,7 @@ RSpec.feature 'View details of published request for tender', js: true do
     end
   end
 
-  xscenario 'empty state of purchases' do
+  scenario 'empty state of purchases' do
     sign_in_publisher
     click_link request_for_tender_two.project_name
 
@@ -119,7 +119,7 @@ RSpec.feature 'View details of published request for tender', js: true do
     expect(page).to have_content 'No contractor has purchased yet'
   end
 
-  xscenario 'empty state of submissions' do
+  scenario 'empty state of submissions' do
     sign_in_publisher
     click_link request_for_tender_two.project_name
 
@@ -144,9 +144,6 @@ RSpec.feature 'View details of published request for tender', js: true do
 
     expect(page).to have_content 'Your changes have been saved!'
   end
-
-
-
 
   def sign_in_publisher
     visit new_publisher_session_path
