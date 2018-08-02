@@ -20,6 +20,16 @@ RSpec.feature 'Create request for tender', js: true do
     then_it_should_save_the_tender_instructions(request_for_tender,
                                                 tender_instructions)
   end
+
+  scenario 'should remove a required document for a request for tender' do
+    given_a_publisher_who_has_logged_in
+    visit request_for_tender_build_path(request_for_tender, :tender_instructions)
+    click_link 'Add another required document'
+    fill_in placeholder: 'Title of document', with: 'Tax Clearance Certificate'
+
+    find('input[name="commit"]').click
+    expect(page).to have_content('Your changes have been saved!')
+  end
 end
 
 def given_a_publisher_who_has_logged_in
