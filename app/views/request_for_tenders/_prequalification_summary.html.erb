@@ -5,19 +5,26 @@
       <div class="col-md-4 mb-2">
         <strong>Shortlisted</strong>
         <br>
-        <%= request_for_tender.tenders.not_disqualified.count %>
+        <span id="shortlisted-count">
+          <%= request_for_tender.tenders
+                                      .not_disqualified.count %>
+        </span>
       </div>
 
       <div class="col-md-4 mb-2">
         <strong>Disqualified</strong>
         <br>
-        <%= request_for_tender.tenders.disqualified.count %>
+        <span id="disqualified-count">
+          <%= request_for_tender.tenders.disqualified.count %>
+        </span>
       </div>
 
       <div class="col-md-4 mb-2">
         <strong>Total submissions</strong>
         <br>
-        <%= request_for_tender.tenders.submitted.count %>
+        <span id="total-submission-count">
+          <%= request_for_tender.tenders.submitted.count %>
+        </span>
       </div>
     </div>
 

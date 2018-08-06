@@ -71,6 +71,12 @@ RSpec.feature 'View details of published request for tender', js: true do
     end
   end
 
+  scenario 'should see request for tender information' do
+    login_as(publisher, scope: :publisher)
+    visit request_for_tender_path(request_for_tender)
+    user_sees_public_request_for_tender_information request_for_tender
+  end
+
 =begin
     this test does not pass
 =end
@@ -115,13 +121,74 @@ RSpec.feature 'View details of published request for tender', js: true do
     expect(page).to have_content 'No contractor has purchased yet'
   end
 
-  scenario 'empty state of submissions' do
+  scenario 'should see list of purchases' do
+    login_as(publisher, scope: :publisher)
+    visit request_for_tender_path(request_for_tender)
+    click_link 'list-purchases-list', wait: 10
+
+    request_for_tender.tenders.purchased.each do |tender|
+      expect(page).to have_content(tender.contractors_company_name)
+    end
+  end
+
+  scenario 'should see empty state of submissions' do
     login_as(publisher, scope: :publisher)
     visit request_for_tender_path(request_for_tender_two)
 
     click_link 'list-submissions-list'
 
     expect(page).to have_content 'No contractor has submitted yet'
+  end
+
+  scenario 'should see empty state of pre-qualification' do
+    login_as(publisher, scope: :publisher)
+    visit request_for_tender_path(request_for_tender)
+    click_link 'list-prequalification-list'
+    expect(page).to have_content 'In order to comply with the standards
+                                        of tender fairness, bids will only be
+                                        shown when the request deadline is
+                                        reached.'
+  end
+
+  scenario 'should see shortlisted count' do
+    login_as(publisher, scope: :publisher)
+    visit request_for_tender_path(request_for_tender_two)
+    click_link 'list-prequalification-list'
+    within :css, "#shortlisted-count" do
+      expect(page).to have_content(request_for_tender_two.tenders
+                                       .not_disqualified.count)
+    end
+
+  end
+
+  scenario 'should see disqualified count' do
+    login_as(publisher, scope: :publisher)
+    visit request_for_tender_path(request_for_tender_two)
+    click_link 'list-prequalification-list'
+    within :css, "#disqualified-count" do
+      expect(page).to have_content(request_for_tender_two.tenders
+                                       .disqualified.count)
+    end
+
+  end
+
+
+  scenario 'should see list of shortlisted contractors' do
+    login_as(publisher, scope: :publisher)
+    visit request_for_tender_path(request_for_tender_two)
+    click_link 'list-prequalification-list'
+    request_for_tender_two.tenders.not_disqualified.each do |tender|
+      expect(page).to have_content(tender.contractors_company_name)
+    end
+  end
+
+  scenario 'should see list of disqualified contractors' do
+    login_as(publisher, scope: :publisher)
+    visit request_for_tender_path(request_for_tender_two)
+    click_link 'list-prequalification-list'
+    request_for_tender_two.tenders.disqualified.each do |tender|
+      expect(page).to have_content(tender.contractors_company_name)
+    end
   end
 
 
