@@ -30,6 +30,18 @@ RSpec.feature 'Create request for tender', js: true do
     find('input[name="commit"]').click
     expect(page).to have_content('Your changes have been saved!')
   end
+
+  scenario 'should display step five of the wizard when a publisher clicks
+            save and continue' do
+    given_a_publisher_who_has_logged_in
+    visit request_for_tender_build_path(request_for_tender, :tender_instructions)
+    find('input[name="commit"]').click
+    expect(page).to have_current_path(request_for_tender_build_path(request_for_tender,
+                                                                    :distribution))
+    expect(page).to have_content 'Selling price'
+    expect(page).to have_content 'The reference number for
+                                        this request for tender is:'
+  end
 end
 
 def given_a_publisher_who_has_logged_in

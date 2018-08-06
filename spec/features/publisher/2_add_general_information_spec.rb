@@ -21,7 +21,7 @@ RSpec.feature 'Create request for tender', js: true do
                                                 general_information)
   end
 
-  scenario 'should display Step Two of wizard if publisher clicks save and
+  scenario 'should display step two of wizard if publisher clicks save and
             continue' do
     given_a_publisher_who_has_logged_in
 
@@ -30,6 +30,8 @@ RSpec.feature 'Create request for tender', js: true do
 
     expect(page).to have_current_path(request_for_tender_build_path(request_for_tender,
                                                                     :bill_of_quantities))
+    expect(page).to have_content 'You have not uploaded a Bill of Quantities yet,
+                                        click the button below to upload one. '
   end
 end
 

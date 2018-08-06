@@ -30,6 +30,8 @@ RSpec.feature 'Create request for tender', js: true do
     click_link 'Save and continue', match: :first
     expect(page).to have_current_path(request_for_tender_build_path(request_for_tender,
                                                                     :tender_documents))
+    expect(page).to have_content 'Upload any documents that you want
+                                       the contractor to use in deciding his bid.'
   end
 end
 
