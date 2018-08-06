@@ -34,7 +34,7 @@
       </figcaption>
     </figure>
 
-    <div class="progress mb-5" v-show="processing">
+    <div class="progress mb-3" v-if="processing">
       <div class="progress-bar progress-bar-striped progress-bar-animated
                   bg-accent w-100"
            role="progressbar"
@@ -43,14 +43,23 @@
            aria-valuemax="100"></div>
     </div>
 
-    <div class="custom-file mb-5" v-show="!processing">
-      <input type="file"
-             class="custom-file-input"
-             id="excelFileInput"
-             accept=".xlsx, .xls" @change="onchange"/>
-      <label class="btn btn-sm btn-block btn-accent" for="excelFileInput">
-        Choose excel file
-      </label>
+    <div class="mb-3" v-else>
+      <div class="custom-file">
+        <input type="file"
+               class="custom-file-input"
+               id="excelFileInput"
+               accept=".xlsx, .xls" @change="onchange"/>
+        <label class="btn btn-sm btn-block btn-accent" for="excelFileInput">
+          Choose excel file
+        </label>
+      </div>
+    </div>
+
+    <div class="text-center mb-3">
+      or <br>
+      <a href="https://res.cloudinary.com/tenderswift/raw/upload/v1533557612/app/bil_of_quantities.xlsx">
+        Download a template
+      </a>
     </div>
 
     <p class="small text-center text-info">
