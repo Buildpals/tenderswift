@@ -14,17 +14,11 @@ RSpec.feature 'View details of published request for tender', js: true do
 
   scenario 'should show the contractor all the invitations to tender ' \
              'they have not purchased' do
-    sign_in_publisher
+    login_as(publisher, scope: :publisher)
+    visit publisher_root_path
     within :css, '#published-request-for-tender' do
       expect(page).to have_content request_for_tender.project_name
       expect(page).to have_content status request_for_tender
     end
-  end
-
-  def sign_in_publisher
-    visit new_publisher_session_path
-    fill_in 'Email address', with: publisher.email
-    fill_in 'Password', with: publisher.password
-    click_button 'Log in'
   end
 end
