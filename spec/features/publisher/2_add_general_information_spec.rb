@@ -21,7 +21,7 @@ RSpec.feature 'Create request for tender', js: true do
                                                 general_information)
   end
 
-  fscenario 'should display Step Two of wizard if publisher clicks save and
+  scenario 'should display Step Two of wizard if publisher clicks save and
             continue' do
     given_a_publisher_who_has_logged_in
 

@@ -18,6 +18,19 @@ RSpec.feature 'Create request for tender', js: true do
 
     then_it_should_save_the_bill_of_quantities(request_for_tender)
   end
+
+  scenario 'should display step three of wizard when publisher clicks save
+            and continue' do
+    given_a_publisher_who_has_logged_in
+    visit request_for_tender_build_path(request_for_tender, :bill_of_quantities)
+    find('button', text: 'Upload your Bill of Quantities').click
+    attach_file('excelFileInput',
+                Rails.root + 'spec/fixtures/bill_of_quantities.xlsx',
+                visible: false)
+    click_link 'Save and continue', match: :first
+    expect(page).to have_current_path(request_for_tender_build_path(request_for_tender,
+                                                                    :tender_documents))
+  end
 end
 
 def given_a_publisher_who_has_logged_in
