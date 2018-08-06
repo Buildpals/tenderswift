@@ -20,6 +20,17 @@ RSpec.feature 'Create request for tender', js: true do
     then_it_should_save_the_general_information(request_for_tender,
                                                 general_information)
   end
+
+  fscenario 'should display Step Two of wizard if publisher clicks save and
+            continue' do
+    given_a_publisher_who_has_logged_in
+
+    when_they_add_the_general_information_for_an_rft(request_for_tender,
+                                                     general_information)
+
+    expect(page).to have_current_path(request_for_tender_build_path(request_for_tender,
+                                                                    :bill_of_quantities))
+  end
 end
 
 def given_a_publisher_who_has_logged_in
