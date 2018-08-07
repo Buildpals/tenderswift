@@ -19,7 +19,7 @@ RSpec.feature 'Create request for tender', js: true do
     then_it_should_save_the_bill_of_quantities(request_for_tender)
   end
 
-  scenario 'should display next step in wizard' do
+  scenario 'should display next step in create request for tender wizard' do
     given_a_publisher_who_has_logged_in
     visit request_for_tender_build_path(request_for_tender, :bill_of_quantities)
     find('button', text: 'Upload your Bill of Quantities').click
@@ -31,6 +31,16 @@ RSpec.feature 'Create request for tender', js: true do
                                                                     :tender_documents))
     expect(page).to have_content 'Upload any documents that you want
                                        the contractor to use in deciding his bid.'
+  end
+
+  scenario 'should display previous step of create request for tender wizard' do
+    given_a_publisher_who_has_logged_in
+    visit request_for_tender_build_path(request_for_tender, :bill_of_quantities)
+    click_link 'Previous'
+    expect(page).to have_content 'Please enter the following details about the project.'
+    expect(page).to have_content 'Project name'
+    expect(page).to have_content 'Currency'
+    expect(page).to have_content 'Contract class'
   end
 end
 

@@ -21,7 +21,7 @@ RSpec.feature 'Create request for tender', js: true do
                                                 general_information)
   end
 
-  scenario 'should display next step in wizard' do
+  scenario 'should display next step in create request for tender wizard' do
     given_a_publisher_who_has_logged_in
 
     when_they_add_the_general_information_for_an_rft(request_for_tender,

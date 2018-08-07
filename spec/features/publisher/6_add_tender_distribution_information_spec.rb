@@ -32,8 +32,14 @@ RSpec.feature 'Create request for tender', js: true do
         .to change {ActionMailer::Base.deliveries.count}.by(0)
   end
 
-  scenario 'should show previous step of wizard' do
-
+  scenario 'should display previous step of create request for tender wizard' do
+    given_a_publisher_who_has_logged_in
+    visit request_for_tender_build_path(request_for_tender, :distribution)
+    click_link 'Previous'
+    expect(page).to have_content 'Please add the documents you want the
+                                        contractor to submit as part of their
+                                        tender'
+    expect(page).to have_content 'Add another required document'
   end
 end
 
