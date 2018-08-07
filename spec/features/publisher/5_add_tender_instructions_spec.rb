@@ -31,8 +31,7 @@ RSpec.feature 'Create request for tender', js: true do
     expect(page).to have_content('Your changes have been saved!')
   end
 
-  scenario 'should display step five of the wizard when a publisher clicks
-            save and continue' do
+  scenario 'should next step of wizard' do
     given_a_publisher_who_has_logged_in
     visit request_for_tender_build_path(request_for_tender, :tender_instructions)
     find('input[name="commit"]').click

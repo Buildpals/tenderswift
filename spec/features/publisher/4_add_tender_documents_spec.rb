@@ -17,8 +17,7 @@ RSpec.feature 'Create request for tender', js: true do
     then_it_should_save_the_tender_documents(request_for_tender)
   end
 
-  scenario 'should should display step four of wizard when publisher clicks
-            save and continue' do
+  scenario 'should display next step in wizard' do
     given_a_publisher_who_has_logged_in
     when_they_upload_the_tender_documents_for_an_rft(request_for_tender)
     click_link 'Save and continue', match: :first

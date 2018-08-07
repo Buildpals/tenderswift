@@ -31,6 +31,10 @@ RSpec.feature 'Create request for tender', js: true do
     expect {click_button 'Publish'}
         .to change {ActionMailer::Base.deliveries.count}.by(0)
   end
+
+  scenario 'should show previous step of wizard' do
+
+  end
 end
 
 def given_a_publisher_who_has_logged_in
