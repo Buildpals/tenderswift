@@ -143,6 +143,15 @@ RSpec.feature 'Purchased tender document' do
     end
   end
 
+  scenario 'should allow display missing rates error', js: true do
+    visit tender_build_path(purchased_tender_document, :upload_documents)
+    click_button 'Submit your bid', match: :first
+    purchased_tender_document.request_for_tender.list_of_rates.each do |key, value|
+      expect(page).to have_content(" #{key} of the Bill of Quantities is required but has " \
+                 'not been provided')
+    end
+  end
+
   private
 
   def contractor_should_see_project_information
