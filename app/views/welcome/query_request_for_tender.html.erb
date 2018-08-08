@@ -26,7 +26,7 @@
              alt="TenderSwift"
              class="img-fluid big-logo mb-4">
 
-        <%= form_with url: find_request_for_tender_path,
+        <%= form_with url: find_request_for_tender_url(host: 'https://app.tenderswift.com'),
                       method: :get,
                       local: true do |form| %>
           <div class="input-group">
