@@ -78,6 +78,34 @@ RSpec.feature 'Purchasing a tender', js: true do
     end
   end
 
+  context 'Calculate cost breakdown' do
+    scenario 'total cost should be correct' do
+      contractor = given_an_existing_contractor_who_has_not_logged_in_yet
+      invitation_to_tender = when_they_purchase_a_tender(contractor.email)
+      within :css, "#total-cost" do
+        expect(page).to have_content invitation_to_tender.selling_price +
+                                         ( 0.10 *  invitation_to_tender
+                                                       .selling_price)
+      end
+    end
+
+    scenario 'korbaweb charge should be correct' do
+      contractor = given_an_existing_contractor_who_has_not_logged_in_yet
+      invitation_to_tender = when_they_purchase_a_tender(contractor.email)
+      within :css, "#korbaweb-charge" do
+        expect(page).to have_content 0.02 *  invitation_to_tender.selling_price
+      end
+    end
+
+    scenario 'cloud service charge should be correct' do
+      contractor = given_an_existing_contractor_who_has_not_logged_in_yet
+      invitation_to_tender = when_they_purchase_a_tender(contractor.email)
+      within :css, "#service-charge" do
+        expect(page).to have_content 0.08 *  invitation_to_tender.selling_price
+      end
+    end
+  end
+
   def given_a_new_contractor_who_has_not_signed_up_before
     FactoryBot.build(:contractor)
   end

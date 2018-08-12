@@ -4,6 +4,7 @@
     <%= form_with model: request_for_tender,
                   scope: :request_for_tender,
                   url: request_for_tender_path(request_for_tender),
+                  id: 'update-bank-information',
                   method: :patch do |form| %>
 
       <p class="text-muted small ">

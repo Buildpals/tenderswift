@@ -7,7 +7,9 @@ class OtherDocumentUpload < ApplicationRecord
 
   validate :check_file_extension
 
-  validates :title, presence: true
+  validate :check_file_size
+
+  #validates :title, presence: true
 
   enum status: { pending: 0, approved: 1, rejected: 2 }
 
@@ -30,5 +32,10 @@ class OtherDocumentUpload < ApplicationRecord
         message: 'The uploaded document should be a PDF or an Image. Thank you!'
       )
     end
+  end
+
+  def check_file_size
+    errors.add(:document, :invalid, message: 'The uploaded file size should be less '\
+                                             'than 10MB') if document.file.size > 10.megabytes
   end
 end
