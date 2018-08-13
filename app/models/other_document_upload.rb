@@ -7,7 +7,7 @@ class OtherDocumentUpload < ApplicationRecord
 
   validate :check_file_extension
 
-  validate :check_file_size
+  #validate :check_file_size
 
   #validates :title, presence: true
 
