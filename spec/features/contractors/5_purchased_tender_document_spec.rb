@@ -152,6 +152,15 @@ RSpec.feature 'Purchased tender document' do
     end
   end
 
+  scenario 'should display required document errors', js: true do
+    visit tender_build_path(purchased_tender_document, :upload_documents)
+    click_button 'Submit your bid', match: :first
+    purchased_tender_document.required_document_uploads.each do |document|
+      expect(page).to have_content(" #{document.title} is required but has
+                                          not been uploaded")
+    end
+  end
+
   private
 
   def contractor_should_see_project_information
