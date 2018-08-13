@@ -190,6 +190,24 @@ RSpec.feature 'Purchased tender document' do
     end
   end
 
+  context 'purchase a non-purchaseable request for tender' do
+    let!(:submitted_request_for_tender) do
+      FactoryBot.create(:request_for_tender, published_at: nil)
+    end
+
+    let!(:published_request_for_tender) do
+      FactoryBot.create(:request_for_tender, :published)
+    end
+
+    scenario 'should not allow contractor to purchase unpublished
+              request for tender', js: true do
+      visit query_request_for_tender_path
+      fill_in 'reference_number', with: submitted_request_for_tender.id
+      click_button 'search'
+      expect(page).to have_content "Account The tender has not been made available for purchasing"
+    end
+  end
+
   private
 
   def contractor_should_see_project_information(request_for_tender)
