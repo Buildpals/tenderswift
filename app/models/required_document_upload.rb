@@ -8,7 +8,7 @@ class RequiredDocumentUpload < ApplicationRecord
 
   validate :check_file_extension
 
-  validate :check_file_size
+  #validate :check_file_size
 
   enum status: { pending: 0, approved: 1, rejected: 2 }
 

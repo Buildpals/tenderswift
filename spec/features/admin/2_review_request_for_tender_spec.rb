@@ -22,7 +22,7 @@ RSpec.feature 'Review request for tenders', type: :feature, js: true do
       click_link submitted_request_for_tender.project_name
     end
 
-    click_link submitted_request_for_tender.project_owners_company_name
+    click_link 'Account'
     click_link 'Stop impersonating'
     should_have_dashboard_content_for existing_admin
   end
