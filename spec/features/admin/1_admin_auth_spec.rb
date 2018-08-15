@@ -13,7 +13,7 @@ RSpec.feature 'Admin authentication', type: :feature, js: true do
     fill_in 'Email', with: existing_admin.email
     fill_in 'Password', with: existing_admin.password
     click_button 'Log in'
-
+    click_link 'Account'
     should_have_dashboard_content_for existing_admin
   end
 
@@ -23,7 +23,7 @@ RSpec.feature 'Admin authentication', type: :feature, js: true do
 
     visit admin_root_path
 
-    click_link "Logged in as #{existing_admin.email} (admin)"
+    click_link "Account"
     click_link 'Logout'
 
     should_see_admin_sign_in_page

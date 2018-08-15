@@ -14,7 +14,7 @@ RSpec.feature 'Monitor request for tenders', type: :feature, js: true do
   end
 
   scenario 'should allow admin to monitor any publisher\'s' \
-           ' request for tender' do
+           ' request for tender', js: false do
     login_as(existing_admin, scope: :admin)
     visit admin_root_path
 
@@ -22,7 +22,7 @@ RSpec.feature 'Monitor request for tenders', type: :feature, js: true do
       click_link published_request_for_tender.project_name
     end
 
-    click_link 'Account'
+    click_link 'Account', match: :first
     click_link 'Stop impersonating'
     should_have_dashboard_content_for existing_admin
   end
