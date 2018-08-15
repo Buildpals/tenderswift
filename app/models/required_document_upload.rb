@@ -8,6 +8,8 @@ class RequiredDocumentUpload < ApplicationRecord
 
   validate :check_file_extension
 
+  #validate :check_file_size
+
   enum status: { pending: 0, approved: 1, rejected: 2 }
 
   delegate :publisher, to: :tender
@@ -25,5 +27,10 @@ class RequiredDocumentUpload < ApplicationRecord
       return if accepted_formats.include? File.extname(document.filename)
       errors.add(:document, 'must be a pdf or an image file.')
     end
+  end
+
+  def check_file_size
+    errors.add(:document, :invalid, message: 'The uploaded file size should be less '\
+                                              'than 10MB') if document.file.size > 10.megabytes
   end
 end

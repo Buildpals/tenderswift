@@ -30,13 +30,13 @@ RSpec.feature 'Purchased tender document' do
            'their purchased tender document' do
     visit tender_build_path(purchased_tender_document, :general_information)
 
-    contractor_should_see_project_information
+    contractor_should_see_project_information(purchased_tender_document.request_for_tender)
   end
 
   scenario 'should show a contractor the tender documents of ' \
            'their purchased tender document' do
     visit tender_build_path(purchased_tender_document, :tender_documents)
-    contractor_should_see_tender_documents
+    contractor_should_see_tender_documents(purchased_tender_document)
   end
 
   scenario 'should allow a contractor to fill in the rates ' \
@@ -82,6 +82,19 @@ RSpec.feature 'Purchased tender document' do
     end
   end
 
+  scenario 'should allow contractor to view general ' \
+          'information of a submitted tender' do
+    visit tender_build_path(submitted_tender_document, :general_information)
+    contractor_should_see_project_information(submitted_tender_document
+                                                  .request_for_tender)
+  end
+
+  scenario 'should allow contractor to view tender documents ' \
+           'of a submitted tender' do
+    visit tender_build_path(submitted_tender_document, :tender_documents)
+    contractor_should_see_tender_documents(submitted_tender_document)
+  end
+
   scenario 'should allow a contractor to review their rates' \
            'after submission' do
     skip 'Spec not finished'
@@ -103,7 +116,7 @@ RSpec.feature 'Purchased tender document' do
 
   scenario 'should allow a contractor to see the tendering results of ' \
            'their purchased tender document', js: true do
-    skip 'Spec not finished'
+    #skip 'Spec not finished'
     request_for_tender = FactoryBot.create(:request_for_tender)
 
     contractor1 = FactoryBot.create(:contractor)
@@ -123,36 +136,86 @@ RSpec.feature 'Purchased tender document' do
 
     visit tender_view_path(tender2, :results)
 
-    expect(page).to have_content contractor1.company_name
-    expect(page).to have_content contractor2.company_name
 
-    tender1.required_document_uploads.each do |document|
-      expect(page).to have_content document.title
+    if request_for_tender.deadline < Time.new
+      expect(page).to have_content contractor1.company_name
+      expect(page).to have_content contractor2.company_name
+
+      tender1.required_document_uploads.each do |document|
+        expect(page).to have_content document.title
+      end
+
+      tender2.required_document_uploads.each do |document|
+        expect(page).to have_content document.title
+      end
+
+      tender1.other_document_uploads.each do |document|
+        expect(page).to have_content document.title
+      end
+
+      tender2.other_document_uploads.each do |document|
+        expect(page).to have_content document.title
+      end
+    else
+      expect(page).to have_content 'Sorry! In order to comply with the standards of tender fairness, the tendering results will only be shown when the tender deadline is reached'
+    end
+  end
+
+  scenario 'should allow display missing rates error', js: true do
+    visit tender_build_path(purchased_tender_document, :upload_documents)
+    click_button 'Submit your bid', match: :first
+    purchased_tender_document.request_for_tender.list_of_rates.each do |key, value|
+      expect(page).to have_content(" #{key} of the Bill of Quantities is required but has " \
+                 'not been provided')
+    end
+  end
+
+  scenario 'should display required document errors', js: true do
+    visit tender_build_path(purchased_tender_document, :upload_documents)
+    click_button 'Submit your bid', match: :first
+    purchased_tender_document.required_document_uploads.each do |document|
+      expect(page).to have_content(" #{document.title} is required but has
+                                          not been uploaded")
+    end
+  end
+
+  scenario "submitted tender should move to 'submitted tenders' column",
+           js:true do
+    visit tender_build_path(filled_tender_document, :upload_documents)
+    click_button 'Submit your bid', match: :first
+    click_link 'Home'
+    within :css, "#submitted-tenders" do
+      expect(page).to have_content(filled_tender_document.request_for_tender
+                                       .project_name)
+    end
+  end
+
+  context 'purchase a non-purchaseable request for tender' do
+    let!(:submitted_request_for_tender) do
+      FactoryBot.create(:request_for_tender, published_at: nil)
     end
 
-    tender2.required_document_uploads.each do |document|
-      expect(page).to have_content document.title
+    let!(:published_request_for_tender) do
+      FactoryBot.create(:request_for_tender, :published)
     end
 
-    tender1.other_document_uploads.each do |document|
-      expect(page).to have_content document.title
-    end
-
-    tender2.other_document_uploads.each do |document|
-      expect(page).to have_content document.title
+    scenario 'should not allow contractor to purchase unpublished
+              request for tender', js: true do
+      visit query_request_for_tender_path
+      fill_in 'reference_number', with: submitted_request_for_tender.id
+      click_button 'search'
+      expect(page).to have_content "Account The tender has not been made available for purchasing"
     end
   end
 
   private
 
-  def contractor_should_see_project_information
-    user_sees_public_request_for_tender_information(
-        purchased_tender_document.request_for_tender
-    )
+  def contractor_should_see_project_information(request_for_tender)
+    user_sees_public_request_for_tender_information(request_for_tender)
   end
 
-  def contractor_should_see_tender_documents
-    purchased_tender_document.project_documents.each do |project_document|
+  def contractor_should_see_tender_documents(tender)
+    tender.project_documents.each do |project_document|
       expect(page).to have_link project_document.original_file_name,
                                 href: project_document.document.url
     end

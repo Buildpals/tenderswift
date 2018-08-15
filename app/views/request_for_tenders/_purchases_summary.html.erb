@@ -11,13 +11,17 @@
       <div class="col-md-4 mb-2">
         <strong>Selling price</strong>
         <br>
-        GH₵ <%= request_for_tender.selling_price %>
+        <span id="selling-price-of-tender">
+          GH₵ <%= request_for_tender.selling_price %>
+        </span>
       </div>
 
       <div class="col-md-4 mb-2">
         <strong>Amount receivable</strong>
         <br>
-        GH₵ <%= request_for_tender.total_receivable %>
+        <span id="amount-receivable">
+          GH₵ <%= request_for_tender.total_receivable %>
+        </span>
       </div>
     </div>
 
