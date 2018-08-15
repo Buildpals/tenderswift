@@ -17,7 +17,7 @@ RSpec.feature 'Admin authentication', type: :feature, js: true do
     should_have_dashboard_content_for existing_admin
   end
 
-  fscenario 'should logout a logged in admin from contractor dashboard ' \
+  scenario 'should logout a logged in admin from contractor dashboard ' \
            'successfully' do
     login_as(existing_admin, scope: :admin)
 
