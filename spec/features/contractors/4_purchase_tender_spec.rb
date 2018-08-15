@@ -5,6 +5,26 @@ require 'rails_helper'
 RSpec.feature 'Purchasing a tender', js: true do
   include RequestForTendersHelper
 
+  context 'Invitation to tender has not been published yet' do
+    let!(:submitted_request_for_tender) do
+      FactoryBot.create(:request_for_tender, published_at: nil)
+    end
+
+    let!(:published_request_for_tender) do
+      FactoryBot.create(:request_for_tender, :published)
+    end
+
+    scenario 'should prevent contractor from purchasing the request for tender',
+             js: true do
+      visit query_request_for_tender_path
+      fill_in 'reference_number', with: submitted_request_for_tender.id
+      click_button 'search'
+      expect(page)
+          .to have_content 'Account The tender has not been made ' \
+                                 'available for purchasing'
+    end
+  end
+
   context 'Invitation to tender that has not been purchased already' do
     scenario 'should show password field for a returning user' do
       contractor = given_an_existing_contractor_who_has_not_logged_in_yet
@@ -82,17 +102,17 @@ RSpec.feature 'Purchasing a tender', js: true do
     scenario 'total cost should be correct' do
       contractor = given_an_existing_contractor_who_has_not_logged_in_yet
       invitation_to_tender = when_they_purchase_a_tender(contractor.email)
-      within :css, "#total-cost" do
+      within :css, '#total-cost' do
         expect(page).to have_content invitation_to_tender.selling_price +
-                                         ( 0.10 *  invitation_to_tender
-                                                       .selling_price)
+                                     (0.10 * invitation_to_tender
+                                                   .selling_price)
       end
     end
 
     scenario 'korbaweb charge should be correct' do
       contractor = given_an_existing_contractor_who_has_not_logged_in_yet
       invitation_to_tender = when_they_purchase_a_tender(contractor.email)
-      within :css, "#korbaweb-charge" do
+      within :css, '#korbaweb-charge' do
         expect(page).to have_content 0.02 *  invitation_to_tender.selling_price
       end
     end
@@ -100,7 +120,7 @@ RSpec.feature 'Purchasing a tender', js: true do
     scenario 'cloud service charge should be correct' do
       contractor = given_an_existing_contractor_who_has_not_logged_in_yet
       invitation_to_tender = when_they_purchase_a_tender(contractor.email)
-      within :css, "#service-charge" do
+      within :css, '#service-charge' do
         expect(page).to have_content 0.08 *  invitation_to_tender.selling_price
       end
     end
