@@ -19,7 +19,11 @@
             </button>
           </div>
 
-          <%= render 'purchase_tender/purchase_form' %>
+          <% if @request_for_tender.selling_price == 0 %>
+            <%= render 'purchase_tender/purchase_form_2' %>
+          <% else %>
+            <%= render 'purchase_tender/purchase_form' %>
+          <% end %>
 
           <button id="cancelButton"
                   type="button"
@@ -42,7 +46,12 @@
     <div class="col-md-7 col-lg-7
                text-center text-md-left text-lg-left mb-2">
       <a href="<%= contractor_root_path %>">
-        Click here if you've already purchased this tender
+        <% if @request_for_tender.selling_price == 0 %>
+          Click here if you've already started bidding on this tender
+        <% else %>
+          Purchase this tender for
+          Click here if you've already purchased this tender
+        <% end %>
       </a>
     </div>
 
@@ -53,8 +62,12 @@
               data-target="#paymentModal"
               data-backdrop="static"
               data-keyboard="false">
-        Purchase this tender for
-        GH₵ <%= @request_for_tender.selling_price %>
+        <% if @request_for_tender.selling_price == 0 %>
+          Bid on this request for tender
+        <% else %>
+          Purchase this tender for
+          GH₵ <%= @request_for_tender.selling_price %>
+        <% end %>
       </button>
     </div>
 

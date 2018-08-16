@@ -1,0 +1,40 @@
+<%= form_with url: purchase_tender_path(@request_for_tender),
+              id: 'purchase-form',
+              local: false do |form| %>
+
+  <p id="purchase-errors" class="text-danger d-none"></p>
+
+  <% unless current_contractor %>
+    <div class="form-group">
+      <%= form.label :email %>
+      <%= form.email_field :email,
+                           id: :email,
+                           placeholder: 'e.g. procurement@company.com',
+                           class: 'form-control form-control-sm' %>
+    </div>
+
+    <div id="password-field-group" class="form-group d-none">
+      <%= form.label :password %>
+      <%= form.password_field :password,
+                              id: :password,
+                              class: 'form-control form-control-sm' %>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= form.label :customer_number, 'Phone number' %>
+    <%= form.telephone_field :customer_number,
+                             id: :customer_number,
+                             placeholder: 'e.g. 0541234567',
+                             class: 'form-control form-control-sm',
+                             autocomplete: 'tel',
+                             pattern: "[0-9]{10}",
+                             'aria-describedby': 'telephoneHelp',
+                             required: true %>
+  </div>
+
+  <%= button_tag 'Submit',
+                 id: :make_purchase_button,
+                 class: 'btn btn-accent btn-block mt-3' %>
+
+<% end %>

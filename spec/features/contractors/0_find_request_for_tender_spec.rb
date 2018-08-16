@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.feature 'Search for request for tender', type: :feature do
+RSpec.xfeature 'Search for request for tender', type: :feature do
   let(:request_for_tender) { FactoryBot.create(:request_for_tender) }
 
   scenario 'should find and display a request for tender when its reference ' \
@@ -36,6 +36,22 @@ RSpec.feature 'Search for request for tender', type: :feature do
     visit purchase_tender_path(5454)
     within :css, '#search-wrapper' do
       expect(page).to have_field :reference_number
+    end
+  end
+
+  context 'Request for tender has not been published yet' do
+    let!(:unpublished_request_for_tender) do
+      FactoryBot.create(:request_for_tender, published_at: nil)
+    end
+
+    scenario 'should prevent contractor from purchasing the request for tender',
+             js: true do
+      visit query_request_for_tender_path
+      fill_in 'reference_number', with: unpublished_request_for_tender.id
+      click_button 'search'
+      expect(page)
+        .to have_content 'Account The tender has not been made ' \
+                                 'available for purchasing'
     end
   end
 end

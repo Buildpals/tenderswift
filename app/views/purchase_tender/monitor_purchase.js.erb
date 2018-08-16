@@ -1,4 +1,9 @@
-showPurchaseInProgress('Please confirm the purchase on your phone...')
+<% if @purchaser.request_for_tender.selling_price == 0 %>
+  showPurchaseInProgress('Putting finishing touches...')
+<% else %>
+  showPurchaseInProgress('Please confirm the purchase on your phone...')
+<% end %>
+
 setTimeout(function checkOnPayment () {
   $.get('<%= monitor_purchase_path(@purchaser.request_for_tender) %>')
     .fail(function (error) {

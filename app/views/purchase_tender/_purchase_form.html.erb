@@ -14,7 +14,7 @@
       Electronic payment charge:
     </td>
     <td id="korbaweb-charge">
-      <%= @korbaweb_charge %>
+      <%= @request_for_tender.payment_gateway_charge %>
     </td>
   </tr>
 
@@ -23,7 +23,7 @@
       Cloud service charge:
     </td>
     <td id="service-charge">
-      <%= @service_charge %>
+      <%= @request_for_tender.cloud_service_charge %>
     </td>
   </tr>
 
@@ -32,7 +32,7 @@
       Amount to be deducted (GH₵):
     </td>
     <td id="total-cost">
-      <%= @total_cost %>
+      <%= @request_for_tender.amount_to_be_deducted %>
     </td>
   </tr>
 
