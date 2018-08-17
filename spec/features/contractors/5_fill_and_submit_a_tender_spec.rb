@@ -100,14 +100,15 @@ RSpec.feature 'Purchased tender document' do
     end
   end
 
-  scenario "submitted tender should move to 'submitted tenders' column",
+  scenario 'submitted tenders should move to submitted tenders column',
            js: true do
     visit tender_build_path(filled_tender_document, :upload_documents)
-    click_button 'Submit your bid', match: :first
-    click_link 'Home'
+    click_button 'Submit your bid'
+
+    visit contractor_root_path
     within :css, '#submitted-tenders' do
-      expect(page).to have_content(filled_tender_document.request_for_tender
-                                       .project_name)
+      expect(page)
+        .to have_content filled_tender_document.request_for_tender.project_name
     end
   end
 
