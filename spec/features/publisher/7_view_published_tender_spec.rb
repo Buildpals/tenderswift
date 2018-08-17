@@ -4,16 +4,18 @@ require 'rails_helper'
 
 RSpec.feature 'View details of published request for tender', js: true do
   include RequestForTendersHelper
-	let!(:publisher) {FactoryBot.create(:publisher)}
+  let!(:publisher) { FactoryBot.create(:publisher) }
   let!(:request_for_tender) do
-		FactoryBot.create(:request_for_tender,
-											:published, :submitted,
-											publisher: publisher)
-	end
-	let!(:contractor) { FactoryBot.create(:contractor) }
-	let!(:tender) { FactoryBot.create(:tender ,:purchased, 
-																		request_for_tender: request_for_tender,
-																		contractor: contractor ) }
+    FactoryBot.create(:request_for_tender,
+                      :published, :submitted,
+                      publisher: publisher)
+  end
+  let!(:contractor) { FactoryBot.create(:contractor) }
+  let!(:tender) do
+    FactoryBot.create(:tender, :purchased,
+                      request_for_tender: request_for_tender,
+                      contractor: contractor)
+  end
 
   let!(:request_for_tender_two) do
     FactoryBot.create(:request_for_tender,
@@ -21,36 +23,33 @@ RSpec.feature 'View details of published request for tender', js: true do
                       publisher: publisher)
   end
 
-	scenario 'should see view count updates' do
-		visit query_request_for_tender_path
-		fill_in 'reference_number', with: request_for_tender.id
-		click_button 'search'
-    sign_in_publisher
-		click_link request_for_tender.project_name
+  scenario 'should see view count updates' do
+    visit purchase_tender_path(request_for_tender)
 
-		within :css, '#number-of-counts' do
-			expect(page).to have_content '1'
-		end
+    login_as(publisher, scope: :publisher)
+    click_link request_for_tender.project_name
 
-	end
+    within :css, '#number-of-counts' do
+      expect(page).to have_content '1'
+    end
+  end
 
-	scenario 'should see view purchase counts' do
+  scenario 'should see view purchase counts' do
     login_as(publisher, scope: :publisher)
     visit request_for_tender_path(request_for_tender)
 
-		within :css, '#number-of-purchases' do
-			expect(page).to have_content request_for_tender.number_of_tender_purchases
-		end
+    within :css, '#number-of-purchases' do
+      expect(page).to have_content request_for_tender.number_of_tender_purchases
+    end
+  end
 
-	end
-
-	scenario 'should see number of submitted tenders' do
+  scenario 'should see number of submitted tenders' do
     login_as(publisher, scope: :publisher)
     visit request_for_tender_path(request_for_tender)
 
-		within :css, '#number-of-submitted-tender' do
-			expect(page).to have_content request_for_tender.tenders.submitted.count
-		end
+    within :css, '#number-of-submitted-tender' do
+      expect(page).to have_content request_for_tender.tenders.submitted.count
+    end
   end
 
   scenario 'should see ends on date' do
@@ -77,9 +76,7 @@ RSpec.feature 'View details of published request for tender', js: true do
     user_sees_public_request_for_tender_information request_for_tender
   end
 
-=begin
-    this test does not pass
-=end
+  #     this test does not pass
   xscenario 'portal link should work' do
     login_as(publisher, scope: :publisher)
     visit request_for_tender_path(request_for_tender)
@@ -87,7 +84,6 @@ RSpec.feature 'View details of published request for tender', js: true do
     click_link 'purchase_link', wait: 10
     expect(page).to have_current_path(purchase_tender_path(request_for_tender))
   end
-
 
   scenario 'should see correct selling price' do
     login_as(publisher, scope: :publisher)
@@ -99,7 +95,6 @@ RSpec.feature 'View details of published request for tender', js: true do
       expect(page).to have_content request_for_tender.selling_price
     end
   end
-
 
   scenario 'should see amount receivable' do
     login_as(publisher, scope: :publisher)
@@ -154,24 +149,21 @@ RSpec.feature 'View details of published request for tender', js: true do
     login_as(publisher, scope: :publisher)
     visit request_for_tender_path(request_for_tender_two)
     click_link 'list-prequalification-list'
-    within :css, "#shortlisted-count" do
+    within :css, '#shortlisted-count' do
       expect(page).to have_content(request_for_tender_two.tenders
                                        .not_disqualified.count)
     end
-
   end
 
   scenario 'should see disqualified count' do
     login_as(publisher, scope: :publisher)
     visit request_for_tender_path(request_for_tender_two)
     click_link 'list-prequalification-list'
-    within :css, "#disqualified-count" do
+    within :css, '#disqualified-count' do
       expect(page).to have_content(request_for_tender_two.tenders
                                        .disqualified.count)
     end
-
   end
-
 
   scenario 'should see list of shortlisted contractors' do
     login_as(publisher, scope: :publisher)
@@ -191,7 +183,6 @@ RSpec.feature 'View details of published request for tender', js: true do
     end
   end
 
-
   scenario 'should update bank information' do
     login_as(publisher, scope: :publisher)
     visit request_for_tender_path(request_for_tender_two)
@@ -206,12 +197,5 @@ RSpec.feature 'View details of published request for tender', js: true do
     end
 
     expect(page).to have_content 'Your changes have been saved!'
-  end
-
-  def sign_in_publisher
-    visit new_publisher_session_path
-    fill_in 'Email address', with: publisher.email
-    fill_in 'Password', with: publisher.password
-    click_button 'Log in'
   end
 end
