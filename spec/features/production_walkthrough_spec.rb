@@ -16,25 +16,43 @@ RSpec.feature 'Product walkthrough', js: true do
     and_has_uploaded_the_bill_of_quantities
     and_has_uploaded_the_tender_documents
     and_has_added_the_tendering_instructions
-    and_has_added_the_payment_information
+    and_has_added_the_distribution_information
 
-    when_they_publish_it_as_a_public_tender
+    when_they_publish_the_tender
 
-    then_it_should_take_them_to_the_monitor_request_for_tender_page
+    then_it_should_show_as_publishing_on_their_dashboard
+    and_it_should_send_an_email_to_alfred
+    and_the_request_for_tender_should_show_up_for_review_on_the_admins_dashboard
+    and_the_admin_should_be_able_to_edit_it
+    and_the_admin_should_be_able_publish_it
+
+    then_the_publisher_should_receive_an_email_that_their_rft_has_been_published
+    and_the_rft_should_move_to_the_published_column_of_their_dashboard
+
+    and_they_should_be_able_to_monitor_the_rft
     and_the_request_for_tender_should_have_a_purchase_tender_page
-    and_the_request_for_tender_should_appear_in_their_published_tenders
 
-    logout_successfully
+    and_they_should_be_able_to_logout_successfully
 
-    given_a_contractor_has_logged_in
-    when_they_purchase_a_tender
+    when_a_contractor_signs_up_and_purchases_a_tender
+
+    they_should_show_up_under_purchases_on_the_publishers_monitor_page
+
+
     then_they_should_find_the_request_for_tender_in_their_purchased_tenders
     and_they_should_be_able_to_see_the_tenders_general_information
-    and_they_should_be_able_to_see_the_tenders_tender_documents
-    and_they_should_be_able_to_see_the_tenders_boq
-    and_they_should_be_able_to_see_the_tenders_required_documents
+    and_they_should_be_able_to_download_the_tenders_tender_documents
 
-    and_they_should_show_up_under_purchased_on_the_publishers_dashboard
+    when_they_try_to_submit_the_tender
+    and_they_should_see_boq_rate_errors
+    they_should_see_required_document_errors
+
+    and_they_should_be_able_to_fill_rates_in_the_tenders_boq
+    and_they_should_be_able_to_upload_the_tenders_required_documents
+
+    and_they_should_be_able_to_submit_their_tender_successfully
+
+    they_should_show_up_under_submissions_on_the_publishers_monitor_page
   end
 
   def given_a_publisher_has_logged_in
@@ -144,7 +162,7 @@ RSpec.feature 'Product walkthrough', js: true do
     click_button 'Next', match: :first
   end
 
-  def and_has_added_the_payment_information
+  def and_has_added_the_distribution_information
     fill_in 'Selling price', with: @request_for_tender.selling_price
     fill_in 'Bank name', with: @request_for_tender.bank_name
     fill_in 'Branch name', with: @request_for_tender.branch_name
@@ -154,7 +172,7 @@ RSpec.feature 'Product walkthrough', js: true do
     click_button 'Next', match: :first
   end
 
-  def when_they_publish_it_as_a_public_tender
+  def when_they_publish_the_tender
     @request_for_tender.id = find_field('request_for_tender_reference_number')
                              .value.to_i
 
@@ -163,7 +181,7 @@ RSpec.feature 'Product walkthrough', js: true do
     end
   end
 
-  def then_it_should_take_them_to_the_monitor_request_for_tender_page
+  def and_they_should_be_able_to_monitor_the_rft
     should_have_content_of_request_for_tender
   end
 
@@ -174,7 +192,7 @@ RSpec.feature 'Product walkthrough', js: true do
     end
   end
 
-  def and_the_request_for_tender_should_appear_in_their_published_tenders
+  def and_the_rft_should_move_to_the_published_column_of_their_dashboard
     visit publisher_root_path
 
     within :css, '#published-request-for-tenders' do
@@ -184,7 +202,7 @@ RSpec.feature 'Product walkthrough', js: true do
     end
   end
 
-  def logout_successfully
+  def and_they_should_be_able_to_logout_successfully
     visit publisher_root_path
 
     click_link @new_publisher.company_name
@@ -195,7 +213,7 @@ RSpec.feature 'Product walkthrough', js: true do
 
   # Contractor methods
 
-  def given_a_contractor_has_logged_in
+  def when_a_contractor_signs_up_and_purchases_a_tender
     @new_contractor = FactoryBot.build(
       :contractor,
       email: 'tenderswift_test_contractor+' \
@@ -272,7 +290,7 @@ RSpec.feature 'Product walkthrough', js: true do
     user_sees_public_request_for_tender_information(@request_for_tender)
   end
 
-  def and_they_should_be_able_to_see_the_tenders_tender_documents
+  def and_they_should_be_able_to_download_the_tenders_tender_documents
     click_link '2. Tender Documents'
 
     @request_for_tender.project_documents.each do |project_document|
@@ -281,7 +299,7 @@ RSpec.feature 'Product walkthrough', js: true do
     end
   end
 
-  def and_they_should_be_able_to_see_the_tenders_boq
+  def and_they_should_be_able_to_fill_rates_in_the_tenders_boq
     click_link '3. Bill of Quantities'
 
     within :css, '#hello' do
@@ -291,7 +309,7 @@ RSpec.feature 'Product walkthrough', js: true do
     end
   end
 
-  def and_they_should_be_able_to_see_the_tenders_required_documents
+  def and_they_should_be_able_to_upload_the_tenders_required_documents
     click_link '4. Upload Documents'
 
     @request_for_tender.required_documents.each do |required_documents|
@@ -299,7 +317,7 @@ RSpec.feature 'Product walkthrough', js: true do
     end
   end
 
-  def and_they_should_show_up_under_purchased_on_the_publishers_dashboard
+  def they_should_show_up_under_purchases_on_the_publishers_monitor_page
     click_link @signed_up_contractor.company_name
     click_link 'Logout'
 
