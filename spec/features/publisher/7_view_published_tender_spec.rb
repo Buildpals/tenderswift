@@ -27,7 +27,7 @@ RSpec.feature 'View details of published request for tender', js: true do
     visit purchase_tender_path(request_for_tender)
 
     login_as(publisher, scope: :publisher)
-    click_link request_for_tender.project_name
+    visit request_for_tender_path(request_for_tender)
 
     within :css, '#number-of-counts' do
       expect(page).to have_content '1'
@@ -76,13 +76,14 @@ RSpec.feature 'View details of published request for tender', js: true do
     user_sees_public_request_for_tender_information request_for_tender
   end
 
-  #     this test does not pass
-  xscenario 'portal link should work' do
+  scenario 'portal link should work' do
     login_as(publisher, scope: :publisher)
     visit request_for_tender_path(request_for_tender)
 
-    click_link 'purchase_link', wait: 10
-    expect(page).to have_current_path(purchase_tender_path(request_for_tender))
+    new_window = window_opened_by { click_link :purchase_link }
+    within_window new_window do
+      expect(page).to have_current_path purchase_tender_path(request_for_tender)
+    end
   end
 
   scenario 'should see correct selling price' do
