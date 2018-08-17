@@ -10,9 +10,7 @@
            v-bind:value="value"
            @change="updateWorkbook">
 
-    <div v-else>
-      {{ formatNumber(value) }}
-    </div>
+    <div v-else>{{ formatNumber(value) }}</div>
 
   </td>
 </template>

@@ -152,6 +152,7 @@
 
   .description {
     width: 34rem;
+    white-space: pre-wrap;
   }
 
   .quantity {
