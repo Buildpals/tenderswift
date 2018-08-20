@@ -109,6 +109,18 @@ class RequestForTender < ApplicationRecord
     Time.current > deadline
   end
 
+  def payment_gateway_charge
+    selling_price * 0.02
+  end
+
+  def cloud_service_charge
+    selling_price * 0.08
+  end
+
+  def amount_to_be_deducted
+    selling_price + (RequestForTender::TENDERSWIFT_CUT * selling_price)
+  end
+
   def number_of_tender_purchases
     tenders.where.not(purchased_at: nil).size
   end

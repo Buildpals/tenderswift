@@ -120,9 +120,9 @@ Rails.application.routes.draw do
       to: 'welcome#query_request_for_tender',
       as: :query_request_for_tender
 
-  post '/query',
-       to: 'welcome#find_request_for_tender',
-       as: :find_request_for_tender
+  get '/query',
+      to: 'welcome#find_request_for_tender',
+      as: :find_request_for_tender
 
   # Routes for purchase_tender
 
@@ -180,7 +180,6 @@ Rails.application.routes.draw do
   get '/monitor_request_for_tenders/:id',
       to: 'admins#monitor_request_for_tender',
       as: :monitor_request_for_tender
-
 
   delete '/reverse_masquerade/:id',
          to: 'admins#reverse_masquerade',

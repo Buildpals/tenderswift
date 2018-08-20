@@ -33,8 +33,12 @@ class RequestForTenderPurchaser
     validate_is_not_purchased! @tender
     transaction_id = SecureRandom.uuid
     store_transaction_attempt(transaction_id)
-    make_transaction_request(transaction_id)
-    store_transaction_success
+    if @request_for_tender.selling_price == 0
+      save_transaction_success('Purchased successfully')
+    else
+      make_transaction_request(transaction_id)
+      store_transaction_success
+    end
     Rails.logger.info('Successful transaction request made to korbaweb')
     true
   rescue TenderNotPublishedError
@@ -121,7 +125,7 @@ class RequestForTenderPurchaser
     @tender.update!(customer_number: @customer_number,
                     network_code: @network_code,
                     vodafone_voucher_code: @vodafone_voucher_code,
-                    amount: @request_for_tender.selling_price,
+                    amount: @request_for_tender.amount_to_be_deducted,
                     transaction_id: transaction_id,
                     purchase_request_sent_at: Time.current)
   end
@@ -129,7 +133,7 @@ class RequestForTenderPurchaser
   def make_transaction_request(transaction_id)
     @korba_web_api.call(
       customer_number: @customer_number,
-      amount: total_payable,
+      amount: @request_for_tender.amount_to_be_deducted,
       transaction_id: transaction_id,
       network_code: @network_code,
       vodafone_voucher_code: @vodafone_voucher_code,
@@ -160,10 +164,6 @@ class RequestForTenderPurchaser
                           ":#{message}")
     @tender.update!(purchase_request_status: :failed,
                     purchase_request_message: message)
-  end
-
-  def total_payable
-    @request_for_tender.selling_price + (RequestForTender::TENDERSWIFT_CUT * @request_for_tender.selling_price)
   end
 
   def to_s

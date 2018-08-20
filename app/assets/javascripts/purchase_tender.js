@@ -11,7 +11,7 @@ $(document).on('turbolinks:load', function () {
 
   $('#purchase-form')
     .on('ajax:before', function () {
-      showPurchaseInProgress('Sending purchase request...')
+      showPurchaseInProgress('Processing...')
     })
     .on('ajax:error', function (event) {
       // Network error making the request

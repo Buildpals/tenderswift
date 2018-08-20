@@ -12,9 +12,6 @@ class PurchaseTenderController < ContractorsController
 
     tender = Tender.find_by(request_for_tender: @request_for_tender,
                             contractor: current_contractor)
-    @korbaweb_charge = korbaweb_charge
-    @service_charge = cloud_service_charge
-    @total_cost = total_charge
     if tender&.purchased?
       redirect_to contractor_root_path,
                   notice: 'You have already purchased this tender'
@@ -62,7 +59,12 @@ class PurchaseTenderController < ContractorsController
     )
 
     if @purchaser.payment_success?
-      flash[:notice] = 'You have purchased this tender successfully'
+      if @purchaser.request_for_tender.selling_price == 0
+        flash[:notice] = 'Welcome. Please fill in the' \
+                         'information below, then you can start bidding'
+      else
+        flash[:notice] = 'You have purchased this tender successfully'
+      end
       flash.keep(:notice) # Keep flash notice around for the redirect.
       render js: "window.location = '#{contractor_root_path}'"
     elsif @purchaser.payment_failed?
@@ -98,18 +100,6 @@ class PurchaseTenderController < ContractorsController
                        phone_number: params[:customer_number],
                        company_name: params[:company_name],
                        password: generated_password)
-  end
-
-  def korbaweb_charge
-    @request_for_tender.selling_price * 0.02
-  end
-
-  def cloud_service_charge
-    @request_for_tender.selling_price * 0.08
-  end
-
-  def total_charge
-    @request_for_tender.selling_price + (RequestForTender::TENDERSWIFT_CUT * @request_for_tender.selling_price)
   end
 
   def increment_visit_count
