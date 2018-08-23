@@ -1,5 +1,5 @@
 <template>
-  <div class="spreadsheet-tabs">
+  <div class="spreadsheet-tabs was-validated">
 
     <b-tabs end no-fade>
       <b-tab :title="sheetName" v-for="sheetName in workBook.SheetNames">

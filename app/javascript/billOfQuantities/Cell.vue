@@ -1,11 +1,12 @@
 <template>
-  <td class="cell"
+  <td :class="{ 'p-0': !isEditable }"
       v-bind:class="{ formula: hasFormula }"
       @click="showCellContents">
 
     <input type="number"
            step="0.01"
-           class="form-control form-control-sm rounded-0"
+           required
+           class="form-control form-control-sm"
            v-if="isEditable"
            v-bind:value="value"
            @change="updateWorkbook">
@@ -80,9 +81,5 @@
 <style lang="scss" scoped>
   .formula {
     background: beige;
-  }
-
-  .cell {
-    padding: 0rem !important;
   }
 </style>
