@@ -13,7 +13,7 @@ class RequiredDocumentUploadsController < PublishersController
   def approve
     authorize @required_document_upload
     @required_document_upload.update(status: :approved)
-    flash[:notice] = "You have successfully approved the" \
+    flash[:notice] = "You have successfully approved the " \
                      "#{@required_document_upload.required_document.title}"
     redirect_to bid_required_documents_url(@required_document_upload.tender)
   end
