@@ -12,6 +12,14 @@
         and how frequently you want your money sent to you
       </p>
 
+      <div class="form-row float-right">
+        <div class="col-md-12">
+          <%= link_to 'Cash out now', { controller: :welcome, action: :index },
+                          class: 'btn btn-danger btn-md btn-block
+                          float-right' %>
+        </div>
+      </div>
+
       <%= render 'request_for_tenders/build/request_for_tender_errors' %>
 
       <div class="form-row">
@@ -78,6 +86,7 @@
 
       <%= form.submit 'Save',
                       class: 'btn btn-primary btn-sm btn-block' %>
+
     <% end %>
 
   </div>
