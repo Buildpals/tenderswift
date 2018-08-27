@@ -12,7 +12,9 @@ class Publisher < ApplicationRecord
 
   mount_uploader :company_logo, CompanyLogoUploader
 
-  has_many :request_for_tenders, inverse_of: :publisher
+  has_many :request_for_tenders,
+           dependent: :destroy,
+           inverse_of: :publisher
 
   EMAIL_REGEX = /\A[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}\Z/i
 
