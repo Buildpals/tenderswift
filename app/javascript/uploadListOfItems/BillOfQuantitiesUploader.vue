@@ -128,6 +128,7 @@
         console.log('after-upload2', value.Sheets)
 
         this.$refs.uploadExcelFileModal.hide()
+        location.reload();
       },
 
       uploadError (value) {
