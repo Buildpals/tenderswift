@@ -5,6 +5,7 @@ class RequiredDocument < ApplicationRecord
              inverse_of: :required_documents
 
   has_many :required_document_uploads,
+           dependent: :destroy,
            inverse_of: :required_document
   accepts_nested_attributes_for :required_document_uploads,
                                 allow_destroy: true,

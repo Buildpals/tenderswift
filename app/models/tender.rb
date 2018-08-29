@@ -23,12 +23,16 @@ class Tender < ApplicationRecord
   belongs_to :contractor, inverse_of: :tenders
   belongs_to :request_for_tender, inverse_of: :tenders
 
-  has_many :required_document_uploads, inverse_of: :tender
+  has_many :required_document_uploads,
+           dependent: :destroy,
+           inverse_of: :tender
   accepts_nested_attributes_for :required_document_uploads,
                                 allow_destroy: true,
                                 reject_if: :all_blank
 
-  has_many :other_document_uploads, inverse_of: :tender
+  has_many :other_document_uploads,
+           dependent: :destroy,
+           inverse_of: :tender
   accepts_nested_attributes_for :other_document_uploads,
                                 allow_destroy: true,
                                 reject_if: :all_blank
