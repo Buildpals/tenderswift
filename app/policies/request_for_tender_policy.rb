@@ -32,6 +32,10 @@ class RequestForTenderPolicy
     belongs_to_publisher?
   end
 
+  def cash_out_now?
+    belongs_to_publisher?
+  end
+
   def scope
     Pundit.policy_scope!(publisher, RequestForTender)
   end

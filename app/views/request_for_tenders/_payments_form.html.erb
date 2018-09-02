@@ -14,7 +14,8 @@
 
       <div class="form-row float-right">
         <div class="col-md-12">
-          <%= link_to 'Cash out now', { controller: :welcome, action: :index },
+          <%= link_to 'Cash out now', { controller: :request_for_tenders,
+                                        action: :cash_out_now },
                           class: 'btn btn-danger btn-md btn-block
                           float-right' %>
         </div>

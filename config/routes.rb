@@ -20,7 +20,7 @@ Rails.application.routes.draw do
 
   root to: 'welcome#index'
 
-  #################### Quantity Surveyors Routes ##################
+  #################### Publisher Routes ##################
 
   devise_for :publishers, path: 'publishers', controllers: {
     confirmations: 'publishers/confirmations',
@@ -41,6 +41,10 @@ Rails.application.routes.draw do
     resources :project_documents, only: %i[create destroy]
     resource :excel_file
   end
+
+  get '/request_for_tenders/:id/cash_out_now',
+  to: 'request_for_tenders#cash_out_now',
+  as: :cash_out_request_for_tender
 
   # Routes for bid
 

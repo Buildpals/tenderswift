@@ -56,6 +56,13 @@ class RequestForTendersController < PublishersController
     end
   end
 
+  def cash_out_now
+    authorize @request_for_tender
+    AdminMailer.cash_out_now(@request_for_tender).deliver
+    redirect_to @request_for_tender, notice: 'Request for funds
+                                              has been initiated'
+  end
+
   private
 
   def set_policy
