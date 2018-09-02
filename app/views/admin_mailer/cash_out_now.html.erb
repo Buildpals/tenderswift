@@ -1,5 +1,12 @@
 <p>Hello Alfred,</p>
 <p><%= @request_for_tender.publisher.company_name %> has requested to cash out</p>
 <p>Project Name: <%= @request_for_tender.project_name %></p>
-<p>Total Receivable: <% @request_for_tender.total_receivable %></p>
+<p>Total Receivable: <%= @request_for_tender.total_receivable %></p>
+<br/>
+<h3>Bank details</h3>
+<hr>
+<a>Bank Name: <%= @request_for_tender.bank_name %></a>
+<a>Account Name: <%= @request_for_tender.account_name %></a>
+<a>Branch Name: <%= @request_for_tender.branch_name %></a>
+<a>Bank Account Number: <%= @request_for_tender.account_number %></a>
 <p>Cheers!</p>
