@@ -57,7 +57,7 @@
 
     <div class="text-center mb-3">
       or <br>
-      <a href="https://res.cloudinary.com/tenderswift/raw/upload/v1533557612/app/bil_of_quantities.xlsx">
+      <a href="https://res.cloudinary.com/tenderswift/raw/upload/v1535983447/app/bil_of_quantities_1.xlsx">
         Download a template
       </a>
     </div>
