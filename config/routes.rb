@@ -43,8 +43,8 @@ Rails.application.routes.draw do
   end
 
   get '/request_for_tenders/:id/cash_out_now',
-  to: 'request_for_tenders#cash_out_now',
-  as: :cash_out_request_for_tender
+      to: 'request_for_tenders#cash_out_now',
+      as: :cash_out_request_for_tender
 
   # Routes for bid
 
