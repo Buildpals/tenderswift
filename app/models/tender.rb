@@ -119,6 +119,14 @@ class Tender < ApplicationRecord
   def required_document_upload?(required_document)
     required_document_uploads.find_by(required_document: required_document)
   end
+  
+  def tender_figure
+    total = 0.0
+    list_of_rates.each do |key, value|
+      total = total + value.to_f
+    end
+    total
+  end
 
   private
 
