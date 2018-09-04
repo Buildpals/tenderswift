@@ -22,6 +22,8 @@ class Contractors::AfterSignupController < ContractorsController
       :phone_number,
       :company_name,
       :company_logo,
+      :password,
+      :password_confirmation,
       :status
     )
   end
