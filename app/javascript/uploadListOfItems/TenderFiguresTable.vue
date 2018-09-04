@@ -169,7 +169,7 @@
 
           hash[tender.id] = {
             company: tender.contractors_company_name,
-            tenderFigure: tender.tender_figure,
+            tenderFigure: tenderFigure,
             difference: difference,
             percentageDifference: percentageDifference,
             tender: tender
