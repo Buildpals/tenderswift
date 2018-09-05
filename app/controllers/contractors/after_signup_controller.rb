@@ -7,8 +7,12 @@ class Contractors::AfterSignupController < ContractorsController
 
   def update
     authorize current_contractor
+    contractor = current_contractor
+
     params[:contractor][:status] = 'active'
-    if current_contractor.update(contractor_params)
+    if contractor.update(contractor_params)
+      sign_out contractor
+      sign_in :contractor, contractor
       redirect_to contractor_root_path
     else
       render :edit
