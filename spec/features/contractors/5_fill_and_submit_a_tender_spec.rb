@@ -41,16 +41,23 @@ RSpec.feature 'Purchased tender document' do
 
   scenario 'should allow a contractor to fill in the rates ' \
            'their purchased tender document', js: true do
-    skip 'Spec not finished'
+
     visit tender_build_path(purchased_tender_document, :bill_of_quantities)
-    page.all('.rate-field').each do |rate_field|
-      rate_field.set 1
+    list_of_rates = FactoryBot.build(:filled_tender).list_of_rates
+
+    list_of_rates.each do |cellAddress, value|
+      sheet_name = cellAddress.split('!')[0]
+      row_col_ref = cellAddress.split('!')[1]
+
+      fill_in "#{sheet_name}-#{row_col_ref}", with: value
+      page.find('body').click
+
+      purchased_tender_document.reload
+      expect(page)
+        .to have_content 'All changes saved to TenderSwift\'s servers', wait: 10
     end
-    click_button 'Save'
-    expect(page).to have_content 'All changes saved', wait: 10
-    purchased_tender_document.reload
-    expect(purchased_tender_document.list_of_rates['rates'])
-      .to eq('1' => '1', '2' => '1', '3' => '1', '4' => '1', '6' => '1')
+
+    expect(purchased_tender_document.list_of_rates).to eq(list_of_rates)
   end
 
   scenario 'should allow a contractor to upload the required documents of ' \

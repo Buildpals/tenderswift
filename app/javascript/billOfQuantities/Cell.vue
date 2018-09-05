@@ -6,6 +6,7 @@
     <input type="number"
            step="0.01"
            required
+           :id="`${sheetName}-${rowColRef}`"
            class="form-control form-control-sm"
            v-if="isEditable"
            v-bind:value="value"
@@ -20,6 +21,7 @@
   import TenderSwiftMixins from '../TenderSwiftMixins'
 
   import EventBus from '../EventBus'
+  import { getRowColumnRef, getSheetName } from '../utils'
 
   export default {
     mixins: [TenderSwiftMixins],
@@ -45,6 +47,12 @@
     computed: {
       value () {
         return this.cell.v
+      },
+      sheetName () {
+        return getSheetName(this.cellAddress)
+      },
+      rowColRef () {
+        return getRowColumnRef(this.cellAddress)
       },
       hasFormula () {
         return this.cell.f
