@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" id="contractor-form">
   <div class="row">
     <div class="col-lg-6 mx-auto mt-2">
       <div class="text-center mb-4">
@@ -9,8 +9,7 @@
 
       <%= form_with model: current_contractor,
                     url: contractors_after_signup_path,
-                    scope: :contractor,
-                    id: 'contractor-form' do |f| %>
+                    scope: :contractor do |f| %>
 
         <% if current_contractor.errors.any? %>
           <div class="alert alert-danger" role="alert">
