@@ -23,7 +23,6 @@ class AdminMailer < ApplicationMailer
   def cash_out_now(request_for_tender)
     @request_for_tender = request_for_tender
     mail(to: 'alfred@buildpals.com',
-         subject: "#{request_for_tender.publisher.company_name} has request
-                  for it's money")
+         subject: "New Cash out request")
   end
 end

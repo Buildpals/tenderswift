@@ -26,4 +26,12 @@ RSpec.describe AdminMailer, type: :mailer do
     expect(email.subject).to eq("#{request_for_tender.project_name} has been published")
     expect { email.deliver_now }.to change { ActionMailer::Base.deliveries.count }.by(1)
   end
+
+  scenario 'notify admin of a request to cash out' do
+    email = AdminMailer.cash_out_now(request_for_tender)
+    expect(email.from).to eq(['projects@buildpals.com'])
+    expect(email.to).to eq(['alfred@buildpals.com'])
+    expect(email.subject).to eq("New Cash out request")
+    expect { email.deliver_now }.to change { ActionMailer::Base.deliveries.count }.by(1)
+  end
 end
