@@ -7,7 +7,7 @@
                                                 :project_owners_company_name,
                                                 :workbook]) %>"
     :tenders="<%= @request_for_tender.tenders
-                  .submitted.to_json(only: [:id, :disqualified, :rating],
+                  .submitted.to_json(only: [:id, :disqualified, :rating, :submitted_at],
                                      methods: [:contractors_company_name,
                                                :contractors_email,
                                                :workbook]) %>">

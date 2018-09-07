@@ -182,7 +182,13 @@
         return this.tenders.filter(tender => tender.disqualified)
       },
       shortListParticipants () {
-        return this.tenders.filter(tender => !tender.disqualified)
+        //console.log(this.tenders)
+        let list = this.tenders.filter(tender => (!tender.disqualified) &&
+          (tender.submitted_at != null))
+        console.log('uyreuyeruyeyu')
+        console.log(list)
+        console.log(list.length)
+        return list
       },
       baseTenderFigure () {
         console.log('calling baseTenderFigure')
