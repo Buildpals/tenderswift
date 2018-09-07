@@ -42,7 +42,7 @@
             <small>(<%= request_for_tender.deadline.to_formatted_s(:short) %>)
             </small>
           <% else %>
-            <div class="font-weight-bold text-muted">Ends on</div>
+            <div class="font-weight-bold text-muted">Ends in</div>
             <span id="deadline-request-for-tender">
               <%= time_to_deadline request_for_tender %>
             </span>
