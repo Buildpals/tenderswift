@@ -14,7 +14,11 @@
 <% end %>
 
 <% content_for :nav_tabs do %>
-  <% wizard_steps.each_with_index do |wizard_step, index| %>
+  <% index = 0 %>
+  <% wizard_steps.each do |wizard_step| %>
+    <% if !@tender.request_for_tender.list_of_rates? && wizard_step.eql?(:bill_of_quantities) %>
+      <% next %>
+    <% end %>
     <% if !@tender.submitted_at.nil? && wizard_step.eql?(:upload_documents) %>
       <%= link_to "#{index + 1}. Uploaded Documents",
                   wizard_path(wizard_step),
@@ -24,6 +28,7 @@
                   wizard_path(wizard_step),
                   class: "nav-item nav-link #{'active' if step == wizard_step}" %>
     <% end %>
+    <% index = index + 1 %>
   <% end %>
 <% end %>
 
