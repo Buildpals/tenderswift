@@ -50,14 +50,12 @@
         <nav class="nav nav-pills nav-justified">
           <% index = 0 %>
           <% wizard_steps.each do |wizard_step| %>
-            <% if !@tender.request_for_tender.list_of_rates? && wizard_step.eql?(:bill_of_quantities)%>
+            <% if !@tender.request_for_tender.list_of_rates? && wizard_step.eql?(:bill_of_quantities) %>
               <% next %>
             <% else %>
-              <%= link_to "#{index + 1}. #{wizard_step.to_s.humanize}",
-                          wizard_path(wizard_step),
-                          class: "nav-item nav-link #{'active' if step == wizard_step}" %>
-              <% index = index + 1 %>
+              <%= contractor_tab(@tender, wizard_step, index) %>
             <% end %>
+            <% index = index + 1 %>
           <% end %>
         </nav>
 
