@@ -10,14 +10,6 @@ RSpec.describe Contractor, type: :model do
     it { should have_many(:request_for_tenders) }
   end
 
-  describe 'Mailers' do
-    it 'should send invitation emails' do
-      mail = ContractorMailer
-             .request_for_tender_email(tender, tender.request_for_tender)
-      expect { mail.deliver_now }.to change { ActionMailer::Base.deliveries.count }.by(1)
-    end
-  end
-
   describe 'Validations' do
     # it { should validate_presence_of(:company_name) }
     it { should validate_presence_of(:email) }
