@@ -98,7 +98,10 @@ class Tender < ApplicationRecord
   end
 
   def workbook
-    workbook = request_for_tender.list_of_items_without_rates
+    workbook = Marshal.load(
+      Marshal.dump(request_for_tender.list_of_items_without_rates)
+    )
+
     list_of_rates.each do |key, value|
       sheet_name = key.split('!')[0]
       row_col_ref = key.split('!')[1]
