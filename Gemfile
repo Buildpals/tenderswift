@@ -116,6 +116,8 @@ group :development, :test do
 
   # Ruby coverage reporter for Codacy https://www.codacy.com
   gem 'codacy-coverage', require: false
+
+  gem 'rspec_junit_formatter'
 end
 
 group :development do
