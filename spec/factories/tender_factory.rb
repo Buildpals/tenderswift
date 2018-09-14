@@ -6,7 +6,7 @@ FactoryBot.define do
     contractor
 
     notes nil
-    rating nil
+    score nil
     disqualified false
 
     customer_number '0509825831'

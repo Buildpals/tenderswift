@@ -35,7 +35,7 @@
 
 <% content_for :action_items do %>
   <div class="ml-auto">
-    <%= render 'bids/rating_bar', tender: @tender %>
+    <%= render 'bids/scoring_bar', tender: @tender %>
   </div>
 
   <% if @tender.disqualified %>

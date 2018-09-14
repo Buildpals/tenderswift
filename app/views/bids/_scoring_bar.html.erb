@@ -1,14 +1,14 @@
 <%= form_with model: @tender,
               scope: :tender,
-              url: rate_bid_path(@tender),
+              url: score_bid_path(@tender),
               method: :patch,
               local: true,
-              id: 'tender-rating-form' do |form| %>
+              id: 'tender-scoring-form' do |form| %>
   <div class="input-group input-group-sm">
-    <%= form.text_field :rating,
+    <%= form.text_field :score,
                         class: 'form-control',
-                        id: :tender_rating,
-                        placeholder: 'Rating' %>
+                        id: :tender_score,
+                        placeholder: 'Score' %>
     <div class="input-group-append">
       <%= button_tag 'Save',
                      type: 'submit',
