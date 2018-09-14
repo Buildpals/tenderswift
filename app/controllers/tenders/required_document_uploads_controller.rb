@@ -17,6 +17,19 @@ class Tenders::RequiredDocumentUploadsController < ApplicationController
     end
   end
 
+  def update
+    @required_document_upload = @tender
+                                .required_document_uploads
+                                .find(params[:id])
+
+    if @required_document_upload.update(required_document_upload_params)
+      @required_document_upload.reload
+      render json: @required_document_upload, status: :created
+    else
+      render json: @required_document_upload.errors, status: :unprocessable_entity
+    end
+  end
+
   def destroy
     @required_document_upload.destroy
     head :no_content

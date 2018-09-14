@@ -156,7 +156,7 @@ Rails.application.routes.draw do
               module: 'tenders'
 
     resources :required_document_uploads,
-              only: %i[create destroy],
+              only: %i[create update destroy],
               module: 'tenders'
   end
 
