@@ -65,9 +65,6 @@ GEM
     capybara-screenshot (1.0.21)
       capybara (>= 1.0, < 4)
       launchy
-    capybara-webkit (1.15.0)
-      capybara (>= 2.3, < 4.0)
-      json
     capybara_discoball (0.1.0)
       capybara (>= 2.7, < 4)
     carrierwave (1.2.3)
@@ -411,7 +408,6 @@ DEPENDENCIES
   byebug
   capybara (~> 2.13)
   capybara-screenshot
-  capybara-webkit
   capybara_discoball
   carrierwave (~> 1.0)
   chromedriver-helper
