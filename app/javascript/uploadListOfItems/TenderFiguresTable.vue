@@ -35,8 +35,8 @@
           <th class="border-top-0">Company</th>
           <th class="border-top-0 text-right">Tender figure</th>
           <th class="border-top-0 text-right">Difference</th>
-          <th class="border-top-0 text-right">% Difference</th>
-          <th class="border-top-0 text-right">Rating</th>
+          <th class="border-top-0 text-right">% difference</th>
+          <th class="border-top-0 text-right">Score</th>
           <th class="border-top-0"></th>
         </tr>
         </thead>
@@ -101,10 +101,10 @@
         <thead>
         <tr>
           <th class="border-top-0">Company</th>
-          <th class="border-top-0 text-right">Tender Figure</th>
+          <th class="border-top-0 text-right">Tender figure</th>
           <th class="border-top-0 text-right">Difference</th>
-          <th class="border-top-0 text-right">% Difference</th>
-          <th class="border-top-0 text-right">Rating</th>
+          <th class="border-top-0 text-right">% difference</th>
+          <th class="border-top-0 text-right">Score</th>
           <th class="border-top-0"></th>
         </tr>
         </thead>

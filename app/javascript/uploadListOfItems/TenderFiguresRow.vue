@@ -22,7 +22,7 @@
     </td>
 
     <td class="text-right">
-      {{ tender.rating ? formatNumber(tender.rating) : 'Not rated' }}
+      {{ tender.score ? formatNumber(tender.score) : 'Not scored' }}
     </td>
 
     <td class="d-flex justify-content-center">

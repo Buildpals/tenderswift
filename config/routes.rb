@@ -92,9 +92,9 @@ Rails.application.routes.draw do
         to: 'bids#undo_disqualify',
         as: :undo_disqualify_bid
 
-  patch '/bids/:id/rate',
-        to: 'bids#rate',
-        as: :rate_bid
+  patch '/bids/:id/score',
+        to: 'bids#score',
+        as: :score_bid
 
   get '/request_for_tenders/:id/details',
       to: 'request_for_tenders#details',

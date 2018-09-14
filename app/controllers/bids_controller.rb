@@ -45,15 +45,15 @@ class BidsController < PublishersController
 
   def rate
     authorize @tender
-    if @tender.update(rating: params[:rating])
+    if @tender.update(score: params[:score])
       redirect_back fallback_location: bid_required_documents_path(@tender),
-                    notice: 'The rating for ' \
+                    notice: 'The score for ' \
                             "#{@tender.contractors_company_name} " \
                             'has been updated'
     else
       redirect_back fallback_location: bid_required_documents_path(@tender),
                     notice: 'An error occurred while trying to update the ' \
-                            "rating for #{@tender.contractors_company_name}"
+                            "score for #{@tender.contractors_company_name}"
     end
   end
 
