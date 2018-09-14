@@ -21,7 +21,6 @@
 
 # Configuration files
 config/app_config.yml
-config/database.yml
 config/application.yml
 
 # User specific Rubymine project files
