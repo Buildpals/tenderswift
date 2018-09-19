@@ -113,12 +113,11 @@
 
   function payWithRave(e) {
     let email;
-    if (document.getElementById('email') == null ){
+    <% if current_contractor %>
       email = "<%= current_contractor.email %>"
-    }
-    else {
+    <% else %>
       email = document.getElementById("email").value;
-    }
+    <% end %>
     let customer_number = document.getElementById("customer_number").value;
     let txtref =  generateRandomCode(12);
     console.log(txtref);
@@ -130,7 +129,7 @@
       customer_phone: customer_number,
       currency: "<%= @request_for_tender.tender_currency %>",
       country: "GH",
-      payment_options: "mobilemoneyghana,card,mpesa",
+      payment_options: "mobilemoneyghana,card",
       txref: txtref,
       meta: [{
         metaname: "flightID",
