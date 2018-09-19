@@ -5,7 +5,8 @@
       <div class="col-md-6 mb-2">
         <strong>Amount receivable</strong>
         <br>
-        GH₵ <%= request_for_tender.total_receivable %>
+        <%= request_for_tender.tender_currency %> <%= request_for_tender
+                                                      .total_receivable %>
       </div>
     </div>
 
