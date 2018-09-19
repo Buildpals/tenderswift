@@ -128,7 +128,7 @@
       customer_email: email,
       amount: <%= @request_for_tender.amount_to_be_deducted %>,
       customer_phone: customer_number,
-      currency: "USD",
+      currency: "<%= @request_for_tender.tender_currency %>",
       country: "GH",
       payment_options: "mobilemoneyghana,card,mpesa",
       txref: txtref,
