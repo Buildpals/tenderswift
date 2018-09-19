@@ -110,11 +110,11 @@ class RequestForTender < ApplicationRecord
   end
 
   def payment_gateway_charge
-    selling_price * 0.02
+    selling_price * 0.035
   end
 
   def cloud_service_charge
-    selling_price * 0.08
+    selling_price * 0.065
   end
 
   def amount_to_be_deducted
@@ -126,11 +126,7 @@ class RequestForTender < ApplicationRecord
   end
 
   def total_receivable
-    sum = 0
-    tenders.each do |tender|
-      sum += tender.amount if tender.purchased?
-    end
-    sum
+    number_of_tender_purchases * selling_price
   end
 
   def setup_with_data

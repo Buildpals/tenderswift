@@ -3,7 +3,7 @@
 class Tender < ApplicationRecord
   enum purchase_request_status: {
     pending: 0,
-    success: 1,
+    successful: 1,
     failed: 2
   }
 
