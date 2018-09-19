@@ -30,17 +30,8 @@ class PurchaseTenderController < ContractorsController
         contractor = create_contractor
         sign_in(:contractor, contractor)
       end
-      payload = { 'SECKEY': 'FLWSECK-85f9be41b757f9267f1322c70cb95eeb-X' ,
-                  'txref': params[:txtref] }
-      json = payload.to_json
-      puts json
-      connection = Faraday.new('https://ravesandboxapi.flutterwave.com/flwv3-pug/getpaidx/api/v2/verify')
-      response = connection.post do |req|
-        req.headers['Content-Type'] = 'application/json'
-        req.body = json
-      end
-      puts response.body.class
-      response = ActiveSupport::JSON.decode(response.body)
+      rave = RavePay.new
+      response = rave.call(params[:txref])
       response_charge_code = response['data']['chargecode']
       purchase_request_status = response['data']['status']
       if response_charge_code == '00' || response_charge_code == '0'
@@ -51,31 +42,24 @@ class PurchaseTenderController < ContractorsController
                       purchased_at: Time.now,
                       purchase_request_status: purchase_request_status,
                       contractor: contractor)
-      end
-      if @request_for_tender.selling_price == 0
-        flash[:notice] = 'Welcome. Please fill in the' \
+        if @request_for_tender.selling_price == 0
+          flash[:notice] = 'Welcome. Please fill in the' \
                          'information below, then you can start bidding'
+        else
+          flash[:notice] = 'You have purchased this tender successfully'
+        end
+        flash.keep(:notice) # Keep flash notice around for the redirect.
+        sign_out(contractor)
+        sign_in(:contractor, contractor)
+        redirect_to contractor_root_path
       else
-        flash[:notice] = 'You have purchased this tender successfully'
+        redirect_to purchase_tender_path @request_for_tender
       end
-      flash.keep(:notice) # Keep flash notice around for the redirect.
-      sign_out(contractor)
-      sign_in(:contractor, contractor)
-      redirect_to contractor_root_path
     else
       # contractor has signed in
-      payload = { 'SECKEY': 'FLWSECK-85f9be41b757f9267f1322c70cb95eeb-X' ,
-                  'txref': params[:txtref] }
-      json = payload.to_json
-      connection = Faraday.new('https://ravesandboxapi.flutterwave.com/flwv3-pug/getpaidx/api/v2/verify')
-      response = connection.post do |req|
-        req.headers['Content-Type'] = 'application/json'
-        req.body = json
-      end
-      puts response.body.inspect
-      response = ActiveSupport::JSON.decode(response.body)
+      rave = RavePay.new
+      response = rave.call(params[:txref])
       response_charge_code = response['data']['chargecode']
-      amount = response['data']['amount']
       purchase_request_status = response['data']['status']
       if response_charge_code == '00' || response_charge_code == '0'
         Tender.create(request_for_tender: @request_for_tender,
@@ -85,15 +69,18 @@ class PurchaseTenderController < ContractorsController
                       purchase_request_status: purchase_request_status,
                       purchased_at: Time.now,
                       contractor: current_contractor)
-      end
-      if @request_for_tender.selling_price == 0
-        flash[:notice] = 'Welcome. Please fill in the' \
+
+        if @request_for_tender.selling_price == 0
+          flash[:notice] = 'Welcome. Please fill in the' \
                          'information below, then you can start bidding'
+        else
+          flash[:notice] = 'You have purchased this tender successfully'
+        end
+        flash.keep(:notice) # Keep flash notice around for the redirect.
+        redirect_to contractor_root_path
       else
-        flash[:notice] = 'You have purchased this tender successfully'
+        redirect_to purchase_tender_path @request_for_tender
       end
-      flash.keep(:notice) # Keep flash notice around for the redirect.
-      redirect_to contractor_root_path
     end
   end
 
