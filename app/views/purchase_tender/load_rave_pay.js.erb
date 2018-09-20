@@ -1,0 +1,56 @@
+ const API_publicKey = "FLWPUBK-207b28f99def5b0533a3dd56d99ae748-X";
+
+  function generateRandomCode(length) {
+  return Math.floor(Math.pow(10, length-1) + Math.random() * 9 * Math.pow(10, length-1));
+}
+
+  function payWithRave() {
+  let email;
+  <% if current_contractor %>
+  email = "<%= current_contractor.email %>"
+  <% else %>
+  email = document.getElementById("email").value;
+  <% end %>
+  let customer_number = document.getElementById("customer_number").value;
+  let txtref =  generateRandomCode(12);
+  console.log(txtref);
+  //$("#paymentModal").modal('hide');
+  var x = getpaidSetup({
+  PBFPubKey: API_publicKey,
+  customer_email: email,
+  amount: <%= @request_for_tender.amount_to_be_deducted %>,
+  customer_phone: customer_number,
+  currency: "<%= @request_for_tender.tender_currency %>",
+  country: "GH",
+  payment_options: "mobilemoneyghana,card",
+  txref: txtref,
+  meta: [{
+  metaname: "flightID",
+  metavalue: "AP1234"
+}],
+  onclose: function() {},
+  callback: function(response) {
+  var txref = response.tx.txRef; // collect flwRef returned and pass to a 					server page to complete status check.
+  console.log("This is the response returned after a charge", response);
+  if (
+  response.tx.chargeResponseCode == "00" ||
+  response.tx.chargeResponseCode == "0"
+  ) {
+  // redirect to a success page
+  id = <%= @request_for_tender.id %>
+  window.location.href = "/purchase_tender/"+ id
+  +"/payment?email="+email+"&customer_number\="+customer_number
+  +"&txref="+txref
+} else {
+  // redirect to a failure page.
+}
+
+  x.close(); // use this to close the modal immediately after payment.
+}
+});
+}
+
+console.log('dfdfdfg')
+$("#paymentModal").modal('hide');
+console.log('dfdfdfg')
+payWithRave();

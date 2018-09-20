@@ -22,65 +22,31 @@ class PurchaseTenderController < ContractorsController
 
   def payment
     #authorize @request_for_tender
-    puts params.inspect
-    # contractor is not signed in
-    if current_contractor.nil?
-      contractor = Contractor.find_by(email: params[:email])
-      if contractor.nil?
-        contractor = create_contractor
-        sign_in(:contractor, contractor)
-      end
-      rave = RavePay.new
-      response = rave.call(params[:txref])
-      response_charge_code = response['data']['chargecode']
-      purchase_request_status = response['data']['status']
-      if response_charge_code == '00' || response_charge_code == '0'
-        Tender.create(request_for_tender: @request_for_tender,
-                      customer_number: params[:customer_number],
-                      amount: @request_for_tender.selling_price,
-                      transaction_id: params[:txtref],
-                      purchased_at: Time.now,
-                      purchase_request_status: purchase_request_status,
-                      contractor: contractor)
-        if @request_for_tender.selling_price == 0
-          flash[:notice] = 'Welcome. Please fill in the' \
+    contractor = Contractor.find_by(email: params[:email])
+    rave = RavePay.new
+    response = rave.call(params[:txref])
+    response_charge_code = response['data']['chargecode']
+    purchase_request_status = response['data']['status']
+    if response_charge_code == '00' || response_charge_code == '0'
+      Tender.create(request_for_tender: @request_for_tender,
+                    customer_number: params[:customer_number],
+                    amount: @request_for_tender.selling_price,
+                    transaction_id: params[:txtref],
+                    purchased_at: Time.now,
+                    purchase_request_status: purchase_request_status,
+                    contractor: contractor)
+      if @request_for_tender.selling_price == 0
+        flash[:notice] = 'Welcome. Please fill in the' \
                          'information below, then you can start bidding'
-        else
-          flash[:notice] = 'You have purchased this tender successfully'
-        end
-        flash.keep(:notice) # Keep flash notice around for the redirect.
-        sign_out(contractor)
-        sign_in(:contractor, contractor)
-        redirect_to contractor_root_path
       else
-        redirect_to purchase_tender_path @request_for_tender
+        flash[:notice] = 'You have purchased this tender successfully'
       end
+      flash.keep(:notice) # Keep flash notice around for the redirect.
+      sign_out(contractor)
+      sign_in(:contractor, contractor)
+      redirect_to contractor_root_path
     else
-      # contractor has signed in
-      rave = RavePay.new
-      response = rave.call(params[:txref])
-      response_charge_code = response['data']['chargecode']
-      purchase_request_status = response['data']['status']
-      if response_charge_code == '00' || response_charge_code == '0'
-        Tender.create(request_for_tender: @request_for_tender,
-                      customer_number: params[:customer_number],
-                      amount: @request_for_tender.selling_price,
-                      transaction_id: params[:txtref],
-                      purchase_request_status: purchase_request_status,
-                      purchased_at: Time.now,
-                      contractor: current_contractor)
-
-        if @request_for_tender.selling_price == 0
-          flash[:notice] = 'Welcome. Please fill in the' \
-                         'information below, then you can start bidding'
-        else
-          flash[:notice] = 'You have purchased this tender successfully'
-        end
-        flash.keep(:notice) # Keep flash notice around for the redirect.
-        redirect_to contractor_root_path
-      else
-        redirect_to purchase_tender_path @request_for_tender
-      end
+      redirect_to purchase_tender_path @request_for_tender
     end
   end
 
@@ -92,25 +58,19 @@ class PurchaseTenderController < ContractorsController
       if contractor.nil?
         contractor = create_contractor
         sign_in(:contractor, contractor)
+        render 'load_rave_pay'
+        return
       elsif params[:password].blank?
         render 'blank_password'
         return
       elsif contractor.valid_password?(params[:password])
         sign_in(:contractor, contractor)
+        render 'load_rave_pay'
+        return
       else
         render 'wrong_password'
         return
       end
-    end
-
-    @purchaser = RequestForTenderPurchaser.build(
-      contractor: current_contractor,
-      request_for_tender: @request_for_tender
-    )
-    if @purchaser.purchase(payment_params)
-      render 'monitor_purchase'
-    else
-      render 'purchase_tender_error'
     end
   end
 
@@ -171,7 +131,7 @@ class PurchaseTenderController < ContractorsController
 
   def payment_params
     params.permit(:network_code, :customer_number, :vodafone_voucher_code,
-                  :email, :company_name)
+                  :email, :company_name, :password)
   end
 
   def complete_transaction_params
