@@ -71,6 +71,8 @@ class PurchaseTenderController < ContractorsController
         render 'wrong_password'
         return
       end
+    else
+      render 'load_rave_pay'
     end
   end
 
