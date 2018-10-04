@@ -11,7 +11,7 @@ class ContractorsController < ApplicationController
     end
 
     @invitations_to_tender = []
-    RequestForTender.published.deadline_not_passed.each do |rft|
+    RequestForTender.submitted.deadline_not_passed.each do |rft|
       tender = rft.tenders.find_by(contractor_id: current_contractor.id)
       @invitations_to_tender.push rft if tender&.purchased_at.nil?
     end
