@@ -4,9 +4,18 @@
     <b-tabs end no-fade>
       <b-tab :title="sheetName" v-for="sheetName in workBook.SheetNames">
         <div id="example-container" class="wrapper">
-          <worksheet :options="options"
+
+          <comparison-worksheet v-if="tenders"
+                                :options="options"
+                                :tenders="tenders"
+                                :sheetAddress="sheetName"
+                                :worksheet="workBook.Sheets[sheetName]"/>
+
+          <worksheet v-else
+                     :options="options"
                      :sheetAddress="sheetName"
                      :worksheet="workBook.Sheets[sheetName]"/>
+
         </div>
       </b-tab>
     </b-tabs>
@@ -24,14 +33,18 @@
   } from '../utils'
 
   import EventBus from '../EventBus'
+  import ComparisonWorksheet from './ComparisonWorksheet'
 
   export default {
-    components: {Worksheet},
+    components: {ComparisonWorksheet, Worksheet},
 
     props: {
       workbook: {
         type: Object,
         required: true
+      },
+      tenders: {
+        type: Array
       },
       options: {
         type: Object,
@@ -48,6 +61,7 @@
     },
 
     mounted () {
+      // Add columns of cells
       recalculateFormulas(this.workBook)
       EventBus.$on('cell-change', this.updateWorkbook)
     },
