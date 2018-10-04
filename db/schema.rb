@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180914104027) do
+ActiveRecord::Schema.define(version: 20180919113726) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -122,6 +122,17 @@ ActiveRecord::Schema.define(version: 20180914104027) do
     t.index ["reset_password_token"], name: "index_publishers_on_reset_password_token", unique: true
   end
 
+  create_table "rates", force: :cascade do |t|
+    t.bigint "tender_id"
+    t.string "sheet"
+    t.integer "row"
+    t.decimal "value"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["row"], name: "index_rates_on_row"
+    t.index ["tender_id"], name: "index_rates_on_tender_id"
+  end
+
   create_table "request_for_tenders", force: :cascade do |t|
     t.bigint "publisher_id"
     t.string "project_name"
@@ -149,6 +160,7 @@ ActiveRecord::Schema.define(version: 20180914104027) do
     t.bigint "version_number", default: 0, null: false
     t.jsonb "list_of_rates", default: {}
     t.string "contract_class"
+    t.string "tender_currency", default: "USD", null: false
     t.index ["publisher_id"], name: "index_request_for_tenders_on_publisher_id"
   end
 

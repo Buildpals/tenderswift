@@ -12,10 +12,20 @@
       <div class="col-md-12">
         <%= form.label :selling_price %>
       </div>
-      <div class="col-md-3">
+      <div class="col-md-5">
         <div class="input-group">
           <div class="input-group-prepend">
-            <span class="input-group-text">GH₵</span>
+            <%= form.select :tender_currency,
+                            [
+                                ['USD - US Dollar', 'USD'],
+                                ['GHS - Ghanaian Cedi', 'GHS']
+                            ],
+                            {},
+                            {
+                                id: :tender_currency,
+                                class: 'form-control form-control-sm',
+                            }
+            %>
           </div>
           <%= form.text_field :selling_price,
                               id: :request_for_tender_selling_price,

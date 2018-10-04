@@ -113,6 +113,7 @@ class RequestForTenders::BuildController < PublishersController
                   :private,
                   :tender_figure_address,
                   :version_number,
+                  :tender_currency,
                   list_of_rates: {},
                   project_documents_attributes: %i[id
                                                    document

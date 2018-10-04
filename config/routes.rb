@@ -138,6 +138,10 @@ Rails.application.routes.draw do
       to: 'purchase_tender#portal',
       as: :purchase_tender
 
+  get '/purchase_tender/:id/payment',
+      to: 'purchase_tender#payment',
+      as: :buy_request_for_tender
+
   post '/purchase_tender/:id',
        to: 'purchase_tender#purchase'
 

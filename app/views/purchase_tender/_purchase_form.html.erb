@@ -1,3 +1,4 @@
+<script src="https://ravesandboxapi.flutterwave.com/flwv3-pug/getpaidx/api/flwpbf-inline.js"></script>
 <table class="text-right mb-4 mx-auto">
 
   <tr>
@@ -29,7 +30,7 @@
 
   <tr>
     <td class="pr-2">
-      Amount to be deducted (GH₵):
+      Amount to be deducted (<%= @request_for_tender.tender_currency %>):
     </td>
     <td id="total-cost">
       <%= @request_for_tender.amount_to_be_deducted %>
@@ -63,27 +64,6 @@
   <% end %>
 
   <div class="form-group">
-    <%= form.label :network_code, 'Mode of payment' %>
-    <%= form.select :network_code,
-                    options_for_select(
-                        {
-                            'Airtel Money': 'AIR',
-                            'MTN Mobile Money': 'MTN',
-                            'Tigo Cash': 'TIG',
-                            'Vodafone Cash': 'VOD'
-                        },
-                        'MTN'
-                    ),
-                    {},
-                    {
-                        selected: 'Airtel Money',
-                        id: :network_code,
-                        class: 'form-control form-control-sm',
-                        required: true
-                    } %>
-  </div>
-
-  <div class="form-group">
     <%= form.label :customer_number, 'Phone number' %>
     <%= form.telephone_field :customer_number,
                              id: :customer_number,
@@ -94,8 +74,8 @@
                              'aria-describedby': 'telephoneHelp',
                              required: true %>
     <small id="telephoneHelp" class="form-text text-muted">
-      Enter the number we should take the money from above.
-      It should be exactly 10 digits long, in the format 054xxxxxxx.
+      Your phone number should be exactly 10 digits long, in the format
+      054xxxxxxx.
     </small>
   </div>
 
@@ -113,7 +93,9 @@
     </small>
   </div>
 
-  <%= button_tag 'Purchase',
+
+
+  <%= button_tag 'Continue',
                  id: :make_purchase_button,
                  class: 'btn btn-accent btn-block mt-3' %>
 

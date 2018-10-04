@@ -12,7 +12,7 @@
         <strong>Selling price</strong>
         <br>
         <span id="selling-price-of-tender">
-          GH₵ <%= request_for_tender.selling_price %>
+          <%= request_for_tender.tender_currency %> <%= request_for_tender.selling_price %>
         </span>
       </div>
 
@@ -20,7 +20,8 @@
         <strong>Amount receivable</strong>
         <br>
         <span id="amount-receivable">
-          GH₵ <%= request_for_tender.total_receivable %>
+          <%= request_for_tender.tender_currency %> <%= request_for_tender
+          .total_receivable %>
         </span>
       </div>
     </div>
