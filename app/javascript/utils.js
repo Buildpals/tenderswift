@@ -35,7 +35,7 @@ export function getRates (workbook) {
   workbook.SheetNames.forEach(sheetName => {
     let worksheet = workbook.Sheets[sheetName]
     let lastRow = lastRowWithValues(worksheet)
-    for (let row = 0; row < lastRow; row++) {
+    for (let row = 0; row <= lastRow; row++) {
       if (worksheet[`E${row}`] &&
         worksheet[`E${row}`].c === 'allowEditing' &&
         worksheet[`E${row}`].v) {

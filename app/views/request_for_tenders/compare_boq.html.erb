@@ -14,18 +14,20 @@
   </li>
 <% end %>
 
-<div class="hello">
-  <rates-comparer
-    :request-for-tender="<%= @request_for_tender.to_json(
-                                 only: [:id,
-                                        :tender_figure_address,
-                                        :version_number],
-                                 methods: :compare_workbook,
-                                 include: :excel_file) %>"
-    :list_of_items="<%= @request_for_tender.list_of_items.to_json %>"
-    :tenders="<%= @request_for_tender.tenders.submitted.not_disqualified.to_json(
-                      only: [:id, :list_of_rates],
-                      methods: :contractors_company_name
-                  ) %>">
-  </rates-comparer>
+<% console %>
+
+<div class="container-fluid" style="padding-left: 0px; padding-right: 15px;">
+  <div class="row">
+    <div class="col-12">
+
+      <div class="hello">
+        <workbook
+          :workbook="<%= @request_for_tender.workbook.to_json %>"
+          :tenders="<%= @request_for_tender
+                        .tenders_with_mine.to_json %>">
+        </workbook>
+      </div>
+
+    </div>
+  </div>
 </div>
