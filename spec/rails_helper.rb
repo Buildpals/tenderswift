@@ -82,7 +82,6 @@ end
 
 require 'pundit/matchers'
 require 'capybara/poltergeist'
-require 'simplecov'
 require 'support/fake_korba_web'
 
 # Register various javascript drivers
@@ -112,5 +111,3 @@ end
 # Switch between :selenium, :chrome, :headless_chrome and :poltergeist
 # when necessary
 Capybara.javascript_driver = :chrome
-
-SimpleCov.start 'rails'
