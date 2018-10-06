@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Contractor, type: :model do
+RSpec.fdescribe Contractor, type: :model do
   let(:tender) { FactoryBot.create(:tender) }
 
   describe 'Associations' do
