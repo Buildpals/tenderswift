@@ -23,7 +23,7 @@ FactoryBot.define do
 
     trait :purchased do
       purchase_request_sent_at Time.current - 2.hours
-      purchase_request_status :success
+      purchase_request_status 1
       purchase_request_message 'Successful transaction'
       amount { request_for_tender.selling_price }
       purchased_at Time.current

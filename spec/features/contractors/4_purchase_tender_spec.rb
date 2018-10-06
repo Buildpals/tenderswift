@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.feature 'Purchasing a tender', js: true do
+RSpec.xfeature 'Purchasing a tender', js: true do
   include RequestForTendersHelper
 
   context 'Invitation to tender that has not been purchased already' do
