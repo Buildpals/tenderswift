@@ -4,23 +4,24 @@
     <div v-if="hasWorkbook" class="mb-4">
 
       <div class="d-flex justify-content-start align-items-baseline mb-2">
-        Please enter the cell address of your tender figure:
+        Your tender figure is:
 
         <div class="ml-2">
           <div class="input-group input-group-sm">
-            <input type="text"
-                   class="form-control"
-                   placeholder="Tender figure address"
-                   v-model.lazy="requestForTender.tender_figure_address"
-                   @change="saveTenderFigureAddress">
             <div class="input-group-append">
-          <span class="input-group-text amount"
-                id="tenderFigure">
-            {{ formatNumber(tenderFigure) }}
-          </span>
+              <span class="input-group-text amount"
+                    id="tenderFigure">
+                {{ formatNumber(tenderFigure) }}
+              </span>
             </div>
+            <b-btn v-b-modal.chooseTenderFigureAddress
+                   size="sm"
+                   variant="warning">
+              Change Tender Figure
+            </b-btn>
           </div>
         </div>
+
 
         <div class="ml-auto">
           <b-btn v-b-modal.uploadExcelFileModal
@@ -73,6 +74,14 @@
 
     </b-modal>
 
+    <b-modal id="chooseTenderFigureAddress"
+             ref="chooseTenderFigureAddress"
+             hide-footer
+             title="Choose Tender Figure Address">
+      <choose-tender-figure-address
+        :initial-request-for-tender="requestForTender" />
+    </b-modal>
+
   </div>
 </template>
 
@@ -81,11 +90,13 @@
   import ExcelFileUploader from './ExcelFileUploader'
   import { getRates } from '../utils'
   import TenderSwiftMixins from '../TenderSwiftMixins'
+  import ChooseTenderFigureAddress from './ChooseTenderFigureAddress'
+  import EventBus from '../EventBus'
 
   export default {
     mixins: [TenderSwiftMixins],
 
-    components: {ExcelFileUploader, Workbook},
+    components: {ChooseTenderFigureAddress, ExcelFileUploader, Workbook},
 
     props: [
       'initialRequestForTender'
@@ -95,22 +106,28 @@
       return {
         requestForTender: this.initialRequestForTender,
         ratesStatus: '',
-        tenderFigureAddressStatus: ''
+        tenderFigureAddressStatus: '',
+        sheetNameForExcel: '',
+        rowNumber: '',
+        columnNumber: '',
+        reload: ''
       }
+    },
+
+    mounted () {
+      EventBus.$on('close-modal', this.hideModal)
     },
 
     computed: {
       tenderFigure () {
         const address = this.requestForTender.tender_figure_address
         if (!address) return '          '
-
         let address_of_cell = address.split('!')[1]
         let sheetName = address.split('!')[0]
-
         let worksheet = this.requestForTender.workbook.Sheets[sheetName]
         if (!worksheet) return undefined
         let desired_cell = worksheet[address_of_cell]
-        return desired_cell ? desired_cell.v : undefined
+        return desired_cell ? desired_cell.v : 'No Value'
       },
 
       hasWorkbook () {
@@ -128,31 +145,24 @@
         console.log('after-upload2', value.Sheets)
 
         this.$refs.uploadExcelFileModal.hide()
-        location.reload();
+        //
+        this.$refs.chooseTenderFigureAddress.show()
+
+        this.reload = true
       },
+
+      hideModal ({ tenderFigureAddress }) {
+        console.log(tenderFigureAddress)
+        this.$refs.chooseTenderFigureAddress.hide()
+        if( this.reload == true){
+          location.reload();
+        }
+        this.reload = false
+      },
+
 
       uploadError (value) {
         // TODO: Handle error
-      },
-
-      saveTenderFigureAddress () {
-        this.tenderFigureAddressStatus = 'Saving...'
-
-        let url = `/request_for_tenders/${this.requestForTender.id}` +
-          `/build/bill_of_quantities`
-
-        this.$http.patch(url, {
-          request_for_tender: {
-            tender_figure_address: this.requestForTender.tender_figure_address
-          }
-        }).then(response => {
-          this.tenderFigureAddressStatus =
-            'All changes saved to TenderSwift\'s servers'
-        }).catch(error => {
-          this.tenderFigureAddressStatus =
-            'Error saving changes'
-          console.error(error)
-        })
       },
 
       saveRates (workbook) {
