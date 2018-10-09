@@ -120,6 +120,9 @@ group :development, :test do
   gem 'codacy-coverage', require: false
 
   gem 'rspec_junit_formatter'
+
+  gem 'email_spec'
+  gem 'capybara-email'
 end
 
 group :development do

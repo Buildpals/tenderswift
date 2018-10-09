@@ -14,6 +14,5 @@ RSpec.describe Publisher, type: :model do
     it { should validate_presence_of(:email) }
     it 'should validate uniqueness of emails'
     it 'should validate format of email'
-    it { should validate_presence_of(:phone_number) }
   end
 end
