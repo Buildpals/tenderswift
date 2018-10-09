@@ -1,4 +1,11 @@
 <div id="flashes">
+  <% if current_publisher && current_publisher.password.nil? %>
+    <div class="alert alert-danger" role="alert">
+      Your account has no password. Log out and
+      check your email for a mail from us containing instructions to reset your
+      password.
+    </div>
+  <% end %>
   <% flash.each do |key, value| %>
     <div class="alert alert-<%= flash_class(key) %> alert-dismissible fade show"
          role="alert">
