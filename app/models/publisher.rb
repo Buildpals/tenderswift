@@ -8,7 +8,8 @@ class Publisher < ApplicationRecord
          :recoverable,
          :rememberable,
          :trackable,
-         :validatable
+         :validatable,
+         :confirmable
 
   mount_uploader :company_logo, CompanyLogoUploader
 
@@ -27,9 +28,13 @@ class Publisher < ApplicationRecord
                                   case_sensitive: false },
                     format: EMAIL_REGEX
 
-  validates :phone_number, presence: true
-
   def name
     "#{company_name} (#{email})"
+  end
+
+  protected
+
+  def password_required?
+    confirmed? ? super : false
   end
 end

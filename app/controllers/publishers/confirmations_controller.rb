@@ -3,6 +3,8 @@
 class Publishers::ConfirmationsController < Devise::ConfirmationsController
   include Accessible
 
+  skip_before_action :check_user, only: :show
+
   # GET /resource/confirmation/new
   # def new
   #   super
@@ -29,4 +31,10 @@ class Publishers::ConfirmationsController < Devise::ConfirmationsController
   # def after_confirmation_path_for(resource_name, resource)
   #   super(resource_name, resource)
   # end
+
+  def after_confirmation_path_for(resource_name, resource)
+    sign_out resource if signed_in?(resource_name)
+    token = resource.send(:set_reset_password_token)
+    edit_password_url(resource, reset_password_token: token)
+  end
 end
