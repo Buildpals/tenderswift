@@ -103,14 +103,22 @@
         <% end %>
       </div>
 
-
-      <div class="mb-5">
-        <h3>Change password</h3>
-        <hr>
-        <a href="<%= edit_publisher_registration_path(current_publisher) %>">
-          Change password
-        </a>
-      </div>
+      <% unless current_publisher.password.nil? %>
+        <div class="mb-5">
+          <h3>Change password</h3>
+          <hr>
+          <a href="<%= edit_publisher_registration_path(current_publisher) %>">
+            Change password
+          </a>
+        </div>
+      <% else %>
+        <div class="mb-5">
+          <h3>Set password</h3>
+          <hr>
+          Log out and check your email for a mail from us containing
+          instructions to reset your password
+        </div>
+      <% end %>
 
     </div>
   </div>

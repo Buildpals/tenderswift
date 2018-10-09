@@ -77,7 +77,7 @@ def then_the_rft_should_appear_in_unpublished_tenders_as_publishing(
   within :css, '#unpublished-request-for-tenders' do
     within page.find('a', text: request_for_tender.project_name) do
       expect(page).to have_content request_for_tender.project_name
-      expect(page).to have_content 'publishing..'
+      expect(page).to have_content 'published'
       expect(page).to have_content project_location request_for_tender
     end
   end
