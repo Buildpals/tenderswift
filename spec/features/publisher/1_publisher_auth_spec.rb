@@ -9,13 +9,13 @@ RSpec.feature 'Publisher authentication', type: :feature, js: true do
   scenario 'should sign up a new publisher successfully', js: true do
     visit new_publisher_registration_path
 
-    fill_in 'Your name', with: new_publisher.full_name
+    #fill_in 'Your name', with: new_publisher.full_name
     fill_in 'Email address', with: new_publisher.email
-    fill_in 'Phone number', with: new_publisher.phone_number
+    #fill_in 'Phone number', with: new_publisher.phone_number
     fill_in 'Company name', with: new_publisher.company_name
-    attach_file('Company logo', Rails.root + 'spec/fixtures/company_logo.png')
-    fill_in 'Password', with: new_publisher.password
-    fill_in 'Password confirmation', with: new_publisher.password
+    #attach_file('Company logo', Rails.root + 'spec/fixtures/company_logo.png')
+    #fill_in 'Password', with: new_publisher.password
+    #fill_in 'Password confirmation', with: new_publisher.password
 
     click_button 'Sign up'
 
