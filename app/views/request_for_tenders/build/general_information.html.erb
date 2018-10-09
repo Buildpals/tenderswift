@@ -43,7 +43,7 @@
           <%= form.label :currency %>
           <%= form.select :currency,
                           [
-                              ['GHS - Ghanaian Cedi', 'GHS'],
+                              ['Rupee - Indian Rupee', 'Rupee'],
                               ['USD - United States Dollar', 'USD']
                           ],
                           {},
@@ -52,8 +52,7 @@
                               class: 'form-control form-control-sm',
                           } %>
           <small class="form-text text-muted">
-            This currency will be used for the Bill Of Quantities, as well as
-            the selling price of the tender
+            This currency will be used for the Bill Of Quantities.
           </small>
         </div>
       </div>
@@ -84,10 +83,7 @@
       <div class="col-md-4">
         <div class="form-group">
           <%= form.label :country %>
-          <%= form.country_select :country_code,
-                                  {
-                                      only: %w(GH)
-                                  },
+          <%= form.country_select :country_code, { selected: 'IN' },
                                   {
                                       id: :request_for_tender_country,
                                       class: 'form-control form-control-sm'
