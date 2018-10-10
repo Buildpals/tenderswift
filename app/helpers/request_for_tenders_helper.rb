@@ -20,8 +20,13 @@ module RequestForTendersHelper
   end
 
   def project_location(request_for_tender)
-    c = ISO3166::Country[request_for_tender.country_code]
-    country = c.translations[I18n.locale.to_s] || c.name
+    if request_for_tender.country_code
+      c = ISO3166::Country[request_for_tender.country_code]
+      country = c.translations[I18n.locale.to_s] || c.name
+    else
+      country = ""
+    end
+
     "#{request_for_tender.city.present? ? request_for_tender.city : 'N/A'}, #{country}"
   end
 

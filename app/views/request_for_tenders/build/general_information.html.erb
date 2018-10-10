@@ -83,7 +83,11 @@
       <div class="col-md-4">
         <div class="form-group">
           <%= form.label :country %>
-          <%= form.country_select :country_code, { selected: 'IN' },
+          <%= form.country_select :country_code,
+                                  {
+                                      priority_countries:
+                                          %w(IN TH ID PK BD PH EG NG MX)
+                                  },
                                   {
                                       id: :request_for_tender_country,
                                       class: 'form-control form-control-sm'
@@ -94,7 +98,9 @@
       <div class="col-md-6">
         <div class="form-group">
           <%= form.label :city, 'City/Town' %>
-          <%= form.text_field :city, id: :request_for_tender_city, class: 'form-control form-control-sm' %>
+          <%= form.text_field :city,
+                              id: :request_for_tender_city,
+                              class: 'form-control form-control-sm' %>
         </div>
       </div>
     </div>
