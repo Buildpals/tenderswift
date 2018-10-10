@@ -6,31 +6,38 @@ RSpec.feature 'Create request for tender', js: true do
   let!(:publisher) { FactoryBot.create(:publisher) }
   let!(:general_information) { FactoryBot.build(:request_for_tender) }
 
-  let!(:request_for_tender) do
+  let!(:empty_request_for_tender) do
     FactoryBot.create(:empty_request_for_tender,
+                      publisher: publisher)
+  end
+
+  let!(:filled_request_for_tender) do
+    FactoryBot.create(:request_for_tender, :not_submitted, :not_published,
                       publisher: publisher)
   end
 
   scenario 'should save the general information of a request for tender' do
     given_a_publisher_who_has_logged_in
 
-    when_they_add_the_general_information_for_an_rft(request_for_tender,
+    when_they_add_the_general_information_for_an_rft(empty_request_for_tender,
                                                      general_information)
 
-    then_it_should_save_the_general_information(request_for_tender,
+    then_it_should_save_the_general_information(empty_request_for_tender,
                                                 general_information)
   end
 
   scenario 'should display next step in create request for tender wizard' do
     given_a_publisher_who_has_logged_in
 
-    when_they_add_the_general_information_for_an_rft(request_for_tender,
-                                                     general_information)
+    visit request_for_tender_build_path(filled_request_for_tender,
+                                        :general_information)
 
-    expect(page).to have_current_path(request_for_tender_build_path(request_for_tender,
-                                                                    :bill_of_quantities))
-    expect(page).to have_content 'You have not uploaded a Bill of Quantities yet,
-                                        click the button below to upload one. '
+    click_button 'Save and continue', match: :first
+
+    expect(page).to have_current_path(
+                        request_for_tender_build_path(filled_request_for_tender,
+                                                      :bill_of_quantities)
+                    )
   end
 end
 
@@ -44,7 +51,6 @@ def when_they_add_the_general_information_for_an_rft(request_for_tender,
                                       :general_information)
 
   fill_in 'Project name', with: general_information.project_name
-  select 'GHS - Ghanaian Cedi', from: 'Currency'
 
   select general_information.deadline.strftime('%-d'),
          from: 'request_for_tender_deadline_3i'
@@ -100,9 +106,7 @@ def then_it_should_save_the_general_information(request_for_tender,
     .to have_select 'request_for_tender_deadline_5i',
                     selected: general_information.deadline.strftime('%M')
 
-  expect(page)
-    .to have_select 'Country',
-                    selected: 'Ghana'
+  expect(page).to have_select 'Country', selected: 'Ghana'
 
   expect(page).to have_field 'City',
                              with: general_information.city

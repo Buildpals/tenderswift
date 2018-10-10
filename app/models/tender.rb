@@ -56,7 +56,6 @@ class Tender < ApplicationRecord
   delegate :city, to: :request_for_tender
   delegate :description, to: :request_for_tender
   delegate :country_code, to: :request_for_tender
-  delegate :currency, to: :request_for_tender
   delegate :tender_instructions, to: :request_for_tender
   delegate :selling_price, to: :request_for_tender
   delegate :private, to: :request_for_tender

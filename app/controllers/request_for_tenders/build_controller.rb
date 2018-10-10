@@ -101,7 +101,6 @@ class RequestForTenders::BuildController < PublishersController
                   :city,
                   :description,
                   :country_code,
-                  :currency,
                   :tender_instructions,
                   :selling_price,
                   :withdrawal_frequency,

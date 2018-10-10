@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181010134718) do
+ActiveRecord::Schema.define(version: 20181010140342) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -129,7 +129,6 @@ ActiveRecord::Schema.define(version: 20181010134718) do
     t.string "city"
     t.text "description"
     t.string "country_code"
-    t.string "currency", default: "GHS", null: false
     t.text "tender_instructions"
     t.integer "selling_price_subunit", default: 10000, null: false
     t.string "bank_name"
