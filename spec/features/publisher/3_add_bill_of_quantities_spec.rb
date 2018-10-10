@@ -35,8 +35,6 @@ RSpec.feature 'Create request for tender', js: true do
     click_link 'Previous'
     expect(page).to have_content 'Please enter the following details about the project.'
     expect(page).to have_content 'Project name'
-    expect(page).to have_content 'Currency'
-    expect(page).to have_content 'Contract class'
   end
 end
 

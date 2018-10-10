@@ -8,8 +8,6 @@ module Features
     expect(page).to have_content request_for_tender.description
 
     user_sees_project_location(request_for_tender)
-    expect(page).to have_content request_for_tender.contract_class
-    user_sees_project_currency(request_for_tender)
 
     user_sees_time_closed(request_for_tender)
     user_sees_tendering_duration(request_for_tender)
@@ -35,14 +33,6 @@ module Features
       expect(page).to have_content "Time closed #{time}"
     else
       expect(page).to have_content "Time left #{time}"
-    end
-  end
-
-  def user_sees_project_currency(request_for_tender)
-    if request_for_tender.currency == 'USD'
-      expect(page).to have_content 'USD - United States Dollar'
-    elsif request_for_tender.currency == 'GHS'
-      expect(page).to have_content 'GHS - Ghanaian Cedi'
     end
   end
 

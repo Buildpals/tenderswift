@@ -30,18 +30,6 @@ module RequestForTendersHelper
     "#{request_for_tender.city.present? ? request_for_tender.city : 'N/A'}, #{country}"
   end
 
-  def project_currency(request_for_tender)
-    if request_for_tender.currency == 'USD'
-      'USD - United States Dollar'
-    elsif request_for_tender.currency == 'GHS'
-      'GHS - Ghanaian Cedi'
-    end
-  end
-
-  def project_currency_symbol(request_for_tender)
-    request_for_tender.currency == 'USD' ? '$' : 'GH₵'
-  end
-
   def time_to_deadline(request_for_tender)
     distance_of_time_in_words_to_now(request_for_tender.deadline)
   end

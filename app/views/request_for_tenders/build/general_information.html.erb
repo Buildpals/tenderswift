@@ -27,39 +27,6 @@
     </div>
 
     <div class="form-row">
-      <div class="col-md-4">
-        <div class="form-group">
-          <%= form.label :contract_class %>
-          <%= form.text_field :contract_class,
-                              id: :request_for_tender_contract_class,
-                              class: 'form-control form-control-sm' %>
-          <small class="form-text text-muted">
-            Example: D1, K1. Ignore this field if you don't need it
-          </small>
-        </div>
-      </div>
-      <div class="col-md-7">
-        <div class="form-group">
-          <%= form.label :currency %>
-          <%= form.select :currency,
-                          [
-                              ['Rupee - Indian Rupee', 'Rupee'],
-                              ['USD - United States Dollar', 'USD']
-                          ],
-                          {},
-                          {
-                              id: :request_for_tender_currency,
-                              class: 'form-control form-control-sm',
-                          } %>
-          <small class="form-text text-muted">
-            This currency will be used for the Bill Of Quantities.
-          </small>
-        </div>
-      </div>
-
-    </div>
-
-    <div class="form-row">
       <div class="col-md-8" id="request_for_tender_deadline">
         <div class="form-group">
           <%= form.label :deadline, 'Tender deadline' %> <br>

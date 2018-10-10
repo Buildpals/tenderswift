@@ -11,7 +11,7 @@ class RequestForTender < ApplicationRecord
 
   monetize :selling_price_subunit,
            as: :selling_price,
-           with_model_currency: :currency
+           with_model_currency: :tender_currency
 
   belongs_to :publisher, inverse_of: :request_for_tenders
 
@@ -72,7 +72,6 @@ class RequestForTender < ApplicationRecord
   validate :check_deadline
 
   validates :project_name,
-            :currency,
             :deadline,
             :country_code,
             :city,
