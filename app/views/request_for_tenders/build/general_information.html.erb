@@ -50,7 +50,8 @@
       <div class="col-md-4">
         <div class="form-group">
           <%= form.label :country %>
-          <%= form.country_select :country_code, { selected: 'IN' },
+          <%= form.country_select :country_code,
+                                  {},
                                   {
                                       id: :request_for_tender_country,
                                       class: 'form-control form-control-sm'
