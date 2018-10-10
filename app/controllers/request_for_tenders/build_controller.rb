@@ -97,12 +97,10 @@ class RequestForTenders::BuildController < PublishersController
   def request_for_tender_params
     params.require(:request_for_tender)
           .permit(:project_name,
-                  :contract_class,
                   :deadline,
                   :city,
                   :description,
                   :country_code,
-                  :currency,
                   :tender_instructions,
                   :selling_price,
                   :withdrawal_frequency,

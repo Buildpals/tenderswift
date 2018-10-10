@@ -12,7 +12,6 @@ RSpec.describe RequestForTender, type: :model do
     before { allow(subject).to receive(:active_or_general_information?).and_return(true) }
     describe 'Validations' do
       it { should validate_presence_of(:project_name) }
-      it { should validate_presence_of(:currency) }
       it { should validate_presence_of(:deadline) }
       it { should validate_presence_of(:country_code) }
       it { should validate_presence_of(:city) }

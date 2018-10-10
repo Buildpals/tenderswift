@@ -113,7 +113,6 @@ RSpec.feature 'Product walkthrough', js: true do
     )
 
     fill_in 'Project name', with: @request_for_tender.project_name
-    select 'GHS - Ghanaian Cedi', from: 'Currency'
 
     select @request_for_tender.deadline.strftime('%-d'),
            from: 'request_for_tender_deadline_3i'
