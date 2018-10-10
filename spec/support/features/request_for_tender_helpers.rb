@@ -8,7 +8,6 @@ module Features
     expect(page).to have_content request_for_tender.description
 
     user_sees_project_location(request_for_tender)
-    expect(page).to have_content request_for_tender.contract_class
     user_sees_project_currency(request_for_tender)
 
     user_sees_time_closed(request_for_tender)

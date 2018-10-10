@@ -9,7 +9,6 @@ FactoryBot.define do
     description 'The structure is a one-storey skeleton frames facility with solid sandcrete block walls as partitions. It covers an area of 478sqm'
     country_code 'GH'
     currency 'GHS'
-    contract_class 'D2, K2'
 
     list_of_items do
       file = File.read(Rails.root + 'spec/fixtures/bill_of_quantities.json')

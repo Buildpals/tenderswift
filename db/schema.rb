@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181009190636) do
+ActiveRecord::Schema.define(version: 20181010134718) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -148,7 +148,6 @@ ActiveRecord::Schema.define(version: 20181009190636) do
     t.datetime "submitted_at"
     t.bigint "version_number", default: 0, null: false
     t.jsonb "list_of_rates", default: {}
-    t.string "contract_class"
     t.string "tender_currency", default: "USD", null: false
     t.index ["publisher_id"], name: "index_request_for_tenders_on_publisher_id"
   end
