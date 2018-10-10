@@ -128,10 +128,11 @@ class RequestForTender < ApplicationRecord
     number_of_tender_purchases * selling_price
   end
 
-  def setup_with_data
+  def setup_with_data(location)
     self.project_name = 'Untitled Project #' \
                         "#{publisher.request_for_tenders.count + 1}"
-    self.country_code = 'GH'
+    self.country_code = location.country_code
+    self.city = location.city
     self.deadline = Time.current + 1.month
     required_documents.build(title: 'Tax Clearance Certificate')
     required_documents.build(title: 'SSNIT Clearance Certificate')
