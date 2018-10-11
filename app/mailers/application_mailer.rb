@@ -1,4 +1,4 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: 'from@example.com'
+  default from: 'TenderSwift <projects@buildpals.com>'
   layout 'mailer'
 end
