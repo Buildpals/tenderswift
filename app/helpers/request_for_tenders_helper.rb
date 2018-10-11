@@ -20,7 +20,7 @@ module RequestForTendersHelper
   end
 
   def project_location(request_for_tender)
-    if request_for_tender.country_code
+    if request_for_tender.country_code.present?
       c = ISO3166::Country[request_for_tender.country_code]
       country = c.translations[I18n.locale.to_s] || c.name
     else
