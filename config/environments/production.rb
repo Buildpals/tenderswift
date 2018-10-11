@@ -98,7 +98,7 @@ Rails.application.configure do
       address: 'smtp.zoho.com',
       port: '465',
       domain: 'buildpals.com',
-      user_name: 'TenderSwift <projects@buildpals.com>',
+      user_name: 'projects@buildpals.com',
       password: 'buildpal$2017',
       authentication: :plain,
       enable_starttls_auto: true,
