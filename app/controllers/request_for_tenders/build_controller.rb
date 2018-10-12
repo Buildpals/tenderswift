@@ -48,6 +48,16 @@ class RequestForTenders::BuildController < PublishersController
     end
   end
 
+  def new
+    @request_for_tender = current_publisher.request_for_tenders.new
+    authorize @request_for_tender
+
+    @request_for_tender.setup_with_data(request.location)
+
+    redirect_to wizard_path(steps.first,
+                            request_for_tender_id: @request_for_tender.id)
+  end
+
   def create
     @request_for_tender = current_publisher.request_for_tenders.new
     authorize @request_for_tender

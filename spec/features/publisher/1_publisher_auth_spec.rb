@@ -19,7 +19,14 @@ RSpec.feature 'Publisher authentication', type: :feature, js: true do
                      'has been sent to your email address. Please open the ' \
                      'link to set a password for your account.'
 
-    should_have_dashboard_content_for new_publisher
+    expect(page).to have_content 'Home'
+    click_link 'Account'
+    expect(page).to have_content "Logged in as #{new_publisher.company_name}"
+    expect(page).to have_content 'Logout'
+
+    expect(page).to have_content 'Untitled Project #'
+    expect(page).to have_content 'Please enter the following details ' \
+                                       'about the project.'
   end
 
   scenario 'should log in an existing publisher successfully' do
@@ -46,7 +53,7 @@ RSpec.feature 'Publisher authentication', type: :feature, js: true do
   def should_have_dashboard_content_for(publisher)
     expect(page).to have_content 'Home'
     click_link 'Account'
-    expect(page).to have_content publisher.company_name
+    expect(page).to have_content "Logged in as #{publisher.company_name}"
     expect(page).to have_content 'Logout'
     expect(page).to have_content 'Unpublished requests for tender'
     expect(page).to have_content 'Published requests for tender'

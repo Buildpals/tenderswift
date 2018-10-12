@@ -16,6 +16,10 @@ class BuildRequestForTenderPolicy
     belongs_to_publisher? && request_for_tender_is_not_published?
   end
 
+  def new?
+    belongs_to_publisher? && request_for_tender_is_not_published?
+  end
+
   def create?
     belongs_to_publisher? && request_for_tender_is_not_published?
   end

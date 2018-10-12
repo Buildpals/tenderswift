@@ -47,19 +47,22 @@ class Publishers::RegistrationsController < Devise::RegistrationsController
   # protected
 
   # If you have extra params to permit, append them to the sanitizer.
-  def configure_sign_up_params
-    devise_parameter_sanitizer.permit(:sign_up, keys: %i[full_name phone_number company_name company_logo])
-  end
-
-  # If you have extra params to permit, append them to the sanitizer.
   # def configure_account_update_params
   #   devise_parameter_sanitizer.permit(:account_update, keys: [:attribute])
   # end
+
+  def configure_sign_up_params
+    devise_parameter_sanitizer.permit(:sign_up, keys: %i[full_name phone_number company_name company_logo])
+  end
 
   # The path used after sign up.
   # def after_sign_up_path_for(resource)
   #   super(resource)
   # end
+
+  def after_sign_up_path_for(_resource)
+    new_request_for_tender_build_path(:new)
+  end
 
   # The path used after sign up for inactive accounts.
   # def after_inactive_sign_up_path_for(resource)
