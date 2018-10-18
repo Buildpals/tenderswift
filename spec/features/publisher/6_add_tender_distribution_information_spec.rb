@@ -56,8 +56,10 @@ def when_they_publish_a_request_for_tender(request_for_tender)
     click_button 'Publish'
   end
 
-  expect(page).to have_content 'Your request for tender has been published' \
-                               'successfully'
+  expect(page).to have_content "Your request for tender has been published. Share " \
+                                "this link "\
+                                "https://public.tenderswift.com/#{request_for_tender.id} " \
+                                "with anyone you wish to submit a bid for this request"
 end
 
 def and_the_request_for_tender_should_have_a_purchase_tender_page(
