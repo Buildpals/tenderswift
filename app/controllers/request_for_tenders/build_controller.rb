@@ -37,7 +37,7 @@ class RequestForTenders::BuildController < PublishersController
         if step == steps.last && current_admin
           publish_the_request_for_tender(@request_for_tender)
         elsif step == steps.last
-          submit_the_request_for_tender(@request_for_tender)
+          publish_the_request_for_tender(@request_for_tender)
         else
           @request_for_tender.status = step.to_s
           @request_for_tender.update_attributes(request_for_tender_params)
@@ -71,23 +71,16 @@ class RequestForTenders::BuildController < PublishersController
   private
 
   def publish_the_request_for_tender(request_for_tender)
+    request_for_tender.submitted_at = Time.current
     request_for_tender.published_at = Time.current
     request_for_tender.status = :active
     request_for_tender.update_attributes(request_for_tender_params)
-    AdminMailer.publish_request_for_tender(request_for_tender).deliver_now
-    render_wizard request_for_tender,
-                  notice: 'The tender has been published successfully'
-  end
-
-  def submit_the_request_for_tender(request_for_tender)
-    request_for_tender.submitted_at = Time.current
-    request_for_tender.status = :active
-    request_for_tender.update_attributes(request_for_tender_params)
-    AdminMailer.submit_request_for_tender(request_for_tender).deliver_now
-    render_wizard request_for_tender,
-                  notice: 'Your request for tender has been submitted, it ' \
-                          'will take at most 24 hours before it becomes ' \
-                          'accessible publicly'
+    redirect_to(
+        confirm_publishing_path(request_for_tender),
+        notice: 'Your request for tender has been published. Share this link ' \
+              "https://public.tenderswift.com/#{request_for_tender.id} " \
+              'with anyone you wish to submit a bid for this request'
+    )
   end
 
   def set_policy
@@ -98,10 +91,6 @@ class RequestForTenders::BuildController < PublishersController
 
   def set_request_for_tender
     @request_for_tender = RequestForTender.find(params[:request_for_tender_id])
-  end
-
-  def finish_wizard_path
-    publisher_root_path
   end
 
   def request_for_tender_params

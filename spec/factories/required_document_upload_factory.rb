@@ -4,7 +4,7 @@ FactoryBot.define do
   factory :required_document_upload do
     required_document
 
-    status 0
+    status {0}
     after :create do |b|
       b.update_column(
           :document,

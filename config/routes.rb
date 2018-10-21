@@ -42,6 +42,10 @@ Rails.application.routes.draw do
     resource :excel_file
   end
 
+  get '/request_for_tenders/:id/confirm_publishing',
+      to: 'request_for_tenders#show',
+      as: :confirm_publishing
+
   get '/request_for_tenders/:id/cash_out_now',
       to: 'request_for_tenders#cash_out_now',
       as: :cash_out_request_for_tender
