@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :other_document_upload do
-    title 'Testing'
+    title {'Testing'}
 
     after :create do |b|
       b.update_column(
