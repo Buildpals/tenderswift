@@ -23,6 +23,15 @@ RSpec.feature 'Create request for tender', js: true do
     )
   end
 
+  scenario 'should set the request for tender price' do
+    invitation_to_tender = FactoryBot.create(:request_for_tender)
+    visit purchase_tender_path invitation_to_tender
+    expect(page).to have_content("
+          Purchase this tender for
+          #{invitation_to_tender.tender_currency} #{invitation_to_tender.amount_to_be_deducted}
+      ")
+  end
+
   xscenario 'should not send admin an email when an already published request' \
            'for tender is published again' do
     given_a_publisher_who_has_logged_in
@@ -32,7 +41,8 @@ RSpec.feature 'Create request for tender', js: true do
         .to change {ActionMailer::Base.deliveries.count}.by(0)
   end
 
-  scenario 'should display previous step of create request for tender wizard' do
+  scenario 'should display previous step of create request for tender
+wizard' do
     given_a_publisher_who_has_logged_in
     visit request_for_tender_build_path(request_for_tender, :distribution)
     click_link 'Previous'
