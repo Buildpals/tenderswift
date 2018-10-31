@@ -87,10 +87,12 @@ class RequestForTenders::BuildController < PublishersController
     request_for_tender.status = :active
     request_for_tender.update_attributes(request_for_tender_params)
     AdminMailer.submit_request_for_tender(request_for_tender).deliver_now
-    render_wizard request_for_tender,
-                  notice: 'Your request for tender has been submitted, it ' \
-                          'will take at most 24 hours before it becomes ' \
-                          'accessible publicly'
+    redirect_to(
+        confirm_publishing_path(request_for_tender),
+        notice: 'Your request for tender has been published. Share this link ' \
+              "https://public.tenderswift.com/#{request_for_tender.id} " \
+              'with anyone you wish to submit a bid for this request'
+    )
   end
 
   def set_policy
