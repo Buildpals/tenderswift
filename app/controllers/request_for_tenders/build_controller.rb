@@ -71,6 +71,19 @@ class RequestForTenders::BuildController < PublishersController
   private
 
   def publish_the_request_for_tender(request_for_tender)
+    request_for_tender.published_at = Time.current
+    request_for_tender.submitted_at = Time.current
+    request_for_tender.status = :active
+    request_for_tender.update_attributes(request_for_tender_params)
+    AdminMailer.submit_request_for_tender(request_for_tender).deliver_now
+    redirect_to publisher_root_path,
+                  notice: "Your request for tender has been published. Share " \
+                          "this link "\
+                          "https://public.tenderswift.com/#{request_for_tender.id} " \
+                          "with anyone you wish to submit a bid for this request"
+  end
+
+  def submit_the_request_for_tender(request_for_tender)
     request_for_tender.submitted_at = Time.current
     request_for_tender.published_at = Time.current
     request_for_tender.status = :active

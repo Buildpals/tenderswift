@@ -2,10 +2,21 @@
 
 require 'rails_helper'
 
-RSpec.xfeature 'Search for request for tender', type: :feature do
-  let(:request_for_tender) { FactoryBot.create(:request_for_tender) }
+RSpec.feature 'Search for request for tender', type: :feature do
+  include RequestForTendersHelper
+  let!(:request_for_tender) { FactoryBot.create(:request_for_tender) }
 
-  scenario 'should find and display a request for tender when its reference ' \
+  scenario 'should show newly published request for tenders in a list',
+           js: true do
+    visit query_request_for_tender_path
+    within :css, '#newly-created-request-for-tender' do
+      expect(page).to have_content request_for_tender.project_name
+      expect(page).to have_content distance_from_deadline request_for_tender
+      expect(page).to have_content project_location request_for_tender
+    end
+  end
+
+  xscenario 'should find and display a request for tender when its reference ' \
            'number is typed into the search field of the find request for ' \
            'tender page', js: true do
     visit query_request_for_tender_path
@@ -15,13 +26,13 @@ RSpec.xfeature 'Search for request for tender', type: :feature do
     user_sees_public_request_for_tender_information(request_for_tender)
   end
 
-  scenario 'should find and display a request for tender when its reference ' \
+  xscenario 'should find and display a request for tender when its reference ' \
            'number is provided in the url', js: true do
     visit purchase_tender_path(request_for_tender.id)
     user_sees_public_request_for_tender_information(request_for_tender)
   end
 
-  scenario 'should display appropriate error when the wrong reference ' \
+  xscenario 'should display appropriate error when the wrong reference ' \
            'number is typed into the search field of the find request for ' \
            'tender page', js: true do
     visit query_request_for_tender_path
@@ -31,7 +42,7 @@ RSpec.xfeature 'Search for request for tender', type: :feature do
                              'for tender with the specified reference number.'
   end
 
-  scenario 'should redirect to the find a request for tender page when a ' \
+  xscenario 'should redirect to the find a request for tender page when a ' \
              'wrong reference number is provided in the url' do
     visit purchase_tender_path(5454)
     within :css, '#search-wrapper' do
@@ -44,7 +55,8 @@ RSpec.xfeature 'Search for request for tender', type: :feature do
       FactoryBot.create(:request_for_tender, published_at: nil)
     end
 
-    scenario 'should prevent contractor from purchasing the request for tender',
+    xscenario 'should prevent contractor from purchasing the request for
+tender',
              js: true do
       visit query_request_for_tender_path
       fill_in 'reference_number', with: unpublished_request_for_tender.id

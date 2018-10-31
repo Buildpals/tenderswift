@@ -12,6 +12,8 @@ class WelcomeController < ApplicationController
   end
 
   def query_request_for_tender
+    @request_for_tenders = RequestForTender.published.deadline_not_passed
+                               .limit(5)
     render layout: false
   end
 
