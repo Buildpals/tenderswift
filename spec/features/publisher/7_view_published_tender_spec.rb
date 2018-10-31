@@ -86,7 +86,7 @@ RSpec.feature 'View details of published request for tender', js: true do
     end
   end
 
-  scenario 'should see correct selling price' do
+  scenario 'should see correct tender fee' do
     login_as(publisher, scope: :publisher)
     visit request_for_tender_path(request_for_tender)
 

@@ -15,12 +15,13 @@
     <div class="form-row">
       <div class="col-md-12">
         <div class="form-group">
-          <%= form.label :project_name %>
+          <%= form.label :project_name, 'Name' %>
           <%= form.text_field :project_name,
                               id: :request_for_tender_project_name,
                               class: 'form-control form-control-sm' %>
           <small class="form-text text-muted">
-            Example: Proposed residential building for Mrs. Comfort Adu-Boateng
+            Example: Purchases of office supplies; Construction of sawmill;
+            Railroad engineering works;
           </small>
         </div>
       </div>
@@ -72,20 +73,23 @@
       </div>
     </div>
 
-    <div class="form-row">
+    <div class="form-row mt-5">
       <div class="col-md-12">
         <div class="form-group">
-          <%= form.label :description %>
-          <%= form.text_area :description,
-                             id: :request_for_tender_description,
-                             rows: 3,
-                             class: 'form-control form-control-sm' %>
-          <small class="form-text text-muted">
-            Example: The structure is a one-storey skeleton frames facility with
-            solid sandcrete block walls as
-            partitions. It covers
-            an area of 478sqm
+          <%= form.label :description,
+                         'Description',
+                         class: '' %>
+
+          <small class="form-text text-muted mb-3">
+            Please enter the description for this tender and details of
+            how bidders should tender for this project
           </small>
+          <%= form.trix_editor :description,
+                               {
+                                   id: :request_for_tender_description,
+                                   rows: 3,
+                                   class: 'form-control form-control-sm'
+                               } %>
         </div>
       </div>
     </div>

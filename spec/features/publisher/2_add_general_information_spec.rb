@@ -50,7 +50,7 @@ def when_they_add_the_general_information_for_an_rft(request_for_tender,
   visit request_for_tender_build_path(request_for_tender,
                                       :general_information)
 
-  fill_in 'Project name', with: general_information.project_name
+  fill_in 'Name', with: general_information.project_name
 
   select general_information.deadline.strftime('%-d'),
          from: 'request_for_tender_deadline_3i'
@@ -71,7 +71,8 @@ def when_they_add_the_general_information_for_an_rft(request_for_tender,
   select 'Ghana', from: 'Country'
   fill_in 'City', with: general_information.city
 
-  fill_in 'Description', with: general_information.description
+  editor = page.find(:css, '.trix-content')
+  editor.click.set(general_information.description)
   click_button 'Save and continue', match: :first
 
   expect(page).to have_content 'Your changes have been saved!'
@@ -82,7 +83,7 @@ def then_it_should_save_the_general_information(request_for_tender,
   visit request_for_tender_build_path(request_for_tender,
                                       :general_information)
 
-  expect(page).to have_field 'Project name',
+  expect(page).to have_field 'Name',
                              with: general_information.project_name
 
   expect(page)
@@ -111,6 +112,7 @@ def then_it_should_save_the_general_information(request_for_tender,
   expect(page).to have_field 'City',
                              with: general_information.city
 
-  expect(page).to have_field 'Description',
-                             with: general_information.description
+  editor = page.find(:css, '.trix-content')
+
+  expect(editor.value).to include general_information.description
 end
