@@ -72,6 +72,7 @@ class RequestForTenders::BuildController < PublishersController
 
   def publish_the_request_for_tender(request_for_tender)
     request_for_tender.published_at = Time.current
+    request_for_tender.submitted_at = Time.current
     request_for_tender.status = :active
     request_for_tender.update_attributes(request_for_tender_params)
     AdminMailer.submit_request_for_tender(request_for_tender).deliver_now
