@@ -2,6 +2,6 @@
 
 <p>
   <%= @request_for_tender.publisher.company_name %>
-  created a new request for tender at <%= @request_for_tender.submitted_at %>
+  published a new request for tender at <%= @request_for_tender.published_at %>
 </p>
-<%= link_to "Review Request For Tender", review_request_for_tender_url(@request_for_tender.id) %>
+<%= link_to "Review request for tender here", review_request_for_tender_url(@request_for_tender.id) %>
