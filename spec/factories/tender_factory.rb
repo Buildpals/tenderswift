@@ -30,11 +30,21 @@ FactoryBot.define do
     end
 
     trait :filled do
-      list_of_rates {{'Sheet1!E8' => 2, 'Sheet1!E11' => 1, 'Sheet1!E14' => 1,
-                      'Sheet1!E17' => 1, 'Sheet1!E20' => 1, 'Sheet1!E22' => 1,
-                      'Sheet1!E26' => 1, 'Sheet1!E35' => 1, 'Sheet1!E41' => 1,
-                      'Sheet1!E57' => 1, 'Sheet1!E66' => 1, 'Sheet1!E70' => 1,
-                      'Sheet1!E86' => 1}}
+      list_of_rates do
+        {'Sheet1!E8' => rand(2..3),
+         'Sheet1!E11' => rand(21..22),
+         'Sheet1!E14' => rand(17..18),
+         'Sheet1!E17' => rand(79..81),
+         'Sheet1!E20' => rand(14..16),
+         'Sheet1!E22' => rand(12..14),
+         'Sheet1!E26' => rand(64..66),
+         'Sheet1!E35' => rand(430..460),
+         'Sheet1!E41' => rand(500..550),
+         'Sheet1!E57' => rand(3..4),
+         'Sheet1!E66' => rand(7..8),
+         'Sheet1!E70' => rand(18..20),
+         'Sheet1!E86' => rand(49..51)}
+      end
       sequence(:version_number) { |n| n }
 
       after(:create) do |tender|
@@ -47,13 +57,22 @@ FactoryBot.define do
     end
 
     trait :submitted do
-      list_of_rates {{'Sheet1!E8' => 2, 'Sheet1!E11' => 1, 'Sheet1!E14' => 1,
-                      'Sheet1!E17' => 1, 'Sheet1!E20' => 1, 'Sheet1!E22' => 1,
-                      'Sheet1!E26' => 1, 'Sheet1!E35' => 1, 'Sheet1!E41' => 1,
-                      'Sheet1!E57' => 1, 'Sheet1!E66' => 1, 'Sheet1!E70' => 1,
-                      'Sheet1!E86' => 1}}
+      list_of_rates do
+        {'Sheet1!E8' => rand(2..3),
+         'Sheet1!E11' => rand(21..22),
+         'Sheet1!E14' => rand(17..18),
+         'Sheet1!E17' => rand(79..81),
+         'Sheet1!E20' => rand(14..16),
+         'Sheet1!E22' => rand(12..14),
+         'Sheet1!E26' => rand(64..66),
+         'Sheet1!E35' => rand(430..460),
+         'Sheet1!E41' => rand(500..550),
+         'Sheet1!E57' => rand(3..4),
+         'Sheet1!E66' => rand(7..8),
+         'Sheet1!E70' => rand(18..20),
+         'Sheet1!E86' => rand(49..51)}
+      end
       sequence(:version_number) { |n| n }
-
 
       after(:create) do |tender|
         tender.request_for_tender.required_documents.each do |required_document|
