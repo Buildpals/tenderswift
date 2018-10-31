@@ -23,13 +23,13 @@ RSpec.feature 'Create request for tender', js: true do
     )
   end
 
-  scenario 'should set the request for tender price' do
+  scenario 'should show the request for tender fee' do
     invitation_to_tender = FactoryBot.create(:request_for_tender)
     visit purchase_tender_path invitation_to_tender
-    expect(page).to have_content("
-          Purchase this tender for
-          #{invitation_to_tender.tender_currency} #{invitation_to_tender.amount_to_be_deducted}
-      ")
+    expect(page).to have_content(
+                        "Purchase this tender for #{invitation_to_tender.tender_currency}" \
+            " #{invitation_to_tender.amount_to_be_deducted}"
+                    )
   end
 
   xscenario 'should not send admin an email when an already published request' \
@@ -41,15 +41,15 @@ RSpec.feature 'Create request for tender', js: true do
         .to change {ActionMailer::Base.deliveries.count}.by(0)
   end
 
-  scenario 'should display previous step of create request for tender
-wizard' do
+  scenario 'should move to tender instructions page when ' \
+           'previous button is pressed' do
     given_a_publisher_who_has_logged_in
+
     visit request_for_tender_build_path(request_for_tender, :distribution)
     click_link 'Previous'
-    expect(page).to have_content 'Please add the documents you want the
-                                        contractor to submit as part of their
-                                        tender'
-    expect(page).to have_content 'Add another required document'
+    expect(page).to have_current_path(
+                        request_for_tender_build_path(request_for_tender, :tender_instructions)
+                    )
   end
 end
 
@@ -60,13 +60,13 @@ end
 def when_they_publish_a_request_for_tender(request_for_tender)
   visit request_for_tender_build_path(request_for_tender, :distribution)
 
-  fill_in 'Selling price', with: 1
+  fill_in 'Tender fee', with: 1
 
   accept_confirm do
     click_button 'Publish'
   end
 
-  #expect(page).to have_current_path confirm_publishing_path request_for_tender
+  # expect(page).to have_current_path confirm_publishing_path request_for_tender
 
   expect(page).to have_content(
                       'Your request for tender has been published. Share this link ' \

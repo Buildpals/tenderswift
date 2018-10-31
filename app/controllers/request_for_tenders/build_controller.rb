@@ -14,6 +14,9 @@ class RequestForTenders::BuildController < PublishersController
 
   def show
     authorize @request_for_tender
+    @request_for_tender.participants.build
+    @request_for_tender.participants.build
+    @request_for_tender.participants.build
     render_wizard
   end
 

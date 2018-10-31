@@ -29,6 +29,13 @@ class RequestForTender < ApplicationRecord
                                 allow_destroy: true,
                                 reject_if: :all_blank
 
+  has_many :participants,
+           dependent: :destroy,
+           inverse_of: :request_for_tender
+  accepts_nested_attributes_for :participants,
+                                allow_destroy: true,
+                                reject_if: :all_blank
+
   has_many :tenders,
            dependent: :destroy,
            inverse_of: :request_for_tender
@@ -184,6 +191,7 @@ class RequestForTender < ApplicationRecord
 
   def check_deadline
     return unless deadline
+
     if deadline < Date.today
       errors.add(:deadline, :invalid, message: 'Deadline cannot be in the past')
     end
@@ -213,11 +221,13 @@ class RequestForTender < ApplicationRecord
   def rate_cell?(cell_address, sheet)
     return false if cell_address[0] != 'E'
     return false if sheet[cell_address]['f']
+
     sheet[cell_address]['v'].is_a?(Numeric)
   end
 
   def amount_cell?(cell_address, sheet)
     return false if cell_address[0] != 'F'
+
     sheet[cell_address]['v'].is_a?(Numeric)
   end
 
