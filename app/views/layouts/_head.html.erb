@@ -29,9 +29,29 @@
           'optimize_id': 'GTM-52F9XZL',
           'page_location': event.data.url
         })
+        gtag('config', 'AW-785330278')
       }
     })
   </script>
+
+  <!-- Event snippet for Publish a request for tender conversion page
+  In your html page, add the snippet and call gtag_report_conversion when someone clicks on the chosen link or button. -->
+  <script>
+    function gtag_report_conversion (url) {
+      var callback = function () {
+        if (typeof(url) != 'undefined') {
+          window.location = url
+        }
+      }
+      gtag('event', 'conversion', {
+        'send_to': 'AW-785330278/E3KKCN_viYwBEObgvPYC',
+        'transaction_id': '',
+        'event_callback': callback
+      })
+      return false
+    }
+  </script>
+
 
   <title>
     <% if content_for :title %>
