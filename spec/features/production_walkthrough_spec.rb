@@ -162,7 +162,7 @@ RSpec.feature 'Product walkthrough', js: true do
   end
 
   def and_has_added_the_distribution_information
-    fill_in 'Selling price', with: @request_for_tender.selling_price
+    fill_in 'Tender fee', with: @request_for_tender.selling_price
     fill_in 'Bank name', with: @request_for_tender.bank_name
     fill_in 'Branch name', with: @request_for_tender.branch_name
     fill_in 'Account name', with: @request_for_tender.account_name

@@ -8,7 +8,7 @@
                       id="tenderDocumentUploader"
               class="custom-file-input">
       <label class="btn btn-sm btn-block btn-primary" for="tenderDocumentUploader">
-        Upload a pdf file
+        Upload a file
       </label>
     </div>
 </template>

@@ -1,18 +1,44 @@
 # frozen_string_literal: true
 
-require 'securerandom'
-
 FactoryBot.define do
   factory :contractor do
-    company_name {'Test Construction Limited'}
-    full_name {'Test Contractor'}
-
-    email do
-      'tenderswift_test_contractor+' \
-          "#{SecureRandom.urlsafe_base64(6)}@gmail.com".downcase
+    company_name do
+      [
+          'Timcofie Ventures',
+          'Mank Company',
+          'Jkk Zendo Company',
+          'Aurecon',
+          'Trana Tek Ghana Limited',
+          'Intertek Ghana Limited Gts',
+          'Inocon Group Limited',
+          'Doyenserve Company Limited',
+          'Fxt Construction Limited',
+          'Gapson Company Limited',
+          'Imperial Realty And Construction Ltd',
+          'Asad Construction Limited',
+          'De Simone Group',
+          'Joshob Construction Limited',
+          'Psa Builders',
+          'Casapulo Ghana Limited',
+          'Ghana Metal Fabrication Construction Ltd',
+          'Architectural Externals And General Landscapes',
+          'Mac Logistics Limited',
+          'Addakus Construction Limited',
+          'Rabotec Ghana Limited',
+          'Proconsult Limited',
+          'Wilkado Construction Works',
+          'Asterion Construction Limited',
+          'Asanduff Construction Company',
+          'Taysec Construction',
+          'David Walter Limited',
+          'Frederick Williams Construction Limited',
+          'Hellenist Construction Co'
+      ].sample
     end
 
-    phone_number {'050 001 1505'}
+    full_name {Faker::Name.name}
+    email {Faker::Internet.safe_email}
+    phone_number {Faker::PhoneNumber.phone_number}
     password {'password'}
     confirmed_at {Time.current}
 

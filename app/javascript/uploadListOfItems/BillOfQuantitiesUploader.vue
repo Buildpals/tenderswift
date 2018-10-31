@@ -3,32 +3,22 @@
 
     <div v-if="hasWorkbook" class="mb-4">
 
-      <div class="d-flex justify-content-start align-items-baseline mb-2">
-        Your tender figure is:
-
-        <div class="ml-2">
-          <div class="input-group input-group-sm">
-            <div class="input-group-append">
-              <span class="input-group-text amount"
-                    id="tenderFigure">
-                {{ formatNumber(tenderFigure) }}
-              </span>
-            </div>
-            <b-btn v-b-modal.chooseTenderFigureAddress
-                   size="sm"
-                   variant="warning">
-              Change Tender Figure
-            </b-btn>
+      <div class="row align-items-baseline mb-2">
+        <div class="col-md-6">
+          <div v-b-modal.chooseTenderFigureAddress
+               class="t">
+            Your tender figure is
+            <strong>{{ formatNumber(tenderFigure) }}</strong>
+            from cell address
+            <strong>{{ requestForTender.tender_figure_address }}</strong>
+            <span class="fa fa-pencil ml-1"></span>
           </div>
         </div>
-
-
-        <div class="ml-auto">
-          <b-btn v-b-modal.uploadExcelFileModal
-                 size="sm"
-                 variant="primary">
+        <div class="col-md-4 ml-auto">
+          <button class="btn btn-primary btn-sm btn-block"
+                  v-b-modal.uploadExcelFileModal>
             Upload new Bill of Quantities
-          </b-btn>
+          </button>
         </div>
       </div>
 
@@ -77,7 +67,7 @@
     <b-modal id="chooseTenderFigureAddress"
              ref="chooseTenderFigureAddress"
              hide-footer
-             title="Choose Tender Figure Address">
+             title="Select tender figure">
       <choose-tender-figure-address
         :initial-request-for-tender="requestForTender" />
     </b-modal>
@@ -205,5 +195,10 @@
     top: 33.33%;
     transform: perspective(1px) translateY(-50%);
     padding: 30px;
+  }
+
+  .t:hover {
+    text-decoration: underline;
+    cursor: pointer;
   }
 </style>

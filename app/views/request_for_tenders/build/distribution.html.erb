@@ -2,15 +2,80 @@
               scope: :request_for_tender,
               url: wizard_path,
               method: :put,
-              id: 'request-form' do |form| %>
+              id: 'request-form',
+              html: {onsubmit: 'gtag_report_conversion()'} do
+|form| %>
 
   <div class="min-height-500">
 
     <%= render 'request_for_tender_errors' %>
 
-    <div class="form-row mb-5">
+    <div class="form-row mb-5" id="publicLinkDiv" style="display: block">
       <div class="col-md-12">
-        <%= form.label :selling_price %>
+        <div class="form-group">
+          <div class="d-flex w-100 justify-content-between mb-3">
+            <%= form.label :purchase_link,
+                           'Shareable link',
+                           class: 'pb-0 mb-0' %>
+
+            <%= link_to 'Preview shareable link',
+                        purchase_url(@request_for_tender),
+                        target: '_blank',
+                        class: 'btn btn-link btn-sm' %>
+          </div>
+
+          <%= text_field_tag :purchase_link,
+                             purchase_url(@request_for_tender),
+                             {
+                                 id: :request_for_tender_purchase_link,
+                                 class: 'form-control form-control-sm',
+                                 onclick: 'this.select()',
+                                 readonly: true
+                             } %>
+          <small class="form-text text-muted">
+            The link above is where bidders can access this request for tender
+            <br>
+            You can copy and send it to the contractors you would like to tender
+            for this contract
+          </small>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="form-row mb-5">
+      <div class="col-md-8">
+        <div class="form-group">
+          <%= form.label :participants,
+                         'Participant emails',
+                         class: 'pb-0 mb-0' %>
+          <small class="form-text text-muted mb-3">
+            Please enter the emails of all suppliers or contractors you want to
+            submit bids for this request for tender, and the link above will be
+            emailed to them
+          </small>
+          <ul class="list-group list-group-flush nested-forms">
+            <%= form.fields_for :participants do |participant| %>
+              <%= render 'participant_fields', f: participant %>
+            <% end %>
+            <li class="d-flex w-100 justify-content-between mt-3">
+              <%= link_to_add_association 'Add another participant',
+                                          form, :participants,
+                                          class: 'btn btn-sm btn-block btn-primary' %>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row my-5">
+      <div class="col-md-12">
+        <%= form.label :selling_price, 'Tender fee' %>
+        <br>
+        <small>
+          If bidders must pay a tender fee before they are allowed to see the
+          tender documents, please enter it below
+        </small>
       </div>
       <div class="col-md-5">
         <div class="input-group">
@@ -38,77 +103,14 @@
       </div>
     </div>
 
-    <div class="form-row mb-5" id="publicLinkDiv" style="display: block">
-      <div class="col-md-12">
-        <div class="form-group">
-          <%= form.label :reference_number,
-                         'The reference number for this request for tender is:',
-                         class: 'pb-0' %>
-
-          <%= text_field_tag :reference_number,
-                             @request_for_tender.id,
-                             {
-                                 id: :request_for_tender_reference_number,
-                                 class: 'form-control form-control-sm',
-                                 onclick: 'this.select()',
-                                 readonly: true
-                             } %>
-
-          <small class="form-text text-muted">
-            Copy and send it to the contractors you would like to tender for
-            this
-            contract.
-            <br>
-            They will have to go to
-            <a href="https://public.tenderswift.com">
-              public.tenderswift.com
-            </a>
-            and enter this reference number in order to purchase this tender.
-          </small>
-        </div>
-      </div>
-    </div>
-
-    <div class="form-row mb-5" id="publicLinkDiv" style="display: block">
-      <div class="col-md-12">
-        <div class="form-group">
-          <div class="d-flex w-100 justify-content-between mb-3">
-            <%= form.label :purchase_link,
-                           'Purchase link',
-                           class: 'pb-0 mb-0' %>
-
-            <%= link_to 'Preview purchase link',
-                        purchase_url(@request_for_tender),
-                        target: '_blank',
-                        class: 'btn btn-link btn-sm' %>
-          </div>
-
-          <%= text_field_tag :purchase_link,
-                             purchase_url(@request_for_tender),
-                             {
-                                 id: :request_for_tender_purchase_link,
-                                 class: 'form-control form-control-sm',
-                                 onclick: 'this.select()',
-                                 readonly: true
-                             } %>
-          <small class="form-text text-muted">
-            The link above is where contractors can see and purchase this
-            request for tender.
-            <br>
-            You can copy and send it to the contractors you would like to tender
-            for this contract.
-          </small>
-        </div>
-      </div>
-    </div>
-
   </div>
 
   <hr>
   <div class="d-flex justify-content-between align-items-center">
     <%= link_to 'Previous', previous_wizard_path %>
 
-    <%= form.submit 'Publish', class: 'btn btn-accent',
+    <%= form.submit 'Publish',
+                    class: 'btn btn-accent',
                     data: {
                         disable_with: 'Please Wait',
                         confirm: 'Publishing this request for tender will ' \

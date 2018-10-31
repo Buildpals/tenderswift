@@ -1,16 +1,15 @@
 <template>
   <div>
 
-    <excel-uploader id="project_document_document"
-                    ref="documentUploader"
-                    multiple
-                    accept=".pdf"
-                    :save-url="`${saveUrl}`"
-                    method="post"
-                    name="project_document[document]"
-                    v-on:before-upload="beforeUpload"
-                    v-on:after-upload="afterUpload"
-                    v-on:upload-error="uploadError"/>
+    <file-uploader id="project_document_document"
+                   ref="documentUploader"
+                   multiple
+                   :save-url="`${saveUrl}`"
+                   method="post"
+                   name="project_document[document]"
+                   v-on:before-upload="beforeUpload"
+                   v-on:after-upload="afterUpload"
+                   v-on:upload-error="uploadError"/>
 
     <div class="row" v-if="projectDocuments.length > 0">
       <div class="col-lg-8">
@@ -73,10 +72,10 @@
 </template>
 
 <script>
-  import ExcelUploader from './FileUploader'
+  import FileUploader from './FileUploader'
 
   export default {
-    components: {ExcelUploader},
+    components: {FileUploader},
     props: ['initialProjectDocuments', 'saveUrl'],
 
     data () {

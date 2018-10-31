@@ -14,11 +14,21 @@ FactoryBot.define do
       JSON.parse(file)
     end
 
-    list_of_rates {{'Sheet1!E8' => 2, 'Sheet1!E11' => 1, 'Sheet1!E14' => 1,
-                    'Sheet1!E17' => 1, 'Sheet1!E20' => 1, 'Sheet1!E22' => 1,
-                    'Sheet1!E26' => 1, 'Sheet1!E35' => 1, 'Sheet1!E41' => 1,
-                    'Sheet1!E57' => 1, 'Sheet1!E66' => 1, 'Sheet1!E70' => 1,
-                    'Sheet1!E86' => 1}}
+    list_of_rates do
+      {'Sheet1!E8' => 2.4,
+       'Sheet1!E11' => 21,
+       'Sheet1!E14' => 17.5,
+       'Sheet1!E17' => 80,
+       'Sheet1!E20' => 15,
+       'Sheet1!E22' => 13,
+       'Sheet1!E26' => 65,
+       'Sheet1!E35' => 450,
+       'Sheet1!E41' => 520,
+       'Sheet1!E57' => 3.5,
+       'Sheet1!E66' => 9,
+       'Sheet1!E70' => 19,
+       'Sheet1!E86' => 50}
+    end
 
     tender_instructions {'Provide the required documents listed above'}
     selling_price_subunit {1}
