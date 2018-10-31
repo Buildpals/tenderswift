@@ -134,17 +134,9 @@ class RequestForTender < ApplicationRecord
     self.country_code = location.country_code
     self.city = location.city
     self.deadline = Time.current + 1.month
-    required_documents.build(title: 'Tax Clearance Certificate')
-    required_documents.build(title: 'SSNIT Clearance Certificate')
-    required_documents.build(title: 'Labour Certificate')
-    required_documents.build(title: 'Power of attorney')
     required_documents.build(title: 'Certificate of Incorporation')
     required_documents.build(title: 'Certificate of Commencement')
-    required_documents.build(title: 'Works and Housing certificate')
     required_documents.build(title: 'Financial statements (3 years )')
-    required_documents.build(
-      title: 'Bank Statement or evidence of Funding (letter of credit)'
-    )
     save!
   end
 
