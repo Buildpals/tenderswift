@@ -86,7 +86,7 @@ class RequestForTenders::BuildController < PublishersController
     request_for_tender.submitted_at = Time.current
     request_for_tender.status = :active
     request_for_tender.update_attributes(request_for_tender_params)
-    AdminMailer.submit_rldequest_for_tender(request_for_tender).deliver_now
+    AdminMailer.submit_request_for_tender(request_for_tender).deliver_now
     render_wizard request_for_tender,
                   notice: 'Your request for tender has been submitted, it ' \
                           'will take at most 24 hours before it becomes ' \
