@@ -84,9 +84,9 @@ class RequestForTenders::BuildController < PublishersController
 
   def submit_the_request_for_tender(request_for_tender)
     request_for_tender.submitted_at = Time.current
+    request_for_tender.published_at = Time.current
     request_for_tender.status = :active
     request_for_tender.update_attributes(request_for_tender_params)
-    AdminMailer.submit_request_for_tender(request_for_tender).deliver_now
     redirect_to(
         confirm_publishing_path(request_for_tender),
         notice: 'Your request for tender has been published. Share this link ' \
@@ -103,10 +103,6 @@ class RequestForTenders::BuildController < PublishersController
 
   def set_request_for_tender
     @request_for_tender = RequestForTender.find(params[:request_for_tender_id])
-  end
-
-  def finish_wizard_path
-    publisher_root_path
   end
 
   def request_for_tender_params
