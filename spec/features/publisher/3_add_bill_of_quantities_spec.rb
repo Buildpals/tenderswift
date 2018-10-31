@@ -34,7 +34,7 @@ RSpec.feature 'Create request for tender', js: true do
     visit request_for_tender_build_path(request_for_tender, :bill_of_quantities)
     click_link 'Previous'
     expect(page).to have_content 'Please enter the following details about the project.'
-    expect(page).to have_content 'Project name'
+    expect(page).to have_content 'Name'
   end
 end
 
