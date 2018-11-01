@@ -204,6 +204,7 @@ RSpec.feature 'View details of published request for tender', js: true do
     login_as(publisher, scope: :publisher)
     visit request_for_tender_path(request_for_tender_two)
     click_link 'edit-request-tenders'
-    expect(page).to have_content(request_for_tender_two.project_name)
+    expect(page).to have_content request_for_tender_two.project_name
+    expect(page).to have_content 'Please enter the following details about the project.'
   end
 end
