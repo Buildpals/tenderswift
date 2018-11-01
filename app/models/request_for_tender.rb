@@ -7,6 +7,9 @@ class RequestForTender < ApplicationRecord
                                'Every two weeks' => 1,
                                'Weekly' => 2 }
 
+  enum access: {open_tendering: 0,
+                closed_tendering: 1}
+
   serialize :contract_sum_address, Hash
 
   monetize :selling_price_subunit,

@@ -60,13 +60,35 @@ end
 def when_they_publish_a_request_for_tender(request_for_tender)
   visit request_for_tender_build_path(request_for_tender, :distribution)
 
+  # TODO: Check preview link
+
+  select 'Closed - Only people with the link can tender',
+         from: 'request_for_tender_access'
+
+  fill_in 'request_for_tender_participants_attributes_0_email',
+          with: Faker::Internet.safe_email
+
+  fill_in 'request_for_tender_participants_attributes_1_email',
+          with: Faker::Internet.safe_email
+
+  fill_in 'request_for_tender_participants_attributes_2_email',
+          with: Faker::Internet.safe_email
+
+  # TODO: Check adding another participant
+  # click_link 'Add another participant'
+  #
+  # fill_in placeholder: 'Email', match: :one,
+  #         with: Faker::Internet.safe_email
+
+
+  select 'KES - Kenyan Shillings',
+         from: :request_for_tender_tender_currency
+
   fill_in 'Tender fee', with: 1
 
   accept_confirm do
     click_button 'Publish'
   end
-
-  # expect(page).to have_current_path confirm_publishing_path request_for_tender
 
   expect(page).to have_content(
                       'Your request for tender has been published. Share this link ' \

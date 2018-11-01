@@ -22,7 +22,14 @@
   <ul class="list-group list-group-flush">
     <li class="list-group-item">
       <div class="row">
-        <div class="col-md-4 mb-2">
+        <div class="col-md-3 mb-2">
+          <strong>
+            Tendering type
+          </strong>
+          <br>
+          <%= request_for_tender.access.humanize %>
+        </div>
+        <div class="col-md-3 mb-2">
           <strong>
             <% if deadline_over? request_for_tender %>
               Time closed
@@ -33,7 +40,7 @@
           <br>
           <%= time_to_deadline request_for_tender %>
         </div>
-        <div class="col-md-8 mb-2">
+        <div class="col-md-6 mb-2">
           <strong>Tendering duration</strong>
           <br>
           <%= request_for_tender.published_at

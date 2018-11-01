@@ -58,7 +58,7 @@ class Tender < ApplicationRecord
   delegate :country_code, to: :request_for_tender
   delegate :tender_instructions, to: :request_for_tender
   delegate :selling_price, to: :request_for_tender
-  delegate :private, to: :request_for_tender
+  delegate :access, to: :request_for_tender
   delegate :contract_sum_address, to: :request_for_tender
   delegate :published_at, to: :request_for_tender
   delegate :project_documents, to: :request_for_tender

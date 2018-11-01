@@ -10,12 +10,6 @@ class ContractorsController < ApplicationController
       redirect_to contractors_after_signup_path
     end
 
-    @invitations_to_tender = []
-    RequestForTender.published.deadline_not_passed.each do |rft|
-      tender = rft.tenders.find_by(contractor_id: current_contractor.id)
-      @invitations_to_tender.push rft if tender&.purchased_at.nil?
-    end
-
     @purchased_tenders = current_contractor.tenders.purchased.not_submitted
     @submitted_tenders = current_contractor.tenders.purchased.submitted
   end
