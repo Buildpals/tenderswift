@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181031163220) do
+ActiveRecord::Schema.define(version: 20181101081640) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -143,7 +143,6 @@ ActiveRecord::Schema.define(version: 20181031163220) do
     t.string "branch_name"
     t.string "account_name"
     t.string "account_number"
-    t.boolean "private", default: false, null: false
     t.integer "portal_visits", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -156,6 +155,7 @@ ActiveRecord::Schema.define(version: 20181031163220) do
     t.bigint "version_number", default: 0, null: false
     t.jsonb "list_of_rates", default: {}
     t.string "tender_currency", default: "USD", null: false
+    t.integer "access", default: 0, null: false
     t.index ["publisher_id"], name: "index_request_for_tenders_on_publisher_id"
   end
 

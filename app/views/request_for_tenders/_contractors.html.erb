@@ -1,5 +1,5 @@
 <div id="accordion" role="tablist">
-  <%= render 'invited_contractors' if @request_for_tender.private? %>
+  <%= render 'invited_contractors' if @request_for_tender.closed_tendering? %>
 
   <%= render 'purchased_contractors' %>
 

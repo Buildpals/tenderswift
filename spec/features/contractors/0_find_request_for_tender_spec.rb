@@ -5,14 +5,20 @@ require 'rails_helper'
 RSpec.feature 'Search for request for tender', type: :feature do
   include RequestForTendersHelper
   let!(:request_for_tender) { FactoryBot.create(:request_for_tender) }
+  let!(:closed_request_for_tender) do
+    FactoryBot.create(:request_for_tender, access: :closed_tendering)
+  end
 
   scenario 'should show newly published request for tenders in a list',
            js: true do
     visit query_request_for_tender_path
-    within :css, '#newly-created-request-for-tender' do
+    within :css, '#invitations-to-tender' do
       expect(page).to have_content request_for_tender.project_name
       expect(page).to have_content distance_from_deadline request_for_tender
       expect(page).to have_content project_location request_for_tender
+
+      expect(page)
+          .not_to have_content closed_request_for_tender.project_name
     end
   end
 
@@ -57,7 +63,7 @@ RSpec.feature 'Search for request for tender', type: :feature do
 
     xscenario 'should prevent contractor from purchasing the request for
 tender',
-             js: true do
+              js: true do
       visit query_request_for_tender_path
       fill_in 'reference_number', with: unpublished_request_for_tender.id
       click_button 'search'

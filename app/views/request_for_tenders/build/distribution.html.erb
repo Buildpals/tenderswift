@@ -3,17 +3,16 @@
               url: wizard_path,
               method: :put,
               id: 'request-form',
-              html: {onsubmit: 'gtag_report_conversion()'} do
-|form| %>
+              html: {onsubmit: 'gtag_report_conversion()'} do |form| %>
 
   <div class="min-height-500">
 
     <%= render 'request_for_tender_errors' %>
 
-    <div class="form-row mb-5" id="publicLinkDiv" style="display: block">
+    <div class="form-row" id="shareableLinkDiv" style="display: block">
       <div class="col-md-12">
         <div class="form-group">
-          <div class="d-flex w-100 justify-content-between mb-3">
+          <div class="d-flex w-100 justify-content-between mb-1">
             <%= form.label :purchase_link,
                            'Shareable link',
                            class: 'pb-0 mb-0' %>
@@ -24,6 +23,10 @@
                         class: 'btn btn-link btn-sm' %>
           </div>
 
+          <small class="form-text text-muted">
+            Copy and send this link to anyone you'd like to tender for this
+            contract
+          </small>
           <%= text_field_tag :purchase_link,
                              purchase_url(@request_for_tender),
                              {
@@ -32,12 +35,33 @@
                                  onclick: 'this.select()',
                                  readonly: true
                              } %>
-          <small class="form-text text-muted">
-            The link above is where bidders can access this request for tender
-            <br>
-            You can copy and send it to the contractors you would like to tender
-            for this contract
-          </small>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="col-md-8">
+        <div class="form-group">
+          <%= form.label :access,
+                         'Who can tender',
+                         class: 'pb-0 mb-0' %>
+          <%= form.select :access,
+                          [
+                              [
+                                  'Open - Anyone can tender',
+                                  :open_tendering
+                              ],
+                              [
+                                  'Closed - Only people with the link can tender',
+                                  :closed_tendering
+                              ]
+                          ],
+                          {},
+                          {
+                              id: :request_for_tender_access,
+                              class: 'form-control form-control-sm',
+                          }
+          %>
         </div>
       </div>
     </div>
@@ -47,7 +71,7 @@
       <div class="col-md-8">
         <div class="form-group">
           <%= form.label :participants,
-                         'Participant emails',
+                         'Invite people',
                          class: 'pb-0 mb-0' %>
           <small class="form-text text-muted mb-3">
             Please enter the emails of all suppliers or contractors you want to
@@ -91,7 +115,7 @@
                             ],
                             {},
                             {
-                                id: :tender_currency,
+                                id: :request_for_tender_tender_currency,
                                 class: 'form-control form-control-sm',
                             }
             %>

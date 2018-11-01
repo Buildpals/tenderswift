@@ -48,18 +48,6 @@ RSpec.feature 'Contractor dashboard' do
       login_as(contractor, scope: :contractor)
     end
 
-    scenario 'should show the contractor all the invitations to tender ' \
-             'they have not purchased' do
-      visit contractor_root_path
-      within :css, '#invitations-to-tender' do
-        expect(page).to have_content rft_with_no_tender.project_name
-        expect(page).to have_content rft_with_un_purchased_tender.project_name
-
-        expect(page).not_to have_content rft_with_purchased_tender.project_name
-        expect(page).not_to have_content rft_with_submitted_tender.project_name
-      end
-    end
-
     scenario 'should show the contractor their purchased tender documents' do
       visit contractor_root_path
       within :css, '#purchased-tenders' do

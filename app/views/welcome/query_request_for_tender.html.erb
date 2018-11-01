@@ -17,7 +17,7 @@
 
   <div class="container" style="margin-bottom: 128px !important;">
     <div class="row">
-      <div class="col-md-8 col-lg-6 mx-auto text-center" id="search-wrapper"
+      <div class="col-md-8 mx-auto text-center" id="search-wrapper"
            style="margin-top: 60px !important;">
 
         <%= render 'layouts/flash_messages' %>
@@ -43,41 +43,43 @@
         <% end %>
       </div>
 
-      <div class="col-md-12 text-center mt-4"
-           id="newly-created-request-for-tender">
-        <div class="ml-12 mb-2 text-center" style="margin-top: 10px;">
-          <small style="color: rgb(169, 68, 66); font-size: 100%;">
-            New request for tenders
-          </small>
-        </div>
-        <div class="list-group list-group-flush">
-          <% @request_for_tenders.each do |request_for_tender| %>
-            <a href="<%= purchase_tender_path request_for_tender %>"
-               class="list-group-item list-group-item-action
-                                      flex-column align-items-start" %>
-              <div class="d-flex w-100 justify-content-between">
-                <h5 class="mb-1">
-                  <%= request_for_tender.project_name %>
-                </h5>
-                <small class="text-muted">
-                    <span class="badge badge-pill badge-accent">
-                      <%= distance_from_deadline request_for_tender %>
-                    </span>
-                </small>
-              </div>
-              <small class="text-muted pull-left">
-                <%= project_location request_for_tender %>
-              </small>
-            </a>
-          <% end %>
-        </div>
-
+      <div class="col-md-12 text-center small mt-2">
         Are you a procurement officer?
         <a href="https://www.tenderswift.com" class="">
           Click here
         </a>
       </div>
 
+      <div class="col-md-8 mx-auto pt-4" id="invitations-to-tender">
+        <div class="ml-4 mb-2 text-center">
+          <small style="color: rgb(169, 68, 66); font-size: 100%;">
+            New invitations to tender
+          </small>
+        </div>
+        <div class="card mb-4">
+          <div class="list-group list-group-flush">
+            <% @invitations_to_tender.each do |request_for_tender| %>
+              <a href="<%= purchase_tender_path request_for_tender %>"
+                 class="list-group-item list-group-item-action
+                        flex-column align-items-start" %>
+                <div class="d-flex w-100 justify-content-between">
+                  <h5 class="mb-1">
+                    <%= request_for_tender.project_name %>
+                  </h5>
+                  <small class="text-muted">
+                    <span class="badge badge-pill badge-accent">
+                      <%= distance_from_deadline request_for_tender %>
+                    </span>
+                  </small>
+                </div>
+                <small class="text-muted">
+                  <%= project_location request_for_tender %>
+                </small>
+              </a>
+            <% end %>
+          </div>
+        </div>
+      </div>
 
     </div>
   </div>

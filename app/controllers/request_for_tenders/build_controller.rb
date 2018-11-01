@@ -123,7 +123,7 @@ class RequestForTenders::BuildController < PublishersController
                   :branch_name,
                   :account_name,
                   :account_number,
-                  :private,
+                  :access,
                   :tender_figure_address,
                   :version_number,
                   :tender_currency,
