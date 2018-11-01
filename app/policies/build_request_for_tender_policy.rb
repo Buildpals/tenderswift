@@ -9,19 +9,19 @@ class BuildRequestForTenderPolicy
   end
 
   def show?
-    belongs_to_publisher? && request_for_tender_is_not_published?
+    belongs_to_publisher?
   end
 
   def update?
-    belongs_to_publisher? && request_for_tender_is_not_published?
+    belongs_to_publisher?
   end
 
   def new?
-    belongs_to_publisher? && request_for_tender_is_not_published?
+    belongs_to_publisher?
   end
 
   def create?
-    belongs_to_publisher? && request_for_tender_is_not_published?
+    belongs_to_publisher?
   end
 
   private
