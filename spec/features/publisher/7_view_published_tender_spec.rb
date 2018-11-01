@@ -199,4 +199,11 @@ RSpec.feature 'View details of published request for tender', js: true do
 
     expect(page).to have_content 'Your changes have been saved!'
   end
+
+  scenario 'should edit request for tenders' do
+    login_as(publisher, scope: :publisher)
+    visit request_for_tender_path(request_for_tender_two)
+    click_link 'edit-request-tenders'
+    expect(page).to have_content(request_for_tender_two.project_name)
+  end
 end
