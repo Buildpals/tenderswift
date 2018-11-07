@@ -8,4 +8,8 @@ class AdminMailerPreview < ActionMailer::Preview
   def publish_request_for_tender
     AdminMailer.publish_request_for_tender(RequestForTender.last)
   end
+
+  def trying_out
+    AdminMailer.trying_out(Publisher.last)
+  end
 end

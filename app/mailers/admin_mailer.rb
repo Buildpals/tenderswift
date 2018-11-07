@@ -25,4 +25,9 @@ class AdminMailer < ApplicationMailer
     mail(to: 'alfred@buildpals.com',
          subject: "New Cash out request")
   end
+
+  def trying_out(publisher)
+    @resource = publisher
+    mail(to: 'alfred@buildpals.com', subject: 'Try this')
+  end
 end
