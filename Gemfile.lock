@@ -171,6 +171,8 @@ GEM
     i18n (1.0.1)
       concurrent-ruby (~> 1.0)
     i18n_data (0.8.0)
+    intercom-rails (0.4.0)
+      activesupport (> 3.0)
     intl-tel-input-rails (12.3.0)
       railties (>= 3.1)
       sass-rails
@@ -448,6 +450,7 @@ DEPENDENCIES
   http-accept
   http-cookie
   httparty
+  intercom-rails
   intl-tel-input-rails
   jbuilder (~> 2.5)
   jquery-rails
