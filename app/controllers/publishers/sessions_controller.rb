@@ -5,6 +5,8 @@ class Publishers::SessionsController < Devise::SessionsController
 
   skip_before_action :check_user, only: :destroy
 
+  after_action :prepare_intercom_shutdown, only: [:destroy]
+
   # before_action :configure_sign_in_params, only: [:create]
 
   # GET /resource/sign_in
@@ -31,5 +33,10 @@ class Publishers::SessionsController < Devise::SessionsController
 
   def after_sign_out_path_for(_publisher)
     new_publisher_session_path
+  end
+
+  protected
+  def prepare_intercom_shutdown
+    IntercomRails::ShutdownHelper.prepare_intercom_shutdown(session)
   end
 end
