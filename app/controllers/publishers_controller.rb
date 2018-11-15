@@ -48,7 +48,8 @@ class PublishersController < ApplicationController
       :email,
       :phone_number,
       :company_name,
-      :company_logo
+      :company_logo,
+      :time_for_first_request_for_tender
     )
   end
 end

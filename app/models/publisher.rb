@@ -13,6 +13,14 @@ class Publisher < ApplicationRecord
 
   mount_uploader :company_logo, CompanyLogoUploader
 
+
+  enum time_for_first_request_for_tender: {
+      two_weeks: 0,
+      next_month: 1,
+      three_months: 2,
+      i_want_to_bid: 3
+  }
+
   has_many :request_for_tenders,
            dependent: :destroy,
            inverse_of: :publisher
