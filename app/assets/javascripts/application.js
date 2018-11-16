@@ -48,6 +48,7 @@
 //= require contractors
 //= require pdf
 //= require pdf_viewer
+//= require publisher
 
 
 $(document).on("turbolinks:load", function () {
