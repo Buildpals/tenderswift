@@ -64,6 +64,12 @@ class Publishers::RegistrationsController < Devise::RegistrationsController
   # end
 
   def after_sign_up_path_for(_resource)
+    notifier = Slack::Notifier.new "https://hooks.slack.com/services/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" do
+      defaults channel: "#sign-ups",
+               username: "TenderSwift Monitor"
+    end
+    notifier.ping "#{resource.company_name} <#{resource.email}> has signed up.",
+                  icon_url: "https://res.cloudinary.com/tenderswift/image/upload/v1520934320/tenderswift-logo-square.png"
     new_request_for_tender_build_path(:new)
   end
 

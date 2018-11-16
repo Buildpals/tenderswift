@@ -127,6 +127,8 @@ group :development, :test do
 
   gem 'email_spec'
   gem 'capybara-email'
+
+  gem 'slack-notifier'
 end
 
 group :development do
