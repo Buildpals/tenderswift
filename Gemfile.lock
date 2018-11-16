@@ -371,6 +371,7 @@ GEM
       rack-protection (= 2.0.4)
       tilt (~> 2.0)
     sixarm_ruby_unaccent (1.2.0)
+    slack-notifier (2.3.2)
     sort_alphabetical (1.1.0)
       unicode_utils (>= 1.2.2)
     spring (2.0.2)
@@ -476,6 +477,7 @@ DEPENDENCIES
   shoulda-matchers (~> 3.1)
   simplecov
   sinatra
+  slack-notifier
   spring
   spring-watcher-listen (~> 2.0.0)
   trix

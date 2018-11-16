@@ -8,7 +8,7 @@ RSpec.feature 'Publisher registration' do
   before :each do
     visit new_publisher_registration_path
 
-    fill_in 'Company name', with: new_publisher.company_name
+    fill_in 'Full name', with: new_publisher.full_name
     fill_in 'Email address', with: new_publisher.email
 
     click_button 'Sign up'

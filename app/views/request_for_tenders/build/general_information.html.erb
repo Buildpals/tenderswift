@@ -103,59 +103,39 @@
   </div>
 <% end %>
 
-
-<% if Rails.env.production? && current_publisher.sign_in_count <= 1 %>
-  <div class="modal fade" id="surveyModal" tabindex="-1" role="dialog"
-       aria-labelledby="surveyModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+<% if current_publisher.time_for_first_request_for_tender.nil? %>
+  <!-- Modal -->
+  <div class="modal fade" id="questionModal" tabindex="-1" role="dialog"
+       aria-labelledby="questionModallLabel" aria-hidden="true"
+       data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="surveyModalLabel">Claim your free
-            request for tenders</h5>
+          <h5 class="modal-title" id="questionModalLabel">Claim your free
+            request for tenders.</h5>
         </div>
         <div class="modal-body">
-          <p>In order to help you claim your 10 free request for tenders, we
-            need to know more about your tendering process.</p>
-          <p>Help us with that, by answering the following question:</p>
-
           <span>
             <p class="survey-question">When do you expect to send out a request for tender?</p>
           </span>
 
-          <p>
-            <%= link_to '1. In two weeks time', "https://survey.survicate.com/d9a9c30447a387d6/?p=sendgrid&#{current_publisher.email}=&aid=501992",
-                        { class: 'btn btn-outline-info vote', target: '_blank' } %>
-          </p>
 
-          <p>
-            <%= link_to '2. In the next one month', "https://survey.survicate.com/d9a9c30447a387d6/?p=sendgrid&#{current_publisher.email}=&aid=501993",
-                        { class: 'btn btn-outline-info vote', target: '_blank'} %>
-          </p>
-
-          <p>
-            <%= link_to '3. In the next three months.', "https://survey.survicate.com/d9a9c30447a387d6/?p=sendgrid&#{current_publisher.email}=&aid=501994",
-                        { class: 'btn btn-outline-info vote', target:
-                            '_blank'} %>
-          </p>
-
-          <p>
-            <%= link_to '4.  I want to bid on a request for tender instead.', "https://survey.survicate.com/d9a9c30447a387d6/?p=sendgrid&#{current_publisher.email}=&aid=501995",
-                        { class: 'btn btn-outline-info vote', target:
-                            '_blank'} %>
-          </p>
-
-          <p>
-            <%= link_to "5. I don't want to send out a request for tender or bid
-                        on one.",
-                        "https://survey.survicate.com/d9a9c30447a387d6/?p=sendgrid&#{current_publisher.email}=&aid=506144",
-                        { class: 'btn btn-outline-info vote', target:
-                            '_blank'} %>
-          </p>
-
+          <%= form_with(model: current_publisher, local: true) do |f| %>
+            <%= f.select :time_for_first_request_for_tender,
+                         {'Two weeks': 'two_weeks', 'Next month': 'next_month',
+                          'Three months': 'three_months',
+                          'I want to bid':'i_want_to_bid'}, {},
+                         { class: 'form-control' } %>
         </div>
         <div class="modal-footer">
+          <%= f.submit 'Submit',
+                       class: 'btn btn-primary' %>
+          <% end %>
         </div>
       </div>
     </div>
   </div>
+  <script>
+    $("#questionModal").modal("show");
+  </script>
 <% end %>

@@ -13,6 +13,14 @@ class Publisher < ApplicationRecord
 
   mount_uploader :company_logo, CompanyLogoUploader
 
+
+  enum time_for_first_request_for_tender: {
+      two_weeks: 0,
+      next_month: 1,
+      three_months: 2,
+      i_want_to_bid: 3
+  }
+
   has_many :request_for_tenders,
            dependent: :destroy,
            inverse_of: :publisher
@@ -21,7 +29,7 @@ class Publisher < ApplicationRecord
 
   EMAIL_MESSAGE = 'Please provide an correct email address with more than 5 characters'
 
-  validates :company_name, presence: true
+  validates :full_name, presence: true
 
   validates :email, presence: { message: EMAIL_MESSAGE },
                     uniqueness: { message: EMAIL_MESSAGE,
