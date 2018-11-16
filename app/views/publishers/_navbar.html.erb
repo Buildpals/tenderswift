@@ -116,7 +116,7 @@
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
             <h6 class="dropdown-header">
               <%= current_admin ? 'Impersonating:' : 'Logged in as' %> <br>
-              <strong><%= current_publisher.company_name %></strong>
+              <strong><%= current_publisher.full_name %></strong>
             </h6>
             <div class="dropdown-divider"></div>
             <%= link_to edit_publisher_path(current_publisher),

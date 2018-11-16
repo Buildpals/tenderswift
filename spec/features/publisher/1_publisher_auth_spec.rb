@@ -9,7 +9,7 @@ RSpec.feature 'Publisher authentication', type: :feature, js: true do
   scenario 'should sign up a new publisher successfully', js: true do
     visit new_publisher_registration_path
 
-    fill_in 'Company name', with: new_publisher.company_name
+    fill_in 'Full name', with: new_publisher.full_name
     fill_in 'Email address', with: new_publisher.email
 
     click_button 'Sign up'
@@ -23,7 +23,7 @@ RSpec.feature 'Publisher authentication', type: :feature, js: true do
 
     expect(page).to have_content 'Home'
     click_link 'Account'
-    expect(page).to have_content "Logged in as #{new_publisher.company_name}"
+    expect(page).to have_content "Logged in as #{new_publisher.full_name}"
     expect(page).to have_content 'Logout'
 
     expect(page).to have_content 'Untitled Project #'
@@ -55,7 +55,7 @@ RSpec.feature 'Publisher authentication', type: :feature, js: true do
   def should_have_dashboard_content_for(publisher)
     expect(page).to have_content 'Home'
     click_link 'Account'
-    expect(page).to have_content "Logged in as #{publisher.company_name}"
+    expect(page).to have_content "Logged in as #{publisher.full_name}"
     expect(page).to have_content 'Logout'
     expect(page).to have_content 'Unpublished requests for tender'
     expect(page).to have_content 'Published requests for tender'
