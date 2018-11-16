@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.feature 'Create request for tender', js: true do
-  let!(:publisher) { FactoryBot.create(:publisher) }
+  let!(:publisher) { FactoryBot.create(:publisher, :finished_registration) }
   let!(:general_information) { FactoryBot.build(:request_for_tender) }
 
   let!(:empty_request_for_tender) do
@@ -32,32 +32,12 @@ RSpec.feature 'Create request for tender', js: true do
     visit request_for_tender_build_path(filled_request_for_tender,
                                         :general_information)
 
-    click_button 'Submit', match: :first
-
     click_button 'Save and continue', match: :first
 
     expect(page).to have_current_path(
                         request_for_tender_build_path(filled_request_for_tender,
                                                       :bill_of_quantities)
                     )
-  end
-
-  scenario 'should vote on when next his request for tender will be' do
-    given_a_publisher_who_has_logged_in
-
-    visit request_for_tender_build_path(filled_request_for_tender,
-                                        :general_information)
-
-    expect(page).to have_content 'Claim your free request for tenders'
-
-    click_button 'Submit', match: :first
-
-    expect(page).to have_content 'Thank you. ' \
-                                'A message with a confirmation link ' \
-                                'has been sent to your email address. Please open the ' \
-                                'link to set a password for your account.'
-
-
   end
 end
 
@@ -69,8 +49,6 @@ def when_they_add_the_general_information_for_an_rft(request_for_tender,
                                                      general_information)
   visit request_for_tender_build_path(request_for_tender,
                                       :general_information)
-
-  click_button 'Submit', match: :first
 
   fill_in 'Name', with: general_information.project_name
 

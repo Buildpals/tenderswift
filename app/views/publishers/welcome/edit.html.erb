@@ -1,0 +1,56 @@
+<div class="container" id="contractor-form">
+  <div class="row">
+    <div class="col-lg-6 mx-auto mt-2">
+      <div class="text-center mb-4">
+        <h2>Welcome</h2>
+        Please fill in the following information so you can be given access
+        to your account
+      </div>
+
+      <%= form_with model: current_publisher,
+                    url: publishers_after_registration_path,
+                    scope: :publisher do |f| %>
+
+        <% if current_publisher.errors.any? %>
+          <div class="alert alert-danger" role="alert">
+            <%= pluralize(current_publisher.errors.count, 'error') %>
+            prohibited this request for tender from being saved:
+
+            <ul>
+              <% current_publisher.errors.full_messages.each do |msg| %>
+                <li><%= msg %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+
+        <div class="form-group my-4">
+          <%= f.text_field :company_name,
+                           placeholder: :company_name,
+                           id: :publisher_company_name,
+                           autocomplete: 'on',
+                           class: 'form-control',
+                           required: true %>
+        </div>
+
+        <div class="form-group my-4">
+          <p class="survey-question">When do you expect to send out a request for tender?</p>
+          <%= f.select :time_for_first_request_for_tender,
+                       {'Two weeks': 'two_weeks', 'Next month': 'next_month',
+                        'Three months': 'three_months',
+                        'I want to bid': 'i_want_to_bid'}, {},
+                       {class: 'form-control'} %>
+        </div>
+        <br>
+
+        <div class="actions">
+          <%= f.submit 'Continue',
+                       class: 'btn btn-accent btn-block',
+                       data: {disable_with: 'Saving...'
+                       } %>
+        </div>
+      <% end %>
+
+    </div>
+  </div>
+</div>
