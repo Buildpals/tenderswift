@@ -42,6 +42,10 @@ FactoryBot.define do
     password {'password'}
     confirmed_at {Time.current}
 
+    trait :finished_registration do
+      time_for_first_request_for_tender {0}
+    end
+
     after :create do |q|
       q.update_column(:company_logo,
                       'http://res.cloudinary.com/tenderswift/image/upload/v1519220265/p0bjijzpbadcssih9j3n.png')

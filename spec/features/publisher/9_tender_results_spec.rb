@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.feature 'View results of a request for tender', js: true do
 
   include RequestForTendersHelper
-  let!(:publisher) {FactoryBot.create(:publisher)}
+  let!(:publisher) {FactoryBot.create(:publisher, :finished_registration)}
   let!(:invitation_to_tender) do
     FactoryBot.create(:request_for_tender,
                       :published, :submitted,

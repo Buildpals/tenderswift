@@ -68,7 +68,7 @@ RSpec.feature 'Contractor authentication', type: :feature, js: true do
   end
 
   def should_have_account_information_for(contractor)
-    expect(page).to have_content 'Account Information'
+    expect(page).to have_content 'Account'
 
     expect(page).to have_field 'Full name',
                                with: contractor.full_name

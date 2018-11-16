@@ -4,7 +4,7 @@ require 'rails_helper'
 
 RSpec.feature 'Publisher authentication', type: :feature, js: true do
   let(:new_publisher) { FactoryBot.build(:publisher) }
-  let(:existing_publisher) { FactoryBot.create(:publisher) }
+  let(:existing_publisher) { FactoryBot.create(:publisher, :finished_registration) }
 
   scenario 'should sign up a new publisher successfully', js: true do
     visit new_publisher_registration_path
@@ -15,20 +15,23 @@ RSpec.feature 'Publisher authentication', type: :feature, js: true do
     click_button 'Sign up'
 
     expect(page)
-        .to have_content 'A message with a confirmation link ' \
-                     'has been sent to your email address. Please open the ' \
-                     'link to set a password for your account.'
+        .to have_content 'Welcome Please fill in the following ' \
+                                'information so you can be given access to your account'
 
-    click_button 'Submit', match: :first
+    fill_in 'Company name', with: 'My company'
+
+    click_button 'Continue', match: :first
+
+    expect(page)
+        .to have_content 'Ready to go! ' \
+                                'A message with a confirmation link ' \
+                                'has been sent to your email address. Please open the ' \
+                                'link to set a password for your account.'
 
     expect(page).to have_content 'Home'
     click_link 'Account'
     expect(page).to have_content "Logged in as #{new_publisher.full_name}"
     expect(page).to have_content 'Logout'
-
-    expect(page).to have_content 'Untitled Project #'
-    expect(page).to have_content 'Please enter the following details ' \
-                                       'about the project.'
   end
 
   scenario 'should log in an existing publisher successfully' do
