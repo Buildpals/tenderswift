@@ -72,7 +72,7 @@ class Publishers::RegistrationsController < Devise::RegistrationsController
       notifier.ping "#{resource.full_name} <#{resource.email}> has signed up.",
                     icon_url: "https://res.cloudinary.com/tenderswift/image/upload/v1520934320/tenderswift-logo-square.png"
     end
-    publisher_root_path(resource)
+    new_request_for_tender_build_path(:new)
   end
 
   # The path used after sign up for inactive accounts.
