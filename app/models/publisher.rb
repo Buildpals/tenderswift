@@ -29,7 +29,7 @@ class Publisher < ApplicationRecord
 
   EMAIL_MESSAGE = 'Please provide an correct email address with more than 5 characters'
 
-  validates :company_name, presence: true
+  validates :full_name, presence: true
 
   validates :email, presence: { message: EMAIL_MESSAGE },
                     uniqueness: { message: EMAIL_MESSAGE,
