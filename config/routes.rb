@@ -6,6 +6,11 @@ Rails.application.routes.draw do
     patch '/after_signup', to: 'after_signup#update'
   end
 
+  namespace :publishers do
+    get '/welcome', to: 'welcome#edit', as: :after_registration
+    patch '/welcome', to: 'welcome#update'
+  end
+
   get '/',
       to: 'welcome#query_request_for_tender',
       constraints: {
