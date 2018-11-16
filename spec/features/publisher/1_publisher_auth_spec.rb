@@ -19,6 +19,8 @@ RSpec.feature 'Publisher authentication', type: :feature, js: true do
                      'has been sent to your email address. Please open the ' \
                      'link to set a password for your account.'
 
+    click_button 'Submit', match: :first
+
     expect(page).to have_content 'Home'
     click_link 'Account'
     expect(page).to have_content "Logged in as #{new_publisher.company_name}"

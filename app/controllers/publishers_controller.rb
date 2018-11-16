@@ -13,12 +13,23 @@ class PublishersController < ApplicationController
 
   def update
     authorize current_publisher
+    survey_response = true if current_publisher
+                                   .time_for_first_request_for_tender.nil?
     respond_to do |format|
       if current_publisher.update(publisher_params)
         format.html do
-          redirect_to edit_publisher_path(current_publisher),
-                      notice: 'Your account information was changed' \
+          if survey_response == true
+            redirect_to request_for_tender_build_path(current_publisher
+                                                               .request_for_tenders.last, :general_information),
+                        notice: 'Thank you. ' \
+                                'A message with a confirmation link ' \
+                                'has been sent to your email address. Please open the ' \
+                                'link to set a password for your account.'
+          else
+            redirect_to edit_publisher_path(current_publisher),
+                        notice: 'Your account information was changed' \
                       'successfully.'
+          end
         end
         format.json do
           render :edit, status: :ok,
