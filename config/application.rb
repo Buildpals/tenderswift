@@ -2,6 +2,9 @@ require_relative 'boot'
 
 require 'rails/all'
 
+module Slack; end
+class Slack::Notifier; end
+
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
