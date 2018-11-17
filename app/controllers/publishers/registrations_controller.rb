@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require ''
-
 class Publishers::RegistrationsController < Devise::RegistrationsController
   #include Accessible
   #
