@@ -20,6 +20,8 @@ RSpec.feature 'Publisher authentication', type: :feature, js: true do
 
     fill_in 'Company name', with: 'My company'
 
+    fill_in 'Phone number', with: '0509825831'
+
     click_button 'Continue', match: :first
 
     expect(page)
