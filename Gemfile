@@ -129,8 +129,8 @@ group :development, :test do
 
   gem 'email_spec'
   gem 'capybara-email'
-
   gem 'slack-notifier'
+
 end
 
 group :development do
@@ -144,6 +144,7 @@ end
 
 group :production do
   gem 'rails_12factor'
+  gem 'slack-notifier'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
