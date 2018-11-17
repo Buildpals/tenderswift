@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'slack-notifier'
-
 class Publishers::RegistrationsController < Devise::RegistrationsController
   #include Accessible
   #
