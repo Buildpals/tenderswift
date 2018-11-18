@@ -18,7 +18,8 @@ class Publisher < ApplicationRecord
       two_weeks: 0,
       next_month: 1,
       three_months: 2,
-      i_want_to_bid: 3
+      i_want_to_bid: 3,
+      none_of_the_above: 4
   }
 
   has_many :request_for_tenders,

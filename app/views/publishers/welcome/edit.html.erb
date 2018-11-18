@@ -34,11 +34,22 @@
         </div>
 
         <div class="form-group my-4">
+          <%= f.text_field :phone_number,
+                           placeholder: :phone_number,
+                           id: :publisher_phone_number,
+                           autocomplete: 'on',
+                           class: 'form-control',
+                           required: true %>
+        </div>
+
+        <div class="form-group my-4">
           <p class="survey-question">When do you expect to send out a request for tender?</p>
           <%= f.select :time_for_first_request_for_tender,
-                       {'Two weeks': 'two_weeks', 'Next month': 'next_month',
-                        'Three months': 'three_months',
-                        'I want to bid': 'i_want_to_bid'}, {},
+                       { 'None': 'none_of_the_above', 'In two weeks': 'two_weeks',
+                        'Next month': 'next_month',
+                        'In three months': 'three_months',
+                        'I want to bid on a request for tender':
+                            'i_want_to_bid'}, {},
                        {class: 'form-control'} %>
         </div>
         <br>

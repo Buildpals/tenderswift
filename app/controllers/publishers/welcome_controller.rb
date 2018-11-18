@@ -22,6 +22,7 @@ class Publishers::WelcomeController < PublishersController
   def publisher_params
     params.require(:publisher).permit(
         :company_name,
+        :phone_number,
         :time_for_first_request_for_tender
     )
   end
