@@ -61,7 +61,7 @@ IntercomRails.config do |config|
                                   else
                                     false
                                  end },
-     :phone_number => Proc.new { |current_user| current_user.phone_number},
+     :phone => Proc.new { |current_user| current_user.phone_number},
      :time_for_first_request_for_tender => Proc.new { |current_user|
        current_user.time_for_first_request_for_tender }
   }
