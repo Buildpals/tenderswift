@@ -1,10 +1,7 @@
 IntercomRails.config do |config|
   # == Intercom app_id
-  if Rails.env.production?
-    config.app_id = ENV["INTERCOM_APP_ID"] || "agrybfe2"
-  else
-    config.app.id = "uniifsn9"
-  end
+  #
+  config.app_id = ENV["INTERCOM_APP_ID"] || "agrybfe2"
 
   # == Intercom session_duration
   #
