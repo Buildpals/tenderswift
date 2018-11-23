@@ -13,6 +13,7 @@ $(document).on('turbolinks:load', function () {
     let intlNumber = input.intlTelInput('getNumber')
     $('#publisher_phone_number').val(intlNumber)
   });
+
   $('form').submit(function () {
     let intlNumber = input.intlTelInput('getNumber')
     $('#publisher_phone_number').val(intlNumber)
