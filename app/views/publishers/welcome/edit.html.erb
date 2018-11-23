@@ -33,13 +33,20 @@
                            required: true %>
         </div>
 
-        <div class="form-group my-4">
-          <%= f.text_field :phone_number,
-                           placeholder: :phone_number,
-                           id: :publisher_phone_number,
-                           autocomplete: 'on',
-                           class: 'form-control',
-                           required: true %>
+        <div class="form-group row">
+          <%= f.label :phone_number, class: 'col-sm-4 col-form-label' %>
+
+          <div class="col-sm-8">
+            <input type="tel"
+                   name="phone"
+                   id="phone_number_input"
+                   value="<%= current_publisher.phone_number %>"
+                   placeholder="Phone number"
+                   autocomplete="on"
+                   required
+                   class="form-control">
+            <%= f.hidden_field :phone_number, id: :publisher_phone_number %>
+          </div>
         </div>
 
         <div class="form-group my-4">
@@ -56,6 +63,7 @@
 
         <div class="actions">
           <%= f.submit 'Finish',
+                       id: 'finish-welcome',
                        class: 'btn btn-accent btn-block',
                        data: {disable_with: 'Saving...'
                        } %>

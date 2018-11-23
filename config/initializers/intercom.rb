@@ -55,7 +55,7 @@ IntercomRails.config do |config|
   #
   config.user.custom_data = {
      :name => Proc.new { |current_user| current_user.full_name },
-     :company => Proc.new { |current_user| current_user.company_name},
+     :company_name => Proc.new { |current_user| current_user.company_name},
      :is_publisher => Proc.new { |current_user | if current_user.instance_of? Publisher
                                     true
                                   else
