@@ -69,7 +69,7 @@ class Publishers::RegistrationsController < Devise::RegistrationsController
         defaults channel: "#sign-ups",
                  username: "TenderSwift Monitor"
       end
-      notifier.ping "#{resource.full_name} <#{resource.email}> has signed up.",
+      notifier.ping "#{resource.full_name} <#{resource.email}> has signed up.[Edit |](https://app.tenderswift.com/adonai/publisher/#{resource.id}/edit)[ View](https://app.tenderswift.com/adonai/publisher/#{resource.id})",
                     icon_url: "https://res.cloudinary.com/tenderswift/image/upload/v1520934320/tenderswift-logo-square.png"
     end
     publishers_after_registration_path resource
