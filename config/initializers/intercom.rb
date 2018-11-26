@@ -57,14 +57,16 @@ IntercomRails.config do |config|
   # user object, or a Proc which will be passed the current user.
   #
   config.user.custom_data = {
-     :name => Proc.new { |current_user| current_user.full_name },
+     :name => Proc.new { },
      :is_publisher => Proc.new { |current_user | if current_user.instance_of? Publisher
                                     true
                                   else
                                     false
                                  end },
      :time_for_first_request_for_tender => Proc.new { |current_user|
-       current_user.time_for_first_request_for_tender }
+       current_user.time_for_first_request_for_tender },
+     :company_name => Proc.new { |current_user| current_user.company_name },
+     :phone_number => Proc.new { |current_user| current_user.phone_number }
   }
 
   # == Current company method/variable
