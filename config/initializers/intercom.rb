@@ -3,6 +3,9 @@ IntercomRails.config do |config|
   #
   config.app_id = ENV["INTERCOM_APP_ID"] || "agrybfe2"
 
+  #uniifsn9
+  # agrybfe2
+
   # == Intercom session_duration
   #
   # config.session_duration = 300000
@@ -54,13 +57,14 @@ IntercomRails.config do |config|
   # user object, or a Proc which will be passed the current user.
   #
   config.user.custom_data = {
-     :company_name => Proc.new { |current_user| current_user.company_name },
+     :name => Proc.new { |current_user| current_user.full_name },
      :is_publisher => Proc.new { |current_user | if current_user.instance_of? Publisher
                                     true
                                   else
                                     false
                                  end },
-     :phone_number => Proc.new { |current_user| current_user.phone_number}
+     :time_for_first_request_for_tender => Proc.new { |current_user|
+       current_user.time_for_first_request_for_tender }
   }
 
   # == Current company method/variable

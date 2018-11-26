@@ -33,18 +33,37 @@
                            required: true %>
         </div>
 
+        <div class="form-group row">
+          <%= f.label :phone_number, class: 'col-sm-4 col-form-label' %>
+
+          <div class="col-sm-8">
+            <input type="tel"
+                   name="phone"
+                   id="phone_number_input"
+                   value="<%= current_publisher.phone_number %>"
+                   placeholder="Phone number"
+                   autocomplete="on"
+                   required
+                   class="form-control">
+            <%= f.hidden_field :phone_number, id: :publisher_phone_number %>
+          </div>
+        </div>
+
         <div class="form-group my-4">
           <p class="survey-question">When do you expect to send out a request for tender?</p>
           <%= f.select :time_for_first_request_for_tender,
-                       {'Two weeks': 'two_weeks', 'Next month': 'next_month',
-                        'Three months': 'three_months',
-                        'I want to bid': 'i_want_to_bid'}, {},
+                       { '': 'none_of_the_above', 'In two weeks': 'two_weeks',
+                        'Next month': 'next_month',
+                        'In three months': 'three_months',
+                        'I want to bid on a request for tender':
+                            'i_want_to_bid'}, {},
                        {class: 'form-control'} %>
         </div>
         <br>
 
         <div class="actions">
-          <%= f.submit 'Continue',
+          <%= f.submit 'Finish',
+                       id: 'finish-welcome',
                        class: 'btn btn-accent btn-block',
                        data: {disable_with: 'Saving...'
                        } %>
