@@ -18,9 +18,7 @@ class Publishers::RegistrationsController < Devise::RegistrationsController
   # POST /resource
   def create
     super
-    flash[:notice] = "A message with a confirmation link has been sent to " \
-                     "your email address. Please open the link to set a " \
-                     "password for your account."
+    flash[:notice] = "Account successfully created."
   end
 
   # GET /resource/edit
