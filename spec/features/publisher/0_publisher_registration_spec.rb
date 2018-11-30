@@ -15,9 +15,7 @@ RSpec.feature 'Publisher registration' do
   end
 
   it "shows message about confirmation email" do
-    expect(page).to have_content('A message with a confirmation link ' \
-                     'has been sent to your email address. Please open the ' \
-                     'link to set a password for your account.')
+    expect(page).to have_content('Account successfully created')
   end
 
   describe "confirmation email" do
