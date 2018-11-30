@@ -79,7 +79,7 @@ class RequestForTenders::BuildController < PublishersController
     request_for_tender.status = :active
     request_for_tender.update_attributes(request_for_tender_params)
     AdminMailer.submit_request_for_tender(request_for_tender).deliver_now
-    redirect_to publisher_root_path,
+    redirect_to request_for_tender_path(request_for_tender),
                   notice: "Your request for tender has been published. Share " \
                           "this link "\
                           "https://public.tenderswift.com/#{request_for_tender.id} " \
