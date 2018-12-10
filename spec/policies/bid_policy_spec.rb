@@ -29,7 +29,7 @@ RSpec.describe BidPolicy do
     it { is_expected.to permit_action(:other_documents) }
     it { is_expected.to permit_action(:disqualify) }
     it { is_expected.to permit_action(:undo_disqualify) }
-    it { is_expected.to permit_action(:rate) }
+    it { is_expected.to permit_action(:score) }
   end
 
   context 'publisher does not own the request for tender' do
@@ -49,7 +49,7 @@ RSpec.describe BidPolicy do
     it { is_expected.to forbid_action(:other_documents) }
     it { is_expected.to forbid_action(:disqualify) }
     it { is_expected.to forbid_action(:undo_disqualify) }
-    it { is_expected.to forbid_action(:rate) }
+    it { is_expected.to forbid_action(:score) }
   end
 
   context 'the tender is not purchased' do
@@ -71,7 +71,7 @@ RSpec.describe BidPolicy do
     it { is_expected.to forbid_action(:other_documents) }
     it { is_expected.to forbid_action(:disqualify) }
     it { is_expected.to forbid_action(:undo_disqualify) }
-    it { is_expected.to forbid_action(:rate) }
+    it { is_expected.to forbid_action(:score) }
   end
 
   context 'the tender is not submitted' do
@@ -92,7 +92,7 @@ RSpec.describe BidPolicy do
     it { is_expected.to forbid_action(:other_documents) }
     it { is_expected.to forbid_action(:disqualify) }
     it { is_expected.to forbid_action(:undo_disqualify) }
-    it { is_expected.to forbid_action(:rate) }
+    it { is_expected.to forbid_action(:score) }
   end
 
   context 'the tender deadline is not over' do
@@ -113,6 +113,6 @@ RSpec.describe BidPolicy do
     it { is_expected.to forbid_action(:other_documents) }
     it { is_expected.to forbid_action(:disqualify) }
     it { is_expected.to forbid_action(:undo_disqualify) }
-    it { is_expected.to forbid_action(:rate) }
+    it { is_expected.to forbid_action(:score) }
   end
 end

@@ -11,7 +11,14 @@
   </li>
   <li class="breadcrumb-item active" aria-current="page">
     <%= @tender.contractors_company_name.truncate(30) %>
-    (<!-- TODO: Display Tender figure in the brackets --> )
+    <div class="hello">
+      (
+      <display-tender-figure
+        :request-for-tender="<%= @tender.request_for_tender.to_json %>"
+        :workbook="<%= @tender.workbook.to_json %>">
+      </display-tender-figure>
+      )
+    </div>
   </li>
 <% end %>
 
@@ -82,3 +89,10 @@
 
 </body>
 </html>
+<script>
+  import DisplayTenderFigure
+    from '../../javascript/compareBillOfQuantities/DisplayTenderFigure'
+  export default {
+    components: {DisplayTenderFigure}
+  }
+</script>
