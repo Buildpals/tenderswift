@@ -44,6 +44,10 @@ FactoryBot.define do
     submitted_at {'2018-03-24 08:00:51'}
     published_at {'2018-03-24 08:32:51'}
 
+    trait :sample do
+      sample {true}
+    end
+
     trait :published do
       published_at {'2018-03-24 08:32:51'}
     end
@@ -71,5 +75,7 @@ FactoryBot.define do
 
   factory :empty_request_for_tender, class: RequestForTender do
     sequence(:project_name) { |n| "Project #{n} Proposed residential building for Mrs. Christina Love" }
+    city {'Accra'}
+    country_code {'US'}
   end
 end

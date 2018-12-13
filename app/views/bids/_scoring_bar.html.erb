@@ -8,6 +8,7 @@
     <%= form.text_field :score,
                         class: 'form-control',
                         id: :tender_score,
+                        value: @tender.score,
                         placeholder: 'Score' %>
     <div class="input-group-append">
       <%= button_tag 'Save',
