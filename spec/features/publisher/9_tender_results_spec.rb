@@ -65,7 +65,7 @@ RSpec.feature 'View results of a request for tender', js: true do
     expect(page).to have_content invitation_to_tender.total_receivable
   end
 
-  fscenario 'should allow publisher to edit request for tender' do
+  scenario 'should allow publisher to edit request for tender' do
     login_and_click_closed_request_for_tender publisher, invitation_to_tender
 
     click_link 'Edit Request For Tender'
