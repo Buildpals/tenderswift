@@ -202,13 +202,13 @@ class RequestForTenders::BuildController < PublishersController
 
       first_tender.request_for_tender.required_documents.each do |document|
         RequiredDocumentUpload.create(tender: first_tender,
-                                      document: File.new(Rails.root.join("public/uploads/upload_file.pdf")),
+                                      document: File.new(Rails.root.join("app/uploaders/sample/upload_file.pdf")),
                                       required_document: document)
       end
 
       second_tender.request_for_tender.required_documents.each do |document|
         RequiredDocumentUpload.create(tender: second_tender,
-                                      document: File.new(Rails.root.join("public/uploads/upload_file.pdf")),
+                                      document: File.new(Rails.root.join("app/uploaders/sample/upload_file.pdf")),
                                       required_document: document)
       end
 
