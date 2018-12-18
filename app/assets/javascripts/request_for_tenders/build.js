@@ -23,4 +23,10 @@ $(document).on('turbolinks:load', function () {
   $('.nested-forms').on('cocoon:after-remove', function (e, insertedItem) {
     $('#request-form').trigger('rescan.areYouSure');
   })
+
+  if ($('.sample').text() == 'true' ){
+    introJs().setOptions({
+      exitOnOverlayClick: false
+    }).start();
+  }
 })

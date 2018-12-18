@@ -15,7 +15,8 @@
           </div>
         </div>
         <div class="col-md-4 ml-auto">
-          <button class="btn btn-primary btn-sm btn-block"
+          <button class="btn btn-primary btn-sm btn-block" data-step="1"
+                  data-intro="Upload an excel containing a list of items in the tender"
                   v-b-modal.uploadExcelFileModal>
             Upload new Bill of Quantities
           </button>
@@ -25,11 +26,14 @@
       <div class="text-center mb-1">
         {{ratesStatus}}
       </div>
-
-      <workbook :workbook="requestForTender.workbook"
-                :options="{editableRates: true}"
-                v-on:save-rates="saveRates"/>
-
+      <div data-step="2"
+           data-intro="Your uploaded bill of quantities is displayed here.
+           Note, the contractor will not see your rates but will rather insert
+           their own rates">
+        <workbook :workbook="requestForTender.workbook"
+                  :options="{editableRates: true}"
+                  v-on:save-rates="saveRates"/>
+      </div>
     </div>
 
     <div v-else class="wrapper">
@@ -106,6 +110,11 @@
 
     mounted () {
       EventBus.$on('close-modal', this.hideModal)
+      if(this.initialRequestForTender.sample == true){
+        introJs().setOptions({
+          exitOnOverlayClick: false
+        }).start();
+      }
     },
 
     computed: {

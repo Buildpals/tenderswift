@@ -7,6 +7,7 @@
                    :save-url="`${saveUrl}`"
                    method="post"
                    name="project_document[document]"
+                   :request-for-tender="requestForTender"
                    v-on:before-upload="beforeUpload"
                    v-on:after-upload="afterUpload"
                    v-on:upload-error="uploadError"/>
@@ -76,11 +77,12 @@
 
   export default {
     components: {FileUploader},
-    props: ['initialProjectDocuments', 'saveUrl'],
+    props: ['initialProjectDocuments', 'saveUrl', 'initialRequestForTender'],
 
     data () {
       return {
         projectDocuments: this.initialProjectDocuments,
+        requestForTender: this.initialRequestForTender,
         STATUS_INITIAL: 0,
         STATUS_SAVING: 1,
         STATUS_SUCCESS: 2,

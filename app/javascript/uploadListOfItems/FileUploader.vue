@@ -7,7 +7,9 @@
                       fileCount = $event.target.files.length"
                       id="tenderDocumentUploader"
               class="custom-file-input">
-      <label class="btn btn-sm btn-block btn-primary" for="tenderDocumentUploader">
+      <label class="btn btn-sm btn-block btn-primary"
+             for="tenderDocumentUploader"  data-step="1"
+             data-intro="Upload all supporting documents">
         Upload a file
       </label>
     </div>
@@ -18,6 +20,7 @@
     props: [
       'saveUrl',
       'method',
+      'requestForTender',
       'name'
     ],
 
@@ -63,7 +66,15 @@
         }
         return `${ Math.round(fSize * 100) / 100 }  ${ fSExt[i] }`
       }
-    }
+    },
+
+    mounted () {
+      if(this.requestForTender.sample == true){
+        introJs().setOptions({
+          exitOnOverlayClick: false
+        }).start();
+      }
+    },
   }
 </script>
 
