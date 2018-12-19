@@ -31,7 +31,6 @@ RSpec.feature 'View results of a request for tender', js: true do
     expect(page).to have_content invitation_to_tender.id
     expect(page).to have_content invitation_to_tender.city
     expect(page).to have_content invitation_to_tender.description
-    expect(page).to have_content invitation_to_tender.tender_instructions
     expect(page).to have_content time_to_deadline invitation_to_tender
     expect(page).to have_content invitation_to_tender.access.humanize
   end

@@ -63,8 +63,6 @@ IntercomRails.config do |config|
                                   else
                                     false
                                  end },
-     :time_for_first_request_for_tender => Proc.new { |current_user|
-       current_user.time_for_first_request_for_tender },
      :company_name => Proc.new { |current_user| current_user.company_name },
      :phone_number => Proc.new { |current_user| current_user.phone_number }
   }

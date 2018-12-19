@@ -3,6 +3,7 @@
     :initial-request-for-tender="<%= @request_for_tender.to_json(
                                          only: [:id,
                                                 :tender_figure_address,
+                                                :sample,
                                                 :version_number],
                                          methods: :workbook,
                                          include: :excel_file) %>"/>
@@ -14,5 +15,7 @@
 
   <%= link_to 'Save and continue',
               next_wizard_path,
-              class: 'btn btn-accent' %>
+              class: 'btn btn-accent',
+      data: { step: "3", intro: "Save all your changes here" }
+  %>
 </div>

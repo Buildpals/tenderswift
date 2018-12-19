@@ -3,9 +3,6 @@
 <div class="card mb-4">
   <div class="card-body">
     <h5 class="card-title"><%= request_for_tender.project_name %></h5>
-    <h6 class="card-subtitle mb-2 text-muted">
-      <%= request_for_tender.project_owners_company_name %>
-    </h6>
     <p class="card-text">
       <%= simple_format request_for_tender.description %>
     </p>
@@ -57,31 +54,18 @@
 
 </div>
 
-<div class="px-4 mb-2">Tender instructions</div>
-
 <div class="card mb-4">
-  <div class="card-body">
-    <h5>Instructions</h5>
-    <%= simple_format request_for_tender.tender_instructions,
-                      {class: 'formatted_content trix-content'},
-                      {wrapper_tag: 'div'} %>
-  </div>
 
   <div class="card-body">
     <h5>Required documents</h5>
     <p class="card-text">
       All participating contractors are expected to provide the following
-      documents with this tender:
+      documents with their bids:
     <ol>
       <% request_for_tender.required_documents.each do |required_document| %>
         <li> <%= required_document.title %> </li>
       <% end %>
     </ol>
-    </p>
-    <p>
-      Please contact
-      <a href="tel:+233500011505">+233500011505</a>
-      for enquiries.
     </p>
   </div>
 </div>

@@ -4,7 +4,6 @@ module Features
 
   def user_sees_public_request_for_tender_information(request_for_tender)
     expect(page).to have_content request_for_tender.project_name
-    expect(page).to have_content request_for_tender.project_owners_company_name
     expect(page).to have_content request_for_tender.description
 
     user_sees_project_location(request_for_tender)
@@ -16,7 +15,6 @@ module Features
       expect(page).to have_content required_document.title
     end
 
-    expect(page).to have_content request_for_tender.tender_instructions
   end
 
   def user_sees_tendering_duration(request_for_tender)
