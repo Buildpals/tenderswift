@@ -19,8 +19,8 @@
       :initial-project-documents="<%= @request_for_tender
                                       .project_documents.to_json %>"
       :initial-request-for-tender="<%= @request_for_tender.to_json(
-                                   only: [:id,
-                                          :sample]) %>">
+                                           only: [:id,
+                                                  :sample]) %>">
     </project-documents-uploader>
   </div>
 
@@ -33,6 +33,6 @@
   <%= link_to 'Save and continue',
               next_wizard_path,
               class: 'btn btn-accent',
-              data: { step: "2", intro: "Save all your changes here" }
+              data: {step: "2", intro: "Save all your changes here"}
   %>
 </div>

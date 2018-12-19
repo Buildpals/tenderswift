@@ -110,10 +110,10 @@
 
     mounted () {
       EventBus.$on('close-modal', this.hideModal)
-      if(this.initialRequestForTender.sample == true){
+      if (this.initialRequestForTender.sample == true) {
         introJs().setOptions({
           exitOnOverlayClick: false
-        }).start();
+        }).start()
       }
     },
 

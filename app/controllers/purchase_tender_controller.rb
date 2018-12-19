@@ -138,15 +138,17 @@ class PurchaseTenderController < ContractorsController
         'contractor-visits',
         "Someone visited #{request.original_url} from " \
        "#{request.location.city || 'Unknown City'},  " \
-       "#{request.location.country || 'Unknown Town'}"
+       "#{request.location.country || 'Unknown Country'}"
     )
   end
 
   def send_bid_purchase_slack_notification(contractor)
-    location = "#{request.location.city}, #{request.location.country}"
-    message = "#{contractor.full_name} from #{location} " \
-            "purchased \"#{@request_for_tender.project_name}\"" \
-            "for #{@request_for_tender.selling_price}"
+    location = "#{request.location.city || 'Unknown City'}, #{request.location
+                                                                  .country ||
+        'Unknown Country'}"
+    message = "#{contractor.email} from #{location} " \
+            "purchased \"#{@request_for_tender.project_name}\" " \
+            "for #{humanized_money_with_symbol @request_for_tender.selling_price}"
 
     send_slack_notification(
         'contractor-purchases',

@@ -8,7 +8,7 @@
                       id="tenderDocumentUploader"
               class="custom-file-input">
       <label class="btn btn-sm btn-block btn-primary"
-             for="tenderDocumentUploader"  data-step="1"
+             for="tenderDocumentUploader" data-step="1"
              data-intro="Upload all supporting documents">
         Upload a file
       </label>
@@ -69,10 +69,10 @@
     },
 
     mounted () {
-      if(this.requestForTender.sample == true){
+      if (this.requestForTender.sample == true) {
         introJs().setOptions({
           exitOnOverlayClick: false
-        }).start();
+        }).start()
       }
     },
   }

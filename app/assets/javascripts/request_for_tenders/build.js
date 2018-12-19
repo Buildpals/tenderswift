@@ -24,9 +24,9 @@ $(document).on('turbolinks:load', function () {
     $('#request-form').trigger('rescan.areYouSure');
   })
 
-  if ($('.sample').text() == 'true' ){
+  if ($('.sample').text() == 'true') {
     introJs().setOptions({
       exitOnOverlayClick: false
-    }).start();
+    }).start()
   }
 })
