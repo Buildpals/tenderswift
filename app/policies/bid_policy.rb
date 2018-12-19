@@ -33,7 +33,7 @@ class BidPolicy
         tender.reviewable?
   end
 
-  def rate?
+  def score?
     publisher_created_this_tenders_request_for_tender? &&
         tender.reviewable?
   end

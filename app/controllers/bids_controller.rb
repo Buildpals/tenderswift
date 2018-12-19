@@ -43,9 +43,9 @@ class BidsController < PublishersController
     end
   end
 
-  def rate
+  def score
     authorize @tender
-    if @tender.update(score: params[:score])
+    if @tender.update(score: params[:tender][:score])
       redirect_back fallback_location: bid_required_documents_path(@tender),
                     notice: 'The score for ' \
                             "#{@tender.contractors_company_name} " \

@@ -15,6 +15,8 @@ import OtherDocumentsUploader from '../uploadListOfItems/OtherDocumentsUploader'
 import RequiredDocumentUploader from '../uploadListOfItems/RequiredDocumentUploader'
 
 import Workbook from '../../javascript/billOfQuantities/Workbook'
+import DisplayTenderFigure
+  from '../../javascript/compareBillOfQuantities/DisplayTenderFigure'
 
 Vue.use(TurbolinksAdapter)
 Vue.use(BootstrapVue);
@@ -39,6 +41,7 @@ document.addEventListener('turbolinks:load', () => {
       TenderFiguresTable,
       ContractorTenderFigures,
       RatesComparer,
+      DisplayTenderFigure,
       Workbook
     }
   })

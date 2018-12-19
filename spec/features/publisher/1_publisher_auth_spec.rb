@@ -22,7 +22,7 @@ RSpec.feature 'Publisher authentication', type: :feature, js: true do
 
     fill_in 'Phone number', with: '0509825831'
 
-    click_button 'Continue', match: :first
+    click_button 'Finish', match: :first
 
     expect(page)
         .to have_content 'Ready to go! ' \
