@@ -21,7 +21,7 @@ class PurchaseTenderController < ContractorsController
   end
 
   def payment
-    #authorize @request_for_tender
+    # authorize @request_for_tender
     contractor = Contractor.find_by(email: params[:email])
     rave = RavePay.new
     response = rave.call(params[:txref])
@@ -35,6 +35,7 @@ class PurchaseTenderController < ContractorsController
                     purchased_at: Time.now,
                     purchase_request_status: purchase_request_status,
                     contractor: contractor)
+      send_bid_purchase_slack_notification(contractor)
       if @request_for_tender.selling_price == 0
         flash[:notice] = 'Welcome. Please fill in the' \
                          'information below, then you can start bidding'
@@ -78,14 +79,14 @@ class PurchaseTenderController < ContractorsController
 
   def monitor_purchase
     authorize @request_for_tender
-      if @request_for_tender.selling_price == 0
-        flash[:notice] = 'Welcome. Please fill in the' \
-                         'information below, then you can start bidding'
-      else
-        flash[:notice] = 'You have purchased this tender successfully'
-      end
-      flash.keep(:notice) # Keep flash notice around for the redirect.
-      render js: "window.location = '#{contractor_root_path}'"
+    if @request_for_tender.selling_price == 0
+      flash[:notice] = 'Welcome. Please fill in the' \
+                       'information below, then you can start bidding'
+    else
+      flash[:notice] = 'You have purchased this tender successfully'
+    end
+    flash.keep(:notice) # Keep flash notice around for the redirect.
+    render js: "window.location = '#{contractor_root_path}'"
   end
 
   def complete_transaction
@@ -101,6 +102,38 @@ class PurchaseTenderController < ContractorsController
   end
 
   private
+
+  def send_page_visit_slack_notification
+    send_slack_notification(
+        'contractor-visits',
+        "Someone visited #{request.original_url} from " \
+       "#{request.location.city || 'Unknown City'},  " \
+       "#{request.location.country || 'Unknown Town'}"
+    )
+  end
+
+  def send_bid_purchase_slack_notification(contractor)
+    location = "#{request.location.city}, #{request.location.country}"
+    message = "#{contractor.full_name} from #{location} " \
+            "purchased \"#{@request_for_tender.project_name}\"" \
+            "for #{@request_for_tender.selling_price}"
+
+    send_slack_notification(
+        'contractor-purchases',
+        message
+    )
+  end
+
+  def send_slack_notification(channel, message)
+    if Rails.env.production? || true
+      webhook_url = 'https://hooks.slack.com/services/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'
+      icon_url = 'https://res.cloudinary.com/tenderswift/image/upload/v1520934320/tenderswift-logo-square.png'
+      notifier = Slack::Notifier.new(webhook_url) do
+        defaults channel: "##{channel}", username: 'TenderSwift Monitor'
+      end
+      notifier.ping(message, icon_url: icon_url)
+    end
+  end
 
   def set_policy
     RequestForTender.define_singleton_method(:policy_class) do
@@ -123,6 +156,7 @@ class PurchaseTenderController < ContractorsController
     @request_for_tender.portal_visits += 1
     @request_for_tender.save!
     cookies.permanent[cookie_name] = 'visited'
+    send_page_visit_slack_notification
   end
 
   def set_request_for_tender

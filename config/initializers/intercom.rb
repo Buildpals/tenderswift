@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 IntercomRails.config do |config|
   # == Intercom app_id
   #
-  config.app_id = ENV["INTERCOM_APP_ID"] || "agrybfe2"
+  config.app_id = ENV['INTERCOM_APP_ID'] || 'agrybfe2'
 
   # == Intercom session_duration
   #
@@ -15,20 +17,19 @@ IntercomRails.config do |config|
   # == Enabled Environments
   # Which environments is auto inclusion of the Javascript enabled for
   #
-  config.enabled_environments = ["development", "production"]
+  config.enabled_environments = %w[development production]
 
   # == Current user method/variable
   # The method/variable that contains the logged in user in your controllers.
   # If it is `current_user` or `@user`, then you can ignore this
   #
-  config.user.current = [ Proc.new { current_publisher },
-                          Proc.new { current_contractor } ]
+  config.user.current = [proc {current_publisher},
+                         proc {current_contractor}]
 
   # == Include for logged out Users
   # If set to true, include the Intercom messenger on all pages, regardless of whether
   # The user model class (set below) is present.
   config.include_for_logged_out_users = true
-
 
   # == User model class
   # The class which defines your user model
@@ -54,15 +55,16 @@ IntercomRails.config do |config|
   # user object, or a Proc which will be passed the current user.
   #
   config.user.custom_data = {
-     :full_name => Proc.new { |current_user| current_user.full_name },
-     :is_publisher => Proc.new { |current_user | if current_user.instance_of? Publisher
-                                    true
-                                  else
-                                    false
-                                 end },
-     :phone_number => Proc.new { |current_user| current_user.phone_number},
-     :time_for_first_request_for_tender => Proc.new { |current_user|
-       current_user.time_for_first_request_for_tender }
+      full_name: :full_name,
+      phone_number: :phone_number,
+      is_publisher:
+          proc {|current_user|
+            current_user.instance_of?(Publisher) ? true : false
+          },
+      time_for_first_request_for_tender:
+          proc {|current_user|
+            current_user.instance_of?(Publisher) ? current_user.time_for_first_request_for_tender : :i_want_to_bid
+          }
   }
 
   # == Current company method/variable
