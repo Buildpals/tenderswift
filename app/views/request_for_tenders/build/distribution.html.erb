@@ -1,3 +1,4 @@
+<span class="sample" style="display: none;"><%= @request_for_tender.sample %></span>
 <%= form_with model: @request_for_tender,
               scope: :request_for_tender,
               url: wizard_path,
@@ -11,7 +12,8 @@
 
     <div class="form-row" id="shareableLinkDiv" style="display: block">
       <div class="col-md-12">
-        <div class="form-group">
+        <div class="form-group" data-step="1"
+             data-intro="Here is a shareable link to your tender.">
           <div class="d-flex w-100 justify-content-between mb-1">
             <%= form.label :purchase_link,
                            'Shareable link',
@@ -41,7 +43,11 @@
 
     <div class="form-row">
       <div class="col-md-8">
-        <div class="form-group">
+        <div class="form-group" data-step="2"
+             data-intro="Decide whether this tender is open to the public
+             or restricted to specified people. Choose 'Open'
+             if you want this tender to be accessible to everyone or
+             choose 'Closed' if you wanted this tender to be restricted">
           <%= form.label :access,
                          'Who can tender',
                          class: 'pb-0 mb-0' %>
@@ -69,7 +75,10 @@
 
     <div class="form-row mb-5">
       <div class="col-md-8">
-        <div class="form-group">
+        <div class="form-group" data-step="3"
+             data-intro="If you chose 'Closed', specify which individuals
+             should have access to this tender by providing us with their
+             emails">
           <%= form.label :participants,
                          'Invite people',
                          class: 'pb-0 mb-0' %>
@@ -92,7 +101,8 @@
       </div>
     </div>
 
-    <div class="form-row my-5">
+    <div class="form-row my-5" data-step="4"
+         data-intro="Set the price of the tender.">
       <div class="col-md-12">
         <%= form.label :selling_price, 'Tender fee' %>
         <br>
@@ -137,6 +147,7 @@
                     class: 'btn btn-accent',
                     data: {
                         disable_with: 'Please Wait',
+                        step: '5', intro: 'You can now publish your tender!',
                         confirm: 'Publishing this request for tender will ' \
                           'now allow any one with it\'s reference number or ' \
                           'purchase link to purchase it. Are you sure you ' \

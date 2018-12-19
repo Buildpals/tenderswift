@@ -27,7 +27,7 @@ RSpec.feature 'Create request for tender', js: true do
     invitation_to_tender = FactoryBot.create(:request_for_tender)
     visit purchase_tender_path invitation_to_tender
     expect(page).to have_content(
-                        "Purchase this tender for #{invitation_to_tender.tender_currency}" \
+                        "Submit bid #{invitation_to_tender.tender_currency}" \
             " #{invitation_to_tender.amount_to_be_deducted}"
                     )
   end

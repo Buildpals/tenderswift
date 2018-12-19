@@ -62,9 +62,9 @@
               data-backdrop="static"
               data-keyboard="false">
         <% if @request_for_tender.selling_price == 0 %>
-          Bid on this request for tender
+          Submit bid ($ 0)
         <% else %>
-          Purchase this tender for
+          Submit bid
           <%= @request_for_tender.tender_currency %> <%= @request_for_tender
               .amount_to_be_deducted %>
         <% end %>
