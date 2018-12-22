@@ -79,7 +79,7 @@ class RequestForTender < ApplicationRecord
   end
 
   validates :project_name, presence: true, if: :active?
-  validates :city, :country_code, presence: true, if: :not_sample?
+  #validates :city, :country_code, presence: true, if: :not_sample?
 
   validate :check_deadline
 
@@ -142,13 +142,8 @@ class RequestForTender < ApplicationRecord
     #byebug
     self.project_name = 'Untitled Project #' \
                         "#{publisher.request_for_tenders.count + 1}"
-    if location.country_code == ""
-      self.country_code = "US"
-      self.city = "Accra"
-    else
-      self.country_code = location.country_code
-      self.city = location.city
-    end
+    self.country_code = location.country_code
+    self.city = location.city
     self.deadline = Time.current + 1.month
     required_documents.build(title: 'Certificate of Incorporation')
     required_documents.build(title: 'Certificate of Commencement')
