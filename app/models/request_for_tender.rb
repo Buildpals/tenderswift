@@ -79,7 +79,7 @@ class RequestForTender < ApplicationRecord
   end
 
   validates :project_name, presence: true, if: :active?
-  #validates :city, :country_code, presence: true, if: :not_sample?
+  validates :city, :country_code, presence: true, if: :not_sample?
 
   validate :check_deadline
 
