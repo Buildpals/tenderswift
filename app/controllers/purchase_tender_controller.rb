@@ -158,7 +158,7 @@ class PurchaseTenderController < ContractorsController
 
   def send_slack_notification(channel, message)
     if Rails.env.production?
-      webhook_url = 'https://hooks.slack.com/services/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'
+      webhook_url = ENV['SLACK_WEBHOOK_URL']
       icon_url = 'https://res.cloudinary.com/tenderswift/image/upload/v1520934320/tenderswift-logo-square.png'
       notifier = Slack::Notifier.new(webhook_url) do
         defaults channel: "##{channel}", username: 'TenderSwift Monitor'

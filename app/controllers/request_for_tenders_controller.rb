@@ -72,7 +72,13 @@ class RequestForTendersController < PublishersController
   end
 
   def set_request_for_tender
-    @request_for_tender = RequestForTender.find(params[:id])
+    begin
+      @request_for_tender = RequestForTender.find(params[:id])
+    rescue ActiveRecord::RecordNotFound
+      redirect_to '/404.html'
+      return
+    end
+
   end
 
   def request_params

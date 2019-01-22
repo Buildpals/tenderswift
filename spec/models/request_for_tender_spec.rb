@@ -13,8 +13,8 @@ RSpec.describe RequestForTender, type: :model do
     describe 'Validations' do
       it { should validate_presence_of(:project_name) }
       it { should validate_presence_of(:deadline) }
-      it { should validate_presence_of(:country_code) }
-      it { should validate_presence_of(:city) }
+      #it { should validate_presence_of(:country_code) }
+      #it { should validate_presence_of(:city) }
       it { should validate_presence_of(:description) }
       it 'should validate deadline cannot be in the past'
     end
