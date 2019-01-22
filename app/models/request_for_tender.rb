@@ -169,22 +169,7 @@ class RequestForTender < ApplicationRecord
     project_document = ProjectDocument.new(document: 'https://res.cloudinary.com/tenderswift/raw/upload/v1513201013/project_documents/contract_documents_qlxqzt.docx', original_file_name: 'Sample document')
     self.project_documents << project_document
     self.list_of_items = JSON.parse(File.read(Rails.root.join("app/uploaders/sample/sample_excel.json")))
-    self.list_of_rates =
-        {
-            "Sheet1!E8": 2.4,
-            "Sheet1!E11": 21,
-            "Sheet1!E14": 17.5,
-            "Sheet1!E17": 80,
-            "Sheet1!E20": 15,
-            "Sheet1!E22": 13,
-            "Sheet1!E26": 65,
-            "Sheet1!E35": 450,
-            "Sheet1!E41": 520,
-            "Sheet1!E57": 3.5,
-            "Sheet1!E66": 9,
-            "Sheet1!E70": 19,
-            "Sheet1!E86": 50
-        }
+    self.list_of_rates = JSON.parse(File.read(Rails.root.join("app/uploaders/sample/sample_rates.json")))
     required_documents.build(title: 'Certificate of Incorporation')
     required_documents.build(title: 'Financial statements (3 years )')
     save!
