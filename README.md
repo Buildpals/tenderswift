@@ -1,4 +1,15 @@
-# READ ME BEFORE YOU TRY SETTING THIS PROJECT UP
+TenderSwift is a cutting-edge web application designed specifically for construction companies. It streamlines the process of sending out, receiving, and evaluating requests for tenders. By automating these processes, TenderSwift not only saves hours of manual labor but also significantly reduces the risk of costly errors.
+
+## Key Features
+
+- **Automated Tender Management**: Send out and receive tenders with just a few clicks.
+- **Unified Dashboard**: View and manage all tenders from a single, intuitive dashboard.
+- **Error Reduction**: Advanced algorithms ensure that errors, which could cost thousands of dollars, are minimized.
+- **Integration with Spreadsheets**: Easily combine data from multiple contractors without the hassle of manual data entry.
+- **Secure**: Built with the latest security standards to ensure your data is safe and protected.
+
+
+## Getting Started
 
 This project was created [Ruby On Rails 5]
 (https://guides.rubyonrails.org)
@@ -138,3 +149,6 @@ If the test suite passes, you'll be ready to run the app in a local server:
 `rails server`
 
 Now navigate to navigate to [http://localhost:3000](http://localhost:3000) in your browser to see the application
+
+
+TenderSwift - Streamlining Construction Tenders, One Project at a Time.
