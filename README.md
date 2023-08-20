@@ -121,21 +121,7 @@ Run `sudo apt-get install postgresql postgresql-contrib` <br>
 **Minimum version required is 9**
 
 
-
-## Setting Up The Environment
-
-
-### Clone the Repository
-Clone the repo with 
-`git clone https://[username]@bitbucket.org/dreamstone/ds02_server.git`
-<br>
-**Replace [username] with your bitbucket username**
-
-
 ### Setup the app
-Change directory to the repository
-`cd ds02_server`
- 
 Install the needed gems
 `bundle install`
 
